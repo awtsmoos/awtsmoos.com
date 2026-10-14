@@ -1,0 +1,277 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>
+/* B"H — set data-theme before any CSS paints (site convention). */
+(function () {
+	try {
+		var t = localStorage.getItem('awtsmoos-theme');
+		document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'dark');
+	} catch (e) {
+		document.documentElement.setAttribute('data-theme', 'dark');
+	}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Awtsmoos River developer API — the exact routes the feed client uses.">
+<meta name="theme-color" content="#0b0d12">
+<title>Awtsmoos River — Developer API</title>
+<link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=277746350e">
+<link rel="stylesheet" href="/feed/css/apiDocs.css?v=1">
+</head>
+<body>
+<div class="api-stage" id="api-stage">
+	<header class="api-topbar">
+		<a class="api-brand" href="/feed/" aria-label="Back to the Awtsmoos river">
+			<svg class="api-brand-mark" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+				<path d="M16 2v28M2 16h28M6 6l20 20M26 6 6 26" stroke-linecap="round"/>
+				<circle cx="16" cy="16" r="4.5" fill="currentColor" stroke="none"/>
+			</svg>
+			<span>Awtsmoos</span>
+		</a>
+		<nav class="api-crumb" aria-label="Breadcrumb">
+			<a href="/feed/">River</a>
+			<span aria-hidden="true">/</span>
+			<span aria-current="page">Developer API</span>
+		</nav>
+		<button type="button" class="api-theme-btn" id="api-theme-btn" aria-label="Toggle light and dark theme">Theme</button>
+	</header>
+
+	<div class="api-layout">
+		<nav class="api-side" aria-label="API sections">
+			<p class="api-side-head">Contents</p>
+			<a href="#overview" data-api-nav>Overview</a>
+			<a href="#auth" data-api-nav>Authentication</a>
+			<a href="#rate-limits" data-api-nav>Rate limits</a>
+			<a href="#feed" data-api-nav>Feed</a>
+			<a href="#heichelos" data-api-nav>Heichelos</a>
+			<a href="#comments" data-api-nav>Comments</a>
+			<a href="#reactions" data-api-nav>Reactions</a>
+			<a href="#themes" data-api-nav>Themes</a>
+			<a href="#locales" data-api-nav>Locales</a>
+			<a href="#errors" data-api-nav>Errors</a>
+		</nav>
+
+		<main class="api-main" id="api-main">
+			<section class="api-hero" id="overview">
+				<p class="api-kicker">Developer API · v1</p>
+				<h1>The routes the river itself drinks from</h1>
+				<p class="api-lede">This page documents the exact HTTP routes the Awtsmoos River feed client calls today — nothing invented, nothing aspirational. Every endpoint below was audited from the live client code in <code>/feed/js/</code>. If a route is not listed here, the client does not call it.</p>
+				<div class="api-callout">
+					<strong>Base URL:</strong> <code>https://awtsmoos.com</code> — all paths below are relative to it. Responses are JSON unless noted.
+				</div>
+			</section>
+
+			<section class="api-section" id="auth">
+				<h2>Authentication</h2>
+				<p>There are no API keys. The feed APIs authenticate with the reader's Awtsmoos session cookie, exactly like the browser: every client request is sent with <code>credentials: 'same-origin'</code>. Call these routes from your own origin and you will be treated as signed out; call them from awtsmoos.com pages and you inherit the session.</p>
+				<div class="api-code" data-api-code>
+					<div class="api-code-head"><span>JavaScript — session-authenticated fetch</span><button type="button" data-api-copy>Copy</button></div>
+<pre><code>const res = await fetch('/api/social/feed/discover?limit=20&amp;offset=0', {
+  credentials: 'same-origin'
+});
+if (!res.ok) throw new Error(`Feed answered ${res.status}`);
+const body = await res.json();</code></pre>
+				</div>
+			</section>
+
+			<section class="api-section" id="rate-limits">
+				<h2>Rate limits</h2>
+				<p>The server publishes no formal rate-limit headers today. Be a good citizen: page with <code>limit</code>/<code>offset</code> instead of hammering, cache feed pages client-side for at least a minute, and keep automated polling to one request every 30 seconds or slower. Abusive clients are throttled at the edge without warning.</p>
+			</section>
+
+			<section class="api-section" id="feed">
+				<h2>Feed</h2>
+				<p>Ranked post lists for the river tabs and related-post rails.</p>
+
+				<article class="api-endpoint" id="ep-feed-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/feed/{endpoint}</code></header>
+					<p>Fetch one ranked page of the river. <code>endpoint</code> is one of <code>home</code>, <code>discover</code>, <code>trending</code>. The <code>home</code> tab passes the viewer's alias so the server can personalize.</p>
+					<table class="api-params">
+						<thead><tr><th>Parameter</th><th>In</th><th>Notes</th></tr></thead>
+						<tbody>
+							<tr><td><code>limit</code></td><td>query</td><td>Page size, e.g. <code>20</code>.</td></tr>
+							<tr><td><code>offset</code></td><td>query</td><td>How many to skip.</td></tr>
+							<tr><td><code>aliasId</code></td><td>query</td><td>Required-ish for <code>home</code>; the viewer's alias.</td></tr>
+						</tbody>
+					</table>
+					<div class="api-code" data-api-code>
+						<div class="api-code-head"><span>cURL</span><button type="button" data-api-copy>Copy</button></div>
+<pre><code>curl 'https://awtsmoos.com/api/social/feed/discover?limit=20&amp;offset=0' \
+  -H 'Cookie: &lt;your awtsmoos session cookie&gt;'</code></pre>
+					</div>
+				</article>
+
+				<article class="api-endpoint" id="ep-feed-heichel">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/feed/heichel/{heichelId}</code></header>
+					<p>Posts from a single heichel, newest first. Used by the related-posts rail.</p>
+					<table class="api-params">
+						<thead><tr><th>Parameter</th><th>In</th><th>Notes</th></tr></thead>
+						<tbody>
+							<tr><td><code>heichelId</code></td><td>path</td><td>URL-encoded heichel identifier.</td></tr>
+							<tr><td><code>limit</code>, <code>offset</code></td><td>query</td><td>Pagination, same as above.</td></tr>
+						</tbody>
+					</table>
+				</article>
+
+				<article class="api-endpoint" id="ep-follows">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/follows/{aliasId}</code></header>
+					<p>Aliases the given alias follows. The river uses it to re-rank the home tab client-side.</p>
+					<table class="api-params">
+						<thead><tr><th>Parameter</th><th>In</th><th>Notes</th></tr></thead>
+						<tbody>
+							<tr><td><code>aliasId</code></td><td>path</td><td>URL-encoded alias.</td></tr>
+							<tr><td><code>limit</code></td><td>query</td><td>The client requests <code>200</code>.</td></tr>
+						</tbody>
+					</table>
+				</article>
+
+				<article class="api-endpoint" id="ep-activity">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/activity</code></header>
+					<p>The viewer's recent activity ledger (the activity module reads this route).</p>
+				</article>
+			</section>
+
+			<section class="api-section" id="heichelos">
+				<h2>Heichelos</h2>
+				<p>Heichel metadata, series, and individual posts — what the inline reader fetches.</p>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/heichelos/{heichelId}</code></header>
+					<p>Metadata for one heichel (display name and friends).</p>
+				</article>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/heichelos/{h}/series/{s}</code></header>
+					<p>Series metadata inside a heichel.</p>
+				</article>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/heichelos/{h}/series/{s}/details</code></header>
+					<p>Extended series details for the related-posts rail.</p>
+				</article>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/heichelos/{h}/series/{s}/post/{p}</code></header>
+					<p>One full post — the inline reader's primary fetch.</p>
+					<div class="api-code" data-api-code>
+						<div class="api-code-head"><span>JavaScript</span><button type="button" data-api-copy>Copy</button></div>
+<pre><code>const [post, series] = await Promise.all([
+  fetch(`/api/social/heichelos/${h}/series/${s}/post/${p}`,
+    { credentials: 'same-origin' }).then(r =&gt; r.json()),
+  fetch(`/api/social/heichelos/${h}/series/${s}`,
+    { credentials: 'same-origin' }).then(r =&gt; r.json())
+]);</code></pre>
+					</div>
+				</article>
+			</section>
+
+			<section class="api-section" id="comments">
+				<h2>Comments</h2>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/heichelos/{h}/posts/{p}/comment-tree</code></header>
+					<p>The full comment tree for a post (nested replies included).</p>
+				</article>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-post">POST</span><code class="api-path">/api/social/heichelos/{h}/posts/{p}/comment-tree</code></header>
+					<p>Post a top-level comment. JSON body:</p>
+					<div class="api-code" data-api-code>
+						<div class="api-code-head"><span>JavaScript</span><button type="button" data-api-copy>Copy</button></div>
+<pre><code>await fetch(`/api/social/heichelos/${h}/posts/${p}/comment-tree`, {
+  method: 'POST',
+  credentials: 'same-origin',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ content: 'Beautiful insight!', aliasId: 'my-alias' })
+});</code></pre>
+					</div>
+				</article>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-post">POST</span><code class="api-path">/api/social/heichelos/{h}/posts/{p}/comments/{parentId}/replies</code></header>
+					<p>Reply to a comment. Same JSON body shape as above (<code>content</code>, <code>aliasId</code>).</p>
+				</article>
+			</section>
+
+			<section class="api-section" id="reactions">
+				<h2>Reactions</h2>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/api/social/reactions/post/{postId}</code></header>
+					<p>Reaction counts, recent reactors, and the viewer's own reaction. Query: <code>heichelId</code> (required), <code>aliasId</code> (optional — include it to get <code>viewerEmoji</code> back).</p>
+				</article>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-post">POST</span><code class="api-path">/api/social/reactions/post/{postId}</code></header>
+					<p>Set the viewer's reaction. Note the content type: <code>application/x-www-form-urlencoded</code>, not JSON.</p>
+					<div class="api-code" data-api-code>
+						<div class="api-code-head"><span>JavaScript</span><button type="button" data-api-copy>Copy</button></div>
+<pre><code>await fetch(`/api/social/reactions/post/${postId}`, {
+  method: 'POST',
+  credentials: 'same-origin',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: new URLSearchParams({ aliasId, heichelId, emoji: 'like' })
+});</code></pre>
+					</div>
+				</article>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-delete">DELETE</span><code class="api-path">/api/social/reactions/post/{postId}</code></header>
+					<p>Remove the viewer's reaction. Query: <code>aliasId</code>, <code>heichelId</code>.</p>
+				</article>
+			</section>
+
+			<section class="api-section" id="themes">
+				<h2>Themes</h2>
+				<p>Per-heichel and per-post visual themes (the 7 feed themes, incl. parchment variants).</p>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-post">POST</span><code class="api-path">/api/social/heichelos/{h}/theme</code></header>
+					<p>Set the theme for a whole heichel.</p>
+				</article>
+
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-post">POST</span><code class="api-path">/api/social/heichelos/{h}/posts/{p}/theme</code></header>
+					<p>Set the theme for one post (overrides the heichel theme).</p>
+				</article>
+			</section>
+
+			<section class="api-section" id="locales">
+				<h2>Locales</h2>
+				<article class="api-endpoint">
+					<header class="api-ep-head"><span class="api-method api-method-get">GET</span><code class="api-path">/feed/js/locales/{code}.json</code></header>
+					<p>UI strings for the river chrome in six languages. <code>{code}</code> is a language code such as <code>en</code> or <code>he</code>. Static JSON — cache aggressively.</p>
+				</article>
+			</section>
+
+			<section class="api-section" id="errors">
+				<h2>Errors</h2>
+				<p>Failures come back as plain HTTP statuses; bodies are JSON with <code>success</code> or an error shape. What the client actually handles:</p>
+				<table class="api-params">
+					<thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+					<tbody>
+						<tr><td><code>401</code></td><td>No (or expired) session — sign in on awtsmoos.com first.</td></tr>
+						<tr><td><code>404</code></td><td>Unknown heichel, series, post, or alias.</td></tr>
+						<tr><td><code>429</code></td><td>Slow down — back off and retry later.</td></tr>
+						<tr><td><code>5xx</code></td><td>Server trouble — the client retries once, then shows the empty state.</td></tr>
+					</tbody>
+				</table>
+				<p class="api-fineprint">Last audited against the live client 2026-10-14. If a route above stops matching the client, the client wins — file a note and this page gets updated.</p>
+			</section>
+		</main>
+	</div>
+
+	<footer class="api-foot">
+		<span>Awtsmoos River · Developer API</span>
+		<a href="/feed/">Back to the river</a>
+	</footer>
+</div>
+<script type="module">
+import { initApiDocs } from '/feed/js/apiDocs.js?v=1';
+initApiDocs();
+</script>
+</body>
+</html>
