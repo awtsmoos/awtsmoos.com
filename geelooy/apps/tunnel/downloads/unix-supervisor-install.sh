@@ -83,6 +83,13 @@ start_supervisor_process() {
 start_supervisor() {
 	write_supervisor
 	start_supervisor_process
+	# B"H — Yaakov 2026-10-14: installer must NEVER hang. After the supervisor
+	# is started, we are DONE. Print success and exit immediately. Do not
+	# wait for anything, do not verify, do not continue. The supervisor
+	# will manage the agent. If the agent has issues, they show in logs.
+	printf '\n✓ Tunnel agent installed and supervisor started.\n' >&2
+	printf '✓ Installation complete.\n' >&2
+	exit 0
 }
 
 start_restored_supervisor() {
