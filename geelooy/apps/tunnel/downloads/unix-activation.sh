@@ -49,9 +49,16 @@ activate_update() {
 	install_progress 69 "Proving candidate while predecessor remains recoverable"
 	write_activation_journal "predecessor_preserved" "$CANDIDATE_ROOT" "$ROOT"
 	if ! prove_candidate_before_promotion readonly; then
+		# B"H — Yaakov 2026-10-14: Show full probe log (stack trace) on failure.
+		# The candidate-probe.log contains the actual error; surface it.
+		local probe_log_path="$CANDIDATE_ROOT/candidate-probe.log"
+		local probe_log_content="(no probe log found at $probe_log_path)"
+		if [ -f "$probe_log_path" ]; then
+			probe_log_content="$(tail -100 "$probe_log_path" 2>/dev/null)"
+		fi
 		install_fail "candidate-probe" \
 			"Candidate failed before predecessor displacement; predecessor was restored." \
-			"candidate=$CANDIDATE_ROOT root=$ROOT"
+			"candidate=$CANDIDATE_ROOT root=$ROOT probe_log_path=$probe_log_path probe_log: $probe_log_content"
 	fi
 	install_progress 78 "Promoting registered candidate atomically"
 	if ! promote_candidate_root "$rollback"; then
