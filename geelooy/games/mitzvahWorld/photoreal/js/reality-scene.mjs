@@ -2050,15 +2050,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // B"H TEXTURE-FIRST 2026-10-14: was (0.42,0.50,0.38) — crushed the leaf
     // photo to 45% brightness (flat dark blobs). The texture IS the detail;
     // let it read. Lighting + backlight provide the shading.
-    roughness: 0.9, color: new THREE.Color(0.80, 0.84, 0.70),
-    emissive: new THREE.Color(0.10, 0.13, 0.05),
+    roughness: 0.9, color: new THREE.Color(0.38, 0.48, 0.27),
+    emissive: new THREE.Color(0.04, 0.06, 0.02),
     emissiveMap: backlitCanopyTex,
     depthWrite: true,
   });
     // B"H "even more real": baked tree crowns get the view-dependent glow too.
     // B"H 2026-10-14 LIGHT: 0.65→0.85 for stronger sun-through-leaves glow
     // (ref-target-sunlit-river has luminous translucent canopy).
-    addCanopyBacklight(canopyMat, 0.85, 2.0, 'baked');
+    addCanopyBacklight(canopyMat, 0.55, 2.0, 'baked');
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
     ['Birch Elegant', 'birch-elegant'], ['Willow Weeping', 'willow-weeping'],
@@ -3093,47 +3093,52 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
     mark('individual-leaves');
 
-    // ---- canopy shells: clustered foliage mass (Yaakov 2026-10-14, cont'd).
-    // B"H DENSITY-FIX: 150 uniform-scatter cards/tree with full random tumble
-    // read as FLOATING CONFETTI — sparse diamonds, sky bleeding through.
-    // New: clumped cards on the crown SURFACE (2 nested layers), oriented
-    // outward like real leaf sprays (no edge-on tumble), overlapping.
-    // 480/tree of 0.45-0.75m cards. Still 1 instanced draw.
+    // ---- canopy shells: DENSE LAYERED CANOPY (Yaakov 2026-10-14 STEP 2).
+    // B"H: 3 nested depth layers (outer/mid/inner) with a real color ramp —
+    // dark EMERALD interior shadow → rich green mid → sunlit LIME outer —
+    // plus warm GOLD on the sun side. Cards overlap 3-4 deep so no sky
+    // bleeds through the mid-ground. Still 1 instanced draw.
     {
       const shellGeo = new THREE.PlaneGeometry(0.5, 0.5);
       const shellMat = new THREE.MeshStandardMaterial({
         map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-        roughness: 0.95, color: new THREE.Color(0.55, 0.65, 0.42),
+        roughness: 0.95, color: new THREE.Color(0.62, 0.70, 0.48),
         depthWrite: true,
       });
       // B"H 2026-10-14 LIGHT (Yaakov: canopy translucency) — shell cards
       // get backlight so sun glows THROUGH the foliage volume.
-      addCanopyBacklight(shellMat, 0.90, 2.0, 'shell');
-      const SHELL_PER_TREE = fast ? 260 : 480;
-      const CLUMPS = 26; // cluster centers per tree (fibonacci sphere)
+      addCanopyBacklight(shellMat, 0.55, 2.0, 'shell');
+      const SHELL_PER_TREE = fast ? 380 : 700;
+      const CLUMPS = 30; // cluster centers per tree (fibonacci sphere)
       const shellInst = new THREE.InstancedMesh(shellGeo, shellMat, treeSpots.length * SHELL_PER_TREE);
       const nrm = new THREE.Vector3();
       const GA = Math.PI * (3 - Math.sqrt(5)); // golden angle
+      // B"H STEP 2b: cards BIGGER than the clump scatter diameter so they
+      // OVERLAP into masses (not separated diamonds). Outer sprays 1.4-2.0m.
+      const LAYERS = [
+        { rr: 0.92, s0: 2.8, s1: 4.0, share: 0.45, col: [0.38, 0.56, 0.18], csc: 0.7 }, // outer: sunlit lime
+        { rr: 0.70, s0: 2.0, s1: 3.0, share: 0.35, col: [0.11, 0.29, 0.10], csc: 0.55 }, // mid: rich green
+        { rr: 0.48, s0: 1.4, s1: 2.2, share: 0.20, col: [0.04, 0.13, 0.06], csc: 0.45 }, // inner: deep emerald shadow
+      ];
       let sp = 0;
       const maxSp = treeSpots.length * SHELL_PER_TREE;
       for (const s of treeSpots) {
         const ccx = (s.crownX !== undefined ? s.crownX : s.x);
-        const per = Math.ceil(SHELL_PER_TREE / CLUMPS);
         for (let c = 0; c < CLUMPS && sp < maxSp; c++) {
-          // cluster center on crown shell: 2 nested layers (outer 0.86, inner 0.62)
-          const layer = c % 2;
-          const rrBase = layer === 0 ? 0.86 : 0.62;
+          // cluster center on a fibonacci sphere, assigned to a depth layer
+          const layer = LAYERS[c % 3];
           const yy = 1 - ((c + 0.5) / CLUMPS) * 2; // -1..1
           const rad = Math.sqrt(Math.max(0, 1 - yy * yy));
           const th = GA * c;
-          const cx = ccx + Math.cos(th) * rad * rrBase * s.crownR;
-          const cy = s.crownY + yy * rrBase * s.crownR * 0.75;
-          const cz = s.z + Math.sin(th) * rad * rrBase * s.crownR;
+          const cx = ccx + Math.cos(th) * rad * layer.rr * s.crownR;
+          const cy = s.crownY + yy * layer.rr * s.crownR * 0.75;
+          const cz = s.z + Math.sin(th) * rad * layer.rr * s.crownR;
+          const per = Math.ceil(SHELL_PER_TREE * layer.share / (CLUMPS / 3));
           for (let k = 0; k < per && sp < maxSp; k++) {
-            // tight clump scatter around the cluster center (overlapping!)
-            const ox = (rand() + rand() + rand() - 1.5) * 1.1;
-            const oy = (rand() + rand() + rand() - 1.5) * 0.85;
-            const oz = (rand() + rand() + rand() - 1.5) * 1.1;
+            // tight clump scatter: SMALLER than card size → overlap!
+            const ox = (rand() + rand() + rand() - 1.5) * layer.csc;
+            const oy = (rand() + rand() + rand() - 1.5) * layer.csc * 0.8;
+            const oz = (rand() + rand() + rand() - 1.5) * layer.csc;
             dummy.position.set(cx + ox, cy + oy, cz + oz);
             // face outward from crown center + limited tilt (no edge-on tumble)
             nrm.set(
@@ -3148,14 +3153,21 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
             );
             dummy.rotateX((rand() - 0.5) * 1.15); // ±33° tilt variety
             dummy.rotateZ(rand() * Math.PI * 2);  // roll variety
-            // B"H DENSITY-FIX: smaller cards (0.45-0.75m), MORE of them
-            const ss = 0.9 + rand() * 0.6;
+            // bigger cards on the outer layer (broad overlapping sprays)
+            const ss = layer.s0 + rand() * (layer.s1 - layer.s0);
             dummy.scale.set(ss, ss, 1);
             dummy.updateMatrix();
             shellInst.setMatrixAt(sp, dummy.matrix);
-            // outer layer bright, inner layer shaded (AO)
-            const sv = (layer === 0 ? 0.95 : 0.58) * (0.85 + rand() * 0.3);
-            tint.setRGB(sv, sv, sv * 0.92);
+            // B"H STEP 2 color: emerald->lime depth ramp + sun-side gold.
+            // Sun-facing cards (normal · sunDir > 0) get warm gold kiss.
+            const sunFace = Math.max(0, nrm.x * sunDir.x + nrm.y * sunDir.y + nrm.z * sunDir.z);
+            const gold = Math.pow(sunFace, 1.5) * 0.9;
+            const vr = 0.85 + rand() * 0.3;
+            tint.setRGB(
+              (layer.col[0] + gold * 0.55) * vr,
+              (layer.col[1] + gold * 0.38) * vr,
+              (layer.col[2] + gold * 0.12) * vr
+            );
             shellInst.setColorAt(sp, tint);
             sp++;
           }
@@ -3181,14 +3193,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const ohGeo = new THREE.PlaneGeometry(0.45, 0.45);
     const ohMat = new THREE.MeshStandardMaterial({
       map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.72, 0.80, 0.60),
-      emissive: new THREE.Color(0.10, 0.14, 0.05),
+      roughness: 0.9, color: new THREE.Color(0.36, 0.46, 0.25),
+      emissive: new THREE.Color(0.04, 0.06, 0.02),
       emissiveMap: backlitCanopyTex,
       depthWrite: true,
     });
     // B"H "even more real": overhead canopy sits between camera and sun —
     // strongest glow (1.6) so light visibly streams through from above.
-    addCanopyBacklight(ohMat, 0.95, 1.8, 'overhead');
+    addCanopyBacklight(ohMat, 0.60, 1.8, 'overhead');
     // B"H LEAF-FIX: 120 huge planes → 700 small cards for equivalent
     // coverage at real leaf scale. Denser placement (tighter spacing).
     const OH_COUNT = fast ? 350 : 700;
