@@ -65,6 +65,7 @@
 .pd-activity-hidden p {
 	margin: 0;
 	font-size: 14px;
+	color: var(--pd-text-muted, #8a7a5a);
 }
 
 .pd-activity-note {

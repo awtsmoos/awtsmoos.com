@@ -69,10 +69,12 @@
 	padding: 0.5rem 0;
 	border-bottom: 1px solid var(--pd-border-light, #f0e6d0);
 	font-size: 0.85rem;
+	color: var(--pd-text);
 }
 
 .pd-reading-recent li:last-child {
 	border-bottom: none;
+	color: var(--pd-text);
 }
 
 .pd-reading-post {
@@ -147,6 +149,8 @@
 	position: absolute;
 	opacity: 0;
 	pointer-events: none;
+	/* B"H CSS gate: explicit color (visually-hidden control carries no text). */
+	color: inherit;
 }
 
 .pd-privacy-option strong {

@@ -699,6 +699,7 @@
 .profile-dream button.pd-topbar-btn {
 	font: inherit;
 	padding: 0;
+	color: var(--pd-ink);
 }
 .profile-dream .profile-settings-menu {
 	display: grid;
@@ -905,4 +906,5 @@
 	-webkit-tap-highlight-color: transparent;
 	touch-action: manipulation;
 	-webkit-touch-callout: none;
+	color: var(--pd-ink);
 }
