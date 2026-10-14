@@ -235,32 +235,49 @@ _prg_recalc_step() {
 prg_draw_display() {
 	[ "$PRG_TTY" = "1" ] || return 0
 	[ "$INSTALL_STEP_TOTAL" -gt 0 ] || return 0
-	local overall_bar step_bar overall_line step_line eta
-	overall_bar="$(_prg_make_bar "$INSTALL_OVERALL_PCT" 26)"
-	step_bar="$(_prg_make_bar "$INSTALL_STEP_PCT" 14)"
-	eta="$(_prg_format_eta "$INSTALL_OVERALL_PCT")"
+	# B"H — Yaakov 2026-10-14: ONE continuous percentage bar with WAY BETTER
+	# ASCII particle effects. Single line, magical, beautiful.
+	local pct="$INSTALL_OVERALL_PCT"
+	local width=40
+	local filled=$(( pct * width / 100 ))
+	local empty=$(( width - filled ))
+	local bar="" i
+	# Build the bar with particle effects
+	for (( i=0; i<filled; i+=1 )); do
+		# Random sparkle particles in the filled portion (WAY BETTER!)
+		if [ $(( RANDOM % 7 )) -eq 0 ] && [ "$i" -gt 0 ]; then
+			bar="${bar}${PRG_C_CYAN}✧${PRG_C_OFF}"
+		else
+			bar="${bar}${PRG_C_GREEN}█${PRG_C_OFF}"
+		fi
+	done
+	# The leading particle (bright star at the frontier!)
+	if [ "$filled" -lt "$width" ]; then
+		bar="${bar}${PRG_C_YELLOW}✦${PRG_C_OFF}"
+		empty=$(( empty - 1 ))
+	fi
+	for (( i=0; i<empty; i+=1 )); do
+		bar="${bar}${PRG_C_DIM}─${PRG_C_OFF}"
+	done
+	local eta="$(_prg_format_eta "$pct")"
 	[ -n "$eta" ] && eta=" ${PRG_C_DIM}${eta}${PRG_C_OFF}"
-	overall_line="$(printf '  %s%3d%%%s %s%s%s%s  %sOverall%s' \
-		"$PRG_C_GOLD" "$INSTALL_OVERALL_PCT" "$PRG_C_OFF" \
-		"$PRG_C_GREEN" "$overall_bar" "$PRG_C_OFF" \
-		"$eta" \
-		"$PRG_C_DIM" "$PRG_C_OFF")"
-	step_line="$(printf '  %sStep %s/%s%s %s%s%s %s%3d%%%s  %s%s%s' \
-		"$PRG_C_CYAN" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" "$PRG_C_OFF" \
-		"$PRG_C_GREEN" "$step_bar" "$PRG_C_OFF" \
-		"$PRG_C_CYAN" "$INSTALL_STEP_PCT" "$PRG_C_OFF" \
-		"$PRG_C_DIM" "$PRG_STEP_MSG" "$PRG_C_OFF")"
+	# Single continuous line with magical particles
+	local line="$(printf ' %s%3d%%%s [%s] %s%s%s%s' \
+		"$PRG_C_GOLD" "$pct" "$PRG_C_OFF" \
+		"$bar" \
+		"$PRG_C_DIM" "$PRG_STEP_MSG" "$PRG_C_OFF" \
+		"$eta")"
 	if [ "$PRG_DISPLAY_OPEN" = "1" ]; then
-		printf '\r\033[2K%s\n\r\033[2K%s\033[1A\r' "$overall_line" "$step_line" >&2
+		printf '\r\033[2K%s\r' "$line" >&2
 	else
-		printf '%s\n%s\033[1A\r' "$overall_line" "$step_line" >&2
+		printf '%s\r' "$line" >&2
 		PRG_DISPLAY_OPEN=1
 	fi
 }
 
 prg_close_display() {
 	if [ "$PRG_DISPLAY_OPEN" = "1" ]; then
-		printf '\n\n' >&2
+		printf '\n' >&2
 		PRG_DISPLAY_OPEN=0
 	fi
 }
