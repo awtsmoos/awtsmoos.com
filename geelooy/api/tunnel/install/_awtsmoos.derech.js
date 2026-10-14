@@ -21,6 +21,9 @@ module.exports = {
 		await registerScriptRoute($i, "windows", "windows.ps1");
 		await registerScriptRoute($i, "linux", "unix.sh");
 		await registerScriptRoute($i, "unix", "unix.sh");
+		// B"H — Yaakov 2026-10-14: the installer downloads the component manifest
+		// directly. Without this route it 403s and the install fails.
+		await registerScriptRoute($i, "unix-bootstrap-components.sh", "unix-bootstrap-components.sh");
 		await registerScriptRoute($i, "emergency-unix", "emergency-auto.sh");
 		await registerScriptRoute($i, "emergency-sealed", "emergency-sealed.sh");
 		await registerScriptRoute($i, "emergency-supervisor", "emergency-supervisor.sh");
