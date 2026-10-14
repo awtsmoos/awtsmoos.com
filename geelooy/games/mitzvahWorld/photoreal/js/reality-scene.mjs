@@ -987,6 +987,65 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   mark('tree-spots');
 
+  /* B"H WAY-better #18: exposed root tangles at hero tree bases — curved
+     tubes radiating from the flare, diving into the ground. 1 merged mesh
+     (3 trees × 7 roots), bark material. */
+  {
+    const rootGeos = [];
+    const rrnd = mulberry32(seed ^ 0x2007);
+    for (const hs of heroSpots) {
+      const baseY = groundHeight(hs.x, hs.z, noise);
+      for (let ri = 0; ri < 7; ri++) {
+        const a = (ri / 7) * Math.PI * 2 + rrnd() * 0.5;
+        const len = 1.2 + rrnd() * 1.4;
+        const pts = [];
+        const startR = 0.55 * hs.sc;
+        for (let k = 0; k <= 4; k++) {
+          const t = k / 4;
+          const r = startR + t * len;
+          const lift = Math.sin(t * Math.PI) * 0.28 * hs.sc; // arch up then dive
+          const wob = Math.sin(t * 5.1 + ri * 2.2) * 0.12 * t;
+          pts.push(new THREE.Vector3(
+            hs.x + Math.cos(a + wob) * r,
+            baseY + 0.35 * hs.sc * (1 - t) + lift - t * t * 0.5,
+            hs.z + Math.sin(a + wob) * r
+          ));
+        }
+        const curve = new THREE.CatmullRomCurve3(pts);
+        const tg = new THREE.TubeGeometry(curve, 8, 0.09 * hs.sc * (1 - ri * 0.06), 6, false);
+        rootGeos.push(tg);
+      }
+    }
+    // Merge all root tubes into ONE geometry (1 draw call). Manual merge:
+    // concatenate position/normal/uv/index with index offsets.
+    let vtxTotal = 0, idxTotal = 0;
+    for (const g of rootGeos) { vtxTotal += g.attributes.position.count; idxTotal += g.index.count; }
+    const mp = new Float32Array(vtxTotal * 3), mn = new Float32Array(vtxTotal * 3), mu = new Float32Array(vtxTotal * 2);
+    const mi = new (vtxTotal > 65535 ? Uint32Array : Uint16Array)(idxTotal);
+    let vo = 0, io = 0;
+    for (const g of rootGeos) {
+      const p = g.attributes.position, n = g.attributes.normal, u = g.attributes.uv;
+      mp.set(p.array, vo * 3); mn.set(n.array, vo * 3); mu.set(u.array, vo * 2);
+      const idx = g.index.array;
+      for (let k = 0; k < idx.length; k++) mi[io + k] = idx[k] + vo;
+      vo += p.count; io += idx.length;
+      g.dispose();
+    }
+    const merged = new THREE.BufferGeometry();
+    merged.setAttribute('position', new THREE.BufferAttribute(mp, 3));
+    merged.setAttribute('normal', new THREE.BufferAttribute(mn, 3));
+    merged.setAttribute('uv', new THREE.BufferAttribute(mu, 2));
+    merged.setIndex(new THREE.BufferAttribute(mi, 1));
+    const rootMat = new THREE.MeshStandardMaterial({
+      map: bakedBarkAlbedoTex, roughness: 0.95,
+      color: new THREE.Color(0.75, 0.70, 0.62),
+    });
+    const rootMesh = new THREE.Mesh(merged, rootMat);
+    rootMesh.castShadow = true; rootMesh.receiveShadow = true;
+    scene.add(rootMesh);
+    mark('root-tangles');
+  }
+
   /* B"H — photoreal impostor forest walls (Yaakov 2026-10-13: "do not stop until it's real").
      Dense walls of full photoreal trees flank the river corridor, creating the
      lush enclosed forest mass of the reference. These are camera-facing billboards
@@ -1142,6 +1201,13 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           vec3 cookie = texture2D(uDappleCookie, cuv).rgb;
           // cookie is 0.35..1.0 brightness; warm dapple over the albedo
           diffuseColor.rgb *= (0.55 + cookie * 1.05);
+        }`)
+      .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
+        // B"H WAY-better #21: muddy bank sheen — low wet soil near the
+        // waterline goes glossy. (Banks are low; height is the proxy.)
+        {
+          float mudWet = 1.0 - smoothstep(-0.55, 0.15, vCookieWPos.y);
+          roughnessFactor = mix(roughnessFactor, 0.35, mudWet * 0.8);
         }`);
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>
@@ -2810,9 +2876,22 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         ld.updateMatrix();
         return ld.matrix;
       })());
+      // B"H WAY-better #19: litter color patches — brown/orange drifts among
+      // green, keyed to low-frequency patch noise (not per-leaf random).
+      {
+        const patchN = noise(lx * 0.08 + 90, lz * 0.08 + 31) * 0.5 + 0.5;
+        const brown = THREE.MathUtils.smoothstep(patchN, 0.45, 0.75);
+        const jr = lr();
+        // green litter (0.75,0.72,0.55) → brown (0.55,0.38,0.22) → orange (0.72,0.45,0.20)
+        const cr = 0.75 + brown * (jr < 0.5 ? -0.20 : -0.03);
+        const cg = 0.72 + brown * (jr < 0.5 ? -0.34 : -0.27);
+        const cb = 0.55 + brown * (jr < 0.5 ? -0.33 : -0.35);
+        litterInst.setColorAt(litPlaced, new THREE.Color(cr, cg, cb));
+      }
       litPlaced++;
     }
     litterInst.count = litPlaced;
+    if (litterInst.instanceColor) litterInst.instanceColor.needsUpdate = true;
     litterInst.receiveShadow = true;
     scene.add(litterInst);
 
@@ -2868,6 +2947,92 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
   }
   mark('forest-floor-props');
+
+  /* B"H WAY-better #20: mushroom clusters in damp shade — instanced stem +
+     cap, premade canvas textures. Near water, under canopy. 2 draw calls
+     (stems, caps) for all clusters. */
+  {
+    const MUS_N = 42;
+    const stemGeo = new THREE.CylinderGeometry(0.025, 0.035, 0.16, 6);
+    stemGeo.translate(0, 0.08, 0);
+    const capGeo = new THREE.SphereGeometry(0.075, 8, 6, 0, Math.PI * 2, 0, Math.PI / 2);
+    capGeo.translate(0, 0.15, 0);
+    // premade cap texture: russet with pale rim
+    const mcv = document.createElement('canvas'); mcv.width = mcv.height = 32;
+    const mx = mcv.getContext('2d');
+    const mg = mx.createRadialGradient(16, 16, 2, 16, 16, 16);
+    mg.addColorStop(0, '#7a4a28'); mg.addColorStop(0.7, '#9a6238'); mg.addColorStop(1, '#d8b888');
+    mx.fillStyle = mg; mx.fillRect(0, 0, 32, 32);
+    const mtex = new THREE.CanvasTexture(mcv); mtex.colorSpace = THREE.SRGBColorSpace;
+    const stemMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(0.82, 0.78, 0.68), roughness: 0.9 });
+    const capMat = new THREE.MeshStandardMaterial({ map: mtex, roughness: 0.75 });
+    const stemInst = new THREE.InstancedMesh(stemGeo, stemMat, MUS_N);
+    const capInst = new THREE.InstancedMesh(capGeo, capMat, MUS_N);
+    const md = new THREE.Object3D();
+    const mrnd = mulberry32(seed ^ 0x471c);
+    let musPlaced = 0, musGuard = 0;
+    // clusters: pick 8 cluster centers, scatter 3-7 mushrooms each
+    const clusters = [];
+    for (let c = 0; c < 8 && musPlaced < MUS_N; c++) {
+      const cz = 40 - mrnd() * 110;
+      const side = mrnd() < 0.5 ? -1 : 1;
+      const cx0 = riverX(cz) + side * (riverHalfWidth(cz) + 2 + mrnd() * 5);
+      const cy0 = groundHeight(cx0, cz, noise);
+      if (cy0 < WATER_Y + 0.1) continue; // damp but not submerged
+      const inCluster = 3 + ((mrnd() * 5) | 0);
+      for (let k = 0; k < inCluster && musPlaced < MUS_N; k++) {
+        const mx2 = cx0 + (mrnd() - 0.5) * 1.2, mz2 = cz + (mrnd() - 0.5) * 1.2;
+        md.position.set(mx2, groundHeight(mx2, mz2, noise), mz2);
+        md.rotation.y = mrnd() * Math.PI * 2;
+        md.rotation.z = (mrnd() - 0.5) * 0.25;
+        const ms = 0.6 + mrnd() * 1.2;
+        md.scale.set(ms, ms * (0.8 + mrnd() * 0.6), ms);
+        md.updateMatrix();
+        stemInst.setMatrixAt(musPlaced, md.matrix);
+        capInst.setMatrixAt(musPlaced, md.matrix);
+        musPlaced++;
+      }
+    }
+    stemInst.count = capInst.count = musPlaced;
+    stemInst.castShadow = capInst.castShadow = false;
+    stemInst.receiveShadow = capInst.receiveShadow = true;
+    scene.add(stemInst); scene.add(capInst);
+    mark('mushrooms');
+  }
+
+  /* B"H WAY-better #17: puddle reflections in bank hollows — small dark
+     mirror quads where the bank dips near water. Cheap: MeshStandardMaterial
+     with low roughness picks up the sky; no planar reflection pass. */
+  {
+    const PUD_N = 10;
+    const pudGeo = new THREE.CircleGeometry(1, 14);
+    pudGeo.rotateX(-Math.PI / 2);
+    const pudMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0.12, 0.16, 0.15), roughness: 0.08, metalness: 0.1,
+      transparent: true, opacity: 0.85,
+    });
+    const pudInst = new THREE.InstancedMesh(pudGeo, pudMat, PUD_N);
+    const pd = new THREE.Object3D();
+    const prnd = mulberry32(seed ^ 0x90d1e);
+    let pudPlaced = 0, pudGuard = 0;
+    while (pudPlaced < PUD_N && pudGuard++ < 200) {
+      const pz = 40 - prnd() * 110;
+      const side = prnd() < 0.5 ? -1 : 1;
+      const px = riverX(pz) + side * (riverHalfWidth(pz) + 1.5 + prnd() * 3);
+      const py = groundHeight(px, pz, noise);
+      // only in hollows near (but above) the waterline
+      if (py < WATER_Y + 0.15 || py > WATER_Y + 0.9) continue;
+      pd.position.set(px, py + 0.04, pz);
+      pd.rotation.y = prnd() * Math.PI * 2;
+      pd.scale.set(0.7 + prnd() * 1.3, 1, 0.5 + prnd() * 0.8);
+      pd.updateMatrix();
+      pudInst.setMatrixAt(pudPlaced++, pd.matrix);
+    }
+    pudInst.count = pudPlaced;
+    pudInst.receiveShadow = true;
+    scene.add(pudInst);
+    mark('puddles');
+  }
 
   /* B"H — rocks IN the shallows: small boulders poking through the water. */
   {
