@@ -16,8 +16,17 @@ import { trustedModelResourceUrl } from './ModelAssetTrust.js';
 const templates = new Map();
 const pending = new Map();
 
+function traceCrumb(text) { // TEMP-TRACE
+	try { // TEMP-TRACE
+		if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+			document.title = `${document.title} | ${text}`; // TEMP-TRACE
+		} // TEMP-TRACE
+	} catch {} // TEMP-TRACE
+} // TEMP-TRACE
+
 /** Loads one trusted shared template using the historical `{resourceUrl, template}` receipt shape. */
 export async function loadCachedModelTemplate(url, options = {}) {
+	traceCrumb('TRACE: loadCachedModelTemplate called'); // TEMP-TRACE
 	const resourceUrl = trustedModelResourceUrl(url);
 	return {
 		resourceUrl,
@@ -27,11 +36,14 @@ export async function loadCachedModelTemplate(url, options = {}) {
 
 /** Returns one parsed immutable template, sharing finished and in-flight work by canonical URL. */
 export async function loadModelAssetTemplate(resourceUrl, options = {}) {
+	traceCrumb('TRACE: loadModelAssetTemplate called'); // TEMP-TRACE
 	if (templates.has(resourceUrl)) {
+		traceCrumb('TRACE: template cache HIT'); // TEMP-TRACE
 		options.onProgress?.(cachedProgress(resourceUrl));
 		return templates.get(resourceUrl);
 	}
-	if (pending.has(resourceUrl)) return pending.get(resourceUrl);
+	if (pending.has(resourceUrl)) { traceCrumb('TRACE: pending HIT'); return pending.get(resourceUrl); } // TEMP-TRACE
+	traceCrumb('TRACE: creating template'); // TEMP-TRACE
 	const promise = createTemplate(resourceUrl, options);
 	pending.set(resourceUrl, promise);
 	try {
@@ -66,6 +78,7 @@ export function clearModelTemplateCache() {
 export { trustedModelResourceUrl } from './ModelAssetTrust.js';
 
 async function createTemplate(resourceUrl, options) {
+	traceCrumb('TRACE: createTemplate started'); // TEMP-TRACE
 	const startedAt = now();
 	const progress = detail => options.onProgress?.(detail);
 	progress(stage('asset-fetch-start', resourceUrl, startedAt));

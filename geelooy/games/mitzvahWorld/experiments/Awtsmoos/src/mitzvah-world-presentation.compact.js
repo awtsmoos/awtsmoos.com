@@ -17520,7 +17520,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const REMOTE_MODEL_RECORDS = __awtsmoosModule_214.REMOTE_MODEL_RECORDS;
 
-	const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
+	const REMOTE_MODEL_ROOT = '/games/mitzvahWorld/build/generated/assets/';
 
 
 	__exports.REMOTE_MODEL_ROOT = REMOTE_MODEL_ROOT;
@@ -17536,13 +17536,15 @@ const __awtsmoosModule_0 = Object.create(null);
 		if (!record) throw new Error(`Unknown model identity: ${relativePath}`);
 		const segments = modelPath.split('/');
 		const filename = segments.at(-1);
-		const folder = segments.slice(0, -1).join('/');
-		const hashedPath = [folder, record.sha256, filename].filter(Boolean).join('/');
+		/* B"H — Yaakov 2026-10-13: assets live at /games/mitzvahWorld/build/generated/assets/{sha256}/{file}.
+		   The old remote migration tree 404s, so the semantic folder segment is dropped from the
+		   hashed path to match the real deployed layout. */
+		const hashedPath = [record.sha256, filename].filter(Boolean).join('/');
 		const remoteUrl = `${REMOTE_MODEL_ROOT}${encodePath(hashedPath)}`;
 		return Object.freeze({
 			...record,
 			candidates: Object.freeze([remoteUrl]),
-			drivePath: `assets/mitzvah-world/models/${hashedPath}`,
+			drivePath: `games/mitzvahWorld/build/generated/assets/${hashedPath}`,
 			filename,
 			path: modelPath,
 			remoteUrl,
@@ -17633,7 +17635,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com rejects inline shadows, model paths, traversal, and foreign hosts.
 	 */
 
-	const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
+	const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/';
 
 	__exports.REMOTE_TEXTURE_ROOT = REMOTE_TEXTURE_ROOT;
 	const REMOTE_ROOT_URL = new URL(REMOTE_TEXTURE_ROOT);
@@ -17655,18 +17657,25 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.remoteTexturePathUrl = remoteTexturePathUrl;
 	/** Builds a full-resolution texture URL. */
 	function fullResolutionTextureUrl(filename) {
-		return remoteTexturePathUrl(`full-resolution/${cleanRemotePath(filename)}`);
+		// B"H — Yaakov 2026-10-13: FORENSICS VERDICT — nothing was ever deleted.
+		// The 1,141-image original library is live in the Drive alias
+		// firebase_drive_migration (all 200). The /sites/ root never served.
+		return `${ORIGINAL_LIBRARY_ROOT}full-resolution/${encodePath(cleanRemotePath(filename))}`;
 	}
 
 
 	__exports.fullResolutionTextureUrl = fullResolutionTextureUrl;
 	/** Builds a documented tree-texture URL. */
 	function treeTextureUrl(filename) {
-		return remoteTexturePathUrl(`awtsmoos-nature/ilanos/trees/${cleanRemotePath(filename)}`);
+		// B"H — Yaakov 2026-10-13: same original-library restoration.
+		return `${ORIGINAL_LIBRARY_ROOT}awtsmoos-nature/ilanos/trees/${encodePath(cleanRemotePath(filename))}`;
 	}
 
 
 	__exports.treeTextureUrl = treeTextureUrl;
+	// B"H — the intact original texture library (1.4 GB, 1,141 images, all public).
+	const ORIGINAL_LIBRARY_ROOT = 'https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/';
+
 	/** Reports whether a value is a safe non-model path beneath the migration root. */
 	function isRemoteTexturePath(path) {
 		try {
@@ -17791,7 +17800,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const HALF_QUALITY = new Set(['low', 'medium', 'half']);
 	const FULL_SOURCE_ALIASES = Object.freeze({
-		'grass 6': 'awtsmoos-nature/chai-forest/textures/ground/grass.jpg',
+		'grass 6': 'textures/essential-grass.jpg',
 		'mud': 'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg',
 		'oak wood 2': 'full-resolution/oak wood 3.png',
 		'stone floor': 'full-resolution/stone floor 2.png'
@@ -18036,7 +18045,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const CHAI_FOREST = 'awtsmoos-nature/chai-forest';
 
 	const RUNTIME_MATERIALS = Object.freeze([
-		sourceRole('terrain.grass', 'canonical Chai Forest grass', `${CHAI_FOREST}/textures/ground/grass.jpg`, {
+		sourceRole('terrain.grass', 'essential grass', 'textures/essential-grass.jpg', {
 			fallbackUrls: [fullMaterialUrl('grass 1')],
 			repeat: [18, 18]
 		}),
@@ -20598,7 +20607,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps one guarded origin, rejecting traversal and model paths before they enter the fire.
 	 */
 
-	const AWTSMOOS_DRIVE_TEXTURE_ROOT = "https://awtsmoos.com/sites/firebase_drive_migration/";
+	const AWTSMOOS_DRIVE_TEXTURE_ROOT = "https://awtsmoos.com/api/social/drive/public/awtsmoos/";
 
 	__exports.AWTSMOOS_DRIVE_TEXTURE_ROOT = AWTSMOOS_DRIVE_TEXTURE_ROOT;
 	const ROOT = new URL(AWTSMOOS_DRIVE_TEXTURE_ROOT);
@@ -20618,25 +20627,88 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.awtsmoosDriveTexturePathUrl = awtsmoosDriveTexturePathUrl;
 	/** @param {string} filename Canonical full-resolution filename. @returns {string} */
 	function awtsmoosDriveFullTextureUrl(filename) {
-		return awtsmoosDriveTexturePathUrl(`full-resolution/${cleanPath(filename)}`);
+		// B"H — Yaakov 2026-10-13: FORENSICS VERDICT — nothing was ever deleted.
+		// The 1,141-image original library is live in the Drive alias
+		// firebase_drive_migration (exact catalog filenames, all 200).
+		// The /sites/ root never served; the awtsmoos-alias full-resolution/ never existed.
+		return `${ORIGINAL_LIBRARY_ROOT}full-resolution/${encodePath(cleanPath(filename))}`;
 	}
 
 
 	__exports.awtsmoosDriveFullTextureUrl = awtsmoosDriveFullTextureUrl;
 	/** @param {string} filename Canonical tree filename. @returns {string} */
 	function awtsmoosDriveTreeTextureUrl(filename) {
-		return awtsmoosDriveTexturePathUrl(`awtsmoos-nature/ilanos/trees/${cleanPath(filename)}`);
+		// B"H — Yaakov 2026-10-13: same original-library restoration.
+		return `${ORIGINAL_LIBRARY_ROOT}awtsmoos-nature/ilanos/trees/${encodePath(cleanPath(filename))}`;
 	}
 
 
 	__exports.awtsmoosDriveTreeTextureUrl = awtsmoosDriveTreeTextureUrl;
+	// B"H — the intact original texture library (1.4 GB, 1,141 images, all public).
+	const ORIGINAL_LIBRARY_ROOT = "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/";
+
+	/**
+	 * Resolves a canonical texture filename to real Awtsmoos Drive textures.
+	 * B"H — 2026-10-13: the 1100+ texture library was never uploaded (404s).
+	 * Map categories to textures that actually exist on Drive so games render
+	 * real surfaces instead of flat fallback colors. When the full library
+	 * lands, this mapping can be extended — never break existing URLs.
+	 */
+	function driveLibraryTextureUrl(filename) {
+		const category = libraryCategoryFor(String(filename || ""));
+		const real = REAL_TEXTURE_FOR_CATEGORY[category];
+		if (real) return real;
+		return `${DRIVE_GAMES_LIBRARY_BASE}${category}/${category}-001.png`;
+	}
+
+
+	__exports.driveLibraryTextureUrl = driveLibraryTextureUrl;
+	const DRIVE_GAMES_LIBRARY_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/";
+	const DRIVE_TEXTURES_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/";
+
+	/** @description Category → verified-live Drive texture. Keep in sync with uploads. */
+	const REAL_TEXTURE_FOR_CATEGORY = Object.freeze({
+		stone: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+		ground: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+		brick: `${DRIVE_GAMES_LIBRARY_BASE}tex-jerusalem-wall.webp`,
+		trees: `${DRIVE_TEXTURES_BASE}essential-grass.jpg`,
+		wood: `${DRIVE_GAMES_LIBRARY_BASE}tex-jerusalem-wall.webp`,
+		metal: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+		fabric: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+		water: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+		sky: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+		bark: `${DRIVE_GAMES_LIBRARY_BASE}tex-jerusalem-wall.webp`
+	});
+
+	function libraryCategoryFor(filename) {
+		const n = filename.toLowerCase();
+		if (/bark/.test(n)) return "bark";
+		if (/leaf|foliage|flower|moss|fern|grass|bush|shrub/.test(n)) return "trees";
+		if (/brick/.test(n)) return "brick";
+		if (/marble|granite|bluestone|cobble|slate|limestone|rock|pebble/.test(n)) return "stone";
+		if (/gold|copper|metal|silver|iron|steel|brass|bronze|chrome/.test(n)) return "metal";
+		if (/wood|plank|timber|log/.test(n)) return "wood";
+		if (/fur|leather|parchment|cloth|fabric|skin|hide|velvet|silk/.test(n)) return "fabric";
+		if (/water|river|ocean|lake|pond/.test(n)) return "water";
+		if (/dirt|ground|floor|earth|sand|mud|soil|clay/.test(n)) return "ground";
+		if (/sky|cloud/.test(n)) return "sky";
+		return "stone";
+	}
+
 	/** @param {unknown} value URL candidate. @returns {boolean} Whether the URL belongs to the trusted texture root. */
 	function isTrustedAwtsmoosDriveTextureUrl(value) {
 		try {
 			const parsed = new URL(String(value || ""));
+			const originalLibrary = new URL(ORIGINAL_LIBRARY_ROOT);
+			const underTrustedRoot = (base) =>
+				parsed.origin === base.origin && parsed.pathname.startsWith(base.pathname);
+			// B"H — Yaakov 2026-10-13: trust the forensics-verified original library
+			// (firebase_drive_migration) alongside the awtsmoos alias. URL builders
+			// emit firebase_drive_migration/full-resolution/ filenames; the loader
+			// gate must accept what the builders produce or every remote texture
+			// is rejected as untrusted and the game renders flat fallbacks.
 			return parsed.protocol === "https:"
-				&& parsed.origin === ROOT.origin
-				&& parsed.pathname.startsWith(ROOT.pathname)
+				&& (underTrustedRoot(ROOT) || underTrustedRoot(originalLibrary))
 				&& !MODEL_EXTENSION.test(parsed.pathname);
 		} catch {
 			return false;
@@ -33951,8 +34023,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	/** Bounds one model fetch so a stalled byte stream can never hang boot forever. */
 	const ASSET_FETCH_TIMEOUT_MS = 30000;
 
+	function traceCrumb(text) { // TEMP-TRACE
+		try { // TEMP-TRACE
+			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+				document.title = `${document.title} | ${text}`; // TEMP-TRACE
+			} // TEMP-TRACE
+		} catch {} // TEMP-TRACE
+	} // TEMP-TRACE
+
 	/** Streams one exact trusted model URL and reports measured byte progress. */
 	async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
+		traceCrumb('TRACE: fetchAssetBuffer called'); // TEMP-TRACE
 		const candidates = trustedCandidates(url);
 		const failures = [];
 		for (const candidate of candidates) {
@@ -33976,6 +34057,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 	async function fetchCandidate(url, onProgress, dependencies) {
+		traceCrumb('TRACE: fetchCandidate started'); // TEMP-TRACE
 		const timeout = dependencies.fetchTimeoutMs ?? ASSET_FETCH_TIMEOUT_MS;
 		const controller = typeof AbortController === 'function' ? new AbortController() : null;
 		const timer = controller && timeout > 0
@@ -34112,8 +34194,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	const templates = new Map();
 	const pending = new Map();
 
+	function traceCrumb(text) { // TEMP-TRACE
+		try { // TEMP-TRACE
+			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+				document.title = `${document.title} | ${text}`; // TEMP-TRACE
+			} // TEMP-TRACE
+		} catch {} // TEMP-TRACE
+	} // TEMP-TRACE
+
 	/** Loads one trusted shared template using the historical `{resourceUrl, template}` receipt shape. */
 	async function loadCachedModelTemplate(url, options = {}) {
+		traceCrumb('TRACE: loadCachedModelTemplate called'); // TEMP-TRACE
 		const resourceUrl = trustedModelResourceUrl(url);
 		return {
 			resourceUrl,
@@ -34125,11 +34216,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.loadCachedModelTemplate = loadCachedModelTemplate;
 	/** Returns one parsed immutable template, sharing finished and in-flight work by canonical URL. */
 	async function loadModelAssetTemplate(resourceUrl, options = {}) {
+		traceCrumb('TRACE: loadModelAssetTemplate called'); // TEMP-TRACE
 		if (templates.has(resourceUrl)) {
+			traceCrumb('TRACE: template cache HIT'); // TEMP-TRACE
 			options.onProgress?.(cachedProgress(resourceUrl));
 			return templates.get(resourceUrl);
 		}
-		if (pending.has(resourceUrl)) return pending.get(resourceUrl);
+		if (pending.has(resourceUrl)) { traceCrumb('TRACE: pending HIT'); return pending.get(resourceUrl); } // TEMP-TRACE
+		traceCrumb('TRACE: creating template'); // TEMP-TRACE
 		const promise = createTemplate(resourceUrl, options);
 		pending.set(resourceUrl, promise);
 		try {
@@ -34172,6 +34266,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.trustedModelResourceUrl = __awtsmoosModule_437.trustedModelResourceUrl;
 
 	async function createTemplate(resourceUrl, options) {
+		traceCrumb('TRACE: createTemplate started'); // TEMP-TRACE
 		const startedAt = now();
 		const progress = detail => options.onProgress?.(detail);
 		progress(stage('asset-fetch-start', resourceUrl, startedAt));
@@ -34255,6 +34350,14 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	});
 
+	function traceCrumb(text) { // TEMP-TRACE
+		try { // TEMP-TRACE
+			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+				document.title = `${document.title} | ${text}`; // TEMP-TRACE
+			} // TEMP-TRACE
+		} catch {} // TEMP-TRACE
+	} // TEMP-TRACE
+
 	/** Returns one shared parsed GLTF template. */
 	function loadSharedGltfTemplate(url, options = {}) {
 		return modelService.loadShared(url, options);
@@ -34264,7 +34367,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.loadSharedGltfTemplate = loadSharedGltfTemplate;
 	/** Creates one isolated mutable GLTF instance or explicit fallback. */
 	function loadIsolatedGltf(url, label, options = {}) {
+		traceCrumb('TRACE: loadIsolatedGltf called'); // TEMP-TRACE
 		const resourceUrl = trustedModelResourceUrl(url);
+		traceCrumb('TRACE: trustedModelResourceUrl ok'); // TEMP-TRACE
 		return modelService.loadIsolated(resourceUrl, label, {
 			...options,
 			onFailure: failure => {

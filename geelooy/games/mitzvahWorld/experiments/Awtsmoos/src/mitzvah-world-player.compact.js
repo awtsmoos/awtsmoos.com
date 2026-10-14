@@ -3627,8 +3627,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	/** Bounds one model fetch so a stalled byte stream can never hang boot forever. */
 	const ASSET_FETCH_TIMEOUT_MS = 30000;
 
+	function traceCrumb(text) { // TEMP-TRACE
+		try { // TEMP-TRACE
+			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+				document.title = `${document.title} | ${text}`; // TEMP-TRACE
+			} // TEMP-TRACE
+		} catch {} // TEMP-TRACE
+	} // TEMP-TRACE
+
 	/** Streams one exact trusted model URL and reports measured byte progress. */
 	async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
+		traceCrumb('TRACE: fetchAssetBuffer called'); // TEMP-TRACE
 		const candidates = trustedCandidates(url);
 		const failures = [];
 		for (const candidate of candidates) {
@@ -3652,6 +3661,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 	async function fetchCandidate(url, onProgress, dependencies) {
+		traceCrumb('TRACE: fetchCandidate started'); // TEMP-TRACE
 		const timeout = dependencies.fetchTimeoutMs ?? ASSET_FETCH_TIMEOUT_MS;
 		const controller = typeof AbortController === 'function' ? new AbortController() : null;
 		const timer = controller && timeout > 0
@@ -3788,8 +3798,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	const templates = new Map();
 	const pending = new Map();
 
+	function traceCrumb(text) { // TEMP-TRACE
+		try { // TEMP-TRACE
+			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+				document.title = `${document.title} | ${text}`; // TEMP-TRACE
+			} // TEMP-TRACE
+		} catch {} // TEMP-TRACE
+	} // TEMP-TRACE
+
 	/** Loads one trusted shared template using the historical `{resourceUrl, template}` receipt shape. */
 	async function loadCachedModelTemplate(url, options = {}) {
+		traceCrumb('TRACE: loadCachedModelTemplate called'); // TEMP-TRACE
 		const resourceUrl = trustedModelResourceUrl(url);
 		return {
 			resourceUrl,
@@ -3801,11 +3820,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.loadCachedModelTemplate = loadCachedModelTemplate;
 	/** Returns one parsed immutable template, sharing finished and in-flight work by canonical URL. */
 	async function loadModelAssetTemplate(resourceUrl, options = {}) {
+		traceCrumb('TRACE: loadModelAssetTemplate called'); // TEMP-TRACE
 		if (templates.has(resourceUrl)) {
+			traceCrumb('TRACE: template cache HIT'); // TEMP-TRACE
 			options.onProgress?.(cachedProgress(resourceUrl));
 			return templates.get(resourceUrl);
 		}
-		if (pending.has(resourceUrl)) return pending.get(resourceUrl);
+		if (pending.has(resourceUrl)) { traceCrumb('TRACE: pending HIT'); return pending.get(resourceUrl); } // TEMP-TRACE
+		traceCrumb('TRACE: creating template'); // TEMP-TRACE
 		const promise = createTemplate(resourceUrl, options);
 		pending.set(resourceUrl, promise);
 		try {
@@ -3848,6 +3870,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.trustedModelResourceUrl = __awtsmoosModule_47.trustedModelResourceUrl;
 
 	async function createTemplate(resourceUrl, options) {
+		traceCrumb('TRACE: createTemplate started'); // TEMP-TRACE
 		const startedAt = now();
 		const progress = detail => options.onProgress?.(detail);
 		progress(stage('asset-fetch-start', resourceUrl, startedAt));
@@ -3931,6 +3954,14 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	});
 
+	function traceCrumb(text) { // TEMP-TRACE
+		try { // TEMP-TRACE
+			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+				document.title = `${document.title} | ${text}`; // TEMP-TRACE
+			} // TEMP-TRACE
+		} catch {} // TEMP-TRACE
+	} // TEMP-TRACE
+
 	/** Returns one shared parsed GLTF template. */
 	function loadSharedGltfTemplate(url, options = {}) {
 		return modelService.loadShared(url, options);
@@ -3940,7 +3971,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.loadSharedGltfTemplate = loadSharedGltfTemplate;
 	/** Creates one isolated mutable GLTF instance or explicit fallback. */
 	function loadIsolatedGltf(url, label, options = {}) {
+		traceCrumb('TRACE: loadIsolatedGltf called'); // TEMP-TRACE
 		const resourceUrl = trustedModelResourceUrl(url);
+		traceCrumb('TRACE: trustedModelResourceUrl ok'); // TEMP-TRACE
 		return modelService.loadIsolated(resourceUrl, label, {
 			...options,
 			onFailure: failure => {
