@@ -47,21 +47,19 @@ const state = {
 	maamarLinksLoading: false
 };
 
-// B"H — Load the social-post -> source-maamar link mappings (built from the
-// 195-batch Sefer HaMaamarim import, plus the 282-pack Mittler Rebbe import).
-// Cached in state; fetched once.
+// B"H — Load the social-post -> source-maamar link mappings from AwtsmoosDB
+// (maamar-links-index-v1 post, kind=maamar-link-index). Per Yaakov's standing
+// rule: NO static JSON files in production — DB only. Cached in state; fetched once.
 async function loadMaamarLinks() {
 	if (state.maamarLinks || state.maamarLinksLoading) return;
 	state.maamarLinksLoading = true;
 	try {
-		const [shmRes, mrRes] = await Promise.all([
-			fetch('/data/shm-maamar-links.json', { credentials: 'same-origin' }),
-			fetch('/data/mr-maamar-links.json', { credentials: 'same-origin' })
-		]);
-		const merged = {};
-		if (shmRes.ok) Object.assign(merged, await shmRes.json());
-		if (mrRes.ok) Object.assign(merged, await mrRes.json());
-		state.maamarLinks = merged;
+		const res = await fetch('/api/social/packed/read?shard=core&key=' + encodeURIComponent('/posts/chassidus/maamar-links-index-v1'), { credentials: 'same-origin' });
+		if (res.ok) {
+			const data = await res.json();
+			const mappings = (data && data.success && data.success.value && data.success.value.mappings) || null;
+			if (mappings) state.maamarLinks = mappings;
+		}
 	} catch (_) { /* link simply won't render */ }
 	state.maamarLinksLoading = false;
 }
