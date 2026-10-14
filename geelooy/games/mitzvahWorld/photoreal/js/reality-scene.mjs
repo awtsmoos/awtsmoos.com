@@ -222,6 +222,9 @@ function bufferGeometryFromStream(stream, leafShrink = 0) {
 const VIEWS = {
   forest:    { pos: [riverX(18) + 4.5, 1.9, 18],  look: [riverX(-25) - 1, 1.2, -25] },
   river:     { pos: [riverX(34) + 7, 3.4, 34], look: [riverX(-30) - 2, 0.5, -30] },
+  // B"H commit 7 proof: macro on hero boulder #1 (z=14, left bank).
+  'debug-boulder': { pos: [riverX(14) - riverHalfWidth(14) * 1.45 + 2.2, WATER_Y + 1.6, 17.5],
+                     look: [riverX(14) - riverHalfWidth(14) * 1.45, WATER_Y + 0.5, 14] },
   grassland: { pos: [-34, 10, 46],  look: [10, 2, -10] },
   particles: { pos: [7, 2.4, 13],   look: [-8, 3.5, -12] },
   // hero-character views — cameras are framed relative to the character's ground
@@ -675,7 +678,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
          grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
          leafClusterTex, denseCanopyTex, backlitCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4,
-         pebbleTex, fallenLogTex, leafLitterTex,
+         pebbleTex, fallenLogTex, leafLitterTex, wetRockTex,
          barkNormalTex, mossNormalTex, pebbleNormalTex, wetRockNormalTex,
          waterRippleNormalTex, leafVeinNormalTex,
          bakedBarkAlbedoTex, bakedBarkNormalTex, bakedBarkRoughTex] = await Promise.all([
@@ -714,6 +717,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // B"H — 99% push: fallen mossy log + leaf litter for foreground detail.
     loadTexture(TEX + 'new/tex-fallen-log.webp', 2, 1),
     loadTexture(TEX + 'new/tex-leaf-litter.webp', 6, 6),
+    // B"H commit 7: wet-rock albedo was never loaded (rocks were untextured).
+    loadTexture(TEX + 'new/tex-wet-rock.webp', 1, 1),
     // B"H — normal maps (Yaakov 2026-10-13: "never enough textures, including
     // normals"). Bark/moss/pebble/wet-rock derived geometrically via Sobel
     // from height maps (better math); water ripple + leaf vein AI-generated.
@@ -961,6 +966,55 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   riverbed.receiveShadow = true;
   scene.add(riverbed);
 
+  /* B"H commit 7: 3D instanced pebbles on the riverbed (the texture alone
+     reads flat through water). ~1800 flattened displaced hemispheres,
+     3-12cm, denser in the shallows where the reference shows them.
+     Colors from a natural palette via instance color. 1 draw call. */
+  {
+    const pebGeo = new THREE.IcosahedronGeometry(1, 1);
+    const pp = pebGeo.attributes.position;
+    const por = mulberry32(seed ^ 0x9e66);
+    for (let i = 0; i < pp.count; i++) {
+      const s = 1 + 0.28 * Math.sin(pp.getX(i) * 5.2 + 1.3)
+                      * Math.sin(pp.getY(i) * 4.4 + 2.1)
+                      * Math.sin(pp.getZ(i) * 3.9 + 0.6);
+      pp.setXYZ(i, pp.getX(i) * s, Math.max(pp.getY(i) * s * 0.55, -0.15), pp.getZ(i) * s);
+    }
+    pebGeo.computeVertexNormals();
+    const pebMat = new THREE.MeshStandardMaterial({
+      map: pebbleTex, roughness: 0.75,
+      normalMap: pebbleNormalTex, normalScale: new THREE.Vector2(0.8, 0.8),
+    });
+    const PEB_N = fast ? 800 : 1800;
+    const pebInst = new THREE.InstancedMesh(pebGeo, pebMat, PEB_N);
+    const pd = new THREE.Object3D();
+    const pebPalette = [
+      new THREE.Color(0x8a857c), new THREE.Color(0x9a8f7a), new THREE.Color(0x6f6a60),
+      new THREE.Color(0xa89a80), new THREE.Color(0x7c7268), new THREE.Color(0x8f7f6a),
+    ];
+    let pebPlaced = 0, pebGuard = 0;
+    while (pebPlaced < PEB_N && pebGuard++ < PEB_N * 20) {
+      const pz = (srand() - 0.5) * 190;
+      const hw = riverHalfWidth(pz);
+      // denser toward the center shallows; across the full bed width
+      const px = riverX(pz) + (srand() * 2 - 1) * hw * 1.15;
+      const ps = 0.03 + Math.pow(srand(), 1.6) * 0.09; // 3-12cm, many small
+      const bedY = groundHeight(px, pz, noise) - 0.10;
+      if (bedY > WATER_Y + 0.05) continue; // only submerged pebbles
+      pd.position.set(px, bedY + ps * 0.25, pz);
+      pd.rotation.set(0, srand() * Math.PI * 2, 0);
+      pd.scale.set(ps * (0.8 + srand() * 0.5), ps * 0.6, ps * (0.8 + srand() * 0.5));
+      pd.updateMatrix();
+      pebInst.setMatrixAt(pebPlaced, pd.matrix);
+      pebInst.setColorAt(pebPlaced, pebPalette[(srand() * pebPalette.length) | 0]);
+      pebPlaced++;
+    }
+    pebInst.count = pebPlaced;
+    pebInst.receiveShadow = true;
+    scene.add(pebInst);
+    mark('pebbles-3d');
+  }
+
     /* water — animated shader.
      B"H river rebuild 2026-10-13 (Yaakov: "River looks terrible"):
      - water ribbon widened 11 -> 19.5 so it actually reaches the banks
@@ -982,13 +1036,16 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       uGlitterDir: { value: new THREE.Vector3(-0.18, 0.16, -0.97).normalize() },
       // B"H — 99% water rewrite: natural river colors, not swimming-pool teal.
       // Deep water: dark green-teal. Shallow: nearly clear warm tint.
-      uDeep: { value: new THREE.Color(0x1e4f48) },
-      uShallow: { value: new THREE.Color(0x6aa898) },
+      // B"H commit 8: warmed (was gray-green) toward the reference teal.
+      uDeep: { value: new THREE.Color(0x14473f) },
+      uShallow: { value: new THREE.Color(0x77b8a4) },
       uSky: { value: new THREE.Color(0xd8ecef) },
       uFogColor: { value: new THREE.Color(T.fog) },
       uFogNear: { value: T.fogNear },
       // B"H — DIRECTION CORRECTION: premade pebble texture (not procedural).
       uPebbleMap: { value: pebbleTex },
+      // B"H commit 8: premade water normals (not procedural sines).
+      uWaterNormalMap: { value: waterRippleNormalTex },
       uFogFar: { value: T.fogFar },
     },
   ]);
@@ -1009,6 +1066,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         uniform float uTime, uFogNear, uFogFar;
         uniform vec3 uSunDir, uGlitterDir, uDeep, uShallow, uSky, uFogColor;
         uniform sampler2D uPebbleMap;
+        uniform sampler2D uWaterNormalMap;
         // B"H — 99% water rewrite (Yaakov: "Especially water shaders").
         // Growth-rule approach: water follows terrain.
         // - Flow direction follows the river curve (tangent), not uniform -v
@@ -1043,10 +1101,19 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float depth = smoothstep(0.0, 1.0, centerDepth);
           // Flow speed: faster in center, slower at edges (real river hydraulics)
           float flowSpeed = mix(0.4, 1.6, depth);
-          // Two ripple layers drifting downstream at speed-scaled rates
-          vec2 p1 = pw + vec2(uTime*0.25*flowSpeed, -uTime*1.2*flowSpeed);
-          vec2 p2 = pw*2.1 + vec2(-uTime*0.5*flowSpeed, -uTime*2.4*flowSpeed) + 7.3;
-          vec2 grad = slopeAt(p1, uTime)*0.5 + slopeAt(p2, uTime*1.3)*0.28;
+          // Two ripple layers drifting downstream at speed-scaled rates.
+          // B"H commit 8: PREMADE normals (tex-water-ripple-normal.webp), not
+          // procedural sines — the sine ridges read as brushed asphalt.
+          // Scrolling UVs = flow animation (placement logic, allowed).
+          vec2 wuv1 = vec2(pw.x * 0.06 + uTime * 0.015 * flowSpeed,
+                           pw.y * 0.06 - uTime * 0.07 * flowSpeed);
+          vec2 wuv2 = vec2(pw.x * 0.13 - uTime * 0.03 * flowSpeed + 0.37,
+                           pw.y * 0.13 - uTime * 0.14 * flowSpeed + 0.11);
+          vec3 wn1 = texture2D(uWaterNormalMap, wuv1).xyz * 2.0 - 1.0;
+          vec3 wn2 = texture2D(uWaterNormalMap, wuv2).xyz * 2.0 - 1.0;
+          // Softened: premade normals at 0.5 strength kill the harsh streaks.
+          vec2 grad = (wn1.xy + wn2.xy * 0.6) * 0.5;
+          // Refraction offset for the pebble bed uses the same premade grad.
           vec3 n = normalize(vec3(-grad.x, 1.0, -grad.y));
           vec3 viewDir = normalize(cameraPosition - vPos);
           // Fresnel: mirror at grazing angle, transparent looking straight down
@@ -1072,14 +1139,18 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // angle). Reference is a CLEAR shallow stream — pebbles visible.
           // B"H commit 8: bedVisibility 0.98→0.80 in shallows — water must
           // read as WATER, not dry pebbles. Pebbles warmed (less gray).
-          float bedVisibility = mix(0.80, 0.50, smoothstep(0.1, 0.8, depth));
+          // B"H commit 8: bedVisibility up in shallows (0.80->0.88) — the
+          // reference shows pebbles clearly through the water.
+          float bedVisibility = mix(0.88, 0.55, smoothstep(0.1, 0.8, depth));
           col = mix(col, bed, bedVisibility);
           // Sky reflection via fresnel (stronger at grazing = far water)
           // B"H 2026-10-13: 0.35→0.16, was washing out to milk at low camera.
           col = mix(col, uSky, fres*0.16);
           // Sun glitter: sharp, sparse, on crests — not milky wash
           float sdot = max(dot(r, uSunDir), 0.0);
-          col += vec3(1.0,0.97,0.90) * glint * 8.0 * tw * (0.3 + 0.7*depth);
+          // B"H commit 8: glitter boosted (8.0->14.0) — the reference has a
+          // visible sparkling path on the water.
+          col += vec3(1.0,0.97,0.90) * glint * 14.0 * tw * (0.3 + 0.7*depth);
           col += vec3(1.0,0.95,0.85) * pow(sdot, 200.0) * 0.4;
           // Dappled sunlight: bright patches where sun breaks through canopy.
           float dapple = vnoise(pw*0.35 + vec2(uTime*0.05, -uTime*0.08));
@@ -1101,6 +1172,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           rockFoam *= 0.3 + 0.3*sin(uTime*3.0 + hash22(rid)*20.0);
           rockFoam *= 0.4 + 0.6*vnoise(pw*8.0); // break up the ring
           float foam = clamp(bankFoam*0.7 + rockFoam*0.35, 0.0, 1.0);
+          // B"H commit 8: rapids white-water — the LUT narrows at z in
+          // [-44,-1] (t 0.376-0.600). Broken water with foam streaks.
+          float rapidsZone = smoothstep(-46.0, -38.0, vPos.z) * (1.0 - smoothstep(-8.0, 1.0, vPos.z));
+          float rapidsN = vnoise(pw * vec2(3.0, 9.0) + vec2(0.0, -uTime * 2.2));
+          float rapidsFoam = rapidsZone * smoothstep(0.35, 0.7, rapidsN + depth * 0.25) * 0.8;
+          foam = clamp(foam + rapidsFoam, 0.0, 1.0);
           col = mix(col, vec3(0.92,0.96,0.94), foam);
           // Alpha: depth-based transparency. Shallows nearly clear, deep more opaque.
           // Banks fade to zero (no hard waterline).
@@ -1956,23 +2033,68 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
     rockGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
     const rockMat = new THREE.MeshStandardMaterial({
-      // B"H — mossGroundTex was never loaded (undefined map = untextured rocks).
-      // Wet-rock normals give bank stones real surface; vertexColors carry tint.
-      vertexColors: true, roughness: 0.85,
+      // B"H commit 7: premade wet-rock albedo (was untextured) + premade moss
+      // cap with noisy edge + wet band. Vertex colors carry per-rock tint.
+      map: wetRockTex, vertexColors: true, roughness: 0.85,
       normalMap: wetRockNormalTex, normalScale: new THREE.Vector2(1.1, 1.1),
     });
+    // Moss cap + wet band via premade textures (not procedural colors).
+    // mossMask: up-facing world normal, noisy edge from moss texture green channel.
+    // wetBand: darken + gloss below WATER_Y + 0.35.
+    rockMat.onBeforeCompile = (shader) => {
+      shader.uniforms.uMossMap = { value: mossGroundTex };
+      shader.uniforms.uWaterY = { value: WATER_Y };
+      shader.vertexShader = shader.vertexShader
+        .replace('#include <common>', '#include <common>\nvarying vec3 vWRockN;\nvarying vec3 vWRockP;')
+        .replace('#include <fog_vertex>', `#include <fog_vertex>
+          vWRockN = inverseTransformDirection(transformedNormal, viewMatrix);
+          { vec4 rwp = vec4(transformed, 1.0);
+            #ifdef USE_INSTANCING
+              rwp = instanceMatrix * rwp;
+            #endif
+            vWRockP = (modelMatrix * rwp).xyz; }`);
+      shader.fragmentShader = shader.fragmentShader
+        .replace('#include <common>', '#include <common>\nvarying vec3 vWRockN;\nvarying vec3 vWRockP;\nuniform sampler2D uMossMap;\nuniform float uWaterY;')
+        .replace('#include <map_fragment>', `#include <map_fragment>
+          float rockMossN = texture2D(uMossMap, vWRockP.xz * 0.33).g;
+          float rockMoss = smoothstep(0.42, 0.72, vWRockN.y * 0.72 + rockMossN * 0.48);
+          vec3 rockMossCol = texture2D(uMossMap, vWRockP.xz * 0.5).rgb * 1.06;
+          diffuseColor.rgb = mix(diffuseColor.rgb, rockMossCol, rockMoss);
+          float rockWet = smoothstep(uWaterY + 0.28, uWaterY - 0.08, vWRockP.y);
+          diffuseColor.rgb *= mix(1.0, 0.62, rockWet);`)
+        .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
+          float rockWetR = smoothstep(uWaterY + 0.28, uWaterY - 0.08, vWRockP.y);
+          roughnessFactor = mix(roughnessFactor, 0.3, rockWetR);`);
+    };
     const COUNT = fast ? 90 : 160;
-    const inst = new THREE.InstancedMesh(rockGeo, rockMat, COUNT);
+    const inst = new THREE.InstancedMesh(rockGeo, rockMat, COUNT + 4);
     const dummy = new THREE.Object3D();
     let placed = 0, g2 = 0;
     while (placed < COUNT && g2++ < COUNT * 30) {
       const z = (srand() - 0.5) * 200;
       const side = srand() < 0.5 ? -1 : 1;
-      const x = riverX(z) + side * (7.0 + srand() * 6); // B"H 2026-10-13: banks, not in the widened water
+      // B"H commit 7: banks follow the LUT width (was fixed 7-13m, stranded
+      // far from the narrowed river). Rocks sit at 1.2-2.6x half-width.
+      const hw = riverHalfWidth(z);
+      const x = riverX(z) + side * hw * (1.25 + srand() * 1.4);
       const s = 0.35 + srand() * 1.1;
       dummy.position.set(x, groundHeight(x, z, noise) + 0.05, z);
       dummy.rotation.set(0, srand() * Math.PI * 2, 0);
       dummy.scale.set(s * (0.8 + srand() * 0.6), s * 0.75, s * (0.8 + srand() * 0.6));
+      dummy.updateMatrix();
+      inst.setMatrixAt(placed++, dummy.matrix);
+    }
+    // B"H commit 7: 4 hero boulders at fixed composition points (deterministic
+    // for the boulder-macro proof). 1.8-2.6m, half-buried, moss-capped.
+    const heroSpots = [
+      { z: 14, side: -1, s: 2.2 }, { z: -6, side: 1, s: 1.9 },
+      { z: -34, side: -1, s: 2.6 }, { z: 30, side: 1, s: 1.8 },
+    ];
+    for (const h of heroSpots) {
+      const hx = riverX(h.z) + h.side * riverHalfWidth(h.z) * 1.45;
+      dummy.position.set(hx, groundHeight(hx, h.z, noise) - h.s * 0.18, h.z);
+      dummy.rotation.set(0.12, h.z, 0.06);
+      dummy.scale.set(h.s, h.s * 0.72, h.s * 0.9);
       dummy.updateMatrix();
       inst.setMatrixAt(placed++, dummy.matrix);
     }
