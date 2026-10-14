@@ -37,20 +37,32 @@ function makeNoise2D(rand) {
 }
 
 /* ---------------- world shape ---------------- */
+// B"H — Reality Engine commit 1: the river is now a Catmull-Rom S-curve spine
+// (js/river-lut.mjs) with a width profile (7m shallows -> 3.5m rapids narrows
+// -> 5m background) instead of the old sine hack. Everything derives from it.
+import { riverX, riverHalfWidth, riverDepthAt } from './river-lut.mjs';
 const WORLD = 240;
-const riverX = z => 26 * Math.sin(z * 0.02) + 10 * Math.sin(z * 0.043 + 1.7);
 const WATER_Y = -0.55;
 
 function groundHeight(x, z, noise) {
   let h = noise(x * 0.02, z * 0.02) * 3.2
         + noise(x * 0.06 + 9, z * 0.06) * 1.1
         + noise(x * 0.18, z * 0.18 + 4) * 0.35;
+  const w = riverHalfWidth(z);
   const d = Math.abs(x - riverX(z));
-  if (d < 13) {
-    const t = Math.min(1, d / 13);
-    const bed = -2.1 + noise(x * 0.1, z * 0.1) * 0.25;      // riverbed depth
-    const bank = 0.7;                                        // bank height
-    const target = d < 5.5 ? bed : bed + (bank - bed) * ((d - 5.5) / 7.5);
+  const R = w * 2.6;                       // carve radius
+  if (d < R) {
+    const t = Math.min(1, d / R);
+    let target;
+    if (d < w) {
+      // riverbed: WATER_Y - depth profile + slight noise
+      target = WATER_Y - riverDepthAt(z) + noise(x * 0.3, z * 0.3) * 0.12;
+    } else {
+      // bank: rise from water edge to bank height + levee mound
+      const bt = (d - w) / (R - w);         // 0..1 across bank zone
+      const levee = Math.sin(Math.min(bt * 1.15, 1) * Math.PI) * 0.28;
+      target = WATER_Y + 0.18 + bt * bt * 1.1 + levee;
+    }
     h = h * t * t + target * (1 - t * t);
   }
   return h;
@@ -785,7 +797,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   mark('impostor-walls');
 
   /* terrain */
-  const terrGeo = new THREE.PlaneGeometry(WORLD, WORLD, 120, 120);
+  // B"H commit 1: 120->160 segments (1.5m quads resolve the carved banks).
+  const terrGeo = new THREE.PlaneGeometry(WORLD, WORLD, 160, 160);
   terrGeo.rotateX(-Math.PI / 2);
   {
     const p = terrGeo.attributes.position;
@@ -802,6 +815,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H reference match 2026-10-13 "Fix it": MOSSY banks — bright
       // yellow-green moss near the water like the reference, not damp-dark.
       if (d < 9) { const t = 1 - d / 9; r *= (1 - t * 0.12); g *= (1 + t * 0.22); b *= (1 - t * 0.18); }
+      // B"H commit 1: WET BAND — dark damp shoreline where terrain meets
+      // water level (plan §4). Every reference shoreline has this.
+      const wet = 1 - THREE.MathUtils.smoothstep(Math.abs(h - WATER_Y), 0, 0.45);
+      const wetZone = d < riverHalfWidth(z) * 2.6 ? 1 : 0;
+      const wetM = 1 - wet * wetZone * 0.45;
+      r *= wetM; g *= wetM * 0.96; b *= wetM * 0.94;
       // canopy shade + dappled sun flecks from REAL tree positions
       let minD2 = 1e9;
       for (let ti = 0; ti < treeSpots.length; ti++) {
@@ -830,13 +849,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   mark('terrain');
 
   /* riverbed ribbon (dirt under water) */
-  function ribbon(width, yFn, vRepeat) {
-    const segs = 140, verts = [], uvs = [], idx = [];
+  // B"H commit 1: ribbon takes a width function of z (river width profile).
+  function ribbon(widthFn, yFn, vRepeat) {
+    const segs = 200, verts = [], uvs = [], idx = [];
     for (let i = 0; i <= segs; i++) {
       const z = -WORLD / 2 + (WORLD * i) / segs;
       const cx = riverX(z);
+      const w = typeof widthFn === 'function' ? widthFn(z) : widthFn;
       for (let s = -1; s <= 1; s += 2) {
-        const x = cx + s * width / 2;
+        const x = cx + s * w / 2;
         verts.push(x, yFn(x, z), z);
         uvs.push(s * 0.5 + 0.5, i / segs * vRepeat);
       }
@@ -849,7 +870,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     return g;
   }
   const riverbed = new THREE.Mesh(
-    ribbon(21, (x, z) => groundHeight(x, z, noise) - 0.12, 24),
+    // B"H commit 1: riverbed follows the width profile (wider than water so
+    // the bed extends under the banks).
+    ribbon(z => riverHalfWidth(z) * 2 * 1.35, (x, z) => groundHeight(x, z, noise) - 0.12, 24),
     new THREE.MeshStandardMaterial({
       map: pebbleTex, roughness: 0.7,
       // B"H — rounded pebble normals: stones read 3D through clear water.
@@ -892,8 +915,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   waterUniforms.uSunDir.value = sunDir;
   // B"H — 99% push: river narrowed 19.5 -> 13. Reference river is a winding
   // stream, not a lake. Banks visible on both sides.
+  // B"H commit 1: water width follows the LUT profile (no more fixed 13).
   const water = new THREE.Mesh(
-    ribbon(13, () => WATER_Y, 24),
+    ribbon(z => riverHalfWidth(z) * 2 * 1.04, () => WATER_Y, 24),
     new THREE.ShaderMaterial({
       transparent: true, uniforms: waterUniforms, fog: false,
       side: THREE.DoubleSide, depthWrite: false,
