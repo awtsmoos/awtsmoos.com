@@ -1,0 +1,354 @@
+/* B"H — Awtsmoos River quote card studio.
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+/* ============ floating "Make quote card" action ============ */
+.qc-float {
+	position: absolute;
+	z-index: 1200;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 9px 14px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-surface);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	transform: translateX(-50%);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+	white-space: nowrap;
+	max-width: calc(100vw - 24px);
+	overflow-x: clip;
+}
+
+.qc-float[hidden] {
+	display: none;
+}
+
+.qc-float svg {
+	width: 18px;
+	height: 18px;
+	flex: none;
+	color: var(--accent-gold);
+}
+
+.qc-float:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.qc-float:active {
+	transform: translateX(-50%) translateY(1px);
+}
+
+.qc-float:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+[data-theme="light"] .qc-float {
+	color: var(--aw-text);
+	box-shadow: 0 10px 28px rgba(60, 40, 10, 0.25);
+}
+
+/* ============ modal ============ */
+body.qc-open {
+	overflow: hidden;
+}
+
+.qc-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 1300;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 18px;
+}
+
+.qc-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(4, 5, 8, 0.72);
+}
+
+[data-theme="light"] .qc-backdrop {
+	background: rgba(30, 22, 8, 0.55);
+}
+
+.qc-panel {
+	position: relative;
+	width: min(1020px, 100%);
+	max-height: calc(100vh - 36px);
+	display: flex;
+	flex-direction: column;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	color: var(--aw-text);
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+.qc-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--aw-line);
+}
+
+.qc-head h2 {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 800;
+	color: var(--aw-text);
+}
+
+.qc-close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	padding: 0;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: transparent;
+	color: var(--aw-text-soft);
+	cursor: pointer;
+}
+
+.qc-close svg {
+	width: 18px;
+	height: 18px;
+}
+
+.qc-close:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.qc-close:active {
+	transform: translateY(1px);
+}
+
+.qc-close:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.qc-body {
+	display: grid;
+	grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+	gap: 18px;
+	padding: 18px;
+	overflow-y: auto;
+	overflow-x: clip;
+}
+
+@media (max-width: 760px) {
+	.qc-body {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.qc-preview-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	min-width: 0;
+}
+
+.qc-canvas {
+	width: 100%;
+	height: auto;
+	display: block;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+}
+
+.qc-hint {
+	margin: 0;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .qc-hint {
+	color: var(--aw-text-soft);
+}
+
+.qc-controls {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	min-width: 0;
+}
+
+.qc-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.qc-label {
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.qc-input {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	resize: vertical;
+}
+
+.qc-input:hover {
+	border-color: var(--aw-text-soft);
+}
+
+.qc-input:focus {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+	border-color: var(--accent-gold);
+}
+
+.qc-swatches {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.qc-swatch {
+	position: relative;
+	min-height: 64px;
+	padding: 6px;
+	border: 2px solid var(--aw-line);
+	border-radius: 0;
+	background-size: cover;
+	background-position: center;
+	background-color: var(--aw-bg);
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.qc-swatch-orn {
+	background: var(--aw-bg);
+}
+
+.qc-swatch-name {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 2px 4px;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: capitalize;
+	background: rgba(8, 8, 10, 0.72);
+	color: #f3e8cd;
+	text-align: center;
+}
+
+[data-theme="light"] .qc-swatch-name {
+	background: rgba(8, 8, 10, 0.72);
+	color: #f3e8cd;
+}
+
+.qc-swatch:hover {
+	border-color: var(--aw-text-soft);
+}
+
+.qc-swatch.is-active {
+	border-color: var(--accent-gold);
+	box-shadow: 0 0 0 1px var(--accent-gold);
+}
+
+.qc-swatch:active {
+	transform: translateY(1px);
+}
+
+.qc-swatch:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.qc-actions {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.qc-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 11px 16px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.qc-btn svg {
+	width: 18px;
+	height: 18px;
+	flex: none;
+}
+
+.qc-btn-primary {
+	background: var(--accent-gold);
+	border-color: var(--accent-gold);
+	color: #1a1206;
+}
+
+.qc-btn:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.qc-btn-primary:hover {
+	color: #1a1206;
+	filter: brightness(1.06);
+}
+
+.qc-btn:active {
+	transform: translateY(1px);
+}
+
+.qc-btn:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.qc-btn:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.qc-note {
+	margin: 0;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+}
