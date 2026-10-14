@@ -2,8 +2,6 @@
 //Boruch Hashem
 //Blessed is He
 
-const { routeTable } = require("./routes/table.js");
-
 /**
  * B"H
  * Awtsmoos Tunnel Control API.
@@ -22,10 +20,10 @@ const { routeTable } = require("./routes/table.js");
  */
 module.exports = {
   dynamicRoutes: async $i => {
-    // B"H — Yaakov 2026-10-14 STANDING RULE: All 500 errors must show full stack trace.
-    // Wrap route registration to log the actual exception instead of the generic
-    // "actual error in route computation!" message.
+    // B"H — Yaakov 2026-10-14 STANDING RULE: All 500 errors must show full stack trace
+    // IN THE RESPONSE, not just logs. Wrap EVERYTHING including requires.
     try {
+    const { routeTable } = require("./routes/table.js");
     if (!$i.response.headersSent) {
       $i.response.setHeader("Access-Control-Allow-Origin", "*");
       $i.response.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
