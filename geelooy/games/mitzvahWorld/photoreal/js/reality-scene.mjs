@@ -654,16 +654,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const shaftTex = new THREE.CanvasTexture(sc); shaftTex.colorSpace = THREE.SRGBColorSpace;
     const shaftMat = new THREE.MeshBasicMaterial({
       map: shaftTex, transparent: true, blending: THREE.AdditiveBlending,
-      // B"H — dramatic sunbeams (Yaakov 2026-10-13 "Fix it"): bright enough
-      // to read against the canopy. Positioned to overlap tree edges where
-      // additive glow is visible (not in open sky).
-      // B"H — Phase 1 lighting rebuild (2026-10-13): 0.38→0.05. The reference
-      // has whisper-soft rays, not beams. Restraint.
-      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.14,
+      // B"H 2026-10-14 (Yaakov: BOLD god-rays like ref-target-sunlit-river):
+      // was 0.14 "whisper-soft" — the new reference has dramatic diagonal
+      // shafts. 0.35 for visible bold beams cutting through canopy.
+      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.35,
     });
     // B"H WAY-better #2: breathing shafts — slow sine on opacity so the rays
     // feel alive (canopy moving overhead). Registered as an updater below.
-    shaftMat.userData.baseOpacity = 0.14;
+    shaftMat.userData.baseOpacity = 0.35;
     scene.userData.shaftMat = shaftMat;
     const shaftGeo = new THREE.PlaneGeometry(4.5, 40);
     const q = new THREE.Quaternion().setFromUnitVectors(
@@ -2045,7 +2043,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     depthWrite: true,
   });
     // B"H "even more real": baked tree crowns get the view-dependent glow too.
-    addCanopyBacklight(canopyMat, 0.65, 2.0, 'baked');
+    // B"H 2026-10-14 LIGHT: 0.65→0.85 for stronger sun-through-leaves glow
+    // (ref-target-sunlit-river has luminous translucent canopy).
+    addCanopyBacklight(canopyMat, 0.85, 2.0, 'baked');
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
     ['Birch Elegant', 'birch-elegant'], ['Willow Weeping', 'willow-weeping'],
@@ -2886,6 +2886,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         roughness: 0.95, color: new THREE.Color(0.55, 0.65, 0.42),
         depthWrite: true,
       });
+      // B"H 2026-10-14 LIGHT (Yaakov: canopy translucency) — shell cards
+      // get backlight so sun glows THROUGH the foliage volume.
+      addCanopyBacklight(shellMat, 0.90, 2.0, 'shell');
       // B"H 2026-10-14 LEAF-DENSITY (Yaakov: leaves first, close-up must hold):
       // 24/tree was sparse confetti. 150/tree fills the crown VOLUME —
       // dense layered foliage like the reference (dappled, light through).
