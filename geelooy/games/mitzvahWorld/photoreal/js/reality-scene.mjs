@@ -2089,7 +2089,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // B"H "even more real": baked tree crowns get the view-dependent glow too.
     // B"H 2026-10-14 LIGHT: 0.65→0.85 for stronger sun-through-leaves glow
     // (ref-target-sunlit-river has luminous translucent canopy).
-    addCanopyBacklight(canopyMat, 0.55, 2.0, 'baked');
+    // B"H R2 2026-10-14: 0.55→0.85, lobe 2.0→1.8 — canopy must GLOW toward sun.
+    addCanopyBacklight(canopyMat, 0.85, 1.8, 'baked');
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
     ['Birch Elegant', 'birch-elegant'], ['Willow Weeping', 'willow-weeping'],
@@ -2929,7 +2930,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     });
     // B"H "even more real": crown masses glow when looking toward the sun —
     // this is the distant canopy that read as a dark mass.
-    addCanopyBacklight(quadMat, 0.75, 2.0, 'crown');
+    // B"H R2 2026-10-14: 0.75→1.0, lobe 2.0→1.7 — sun-side crowns ignite.
+    addCanopyBacklight(quadMat, 1.0, 1.7, 'crown');
     // B"H WAY-better #8: per-tree phase — crown quads sway in the traveling
     // gust with phase from world position, so no two trees move in sync.
     quadMat.onBeforeCompile = (sh) => {
@@ -3148,7 +3150,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           roughness: 0.95, color: new THREE.Color(0.68, 0.74, 0.52),
           depthWrite: true,
         });
-        addCanopyBacklight(mat, 0.55, 2.0, 'shell' + li);
+        // B"H R2 2026-10-14: 0.55→0.85 — shell leaves are the sun-facing surface.
+        addCanopyBacklight(mat, 0.85, 1.8, 'shell' + li);
         const inst = new THREE.InstancedMesh(
           new THREE.PlaneGeometry(0.5, 0.5), mat,
           treeSpots.length * layer.n
@@ -3249,7 +3252,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     });
     // B"H "even more real": overhead canopy sits between camera and sun —
     // strongest glow (1.6) so light visibly streams through from above.
-    addCanopyBacklight(ohMat, 0.60, 1.8, 'overhead');
+    // B"H R2 2026-10-14: 0.60→0.95 — overhead leaves must transmit.
+    addCanopyBacklight(ohMat, 0.95, 1.7, 'overhead');
     // B"H LEAF-FIX: 120 huge planes → 700 small cards for equivalent
     // coverage at real leaf scale. Denser placement (tighter spacing).
     const OH_COUNT = fast ? 350 : 700;
