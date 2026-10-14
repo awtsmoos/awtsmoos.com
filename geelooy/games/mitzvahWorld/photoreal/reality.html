@@ -20,9 +20,10 @@ import { buildRealityScene } from './js/reality-scene.mjs';
 const params = new URLSearchParams(location.search);
 const view = params.get('view') || 'forest';
 const tod = params.get('tod') || 'golden';
+const rs = params.has('rs') ? Math.min(1, Math.max(0.5, parseFloat(params.get('rs')) || 1)) : 1;
 document.getElementById('viewname').textContent = view + (tod !== 'golden' ? ' · ' + tod : '');
 try {
-  await buildRealityScene(document.getElementById('app'), { view, fast: params.get('fast') === '1', tod });
+  await buildRealityScene(document.getElementById('app'), { view, fast: params.get('fast') === '1', tod, renderScale: rs });
   window.__realityReady = true;
   window.__realityView = view;
   // B"H speed mission: event-driven readiness signal (no CDP polling stalls).

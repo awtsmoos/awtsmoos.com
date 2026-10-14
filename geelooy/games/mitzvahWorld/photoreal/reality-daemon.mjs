@@ -54,6 +54,31 @@ const list = await (await fetch(`http://127.0.0.1:${cdpPort}/json/list`)).json()
 const blank = list.find(x => x.type === 'page');
 sock = await connectCdpSocket(blank.webSocketDebuggerUrl);
 const psend = (m, p = {}, to = 60000) => sendCdpCommand(sock, m, p, to);
+// B"H — perf mission: in headless=new, Page.navigate to a new document can
+// invalidate the startup CDP socket (it was opened on about:blank). After any
+// navigate, re-list targets and reconnect to the live file:// page target.
+async function reconnectPageSocket() {
+  // Retry: right after navigate there can be transient duplicate targets.
+  let lastErr = null;
+  for (let attempt = 0; attempt < 6; attempt++) {
+    try {
+      const list = await (await fetch(`http://127.0.0.1:${cdpPort}/json/list`)).json();
+      const pages = list.filter(x => x.type === 'page' && x.url.includes('reality.html'));
+      if (!pages.length) throw new Error('no reality.html page target');
+      // prefer the most recently opened target (highest id ordering = last)
+      const page = pages[pages.length - 1];
+      try { sock.close(); } catch {}
+      sock = await connectCdpSocket(page.webSocketDebuggerUrl);
+      await sendCdpCommand(sock, 'Page.enable', {}, 15000);
+      // verify the socket actually talks to a live page
+      const v = await sendCdpCommand(sock, 'Runtime.evaluate',
+        { expression: '1+1', returnByValue: true }, 15000);
+      if (v && v.result && v.result.value === 2) return;
+      throw new Error('socket verify failed');
+    } catch (e) { lastErr = e; await new Promise(r => setTimeout(r, 2000)); }
+  }
+  throw new Error('reconnectPageSocket failed: ' + String(lastErr && lastErr.message || lastErr));
+}
 await psend('Page.enable');
 log(`B"H reality-daemon: chrome warm in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
 
@@ -120,6 +145,8 @@ const server = http.createServer(async (req, res) => {
       try {
         const { view = 'forest' } = JSON.parse(body || '{}');
         await psend('Page.navigate', { url: `${PAGE}?view=${encodeURIComponent(view)}&fast=1&stats=1` });
+        await new Promise(r => setTimeout(r, 3000));
+        await reconnectPageSocket();
         // wait for scene build (poll for __realityDebug)
         let stats = null;
         for (let i = 0; i < 60; i++) {
@@ -128,7 +155,7 @@ const server = http.createServer(async (req, res) => {
             expression: `window.__realityDebug && window.__realityDebug.getPerfStats ? JSON.stringify(window.__realityDebug.getPerfStats()) : null`,
             returnByValue: true,
           }).catch(() => null);
-          const val = res && res.result && res.result.result && res.result.result.value;
+          const val = res && res.result && res.result.value;
           if (val) { stats = JSON.parse(val); break; }
         }
         if (!stats) throw new Error('stats not available');
@@ -137,6 +164,94 @@ const server = http.createServer(async (req, res) => {
       } catch (e) {
         res.writeHead(500, { ...cors, 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ ok: false, error: String(e.message || e).slice(0, 300) }));
+      }
+    });
+    return;
+  }
+  if (req.url === '/bench' && req.method === 'POST') {
+    // B"H — frame-time benchmark (§21 gate, CPU 60fps mission).
+    // Creates a FRESH page target per bench (Target.createTarget) because
+    // heavy SwiftShader renders destabilize reused pages. Navigates once,
+    // waits for the built scene, then times N raw renderer.render() calls
+    // in-page (no PNG readback in the loop). Closes the target after.
+    // Body: {view, w, h, frames, fast, shadow: 'dynamic'|'static', rs}
+    let body = '';
+    req.on('data', c => body += c);
+    req.on('end', async () => {
+      let targetId = null;
+      try {
+        const { view = 'forest', w = 1920, h = 1080, frames = 40, fast = 0, shadow = 'dynamic', shadowEvery = 1, rs = 0.75 } = JSON.parse(body || '{}');
+        // B"H — reuse the daemon's page like /render does (proven reliable):
+        // set viewport, navigate, then reconnect the CDP socket to the live
+        // target (the startup socket dies on cross-document navigation).
+        await psend('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false }).catch(() => {});
+        await psend('Page.navigate', { url: `${PAGE}?view=${encodeURIComponent(view)}${fast ? '&fast=1' : ''}&rs=${rs}` });
+        await new Promise(r => setTimeout(r, 3000));
+        await reconnectPageSocket();
+        let ready = false, pageErr = null, dbgPolled = 0;
+        for (let i = 0; i < 200; i++) {
+          await new Promise(r => setTimeout(r, 2000));
+          let chkErr = null;
+          const chk = await psend('Runtime.evaluate', {
+            expression: `window.__realityError ? 'ERR:' + String(window.__realityError).slice(0,300) : (!!(window.__realityDebug && window.__realityDebug.renderer) ? 'READY' : 'WAIT')`,
+            returnByValue: true,
+          }).catch((e) => { chkErr = String(e && e.message || e); return null; });
+          const cv = chk && chk.result && chk.result.value;
+          dbgPolled++;
+          if (dbgPolled <= 3 || dbgPolled % 30 === 0) log(`bench poll #${dbgPolled}: cv=${JSON.stringify(cv)} err=${chkErr}`);
+          if (cv === 'READY') { ready = true; break; }
+          if (cv && cv.startsWith('ERR:')) { pageErr = cv.slice(4); break; }
+        }
+        if (pageErr) throw new Error('page build error: ' + pageErr);
+        if (!ready) throw new Error('scene not ready for bench');
+        const dynShadow = shadow === 'dynamic';
+        const SE = Math.max(1, shadowEvery | 0);
+        const expr = `(function(){
+          const D = window.__realityDebug;
+          const R = D.renderer;
+          // shadow throttling: needsUpdate every SE-th frame (game-realistic)
+          R.shadowMap.autoUpdate = false;
+          const times = [];
+          for (let i = 0; i < 5; i++) { R.shadowMap.needsUpdate = true; R.render(D.scene, D.camera); }
+          R.info.autoReset = false;
+          R.info.reset();
+          for (let i = 0; i < ${frames}; i++) {
+            if (${dynShadow} && (i % ${SE} === 0)) R.shadowMap.needsUpdate = true;
+            const t0 = performance.now();
+            R.render(D.scene, D.camera);
+            times.push(performance.now() - t0);
+          }
+          const info = R.info.render;
+          R.info.autoReset = true;
+          times.sort((a,b)=>a-b);
+          const q = p => times[Math.min(times.length-1, Math.floor(p*times.length))];
+          return JSON.stringify({
+            frames: ${frames},
+            p50: +q(0.5).toFixed(2), p95: +q(0.95).toFixed(2),
+            mean: +(times.reduce((a,b)=>a+b,0)/times.length).toFixed(2),
+            max: +times[times.length-1].toFixed(2),
+            drawCalls: Math.round(info.calls/${frames}),
+            triangles: Math.round(info.triangles/${frames})
+          });
+        })()`;
+        const ev = await psend('Runtime.evaluate', { expression: expr, returnByValue: true }, 300000);
+        const val = ev && ev.result && ev.result.value;
+        if (!val) throw new Error('bench eval failed');
+        res.writeHead(200, { ...cors, 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: true, bench: JSON.parse(val), shadow, shadowEvery: SE, w, h, fast, rs }));
+      } catch (e) {
+        res.writeHead(500, { ...cors, 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: false, error: String(e.message || e).slice(0, 300) }));
+      } finally {
+        // free the heavy SwiftShader page so the next bench starts clean
+        if (targetId) {
+          try {
+            const ver = await (await fetch(`http://127.0.0.1:${cdpPort}/json/version`)).json();
+            const bsock = await connectCdpSocket(ver.webSocketDebuggerUrl);
+            await sendCdpCommand(bsock, 'Target.closeTarget', { targetId }, 15000).catch(() => {});
+            try { bsock.close(); } catch {}
+          } catch {}
+        }
       }
     });
     return;

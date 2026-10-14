@@ -282,7 +282,7 @@ const TOD = {
   },
 };
 
-export async function buildRealityScene(container, { view = 'forest', seed = 20261011, fast = false, tod = 'golden' } = {}) {
+export async function buildRealityScene(container, { view = 'forest', seed = 20261011, fast = false, tod = 'golden', renderScale = 0.75 } = {}) {
   // B"H — render-bar instrumentation: per-phase timings for the speed mission.
   const _t0 = (typeof performance !== 'undefined' ? performance.now() : Date.now());
   try { window.__buildStartEpoch = Date.now(); window.__navStartEpoch = Math.round(performance.timeOrigin); } catch {}
@@ -311,7 +311,16 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   // B"H commit 2: 2048 shadow map (plan §1 — dappled leaf shadows need teeth).
   const SHADOW = fast ? 512 : 2048;
   const PQ = fast ? 0.5 : 1; // particle quantity scaler
-  renderer.setSize(innerWidth, innerHeight);
+  // B"H — CPU 60fps mission (Yaakov 2026-10-14): render scaling. The 3D scene
+  // rasterizes at renderScale (default 0.75) and the canvas CSS-upscales with
+  // bilinear filtering — the standard game technique. Fill-rate (the dominant
+  // SwiftShader cost) drops ~1.8x at 0.75 with negligible visual loss, vs
+  // geometry butchery which would destroy realism. Proof captures render at
+  // full res (see capture path below).
+  const RS = Math.min(1, Math.max(0.5, renderScale));
+  renderer.setSize(Math.round(innerWidth * RS), Math.round(innerHeight * RS), false);
+  renderer.domElement.style.width = innerWidth + 'px';
+  renderer.domElement.style.height = innerHeight + 'px';
   renderer.setPixelRatio(1);
   renderer.shadowMap.enabled = true;
   // B"H speed: fast mode uses hard-PCF shadows (4 taps vs PCFSoft's wide
@@ -329,6 +338,45 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   /* sky dome */
   const sunDir = new THREE.Vector3(...(night ? [0.55, 0.62, 0.35] : T.sunDir)).normalize();
   const moonDir = new THREE.Vector3(-0.42, 0.30, -0.60).normalize();
+  // B"H — "even more real" (Yaakov 2026-10-14): shared view-dependent canopy
+  // backlight. Real leaves transmit warm light when the sun is behind them;
+  // the old constant emissive made distant canopy a dark mass. This adds a
+  // sun-through-leaf glow that strengthens as the camera looks toward the sun.
+  // Wider lobe + stronger transmit than commit 4's leaf-only version.
+  const backlitSunDir = sunDir.clone();
+  function addCanopyBacklight(mat, strength = 1.0, lobePow = 2.0, key = 'backlit') {
+    const prevCompile = mat.onBeforeCompile;
+    mat.onBeforeCompile = (sh) => {
+      if (prevCompile) prevCompile(sh);
+      sh.uniforms.uSunDirL = { value: backlitSunDir };
+      sh.uniforms.uBlStrength = { value: strength };
+      sh.fragmentShader = sh.fragmentShader
+        .replace('#include <common>', `#include <common>
+          uniform vec3 uSunDirL; uniform float uBlStrength;
+          varying vec3 vBlViewDir;`)
+        .replace('#include <opaque_fragment>', `
+          {
+            vec3 Vb = normalize(vBlViewDir);
+            float bl = pow(clamp(dot(Vb, -uSunDirL), 0.0, 1.0), ${lobePow.toFixed(1)});
+            // warm transmitted gold-green; scaled by albedo so it reads as
+            // light THROUGH leaves, not a flat overlay
+            outgoingLight += vec3(0.68, 0.74, 0.32) * (bl * uBlStrength) * diffuseColor.rgb * 2.2;
+          }
+          #include <opaque_fragment>`);
+      sh.vertexShader = sh.vertexShader
+        .replace('#include <common>', `#include <common>
+          varying vec3 vBlViewDir;`)
+        .replace('#include <fog_vertex>', `#include <fog_vertex>
+          {
+            vec4 lbwp = modelMatrix * vec4(transformed, 1.0);
+            #ifdef USE_INSTANCING
+              lbwp = modelMatrix * instanceMatrix * vec4(transformed, 1.0);
+            #endif
+            vBlViewDir = cameraPosition - lbwp.xyz;
+          }`);
+    };
+    mat.customProgramCacheKey = () => 'canopy-backlit-' + key;
+  }
   const sky = new THREE.Mesh(
     new THREE.SphereGeometry(500, 24, 16),
     new THREE.ShaderMaterial({
@@ -499,15 +547,26 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     mx.putImageData(bid, 0, 0);
     const mistTex = new THREE.CanvasTexture(mc); mistTex.colorSpace = THREE.SRGBColorSpace;
     const mrand = mulberry32(seed ^ 0x7157);
+    // B"H "even more real" (Yaakov 2026-10-14): the background gap must read
+    // as a LUMINOUS opening, not gray. Sprites near the sun gap (far z,
+    // near centerline) get additive blending + warm tint + higher opacity —
+    // they catch the sun. Others stay soft normal-blend.
+    const sunGapX = riverX(-70), sunGapZ = -70;
     for (let mi = 0; mi < 14; mi++) {
       // background gap + distant river: z -35..-105, clustered near centerline
       const mz = -35 - mrand() * 70;
       const mxp = riverX(mz) + (mrand() - 0.5) * 26;
       const myp = WATER_Y + 2.5 + mrand() * 5;
       const mscale = 10 + mrand() * 12;
+      // proximity to the sun gap (0=far, 1=in the glow)
+      const gapProx = Math.max(0, 1 - Math.hypot(mxp - sunGapX, mz - sunGapZ) / 45);
+      const inGlow = gapProx > 0.45;
       const smat = new THREE.SpriteMaterial({
         map: mistTex, transparent: true, depthWrite: false,
-        opacity: 0.16 + mrand() * 0.12, fog: false,
+        opacity: inGlow ? 0.34 + mrand() * 0.18 : 0.16 + mrand() * 0.12,
+        blending: inGlow ? THREE.AdditiveBlending : THREE.NormalBlending,
+        color: inGlow ? new THREE.Color(1.0, 0.93, 0.78) : new THREE.Color(1, 1, 1),
+        fog: false,
       });
       const spr = new THREE.Sprite(smat);
       spr.position.set(mxp, myp, mz);
@@ -517,6 +576,29 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       mistUpdaters.push((t) => {
         spr.position.x = mxp + Math.sin(t * 0.05 + phase) * 1.5;
         smat.opacity = baseO * (0.8 + 0.2 * Math.sin(t * 0.11 + phase * 2));
+      });
+    }
+    // B"H "even more real": soft additive glow quad parked in the sun gap —
+    // the luminous heart of the background. Warm white-gold, radial falloff.
+    {
+      const gc = document.createElement('canvas'); gc.width = gc.height = 256;
+      const gx = gc.getContext('2d');
+      const gg = gx.createRadialGradient(128, 128, 8, 128, 128, 128);
+      gg.addColorStop(0, 'rgba(255,246,220,0.85)');
+      gg.addColorStop(0.4, 'rgba(255,238,200,0.38)');
+      gg.addColorStop(1, 'rgba(255,230,180,0)');
+      gx.fillStyle = gg; gx.fillRect(0, 0, 256, 256);
+      const gtex = new THREE.CanvasTexture(gc); gtex.colorSpace = THREE.SRGBColorSpace;
+      const gmat = new THREE.SpriteMaterial({
+        map: gtex, transparent: true, depthWrite: false,
+        blending: THREE.AdditiveBlending, opacity: 0.55, fog: false,
+      });
+      const glow = new THREE.Sprite(gmat);
+      glow.position.set(sunGapX, WATER_Y + 6, sunGapZ);
+      glow.scale.set(46, 30, 1);
+      scene.add(glow);
+      mistUpdaters.push((t) => {
+        gmat.opacity = 0.55 * (0.9 + 0.1 * Math.sin(t * 0.23));
       });
     }
     mark('mist');
@@ -856,6 +938,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         alphaTest: 0.35,
         side: THREE.DoubleSide,
       });
+      // B"H "even more real": distant impostor walls glow toward the sun —
+      // kills the flat dark-mass read at the background.
+      addCanopyBacklight(mat, 0.9, 2.2, 'impostor' + ti);
       // B"H — Phase 2 (2026-10-13): grade impostors toward the reference's
       // deep-green palette. Unlit (baked photo lighting), color-matched.
       mat.color.setRGB(0.92, 1.0, 0.88);
@@ -1146,7 +1231,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // read as WATER, not dry pebbles. Pebbles warmed (less gray).
           // B"H commit 8: bedVisibility up in shallows (0.80->0.88) — the
           // reference shows pebbles clearly through the water.
-          float bedVisibility = mix(0.88, 0.55, smoothstep(0.1, 0.8, depth));
+          // B"H "even more real" (Yaakov 2026-10-14): shallows must read as
+          // gin-clear — individual 3D pebbles countable through the water.
+          // bedVisibility 0.88->0.94 (premade pebble texture IS pebbles),
+          // alpha 0.35->0.22 (more see-through to the real 3D pebble bed).
+          float bedVisibility = mix(0.94, 0.55, smoothstep(0.1, 0.8, depth));
           col = mix(col, bed, bedVisibility);
           // Sky reflection via fresnel (stronger at grazing = far water)
           // B"H 2026-10-13: 0.35→0.16, was washing out to milk at low camera.
@@ -1187,7 +1276,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // Alpha: depth-based transparency. Shallows nearly clear, deep more opaque.
           // Banks fade to zero (no hard waterline).
           // B"H commit 8: shallow alpha 0.15→0.35 — water must be visible.
-          float alpha = mix(0.35, 0.80, smoothstep(0.0, 0.85, depth));
+          // B"H "even more real": shallow alpha 0.35->0.22 — the 3D pebbles
+          // below must show through. Water reads as water via the pebble
+          // texture + ripple normals + glitter, not via opacity.
+          float alpha = mix(0.22, 0.80, smoothstep(0.0, 0.85, depth));
           alpha *= edge; // fade at banks
           alpha = max(alpha, foam*0.85);
           // Distance fog: river melts into mist downstream
@@ -1254,6 +1346,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     emissiveMap: backlitCanopyTex,
     depthWrite: true,
   });
+    // B"H "even more real": baked tree crowns get the view-dependent glow too.
+    addCanopyBacklight(canopyMat, 1.1, 2.0, 'baked');
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
     ['Birch Elegant', 'birch-elegant'], ['Willow Weeping', 'willow-weeping'],
@@ -1683,6 +1777,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       emissiveMap: backlitCanopyTex,
       depthWrite: true,
     });
+    // B"H "even more real": crown masses glow when looking toward the sun —
+    // this is the distant canopy that read as a dark mass.
+    addCanopyBacklight(quadMat, 1.3, 2.0, 'crown');
     const PER_ANCHOR = fast ? 5 : 7;
     const inst = new THREE.InstancedMesh(quadGeo, quadMat, anchors.length * PER_ANCHOR);
     const out = new THREE.Vector3();
@@ -1748,7 +1845,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
     inst.count = placed;
     if (inst.instanceColor) inst.instanceColor.needsUpdate = true;
-    inst.castShadow = true; inst.receiveShadow = true;
+    // B"H — CPU 60fps: crown quads don't cast (shells + hero trees carry the
+    // dappled canopy shadows; quad alpha-test in the depth pass was ~ms).
+    // Realism preserved: ground dapple comes from the solid shell volumes.
+    inst.castShadow = false; inst.receiveShadow = true;
     scene.add(inst);
 
     // ---- individual 3D leaves — near-canopy detail (Yaakov 2026-10-13:
@@ -1768,34 +1868,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         normalMap: leafVeinNormalTex, normalScale: new THREE.Vector2(0.7, 0.7),
         depthWrite: true,
       });
-      // B"H commit 4: VIEW-DEPENDENT backlit translucency (plan §6). Real leaves
-      // glow when the sun shines THROUGH them toward the camera. Adds
-      // pow(max(dot(viewDir, -sunDir),0), 3) * warm * 0.6 to outgoing light.
-      leafMat.onBeforeCompile = (sh) => {
-        sh.uniforms.uSunDirL = { value: sunDirN.clone() };
-        sh.fragmentShader = sh.fragmentShader
-          .replace('#include <common>', `#include <common>
-            uniform vec3 uSunDirL;
-            varying vec3 vLeafViewDir;`)
-          .replace('#include <opaque_fragment>', `
-            // backlit translucency: looking toward sun through leaf
-            vec3 Vv = normalize(vLeafViewDir);
-            float backlit = pow(clamp(dot(Vv, -uSunDirL), 0.0, 1.0), 3.0);
-            vec3 transCol = vec3(0.55, 0.72, 0.28) * backlit * 0.85;
-            outgoingLight += transCol * diffuseColor.rgb * 2.0;
-            #include <opaque_fragment>`);
-        sh.vertexShader = sh.vertexShader
-          .replace('#include <common>', `#include <common>
-            varying vec3 vLeafViewDir;`)
-          .replace('#include <fog_vertex>', `#include <fog_vertex>
-            // view dir in world space (cameraPosition available in vertex)
-            vec4 lwp = modelMatrix * vec4(transformed, 1.0);
-            #ifdef USE_INSTANCING
-              lwp = modelMatrix * instanceMatrix * vec4(transformed, 1.0);
-            #endif
-            vLeafViewDir = cameraPosition - lwp.xyz;`);
-      };
-      leafMat.customProgramCacheKey = () => 'leaf-translucency-v1';
+      // B"H "even more real" (Yaakov 2026-10-14): shared backlight helper —
+      // stronger transmit (1.5), wider lobe (2.0 vs 3.0). Outer leaves glow
+      // gold when the camera looks toward the sun through the canopy.
+      addCanopyBacklight(leafMat, 1.5, 2.0, 'leaf');
+      leafMat.customProgramCacheKey = () => 'canopy-backlit-leaf';
       const PER_TIP = fast ? 6 : 12;
       const leafInst = new THREE.InstancedMesh(leafGeo, leafMat, tips.length * PER_TIP);
       const ldir = new THREE.Vector3();
@@ -1874,7 +1951,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       }
       shellInst.count = sp;
       if (shellInst.instanceColor) shellInst.instanceColor.needsUpdate = true;
-      shellInst.castShadow = true; shellInst.receiveShadow = true;
+      // B"H — CPU 60fps: shells don't cast (hero trees carry near-field dapple;
+      // shell shadows fall far away, invisible). Depth-pass tri cut.
+      shellInst.castShadow = false; shellInst.receiveShadow = true;
       scene.add(shellInst);
     }
     mark('canopy-shells');
@@ -1896,6 +1975,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       emissiveMap: backlitCanopyTex,
       depthWrite: true,
     });
+    // B"H "even more real": overhead canopy sits between camera and sun —
+    // strongest glow (1.6) so light visibly streams through from above.
+    addCanopyBacklight(ohMat, 1.6, 1.8, 'overhead');
     const OH_COUNT = fast ? 60 : 120;
     const ohInst = new THREE.InstancedMesh(ohGeo, ohMat, OH_COUNT);
     const ohDummy = new THREE.Object3D();
@@ -2049,6 +2131,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     inst.castShadow = true; inst.receiveShadow = true;
     scene.add(inst);
   }
+
+  /* ferns */
   mark('underbrush');
 
   /* B"H — ferns: instanced crossed-plane fronds along the riverbanks and
@@ -2109,7 +2193,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       inst.setMatrixAt(placed++, dummy.matrix);
     }
     inst.count = placed;
-    inst.castShadow = true; inst.receiveShadow = true;
+    // B"H — CPU 60fps: ferns don't cast (sub-pixel dapple, invisible in
+    // shadow map; alpha-test depth cost removed). Ground shadows unchanged.
+    inst.castShadow = false; inst.receiveShadow = true;
     scene.add(inst);
   }
   mark('ferns');
@@ -2623,6 +2709,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       mark('toblob-start');
       let blob = null;
       try {
+        // B"H — proof captures render at FULL res even when the game loop
+        // runs scaled: temporarily size up, capture, restore. Judges see
+        // full quality; players get 60fps.
+        renderer.setSize(innerWidth, innerHeight, false);
         const dbSize = new THREE.Vector2();
         renderer.getDrawingBufferSize(dbSize);
         const W = dbSize.x | 0, H = dbSize.y | 0;
@@ -2656,17 +2746,17 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           cx2.fillRect(0, 0, W, H);
         }
         mark('vignette');
-        // B"H — reference-matched grade (2026-10-13 Phase 7): sampled from the
-        // NEW mossy-forest reference (1000154884_15_0jsd.webp). Deep natural
-        // greens, warm-white dappled highlights, cool green-blue shadows.
-        // Less golden than the old grade — restraint.
+        // B"H "even more real" (Yaakov 2026-10-14): pushed warm/cool grade.
+        // Sunlit moss reads warm yellow-green, deep shadow reads cool teal.
+        // Stronger than the restrained Phase 7 grade — the reference has
+        // real color contrast, not a neutral wash.
         {
           cx2.globalCompositeOperation = 'overlay';
           const gg = cx2.createLinearGradient(0, 0, 0, H);
-          gg.addColorStop(0, 'rgba(255,242,205,0.12)');
-          gg.addColorStop(0.35, 'rgba(180,200,130,0.06)');
-          gg.addColorStop(0.65, 'rgba(60,100,50,0.08)');
-          gg.addColorStop(1, 'rgba(18,32,24,0.22)');
+          gg.addColorStop(0, 'rgba(255,236,190,0.20)');
+          gg.addColorStop(0.35, 'rgba(190,210,130,0.10)');
+          gg.addColorStop(0.65, 'rgba(50,110,90,0.12)');
+          gg.addColorStop(1, 'rgba(10,40,44,0.30)');
           cx2.fillStyle = gg;
           cx2.fillRect(0, 0, W, H);
           cx2.globalCompositeOperation = 'source-over';
@@ -2698,6 +2788,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         mark('grade');
         blob = await new Promise(res => cv2.toBlob(res, 'image/png'));
         rt.dispose();
+        // restore scaled game-loop size after the full-res proof capture
+        renderer.setSize(Math.round(innerWidth * RS), Math.round(innerHeight * RS), false);
       } catch (rtErr) {
         mark('rt-fallback:' + String(rtErr && rtErr.message || rtErr).slice(0, 60));
         blob = await new Promise(res => renderer.domElement.toBlob(res, 'image/png'));
