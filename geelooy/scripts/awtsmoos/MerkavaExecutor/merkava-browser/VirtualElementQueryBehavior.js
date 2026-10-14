@@ -96,6 +96,17 @@
 			for (const child of this.children || []) collectAllElements(child, output);
 			return output;
 		}
+		// B"H (Chrome Jun-2026 selector port): single-class fast path. The
+		// general compiled-matcher path builds an element key signature per
+		// node (elementKeys) plus 3+ function calls per node; for `.cls` the
+		// whole match is one class-words membership test. Same derivation
+		// the matcher uses (className, attributes.class fallback).
+		const classMatch = /^\.([\w-]+)$/.exec(sel);
+		if (classMatch) {
+			const output = [];
+			for (const child of this.children || []) collectByClass(child, classMatch[1], output);
+			return output;
+		}
 		// B"H: general path compiles once (parse-once compounds + bloom
 		// pre-check via the matcher's global bounded cache), then walks
 		// with the compiled matcher. Upgrades the tokenized path: compounds
@@ -131,6 +142,23 @@
 		if (node.nodeType === 1) output.push(node);
 		for (const child of node.children || []) collectAllElements(child, output);
 		if (node.shadowRoot) collectAllElements(node.shadowRoot, output);
+	}
+
+	/** B"H: class-words derivation identical to the compiled matcher's. */
+	function classWordsOf(node) {
+		let classAttr = node.className;
+		if (classAttr == null) classAttr = (node.attributes && node.attributes.class) || "";
+		if (!classAttr) return null;
+		return String(classAttr).split(/\s+/);
+	}
+
+	function collectByClass(node, cls, output) {
+		if (node.nodeType === 1 && node.classList) {
+			const w = classWordsOf(node);
+			if (w && w.indexOf(cls) >= 0) output.push(node);
+		}
+		for (const child of node.children || []) collectByClass(child, cls, output);
+		if (node.shadowRoot) collectByClass(node.shadowRoot, cls, output);
 	}
 
 	return { installVirtualElementQueryBehavior };
