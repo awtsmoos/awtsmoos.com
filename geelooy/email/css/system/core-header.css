@@ -77,6 +77,7 @@ The Awtsmoos needs no banner to be present; Awtsmoos.com lets brand, shortcuts, 
 	touch-action: manipulation;
 	min-height: 44px;
 	min-width: 44px;
+	color: var(--mail-text);
 }
 
 /* B"H — Interactive states for header controls */
@@ -104,6 +105,7 @@ The Awtsmoos needs no banner to be present; Awtsmoos.com lets brand, shortcuts, 
 .mail-status-actions button:disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
+	color: var(--mail-text);
 }
 
 .mail-header-shortcuts {

@@ -200,6 +200,7 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 		min-height: 120px;
 		width: 100%;
 		box-sizing: border-box;
+		color: var(--mail-text);
 	}
 	/* Chat messages: readable */
 	.geelooy-mail-document .chat-message {
