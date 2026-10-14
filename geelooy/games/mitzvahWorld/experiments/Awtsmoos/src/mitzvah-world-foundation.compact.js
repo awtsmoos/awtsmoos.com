@@ -16787,31 +16787,10 @@ const __awtsmoosModule_0 = Object.create(null);
 		READABLE_SOURCE
 	);
 
-	/** Appends a temporary diagnostic breadcrumb to document.title. Removed after diagnosis. */
-	function traceCrumb(text) { // TEMP-TRACE
-		try { // TEMP-TRACE
-			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-				document.title = `${document.title} | ${text}`; // TEMP-TRACE
-			} // TEMP-TRACE
-		} catch {} // TEMP-TRACE
-	} // TEMP-TRACE
-
 	/** Starts the generated player-chunk import and canonical Chossid fetch without awaiting it. */
 	function beginDeferredEretzEssentialAssets(options = {}) {
-		traceCrumb('TRACE: beginDeferred called'); // TEMP-TRACE
-		// B"H: warmup disabled 2026-10-13 — testing if it interferes with the loader.
-		// warmupCanonicalChossidFetch();
-		return import(PLAYER_CHUNK_URL).then(
-			module => {
-				traceCrumb('TRACE: player chunk imported'); // TEMP-TRACE
-				traceCrumb('TRACE: calling loadEretzEssentialAssets'); // TEMP-TRACE
-				return module.loadEretzEssentialAssets(options);
-			},
-			error => {
-				traceCrumb(`TRACE: player chunk import FAILED: ${error?.message || error}`); // TEMP-TRACE
-				throw error;
-			}
-		);
+		warmupCanonicalChossidFetch();
+		return import(PLAYER_CHUNK_URL).then(module => module.loadEretzEssentialAssets(options));
 	}
 
 
@@ -16821,7 +16800,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * player-chunk import, instead of serializing the two largest boot downloads.
 	 * On a cold cache the GLB fetch used to wait for the player chunk to download,
 	 * parse, and run before the first byte flowed; now both fly at once. The
-	 * loader's `cache: 'force-cache'` fetch reuses these bytes when it runs.
+	 * loader's Cache Storage pipeline reuses these bytes when it runs.
 	 * Fire-and-forget: a warmup failure never breaks boot, the loader retries.
 	 */
 	function warmupCanonicalChossidFetch() {
@@ -16829,7 +16808,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			const fetchFn = globalThis.fetch;
 			if (typeof fetchFn !== 'function') return;
 			fetchFn(PLAYER_MODEL_URL, {
-				cache: 'force-cache',
+				cache: 'no-store',
 				credentials: 'omit',
 				mode: 'cors'
 			}).catch(() => {});

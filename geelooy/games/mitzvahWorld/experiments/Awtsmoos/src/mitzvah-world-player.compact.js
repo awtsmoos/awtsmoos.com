@@ -3498,16 +3498,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
 	const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
 
-	function traceCrumb(text) { // TEMP-TRACE
-		try { // TEMP-TRACE
-			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-				document.title = `${document.title} | ${text}`; // TEMP-TRACE
-			} // TEMP-TRACE
-		} catch {} // TEMP-TRACE
-	} // TEMP-TRACE
-
 	async function cachedModelResponse(url, options = {}) {
-		traceCrumb('TRACE: cachedModelResponse called'); // TEMP-TRACE
 		const fetchFunction = options.fetchFunction || globalThis.fetch;
 		if (typeof fetchFunction !== 'function') {
 			throw new Error('Remote model fetch is unavailable.');
@@ -3519,14 +3510,10 @@ const __awtsmoosModule_0 = Object.create(null);
 			cacheStorage,
 			options.cacheName || REMOTE_MODEL_CACHE_NAME
 		);
-		traceCrumb('TRACE: cache storage opened'); // TEMP-TRACE
 		const reportCacheError = receipt => options.onCacheError?.(receipt);
 		const cached = await readModelResponseCache(cache, url, reportCacheError);
-		traceCrumb('TRACE: cache read done'); // TEMP-TRACE
-		if (cached) { traceCrumb('TRACE: cache HIT'); return { response: cached, source: 'cache-storage' }; } // TEMP-TRACE
-		traceCrumb('TRACE: starting network fetch'); // TEMP-TRACE
+		if (cached) return { response: cached, source: 'cache-storage' };
 		const response = await fetchWithRetry(url, fetchFunction, options);
-		traceCrumb('TRACE: network fetch done'); // TEMP-TRACE
 		if (response?.ok && isGlbResponse(response)) {
 			await persistModelResponse(cache, url, response, reportCacheError);
 		}
@@ -3546,7 +3533,6 @@ const __awtsmoosModule_0 = Object.create(null);
 		const retries = nonnegative(options.transientRetries, 2);
 		for (let attempt = 0; attempt <= retries; attempt += 1) {
 			assertNotAborted(options.signal);
-			traceCrumb(`TRACE: fetch attempt ${attempt}`); // TEMP-TRACE
 			const response = await fetchFunction(url, fetchOptions(options.signal));
 			if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) {
 				return response;
@@ -3565,7 +3551,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	function fetchOptions(signal) {
 		return {
-			cache: 'force-cache',
+			// B"H 2026-10-13: 'no-store' bypasses the HTTP cache entirely. The Cache
+			// Storage API (persistModelResponse) already handles model caching; the
+			// HTTP cache layer proved unreliable (hung on cache MISS in Chrome).
+			cache: 'no-store',
 			credentials: 'omit',
 			mode: 'cors',
 			signal
@@ -3641,17 +3630,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	/** Bounds one model fetch so a stalled byte stream can never hang boot forever. */
 	const ASSET_FETCH_TIMEOUT_MS = 30000;
 
-	function traceCrumb(text) { // TEMP-TRACE
-		try { // TEMP-TRACE
-			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-				document.title = `${document.title} | ${text}`; // TEMP-TRACE
-			} // TEMP-TRACE
-		} catch {} // TEMP-TRACE
-	} // TEMP-TRACE
-
 	/** Streams one exact trusted model URL and reports measured byte progress. */
 	async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
-		traceCrumb('TRACE: fetchAssetBuffer called'); // TEMP-TRACE
 		const candidates = trustedCandidates(url);
 		const failures = [];
 		for (const candidate of candidates) {
@@ -3675,7 +3655,6 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 	async function fetchCandidate(url, onProgress, dependencies) {
-		traceCrumb('TRACE: fetchCandidate started'); // TEMP-TRACE
 		const timeout = dependencies.fetchTimeoutMs ?? ASSET_FETCH_TIMEOUT_MS;
 		const controller = typeof AbortController === 'function' ? new AbortController() : null;
 		const timer = controller && timeout > 0
@@ -3812,17 +3791,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const templates = new Map();
 	const pending = new Map();
 
-	function traceCrumb(text) { // TEMP-TRACE
-		try { // TEMP-TRACE
-			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-				document.title = `${document.title} | ${text}`; // TEMP-TRACE
-			} // TEMP-TRACE
-		} catch {} // TEMP-TRACE
-	} // TEMP-TRACE
-
 	/** Loads one trusted shared template using the historical `{resourceUrl, template}` receipt shape. */
 	async function loadCachedModelTemplate(url, options = {}) {
-		traceCrumb('TRACE: loadCachedModelTemplate called'); // TEMP-TRACE
 		const resourceUrl = trustedModelResourceUrl(url);
 		return {
 			resourceUrl,
@@ -3834,14 +3804,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.loadCachedModelTemplate = loadCachedModelTemplate;
 	/** Returns one parsed immutable template, sharing finished and in-flight work by canonical URL. */
 	async function loadModelAssetTemplate(resourceUrl, options = {}) {
-		traceCrumb('TRACE: loadModelAssetTemplate called'); // TEMP-TRACE
 		if (templates.has(resourceUrl)) {
-			traceCrumb('TRACE: template cache HIT'); // TEMP-TRACE
 			options.onProgress?.(cachedProgress(resourceUrl));
 			return templates.get(resourceUrl);
 		}
-		if (pending.has(resourceUrl)) { traceCrumb('TRACE: pending HIT'); return pending.get(resourceUrl); } // TEMP-TRACE
-		traceCrumb('TRACE: creating template'); // TEMP-TRACE
+		if (pending.has(resourceUrl)) return pending.get(resourceUrl);
 		const promise = createTemplate(resourceUrl, options);
 		pending.set(resourceUrl, promise);
 		try {
@@ -3883,8 +3850,20 @@ const __awtsmoosModule_0 = Object.create(null);
 	/** Preserves the historical trusted-resource export. */
 	__exports.trustedModelResourceUrl = __awtsmoosModule_47.trustedModelResourceUrl;
 
+	/** Rejects if the GLB parse does not settle within timeoutMs, so boot fails fast instead of hanging. */
+	function withParseTimeout(parsePromise, timeoutMs, resourceUrl) {
+		let timer = null;
+		const timeoutPromise = new Promise((_, reject) => {
+			timer = setTimeout(() => {
+				reject(new Error(`GLB parse timed out after ${timeoutMs}ms for ${resourceUrl}`));
+			}, timeoutMs);
+		});
+		return Promise.race([parsePromise, timeoutPromise]).finally(() => {
+			if (timer !== null) clearTimeout(timer);
+		});
+	}
+
 	async function createTemplate(resourceUrl, options) {
-		traceCrumb('TRACE: createTemplate started'); // TEMP-TRACE
 		const startedAt = now();
 		const progress = detail => options.onProgress?.(detail);
 		progress(stage('asset-fetch-start', resourceUrl, startedAt));
@@ -3895,9 +3874,16 @@ const __awtsmoosModule_0 = Object.create(null);
 			fetchMilliseconds: elapsed(startedAt, fetchedAt)
 		}));
 		const parseStartedAt = now();
-		const template = await loadTinyGltfBuffer(asset.buffer, resourceUrl, {
-			onStage: evidence => progress(stage(`gltf-${evidence.name}`, resourceUrl, evidence.atMilliseconds, evidence))
-		});
+		// B"H 2026-10-13: bound the GLB parse so a hung parser can never stall boot
+		// forever. The 2MB chossid.glb parse hung in Chrome (download OK, parse stuck),
+		// leaving a dead promise in the template-cache pending map. Fail fast instead.
+		const template = await withParseTimeout(
+			loadTinyGltfBuffer(asset.buffer, resourceUrl, {
+				onStage: evidence => progress(stage(`gltf-${evidence.name}`, resourceUrl, evidence.atMilliseconds, evidence))
+			}),
+			15000,
+			resourceUrl
+		);
 		decorateTemplate(template, resourceUrl, asset);
 		const completedAt = now();
 		const timing = Object.freeze({
@@ -3968,14 +3954,6 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	});
 
-	function traceCrumb(text) { // TEMP-TRACE
-		try { // TEMP-TRACE
-			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-				document.title = `${document.title} | ${text}`; // TEMP-TRACE
-			} // TEMP-TRACE
-		} catch {} // TEMP-TRACE
-	} // TEMP-TRACE
-
 	/** Returns one shared parsed GLTF template. */
 	function loadSharedGltfTemplate(url, options = {}) {
 		return modelService.loadShared(url, options);
@@ -3985,9 +3963,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.loadSharedGltfTemplate = loadSharedGltfTemplate;
 	/** Creates one isolated mutable GLTF instance or explicit fallback. */
 	function loadIsolatedGltf(url, label, options = {}) {
-		traceCrumb('TRACE: loadIsolatedGltf called'); // TEMP-TRACE
 		const resourceUrl = trustedModelResourceUrl(url);
-		traceCrumb('TRACE: trustedModelResourceUrl ok'); // TEMP-TRACE
 		return modelService.loadIsolated(resourceUrl, label, {
 			...options,
 			onFailure: failure => {
@@ -5678,18 +5654,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const failMitzvahWorldEssentialMilestone = __awtsmoosModule_51.failMitzvahWorldEssentialMilestone;
 	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_51.updateMitzvahWorldEssentialMilestone;
 
-	/** Appends a temporary diagnostic breadcrumb to document.title. Removed after diagnosis. */
-	function traceCrumb(text) { // TEMP-TRACE
-		try { // TEMP-TRACE
-			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-				document.title = `${document.title} | ${text}`; // TEMP-TRACE
-			} // TEMP-TRACE
-		} catch {} // TEMP-TRACE
-	} // TEMP-TRACE
-
 	/** Loads the canonical player GLB with no fallback factory and validates visible animation-bearing identity. */
 	async function loadEretzEssentialPlayerGlb(options = {}) {
-		traceCrumb('TRACE: loadEretzEssentialPlayerGlb started'); // TEMP-TRACE
 		const boot = options.boot || globalThis.AwtsmoosBootTracker;
 		const environment = options.environment || globalThis;
 		const loadGltf = options.playerLoader || loadIsolatedGltf;
@@ -5702,7 +5668,6 @@ const __awtsmoosModule_0 = Object.create(null);
 			// B"H: apply the chossid outfit palette (material resolver + outfit + surface
 			// detail bake) so the player renders as a real character, not a flat primitive.
 			const outfit = playerChossidOutfit();
-			traceCrumb('TRACE: calling loadGltf'); // TEMP-TRACE
 			const gltf = await loadGltf(PLAYER_MODEL_URL, 'eretz-essential-player-canonical', {
 				materialResolver: chossidMaterialResolver(outfit),
 				onProgress: detail => {

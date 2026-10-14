@@ -1,7 +1,4 @@
 //B"H
-// B"H: shared WebGL help gate (Yaakov 2026-10-13) — mirrors MinimalMeadowCompactBootstrap.js
-// source so the served bundle halts with the help overlay when WebGL is unavailable.
-if (globalThis.AwtsmoosWebGL && !globalThis.AwtsmoosWebGL.ensure({ gameName: 'Mitzvah World' })) { throw new Error('[Mitzvah World] WebGL unavailable — help overlay shown'); }
 
 const __awtsmoosLiveImport = (resolve, name) => {
 	const callable = function(...args) {
@@ -116,6 +113,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const bootMinimalSharedMeadowPage = __awtsmoosModule_1.bootMinimalSharedMeadowPage;
+
+	// B"H: shared WebGL help gate (Yaakov 2026-10-13). When WebGL is unavailable the
+	// shared overlay explains + offers Try Again; halt boot here (module top-level
+	// return is illegal, so throw the equivalent halt).
+	if (globalThis.AwtsmoosWebGL && !globalThis.AwtsmoosWebGL.ensure({ gameName: 'Mitzvah World' })) {
+		throw new Error('[Mitzvah World] WebGL unavailable — help overlay shown');
+	}
 
 	const ROOT = globalThis.document?.querySelector?.('#mitzvah-world-root') || null;
 	const ENTRY = './experiments/Awtsmoos/src/mitzvah-world.compact.js';

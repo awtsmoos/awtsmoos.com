@@ -21,17 +21,8 @@ const GLB_HEADER_BYTES = 12;
 /** Bounds one model fetch so a stalled byte stream can never hang boot forever. */
 const ASSET_FETCH_TIMEOUT_MS = 30000;
 
-function traceCrumb(text) { // TEMP-TRACE
-	try { // TEMP-TRACE
-		if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-			document.title = `${document.title} | ${text}`; // TEMP-TRACE
-		} // TEMP-TRACE
-	} catch {} // TEMP-TRACE
-} // TEMP-TRACE
-
 /** Streams one exact trusted model URL and reports measured byte progress. */
 export async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
-	traceCrumb('TRACE: fetchAssetBuffer called'); // TEMP-TRACE
 	const candidates = trustedCandidates(url);
 	const failures = [];
 	for (const candidate of candidates) {
@@ -53,7 +44,6 @@ function trustedCandidates(url) {
 }
 
 async function fetchCandidate(url, onProgress, dependencies) {
-	traceCrumb('TRACE: fetchCandidate started'); // TEMP-TRACE
 	const timeout = dependencies.fetchTimeoutMs ?? ASSET_FETCH_TIMEOUT_MS;
 	const controller = typeof AbortController === 'function' ? new AbortController() : null;
 	const timer = controller && timeout > 0

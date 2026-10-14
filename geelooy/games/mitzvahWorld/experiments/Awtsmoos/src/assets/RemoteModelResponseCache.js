@@ -18,16 +18,7 @@ import {
 export const REMOTE_MODEL_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
 const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
 
-function traceCrumb(text) { // TEMP-TRACE
-	try { // TEMP-TRACE
-		if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-			document.title = `${document.title} | ${text}`; // TEMP-TRACE
-		} // TEMP-TRACE
-	} catch {} // TEMP-TRACE
-} // TEMP-TRACE
-
 export async function cachedModelResponse(url, options = {}) {
-	traceCrumb('TRACE: cachedModelResponse called'); // TEMP-TRACE
 	const fetchFunction = options.fetchFunction || globalThis.fetch;
 	if (typeof fetchFunction !== 'function') {
 		throw new Error('Remote model fetch is unavailable.');
@@ -39,14 +30,10 @@ export async function cachedModelResponse(url, options = {}) {
 		cacheStorage,
 		options.cacheName || REMOTE_MODEL_CACHE_NAME
 	);
-	traceCrumb('TRACE: cache storage opened'); // TEMP-TRACE
 	const reportCacheError = receipt => options.onCacheError?.(receipt);
 	const cached = await readModelResponseCache(cache, url, reportCacheError);
-	traceCrumb('TRACE: cache read done'); // TEMP-TRACE
-	if (cached) { traceCrumb('TRACE: cache HIT'); return { response: cached, source: 'cache-storage' }; } // TEMP-TRACE
-	traceCrumb('TRACE: starting network fetch'); // TEMP-TRACE
+	if (cached) return { response: cached, source: 'cache-storage' };
 	const response = await fetchWithRetry(url, fetchFunction, options);
-	traceCrumb('TRACE: network fetch done'); // TEMP-TRACE
 	if (response?.ok && isGlbResponse(response)) {
 		await persistModelResponse(cache, url, response, reportCacheError);
 	}
@@ -62,7 +49,6 @@ async function fetchWithRetry(url, fetchFunction, options) {
 	const retries = nonnegative(options.transientRetries, 2);
 	for (let attempt = 0; attempt <= retries; attempt += 1) {
 		assertNotAborted(options.signal);
-		traceCrumb(`TRACE: fetch attempt ${attempt}`); // TEMP-TRACE
 		const response = await fetchFunction(url, fetchOptions(options.signal));
 		if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) {
 			return response;
@@ -81,7 +67,10 @@ async function fetchWithRetry(url, fetchFunction, options) {
 
 function fetchOptions(signal) {
 	return {
-		cache: 'force-cache',
+		// B"H 2026-10-13: 'no-store' bypasses the HTTP cache entirely. The Cache
+		// Storage API (persistModelResponse) already handles model caching; the
+		// HTTP cache layer proved unreliable (hung on cache MISS in Chrome).
+		cache: 'no-store',
 		credentials: 'omit',
 		mode: 'cors',
 		signal

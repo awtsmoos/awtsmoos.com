@@ -29,14 +29,6 @@ const modelService = new ModelAssetService({
 	}
 });
 
-function traceCrumb(text) { // TEMP-TRACE
-	try { // TEMP-TRACE
-		if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-			document.title = `${document.title} | ${text}`; // TEMP-TRACE
-		} // TEMP-TRACE
-	} catch {} // TEMP-TRACE
-} // TEMP-TRACE
-
 /** Returns one shared parsed GLTF template. */
 export function loadSharedGltfTemplate(url, options = {}) {
 	return modelService.loadShared(url, options);
@@ -44,9 +36,7 @@ export function loadSharedGltfTemplate(url, options = {}) {
 
 /** Creates one isolated mutable GLTF instance or explicit fallback. */
 export function loadIsolatedGltf(url, label, options = {}) {
-	traceCrumb('TRACE: loadIsolatedGltf called'); // TEMP-TRACE
 	const resourceUrl = trustedModelResourceUrl(url);
-	traceCrumb('TRACE: trustedModelResourceUrl ok'); // TEMP-TRACE
 	return modelService.loadIsolated(resourceUrl, label, {
 		...options,
 		onFailure: failure => {

@@ -16,17 +16,8 @@ import { trustedModelResourceUrl } from './ModelAssetTrust.js';
 const templates = new Map();
 const pending = new Map();
 
-function traceCrumb(text) { // TEMP-TRACE
-	try { // TEMP-TRACE
-		if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
-			document.title = `${document.title} | ${text}`; // TEMP-TRACE
-		} // TEMP-TRACE
-	} catch {} // TEMP-TRACE
-} // TEMP-TRACE
-
 /** Loads one trusted shared template using the historical `{resourceUrl, template}` receipt shape. */
 export async function loadCachedModelTemplate(url, options = {}) {
-	traceCrumb('TRACE: loadCachedModelTemplate called'); // TEMP-TRACE
 	const resourceUrl = trustedModelResourceUrl(url);
 	return {
 		resourceUrl,
@@ -36,14 +27,11 @@ export async function loadCachedModelTemplate(url, options = {}) {
 
 /** Returns one parsed immutable template, sharing finished and in-flight work by canonical URL. */
 export async function loadModelAssetTemplate(resourceUrl, options = {}) {
-	traceCrumb('TRACE: loadModelAssetTemplate called'); // TEMP-TRACE
 	if (templates.has(resourceUrl)) {
-		traceCrumb('TRACE: template cache HIT'); // TEMP-TRACE
 		options.onProgress?.(cachedProgress(resourceUrl));
 		return templates.get(resourceUrl);
 	}
-	if (pending.has(resourceUrl)) { traceCrumb('TRACE: pending HIT'); return pending.get(resourceUrl); } // TEMP-TRACE
-	traceCrumb('TRACE: creating template'); // TEMP-TRACE
+	if (pending.has(resourceUrl)) return pending.get(resourceUrl);
 	const promise = createTemplate(resourceUrl, options);
 	pending.set(resourceUrl, promise);
 	try {
@@ -77,8 +65,20 @@ export function clearModelTemplateCache() {
 /** Preserves the historical trusted-resource export. */
 export { trustedModelResourceUrl } from './ModelAssetTrust.js';
 
+/** Rejects if the GLB parse does not settle within timeoutMs, so boot fails fast instead of hanging. */
+function withParseTimeout(parsePromise, timeoutMs, resourceUrl) {
+	let timer = null;
+	const timeoutPromise = new Promise((_, reject) => {
+		timer = setTimeout(() => {
+			reject(new Error(`GLB parse timed out after ${timeoutMs}ms for ${resourceUrl}`));
+		}, timeoutMs);
+	});
+	return Promise.race([parsePromise, timeoutPromise]).finally(() => {
+		if (timer !== null) clearTimeout(timer);
+	});
+}
+
 async function createTemplate(resourceUrl, options) {
-	traceCrumb('TRACE: createTemplate started'); // TEMP-TRACE
 	const startedAt = now();
 	const progress = detail => options.onProgress?.(detail);
 	progress(stage('asset-fetch-start', resourceUrl, startedAt));
@@ -89,9 +89,16 @@ async function createTemplate(resourceUrl, options) {
 		fetchMilliseconds: elapsed(startedAt, fetchedAt)
 	}));
 	const parseStartedAt = now();
-	const template = await loadTinyGltfBuffer(asset.buffer, resourceUrl, {
-		onStage: evidence => progress(stage(`gltf-${evidence.name}`, resourceUrl, evidence.atMilliseconds, evidence))
-	});
+	// B"H 2026-10-13: bound the GLB parse so a hung parser can never stall boot
+	// forever. The 2MB chossid.glb parse hung in Chrome (download OK, parse stuck),
+	// leaving a dead promise in the template-cache pending map. Fail fast instead.
+	const template = await withParseTimeout(
+		loadTinyGltfBuffer(asset.buffer, resourceUrl, {
+			onStage: evidence => progress(stage(`gltf-${evidence.name}`, resourceUrl, evidence.atMilliseconds, evidence))
+		}),
+		15000,
+		resourceUrl
+	);
 	decorateTemplate(template, resourceUrl, asset);
 	const completedAt = now();
 	const timing = Object.freeze({
