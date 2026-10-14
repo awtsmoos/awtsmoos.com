@@ -1914,6 +1914,7 @@ a.feed-ic-btn:visited {
 
 .feed-filter-row input[type="checkbox"]:checked + .feed-filter-check .feed-filter-check-ic {
 	opacity: 1;
+	color: inherit;
 }
 
 .feed-filter-row input[type="checkbox"]:focus-visible + .feed-filter-check {
