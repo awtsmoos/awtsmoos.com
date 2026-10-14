@@ -242,16 +242,21 @@ prg_draw_display() {
 	local filled=$(( pct * width / 100 ))
 	local empty=$(( width - filled ))
 	local bar="" i
-	# Build the bar with particle effects
+	# Build the bar with particle effects (EVEN MORE BEAUTIFUL!)
 	for (( i=0; i<filled; i+=1 )); do
-		# Random sparkle particles in the filled portion (WAY BETTER!)
-		if [ $(( RANDOM % 7 )) -eq 0 ] && [ "$i" -gt 0 ]; then
-			bar="${bar}${PRG_C_CYAN}✧${PRG_C_OFF}"
+		# Random sparkle particles with variety (WAY BETTER! EVEN MORE!)
+		if [ $(( RANDOM % 6 )) -eq 0 ] && [ "$i" -gt 0 ]; then
+			# Variety of magical particles: ✧ ⋆ ✩
+			case $(( RANDOM % 3 )) in
+				0) bar="${bar}${PRG_C_CYAN}✧${PRG_C_OFF}" ;;
+				1) bar="${bar}${PRG_C_MAGENTA}⋆${PRG_C_OFF}" ;;
+				2) bar="${bar}${PRG_C_BLUE}✩${PRG_C_OFF}" ;;
+			esac
 		else
 			bar="${bar}${PRG_C_GREEN}█${PRG_C_OFF}"
 		fi
 	done
-	# The leading particle (bright star at the frontier!)
+	# The leading particle (bright star at the frontier! EVEN MORE MAGICAL!)
 	if [ "$filled" -lt "$width" ]; then
 		bar="${bar}${PRG_C_YELLOW}✦${PRG_C_OFF}"
 		empty=$(( empty - 1 ))
