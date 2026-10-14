@@ -253,13 +253,19 @@ function bufferGeometryFromStream(stream, leafShrink = 0) {
       rx/=rl; ry/=rl; rz/=rl;
       // Up = right × normal
       const ux2 = ry*nzn-rz*nyn, uy2 = rz*nxn-rx*nzn, uz2 = rx*nyn-ry*nxn;
+      // B"H LEAF-FIX: random in-plane rotation for natural variety
+      // (not uniform billboards). Each card rotated differently.
+      const rotA = ((t * 137) % 360) * Math.PI / 180;
+      const cr = Math.cos(rotA), sr = Math.sin(rotA);
+      const rx2 = rx*cr + ux2*sr, ry2 = ry*cr + uy2*sr, rz2 = rz*cr + uz2*sr;
+      const ux3 = -rx*sr + ux2*cr, uy3 = -ry*sr + uy2*cr, uz3 = -rz*sr + uz2*cr;
       const hs = size / 2;
       const base = t * 12;
-      // 4 corners: (-hs,-hs), (hs,-hs), (hs,hs), (-hs,hs) in (right, up) plane
-      quadPos[base+0] = cx - rx*hs - ux2*hs; quadPos[base+1] = cy - ry*hs - uy2*hs; quadPos[base+2] = cz - rz*hs - uz2*hs;
-      quadPos[base+3] = cx + rx*hs - ux2*hs; quadPos[base+4] = cy + ry*hs - uy2*hs; quadPos[base+5] = cz + rz*hs - uz2*hs;
-      quadPos[base+6] = cx + rx*hs + ux2*hs; quadPos[base+7] = cy + ry*hs + uy2*hs; quadPos[base+8] = cz + rz*hs + uz2*hs;
-      quadPos[base+9] = cx - rx*hs + ux2*hs; quadPos[base+10] = cy - ry*hs + uy2*hs; quadPos[base+11] = cz - rz*hs + uz2*hs;
+      // 4 corners with rotated basis
+      quadPos[base+0] = cx - rx2*hs - ux3*hs; quadPos[base+1] = cy - ry2*hs - uy3*hs; quadPos[base+2] = cz - rz2*hs - uz3*hs;
+      quadPos[base+3] = cx + rx2*hs - ux3*hs; quadPos[base+4] = cy + ry2*hs - uy3*hs; quadPos[base+5] = cz + rz2*hs - uz3*hs;
+      quadPos[base+6] = cx + rx2*hs + ux3*hs; quadPos[base+7] = cy + ry2*hs + uy3*hs; quadPos[base+8] = cz + rz2*hs + uz3*hs;
+      quadPos[base+9] = cx - rx2*hs + ux3*hs; quadPos[base+10] = cy - ry2*hs + uy3*hs; quadPos[base+11] = cz - rz2*hs + uz3*hs;
       // Clean 0-1 UVs
       const uvb = t * 8;
       quadUV[uvb+0]=0; quadUV[uvb+1]=0;
