@@ -159,8 +159,21 @@ function applyBakedBark(mat, barkAlbedoTex, barkRoughTex, mossTex) {
           float ang2 = atan(bwp2.z, bwp2.x);
           vec2 ruv = vec2((ang2 / 6.2831853 + 0.5) * 3.0, bwp2.y * 0.35);
           float roughnessFactor = texture2D(uBarkRough, ruv).g;
+        }`)
+      .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+        {
+          // B"H WAY-better #4: sun-side rim light — warm halo on the trunk
+          // silhouette edges, stronger on the sun side. Sells the backlight.
+          vec3 Vv = normalize(cameraPosition - vBarkWPos);
+          vec3 bwn2 = normalize(vBarkWNormal);
+          float rim = pow(1.0 - max(dot(Vv, bwn2), 0.0), 3.0);
+          float sunSide = clamp(dot(bwn2, normalize(uRimSunDirW)), 0.0, 1.0);
+          totalEmissiveRadiance += vec3(1.0, 0.80, 0.52) * rim * (0.08 + 0.42 * sunSide);
         }`);
-    mat.customProgramCacheKey = () => 'baked-bark-v1';
+    // B"H: sun dir resolved at shader-compile time (first render), when the
+    // golden-preset sunDir const is initialized.
+    shader.uniforms.uRimSunDirW = { value: sunDir.clone() };
+    mat.customProgramCacheKey = () => 'baked-bark-v2';
   };
 }
 // B"H — normal maps must stay LINEAR (NoColorSpace). sRGB-decoding a normal
@@ -228,6 +241,10 @@ const VIEWS = {
   // B"H "even more real" proof: top-down over the foreground shallows (z=20,
   // wide water) — individual 3D pebbles must be countable through the water.
   'shallows-top': { pos: [riverX(20), WATER_Y + 14, 20], look: [riverX(20), WATER_Y, 19] },
+  // B"H polish: look up through the canopy toward the sun — sun disc proof.
+  // Camera in the river corridor, sightline along the sun direction.
+  'sun-gap': { pos: [riverX(8), WATER_Y + 1.2, 8],
+               look: [riverX(8) + 27, WATER_Y + 34, 8 - 42] },
   // B"H commit 7 proof: macro on hero boulder #1 (z=14, left bank).
   'debug-boulder': { pos: [riverX(14) - riverHalfWidth(14) * 1.45 + 2.2, WATER_Y + 1.6, 17.5],
                      look: [riverX(14) - riverHalfWidth(14) * 1.45, WATER_Y + 0.5, 14] },
@@ -361,9 +378,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           {
             vec3 Vb = normalize(vBlViewDir);
             float bl = pow(clamp(dot(Vb, -uSunDirL), 0.0, 1.0), ${lobePow.toFixed(1)});
-            // warm transmitted gold-green; scaled by albedo so it reads as
-            // light THROUGH leaves, not a flat overlay
-            outgoingLight += vec3(0.68, 0.74, 0.32) * (bl * uBlStrength) * diffuseColor.rgb * 2.2;
+            // B"H WAY-better #3: leaf subsurface scattering — real leaves
+            // transmit strongest at the chlorophyll peak (yellow-green).
+            // Weak backlight: warm gold wash. Strong backlight: the leaf's
+            // core glows yellow-green, edges stay warm. Scaled by albedo so
+            // it reads as light THROUGH the leaf, not an overlay.
+            vec3 sssCol = mix(vec3(0.72, 0.60, 0.26), vec3(0.60, 0.82, 0.30),
+                              smoothstep(0.25, 0.9, bl));
+            outgoingLight += sssCol * (bl * uBlStrength) * diffuseColor.rgb * 2.2;
           }
           #include <opaque_fragment>`);
       sh.vertexShader = sh.vertexShader
@@ -411,7 +433,17 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           vec3 hor = vec3(0.82, 0.90, 0.95);
           vec3 col = mix(hor, zen, pow(max(h, 0.0), 0.55));
           float s = max(dot(normalize(vDir), sunDir), 0.0);
-          col += vec3(1.0, 0.93, 0.78) * (pow(s, 900.0) * 1.4 + pow(s, 18.0) * 0.22);
+          // B"H polish: real solar disc — 0.53° angular diameter, limb-darkened
+          // (bright core, warm edge), tight warm corona. Reads as a sun,
+          // not a white blob.
+          float discEdge = 0.9999893;
+          float disc = smoothstep(discEdge - 0.0000012, discEdge + 0.0000008, s);
+          float limb = 0.72 + 0.28 * smoothstep(discEdge - 0.0000012, 1.0, s);
+          vec3 discCol = mix(vec3(1.0, 0.80, 0.58), vec3(1.0, 0.97, 0.93), limb);
+          col += discCol * disc * 2.4;
+          float corona = pow(s, 1500.0) * 0.55 + pow(s, 350.0) * 0.30;
+          col += vec3(1.0, 0.88, 0.70) * corona;
+          col += vec3(1.0, 0.93, 0.78) * pow(s, 18.0) * 0.30;
           // golden-hour warmth: warm tint blooms along the horizon near the sun
           if (uGolden > 0.0) {
             vec3 d2 = normalize(vDir);
@@ -499,6 +531,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // has whisper-soft rays, not beams. Restraint.
       depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.14,
     });
+    // B"H WAY-better #2: breathing shafts — slow sine on opacity so the rays
+    // feel alive (canopy moving overhead). Registered as an updater below.
+    shaftMat.userData.baseOpacity = 0.14;
+    scene.userData.shaftMat = shaftMat;
     const shaftGeo = new THREE.PlaneGeometry(4.5, 40);
     const q = new THREE.Quaternion().setFromUnitVectors(
       new THREE.Vector3(0, 1, 0), sunDir.clone().normalize());
@@ -826,6 +862,40 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   ]);
   mark('textures');
 
+  /* B"H WAY-better #1: dappled light cookies — baked canopy-gap light pattern.
+     Pass 1: 512² canvas, two octaves (large soft canopy gaps + small bright
+     leaf-gap dapples), elongated along the sun azimuth, warm cast. Baked once
+     (premade texture); placement/animation is runtime (uCookieShift follows
+     the sun angle so TOD changes move the pattern). */
+  const dappleCookieTex = (() => {
+    const S = 512, cv = document.createElement('canvas');
+    cv.width = cv.height = S;
+    const cx = cv.getContext('2d');
+    cx.fillStyle = 'rgb(88,88,88)'; cx.fillRect(0, 0, S, S); // ambient floor
+    const sr = mulberry32(seed ^ 0xd4bb1e);
+    // sun azimuth elongation: sun dir xz = (0.42,-0.65) → angle
+    const sunAng = Math.atan2(-0.65, 0.42);
+    const blob = (x, y, r, bright, warm) => {
+      const g = cx.createRadialGradient(x, y, 0, x, y, r);
+      const c = Math.round(bright);
+      g.addColorStop(0, `rgba(${c},${Math.round(c * (0.94 + warm * 0.06))},${Math.round(c * (0.82 + warm * 0.08))},0.95)`);
+      g.addColorStop(0.6, `rgba(${c},${Math.round(c * 0.92)},${Math.round(c * 0.80)},0.45)`);
+      g.addColorStop(1, 'rgba(88,88,88,0)');
+      cx.save(); cx.translate(x, y); cx.rotate(sunAng); cx.translate(-x, -y);
+      cx.fillStyle = g;
+      cx.fillRect(x - r, y - r * 0.62, r * 2, r * 1.24);
+      cx.restore();
+    };
+    for (let i = 0; i < 46; i++) // large soft canopy gaps
+      blob(sr() * S, sr() * S, 26 + sr() * 52, 150 + sr() * 70, 0.5 + sr() * 0.5);
+    for (let i = 0; i < 240; i++) // small bright leaf-gap dapples
+      blob(sr() * S, sr() * S, 4 + sr() * 11, 185 + sr() * 60, 0.7 + sr() * 0.3);
+    const tex = new THREE.CanvasTexture(cv);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  })();
+
   /* tree placement — BEFORE terrain so canopy shade bakes into vertex colors.
      B"H reference match 2026-10-13: enclosed river corridor, denser forest. */
   const treeSpots = [];
@@ -1014,11 +1084,42 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     terrGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     terrGeo.computeVertexNormals();
   }
-  const terrain = new THREE.Mesh(terrGeo, new THREE.MeshStandardMaterial({
+  const terrainMat = new THREE.MeshStandardMaterial({
     map: grassGroundTex, vertexColors: true, roughness: 1.0, metalness: 0.0,
     // B"H — moss relief normals: ground stops being a flat plane under sun.
     normalMap: mossNormalTex, normalScale: new THREE.Vector2(0.9, 0.9),
-  }));
+  });
+  // B"H WAY-better #1: dappled light cookie — baked canopy-gap pattern
+  // projected in world space, shifted by sun angle (uCookieShift).
+  terrainMat.onBeforeCompile = (shader) => {
+    shader.uniforms.uDappleCookie = { value: dappleCookieTex };
+    shader.uniforms.uCookieShift = { value: new THREE.Vector2(0, 0) };
+    terrainMat.userData.shader = shader;
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', `#include <common>
+        uniform sampler2D uDappleCookie; uniform vec2 uCookieShift;
+        varying vec3 vCookieWPos;`)
+      .replace('#include <map_fragment>', `#include <map_fragment>
+        {
+          // world-space cookie, 1 tile ≈ 26m; sun-angle shift keeps the
+          // pattern glued to the canopy gaps as TOD changes
+          vec2 cuv = vCookieWPos.xz * 0.038 + uCookieShift;
+          vec3 cookie = texture2D(uDappleCookie, cuv).rgb;
+          // cookie is 0.35..1.0 brightness; warm dapple over the albedo
+          diffuseColor.rgb *= (0.55 + cookie * 1.05);
+        }`);
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', `#include <common>
+        varying vec3 vCookieWPos;`)
+      .replace('#include <worldpos_vertex>', `#include <worldpos_vertex>
+        { vec4 cwp = modelMatrix * vec4(transformed, 1.0);
+          #ifdef USE_INSTANCING
+            cwp = modelMatrix * instanceMatrix * vec4(transformed, 1.0);
+          #endif
+          vCookieWPos = cwp.xyz; }`);
+    terrainMat.customProgramCacheKey = () => 'terrain-dapple-v1';
+  };
+  const terrain = new THREE.Mesh(terrGeo, terrainMat);
   terrain.receiveShadow = true;
   scene.add(terrain);
   mark('terrain');
@@ -1205,7 +1306,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           vec3 wn2 = texture2D(uWaterNormalMap, wuv2).xyz * 2.0 - 1.0;
           // B"H commit 8b: softened further (0.5->0.38) — highlights were
           // reading as white streaks, not water shimmer.
-          vec2 grad = (wn1.xy + wn2.xy * 0.6) * 0.38;
+          // B"H WAY-better: distance chop — far water gets extra ripple so the
+          // grazing-angle reflection breaks up instead of forming a flat
+          // white mirror band. (The "white band" was fresnel, not foam.)
+          float chopD = distance(cameraPosition, vPos);
+          float chopBoost = 1.0 + smoothstep(15.0, 60.0, chopD) * 0.9;
+          vec2 grad = (wn1.xy + wn2.xy * 0.6) * 0.38 * chopBoost;
           // Refraction offset for the pebble bed uses the same premade grad.
           vec3 n = normalize(vec3(-grad.x, 1.0, -grad.y));
           vec3 viewDir = normalize(cameraPosition - vPos);
@@ -1213,9 +1319,18 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float fres = pow(1.0 - max(dot(n, viewDir), 0.0), 5.0);
           fres = mix(0.02, 1.0, fres); // Schlick's approximation base
           vec3 r = reflect(-viewDir, n);
-          // Sun glitter: sharp sparkles on wave crests only
+          // B"H WAY-better #5: sun-path glitter trail — the sparkle lobe is
+          // stretched ANISOTROPICALLY along the sun direction so the water
+          // carries an elongated glitter path toward the sun, like the
+          // reference. Tight hot core + wider warm trail, both twinkling.
           float gdot = max(dot(r, uGlitterDir), 0.0);
-          float glint = pow(gdot, 900.0);
+          float core = pow(gdot, 1200.0);
+          // trail: accept reflections toward azimuth-spread sun positions
+          vec3 spreadA = normalize(uGlitterDir + vec3(0.38, -0.10, 0.05));
+          vec3 spreadB = normalize(uGlitterDir + vec3(-0.38, -0.10, 0.05));
+          float trail = pow(max(dot(r, spreadA), 0.0), 90.0)
+                      + pow(max(dot(r, spreadB), 0.0), 90.0);
+          float glint = core + trail * 0.30;
           // Twinkle: each sparkle cell shimmers independently
           float tw = 0.3 + 0.7*(0.5 + 0.5*sin(uTime*8.0 + hash22(floor(pw*9.0))*43.0));
           // Pebble bed: PREMADE texture (tex-pebbles.webp), refracted by ripple.
@@ -1242,12 +1357,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           col = mix(col, bed, bedVisibility);
           // Sky reflection via fresnel (stronger at grazing = far water)
           // B"H 2026-10-13: 0.35→0.16, was washing out to milk at low camera.
-          col = mix(col, uSky, fres*0.16);
+          col = mix(col, uSky, fres*0.12); // WAY-better: was milky band
           // Sun glitter: sharp, sparse, on crests — not milky wash
           float sdot = max(dot(r, uSunDir), 0.0);
           // B"H commit 8: glitter boosted (8.0->14.0) — the reference has a
           // visible sparkling path on the water.
-          col += vec3(1.0,0.97,0.90) * glint * 14.0 * tw * (0.3 + 0.7*depth);
+          // core: white-hot pinpricks; trail: warm golden path toward the sun
+          // B"H WAY-better 2nd pass: trail was washing out — tighter, dimmer.
+          col += vec3(1.0,0.98,0.94) * core * 16.0 * tw * (0.3 + 0.7*depth);
+          col += vec3(1.0,0.88,0.66) * trail * 2.4 * tw * (0.35 + 0.65*depth);
           col += vec3(1.0,0.95,0.85) * pow(sdot, 200.0) * 0.4;
           // Dappled sunlight: bright patches where sun breaks through canopy.
           float dapple = vnoise(pw*0.35 + vec2(uTime*0.05, -uTime*0.08));
@@ -1258,7 +1376,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float bankFoamBand = 1.0 - edge;
           float fn = vnoise(pw*vec2(4.0, 12.0) + vec2(0.0, -uTime*1.5));
           float lap = 0.5 + 0.5*sin(uTime*1.8 + pw.y*2.2 + fn*6.28);
-          float bankFoam = bankFoamBand * smoothstep(0.4, 0.8, fn*0.5 + lap*0.5) * 0.7;
+          // B"H WAY-better: foam was a solid white stripe. Now patchy and
+          // clinging to the waterline — squared band (thin), higher threshold
+          // (broken), lower opacity. Real lapping, not paint.
+          float bankFoam = bankFoamBand * bankFoamBand
+                         * smoothstep(0.55, 0.92, fn*0.62 + lap*0.38) * 0.55;
           // Rock foam: rings around procedural rock spots
           vec2 rp = pw*1.8;
           vec2 rid = floor(rp); vec2 rf = fract(rp);
@@ -2221,9 +2343,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     for (let i = 0; i < rp.count; i++) {
       const moss = THREE.MathUtils.smoothstep(np.getY(i), 0.15, 0.75);
       const g = 0.75 + ror() * 0.25;
-      cols[i * 3]     = 0.42 + (0.38 * g - 0.42) * moss;
-      cols[i * 3 + 1] = 0.40 + (0.62 * g - 0.40) * moss;
-      cols[i * 3 + 2] = 0.36 + (0.28 * g - 0.36) * moss;
+      // B"H WAY-better: rocks were rendering as black blobs in the wide view.
+      // Lift the base stone (mid-gray like the reference), moss creeps down.
+      cols[i * 3]     = 0.60 + (0.38 * g - 0.60) * moss;
+      cols[i * 3 + 1] = 0.57 + (0.62 * g - 0.57) * moss;
+      cols[i * 3 + 2] = 0.52 + (0.28 * g - 0.52) * moss;
     }
     rockGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
     const rockMat = new THREE.MeshStandardMaterial({
@@ -2231,6 +2355,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // cap with noisy edge + wet band. Vertex colors carry per-rock tint.
       map: wetRockTex, vertexColors: true, roughness: 0.85,
       normalMap: wetRockNormalTex, normalScale: new THREE.Vector2(1.1, 1.1),
+      // B"H WAY-better: emissive floor — subtle, just enough that deep shadow
+      // never goes pitch black. The dry-stone lift does the heavy lifting.
+      emissive: new THREE.Color(0.030, 0.033, 0.028),
     });
     // Moss cap + wet band via premade textures (not procedural colors).
     // mossMask: up-facing world normal, noisy edge from moss texture green channel.
@@ -2251,11 +2378,18 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         .replace('#include <common>', '#include <common>\nvarying vec3 vWRockN;\nvarying vec3 vWRockP;\nuniform sampler2D uMossMap;\nuniform float uWaterY;')
         .replace('#include <map_fragment>', `#include <map_fragment>
           float rockMossN = texture2D(uMossMap, vWRockP.xz * 0.33).g;
-          float rockMoss = smoothstep(0.42, 0.72, vWRockN.y * 0.72 + rockMossN * 0.48);
+          // B"H WAY-better: moss creeps down the sides (was tops-only, leaving
+          // black flanks). Lower threshold + stronger noise = patchy sides.
+          float rockMoss = smoothstep(0.30, 0.62, vWRockN.y * 0.60 + rockMossN * 0.55);
           vec3 rockMossCol = texture2D(uMossMap, vWRockP.xz * 0.5).rgb * 1.06;
           diffuseColor.rgb = mix(diffuseColor.rgb, rockMossCol, rockMoss);
           float rockWet = smoothstep(uWaterY + 0.28, uWaterY - 0.08, vWRockP.y);
-          diffuseColor.rgb *= mix(1.0, 0.62, rockWet);`)
+          diffuseColor.rgb *= mix(1.0, 0.62, rockWet);
+          // B"H WAY-better: dry stone lift — the premade wet-rock texture
+          // averages 0.23 (very dark). Dry areas lift to mid-gray stone like
+          // the reference; wet band stays dark. (Was black blobs.)
+          float dryLift = 1.0 - rockWet;
+          diffuseColor.rgb *= mix(1.0, 2.6, dryLift);`)
         .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
           float rockWetR = smoothstep(uWaterY + 0.28, uWaterY - 0.08, vWRockP.y);
           roughnessFactor = mix(roughnessFactor, 0.3, rockWetR);`);
@@ -2642,6 +2776,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   const updaters = [];
   // B"H commit 2: mist billboard drift/breathing joins the updater loop.
   for (const mu of mistUpdaters) updaters.push(mu);
+  // B"H WAY-better #2: god-ray breathing — slow sine on shaft opacity.
+  if (scene.userData.shaftMat) {
+    const sm = scene.userData.shaftMat, base = sm.userData.baseOpacity;
+    updaters.push((t) => { sm.opacity = base * (0.78 + 0.22 * Math.sin(t * 0.32 + 1.0)); });
+  }
   const addParticles = sys => { scene.add(sys.obj); updaters.push(sys.update); };
   const PSETS = {
     forest: ['pollen', 'dust'], river: ['pollen', 'dust'], grassland: ['pollen'],
