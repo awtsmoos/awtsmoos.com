@@ -243,31 +243,35 @@
    Uses font-size-adjust to normalize Frank Ruhl Libre's metrics to match Source Serif 4,
    so both scripts appear identical in size at any scale. Lives here because the CSS
    bundler drops meluket-sefer.css content. */
-.awtsmoos-initial-unit-he,
-.awtsmoos-initial-unit-he p {
-	font-size: clamp(2.4rem, 6.2vw, 3.4rem) !important;
-	font-size-adjust: 0.5 !important;
-	line-height: 1.6 !important;
+:root .awtsmoos-initial-unit-he,
+:root .awtsmoos-initial-unit-he p {
+	font-size: clamp(2.4rem, 6.2vw, 3.4rem);
+	font-size-adjust: 0.5;
+	line-height: 1.6;
+	color: var(--law8-walnut-ink);
 }
-.awtsmoos-initial-unit-en,
-.awtsmoos-initial-unit-en p {
-	font-size: clamp(2.4rem, 6.2vw, 3.4rem) !important;
-	font-size-adjust: 0.5 !important;
-	line-height: 1.6 !important;
+:root .awtsmoos-initial-unit-en,
+:root .awtsmoos-initial-unit-en p {
+	font-size: clamp(2.4rem, 6.2vw, 3.4rem);
+	font-size-adjust: 0.5;
+	line-height: 1.6;
+	color: var(--law8-walnut-ink);
 }
-.meluket-phrase--he,
-.meluket-phrase--he p,
-.meluket-hebrew,
-.meluket-hebrew p {
-	font-size: var(--sefer-phrase-size, 1.25rem) !important;
-	font-size-adjust: 0.5 !important;
-	line-height: 1.6 !important;
+:root .meluket-phrase--he,
+:root .meluket-phrase--he p,
+:root .meluket-hebrew,
+:root .meluket-hebrew p {
+	font-size: var(--sefer-phrase-size, 1.25rem);
+	font-size-adjust: 0.5;
+	line-height: 1.6;
+	color: var(--law8-walnut-ink);
 }
-.meluket-phrase--en,
-.meluket-phrase--en p {
-	font-size: var(--sefer-phrase-size, 1.25rem) !important;
-	font-size-adjust: 0.5 !important;
-	line-height: 1.6 !important;
+:root .meluket-phrase--en,
+:root .meluket-phrase--en p {
+	font-size: var(--sefer-phrase-size, 1.25rem);
+	font-size-adjust: 0.5;
+	line-height: 1.6;
+	color: var(--law8-walnut-ink);
 }
 
 /* B"H — Yaakov reader UX fixes 2026-10-13.
@@ -277,35 +281,35 @@
 /* FIX 1: CLEAN MOBILE PADDING — even, minimal, consistent. No more
    stacked padding from wrapper + content + sections. */
 @media (max-width: 48rem) {
-	.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
-		padding-inline: 0.75rem !important;
-		padding-block-start: 1rem !important;
+	:root .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
+		padding-inline: 0.75rem;
+		padding-block-start: 1rem;
 	}
-	.post-reader-localized-context.awtsmoos-reader-vision .content,
-	.post-reader-localized-context.awtsmoos-reader-vision #realPost {
-		padding-inline: 0 !important;
-		margin-inline: 0 !important;
-		max-inline-size: 100% !important;
+	:root .post-reader-localized-context.awtsmoos-reader-vision .content,
+	:root .post-reader-localized-context.awtsmoos-reader-vision #realPost {
+		padding-inline: 0;
+		margin-inline: 0;
+		max-inline-size: 100%;
 	}
-	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
-		padding-inline: 0 !important;
-		margin-inline: 0 !important;
-		max-inline-size: 100% !important;
+	:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
+		padding-inline: 0;
+		margin-inline: 0;
+		max-inline-size: 100%;
 	}
 }
 
 /* FIX 2: SCROLL STICKING — the reading container must NEVER smooth-scroll.
    scroll-behavior:smooth on a touch-scroll container fights the user's finger
    and makes scrolling feel stuck/catchy. Programmatic scrolls use JS instead. */
-.post-reader-localized-context.awtsmoos-reader-vision #realPost,
-.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
-.post-reader-localized-context.awtsmoos-reader-vision .content,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
-	scroll-behavior: auto !important;
+:root .post-reader-localized-context.awtsmoos-reader-vision #realPost,
+:root .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
+:root .post-reader-localized-context.awtsmoos-reader-vision .content,
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
+	scroll-behavior: auto;
 }
-.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
-	touch-action: pan-y !important;
-	-webkit-overflow-scrolling: touch !important;
+:root .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
+	touch-action: pan-y;
+	-webkit-overflow-scrolling: touch;
 }
 
 /* FIX 3: AUTO-HIGHLIGHT current section while reading.
@@ -340,43 +344,46 @@ section[data-awtsmoos-unit].is-reading,
 
 /* FIX 5: LARGE TEXT safeguards — words wrap whole, containers expand,
    never clip or overlap at max size. */
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he p,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en p {
-	overflow-wrap: break-word !important;
-	word-break: normal !important;
-	hyphens: none !important;
-	max-inline-size: 100% !important;
-	min-inline-size: 0 !important;
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he,
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en,
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he p,
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en p {
+	overflow-wrap: break-word;
+	word-break: normal;
+	hyphens: none;
+	max-inline-size: 100%;
+	min-inline-size: 0;
+	color: var(--law8-walnut-ink);
 }
 
 /* Yaakov 2026-10-13: headings NEVER break mid-word. A title like
    "Summary" must wrap whole to the next line, never "Summar/y". */
-.post-reader-localized-context h1,
-.post-reader-localized-context h2,
-.post-reader-localized-context h3,
-.post-reader-localized-context h4,
-.post-reader-localized-context [class*="title"],
-.post-reader-localized-context [class*="Title"],
-.post-reader-localized-context [class*="heading"],
-.post-reader-localized-context [class*="Heading"] {
-	hyphens: none !important;
-	overflow-wrap: normal !important;
-	word-break: normal !important;
+:root .post-reader-localized-context h1,
+:root .post-reader-localized-context h2,
+:root .post-reader-localized-context h3,
+:root .post-reader-localized-context h4,
+:root .post-reader-localized-context [class*="title"],
+:root .post-reader-localized-context [class*="Title"],
+:root .post-reader-localized-context [class*="heading"],
+:root .post-reader-localized-context [class*="Heading"] {
+	hyphens: none;
+	overflow-wrap: normal;
+	word-break: normal;
+	color: var(--law8-walnut-ink);
 }
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
-	block-size: auto !important;
-	min-block-size: 0 !important;
-	overflow: visible !important;
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
+	block-size: auto;
+	min-block-size: 0;
+	overflow: visible;
 }
 
 /* FIX 4+5: Connect Hebrew/English size to the Aa --post-text-size variable
    so +/- buttons actually scale the article text (they set the variable on
    .post-reader-localized-context). font-size-adjust keeps them visually equal. */
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he p,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en p {
-	font-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem)) !important;
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he,
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he p,
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en,
+:root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en p {
+	font-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem));
+	color: var(--law8-walnut-ink);
 }
