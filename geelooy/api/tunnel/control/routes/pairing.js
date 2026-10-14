@@ -30,7 +30,8 @@ async function pairingApprove($i) {
 		return json($i, { BH: "B\"H", ok: false, error: identity.error }, 401);
 	}
 	const data = await body($i);
-	const result = Pairing.approvePairing(identity.accountId, data.userCode);
+	// B"H — Yaakov 2026-10-14: Accept pairingId for direct lookup (more reliable than code alone).
+	const result = Pairing.approvePairing(identity.accountId, data.userCode, data.pairingId);
 	// B"H — Level 3 of Yaakov's multi-level approval detection (2026-10-14):
 	// push a wake-up to any agent watching this pairing over WebSocket. The
 	// push carries no credential — the device still consumes it through the

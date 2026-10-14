@@ -77,14 +77,31 @@ function createPairingRequest(input = {}) {
 }
 
 /** Approves one matching pending code for the verified account. */
-function approvePairing(accountId, userCode) {
+function approvePairing(accountId, userCode, pairingId) {
 	let result = {
 		ok: false,
 		error: "pairing_not_found",
 		message: Friendly.messageFor("pairing_not_found")
 	};
 	mutateStore((store) => {
-		result = Approval.approveInStore(store, accountId, userCode);
+		// B"H — Yaakov 2026-10-14: If pairingId provided, use it for direct lookup.
+		// More reliable than code-only lookup.
+		if (pairingId) {
+			const normalized = Id.normalizeIdentifier(pairingId);
+			const pairing = normalized ? store.tunnelPairings[normalized] : null;
+			if (pairing && pairing.state === "pending") {
+				// Verify the code matches too (security)
+				const codeDigest = Secrets.digest(String(userCode || "").trim().toUpperCase());
+				if (pairing.userCodeDigest === codeDigest) {
+					pairing.state = "approved";
+					pairing.approvedBy = accountId;
+					pairing.approvedAt = Date.now();
+					result = { ok: true, pairingId: pairing.pairingId };
+				}
+			}
+		} else {
+			result = Approval.approveInStore(store, accountId, userCode);
+		}
 		return store;
 	});
 	return result;

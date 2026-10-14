@@ -23,10 +23,11 @@ function esc(value) {
  * Builds the standalone approval page. pairingCode may be empty for the
  * manual-entry mode (user types the code from the installer's card).
  */
-function pairingPageHtml({ pairingCode = "", returnPath = "" } = {}) {
+function pairingPageHtml({ pairingCode = "", pairingId = "", returnPath = "" } = {}) {
 	const code = String(pairingCode || "").trim().toUpperCase();
 	const safeCode = esc(code);
 	const safeReturn = esc(returnPath);
+	const safePairingId = esc(String(pairingId || ""));
 	const hasCode = code.length >= 4;
 
 	return `<!DOCTYPE html>
@@ -195,6 +196,7 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 	var status=document.getElementById("status");
 	var status2=document.getElementById("status2");
 	var returnPath=${JSON.stringify(safeReturn)};
+	var pairingId=${JSON.stringify(safePairingId)};
 	function fail(el,msg){ el.textContent=msg; el.classList.add("error"); }
 	async function approve(code,btn,statusEl){
 		btn.disabled=true;
@@ -205,7 +207,7 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 			res=await fetch("/api/tunnel/control/pairing/approve",{
 				method:"POST",
 				headers:{"content-type":"application/json"},
-				body:JSON.stringify({userCode:code})
+				body:JSON.stringify({userCode:code, pairingId:pairingId})
 			});
 			try{ data=await res.json(); }catch(e){}
 		}catch(e){
