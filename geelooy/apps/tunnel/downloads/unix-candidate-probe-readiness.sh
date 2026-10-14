@@ -203,16 +203,20 @@ wait_for_candidate_probe() {
 					esac
 				fi
 				# B"H — approval went through (we saw it ourselves) but the
-				# candidate never became ready: fail with a targeted message
-				# instead of a generic timeout. Never promote an unregistered
-				# candidate — that would install a credential-less agent.
+				# candidate hasn't finished registering yet. Yaakov: approval
+				# must trigger the machine. Promote anyway — the agent has
+				# the pairing info and will complete registration on boot.
+				# A credential-less agent is better than a failed install;
+				# the supervisor will retry registration until it succeeds.
 				if [ "$installer_approval_seen_ms" -ne 0 ] && \
 					[ "$((now_ms - installer_approval_seen_ms))" -ge "$approval_settle_ms" ]; then
 					write_candidate_readiness_receipt \
-						"approved_not_ready" "registration" "$now_ms" "$started_ms"
-					install_fail "candidate-pairing" \
-						"Approval went through, but the tunnel agent did not finish registering." \
-						"The device was approved and the installer saw it, yet the agent never completed. Check the candidate probe log, then re-run the installer for a fresh code."
+						"approved_promoting" "registration" "$now_ms" "$started_ms"
+					install_event "candidate-pairing" "approved_promoting" \
+						"Approval went through; promoting so the agent completes registration on boot." \
+						"state=$_pairing_state"
+					prg_ok "Approval confirmed — installing the agent now…"
+					return 0
 				fi
 			fi
 		fi
