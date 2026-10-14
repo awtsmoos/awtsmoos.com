@@ -421,8 +421,8 @@ const TOD = {
     // corridor, sparkle path on the water (plan §1).
     // B"H TEXTURE-FIRST 2026-10-14: reference has BLOWN-OUT sun highlights
     // (glowing canopy, sparkling water). Was 2.8 (muted). 4.0 for drama.
-    sunDir: [0.42, 0.52, -0.65], sunColor: 0xfff6e8, sunI: 4.0,
-    hemiSky: 0xa8c8d8, hemiGround: 0x5a6b48, hemiI: 0.62,
+    sunDir: [0.42, 0.52, -0.65], sunColor: 0xffd9a0, sunI: 4.2,
+    hemiSky: 0x7fb8c8, hemiGround: 0x4a5b3a, hemiI: 0.55,
     // B"H 2026-10-14 GRADE (Yaakov: warm-gold vs cool-teal, luminous background):
     // was 0x9aaa7a (murky green-gray). Now warm golden haze for the
     // sunlit background glow like ref-target-sunlit-river.
@@ -938,7 +938,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // needs fill until leaf translucency (commit 4) arrives.
       // B"H TEXTURE-FIRST 2026-10-14: foreground bank still dark (faces away
       // from sun). 0.85→1.25 to lift the near-field moss like the reference.
-      const fill = new THREE.DirectionalLight(0xffe8c8, 1.25);
+      const fill = new THREE.DirectionalLight(0xffd9b0, 1.0);
       fill.position.set(vpos[0], vpos[1] + 6, vpos[2] + 5);
       fill.target.position.set(vpos[0], 1.5, vpos[2] - 25);
       scene.add(fill); scene.add(fill.target);
