@@ -1693,7 +1693,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H TEXTURE-FIRST 2026-10-14: reference water is BRIGHT — sunlit
       // pebbles visible through clear water. Was murky dark (uDeep 0x0f3d38).
       // Brightened so the pebble bed shines through.
-      uDeep: { value: new THREE.Color(0x2a6b62) },
+      // B"H R2 2026-10-14: 0x2a6b62→0x1e5f59 — deeper, more saturated teal.
+      // The gray-milk cast came from a desaturated body color.
+      uDeep: { value: new THREE.Color(0x1e5f59) },
       // B"H 2026-10-14 WATER (Yaakov: bright sunlit water like reference):
       // was 0x7ab5a3 (medium teal, murky). Now bright aqua for sunlit
       // shallows with visible pebbles.
@@ -1841,7 +1843,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           col += vec3(0.75, 0.95, 0.88) * caust * caustMask * 0.35;
           // Sky reflection via fresnel (stronger at grazing = far water)
           // B"H 2026-10-13: 0.35→0.16, was washing out to milk at low camera.
-          col = mix(col, uSky, fres*0.12); // WAY-better: was milky band
+          // B"H R2 2026-10-14: 0.12→0.07 — the sky wash was milking the water.
+          col = mix(col, uSky, fres*0.07); // WAY-better: was milky band
           // Sun glitter: sharp, sparse, on crests — not milky wash
           float sdot = max(dot(r, uSunDir), 0.0);
           // B"H commit 8: glitter boosted (8.0->14.0) — the reference has a
@@ -1854,7 +1857,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // Dappled sunlight: bright patches where sun breaks through canopy.
           float dapple = vnoise(pw*0.35 + vec2(uTime*0.05, -uTime*0.08));
           dapple = smoothstep(0.55, 0.85, dapple);
-          col += vec3(1.0, 0.96, 0.82) * dapple * 0.35 * (0.4 + 0.6*depth);
+          // B"H R2 2026-10-14: 0.35→0.22 — dapple was adding white wash.
+          col += vec3(1.0, 0.96, 0.82) * dapple * 0.22 * (0.4 + 0.6*depth);
           // Foam: at banks (waterline) + around procedural rock positions
           float edge = smoothstep(0.0, 0.12, vUv.x)*smoothstep(1.0, 0.88, vUv.x);
           float bankFoamBand = 1.0 - edge;
