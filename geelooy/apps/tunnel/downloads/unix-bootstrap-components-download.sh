@@ -57,7 +57,7 @@ archive_components() {
 
 fallback_origin_ready() {
 	local probe="$runtime_root/.fallback-origin-probe"
-	bootstrap_fetch_once "$origin/apps/tunnel/downloads/unix-install-core.sh" "$probe" || {
+	bootstrap_fetch_once "$origin/api/tunnel/install/unix-install-core.sh" "$probe" || {
 		printf '[Awtsmoos][download][circuit-open] Static installer source unavailable; fallback fan-out suppressed.\n' >&2
 		return 1
 	}
@@ -103,9 +103,9 @@ fallback_components() {
 
 download_component() {
 	local helper="$1" temporary="$runtime_root/.$helper.part"
-	if ! bootstrap_fetch_once "$origin/apps/tunnel/downloads/$helper" "$temporary"; then
+	if ! bootstrap_fetch_once "$origin/api/tunnel/install/$helper" "$temporary"; then
 		sleep 2
-		bootstrap_fetch_once "$origin/apps/tunnel/downloads/$helper" "$temporary" || return 1
+		bootstrap_fetch_once "$origin/api/tunnel/install/$helper" "$temporary" || return 1
 	fi
 	chmod +x "$temporary"
 	mv -f "$temporary" "$runtime_root/$helper"
