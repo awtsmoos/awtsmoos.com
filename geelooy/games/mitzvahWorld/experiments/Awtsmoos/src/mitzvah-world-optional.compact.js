@@ -4309,7 +4309,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
 	const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
 
+	function traceCrumb(text) { // TEMP-TRACE
+		try { // TEMP-TRACE
+			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+				document.title = `${document.title} | ${text}`; // TEMP-TRACE
+			} // TEMP-TRACE
+		} catch {} // TEMP-TRACE
+	} // TEMP-TRACE
+
 	async function cachedModelResponse(url, options = {}) {
+		traceCrumb('TRACE: cachedModelResponse called'); // TEMP-TRACE
 		const fetchFunction = options.fetchFunction || globalThis.fetch;
 		if (typeof fetchFunction !== 'function') {
 			throw new Error('Remote model fetch is unavailable.');
@@ -4321,10 +4330,14 @@ const __awtsmoosModule_0 = Object.create(null);
 			cacheStorage,
 			options.cacheName || REMOTE_MODEL_CACHE_NAME
 		);
+		traceCrumb('TRACE: cache storage opened'); // TEMP-TRACE
 		const reportCacheError = receipt => options.onCacheError?.(receipt);
 		const cached = await readModelResponseCache(cache, url, reportCacheError);
-		if (cached) return { response: cached, source: 'cache-storage' };
+		traceCrumb('TRACE: cache read done'); // TEMP-TRACE
+		if (cached) { traceCrumb('TRACE: cache HIT'); return { response: cached, source: 'cache-storage' }; } // TEMP-TRACE
+		traceCrumb('TRACE: starting network fetch'); // TEMP-TRACE
 		const response = await fetchWithRetry(url, fetchFunction, options);
+		traceCrumb('TRACE: network fetch done'); // TEMP-TRACE
 		if (response?.ok && isGlbResponse(response)) {
 			await persistModelResponse(cache, url, response, reportCacheError);
 		}
@@ -4344,6 +4357,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		const retries = nonnegative(options.transientRetries, 2);
 		for (let attempt = 0; attempt <= retries; attempt += 1) {
 			assertNotAborted(options.signal);
+			traceCrumb(`TRACE: fetch attempt ${attempt}`); // TEMP-TRACE
 			const response = await fetchFunction(url, fetchOptions(options.signal));
 			if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) {
 				return response;
