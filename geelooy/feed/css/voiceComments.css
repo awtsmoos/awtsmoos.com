@@ -1,0 +1,256 @@
+/* B"H — Voice comments (TRACK C).
+ * Tunnel CSS laws: no !important, sharp corners (border-radius: 0),
+ * token-only colors, explicit light/dark text colors, full
+ * :hover/:focus-visible/:active/:disabled on every control,
+ * overflow-x clipped so modals never scroll the page sideways.
+ */
+
+/* ---- mic button injected into comment composers ---- */
+.vc-mic-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	min-width: 38px;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	cursor: pointer;
+}
+.vc-mic-btn .vc-ic { width: 20px; height: 20px; }
+.vc-mic-btn:hover { color: var(--accent-gold); border-color: var(--accent-gold); }
+.vc-mic-btn:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
+.vc-mic-btn:active { transform: translateY(1px); }
+.vc-mic-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+/* ---- recorder modal ---- */
+.vc-modal-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: 320;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 18px;
+	overflow-x: clip;
+	background: rgba(5, 7, 12, 0.66);
+}
+.vc-modal {
+	width: min(480px, 100%);
+	max-height: 90vh;
+	overflow: auto;
+	overflow-x: clip;
+	padding: 18px;
+	color: var(--aw-text);
+	background: var(--aw-bg);
+	background-color: var(--aw-bg);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+.vc-modal-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+.vc-modal-title {
+	margin: 0;
+	font-size: 17px;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+.vc-close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 0;
+	cursor: pointer;
+	font-size: 15px;
+}
+.vc-close:hover { color: var(--aw-text); border-color: var(--aw-line); }
+.vc-close:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
+.vc-close:active { transform: translateY(1px); }
+
+.vc-modal-body { overflow-x: clip; }
+.vc-hint {
+	margin: 0 0 10px;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+}
+.vc-timer-row {
+	display: flex;
+	align-items: baseline;
+	gap: 6px;
+	margin-bottom: 8px;
+}
+.vc-timer {
+	font-variant-numeric: tabular-nums;
+	font-size: 26px;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+.vc-timer-cap { font-size: 13px; color: var(--aw-text-soft); }
+.vc-live-wave, .vc-wave {
+	display: block;
+	width: 100%;
+	height: 56px;
+	background: color-mix(in srgb, var(--aw-surface) 70%, transparent);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+}
+.vc-rec-controls { margin-top: 14px; display: flex; gap: 10px; }
+
+.vc-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 44px;
+	padding: 10px 18px;
+	font: 600 14px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+	background: var(--aw-surface);
+	background-color: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	cursor: pointer;
+}
+.vc-btn .vc-ic { width: 18px; height: 18px; }
+.vc-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+.vc-btn:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
+.vc-btn:active { transform: translateY(1px); }
+.vc-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.vc-btn-primary {
+	color: #1a1206;
+	background: linear-gradient(180deg, #f3d98b, #e3b64f);
+	border-color: rgba(120, 84, 18, 0.45);
+}
+.vc-btn-primary:hover {
+	color: #1a1206;
+	background: linear-gradient(180deg, #ffe9a8, #e9c05e);
+}
+.vc-btn-record { flex: 1; }
+.vc-btn-stop { flex: 1; color: #ffd7d7; border-color: #a33; }
+.vc-btn-stop:hover { color: #ff9d9d; border-color: #c44; }
+
+.vc-error {
+	margin: 10px 0 0;
+	padding: 10px 12px;
+	font-size: 13px;
+	color: #ffd7d7;
+	background: rgba(163, 51, 51, 0.16);
+	border: 1px solid rgba(163, 51, 51, 0.55);
+	border-radius: 0;
+}
+[data-theme="light"] .vc-error { color: #7a1f1f; }
+
+/* ---- preview + posted rows ---- */
+.vc-preview { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.vc-preview .vc-wave { flex: 1; }
+.vc-preview-controls { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.vc-duration {
+	font-variant-numeric: tabular-nums;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+	white-space: nowrap;
+}
+.vc-play {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	min-width: 44px;
+	color: #1a1206;
+	background: linear-gradient(180deg, #f3d98b, #e3b64f);
+	border: 1px solid rgba(120, 84, 18, 0.45);
+	border-radius: 0;
+	cursor: pointer;
+}
+.vc-play .vc-ic { width: 20px; height: 20px; }
+.vc-play:hover { background: linear-gradient(180deg, #ffe9a8, #e9c05e); }
+.vc-play:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
+.vc-play:active { transform: translateY(1px); }
+.vc-play:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ---- voice list inside a card thread ---- */
+.vc-list {
+	margin: 0 0 10px;
+	padding: 10px;
+	overflow-x: clip;
+	background: color-mix(in srgb, var(--aw-surface) 55%, transparent);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+}
+.vc-list-head {
+	margin: 0 0 8px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--accent-gold);
+}
+.vc-row { padding: 8px 0; border-top: 1px solid var(--aw-line); }
+.vc-row:first-of-type { border-top: none; padding-top: 0; }
+.vc-row-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.vc-row-avatar {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	font-size: 11px;
+	font-weight: 700;
+	color: #1a1206;
+	background: var(--accent-gold);
+	border-radius: 0;
+}
+.vc-row-author { font-size: 13px; font-weight: 600; color: var(--aw-text); }
+.vc-row-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 8px;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--accent-gold);
+	border: 1px solid var(--accent-gold);
+	border-radius: 0;
+}
+.vc-row-badge .vc-ic { width: 12px; height: 12px; }
+.vc-player { display: flex; align-items: center; gap: 10px; }
+.vc-player .vc-wave { flex: 1; height: 44px; }
+.vc-row.is-playing .vc-row-author { color: var(--accent-gold); }
+
+/* ---- mic fallback ---- */
+.vc-fallback { overflow-x: clip; }
+.vc-fallback-title {
+	margin: 0 0 6px;
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+.vc-fallback-text {
+	margin: 0 0 14px;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--aw-text-soft);
+}
+.vc-fallback-ok { width: 100%; }
+
+@media (max-width: 560px) {
+	.vc-modal { padding: 14px; }
+	.vc-timer { font-size: 22px; }
+}
