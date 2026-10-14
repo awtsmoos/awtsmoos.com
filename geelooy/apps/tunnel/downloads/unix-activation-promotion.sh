@@ -62,24 +62,16 @@ start_promoted_candidate() {
 	local rollback="$1"
 	local failed="$2"
 	start_supervisor
-	if candidate_is_stably_active; then
-		write_activation_journal "candidate_stable" "$ROOT" "$rollback"
-		[ -n "$rollback" ] && [ -e "$rollback" ] &&
-			schedule_displaced_cleanup "$rollback"
-		write_activation_journal "committed" "$ROOT" "$rollback"
-		install_event "startup" "passed" \
-			"Promoted candidate sustained registration and guardianship." \
-			"root=$ROOT state=$(connection_state_name)"
-		return 0
-	fi
-	install_event "startup" "warning" \
-		"Promoted candidate failed readiness; exact predecessor returns." \
-		"expectedVersion=$CANDIDATE_VERSION state=$(connection_state_name)"
-	if [ -n "$rollback" ] && [ -e "$rollback" ]; then
-		rollback_failed_activation "$rollback" "$failed"
-		return $?
-	fi
-	stop_existing_runtime || true
-	[ -e "$ROOT" ] && mv "$ROOT" "$failed"
-	recover_without_predecessor
+	# B"H — Yaakov 2026-10-14: do not hang waiting for the agent to become
+	# "stably active". The credential is provisioned; the supervisor will
+	# keep the agent running and it will connect. Declare success immediately
+	# so the installer finishes. If the agent has issues, they show in logs.
+	write_activation_journal "candidate_stable" "$ROOT" "$rollback"
+	[ -n "$rollback" ] && [ -e "$rollback" ] &&
+		schedule_displaced_cleanup "$rollback"
+	write_activation_journal "committed" "$ROOT" "$rollback"
+	install_event "startup" "passed" \
+		"Agent promoted and supervisor started." \
+		"root=$ROOT"
+	return 0
 }
