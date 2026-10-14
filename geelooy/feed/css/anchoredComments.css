@@ -1,0 +1,270 @@
+/* B"H — Anchored comments (Medium-style selection comments + WhatsApp quotes).
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark text
+ * colors, full :hover/:focus-visible/:active/:disabled on every control.
+ */
+
+.ac-float-btn {
+	position: absolute;
+	z-index: 200;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 14px;
+	font: 600 13px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: #1a1206;
+	background: linear-gradient(180deg, #f3d98b, #e3b64f);
+	border: 1px solid rgba(120, 84, 18, 0.45);
+	border-radius: 999px;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+	cursor: pointer;
+	white-space: nowrap;
+}
+.ac-float-btn[hidden] {
+	display: none;
+}
+.ac-float-btn:hover {
+	background: linear-gradient(180deg, #ffe9a8, #e9c05e);
+}
+.ac-float-btn:focus-visible {
+	outline: 2px solid #7ab8ff;
+	outline-offset: 2px;
+}
+.ac-float-btn:active {
+	transform: translateY(1px);
+}
+
+/* ---- composer ---- */
+.ac-composer-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: 300;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 18px;
+	background: rgba(5, 7, 12, 0.62);
+}
+.ac-composer {
+	width: min(520px, 100%);
+	max-height: 88vh;
+	overflow: auto;
+	padding: 18px;
+	color: var(--aw-text);
+	background: var(--aw-bg);
+	background-color: var(--aw-bg);
+	border: 1px solid var(--aw-line);
+	border-radius: 14px;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+[data-theme="light"] .ac-composer {
+	color: var(--aw-text);
+	background: var(--aw-bg);
+	background-color: var(--aw-bg);
+}
+.ac-composer-label {
+	display: block;
+	margin-top: 12px;
+	font: 600 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+}
+[data-theme="light"] .ac-composer-label {
+	color: var(--aw-text);
+}
+.ac-composer-input {
+	display: block;
+	width: 100%;
+	margin-top: 6px;
+	padding: 10px 12px;
+	font: 400 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+	background: transparent;
+	border: 1px solid var(--aw-line);
+	border-radius: 10px;
+	resize: vertical;
+	min-height: 88px;
+}
+[data-theme="light"] .ac-composer-input {
+	color: var(--aw-text);
+}
+.ac-composer-input:focus-visible {
+	outline: 2px solid #7ab8ff;
+	outline-offset: 1px;
+}
+.ac-composer-error {
+	margin: 10px 0 0;
+	font: 500 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: #ff9d9d;
+}
+[data-theme="light"] .ac-composer-error {
+	color: #a83232;
+}
+.ac-composer-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-top: 14px;
+}
+.ac-btn {
+	padding: 9px 16px;
+	font: 600 14px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+	border-radius: 10px;
+	cursor: pointer;
+	border: 1px solid transparent;
+}
+.ac-btn:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+}
+.ac-btn-ghost {
+	color: var(--aw-text);
+	background: transparent;
+	border-color: var(--aw-line);
+}
+[data-theme="light"] .ac-btn-ghost {
+	color: var(--aw-text);
+}
+.ac-btn-ghost:hover {
+	background: rgba(127, 127, 127, 0.12);
+}
+.ac-btn-ghost:focus-visible,
+.ac-btn-primary:focus-visible {
+	outline: 2px solid #7ab8ff;
+	outline-offset: 2px;
+}
+.ac-btn-ghost:active,
+.ac-btn-primary:active {
+	transform: translateY(1px);
+}
+.ac-btn-primary {
+	color: #1a1206;
+	background: linear-gradient(180deg, #f3d98b, #e3b64f);
+	border-color: rgba(120, 84, 18, 0.45);
+}
+.ac-btn-primary:hover {
+	background: linear-gradient(180deg, #ffe9a8, #e9c05e);
+}
+
+/* ---- WhatsApp-style quote preview ---- */
+.ac-quote {
+	position: relative;
+	display: flex;
+	gap: 10px;
+	align-items: stretch;
+	margin: 0;
+	padding: 8px 12px;
+	font: 400 13px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+	background: rgba(127, 127, 127, 0.1);
+	border-radius: 0 10px 10px 0;
+}
+[data-theme="light"] .ac-quote {
+	color: var(--aw-text);
+	background: rgba(60, 40, 5, 0.06);
+}
+.ac-quote-bar {
+	flex: 0 0 4px;
+	border-radius: 4px;
+	background: #d4a94e;
+}
+.ac-quote-text {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+.ac-quote-link {
+	width: 100%;
+	border: 0;
+	text-align: start;
+	cursor: pointer;
+}
+.ac-quote-link:hover {
+	background: rgba(212, 169, 78, 0.16);
+}
+.ac-quote-link:focus-visible {
+	outline: 2px solid #7ab8ff;
+	outline-offset: 2px;
+}
+
+/* ---- anchored comment list ---- */
+.ac-list {
+	margin: 12px 0 0;
+	padding: 0 14px;
+}
+.ac-list-page {
+	margin: 24px 0;
+	padding: 0;
+}
+.ac-list:empty {
+	display: none;
+}
+.ac-list-title {
+	margin: 4px 0 10px;
+	font: 700 12px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--aw-text);
+	opacity: 0.72;
+}
+[data-theme="light"] .ac-list-title {
+	color: var(--aw-text);
+}
+.ac-comment {
+	margin-bottom: 12px;
+	padding: 12px 14px;
+	border: 1px solid var(--aw-line);
+	border-radius: 12px;
+	background: rgba(127, 127, 127, 0.05);
+}
+.ac-comment-head {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+.ac-comment-author {
+	font: 700 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+}
+[data-theme="light"] .ac-comment-author {
+	color: var(--aw-text);
+}
+.ac-comment-time {
+	font: 400 12px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+	opacity: 0.62;
+}
+[data-theme="light"] .ac-comment-time {
+	color: var(--aw-text);
+}
+.ac-local-badge {
+	display: inline-block;
+	padding: 1px 8px;
+	font: 600 11px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+	border: 1px solid var(--aw-line);
+	border-radius: 999px;
+	opacity: 0.8;
+}
+.ac-comment-body {
+	margin: 8px 0 0;
+	font: 400 14px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+[data-theme="light"] .ac-comment-body {
+	color: var(--aw-text);
+}
+
+/* ---- yellow flash on the anchored passage ---- */
+.ac-flash {
+	background-color: rgba(255, 214, 64, 0.85);
+	border-radius: 3px;
+	animation: ac-flash-fade 2.8s ease-out forwards;
+}
+@keyframes ac-flash-fade {
+	0% { background-color: rgba(255, 214, 64, 0.95); }
+	60% { background-color: rgba(255, 214, 64, 0.55); }
+	100% { background-color: rgba(255, 214, 64, 0); }
+}

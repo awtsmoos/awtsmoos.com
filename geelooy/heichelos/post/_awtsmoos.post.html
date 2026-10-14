@@ -237,6 +237,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-scroll-spy.css?v=reader-spy-001" type="text/css">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-padding-fix.css?v=reader-pad-001" type="text/css">
 	<link rel="stylesheet" href="/heichelos/post/styles/scroll-stability.css?v=scroll-stable-001" type="text/css">
+	<link rel="stylesheet" href="/feed/css/anchoredComments.css?v=1" type="text/css">
 	<link rel="stylesheet" href="/style/animations/micro-interactions.css?v=32a718e837" type="text/css">
 	<?<script>
 		if (typeof postSemanticHead === "string" && postSemanticHead) {
@@ -337,6 +338,11 @@ readable). Fades on reader-ready; CSS-only fallback fades it if JS never runs.
 		<div id="awtsmoos-verse-menu-container"></div>
 		<script src="/register.js?v=fcaa78a126"></script>
 		<script type="module" src="/heichelos/post/postLogic.js?v=f769db37f8"></script>
+		<script type="module">
+			/* B"H 2026-10-13: anchored comments — select any passage to comment on it. */
+			import { initAnchoredComments } from '/feed/js/anchoredComments.js?v=1';
+			initAnchoredComments();
+		</script>
 		<script>
 			/* B"H 2026-10-13 (social-feed-audit): deep-link to comments.
 			 * The social feed's comment button navigates here with #comments —

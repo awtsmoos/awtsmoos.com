@@ -18,8 +18,9 @@
 <meta name="description" content="The Awtsmoos River — a smart ranked social feed of Torah voices.">
 <meta name="theme-color" content="#0b0d12">
 <title>Awtsmoos River — Social Feed</title>
-<link rel="stylesheet" href="/style/awtsmoos-tokens.css">
-<link rel="stylesheet" href="/feed/css/feed.css?v=river-001">
+<link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=277746350e">
+<link rel="stylesheet" href="/feed/css/feed.css?v=1649cdcf4e">
+<link rel="stylesheet" href="/feed/css/anchoredComments.css?v=1">
 </head>
 <body>
 <div class="feed-stage" id="feed-stage">
@@ -58,6 +59,10 @@ const river = createFeedRiver({
 	statusEl: document.getElementById('feed-status')
 });
 river.attach();
+
+// Anchored comments: select text in any card body -> floating Comment button.
+import { initAnchoredComments } from '/feed/js/anchoredComments.js?v=1';
+initAnchoredComments();
 
 // Benchmark hook: ?bench=1 runs the perf ledger summary to console + title.
 if (new URLSearchParams(location.search).get('bench') === '1') {
