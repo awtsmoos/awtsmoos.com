@@ -901,7 +901,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   /* textures (real photographs, Awtsmoos Drive) */
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
          grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
-         leafClusterTex, denseCanopyTex, backlitCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4,
+         leafClusterTex, denseCanopyTex, backlitCanopyTex, framingBranchTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4,
          pebbleTex, fallenLogTex, leafLitterTex, wetRockTex,
          barkNormalTex, mossNormalTex, pebbleNormalTex, wetRockNormalTex,
          waterRippleNormalTex, leafVeinNormalTex,
@@ -930,6 +930,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     makeDenseCanopyAlpha(TEX + 'tex-canopy-dense.webp'),
     // B"H — Phase 2 (2026-10-13 sprint): backlit leaves for translucency glow.
     makeLeafClusterAlpha(TEX + 'new/tex-canopy-backlit.webp'),
+    // B"H TEXTURE-FIRST (Yaakov 2026-10-14: "that's like 1%"): the canvas-drawn
+    // framing branch was the gray-blob artifact. Premade photoreal branch.
+    makeLeafClusterAlpha(TEX + 'new/tex-framing-branch.png'),
     // B"H — photoreal tree impostors: full trees on black, for dense forest walls.
     // Yaakov 2026-10-13: "do not stop until it's real" — these are the breakthrough.
     makeDenseCanopyAlpha(TEX + 'imp-tree-full-1.webp'),
@@ -1364,7 +1367,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     terrGeo.computeVertexNormals();
   }
   const terrainMat = new THREE.MeshStandardMaterial({
-    map: grassGroundTex, vertexColors: true, roughness: 1.0, metalness: 0.0,
+    // B"H TEXTURE-FIRST 2026-10-14 (Yaakov: "that's like 1%"): was
+    // grassGroundTex (astroturf lawn). The target is a mossy forest floor —
+    // the photoreal v2 moss texture was sitting unused. Moss now.
+    map: mossGroundTex, vertexColors: true, roughness: 1.0, metalness: 0.0,
     // B"H — moss relief normals: ground stops being a flat plane under sun.
     normalMap: mossNormalTex, normalScale: new THREE.Vector2(0.9, 0.9),
   });
@@ -1893,7 +1899,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // canopy blob). Emissive lift keeps transmitted light on the shadow side —
     // real leaves are translucent, never pure black.
     map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-    roughness: 0.9, color: new THREE.Color(0.42, 0.50, 0.38),
+    // B"H TEXTURE-FIRST 2026-10-14: was (0.42,0.50,0.38) — crushed the leaf
+    // photo to 45% brightness (flat dark blobs). The texture IS the detail;
+    // let it read. Lighting + backlight provide the shading.
+    roughness: 0.9, color: new THREE.Color(0.80, 0.84, 0.70),
     emissive: new THREE.Color(0.10, 0.13, 0.05),
     emissiveMap: backlitCanopyTex,
     depthWrite: true,
@@ -3677,24 +3686,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   if (scene.userData.webGlint) updaters.push(scene.userData.webGlint);
   /* B"H NEW #13: foreground framing branch — one overhanging branch across
      the top of frame for depth composition. Dark, out-of-focus feel (dark
-     tint sells the near-field). Attached to the camera rig (static per view). */
+     tint sells the near-field). Attached to the camera rig (static per view).
+     B"H TEXTURE-FIRST 2026-10-14: was a canvas-drawn cartoon (the gray blob
+     artifact in sweep2). Now a premade photoreal branch texture. */
   {
-    const fcv = document.createElement('canvas'); fcv.width = 128; fcv.height = 128;
-    const fx3 = fcv.getContext('2d');
-    // branch silhouette with leaves, drawn dark
-    fx3.strokeStyle = 'rgba(28,26,18,1)'; fx3.lineWidth = 10; fx3.lineCap = 'round';
-    fx3.beginPath(); fx3.moveTo(-10, 110); fx3.quadraticCurveTo(60, 80, 140, 30); fx3.stroke();
-    fx3.lineWidth = 5;
-    fx3.beginPath(); fx3.moveTo(50, 85); fx3.quadraticCurveTo(70, 60, 90, 55); fx3.stroke();
-    fx3.fillStyle = 'rgba(32,42,20,1)';
-    const frnd2 = mulberry32(777);
-    for (let li = 0; li < 26; li++) {
-      const lx = frnd2() * 140, ly = 20 + frnd2() * 90;
-      fx3.beginPath(); fx3.ellipse(lx, ly, 9, 5, frnd2() * 3, 0, 6.283); fx3.fill();
-    }
-    const ftex = new THREE.CanvasTexture(fcv);
+    // B"H — framingBranchTex is white-keyed to alpha at load (see
+    // makeLeafClusterAlpha); the photoreal branch reads against the canopy.
     const fmat = new THREE.MeshBasicMaterial({
-      map: ftex, transparent: true, depthWrite: false, fog: false, opacity: 0.92,
+      map: framingBranchTex, transparent: true, depthWrite: false, fog: false,
+      opacity: 0.96, color: new THREE.Color(0.55, 0.58, 0.52),
     });
     // camera-attached: position in camera space (top of frame)
     // B"H 2nd pass: was 7u — dominated the frame. Now 3u, tucked into the
