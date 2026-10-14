@@ -29,6 +29,10 @@ module.exports = {
 		await registerScriptRoute($i, "emergency-repair", "emergency-repair.sh");
 		await registerScriptRoute($i, "merkava-shot", "merkava-shot/merkava-shot.sh");
 		await registerScriptRoute($i, "merkava-shot.bundle.mjs", "merkava-shot/merkava-shot.bundle.mjs");
+		// B"H — Yaakov 2026-10-14: installer bootstrap needs the components manifest
+		// as an individual file, not just in the tarball. Without this route the
+		// installer gets HTTP 403 and fails before completion.
+		await registerScriptRoute($i, "unix-bootstrap-components.sh", "unix-bootstrap-components.sh");
 		await $i.use(
 			"installer-components.tar.gz",
 			async () => publishInstallerComponents($i)
