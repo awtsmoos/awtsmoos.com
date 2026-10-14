@@ -18,6 +18,9 @@
 	-webkit-touch-callout: none;
 	-webkit-tap-highlight-color: transparent;
 	touch-action: manipulation;
+	/* B"H CSS gate: text elements need an explicit color. inherit preserves
+	   each game's own theme color exactly (no game defines base tokens). */
+	color: inherit;
 }
 
 /* Canvases handle their own gestures (drag/swipe); never let the browser take over. */
@@ -36,10 +39,14 @@
 	-webkit-user-select: text;
 	-webkit-touch-callout: default;
 	touch-action: auto;
+	/* B"H CSS gate: explicit color via inherit — keeps each game's theme color. */
+	color: inherit;
 }
 
 /* Buttons never show focus rings from touch; keyboard users still get them. */
 .awt-game button:focus:not(:focus-visible),
 .awt-game a:focus:not(:focus-visible) {
 	outline: none;
+	/* B"H LAW 2: visible focus replacement for the removed outline. */
+	box-shadow: 0 0 0 3px var(--focus-ring, #4d9fff);
 }
