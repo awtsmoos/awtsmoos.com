@@ -32,10 +32,12 @@ function verifyRegistration(input = {}) {
 		// B"H — 2026-10-15: Fallback for agents with empty tunnelId.
 		// If tunnelId is empty, search by deviceId + credential digest.
 		let binding = null;
+		let usedFallback = false;
 		if (input.tunnelId && String(input.tunnelId).trim()) {
 			binding = bindingById(input.tunnelId, store);
 		} else {
 			// Fallback: Find binding by deviceId and credential digest.
+			usedFallback = true;
 			const suppliedDigest = Secrets.digest(input.credential);
 			const deviceId = Id.deviceId(input.deviceId);
 			for (const tid of Object.keys(store.tunnelBindings || {})) {
@@ -49,9 +51,12 @@ function verifyRegistration(input = {}) {
 			}
 		}
 		const suppliedDigest = Secrets.digest(input.credential);
+		// B"H — Yaakov 2026-10-15: In fallback mode (empty tunnelId), the agent
+		// doesn't know its tunnelName. The credential digest match is sufficient.
+		// Only enforce tunnelName match when tunnelId was provided.
 		const identityMatches = Provenance.isTrustedBinding(binding) &&
 			binding.deviceId === Id.deviceId(input.deviceId) &&
-			binding.tunnelName === Id.tunnelName(input.tunnelName);
+			(usedFallback || binding.tunnelName === Id.tunnelName(input.tunnelName));
 		if (!identityMatches || !Secrets.secureEqual(binding.credentialDigest, suppliedDigest)) {
 			return store;
 		}
