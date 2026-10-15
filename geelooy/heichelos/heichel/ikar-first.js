@@ -182,8 +182,17 @@ function enhanceDreamCards(discovery, items) {
 		link.dataset.dreamEnhanced = 'true';
 
 		// Split "עברית · English" into two spans.
+		// B"H — Yaakov 2026-10-15: Also handle concatenated "עבריתEnglish" (no separator)
+		// by detecting the Hebrew-to-Latin boundary.
 		const raw = link.textContent.trim();
-		const parts = raw.split(/\s*[·•|]\s*/);
+		let parts = raw.split(/\s*[·•|]\s*/);
+		if (parts.length < 2) {
+			// Try to split at Hebrew/Latin boundary
+			const match = raw.match(/^([\u0590-\u05FF\u200F\u200E\s"'\u05B0-\u05C7.,;:!?()-]+?)\s*([A-Za-z].*)$/);
+			if (match) {
+				parts = [match[1].trim(), match[2].trim()];
+			}
+		}
 		const titles = document.createElement('span');
 		titles.className = 'dream-heichel-titles';
 		if (parts.length >= 2) {
