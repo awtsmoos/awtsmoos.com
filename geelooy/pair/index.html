@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pair Device - Awtsmoos.com</title>
+<style>
+body { font-family: system-ui, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+input, button { font-size: 18px; padding: 12px; margin: 8px 0; width: 100%; box-sizing: border-box; }
+button { background: #1a73e8; color: white; border: none; border-radius: 8px; cursor: pointer; }
+#status { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; }
+</style>
+</head>
+<body>
+<h1>Pair Your Device</h1>
+<p>Enter the pairing code from your AI agent:</p>
+<input type="text" id="code" placeholder="e.g., ABC-123" maxlength="7">
+<button onclick="approve()">Approve Pairing</button>
+<div id="status"></div>
+<script>
+async function approve() {
+  const code = document.getElementById('code').value.trim();
+  const status = document.getElementById('status');
+  status.style.display = 'block';
+  status.textContent = 'Approving...';
+  try {
+    const res = await fetch('/api/tunnel/pair/approve', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({userCode: code})
+    });
+    const data = await res.json();
+    if (data.ok) {
+      status.style.background = '#d4edda';
+      status.textContent = 'Paired successfully!';
+    } else {
+      status.style.background = '#f8d7da';
+      status.textContent = 'Error: ' + (data.error || 'Unknown');
+    }
+  } catch (e) {
+    status.style.background = '#f8d7da';
+    status.textContent = 'Error: ' + e.message;
+  }
+}
+</script>
+</body>
+</html>
