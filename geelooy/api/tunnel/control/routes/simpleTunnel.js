@@ -64,6 +64,19 @@ async function queueCommand($i) {
   const id = `cmd_${store.nextId++}_${Date.now()}`;
   store.pending.push({ id, command, targetAgentId, createdAt: new Date().toISOString() });
   saveStore(store);
+  // B"H — Yaakov 2026-10-15: Push via WebSocket to the target agent (if connected).
+  // The agent also polls as fallback, so this is a latency optimization.
+  if (targetAgentId && $i.ws) {
+    try {
+      $i.ws.sendToAlias(`tunnel:${targetAgentId}`, {
+        type: "command",
+        id: id,
+        command: command
+      });
+    } catch (e) {
+      // B"H — WS push is best-effort; polling fallback ensures delivery.
+    }
+  }
   return { statusCode: 200, response: JSON.stringify({ ok: true, id }) };
 }
 
