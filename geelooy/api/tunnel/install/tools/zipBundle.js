@@ -36,10 +36,16 @@ function productionManifestMtime() {
 function buildAgentBundle(repoRoot) {
 	if (repoRoot) return buildFreshBundle(repoRoot);
 	const mtimeMs = productionManifestMtime();
-	if (productionBundle && mtimeMs !== 0 && mtimeMs === productionManifestMtimeMs) {
+	// B"H — Yaakov 2026-10-15: Cache expires after 60 seconds.
+	// The old cache keyed only on manifest.txt mtime, so source changes
+	// without a manifest bump served stale bundles. Time-based expiry
+	// ensures freshness while keeping the performance benefit.
+	const now = Date.now();
+	if (productionBundle && (now - productionBundle.builtAt) < 60000) {
 		return productionBundle;
 	}
 	const bundle = buildFreshBundle();
+	bundle.builtAt = now;
 	productionBundle = bundle;
 	productionManifestMtimeMs = mtimeMs;
 	return bundle;
