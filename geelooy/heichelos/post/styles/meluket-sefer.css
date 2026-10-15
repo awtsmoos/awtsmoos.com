@@ -38,7 +38,8 @@
 .meluket-sefer-active .meluket-sefer {
 	max-width: 1180px;
 	margin: 0 auto;
-	padding: 1rem 0.5rem 4rem;
+	/* B"H — Yaakov 2026-10-15: minimal horizontal padding, text gets the room. */
+	padding: 1rem 0.25rem 4rem;
 	background: var(--sefer-paper);
 	color: var(--sefer-ink); /* Layer 15 completeness: explicit text color */
 	border-radius: 6px;
@@ -213,7 +214,10 @@
    so they look identical. It sits on top of the shared --sefer-phrase-size,
    so +/− scaling keeps them equal at every size. */
 .meluket-sefer-active {
-	--sefer-phrase-size: clamp(2.4rem, 6.2vw, 3.4rem);
+	/* B"H — Yaakov 2026-10-15: Aa +/- controls MUST scale the phrases.
+	   Connect to --post-text-size (set by ReaderScalePolicy, no max).
+	   Falls back to the responsive clamp outside the reader context. */
+	--sefer-phrase-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem));
 	--hebrew-optical: 1.3;
 }
 .meluket-sefer-active .meluket-phrase--he {
@@ -417,12 +421,13 @@
 }
 
 .meluket-sefer-active .meluket-summary {
-	margin-top: 1.1rem;
-	padding-top: 1rem;
+	margin-top: 0.8rem;
+	padding-top: 0.8rem;
 	border-top: 1px dotted var(--sefer-rule);
-	font-size: 1.08rem;
-	line-height: 1.65;
-	color: var(--sefer-ink-soft);
+	/* B"H — Yaakov 2026-10-15: overview text same size as Hebrew body text. */
+	font-size: calc(var(--sefer-phrase-size, 1rem) * var(--hebrew-optical, 1.3));
+	line-height: 1.7;
+	color: var(--sefer-ink);
 }
 
 .meluket-sefer-active .meluket-summary-label {
@@ -431,7 +436,11 @@
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	color: var(--sefer-accent);
-	margin-bottom: 0.4rem;
+	margin-bottom: 0.3rem;
+	/* B"H — Yaakov 2026-10-15: never break the word "Overview" across lines. */
+	word-break: normal;
+	overflow-wrap: normal;
+	white-space: nowrap;
 }
 
 .meluket-sefer-active .meluket-summary p,

@@ -40,6 +40,12 @@
     --ease-snap: cubic-bezier(0.19, 1, 0.22, 1);
     --time-fast: 0.1s;
     --time-std: 0.3s;
+
+    /* --- FOOTNOTE TOKENS (B"H Yaakov 2026-10-15: theme-safe, no hardcoded colors) --- */
+    --footnote-ref-bg: rgba(43, 0, 255, 0.05);
+    --footnote-ref-hover-bg: #ffae00;
+    --footnote-ref-hover-ink: #1a1409;
+    --footnote-item-bg: #f9f9f9;
 }
 
 /* --- THE NIGHT VIGIL (DARK THEME) --- */
@@ -54,4 +60,10 @@
     --color-electric: #55aaff;
     --shadow-ui: 4px 4px 0px 0px rgba(255,255,255,0.1);
     --shadow-hover: 8px 8px 0px 0px rgba(255,255,255,0.2);
+
+    /* --- FOOTNOTE TOKENS (dark theme) --- */
+    --footnote-ref-bg: rgba(120, 140, 255, 0.08);
+    --footnote-ref-hover-bg: #ffd700;
+    --footnote-ref-hover-ink: #1a1409;
+    --footnote-item-bg: #141414;
 }

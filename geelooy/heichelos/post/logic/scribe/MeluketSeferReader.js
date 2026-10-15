@@ -701,10 +701,43 @@ function openFootnotePopup(fnNum, marker, sefer) {
 			note = document.querySelector(`.meluket-footnote[data-fn="${fnNum}"], #meluket-fn-${fnNum}`);
 		} catch (_) { /* invalid selector chars */ }
 	}
+	// B"H — Yaakov 2026-10-15: fall back to API footnote data when the DOM
+	// shelf isn't available. post.footnotes has {n, hebrew, english}.
+	let apiFn = null;
+	if (!note) {
+		const apiFootnotes =
+			(srcCachedData && srcCachedData.post && Array.isArray(srcCachedData.post.footnotes) && srcCachedData.post.footnotes) ||
+			(window.post && Array.isArray(window.post.footnotes) && window.post.footnotes) ||
+			[];
+		apiFn = apiFootnotes.find(fn => fn && String(fn.n ?? fn.num ?? fn.number ?? '') === String(fnNum)) || null;
+	}
 	ensureFootnoteModal();
 	fnNumEl.textContent = fnNum;
 	fnBodyEl.innerHTML = '';
-	if (!note) {
+	if (apiFn) {
+		const heBody = apiFn.hebrew || apiFn.body || '';
+		const enBody = apiFn.english || apiFn.body_en || '';
+		if (heBody) {
+			const h = el('div', 'awtsmoos-fn-he');
+			h.setAttribute('dir', 'rtl');
+			h.setAttribute('lang', 'he');
+			setFootnoteBodyHtml(h, heBody);
+			fnBodyEl.appendChild(h);
+		}
+		if (enBody) {
+			const e = el('div', 'awtsmoos-fn-en');
+			e.setAttribute('dir', 'ltr');
+			e.setAttribute('lang', 'en');
+			e.textContent = enBody;
+			fnBodyEl.appendChild(e);
+		}
+		if (!heBody && !enBody) {
+			const f = el('div', 'awtsmoos-fn-en');
+			f.setAttribute('dir', 'auto');
+			f.textContent = `Footnote ${fnNum}`;
+			fnBodyEl.appendChild(f);
+		}
+	} else if (!note) {
 		const f = el('div', 'awtsmoos-fn-en');
 		f.setAttribute('dir', 'auto');
 		f.textContent = `Footnote ${fnNum} — content not available for this post yet.`;
@@ -1514,6 +1547,10 @@ function finalizeSeferMount(sefer, post) {
 		document.addEventListener('click', (e) => {
 			const marker = e.target && e.target.closest ? e.target.closest('sup.meluket-fn-marker[data-fn], sup[data-fn]') : null;
 			if (!marker || marker.closest('.meluket-footnotes-shelf')) return;
+			// B"H — Yaakov 2026-10-15: markers inside the sefer are handled by
+			// the sefer's own bubble handler (opens the Sources sheet). Don't
+			// ALSO open the popup here — that double-opens the UI.
+			if (marker.closest('.meluket-sefer')) return;
 			const fnNum = marker.getAttribute('data-fn');
 			if (!fnNum) return;
 			// If the sefer handler already opened the popup, don't double-fire.
