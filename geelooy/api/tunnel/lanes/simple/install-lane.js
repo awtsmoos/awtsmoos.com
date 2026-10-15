@@ -28,6 +28,11 @@ const LANES = {
     file: "agent-websocket.js",
     desc: "WebSocket real-time. Falls back to polling.",
     cmd: "node agent-websocket.js"
+  },
+  "file": {
+    file: "agent-file.js",
+    desc: "Pure file, zero HTTP. For air-gapped environments.",
+    cmd: "node agent-file.js"
   }
 };
 
