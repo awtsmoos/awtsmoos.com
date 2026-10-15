@@ -44,6 +44,16 @@ function status(config, pairingId, requestSecret) {
 	});
 }
 
+/** B"H — Yaakov 2026-10-14: Read-only polling. Checks approval state WITHOUT
+ * consuming the credential. Use this in the wait loop; only call status()
+ * (destructive) once after seeing "approved". Prevents pairing_consumed from
+ * destructive polling. */
+function state(config, pairingId) {
+	return HttpJson.post(endpoint(config, "pairing/state"), {
+		pairingId
+	});
+}
+
 /** Returns the browser approval URL without a long-lived secret. */
 function approvalUrl(config, pairingId, userCode) {
 	// B"H — Yaakov 2026-10-14: lightweight standalone approval page.
@@ -58,5 +68,6 @@ module.exports = {
 	baseUrl,
 	endpoint,
 	request,
+	state,
 	status
 };

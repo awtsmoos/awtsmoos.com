@@ -60,13 +60,11 @@ async function wait(config, response, options = {}) {
 	try {
 		while (Date.now() < deadline) {
 			if (options.signal?.aborted) throw pairingFailure("pairing_cancelled");
-			let status;
+			let state;
 			try {
-				status = await PairingClient.status(
-					config,
-					response.pairingId,
-					response.requestSecret
-				);
+				// B"H — Yaakov 2026-10-14: READ-ONLY polling. Never consumes.
+				// The destructive status() is called exactly once, below.
+				state = await PairingClient.state(config, response.pairingId);
 			} catch (error) {
 				// B"H — a single failed poll (network blip, timeout, transient
 				// server error) must NEVER kill the pairing wait. Log it and keep
@@ -80,17 +78,33 @@ async function wait(config, response, options = {}) {
 				continue;
 			}
 			consecutiveErrors = 0;
-			if (status.state === "approved" && status.credentialEnvelope) return status;
+			// B"H — Yaakov 2026-10-14: Only when read-only state shows "approved"
+			// do we do the ONE destructive consume. Never poll with consume.
+			if (state.state === "approved") {
+				let final;
+				try {
+					final = await PairingClient.status(
+						config,
+						response.pairingId,
+						response.requestSecret
+					);
+				} catch (error) {
+					throw pairingFailure("pairing_consume_failed");
+				}
+				if (final.state === "approved" && final.credentialEnvelope) return final;
+				// Consume did not return a credential; do not retry (would get "consumed").
+				throw pairingFailure(`pairing_${final.state || "consume_failed"}`);
+			}
 			// B"H — "consumed" means another process (usually a stale candidate
 			// agent from an interrupted install) already claimed this pairing's
 			// credential. It will never become "approved" for us; fail fast with
 			// a clear message instead of polling forever.
-			if (["expired", "cancelled", "rejected", "consumed"].includes(status.state)) {
-				throw pairingFailure(`pairing_${status.state}`);
+			if (["expired", "cancelled", "rejected", "consumed"].includes(state.state)) {
+				throw pairingFailure(`pairing_${state.state}`);
 			}
 			// The server slides the expiry forward on every healthy poll; follow it
 			// so the installer never dies while it is alive and polling.
-			const refreshed = Number(status.expiresAt || 0);
+			const refreshed = Number(state.expiresAt || 0);
 			if (refreshed > deadline) deadline = refreshed;
 			await sleepUnlessPush(push, options.pollIntervalMs || POLL_INTERVAL_MS);
 		}

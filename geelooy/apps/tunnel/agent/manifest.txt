@@ -1,5 +1,5 @@
 B"H
-1.0.664
+1.0.665
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
