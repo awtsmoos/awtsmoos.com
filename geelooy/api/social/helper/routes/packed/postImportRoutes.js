@@ -599,10 +599,17 @@ class PackedPostImportRoutes {
 		const infoPath = `/social/aliases/${aliasId}/info`;
 		let existing = null;
 		try { existing = await $i.db.get(infoPath); } catch (_) { /* ignore */ }
+		const now = Date.now();
 		if (!existing) {
-			const now = Date.now();
 			await $i.db.write(infoPath, { aliasId, name, kind: 'commentator', createdAt: now, createdBy: 'post-import-api' });
 			await $i.db.write(`/social/aliases/${aliasId}/profile`, { aliasId, name, bio: '', createdAt: now });
+		} else if (name && (!existing.name || existing.name !== name)) {
+			// B"H 2026-10-15: Update alias name if provided and different (Yaakov: no duplicate aliases, update in place)
+			await $i.db.write(infoPath, { ...existing, name, updatedAt: now, updatedBy: 'post-import-api' });
+			try {
+				const profile = await $i.db.get(`/social/aliases/${aliasId}/profile`);
+				await $i.db.write(`/social/aliases/${aliasId}/profile`, { ...(profile || {}), aliasId, name, updatedAt: now });
+			} catch (_) { /* ignore */ }
 		}
 		// Alias -> org(heichel) link (queryable both directions).
 		// B"H 2026-10-11: object value, not boolean true (see writeNativePost).
