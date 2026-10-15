@@ -12,6 +12,7 @@ export LANG=C
 # Every failure will show exactly where it happened and the call chain.
 # Beautiful output per Yaakov's "everything should feel magical" law.
 trap '{
+  trap - ERR  # Prevent infinite recursion if trap code fails
   echo "" >&2
   echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
   echo "   INSTALLER STACK TRACE — exactly where it broke" >&2

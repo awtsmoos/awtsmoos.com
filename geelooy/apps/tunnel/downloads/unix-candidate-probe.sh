@@ -6,6 +6,7 @@
 # B"H — Yaakov 2026-10-14: Beautiful stack trace on probe errors.
 if ! trap -p ERR 2>/dev/null | grep -q "STACK TRACE"; then
   trap '{
+    trap - ERR  # Prevent infinite recursion
     echo "" >&2
     echo "✨ ═══════════════════════════════════════════ ✨" >&2
     echo "   PROBE STACK TRACE" >&2

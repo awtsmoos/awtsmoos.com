@@ -8,6 +8,7 @@
 # If run standalone, this ensures we always see the full error.
 if ! trap -p ERR >/dev/null 2>&1 || ! trap -p ERR | grep -q "STACK TRACE"; then
   trap '{
+    trap - ERR  # Prevent infinite recursion
     echo "" >&2
     echo "✨ ═══════════════════════════════════════════ ✨" >&2
     echo "   STACK TRACE — exactly where it broke" >&2
