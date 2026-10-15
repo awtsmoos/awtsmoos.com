@@ -22,10 +22,21 @@ curl -s "https://awtsmoos.com/api/tunnel/control/simple/result?secret=YOUR_SECRE
 # Returns: {"ok":true,"done":true,"output":"..."}
 ```
 
+**Select a specific tunnel:**
+```bash
+# Target a command to a specific agent (by TUNNEL_AGENT_ID):
+curl -s -X POST https://awtsmoos.com/api/tunnel/control/simple/cmd \
+  -H "Content-Type: application/json" \
+  -d '{"secret":"YOUR_SECRET","command":"hostname","agentId":"my-macbook"}'
+# Only the agent with TUNNEL_AGENT_ID=my-macbook will pick it up.
+# If agentId is omitted, any agent can pick it up.
+```
+
 **Run the agent** (on target machine):
 ```bash
-node geelooy/api/tunnel/lanes/simple/agent-poll.js
-# Env vars: TUNNEL_SERVER, TUNNEL_SECRET, TUNNEL_QUEUE_FILE, TUNNEL_POLL_MS
+# The agent identifies itself with TUNNEL_AGENT_ID (defaults to hostname):
+TUNNEL_AGENT_ID=my-macbook node geelooy/api/tunnel/lanes/simple/agent-poll.js
+# Env vars: TUNNEL_SERVER, TUNNEL_SECRET, TUNNEL_AGENT_ID, TUNNEL_QUEUE_FILE, TUNNEL_POLL_MS
 ```
 
 ---
