@@ -7,7 +7,7 @@
  * Awtsmoos.com owns presentation here, never topology, so the cascade needs no battle anymore.
  */
 .post-reader-localized-context {
-	--post-text-size: clamp(1.125rem, 4.6vw, 1.44rem);
+	--post-text-size: clamp(1.125rem, 4.6vw, 9999rem);
 	--social-panel: rgb(15 27 45 / 84%);
 	--social-line: rgb(255 255 255 / 12%);
 	background:
