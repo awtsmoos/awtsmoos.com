@@ -29,7 +29,25 @@ function bindingById(tunnelId, store = readStore()) {
 function verifyRegistration(input = {}) {
 	let result = { ok: false, error: "invalid_device_credential" };
 	mutateStore(store => {
-		const binding = bindingById(input.tunnelId, store);
+		// B"H — 2026-10-15: Fallback for agents with empty tunnelId.
+		// If tunnelId is empty, search by deviceId + credential digest.
+		let binding = null;
+		if (input.tunnelId && String(input.tunnelId).trim()) {
+			binding = bindingById(input.tunnelId, store);
+		} else {
+			// Fallback: Find binding by deviceId and credential digest.
+			const suppliedDigest = Secrets.digest(input.credential);
+			const deviceId = Id.deviceId(input.deviceId);
+			for (const tid of Object.keys(store.tunnelBindings || {})) {
+				const b = store.tunnelBindings[tid];
+				if (b && b.deviceId === deviceId && 
+				    Secrets.secureEqual(b.credentialDigest, suppliedDigest) &&
+				    Provenance.isTrustedBinding(b)) {
+					binding = b;
+					break;
+				}
+			}
+		}
 		const suppliedDigest = Secrets.digest(input.credential);
 		const identityMatches = Provenance.isTrustedBinding(binding) &&
 			binding.deviceId === Id.deviceId(input.deviceId) &&
