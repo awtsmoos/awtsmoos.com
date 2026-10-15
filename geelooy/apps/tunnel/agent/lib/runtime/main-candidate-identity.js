@@ -14,6 +14,19 @@ const IdentityPaths = require("../deviceIdentity/identityPaths.js");
  * Awtsmoos.com permits physical creation only for fresh install or an explicit reset grace.
  */
 async function ensureDeviceIdentity(dependencies, config) {
+	// B"H — Yaakov 2026-10-14: Probe mode bypasses identity entirely.
+	// The installer probe just verifies the agent CAN start and listen on the
+	// local API port. It does not need a real device identity. Return a mock
+	// immediately to avoid the pairing requirement.
+	if (Environment.isCandidateProbe()) {
+		dependencies.log?.("info", "B\"H candidate probe: using mock identity, skipping device pairing.");
+		return {
+			ok: true,
+			deviceId: "probe-device",
+			tunnelId: "probe-tunnel",
+			probeMode: true
+		};
+	}
 	// B"H — installer-provisioned identity (Yaakov 2026-10-14): when the
 	// installer completes pairing directly, it writes provisioned-identity.json
 	// for the agent to pick up. This makes approval → registration instant —
