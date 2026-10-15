@@ -7,6 +7,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { mutateStore, readStore } = require("../store.js");
 const Approval = require("./pairingApproval.js");
+const Binding = require("./bindingStore.js");
 const Friendly = require("./pairingErrorMessages.js");
 const Id = require("./identifiers.js");
 const Secrets = require("./secrets.js");
@@ -108,31 +109,55 @@ function createTunnelCredential(pairing, accountId) {
 	}
 	logStep("validate_inputs", true, `pairing=${pairing.pairingId} account=${accountId}`);
 
-	// SAFEGUARD 2: Generate unique tunnelId.
-	const tunnelId = `tun_${Secrets.randomToken(22)}`;
-	if (!tunnelId || tunnelId.length < 10) {
-		logStep("generate_tunnelId", false, "tunnelId generation failed");
-		report.error = "tunnelId_generation_failed";
-		return report;
-	}
-	logStep("generate_tunnelId", true, `tunnelId=${tunnelId.slice(0, 12)}...`);
-
-	// SAFEGUARD 3: Build MINIMAL credential payload.
+	// SAFEGUARD 2: Generate credential plaintext (simple token, not JSON).
 	// B"H — 2026-10-14: RSA 2048 OAEP SHA256 can only encrypt ~190 bytes.
-	// Use short field names and minimal fields to stay under the limit.
-	// Format: {t: tunnelId, s: secret} — relay resolves account/device from tunnelId.
-	const tunnelSecret = Secrets.randomToken(16);
-	const credentialPayload = {
-		t: tunnelId,
-		s: tunnelSecret
-	};
-	const credentialJson = JSON.stringify(credentialPayload);
-	if (!credentialJson || credentialJson.length < 20) {
-		logStep("build_payload", false, "credential JSON build failed");
-		report.error = "credential_build_failed";
+	// Use a simple random token as the credential plaintext. The relay
+	// verifies via digest, and resolves tunnelId/account from the binding.
+	// The binding (created below) generates the tunnelId.
+	const credentialPlaintext = Secrets.randomToken(32);
+	if (!credentialPlaintext || credentialPlaintext.length < 40) {
+		logStep("generate_credential", false, "credential generation failed");
+		report.error = "credential_generation_failed";
 		return report;
 	}
-	logStep("build_payload", true, `payload_bytes=${credentialJson.length}`);
+	logStep("generate_credential", true, `credential_bytes=${credentialPlaintext.length}`);
+
+	// SAFEGUARD 3: Create binding in the store.
+	// B"H — 2026-10-14: The relay's verifyRegistration looks up the binding
+	// by tunnelId and compares credential digests. Without the binding,
+	// the tunnel can never authenticate. This was the missing piece.
+	let binding = null;
+	try {
+		mutateStore(store => {
+			binding = Binding.createBinding(store, {
+				pairingId: pairing.pairingId,
+				ownershipVerifiedAt: new Date().toISOString(),
+				pairingProofVersion: 1,
+				tunnelName: pairing.tunnelName,
+				deviceId: pairing.deviceId,
+				ownerAccountId: accountId,
+				credential: credentialPlaintext,
+				devicePublicKey: pairing.devicePublicKey,
+				deviceName: pairing.deviceName,
+				platform: pairing.platform
+			});
+			return store;
+		});
+	} catch (e) {
+		logStep("create_binding", false, e.message);
+		report.error = "binding_creation_failed";
+		return report;
+	}
+	if (!binding || !binding.tunnelId) {
+		logStep("create_binding", false, "binding creation returned no tunnelId");
+		report.error = "binding_creation_failed";
+		return report;
+	}
+	const tunnelId = binding.tunnelId;
+	logStep("create_binding", true, `tunnelId=${tunnelId.slice(0, 12)}...`);
+
+	// Use the plaintext for encryption (defined above as credentialPlaintext).
+	const credentialJson = credentialPlaintext;
 
 	// SAFEGUARD 4: Parse device public key.
 	let publicKeyObj = null;
@@ -183,8 +208,8 @@ function createTunnelCredential(pairing, accountId) {
 	report.ok = true;
 	report.tunnelId = tunnelId;
 	report.credentialEnvelope = envelope;
-	// Store the tunnel secret digest for later verification (not the secret itself).
-	report.tunnelSecretDigest = Secrets.digest(tunnelSecret);
+	// Store the credential digest for later verification (not the plaintext itself).
+	report.tunnelSecretDigest = Secrets.digest(credentialPlaintext);
 	logStep("complete", true, `tunnelId=${tunnelId.slice(0, 12)}... envelope=${envelope.length}b`);
 	return report;
 }
