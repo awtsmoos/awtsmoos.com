@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 const { mutateStore, readStore } = require("../store.js");
@@ -68,6 +69,128 @@ const PAIRING_LIFETIME_MS = 12 * 60 * 60 * 1000;
  * approve it once, and only that device recover the encrypted credential envelope.
  */
 
+// B"H — 2026-10-14: Safeguarded tunnel credential creation with extensive
+// reporting. Yaakov ordered LOTS of safeguards and reporting.
+// This creates the tunnelId and encrypted credential envelope during approval.
+// If ANY step fails, the pairing is NOT approved (fail fast, no silent broken state).
+function createTunnelCredential(pairing, accountId) {
+	const report = {
+		steps: [],
+		ok: false,
+		tunnelId: null,
+		credentialEnvelope: null,
+		error: null
+	};
+	function logStep(name, ok, detail) {
+		const entry = { name, ok, detail: String(detail || "").slice(0, 200), at: new Date().toISOString() };
+		report.steps.push(entry);
+		// B"H — Report to console for production visibility (Yaakov: LOTS of reporting).
+		try {
+			console.log(`[pairingStore] credential ${name}: ${ok ? "OK" : "FAIL"} ${entry.detail}`);
+		} catch {}
+	}
+
+	// SAFEGUARD 1: Validate inputs.
+	if (!pairing || !pairing.pairingId) {
+		logStep("validate_pairing", false, "missing pairing or pairingId");
+		report.error = "invalid_pairing";
+		return report;
+	}
+	if (!accountId) {
+		logStep("validate_account", false, "missing accountId");
+		report.error = "invalid_account";
+		return report;
+	}
+	if (!pairing.devicePublicKey) {
+		logStep("validate_pubkey", false, "missing devicePublicKey");
+		report.error = "missing_device_public_key";
+		return report;
+	}
+	logStep("validate_inputs", true, `pairing=${pairing.pairingId} account=${accountId}`);
+
+	// SAFEGUARD 2: Generate unique tunnelId.
+	const tunnelId = `tun_${Secrets.randomToken(22)}`;
+	if (!tunnelId || tunnelId.length < 10) {
+		logStep("generate_tunnelId", false, "tunnelId generation failed");
+		report.error = "tunnelId_generation_failed";
+		return report;
+	}
+	logStep("generate_tunnelId", true, `tunnelId=${tunnelId.slice(0, 12)}...`);
+
+	// SAFEGUARD 3: Build credential payload.
+	const tunnelSecret = Secrets.randomToken(32);
+	const credentialPayload = {
+		tunnelId,
+		accountId,
+		deviceId: pairing.deviceId,
+		tunnelName: pairing.tunnelName,
+		secret: tunnelSecret,
+		createdAt: new Date().toISOString(),
+		version: 1
+	};
+	const credentialJson = JSON.stringify(credentialPayload);
+	if (!credentialJson || credentialJson.length < 20) {
+		logStep("build_payload", false, "credential JSON build failed");
+		report.error = "credential_build_failed";
+		return report;
+	}
+	logStep("build_payload", true, `payload_bytes=${credentialJson.length}`);
+
+	// SAFEGUARD 4: Parse device public key.
+	let publicKeyObj = null;
+	try {
+		const pubKeyStr = String(pairing.devicePublicKey);
+		if (pubKeyStr.startsWith("rsa-spki-base64url:")) {
+			const b64url = pubKeyStr.slice("rsa-spki-base64url:".length);
+			const der = Buffer.from(b64url, "base64url");
+			publicKeyObj = crypto.createPublicKey({ key: der, format: "der", type: "spki" });
+			logStep("parse_pubkey", true, "format=rsa-spki-base64url");
+		} else if (pubKeyStr.includes("BEGIN PUBLIC KEY")) {
+			publicKeyObj = crypto.createPublicKey(pubKeyStr);
+			logStep("parse_pubkey", true, "format=pem");
+		} else {
+			logStep("parse_pubkey", false, "unknown public key format");
+			report.error = "unknown_public_key_format";
+			return report;
+		}
+	} catch (e) {
+		logStep("parse_pubkey", false, e.message);
+		report.error = "public_key_parse_failed";
+		return report;
+	}
+
+	// SAFEGUARD 5: Encrypt with RSA OAEP SHA256 (matches agent's decrypt).
+	let envelope = null;
+	try {
+		const encrypted = crypto.publicEncrypt({
+			key: publicKeyObj,
+			oaepHash: "sha256",
+			padding: crypto.constants.RSA_PKCS1_OAEP_PADDING
+		}, Buffer.from(credentialJson, "utf8"));
+		envelope = encrypted.toString("base64");
+	} catch (e) {
+		logStep("encrypt", false, e.message);
+		report.error = "credential_encrypt_failed";
+		return report;
+	}
+	// SAFEGUARD 6: Validate envelope.
+	if (!envelope || envelope.length < 50) {
+		logStep("validate_envelope", false, `envelope too short (${(envelope || "").length})`);
+		report.error = "credential_envelope_invalid";
+		return report;
+	}
+	logStep("encrypt", true, `envelope_bytes=${envelope.length}`);
+
+	// SUCCESS: All safeguards passed.
+	report.ok = true;
+	report.tunnelId = tunnelId;
+	report.credentialEnvelope = envelope;
+	// Store the tunnel secret digest for later verification (not the secret itself).
+	report.tunnelSecretDigest = Secrets.digest(tunnelSecret);
+	logStep("complete", true, `tunnelId=${tunnelId.slice(0, 12)}... envelope=${envelope.length}b`);
+	return report;
+}
+
 /** Creates an unauthenticated possession-bound pairing request. */
 function createPairingRequest(input = {}) {
 	if (!Secrets.validatePublicKey(input.devicePublicKey)) {
@@ -123,6 +246,9 @@ function createPairingRequest(input = {}) {
 		all[pairingId] = pairingData;
 		writePairingFile(all);
 	} catch {}
+	try {
+		console.log(`[pairingStore] created pairing=${pairingId} device=${deviceId} tunnel=${tunnelName}`);
+	} catch {}
 	return { ok: true, pairingId, requestSecret, userCode, expiresAt };
 }
 
@@ -142,22 +268,73 @@ function approvePairing(accountId, userCode, pairingId) {
 		if (pairing && pairing.state === "pending") {
 			const codeDigest = Secrets.digest(String(userCode || "").trim().toUpperCase());
 			if (pairing.userCodeDigest === codeDigest) {
+				// B"H — 2026-10-14: Create tunnel credential BEFORE marking approved.
+				// LOTS of safeguards: if credential creation fails, DO NOT approve.
+				// This prevents the silent broken state where pairing is approved
+				// but the agent gets undefined credential.
+				const credReport = createTunnelCredential(pairing, accountId);
+				if (!credReport.ok) {
+					try {
+						console.log(`[pairingStore] APPROVAL BLOCKED pairing=${pairing.pairingId} reason=${credReport.error} steps=${credReport.steps.length}`);
+					} catch {}
+					return {
+						ok: false,
+						error: credReport.error || "credential_creation_failed",
+						message: Friendly.messageFor(credReport.error || "credential_creation_failed") || "Failed to create tunnel credential",
+						diagnostic: {
+							pairingId: pairing.pairingId,
+							steps: credReport.steps
+						}
+					};
+				}
+				// Credential created successfully. Now mark approved and store it.
 				pairing.state = "approved";
 				pairing.approvedBy = accountId;
 				pairing.approvedAt = Date.now();
+				pairing.tunnelId = credReport.tunnelId;
+				pairing.credentialEnvelope = credReport.credentialEnvelope;
+				pairing.tunnelSecretDigest = credReport.tunnelSecretDigest;
+				pairing.credentialCreatedAt = Date.now();
 				memoryPairings.set(pairing.pairingId, pairing);
 				try {
 					const all = readPairingFile();
 					all[pairing.pairingId] = pairing;
 					writePairingFile(all);
 				} catch {}
-				return { ok: true, pairingId: pairing.pairingId };
+				try {
+					console.log(`[pairingStore] APPROVED pairing=${pairing.pairingId} tunnel=${credReport.tunnelId.slice(0, 12)}... account=${accountId}`);
+				} catch {}
+				return {
+					ok: true,
+					pairingId: pairing.pairingId,
+					tunnelId: credReport.tunnelId,
+					credentialCreated: true,
+					report: credReport.steps
+				};
 			}
 		}
 		// B"H — Yaakov 2026-10-14: Idempotent re-approval. If the same account
 		// already approved this pairing (double-submit, retry), return success
 		// instead of an error. Only a different account claiming it is a conflict.
 		if (pairing && pairing.state === "approved" && pairing.approvedBy === accountId) {
+			// SAFEGUARD: Verify credential exists on re-approval.
+			if (!pairing.tunnelId || !pairing.credentialEnvelope) {
+				try {
+					console.log(`[pairingStore] RE-APPROVAL WARNING pairing=${pairing.pairingId} missing credential, recreating`);
+				} catch {}
+				const credReport = createTunnelCredential(pairing, accountId);
+				if (credReport.ok) {
+					pairing.tunnelId = credReport.tunnelId;
+					pairing.credentialEnvelope = credReport.credentialEnvelope;
+					pairing.tunnelSecretDigest = credReport.tunnelSecretDigest;
+					try {
+						const all = readPairingFile();
+						all[pairing.pairingId] = pairing;
+						writePairingFile(all);
+					} catch {}
+					memoryPairings.set(pairing.pairingId, pairing);
+				}
+			}
 			return { ok: true, pairingId: pairing.pairingId, alreadyApproved: true };
 		}
 		return {
@@ -231,10 +408,19 @@ function consumePairing(pairingId, requestSecret) {
 			if (pairing) memoryPairings.set(pairing.pairingId, pairing);
 		} catch {}
 	}
-	if (!pairing) return result;
+	if (!pairing) {
+		try { console.log(`[pairingStore] consume FAIL pairing=${pairingId} reason=not_found`); } catch {}
+		return result;
+	}
 	const supplied = Secrets.digest(requestSecret);
-	if (pairing.expiresAt <= Date.now()) return result;
-	if (!Secrets.secureEqual(pairing.requestSecretDigest, supplied)) return result;
+	if (pairing.expiresAt <= Date.now()) {
+		try { console.log(`[pairingStore] consume FAIL pairing=${pairing.pairingId} reason=expired`); } catch {}
+		return result;
+	}
+	if (!Secrets.secureEqual(pairing.requestSecretDigest, supplied)) {
+		try { console.log(`[pairingStore] consume FAIL pairing=${pairing.pairingId} reason=bad_secret`); } catch {}
+		return result;
+	}
 	// B"H — Yaakov 2026-10-14: Idempotent retry. If this pairing was already
 	// consumed by THIS device (same requestSecret) within the last 5 minutes,
 	// return the cached credential instead of "consumed" error. Handles the
@@ -243,6 +429,12 @@ function consumePairing(pairingId, requestSecret) {
 		const cached = global.__pairingConsumeCache.get(pairing.pairingId);
 		if (cached && (Date.now() - cached.consumedAt) < 5 * 60 * 1000) {
 			if (Secrets.secureEqual(cached.requestSecretDigest, supplied)) {
+				// SAFEGUARD: Verify cached credential is valid before returning.
+				if (!cached.tunnelId || !cached.credentialEnvelope) {
+					try { console.log(`[pairingStore] consume RETRY FAIL pairing=${pairing.pairingId} reason=cached_credential_invalid`); } catch {}
+					return { ok: false, error: "credential_invalid", message: "Cached credential is invalid" };
+				}
+				try { console.log(`[pairingStore] consume RETRY OK pairing=${pairing.pairingId}`); } catch {}
 				return {
 					ok: true,
 					state: "approved",
@@ -264,6 +456,24 @@ function consumePairing(pairingId, requestSecret) {
 		}
 		result = { ok: true, state: pairing.state, expiresAt: pairing.expiresAt };
 		return result;
+	}
+	// B"H — 2026-10-14 SAFEGUARD: Verify credential exists BEFORE consuming.
+	// If approval didn't create it (old bug), fail with clear error instead of
+	// returning undefined to the agent.
+	if (!pairing.tunnelId || !pairing.credentialEnvelope) {
+		try { console.log(`[pairingStore] consume BLOCKED pairing=${pairing.pairingId} reason=missing_credential (approval did not create it)`); } catch {}
+		return {
+			ok: false,
+			error: "credential_not_created",
+			message: "Pairing was approved but no credential was created. Please re-approve.",
+			diagnostic: {
+				pairingId: pairing.pairingId,
+				hasTunnelId: !!pairing.tunnelId,
+				hasEnvelope: !!pairing.credentialEnvelope,
+				approvedBy: pairing.approvedBy,
+				approvedAt: pairing.approvedAt
+			}
+		};
 	}
 	pairing.state = "consumed";
 	pairing.consumedAt = Date.now();
@@ -291,6 +501,7 @@ function consumePairing(pairingId, requestSecret) {
 		writePairingFile(all);
 	} catch {}
 	memoryPairings.set(pairing.pairingId, pairing);
+	try { console.log(`[pairingStore] consume OK pairing=${pairing.pairingId} tunnel=${pairing.tunnelId.slice(0, 12)}...`); } catch {}
 	return result;
 }
 
