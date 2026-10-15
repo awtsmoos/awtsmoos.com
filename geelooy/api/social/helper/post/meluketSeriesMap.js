@@ -7,18 +7,17 @@
  * @description
  * The Awtsmoos gathers every restored Meluket identity from the sealed comment
  * bridge, so Awtsmoos.com never mistakes a ten-item database page for a month.
+ *
+ * Reads via meluketMap.entries() — AwtsmoosDB first, JSON fallback.
  */
 
-const fs = require("fs");
 const {
-	mapFile
+	entries
 } = require("../comments/imported/meluketMap.js");
 
 function loadEntries($i) {
 	try {
-		const parsed = JSON.parse(fs.readFileSync(mapFile($i), "utf8"));
-		if (parsed.version !== 1) return [];
-		return Object.values(parsed.entries || {});
+		return Object.values(entries($i) || {});
 	} catch (_error) {
 		return [];
 	}
