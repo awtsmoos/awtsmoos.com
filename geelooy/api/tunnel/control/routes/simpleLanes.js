@@ -5,7 +5,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const LANES_DIR = path.join(__dirname, "..", "..", "..", "lanes", "simple");
+const LANES_DIR = path.join(__dirname, "..", "..", "lanes", "simple");
 const ALLOWED_FILES = new Set([
   "agent-poll.js",
   "agent-approval.js",
