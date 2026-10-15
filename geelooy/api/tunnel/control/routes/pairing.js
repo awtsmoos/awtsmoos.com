@@ -65,7 +65,9 @@ async function pairingStatus($i) {
  */
 async function pairingState($i) {
 	const data = await body($i);
-	const result = Pairing.describePairing(data.pairingId);
+	const params = query($i) || {};
+	const pairingId = data.pairingId || params.pairingId;
+	const result = Pairing.describePairing(pairingId);
 	return json($i, { BH: "B\"H", ...result }, result.ok ? 200 : 404);
 }
 
