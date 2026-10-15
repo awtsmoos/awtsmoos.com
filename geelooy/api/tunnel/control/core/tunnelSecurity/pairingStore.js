@@ -117,16 +117,14 @@ function createTunnelCredential(pairing, accountId) {
 	}
 	logStep("generate_tunnelId", true, `tunnelId=${tunnelId.slice(0, 12)}...`);
 
-	// SAFEGUARD 3: Build credential payload.
-	const tunnelSecret = Secrets.randomToken(32);
+	// SAFEGUARD 3: Build MINIMAL credential payload.
+	// B"H — 2026-10-14: RSA 2048 OAEP SHA256 can only encrypt ~190 bytes.
+	// Use short field names and minimal fields to stay under the limit.
+	// Format: {t: tunnelId, s: secret} — relay resolves account/device from tunnelId.
+	const tunnelSecret = Secrets.randomToken(16);
 	const credentialPayload = {
-		tunnelId,
-		accountId,
-		deviceId: pairing.deviceId,
-		tunnelName: pairing.tunnelName,
-		secret: tunnelSecret,
-		createdAt: new Date().toISOString(),
-		version: 1
+		t: tunnelId,
+		s: tunnelSecret
 	};
 	const credentialJson = JSON.stringify(credentialPayload);
 	if (!credentialJson || credentialJson.length < 20) {
