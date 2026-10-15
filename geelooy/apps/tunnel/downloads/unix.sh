@@ -237,7 +237,14 @@ prompt_install_mode() {
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
 	printf '  %s7)%s Simple tunnel (file) — pure file, zero HTTP, air-gapped\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '%sChoose [1-7] (default 1): %s' "$AWT_C_GOLD" "$AWT_C_OFF" >&2
+	printf '\n%sAuth management:%s\n' "$AWT_C_BOLD" "$AWT_C_OFF" >&2
+	printf '  %s8)%s Delete old auth — remove all credentials, start fresh\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '  %s9)%s Reset tunnel — clear config, keep auth\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '  %s10)%s Continue — keep existing auth and config\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '%sChoose [1-10] (default 1): %s' "$AWT_C_GOLD" "$AWT_C_OFF" >&2
 	if ! IFS= read -r choice </dev/tty; then
 		printf '\n' >&2
 		return 0
@@ -249,6 +256,9 @@ prompt_install_mode() {
 		5|simple-approval) AWTSMOOS_INSTALL_MODE="simple-approval" ;;
 		6|simple-websocket) AWTSMOOS_INSTALL_MODE="simple-websocket" ;;
 		7|simple-file) AWTSMOOS_INSTALL_MODE="simple-file" ;;
+		8|delete-auth) AWTSMOOS_INSTALL_MODE="delete-auth" ;;
+		9|reset-tunnel) AWTSMOOS_INSTALL_MODE="reset-tunnel" ;;
+		10|continue) AWTSMOOS_INSTALL_MODE="continue" ;;
 		*) AWTSMOOS_INSTALL_MODE="full" ;;
 	esac
 }
@@ -381,6 +391,31 @@ fi
 AWTSMOOS_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-full}"
 export AWTSMOOS_INSTALL_MODE
 export AWTSMOOS_SKIP_DEVICE_LOGIN="${AWTSMOOS_SKIP_DEVICE_LOGIN:-}"
+# B"H — Yaakov 2026-10-15: Auth management. Handle delete-auth, reset-tunnel, continue.
+case "$AWTSMOOS_INSTALL_MODE" in
+  delete-auth)
+    echo ""
+    echo "B\"H — Deleting old auth credentials..."
+    rm -rf ~/.awtsmoos/credentials ~/.awtsmoos/binding ~/.awtsmoos/device 2>/dev/null
+    rm -f ~/.config/awtsmoos/* 2>/dev/null
+    echo "✓ Old auth deleted. Run installer again to set up fresh."
+    exit 0
+    ;;
+  reset-tunnel)
+    echo ""
+    echo "B\"H — Resetting tunnel configuration (keeping auth)..."
+    rm -rf ~/.awtsmoos/cache ~/.awtsmoos/tmp 2>/dev/null
+    echo "✓ Tunnel config reset. Auth preserved."
+    exit 0
+    ;;
+  continue)
+    echo ""
+    echo "B\"H — Continuing with existing auth and config..."
+    # Fall through to normal install
+    AWTSMOOS_INSTALL_MODE="full"
+    export AWTSMOOS_INSTALL_MODE
+    ;;
+esac
 # B"H — Yaakov 2026-10-15: Simple tunnel lanes. If a simple mode is selected,
 # download and run the simple agent directly, bypassing the full tunnel setup.
 case "$AWTSMOOS_INSTALL_MODE" in
