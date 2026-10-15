@@ -101,8 +101,8 @@ async function readPostRoute({
 		postId,
 		properties
 	});
-	if (virtual) return virtual;
-	return readPostCompatible({
+	if (virtual) return stripUnusedPostPayload(virtual);
+	const result = await readPostCompatible({
 		$i,
 		heichelId,
 		seriesId,
@@ -115,6 +115,19 @@ async function readPostRoute({
 			postId
 		})
 	});
+	return stripUnusedPostPayload(result);
+}
+
+// B"H — Yaakov 2026-10-15: Strip unused payload to make post API lightning fast.
+// `source.sections` (111KB, 42% of payload) is never used by the frontend
+// (only `source.hebrew` is referenced). Removing it saves 42% bandwidth.
+function stripUnusedPostPayload(result) {
+	if (!result || !result.post) return result;
+	const post = result.post;
+	if (post.source && post.source.sections) {
+		delete post.source.sections;
+	}
+	return result;
 }
 
 module.exports = {
