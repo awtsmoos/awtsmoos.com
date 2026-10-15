@@ -122,8 +122,9 @@ async function readPostRoute({
 // `source.sections` (111KB, 42% of payload) is never used by the frontend
 // (only `source.hebrew` is referenced). Removing it saves 42% bandwidth.
 function stripUnusedPostPayload(result) {
-	if (!result || !result.post) return result;
-	const post = result.post;
+	if (!result) return result;
+	// The post may be the top-level object or nested under .post
+	const post = result.post || result;
 	if (post.source && post.source.sections) {
 		delete post.source.sections;
 	}
