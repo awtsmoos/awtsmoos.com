@@ -189,5 +189,11 @@ module.exports = {
       const { checkApproval } = require("./routes/simpleTunnel.js");
       return await checkApproval($i, vars || {});
     });
+    // B"H — Simple lanes file server (Yaakov 2026-10-15)
+    // Serves agent files for the installer: /api/tunnel/control/lanes/simple/:filename
+    await $i.use("lanes/simple/:filename", async (vars) => {
+      const { serveLaneFile } = require("./routes/simpleLanes.js");
+      return await serveLaneFile($i, vars || {});
+    });
   }
 };

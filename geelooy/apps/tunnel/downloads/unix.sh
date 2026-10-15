@@ -395,7 +395,7 @@ case "$AWTSMOOS_INSTALL_MODE" in
       simple-websocket) SIMPLE_AGENT="agent-websocket.js" ;;
       simple-file) SIMPLE_AGENT="agent-file.js" ;;
     esac
-    SIMPLE_URL="https://awtsmoos.com/api/tunnel/lanes/simple/$SIMPLE_AGENT"
+    SIMPLE_URL="https://awtsmoos.com/api/tunnel/control/lanes/simple/$SIMPLE_AGENT"
     # B"H — Try to download from the lanes endpoint, fallback to git
     if ! curl -fsSL "$SIMPLE_URL" -o "/tmp/$SIMPLE_AGENT" 2>/dev/null; then
       echo "Downloading from git..."
