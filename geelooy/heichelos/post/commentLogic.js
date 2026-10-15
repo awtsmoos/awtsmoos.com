@@ -1,10 +1,14 @@
-
 //B"H
 /**
  * @file commentLogic.js
  * @description
  * Orchestrator of Insights. Fixed to ensure signatures match calls,
  * and unified to use the supreme rendering pipeline.
+ * 
+ * Improvements:
+ * - Author filter panel with clickable profiles (opens in new tab)
+ * - Toggle to show/hide each author's comments
+ * - Rich alias profiles with bio, dates, locations
  */
 import { CommentSection } from "./CommentSection.js";
 import { 
@@ -15,11 +19,13 @@ import {
 } from "/heichelos/post/postFunctions.js";
 import { makeHTMLFromComment } from "/heichelos/post/comments/render/core.js";
 import { registerFork } from "/heichelos/post/comments/render/ai/structure.js";
+import { initAuthorFilter, isAuthorHidden } from "./authorFilter.js";
 
 // STATE
 var activeVerse = null;
 var activeSub = null;
 var cachedAliases = {};
+var hiddenAuthors = new Set();
 
 // EXPORT 1: BRIDGE FUNCTION
 export async function loadRootComments({ parent, tab }) {
@@ -41,6 +47,18 @@ export async function init({ post, parent, tab }) {
         // Force refresh logic immediately
         indexSwitch(true);
     }
+    
+    // Listen for author toggle events
+    window.addEventListener('awtsmoos:author-toggle', (e) => {
+        const { aliasId, hidden } = e.detail;
+        if (hidden) {
+            hiddenAuthors.add(aliasId);
+        } else {
+            hiddenAuthors.delete(aliasId);
+        }
+        // Refresh current view
+        indexSwitch(true);
+    });
 }
 
 // EXPORT 3: CONDUCTOR
@@ -98,18 +116,27 @@ export async function makeCommentatorList(parentEl, rootTabObj) {
     parentEl.appendChild(writingWrap);
     new CommentSection(writingWrap);
 
-    // 2. List of Commentators
+    // 2. Author Filter Panel (NEW - with clickable profiles and toggles)
+    const aliases = await getCommentatorList();
+    if (aliases.length === 0) {
+        parentEl.innerHTML += `<div class="awtsmoos-empty-placeholder">No insights manifest here yet.</div>`;
+        return;
+    }
+    
+    // Filter out hidden authors
+    const visibleAliases = aliases.filter(a => !hiddenAuthors.has(a));
+    
+    const filterWrap = document.createElement("div");
+    filterWrap.className = "awtsmoos-author-filter-wrap";
+    parentEl.appendChild(filterWrap);
+    await initAuthorFilter(aliases, filterWrap);
+
+    // 3. List of Commentators (tabs)
     const listWrap = document.createElement("div");
     listWrap.className = "awtsmoos-insight-list-wrap awtsmoos-comments-timeline";
     parentEl.appendChild(listWrap);
-    
-    const aliases = await getCommentatorList();
-    if (aliases.length === 0) {
-        listWrap.innerHTML = `<div class="awtsmoos-empty-placeholder">No insights manifest here yet.</div>`;
-        return;
-    }
 
-    aliases.forEach(aliasId => {
+    visibleAliases.forEach(aliasId => {
         window.insightManager.addTab({
             header: "@" + aliasId,
             onopen: async ({ actualTab }) => {
@@ -126,6 +153,12 @@ export async function makeCommentatorList(parentEl, rootTabObj) {
 }
 
 async function renderAliasInsights({ alias, actualTab, post }) {
+    // Skip if author is hidden
+    if (hiddenAuthors.has(alias)) {
+        actualTab.innerHTML = `<div class="awtsmoos-empty-placeholder">Author hidden. Use the filter above to show.</div>`;
+        return;
+    }
+    
     actualTab.innerHTML = `<div class="awtsmoos-loading-text awtsmoos-empty-placeholder">Gathering sparks...</div>`;
     
     const comments = await getCommentsOfAlias({
@@ -164,6 +197,16 @@ async function renderAliasInsights({ alias, actualTab, post }) {
         actualTab.innerHTML = `<div class="awtsmoos-empty-placeholder">Empty vessel.</div>`;
         return;
     }
+
+    // Add author header with clickable profile link (NEW)
+    const authorHeader = document.createElement('div');
+    authorHeader.className = 'awtsmoos-author-header';
+    authorHeader.innerHTML = `
+        <a href="/aliases/${alias}" target="_blank" class="awtsmoos-author-profile-link">
+            View @${alias}'s full profile →
+        </a>
+    `;
+    actualTab.appendChild(authorHeader);
 
     // B"H - THE SUPREME UNIFICATION
     // All comments now flow through the exact same Scribe logic, ensuring
