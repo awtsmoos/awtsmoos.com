@@ -7,6 +7,18 @@ set -Eeuo pipefail
 export LC_ALL=C
 export LANG=C
 
+# B"H — Yaakov 2026-10-14 STANDING RULE: Installer NEVER requires manual `kill`.
+# Automatically clean up stale tunnel agent processes on startup.
+# The agent's local API uses port 3977; the main web service uses 443/80.
+# This only targets the tunnel agent, never the production web server.
+if command -v fuser >/dev/null 2>&1; then
+  fuser -k 3977/tcp 2>/dev/null || true
+fi
+# Kill by command-line pattern (tunnel agent's main.js, not the web service)
+pkill -f "tunnel/agent/main\.js" 2>/dev/null || true
+# Give processes a moment to exit
+sleep 1 2>/dev/null || true
+
 # B"H — Yaakov 2026-10-14: ALWAYS print full stack trace on error.
 # This is the Bash equivalent of try-catch with stack printing.
 # Every failure will show exactly where it happened and the call chain.
