@@ -4,7 +4,7 @@
 // Uses file-based store for multi-process compatibility.
 
 const fs = require("node:fs");
-const path = require("node:path");
+const { body, query } = require("../core/request.js");
 const STORE_PATH = "/tmp/simple-tunnel-queue.json";
 
 function loadStore() {
@@ -24,17 +24,36 @@ function saveStore(store) {
   }
 }
 
-function checkSecret($i) {
-  const secret = $i.query?.secret || $i.body?.secret;
+async function checkSecret($i) {
+  const q = query($i) || {};
+  const b = await body($i).catch(() => ({})) || {};
+  const secret = q.secret || b.secret;
   // B"H — Direct comparison (temporary). Avoids in-memory Set issues across processes.
   return secret === "965e29cfea49bf116e9ede9f3deff2adcb441d2dede90e5586fb3f722e1bc16c";
 }
 
+async function getBody($i) {
+  try {
+    return await body($i) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function getQuery($i) {
+  try {
+    return query($i) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
 async function queueCommand($i) {
-  if (!checkSecret($i)) {
+  if (!(await checkSecret($i))) {
     return { statusCode: 403, response: JSON.stringify({ ok: false, error: "bad_secret" }) };
   }
-  const command = $i.body?.command;
+  const b = await getBody($i);
+  const command = b.command;
   if (!command || typeof command !== "string") {
     return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_command" }) };
   }
@@ -46,7 +65,7 @@ async function queueCommand($i) {
 }
 
 async function pollCommand($i) {
-  if (!checkSecret($i)) {
+  if (!(await checkSecret($i))) {
     return { statusCode: 403, response: JSON.stringify({ ok: false, error: "bad_secret" }) };
   }
   const store = loadStore();
@@ -59,10 +78,11 @@ async function pollCommand($i) {
 }
 
 async function postResult($i) {
-  if (!checkSecret($i)) {
+  if (!(await checkSecret($i))) {
     return { statusCode: 403, response: JSON.stringify({ ok: false, error: "bad_secret" }) };
   }
-  const { id, output } = $i.body || {};
+  const b = await getBody($i);
+  const { id, output } = b;
   if (!id) {
     return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_id" }) };
   }
@@ -73,10 +93,11 @@ async function postResult($i) {
 }
 
 async function getResult($i) {
-  if (!checkSecret($i)) {
+  if (!(await checkSecret($i))) {
     return { statusCode: 403, response: JSON.stringify({ ok: false, error: "bad_secret" }) };
   }
-  const id = $i.query?.id;
+  const q = getQuery($i);
+  const id = q.id;
   const store = loadStore();
   const result = store.results[id];
   if (!result) {
@@ -91,7 +112,9 @@ async function getResult($i) {
 async function setup($i) {
   // B"H — Accept secret from query, body, or use default.
   // Temporary: if no secret provided, use the hardcoded one.
-  let secret = $i.query?.secret || $i.body?.secret;
+  const q = getQuery($i);
+  const b = await getBody($i);
+  let secret = q.secret || b.secret;
   if (!secret) {
     secret = "965e29cfea49bf116e9ede9f3deff2adcb441d2dede90e5586fb3f722e1bc16c";
   }
