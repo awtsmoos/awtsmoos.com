@@ -154,6 +154,12 @@ function approvePairing(accountId, userCode, pairingId) {
 				return { ok: true, pairingId: pairing.pairingId };
 			}
 		}
+		// B"H — Yaakov 2026-10-14: Idempotent re-approval. If the same account
+		// already approved this pairing (double-submit, retry), return success
+		// instead of an error. Only a different account claiming it is a conflict.
+		if (pairing && pairing.state === "approved" && pairing.approvedBy === accountId) {
+			return { ok: true, pairingId: pairing.pairingId, alreadyApproved: true };
+		}
 		return {
 			ok: false,
 			error: "pairing_not_found",
