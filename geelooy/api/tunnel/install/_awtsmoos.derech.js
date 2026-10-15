@@ -153,6 +153,11 @@ function publishAgentZip($i) {
 		$i.response.setHeader("X-Awtsmoos-SHA256", bundle.sha256);
 		$i.response.setHeader("X-Awtsmoos-Manifest-SHA256", bundle.manifestSha256);
 		$i.response.setHeader("Content-Length", String(bundle.bytes));
+		// B"H — Yaakov 2026-10-14: NEVER cache the agent bundle.
+		// Stale bundles caused the probe to test old code.
+		$i.response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+		$i.response.setHeader("Pragma", "no-cache");
+		$i.response.setHeader("Expires", "0");
 		return {
 			mimeType: "application/zip",
 			response: bundle.buffer

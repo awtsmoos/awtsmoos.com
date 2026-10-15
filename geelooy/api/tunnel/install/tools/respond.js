@@ -19,6 +19,12 @@ function sendText($i, text, mimeType) {
     $i.response.statusCode = 200;
   }
   $i.response.setHeader("Content-Type", mimeType || "text/plain; charset=utf-8");
+  // B"H — Yaakov 2026-10-14: NEVER cache installer files.
+  // Stale cached components caused hours of "fix deployed but not working".
+  // Every installer download must be fresh from disk.
+  $i.response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+  $i.response.setHeader("Pragma", "no-cache");
+  $i.response.setHeader("Expires", "0");
 
   return {
     mimeType: mimeType || "text/plain",
