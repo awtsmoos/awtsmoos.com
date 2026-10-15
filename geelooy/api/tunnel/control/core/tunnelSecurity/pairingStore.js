@@ -235,6 +235,24 @@ function consumePairing(pairingId, requestSecret) {
 	const supplied = Secrets.digest(requestSecret);
 	if (pairing.expiresAt <= Date.now()) return result;
 	if (!Secrets.secureEqual(pairing.requestSecretDigest, supplied)) return result;
+	// B"H — Yaakov 2026-10-14: Idempotent retry. If this pairing was already
+	// consumed by THIS device (same requestSecret) within the last 5 minutes,
+	// return the cached credential instead of "consumed" error. Handles the
+	// case where the network failed after consume but before client received.
+	if (pairing.state === "consumed" && global.__pairingConsumeCache) {
+		const cached = global.__pairingConsumeCache.get(pairing.pairingId);
+		if (cached && (Date.now() - cached.consumedAt) < 5 * 60 * 1000) {
+			if (Secrets.secureEqual(cached.requestSecretDigest, supplied)) {
+				return {
+					ok: true,
+					state: "approved",
+					tunnelId: cached.tunnelId,
+					credentialEnvelope: cached.credentialEnvelope,
+					retried: true
+				};
+			}
+		}
+	}
 	if (pairing.state !== "approved") {
 		if (pairing.state === "pending") {
 			pairing.expiresAt = Date.now() + PAIRING_LIFETIME_MS;
@@ -255,6 +273,17 @@ function consumePairing(pairingId, requestSecret) {
 		tunnelId: pairing.tunnelId,
 		credentialEnvelope: pairing.credentialEnvelope
 	};
+	// B"H — Yaakov 2026-10-14: Cache the consumed credential for 5 minutes to
+	// allow idempotent retries. If the network fails after consume but before
+	// the client receives the response, the retry gets the same credential
+	// instead of "consumed" error. Root cause fix for pairing_consumed.
+	if (!global.__pairingConsumeCache) global.__pairingConsumeCache = new Map();
+	global.__pairingConsumeCache.set(pairing.pairingId, {
+		credentialEnvelope: pairing.credentialEnvelope,
+		tunnelId: pairing.tunnelId,
+		consumedAt: Date.now(),
+		requestSecretDigest: pairing.requestSecretDigest
+	});
 	delete pairing.credentialEnvelope;
 	try {
 		const all = readPairingFile();
