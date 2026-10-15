@@ -37,7 +37,14 @@ function writePairingFile(pairings) {
 		const tmp = pairingFilePath() + ".tmp." + process.pid;
 		fs.writeFileSync(tmp, JSON.stringify(pairings), "utf8");
 		fs.renameSync(tmp, pairingFilePath());
-	} catch {}
+	} catch (e) {
+		// B"H — Yaakov 2026-10-15: NEVER swallow file errors silently.
+		// Every failure must surface (standing rule).
+		try {
+			console.error(`[pairingStore] FATAL: Failed to write pairing file: ${e.message}`);
+			console.error(e.stack);
+		} catch {}
+	}
 }
 
 // B"H — In-memory cache, loaded from file on first use.
@@ -404,12 +411,57 @@ function approvePairing(accountId, userCode, pairingId) {
 			message: Friendly.messageFor("pairing_not_found")
 		};
 	}
-	// Fallback: code-only lookup via old Approval (for backwards compat).
+	// Fallback: code-only lookup.
+	// B"H — Yaakov 2026-10-15: Search dedicated pairing file FIRST (by userCodeDigest),
+	// then legacy 11M store. Manual approval form sends pairingId="" so we must
+	// find by code alone.
 	let result = {
 		ok: false,
 		error: "pairing_not_found",
 		message: Friendly.messageFor("pairing_not_found")
 	};
+	const codeDigest = Secrets.digest(String(userCode || "").trim().toUpperCase());
+	try {
+		ensureMemoryLoaded();
+		// Search memory first
+		for (const pairing of memoryPairings.values()) {
+			if (pairing.userCodeDigest === codeDigest && pairing.state === "pending") {
+				// Found by code — approve it directly
+				const credReport = createTunnelCredential(pairing, accountId);
+				if (credReport.ok) {
+					pairing.state = "approved";
+					pairing.approvedAt = Date.now();
+					pairing.approvedBy = accountId;
+					try {
+						const all = readPairingFile();
+						all[pairing.pairingId] = pairing;
+						writePairingFile(all);
+					} catch {}
+					return { ok: true, pairingId: pairing.pairingId };
+				}
+				return { ok: false, error: credReport.error || "credential_creation_failed" };
+			}
+		}
+		// Search file
+		const fileData = readPairingFile();
+		for (const pid of Object.keys(fileData)) {
+			const pairing = fileData[pid];
+			if (pairing && pairing.userCodeDigest === codeDigest && pairing.state === "pending") {
+				const credReport = createTunnelCredential(pairing, accountId);
+				if (credReport.ok) {
+					pairing.state = "approved";
+					pairing.approvedAt = Date.now();
+					pairing.approvedBy = accountId;
+					fileData[pid] = pairing;
+					writePairingFile(fileData);
+					memoryPairings.set(pid, pairing);
+					return { ok: true, pairingId: pid };
+				}
+				return { ok: false, error: credReport.error || "credential_creation_failed" };
+			}
+		}
+	} catch {}
+	// Legacy fallback: old Approval (11M store, for backwards compat).
 	mutateStore((store) => {
 		result = Approval.approveInStore(store, accountId, userCode);
 		return store;
