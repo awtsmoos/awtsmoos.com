@@ -1,0 +1,30 @@
+# B"H — Simple tunnel agent systemd service (Yaakov 2026-10-15)
+# Install: sudo cp simple-tunnel-agent.service /etc/systemd/system/
+# Enable: sudo systemctl enable simple-tunnel-agent.service
+# Start: sudo systemctl start simple-tunnel-agent.service
+
+[Unit]
+Description=Awtsmoos Simple Tunnel Agent (permanent baseline)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root
+# B"H — Use the resilient wrapper for auto-restart
+ExecStart=/usr/bin/node /root/simple-tunnel-agent/agent-resilient.js
+Restart=always
+RestartSec=5
+# B"H — Environment (adjust as needed)
+Environment=TUNNEL_SERVER=https://awtsmoos.com
+Environment=TUNNEL_AGENT_ID=hetzner-prod
+# Environment=TUNNEL_SECRET=your-secret-here
+
+# B"H — Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=simple-tunnel-agent
+
+[Install]
+WantedBy=multi-user.target
