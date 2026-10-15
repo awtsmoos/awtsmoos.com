@@ -185,10 +185,10 @@ export class GevurahReaderScale {
 		if (!sefer) {
 			return;
 		}
-		const factor = Number.parseFloat(mainSize) / this.policy.defaultSize;
-		if (Number.isFinite(factor) && factor > 0) {
-			sefer.style.zoom = String(Math.round(factor * 1000) / 1000);
-		}
+		// B"H 2026-10-15: Set --post-text-size directly so the CSS var() works.
+		// The old zoom property was non-standard and didn't work on mobile.
+		sefer.style.setProperty('--post-text-size', mainSize);
+		sefer.style.setProperty('--sefer-phrase-size', mainSize);
 	}
 
 	/**
