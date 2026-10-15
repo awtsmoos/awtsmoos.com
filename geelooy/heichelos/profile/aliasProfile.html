@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@alias - Awtsmoos</title>
+<link rel="stylesheet" href="/heichelos/profile/themes.css">
+<link rel="stylesheet" href="/heichelos/profile/insane.css">
+</head>
+<body data-theme="royal-gold">
+<canvas id="webgl-overlay"></canvas>
+<div id="profile-root">
+  <div class="profile-hero">
+    <div class="profile-cover"></div>
+    <div class="profile-avatar-wrap">
+      <div class="profile-avatar" id="avatar"></div>
+      <div class="avatar-glow"></div>
+    </div>
+    <h1 class="profile-name" id="profile-name">Loading...</h1>
+    <div class="profile-alias" id="profile-alias">@alias</div>
+    <div class="profile-stats">
+      <div class="stat"><span class="stat-num" id="stat-age">--</span><span class="stat-label">years old</span></div>
+      <div class="stat"><span class="stat-num" id="stat-posts">--</span><span class="stat-label">posts</span></div>
+      <div class="stat"><span class="stat-num" id="stat-series">--</span><span class="stat-label">series</span></div>
+    </div>
+    <div class="birthday-banner" id="birthday-banner" hidden>
+      🎉 Celebrating <span id="bday-age"></span> years! 🎉
+    </div>
+  </div>
+  
+  <div class="profile-tabs">
+    <button class="tab active" data-tab="posts">Posts</button>
+    <button class="tab" data-tab="series">Series</button>
+    <button class="tab" data-tab="about">About</button>
+    <button class="tab" data-tab="settings">⚙️</button>
+  </div>
+  
+  <div class="tab-content" id="tab-posts"></div>
+  <div class="tab-content" id="tab-series" hidden></div>
+  <div class="tab-content" id="tab-about" hidden></div>
+  <div class="tab-content" id="tab-settings" hidden></div>
+</div>
+<script src="/heichelos/profile/webgl.js"></script>
+<script src="/heichelos/profile/profile.js"></script>
+</body>
+</html>
