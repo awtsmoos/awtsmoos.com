@@ -363,17 +363,19 @@ install_progress() {
 	elif [ "$PRG_TTY" = "1" ]; then
 		render_install_progress "$percent" "$message"
 	else
-		local overall_bar step_bar eta
+		# B"H — Yaakov 2026-10-14: ONE big bar, ONE message, updating in place.
+		# Use \r to overwrite the same line, not \n for new lines.
+		local overall_bar eta
 		eta="$(_prg_format_eta "$percent")"
 		[ -n "$eta" ] && eta=" [$eta]"
-		overall_bar="$(_prg_make_bar "$percent" 20)"
-		if [ "$INSTALL_STEP_TOTAL" -gt 0 ]; then
-			step_bar="$(_prg_make_bar "$INSTALL_STEP_PCT" 10)"
-			printf '[%3d%%] [%s]%s step %s/%s [%s] %3d%% %s\n' \
-				"$percent" "$overall_bar" "$eta" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" \
-				"$step_bar" "$INSTALL_STEP_PCT" "$message" >&2
+		# Big bar: 40 chars wide (was 20)
+		overall_bar="$(_prg_make_bar "$percent" 40)"
+		# Single line: [ 69%] [████████████...] Message here
+		# \r overwrites, no newline until 100%
+		if [ "$percent" -ge 100 ]; then
+			printf '\r[%3d%%] [%s]%s %s\n' "$percent" "$overall_bar" "$eta" "$message" >&2
 		else
-			printf '[%3d%%] [%s]%s %s\n' "$percent" "$overall_bar" "$eta" "$message" >&2
+			printf '\r[%3d%%] [%s]%s %s' "$percent" "$overall_bar" "$eta" "$message" >&2
 		fi
 	fi
 	INSTALL_PROGRESS_LINE_OPEN=0
