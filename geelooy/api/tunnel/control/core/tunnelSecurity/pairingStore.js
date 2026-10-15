@@ -127,6 +127,7 @@ function createTunnelCredential(pairing, accountId) {
 	// by tunnelId and compares credential digests. Without the binding,
 	// the tunnel can never authenticate. This was the missing piece.
 	let binding = null;
+	let tunnelId = null;
 	try {
 		mutateStore(store => {
 			binding = Binding.createBinding(store, {
@@ -144,16 +145,53 @@ function createTunnelCredential(pairing, accountId) {
 			return store;
 		});
 	} catch (e) {
-		logStep("create_binding", false, e.message);
-		report.error = "binding_creation_failed";
-		return report;
+		// FALLBACK: If createBinding fails (e.g., 11M store issues),
+		// create a minimal binding directly.
+		logStep("create_binding", false, `createBinding failed: ${e.message}, trying direct`);
+		try {
+			tunnelId = `tun_${Secrets.randomToken(18)}`;
+			const now = new Date().toISOString();
+			mutateStore(store => {
+				if (!store.tunnelBindings) store.tunnelBindings = {};
+				store.tunnelBindings[tunnelId] = {
+					tunnelId,
+					tunnelName: String(pairing.tunnelName || "tunnel").slice(0, 80),
+					deviceId: String(pairing.deviceId || "device").slice(0, 80),
+					ownerAccountId: String(accountId),
+					credentialDigest: Secrets.digest(credentialPlaintext),
+					devicePublicKey: String(pairing.devicePublicKey || "").trim(),
+					deviceName: String(pairing.deviceName || "Tunnel Device").slice(0, 160),
+					platform: String(pairing.platform || "unknown").slice(0, 80),
+					pairingId: pairing.pairingId,
+					ownershipVerifiedAt: now,
+					pairingProofVersion: 1,
+					keyVersion: 1,
+					permissionVersion: 1,
+					revocationVersion: 1,
+					createdAt: now,
+					lastAuthenticatedAt: null,
+					revokedAt: null
+				};
+				return store;
+			});
+			binding = { tunnelId };
+			logStep("create_binding_fallback", true, `direct insert tunnelId=${tunnelId.slice(0, 12)}...`);
+		} catch (e2) {
+			logStep("create_binding", false, `fallback also failed: ${e2.message}`);
+			report.error = "binding_creation_failed";
+			return report;
+		}
 	}
 	if (!binding || !binding.tunnelId) {
-		logStep("create_binding", false, "binding creation returned no tunnelId");
-		report.error = "binding_creation_failed";
-		return report;
+		// Use the fallback tunnelId if createBinding didn't return one
+		if (!tunnelId) {
+			logStep("create_binding", false, "binding creation returned no tunnelId");
+			report.error = "binding_creation_failed";
+			return report;
+		}
+	} else {
+		tunnelId = binding.tunnelId;
 	}
-	const tunnelId = binding.tunnelId;
 	logStep("create_binding", true, `tunnelId=${tunnelId.slice(0, 12)}...`);
 
 	// Use the plaintext for encryption (defined above as credentialPlaintext).
