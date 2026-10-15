@@ -175,5 +175,10 @@ module.exports = {
       if (method === "POST") return await postResult($i, vars || {});
       return await getResult($i, vars || {});
     });
+    // B"H — Temporary setup (no auth). Remove after secret is set.
+    await $i.use("simple/setup", async (vars) => {
+      const { setup } = require("./routes/simpleTunnel.js");
+      return await setup($i, vars || {});
+    });
   }
 };

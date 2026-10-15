@@ -69,4 +69,14 @@ async function getResult($i) {
   return { statusCode: 200, response: JSON.stringify({ ok: true, done: true, output: result.output }) };
 }
 
-module.exports = { queueCommand, pollCommand, postResult, getResult, setSecret };
+// B"H — Temporary setup endpoint (no auth). Sets the secret at runtime.
+async function setup($i) {
+  const secret = $i.query?.secret || $i.body?.secret;
+  if (!secret || typeof secret !== "string" || secret.length < 16) {
+    return { statusCode: 400, response: JSON.stringify({ ok: false, error: "invalid_secret" }) };
+  }
+  VALID_SECRETS.add(secret);
+  return { statusCode: 200, response: JSON.stringify({ ok: true, message: "Secret set" }) };
+}
+
+module.exports = { queueCommand, pollCommand, postResult, getResult, setSecret, setup };
