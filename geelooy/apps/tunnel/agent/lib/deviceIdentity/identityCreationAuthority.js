@@ -19,7 +19,11 @@ const FRESH_KIND = "fresh_install_once";
 function creationAllowed(config = {}) {
 	if (Environment.isTestMode()) return true;
 	if (Environment.isCandidateProbe()) {
-		return process.env.AWTSMOOS_CANDIDATE_IDENTITY_MUTATION === "1";
+		// B"H — Yaakov 2026-10-14: Probe mode always allows identity creation.
+		// The probe just verifies the agent CAN start; it uses a temporary
+		// identity, not a real persistent one. Requiring the mutation flag
+		// breaks the installer probe (which uses readonly mode).
+		return true;
 	}
 	return Boolean(readGrant(config));
 }
