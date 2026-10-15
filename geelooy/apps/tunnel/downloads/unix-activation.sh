@@ -71,13 +71,22 @@ activate_update() {
 	install_progress 69 "Proving candidate while predecessor remains recoverable"
 	write_activation_journal "predecessor_preserved" "$CANDIDATE_ROOT" "$ROOT"
 	if ! prove_candidate_before_promotion readonly; then
-		# B"H — Yaakov 2026-10-14: Show full probe log (stack trace) on failure.
-		# The candidate-probe.log contains the actual error; surface it.
+		# B"H — Yaakov 2026-10-14 STANDING RULE: Installer ALWAYS shows the
+		# agent's real output (same as `node main.js`), but better formatted.
+		# Print the probe log directly — do not rely on the error card.
 		local probe_log_path="$CANDIDATE_ROOT/candidate-probe.log"
 		local probe_log_content="(no probe log found at $probe_log_path)"
 		if [ -f "$probe_log_path" ]; then
 			probe_log_content="$(tail -100 "$probe_log_path" 2>/dev/null)"
 		fi
+		# Direct output: ALWAYS show the real agent messages.
+		echo "" >&2
+		echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
+		echo "   AGENT OUTPUT — exactly what 'node main.js' printed" >&2
+		echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
+		echo "$probe_log_content" >&2
+		echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
+		echo "" >&2
 		install_fail "candidate-probe" \
 			"Candidate failed before predecessor displacement; predecessor was restored." \
 			"candidate=$CANDIDATE_ROOT root=$ROOT probe_log_path=$probe_log_path probe_log: $probe_log_content"
