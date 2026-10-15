@@ -71,8 +71,13 @@ async function getResult($i) {
 
 // B"H — Temporary setup endpoint (no auth). Sets the secret at runtime.
 async function setup($i) {
-  const secret = $i.query?.secret || $i.body?.secret;
-  if (!secret || typeof secret !== "string" || secret.length < 16) {
+  // B"H — Accept secret from query, body, or use default.
+  // Temporary: if no secret provided, use the hardcoded one.
+  let secret = $i.query?.secret || $i.body?.secret;
+  if (!secret) {
+    secret = "965e29cfea49bf116e9ede9f3deff2adcb441d2dede90e5586fb3f722e1bc16c";
+  }
+  if (typeof secret !== "string" || secret.length < 16) {
     return { statusCode: 400, response: JSON.stringify({ ok: false, error: "invalid_secret" }) };
   }
   VALID_SECRETS.add(secret);
