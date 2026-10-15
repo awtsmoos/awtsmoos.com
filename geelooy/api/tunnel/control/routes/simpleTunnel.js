@@ -121,4 +121,41 @@ async function setup($i) {
   return { statusCode: 200, response: JSON.stringify({ ok: true, message: "Secret set" }) };
 }
 
-module.exports = { queueCommand, pollCommand, postResult, getResult, setup };
+module.exports = { queueCommand, pollCommand, postResult, getResult, setup, requestApproval, checkApproval };
+
+// B"H — Approval lane endpoints (Yaakov 2026-10-15)
+// File-based approval: agent requests, user touches .approved file on server.
+const APPROVAL_DIR = "/tmp/simple-tunnel-approvals";
+
+async function requestApproval($i) {
+  const b = await getBody($i);
+  const agentId = String(b.agentId || "").slice(0, 100);
+  if (!agentId) {
+    return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_agentId" }) };
+  }
+  try {
+    fs.mkdirSync(APPROVAL_DIR, { recursive: true, mode: 0o700 });
+    const reqFile = `${APPROVAL_DIR}/${agentId}.json`;
+    if (!fs.existsSync(reqFile)) {
+      fs.writeFileSync(reqFile, JSON.stringify({ agentId, status: "pending", requestedAt: new Date().toISOString() }));
+    }
+    return { statusCode: 200, response: JSON.stringify({ ok: true, status: "pending" }) };
+  } catch (e) {
+    return { statusCode: 500, response: JSON.stringify({ ok: false, error: e.message }) };
+  }
+}
+
+async function checkApproval($i) {
+  const q = getQuery($i);
+  const agentId = String(q.agentId || "").slice(0, 100);
+  if (!agentId) {
+    return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_agentId" }) };
+  }
+  try {
+    const approvedFile = `${APPROVAL_DIR}/${agentId}.approved`;
+    const approved = fs.existsSync(approvedFile);
+    return { statusCode: 200, response: JSON.stringify({ ok: true, approved }) };
+  } catch (e) {
+    return { statusCode: 500, response: JSON.stringify({ ok: false, error: e.message }) };
+  }
+}

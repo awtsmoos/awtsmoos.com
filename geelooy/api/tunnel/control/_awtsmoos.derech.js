@@ -180,5 +180,14 @@ module.exports = {
       const { setup } = require("./routes/simpleTunnel.js");
       return await setup($i, vars || {});
     });
+    // B"H — Approval lane endpoints (Yaakov 2026-10-15)
+    await $i.use("simple/request", async (vars) => {
+      const { requestApproval } = require("./routes/simpleTunnel.js");
+      return await requestApproval($i, vars || {});
+    });
+    await $i.use("simple/approved", async (vars) => {
+      const { checkApproval } = require("./routes/simpleTunnel.js");
+      return await checkApproval($i, vars || {});
+    });
   }
 };
