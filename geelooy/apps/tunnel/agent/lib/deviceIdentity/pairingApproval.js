@@ -58,6 +58,7 @@ async function wait(config, response, options = {}) {
 		push = null;
 	}
 	try {
+		let firstPoll = true;
 		while (Date.now() < deadline) {
 			if (options.signal?.aborted) throw pairingFailure("pairing_cancelled");
 			let state;
@@ -65,15 +66,25 @@ async function wait(config, response, options = {}) {
 				// B"H — Yaakov 2026-10-14: READ-ONLY polling. Never consumes.
 				// The destructive status() is called exactly once, below.
 				state = await PairingClient.state(config, response.pairingId);
+				if (firstPoll) {
+					firstPoll = false;
+					options.log?.("info", `B"H Waiting for approval on your phone... (code: ${response.userCode})`);
+				}
 			} catch (error) {
 				// B"H — a single failed poll (network blip, timeout, transient
 				// server error) must NEVER kill the pairing wait. Log it and keep
 				// polling until the deadline. Only terminal states abort early.
 				consecutiveErrors += 1;
-				options.log?.(
-					"warn",
-					`B"H pairing status poll failed (attempt ${consecutiveErrors}), retrying: ${error?.message || error}`
-				);
+				// B"H — Yaakov 2026-10-14: NEVER log [object Object]. Show real error.
+				// Only log every 5th failure to avoid spam; the user needs to copy the URL.
+				const errMsg = error instanceof Error ? error.message
+					: (error && typeof error === "object" ? JSON.stringify(error) : String(error));
+				if (consecutiveErrors === 1 || consecutiveErrors % 5 === 0) {
+					options.log?.(
+						"warn",
+						`B"H waiting for approval... (attempt ${consecutiveErrors}, last error: ${errMsg})`
+					);
+				}
 				await sleepUnlessPush(push, options.pollIntervalMs || POLL_INTERVAL_MS);
 				continue;
 			}
@@ -81,6 +92,7 @@ async function wait(config, response, options = {}) {
 			// B"H — Yaakov 2026-10-14: Only when read-only state shows "approved"
 			// do we do the ONE destructive consume. Never poll with consume.
 			if (state.state === "approved") {
+				options.log?.("info", `B"H ✓ Approval received! Fetching your secure credential...`);
 				let final;
 				try {
 					final = await PairingClient.status(
@@ -91,7 +103,10 @@ async function wait(config, response, options = {}) {
 				} catch (error) {
 					throw pairingFailure("pairing_consume_failed");
 				}
-				if (final.state === "approved" && final.credentialEnvelope) return final;
+				if (final.state === "approved" && final.credentialEnvelope) {
+					options.log?.("info", `B"H ✓ Credential received! Starting tunnel...`);
+					return final;
+				}
 				// Consume did not return a credential; do not retry (would get "consumed").
 				throw pairingFailure(`pairing_${final.state || "consume_failed"}`);
 			}
@@ -165,6 +180,12 @@ function announce(log, response, approval) {
 	log?.("info", "Leave this terminal running after approval.");
 	log?.("info", `Pairing expires: ${new Date(response.expiresAt).toISOString()}`);
 	log?.("info", "The code stays valid while this installer keeps running — take your time.");
+	// B"H — Yaakov 2026-10-14: Pause to let user copy the URL before polls scroll the screen.
+	if (isTTY) {
+		console.log(`${C.dim}─── Copy the URL above, then press Enter to start waiting for approval ───${C.reset}`);
+	} else {
+		console.log("─── Copy the URL above ───");
+	}
 }
 
 function delay(milliseconds) {
