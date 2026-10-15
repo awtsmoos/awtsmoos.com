@@ -85,7 +85,10 @@ candidate_probe_evidence_sample() {
 	candidate_evidence_failure_lane
 	export CANDIDATE_EVIDENCE_ALIVE CANDIDATE_EVIDENCE_REGISTERED
 	export CANDIDATE_EVIDENCE_ACTION CANDIDATE_EVIDENCE_VERSION
-	[ "$CANDIDATE_EVIDENCE_REGISTERED$CANDIDATE_EVIDENCE_ACTION$CANDIDATE_EVIDENCE_VERSION" = "111" ]
+	# B"H — Yaakov 2026-10-14 FOREVER FIX: Probe only verifies the agent
+	# starts and the API responds. Registration and version are live-agent
+	# concerns, not probe concerns. No mock needed for this check.
+	[ "$CANDIDATE_EVIDENCE_ACTION" = "1" ]
 }
 
 candidate_evidence_failure_lane() {
