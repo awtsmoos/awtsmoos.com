@@ -157,5 +157,22 @@ module.exports = {
         };
       }
     });
+
+    // B"H — 2026-10-15: Simple tunnel fallback (temporary).
+    await $i.use("simple/cmd", async (vars) => {
+      const { queueCommand } = require("./routes/simpleTunnel.js");
+      return await queueCommand($i, vars || {});
+    });
+    await $i.use("simple/poll", async (vars) => {
+      const { pollCommand } = require("./routes/simpleTunnel.js");
+      return await pollCommand($i, vars || {});
+    });
+    await $i.use("simple/result", async (vars) => {
+      // POST = agent posts result, GET = client gets result
+      const { postResult, getResult } = require("./routes/simpleTunnel.js");
+      const method = ($i.method || "GET").toUpperCase();
+      if (method === "POST") return await postResult($i, vars || {});
+      return await getResult($i, vars || {});
+    });
   }
 };
