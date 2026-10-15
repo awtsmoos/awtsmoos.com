@@ -835,18 +835,43 @@ function sourcesSectionPreview(sectionEl) {
 	return clean.length > 90 ? clean.slice(0, 90) + '…' : clean;
 }
 
+/**
+ * B"H — Yaakov 2026-10-15: Humanizes a raw series ID into a readable name.
+ * e.g. "likkuteiSichosVolume10" → "Likkutei Sichos Volume 10".
+ */
+function humanizeSeriesId(raw) {
+	const s = String(raw || '').trim();
+	if (!s) return '';
+	// Insert spaces before capitals and between letters/digits.
+	const spaced = s
+		.replace(/([a-z])([A-Z])/g, '$1 $2')
+		.replace(/([A-Za-z])(\d)/g, '$1 $2')
+		.replace(/([a-zA-Z])(\d)/g, '$1 $2')
+		.replace(/_/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+	// Capitalize first letter of each word.
+	return spaced.replace(/\b\w/g, c => c.toUpperCase());
+}
+
 function buildSourcesSheetContent(post, sefer) {
 	ensureSourcesSheet();
 	const sections = Array.from(sefer.querySelectorAll('.meluket-sefer-section'));
-	const footnotes = Array.from(sefer.querySelectorAll('.meluket-footnote'));
+	// B"H — Yaakov 2026-10-15: Use post.footnotes array (API data), not DOM query.
+	// The DOM may not have all footnotes rendered; the API array is authoritative.
+	const footnotes = Array.isArray(post.footnotes) && post.footnotes.length
+		? post.footnotes
+		: Array.from(sefer.querySelectorAll('.meluket-footnote'));
 	// Cache for tab switching.
 	srcCachedData = { post, sefer, sections, footnotes };
 
 	// Breadcrumb: Heichel > Series > Post.
 	srcCrumbEl.innerHTML = '';
 	const heichelName = (window.post && window.post.heichel && window.post.heichel.name) || 'Ikar';
-	const seriesName = (window.series && (window.series.prateem?.name || window.series.name))
+	// B"H — Yaakov 2026-10-15: Humanize raw series IDs.
+	const rawSeriesName = (window.series && (window.series.prateem?.name || window.series.name))
 		|| post.seriesTitle || post.seriesId || '';
+	const seriesName = humanizeSeriesId(rawSeriesName);
 	const postTitle = post.title || '';
 	const crumbParts = [heichelName, seriesName, postTitle].filter(Boolean);
 	crumbParts.forEach((part, i) => {
@@ -965,9 +990,24 @@ function renderSourcesSections(post, sections) {
 	});
 }
 
-function sourcesFootnoteText(fnEl) {
-	const raw = String(fnEl.textContent || '').replace(/\s+/g, ' ').trim();
+function sourcesFootnoteText(fn) {
+	// B"H — Yaakov 2026-10-15: Handle both DOM elements and API data objects.
+	let raw;
+	if (fn && typeof fn === 'object' && !(fn instanceof Element)) {
+		// API object: {n, hebrew, english, ...}
+		raw = String(fn.english || fn.hebrew || fn.text || '').replace(/\s+/g, ' ').trim();
+	} else {
+		raw = String(fn.textContent || '').replace(/\s+/g, ' ').trim();
+	}
 	return raw.length > 140 ? raw.slice(0, 140) + '…' : raw;
+}
+
+function sourcesFootnoteNum(fn, index) {
+	// B"H — Yaakov 2026-10-15: Handle both DOM elements and API data objects.
+	if (fn && typeof fn === 'object' && !(fn instanceof Element)) {
+		return String(fn.n || fn.num || fn.number || (index + 1));
+	}
+	return fn.dataset.fnNum || fn.getAttribute('data-footnote') || String(index + 1);
 }
 
 function renderSourcesFootnotes(footnotes) {
@@ -975,20 +1015,31 @@ function renderSourcesFootnotes(footnotes) {
 		srcListEl.appendChild(el('div', 'awtsmoos-src-empty', 'No footnotes in this post.'));
 		return;
 	}
-	footnotes.forEach((fnEl, index) => {
-		const num = fnEl.dataset.fnNum || fnEl.getAttribute('data-footnote') || String(index + 1);
+	footnotes.forEach((fn, index) => {
+		const num = sourcesFootnoteNum(fn, index);
+		const isDomEl = fn instanceof Element;
 		const btn = el('button', 'awtsmoos-src-fn-item');
 		btn.type = 'button';
 		btn.setAttribute('aria-label', `Go to footnote ${num}`);
 		btn.append(el('span', 'awtsmoos-src-fn-num', String(num)));
-		const txt = el('span', 'awtsmoos-src-fn-text', sourcesFootnoteText(fnEl));
+		const txt = el('span', 'awtsmoos-src-fn-text', sourcesFootnoteText(fn));
 		txt.setAttribute('dir', 'auto');
 		btn.append(txt);
 		btn.addEventListener('click', () => {
 			closeSourcesSheet();
-			fnEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-			fnEl.classList.add('awtsmoos-fn-flash');
-			setTimeout(() => fnEl.classList.remove('awtsmoos-fn-flash'), 1600);
+			if (isDomEl) {
+				fn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+				fn.classList.add('awtsmoos-fn-flash');
+				setTimeout(() => fn.classList.remove('awtsmoos-fn-flash'), 1600);
+			} else {
+				// B"H — API data: try to find the DOM footnote by number.
+				const domFn = document.querySelector(`.meluket-footnote[data-fn="${num}"], #meluket-fn-${num}`);
+				if (domFn) {
+					domFn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					domFn.classList.add('awtsmoos-fn-flash');
+					setTimeout(() => domFn.classList.remove('awtsmoos-fn-flash'), 1600);
+				}
+			}
 		});
 		srcListEl.appendChild(btn);
 	});
@@ -1128,6 +1179,23 @@ function closeSourcesSheet() {
 
 function isSourcesSheetOpen() {
 	return srcOpen;
+}
+
+/**
+ * B"H — Yaakov 2026-10-15: Opens the Sources sheet directly to a specific tab.
+ * Used by footnote <sup> markers in the reader text.
+ */
+function openSourcesToTab(post, sefer, tab) {
+	srcCurrentTab = tab;
+	openSourcesSheet(post, sefer);
+	// Ensure the tab UI reflects the requested tab.
+	if (srcTabsEl) {
+		srcTabsEl.querySelectorAll('.awtsmoos-src-tab').forEach(t => {
+			const isActive = t.textContent.toLowerCase().startsWith(tab);
+			t.setAttribute('aria-selected', String(isActive));
+		});
+	}
+	renderSourcesTab();
 }
 
 /* B"H — Hijack the Sources button on Meluket posts only (capture phase, so the
@@ -1389,8 +1457,8 @@ function finalizeSeferMount(sefer, post) {
 	// never contradicts the English visibly on the page.
 	try { refreshTranslationStatus(); } catch (_) { /* toolbar absent */ }
 
-	// B"H — Footnote markers: tap opens the footnote popup (Yaakov: never scroll
-	// to the bottom). Only <sup class="meluket-fn-marker"> triggers this; the
+	// B"H — Yaakov 2026-10-15: Footnote markers open the Sources panel to the
+	// footnotes tab. Only <sup class="meluket-fn-marker"> triggers this; the
 	// shelf notes themselves are not triggers.
 	sefer.addEventListener('click', (e) => {
 		const marker = e.target.closest ? e.target.closest('sup.meluket-fn-marker[data-fn]') : null;
@@ -1399,7 +1467,7 @@ function finalizeSeferMount(sefer, post) {
 		if (!fnNum) return;
 		e.preventDefault();
 		e.stopPropagation();
-		openFootnotePopup(fnNum, marker, sefer);
+		openSourcesToTab(post, sefer, 'footnotes');
 	});
 
 	// B"H (2026-10-13, Yaakov): document-level safety net. If a footnote
