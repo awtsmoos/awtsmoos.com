@@ -264,6 +264,18 @@ async function main() {
 		totalWritten += data.written || 0;
 	}
 	console.log(`\nB"H deployed ${totalWritten} file(s) to production.`);
+	// B"H — Yaakov 2026-10-15: Auto-restart after deploy (unless --no-restart).
+	// Node keeps old code in memory; the restart loads the new code.
+	// This is Yaakov's law: deploys must feel instant, no manual restart.
+	if (!args.includes('--no-restart')) {
+		console.log('B"H auto-restarting service to load new code...');
+		const restartData = await signedPost('/packed/deploy/restart', { message: 'B"H auto-restart after deploy', files: [] });
+		if (restartData.success) {
+			console.log('B"H service restarted.');
+		} else {
+			console.log('B"H restart failed (files are deployed, restart manually):', JSON.stringify(restartData));
+		}
+	}
 }
 
 main().catch(e => {
