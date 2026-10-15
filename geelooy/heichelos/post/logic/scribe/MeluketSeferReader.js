@@ -1281,13 +1281,19 @@ export function awakenMeluketSeferReader(post) {
 	enhanceScribeLensPanel();
 
 	// Sections — each phrase's English rides with its Hebrew phrase.
-	hebrewSections.forEach(({ sectionId, items }, index) => {
+	// B"H perf (Yaakov 2026-10-15): chunk section rendering so the first
+	// sections paint immediately and the rest stream in via idle callbacks.
+	const meluketQueue = hebrewSections.map(({ sectionId, items }, index) => {
 		const englishText = translationEn[sectionId] || '';
 		const sectionSummary = sectionSummaries[sectionId] || '';
-		sefer.appendChild(buildSectionElement(index, sectionId, items, englishText, sectionSummary, langMode));
+		return { index, sectionId, items, englishText, sectionSummary };
 	});
-
-	// Q&A — questions and answers.
+	const MELUKET_FIRST_PAINT = 3;
+	for (let i = 0; i < Math.min(MELUKET_FIRST_PAINT, meluketQueue.length); i++) {
+		const s = meluketQueue[i];
+		sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
+	}
+	// Mount Q&A synchronously (usually small) — defined below, then finalize.
 	const questions = Array.isArray(enrichment.questions_en) ? enrichment.questions_en : [];
 	const answers = Array.isArray(enrichment.answers_en) ? enrichment.answers_en : [];
 	if (questions.length || answers.length) {
@@ -1372,6 +1378,36 @@ export function awakenMeluketSeferReader(post) {
 
 	// B"H — shared mount: viewport replace + nav + theme + popups + sources.
 	finalizeSeferMount(sefer, post);
+
+	// B"H perf (Yaakov 2026-10-15): stream remaining sections via idle callbacks.
+	let meluketIdx = MELUKET_FIRST_PAINT;
+	function renderMeluketChunk(deadline) {
+		const start = Date.now();
+		while (meluketIdx < meluketQueue.length) {
+			if (deadline && deadline.timeRemaining() <= 0 && Date.now() - start > 50) break;
+			const s = meluketQueue[meluketIdx++];
+			try {
+				sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
+			} catch (e) {
+				console.warn('B"H meluket section render failed', s.sectionId, e);
+			}
+			if ((meluketIdx - MELUKET_FIRST_PAINT) % 5 === 0) break;
+		}
+		if (meluketIdx < meluketQueue.length) {
+			if (typeof requestIdleCallback === 'function') {
+				requestIdleCallback(renderMeluketChunk, { timeout: 1000 });
+			} else {
+				setTimeout(() => renderMeluketChunk(null), 0);
+			}
+		}
+	}
+	if (meluketIdx < meluketQueue.length) {
+		if (typeof requestIdleCallback === 'function') {
+			requestIdleCallback(renderMeluketChunk, { timeout: 1000 });
+		} else {
+			setTimeout(() => renderMeluketChunk(null), 0);
+		}
+	}
 
 	return true;
 }
@@ -1669,15 +1705,54 @@ export function awakenPhraseTranslationReader(post) {
 
 	// Sections — each phrase's English rides with its Hebrew phrase;
 	// translation.readable[sectionId] is the section-level English fallback.
-	grouped.forEach(({ sectionId, items }, index) => {
+	// B"H perf (Yaakov 2026-10-15): chunk section rendering so the first
+	// sections paint immediately and the rest stream in via idle callbacks.
+	// Building all 38 sections synchronously blocked the main thread for seconds.
+	const sectionQueue = grouped.map(({ sectionId, items }, index) => {
 		const englishText = readable[sectionId] || '';
 		const secSummaryRaw = sectionSummaries[sectionId];
 		const sectionSummary = typeof secSummaryRaw === 'string'
 			? secSummaryRaw
 			: (secSummaryRaw && (secSummaryRaw.detailed || secSummaryRaw.short)) || '';
-		sefer.appendChild(buildSectionElement(index, sectionId, items, englishText, sectionSummary, langMode));
+		return { index, sectionId, items, englishText, sectionSummary };
 	});
-
+	// Render the first 3 sections synchronously (above the fold), then stream the rest.
+	const FIRST_PAINT_COUNT = 3;
+	for (let i = 0; i < Math.min(FIRST_PAINT_COUNT, sectionQueue.length); i++) {
+		const s = sectionQueue[i];
+		sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
+	}
+	// Mount immediately so the user sees content, then stream remaining sections.
 	finalizeSeferMount(sefer, post);
+	let queueIdx = FIRST_PAINT_COUNT;
+	function renderNextChunk(deadline) {
+		const start = Date.now();
+		// Render sections until we run out of idle time or hit 50ms max.
+		while (queueIdx < sectionQueue.length) {
+			if (deadline && deadline.timeRemaining() <= 0 && Date.now() - start > 50) break;
+			const s = sectionQueue[queueIdx++];
+			try {
+				sefer.appendChild(buildSectionElement(s.index, s.sectionId, s.items, s.englishText, s.sectionSummary, langMode));
+			} catch (e) {
+				console.warn('B"H section render failed', s.sectionId, e);
+			}
+			// Yield every 5 sections even with time remaining (keep UI responsive).
+			if ((queueIdx - FIRST_PAINT_COUNT) % 5 === 0) break;
+		}
+		if (queueIdx < sectionQueue.length) {
+			if (typeof requestIdleCallback === 'function') {
+				requestIdleCallback(renderNextChunk, { timeout: 1000 });
+			} else {
+				setTimeout(() => renderNextChunk(null), 0);
+			}
+		}
+	}
+	if (queueIdx < sectionQueue.length) {
+		if (typeof requestIdleCallback === 'function') {
+			requestIdleCallback(renderNextChunk, { timeout: 1000 });
+		} else {
+			setTimeout(() => renderNextChunk(null), 0);
+		}
+	}
 	return true;
 }

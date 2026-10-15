@@ -102,16 +102,21 @@ export async function loadInitial() {
 		series.prateem.name = purifyAwtsmoosString(series.prateem.name);
 		series.prateem.description = purifyAwtsmoosString(series.prateem.description);
 	}
-	const postResponse = await resilientFetch(constructPostUrl(hId, sId, pId));
+	const postResponsePromise = resilientFetch(constructPostUrl(hId, sId, pId));
+	// B"H perf (Yaakov 2026-10-15): fetch breadcrumb in parallel with post data.
+	const breadcrumbPromise = (async () => {
+		try {
+			const response = await fetch(constructBreadcrumbUrl(hId, sId));
+			if (response.ok) return unrollApiResponse(await response.json()).reverse();
+		} catch (_) {}
+		return [];
+	})();
+	const postResponse = await postResponsePromise;
 	if (!postResponse.ok) throw new Error(`Post Gateway Error: ${postResponse.status}`);
 	const postData = await postResponse.json();
 	const post = postData?.success || postData;
 	post.id = pId;
 	post.title = purifyAwtsmoosString(post.title);
-	let breadcrumb = [];
-	try {
-		const response = await fetch(constructBreadcrumbUrl(hId, sId));
-		if (response.ok) breadcrumb = unrollApiResponse(await response.json()).reverse();
-	} catch (_) {}
+	const breadcrumb = await breadcrumbPromise;
 	return publishContext({ post, series, hId, pIdx, breadcrumb });
 }
