@@ -18,7 +18,7 @@ if ! trap -p ERR >/dev/null 2>&1 || ! trap -p ERR | grep -q "STACK TRACE"; then
     local i=0 line func src
     while IFS= read -r line; do
       echo "     → $line" >&2
-    done < <(caller 0 2>/dev/null; i=1; while caller $i 2>/dev/null; do ((i++)); done)
+    done < <(caller 0 2>/dev/null; i=1; while caller $i 2>/dev/null; do i=$((i + 1)); done)
     echo "✨ ═══════════════════════════════════════════ ✨" >&2
     echo "" >&2
   }' ERR

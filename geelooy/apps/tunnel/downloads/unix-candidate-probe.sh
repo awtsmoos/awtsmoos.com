@@ -13,7 +13,7 @@ if ! trap -p ERR 2>/dev/null | grep -q "STACK TRACE"; then
     echo "   Failed: $BASH_COMMAND" >&2
     echo "" >&2
     local i=0
-    while caller $i 2>/dev/null; do ((i++)); done | while IFS= read -r line; do
+    while caller $i 2>/dev/null; do i=$((i + 1)); done | while IFS= read -r line; do
       echo "     → $line" >&2
     done
     echo "✨ ═══════════════════════════════════════════ ✨" >&2
