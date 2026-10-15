@@ -72,19 +72,10 @@ async function wait(config, response, options = {}) {
 				}
 			} catch (error) {
 				// B"H — a single failed poll (network blip, timeout, transient
-				// server error) must NEVER kill the pairing wait. Log it and keep
-				// polling until the deadline. Only terminal states abort early.
+				// server error) must NEVER kill the pairing wait. Keep polling
+				// silently until the deadline. Only terminal states abort early.
+				// B"H — Yaakov 2026-10-14: NO attempt spam. Only log on success/failure.
 				consecutiveErrors += 1;
-				// B"H — Yaakov 2026-10-14: NEVER log [object Object]. Show real error.
-				// Only log every 5th failure to avoid spam; the user needs to copy the URL.
-				const errMsg = error instanceof Error ? error.message
-					: (error && typeof error === "object" ? JSON.stringify(error) : String(error));
-				if (consecutiveErrors === 1 || consecutiveErrors % 5 === 0) {
-					options.log?.(
-						"warn",
-						`B"H waiting for approval... (attempt ${consecutiveErrors}, last error: ${errMsg})`
-					);
-				}
 				await sleepUnlessPush(push, options.pollIntervalMs || POLL_INTERVAL_MS);
 				continue;
 			}
