@@ -267,13 +267,37 @@ async function main() {
 	// B"H — Yaakov 2026-10-15: Auto-restart after deploy (unless --no-restart).
 	// Node keeps old code in memory; the restart loads the new code.
 	// This is Yaakov's law: deploys must feel instant, no manual restart.
+	// The restart kills the HTTP connection before responding (502) — this is
+	// EXPECTED and means the restart was initiated. We wait and verify.
 	if (!args.includes('--no-restart')) {
 		console.log('B"H auto-restarting service to load new code...');
-		const restartData = await signedPost('/packed/deploy/restart', { message: 'B"H auto-restart after deploy', files: [] });
-		if (restartData.success) {
-			console.log('B"H service restarted.');
-		} else {
-			console.log('B"H restart failed (files are deployed, restart manually):', JSON.stringify(restartData));
+		try {
+			const restartData = await signedPost('/packed/deploy/restart', { message: 'B"H auto-restart after deploy', files: [] });
+			if (restartData.success) {
+				console.log('B"H service restarted.');
+			} else if (restartData.http === 502 || restartData.error === 'BAD_RESPONSE') {
+				// 502 = server killed connection to restart — this is SUCCESS
+				console.log('B"H restart initiated (502 expected — server restarting)...');
+				await new Promise(r => setTimeout(r, 8000));
+				// Verify service is back
+				try {
+					const check = await fetch('https://awtsmoos.com/', {signal: AbortSignal.timeout(10000)});
+					if (check.ok) console.log('B"H service back online.');
+					else console.log('B"H WARNING: service not responding after restart.');
+				} catch (e) {
+					console.log('B"H WARNING: could not verify service after restart:', e.message);
+				}
+			} else {
+				console.log('B"H restart failed (files are deployed, restart manually):', JSON.stringify(restartData));
+			}
+		} catch (e) {
+			// Connection drop during restart = success
+			console.log('B"H restart initiated (connection dropped — server restarting)...');
+			await new Promise(r => setTimeout(r, 8000));
+			try {
+				const check = await fetch('https://awtsmoos.com/', {signal: AbortSignal.timeout(10000)});
+				if (check.ok) console.log('B"H service back online.');
+			} catch {}
 		}
 	}
 }
