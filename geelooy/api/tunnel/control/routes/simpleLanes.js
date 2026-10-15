@@ -13,6 +13,7 @@ const ALLOWED_FILES = new Set([
   "agent-file.js",
   "agent-resilient.js",
   "install-lane.js",
+  "install-self-healing.sh",
   "verify-lanes.js",
   "README.md"
 ]);
