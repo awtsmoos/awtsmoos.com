@@ -4,8 +4,9 @@
 
 /**
  * B"H — Yaakov 2026-10-14: Minimal pairing API.
- * The full 107-route table is broken. This implements ONLY the 4 pairing routes
+ * The full 107-route table is broken. This implements ONLY the pairing routes
  * the installer needs, directly. "At all costs" — a working pairing API.
+ * B"H — 2026-10-14: Added pairing/state (read-only poll) and my-device.
  */
 module.exports = {
   dynamicRoutes: async $i => {
@@ -40,6 +41,23 @@ module.exports = {
           response: JSON.stringify({
             BH: "B\"H",
             error: { message: err.message, code: "PAIRING_ERROR", statusCode: 500 }
+          })
+        };
+      }
+    });
+
+    // B"H — 2026-10-14: Read-only pairing state poll. Never consumes.
+    // The installer polls this until approved, then calls pairing/status once.
+    await $i.use("pairing/state", async (vars) => {
+      try {
+        const { pairingState } = require("./routes/pairing.js");
+        return await pairingState($i, vars || {});
+      } catch (err) {
+        return {
+          statusCode: 500,
+          response: JSON.stringify({
+            BH: "B\"H",
+            error: { message: err.message, code: "PAIRING_ERROR", statusCode: 500, stack: err.stack }
           })
         };
       }
@@ -119,6 +137,22 @@ module.exports = {
           response: JSON.stringify({
             BH: "B\"H",
             error: { message: err.message, code: "PAIRING_ERROR", statusCode: 500 }
+          })
+        };
+      }
+    });
+
+    // B"H — 2026-10-14: Device discovery for tunnel detection.
+    await $i.use("my-device", async (vars) => {
+      try {
+        const { myDevice } = require("./routes/myDevice.js");
+        return await myDevice($i, vars || {});
+      } catch (err) {
+        return {
+          statusCode: 500,
+          response: JSON.stringify({
+            BH: "B\"H",
+            error: { message: err.message, code: "DEVICE_ERROR", statusCode: 500, stack: err.stack }
           })
         };
       }
