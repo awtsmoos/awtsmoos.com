@@ -1,0 +1,17 @@
+# B"H — Drive Interactive Browser (geelooy/api/social/helper/drive/browser/)
+
+Interactive remote-browser sessions behind Drive: launch Chromium targets, drive them over DevTools, proxy HTTP, and manage cookies/profiles — per alias.
+
+## Key files
+- `interactiveSessionService.js`, `interactiveSessionRuntime.js`, `interactiveSessionStore.js`, `interactiveSessionIds.js`, `interactiveSessionActions.js`, `interactiveSessionPublic.js` — session lifecycle.
+- `interactiveTargetController.js`, `interactiveTargetMetadata.js`, `interactiveBrowserTargetCatalog.js` — browser targets.
+- `interactiveChromeLauncher.js`, `interactiveChromeReadiness.js` — Chromium launch/readiness.
+- `interactiveDevtoolsHttp.js`, `interactiveDevtoolsRequest.js` — DevTools protocol access.
+- `interactiveHttpProxy.js`, `interactiveLoopbackProxy.js`, `interactiveConnectProxy.js`, `proxyHopService.js`, `interactiveProxyTarget.js` — HTTP proxying.
+- `proxyCookieJar.js`, `proxyCookiePolicy.js`, `proxyHeaders.js`, `proxyPerutaPolicy.js` — cookies/headers policy.
+- `proxyBrowserProfile.js`, `proxyRateLimiter.js`, `interactiveRateGate.js` — profiles and rate gating.
+- `interactiveEngineMode.js`, `interactiveInputPolicy.js` — engine mode and input rules.
+- `*.test.js` — matching tests (sessions, targets, launcher, proxies, rate gate, headers/cookies).
+
+## Routes
+`/drive/:aliasId/browser/sessions[/:sessionId[/targets[/:targetId[/cookies|frame|history|input|navigate]]]]`, `/drive/:aliasId/browser/jars[/:jarId]`, `/drive/:aliasId/browser/fetch`.
