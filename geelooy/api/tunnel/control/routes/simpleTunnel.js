@@ -1,23 +1,33 @@
 // B"H — Simple tunnel command queue (Yaakov 2026-10-15)
 // TEMPORARY fallback until full pairing system is fixed.
 // Minimal: agent polls for commands, executes, posts results.
+// Uses file-based store for multi-process compatibility.
 
-const store = {
-  pending: [], // {id, command, createdAt}
-  results: new Map(), // id -> {output, completedAt}
-  nextId: 1
-};
+const fs = require("node:fs");
+const path = require("node:path");
+const STORE_PATH = "/tmp/simple-tunnel-queue.json";
 
-// B"H — Simple secret (temporary). In production, use per-user secrets.
-const VALID_SECRETS = new Set(["965e29cfea49bf116e9ede9f3deff2adcb441d2dede90e5586fb3f722e1bc16c"]);
+function loadStore() {
+  try {
+    const data = fs.readFileSync(STORE_PATH, "utf8");
+    return JSON.parse(data);
+  } catch (e) {
+    return { pending: [], results: {}, nextId: 1 };
+  }
+}
 
-function setSecret(secret) {
-  VALID_SECRETS.add(secret);
+function saveStore(store) {
+  try {
+    fs.writeFileSync(STORE_PATH, JSON.stringify(store));
+  } catch (e) {
+    // Ignore write errors
+  }
 }
 
 function checkSecret($i) {
   const secret = $i.query?.secret || $i.body?.secret;
-  return secret && VALID_SECRETS.has(secret);
+  // B"H — Direct comparison (temporary). Avoids in-memory Set issues across processes.
+  return secret === "965e29cfea49bf116e9ede9f3deff2adcb441d2dede90e5586fb3f722e1bc16c";
 }
 
 async function queueCommand($i) {
@@ -28,8 +38,10 @@ async function queueCommand($i) {
   if (!command || typeof command !== "string") {
     return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_command" }) };
   }
+  const store = loadStore();
   const id = `cmd_${store.nextId++}_${Date.now()}`;
   store.pending.push({ id, command, createdAt: new Date().toISOString() });
+  saveStore(store);
   return { statusCode: 200, response: JSON.stringify({ ok: true, id }) };
 }
 
@@ -37,7 +49,9 @@ async function pollCommand($i) {
   if (!checkSecret($i)) {
     return { statusCode: 403, response: JSON.stringify({ ok: false, error: "bad_secret" }) };
   }
+  const store = loadStore();
   const cmd = store.pending.shift();
+  saveStore(store);
   if (!cmd) {
     return { statusCode: 200, response: JSON.stringify({ ok: true, command: null }) };
   }
@@ -52,7 +66,9 @@ async function postResult($i) {
   if (!id) {
     return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_id" }) };
   }
-  store.results.set(id, { output: String(output || ""), completedAt: new Date().toISOString() });
+  const store = loadStore();
+  store.results[id] = { output: String(output || ""), completedAt: new Date().toISOString() };
+  saveStore(store);
   return { statusCode: 200, response: JSON.stringify({ ok: true }) };
 }
 
@@ -61,11 +77,13 @@ async function getResult($i) {
     return { statusCode: 403, response: JSON.stringify({ ok: false, error: "bad_secret" }) };
   }
   const id = $i.query?.id;
-  const result = store.results.get(id);
+  const store = loadStore();
+  const result = store.results[id];
   if (!result) {
     return { statusCode: 200, response: JSON.stringify({ ok: true, done: false }) };
   }
-  store.results.delete(id); // One-time read
+  delete store.results[id]; // One-time read
+  saveStore(store);
   return { statusCode: 200, response: JSON.stringify({ ok: true, done: true, output: result.output }) };
 }
 
@@ -80,8 +98,7 @@ async function setup($i) {
   if (typeof secret !== "string" || secret.length < 16) {
     return { statusCode: 400, response: JSON.stringify({ ok: false, error: "invalid_secret" }) };
   }
-  VALID_SECRETS.add(secret);
   return { statusCode: 200, response: JSON.stringify({ ok: true, message: "Secret set" }) };
 }
 
-module.exports = { queueCommand, pollCommand, postResult, getResult, setSecret, setup };
+module.exports = { queueCommand, pollCommand, postResult, getResult, setup };
