@@ -116,9 +116,38 @@ async function sleepUnlessPush(push, ms) {
 }
 
 function announce(log, response, approval) {
-	log?.("info", `B\"H Pairing code: ${response.userCode}`);
+	// B"H — Yaakov 2026-10-14: URL on its own line, intense CLI styling!
+	const isTTY = process.stdout && process.stdout.isTTY;
+	const C = isTTY ? {
+		reset: "\x1b[0m",
+		bold: "\x1b[1m",
+		green: "\x1b[38;2;0;255;136m",
+		cyan: "\x1b[38;2;0;238;255m",
+		gold: "\x1b[38;2;255;204;0m",
+		dim: "\x1b[2m"
+	} : { reset: "", bold: "", green: "", cyan: "", gold: "", dim: "" };
+
+	log?.("info", `${C.bold}${C.green}B"H Pairing code: ${response.userCode}${C.reset}`);
 	log?.("info", "Open this URL in a browser. Do not paste it into a shell:");
-	log?.("info", approval);
+	// URL on its own line, no log prefix, with intense styling
+	if (isTTY) {
+		console.log("");
+		console.log(`${C.cyan}${C.bold}╔${"═".repeat(60)}╗${C.reset}`);
+		console.log(`${C.cyan}${C.bold}║${C.reset}  ${C.gold}✦ APPROVAL URL ✦${C.reset}${" ".repeat(41)}${C.cyan}${C.bold}║${C.reset}`);
+		console.log(`${C.cyan}${C.bold}╠${"═".repeat(60)}╣${C.reset}`);
+		// Split URL across lines for readability
+		const url = String(approval);
+		const maxLen = 56;
+		for (let i = 0; i < url.length; i += maxLen) {
+			const chunk = url.slice(i, i + maxLen);
+			const pad = " ".repeat(Math.max(0, 60 - chunk.length - 2));
+			console.log(`${C.cyan}${C.bold}║${C.reset} ${C.cyan}${chunk}${C.reset}${pad}${C.cyan}${C.bold}║${C.reset}`);
+		}
+		console.log(`${C.cyan}${C.bold}╚${"═".repeat(60)}╝${C.reset}`);
+		console.log("");
+	} else {
+		console.log(approval);
+	}
 	log?.("info", "Leave this terminal running after approval.");
 	log?.("info", `Pairing expires: ${new Date(response.expiresAt).toISOString()}`);
 	log?.("info", "The code stays valid while this installer keeps running — take your time.");
