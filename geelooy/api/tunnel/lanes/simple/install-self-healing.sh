@@ -20,17 +20,9 @@ curl -fsSL "$BASE_URL/agent-resilient.js" -o "$INSTALL_DIR/agent-resilient.js"
 curl -fsSL "$BASE_URL/agent-poll.js" -o "$INSTALL_DIR/agent-poll.js"
 curl -fsSL "$BASE_URL/agent-websocket.js" -o "$INSTALL_DIR/agent-websocket.js"
 
-# B"H — Get secret (from env or prompt)
-if [ -z "${TUNNEL_SECRET:-}" ]; then
-  echo ""
-  echo "Enter tunnel secret:"
-  read -rs TUNNEL_SECRET
-  echo ""
-fi
-if [ -z "$TUNNEL_SECRET" ]; then
-  echo "ERROR: TUNNEL_SECRET is required" >&2
-  exit 1
-fi
+# B"H — Get secret (from env, or empty for default)
+# The server allows empty secret for polling (public fallback mode).
+TUNNEL_SECRET="${TUNNEL_SECRET:-}"
 
 AGENT_ID="${TUNNEL_AGENT_ID:-$(hostname)}"
 
