@@ -33,7 +33,7 @@ start_candidate_probe() {
 			unset AWTSMOOS_CANDIDATE_IDENTITY_MUTATION
 		fi
 		exec "$AWTSMOOS_NODE_BIN" \
-			"$CANDIDATE_ROOT/unix-agent-launcher.cjs" "$CANDIDATE_ROOT"
+			"$CANDIDATE_ROOT/main.js" "$CANDIDATE_ROOT"
 	) >> "$log_file" 2>&1 &
 	CANDIDATE_PROBE_PID=$!
 	printf '%s\n' "$CANDIDATE_PROBE_PID" > "$pid_file"
@@ -46,7 +46,7 @@ candidate_probe_alive() {
 	[ -n "$CANDIDATE_PROBE_PID" ] || return 1
 	kill -0 "$CANDIDATE_PROBE_PID" 2>/dev/null || return 1
 	ps -p "$CANDIDATE_PROBE_PID" -o command= 2>/dev/null |
-		grep -F -- "$CANDIDATE_ROOT/awtsmoos-agent-launcher.cjs" >/dev/null
+		grep -F -- "$CANDIDATE_ROOT/main.js" >/dev/null
 }
 
 stop_candidate_probe() {
