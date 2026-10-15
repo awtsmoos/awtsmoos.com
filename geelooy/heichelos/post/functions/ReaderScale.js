@@ -2,10 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 
-import { GevurahReaderScalePolicy } from './ReaderScalePolicy.js';
-import { ChaiReaderScaleRuntimeGate } from './ReaderScaleRuntimeGate.js';
-import { resolveReaderScaleStorage } from './ReaderScaleStorage.js';
-import { TiferesReaderScaleDisplay } from './ui/ReaderScaleDisplay.js';
+import { GevurahReaderScalePolicy } from './ReaderScalePolicy.js?v=7feae7f5c';
+import { ChaiReaderScaleRuntimeGate } from './ReaderScaleRuntimeGate.js?v=7feae7f5c';
+import { resolveReaderScaleStorage } from './ReaderScaleStorage.js?v=7feae7f5c';
+import { TiferesReaderScaleDisplay } from './ui/ReaderScaleDisplay.js?v=7feae7f5c';
 
 /**
  * @fileoverview Medaber facade for localized reader typography scale.
