@@ -1,7 +1,9 @@
 # B"H — Simple Tunnel Lanes (Yaakov 2026-10-15)
 
-Temporary fallback tunnels while the full RSA pairing system is repaired.
-All lanes are file-based, minimal, and independent.
+**PERMANENT BASELINE** — These are the foundational tunnel lanes. Never remove.
+
+File-based, minimal, independent command tunnels. Each lane is a complete
+standalone system for bidirectional command execution.
 
 ## Lanes
 
