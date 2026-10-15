@@ -15,6 +15,7 @@ const EXTERNAL_DIRECTORIES = Object.freeze([
 	"ai/relay/direct",
 	"ai/relay/split-browser",
 	"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB",
+	"ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON",
 	"ayzarim/ssh"
 ]);
 
