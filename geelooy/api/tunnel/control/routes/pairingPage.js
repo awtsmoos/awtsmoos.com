@@ -38,18 +38,18 @@ function pairingPageHtml({ pairingCode = "", pairingId = "", returnPath = "" } =
 <meta name="theme-color" content="#0a0e14">
 <title>Approve this device? · Awtsmoos</title>
 <style>
-/* B"H — Yaakov 2026-10-14: MAGICAL STYLES! Beautiful, glowing, animated! */
+/* B"H — Yaakov 2026-10-14: ULTRA INTENSE MAGICAL STYLES! */
 :root{
-	--bg:#0a0e14; --card:#101722; --line:#1f2b3d; --text:#e8f0fa;
-	--dim:#8fa1b8; --green:#2fd47e; --green-dark:#178a4e; --red:#e05656;
-	--gold:#d8a93f; --blue:#4da6ff; --purple:#9d4dff; --cyan:#4dd2ff;
+	--bg:#05080d; --card:#0d1520; --line:#2a3f5c; --text:#ffffff;
+	--dim:#a8bdd6; --green:#00ff88; --green-dark:#00cc6a; --red:#ff4444;
+	--gold:#ffcc00; --blue:#00aaff; --purple:#bb44ff; --cyan:#00eeff;
 }
 *{box-sizing:border-box;border-radius:0;margin:0;padding:0}
 html,body{height:100%}
 body{
-	background:linear-gradient(135deg, #0a0e14 0%, #0d1420 50%, #0a0e14 100%);
-	background-size:200% 200%;
-	animation:magicalBg 15s ease infinite;
+	background:linear-gradient(135deg, #05080d 0%, #0a1220 25%, #0d1a2f 50%, #0a1220 75%, #05080d 100%);
+	background-size:300% 300%;
+	animation:magicalBg 8s ease infinite;
 	color:var(--text);
 	font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 	display:flex; align-items:center; justify-content:center;
@@ -109,14 +109,35 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 	animation:codeGlow 2.5s ease-in-out infinite;
 }
 @keyframes codeGlow{
-	0%,100%{box-shadow:0 0 20px rgba(47,212,126,.15); border-color:var(--line)}
-	50%{box-shadow:0 0 40px rgba(47,212,126,.35); border-color:var(--green)}
+	0%,100%{box-shadow:0 0 30px rgba(0,255,136,.3); border-color:var(--line)}
+	50%{box-shadow:0 0 60px rgba(0,255,136,.7); border-color:var(--green)}
 }
 .codebox .code{
 	font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 	font-size:34px; font-weight:700; letter-spacing:.28em; color:var(--green);
 	text-indent:.28em; word-break:break-all;
+	text-shadow:0 0 20px rgba(0,255,136,.8), 0 0 40px rgba(0,255,136,.4);
 }
+/* B"H — Yaakov 2026-10-14: INTENSE verification link, each part on new line! */
+.verify-link{
+	background:#0a0f18; border:2px solid var(--green);
+	padding:16px 12px; margin-bottom:22px; text-align:center;
+	box-shadow:0 0 30px rgba(0,255,136,.3), inset 0 0 20px rgba(0,255,136,.1);
+	animation:verifyPulse 2s ease-in-out infinite;
+}
+@keyframes verifyPulse{
+	0%,100%{box-shadow:0 0 30px rgba(0,255,136,.3), inset 0 0 20px rgba(0,255,136,.1)}
+	50%{box-shadow:0 0 50px rgba(0,255,136,.6), inset 0 0 30px rgba(0,255,136,.2)}
+}
+.verify-label{
+	color:var(--green); font-size:12px; font-weight:800; letter-spacing:.3em;
+	margin-bottom:10px; text-shadow:0 0 10px rgba(0,255,136,.8);
+}
+.verify-url{
+	display:block; color:var(--cyan); font-size:12px; line-height:1.8;
+	word-break:break-all; text-decoration:none; font-family:ui-monospace,monospace;
+}
+.verify-url:hover{color:#ffffff; text-shadow:0 0 10px rgba(0,238,255,.8);}
 .btn{
 	display:block; width:100%; padding:15px 12px; font-size:16px; font-weight:700;
 	border:1px solid transparent; cursor:pointer; text-align:center;
@@ -164,6 +185,7 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 		<h1>Approve this device?</h1>
 		<p class="sub">A tunnel installer asked to link this device to your account. Approve only if you just ran the installer on your own machine.</p>
 		<div class="codebox"><div class="code" id="code">${safeCode}</div></div>
+		${safePairingId ? `<div class="verify-link"><div class="verify-label">✓ VERIFICATION LINK</div><a href="https://awtsmoos.com/api/tunnel/control/pairing/page?pairingId=${safePairingId}&amp;pairingCode=${safeCode}" class="verify-url">https://awtsmoos.com/api/tunnel/control/pairing/page<br>?pairingId=${safePairingId}<br>&amp;pairingCode=${safeCode}</a></div>` : ""}
 		<button class="btn btn-approve" id="approve" type="button">Approve this device</button>
 		<button class="btn btn-cancel" id="cancel" type="button">Cancel</button>
 		<p class="status" id="status" role="status" aria-live="polite"></p>

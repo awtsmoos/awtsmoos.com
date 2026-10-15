@@ -79,7 +79,8 @@ async function pairingState($i) {
 async function pairingPage($i) {
 	const params = query($i) || {};
 	const pairingCode = String(params.pairingCode || params.code || "");
-	return html($i, pairingPageHtml({ pairingCode }));
+	const pairingId = String(params.pairingId || "");
+	return html($i, pairingPageHtml({ pairingCode, pairingId }));
 }
 
 module.exports = {
