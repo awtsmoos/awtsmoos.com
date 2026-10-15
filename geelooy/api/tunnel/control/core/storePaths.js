@@ -19,11 +19,13 @@ const FORBIDDEN_ROOTS = Object.freeze([
 
 /** Returns the default server data directory. */
 function defaultDataDirectory() {
-	// B"H — Yaakov 2026-10-14: Hardcode to the git repo path.
-	// The server writes to /mnt/HC_Volume_102267213/git/awtsmoos.com/geelooy/.data
-	// (verified by grep finding pairings there). Use that exact path.
-	// Do not use CWD, __dirname, or env vars — they are unreliable across workers.
-	return "/mnt/HC_Volume_102267213/git/awtsmoos.com/geelooy/.data";
+	// B"H — Yaakov 2026-10-14: Use __awtsdir (set by systemd) if available.
+	// Fallback to __dirname-derived path (reliable), never process.cwd().
+	if (process.env.__awtsdir) {
+		return path.join(process.env.__awtsdir, "geelooy", ".data");
+	}
+	// __dirname is geelooy/api/tunnel/control/core → up 4 to geelooy/
+	return path.join(__dirname, "..", "..", "..", "..", ".data");
 }
 
 /** Rejects overrides that enter protected operational roots. */
