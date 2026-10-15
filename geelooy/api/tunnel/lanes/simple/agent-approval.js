@@ -3,10 +3,10 @@
 // Flow: agent requests pairing -> user approves via file -> agent polls.
 // Simpler than RSA pairing: just a file flag.
 //
-// Agent requests: POST /api/tunnel/simple/request {agentId}
+// Agent requests: POST /api/tunnel/control/simple/request {agentId}
 // Server creates: /tmp/simple-tunnel-approvals/<agentId>.json {status: "pending"}
 // User approves: touch /tmp/simple-tunnel-approvals/<agentId>.approved
-// Agent polls: GET /api/tunnel/simple/approved?agentId=... -> {approved: true/false}
+// Agent polls: GET /api/tunnel/control/simple/approved?agentId=... -> {approved: true/false}
 // Then agent uses the standard poll loop.
 
 const https = require("node:https");
@@ -48,10 +48,10 @@ function api(path, method = "GET", body = null) {
 
 async function waitForApproval() {
   console.log(`[tunnel] Requesting approval for agent: ${AGENT_ID}`);
-  await api(`/api/tunnel/simple/request`, "POST", { agentId: AGENT_ID });
+  await api(`/api/tunnel/control/simple/request`, "POST", { agentId: AGENT_ID });
   console.log(`[tunnel] Waiting for approval... (approve via: touch /tmp/simple-tunnel-approvals/${AGENT_ID}.approved on server)`);
   while (true) {
-    const res = await api(`/api/tunnel/simple/approved?agentId=${encodeURIComponent(AGENT_ID)}`);
+    const res = await api(`/api/tunnel/control/simple/approved?agentId=${encodeURIComponent(AGENT_ID)}`);
     if (res && res.approved) {
       console.log("[tunnel] Approved!");
       return;
