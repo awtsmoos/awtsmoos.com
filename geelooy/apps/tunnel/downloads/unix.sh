@@ -229,7 +229,15 @@ prompt_install_mode() {
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
 	printf '  %s3)%s Agent only — fastest, for headless servers\n' \
 		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
-	printf '%sChoose [1-3] (default 1): %s' "$AWT_C_GOLD" "$AWT_C_OFF" >&2
+	printf '  %s4)%s Simple tunnel (poll) — file-based, no pairing needed\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '  %s5)%s Simple tunnel (approval) — file-based with manual approval\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '  %s6)%s Simple tunnel (websocket) — real-time, falls back to poll\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '  %s7)%s Simple tunnel (file) — pure file, zero HTTP, air-gapped\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '%sChoose [1-7] (default 1): %s' "$AWT_C_GOLD" "$AWT_C_OFF" >&2
 	if ! IFS= read -r choice </dev/tty; then
 		printf '\n' >&2
 		return 0
@@ -237,6 +245,10 @@ prompt_install_mode() {
 	case "$choice" in
 		2|minimal) AWTSMOOS_INSTALL_MODE="minimal" ;;
 		3|agent-only|agentonly) AWTSMOOS_INSTALL_MODE="agent-only" ;;
+		4|simple-poll) AWTSMOOS_INSTALL_MODE="simple-poll" ;;
+		5|simple-approval) AWTSMOOS_INSTALL_MODE="simple-approval" ;;
+		6|simple-websocket) AWTSMOOS_INSTALL_MODE="simple-websocket" ;;
+		7|simple-file) AWTSMOOS_INSTALL_MODE="simple-file" ;;
 		*) AWTSMOOS_INSTALL_MODE="full" ;;
 	esac
 }
@@ -247,6 +259,10 @@ parse_installer_args() {
 			--full)            AWTSMOOS_INSTALL_MODE="full" ;;
 			--minimal)         AWTSMOOS_INSTALL_MODE="minimal" ;;
 			--agent-only|--agentonly) AWTSMOOS_INSTALL_MODE="agent-only" ;;
+			--simple-poll)     AWTSMOOS_INSTALL_MODE="simple-poll" ;;
+			--simple-approval) AWTSMOOS_INSTALL_MODE="simple-approval" ;;
+			--simple-websocket) AWTSMOOS_INSTALL_MODE="simple-websocket" ;;
+			--simple-file)     AWTSMOOS_INSTALL_MODE="simple-file" ;;
 			--clean)           AWTSMOOS_INSTALL_CLEAN=1 ;;
 			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}" ;;
 			-y|--yes)          AWT_ASSUME_YES=1 ;;
@@ -259,7 +275,7 @@ parse_installer_args() {
 		shift
 	done
 	case "$AWTSMOOS_INSTALL_MODE" in
-		""|full|minimal|agent-only) ;;
+		""|full|minimal|agent-only|simple-poll|simple-approval|simple-websocket|simple-file) ;;
 		*) awt_warn "Unknown mode '$AWTSMOOS_INSTALL_MODE'; using 'full'."; AWTSMOOS_INSTALL_MODE="full" ;;
 	esac
 }
@@ -365,6 +381,38 @@ fi
 AWTSMOOS_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-full}"
 export AWTSMOOS_INSTALL_MODE
 export AWTSMOOS_SKIP_DEVICE_LOGIN="${AWTSMOOS_SKIP_DEVICE_LOGIN:-}"
+# B"H — Yaakov 2026-10-15: Simple tunnel lanes. If a simple mode is selected,
+# download and run the simple agent directly, bypassing the full tunnel setup.
+case "$AWTSMOOS_INSTALL_MODE" in
+  simple-poll|simple-approval|simple-websocket|simple-file)
+    echo ""
+    echo "B\"H — Installing simple tunnel: $AWTSMOOS_INSTALL_MODE"
+    echo ""
+    SIMPLE_AGENT=""
+    case "$AWTSMOOS_INSTALL_MODE" in
+      simple-poll) SIMPLE_AGENT="agent-poll.js" ;;
+      simple-approval) SIMPLE_AGENT="agent-approval.js" ;;
+      simple-websocket) SIMPLE_AGENT="agent-websocket.js" ;;
+      simple-file) SIMPLE_AGENT="agent-file.js" ;;
+    esac
+    SIMPLE_URL="https://awtsmoos.com/api/tunnel/lanes/simple/$SIMPLE_AGENT"
+    # B"H — Try to download from the lanes endpoint, fallback to git
+    if ! curl -fsSL "$SIMPLE_URL" -o "/tmp/$SIMPLE_AGENT" 2>/dev/null; then
+      echo "Downloading from git..."
+      curl -fsSL "https://raw.githubusercontent.com/awtsmoos/awtsmoos.com/main/geelooy/api/tunnel/lanes/simple/$SIMPLE_AGENT" -o "/tmp/$SIMPLE_AGENT"
+    fi
+    if [ ! -f "/tmp/$SIMPLE_AGENT" ]; then
+      echo "ERROR: Failed to download $SIMPLE_AGENT" >&2
+      exit 1
+    fi
+    echo "Starting $SIMPLE_AGENT..."
+    echo "Agent ID: ${TUNNEL_AGENT_ID:-$(hostname)}"
+    echo "Press Ctrl+C to stop."
+    echo ""
+    TUNNEL_AGENT_ID="${TUNNEL_AGENT_ID:-$(hostname)}" exec node "/tmp/$SIMPLE_AGENT"
+    exit $?
+    ;;
+esac
 # Yaakov 2026-10-14: --agent-only always starts from a clean slate.
 if [ "$AWTSMOOS_INSTALL_MODE" = "agent-only" ]; then
 	AWTSMOOS_INSTALL_CLEAN=1
