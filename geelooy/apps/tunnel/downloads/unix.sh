@@ -7,6 +7,18 @@ set -Eeuo pipefail
 export LC_ALL=C
 export LANG=C
 
+# B"H — Yaakov 2026-10-14: ALWAYS print full stack trace on error.
+# This is the Bash equivalent of try-catch with stack printing.
+# Every failure will show exactly where it happened and the call chain.
+trap '{
+  echo "=== INSTALLER STACK TRACE ===" >&2
+  echo "Failed command: $BASH_COMMAND" >&2
+  echo "Call stack (most recent first):" >&2
+  local i=0
+  while caller $i >&2; do ((i++)) || true; done
+  echo "===========================" >&2
+}' ERR
+
 # The Awtsmoos chooses the primary vessel before replaceable helpers are trusted;
 # Awtsmoos.com lets one wounded public doorway retry quietly instead of becoming a curl storm.
 origin="${AWTSMOOS_INSTALL_ORIGIN:-https://awtsmoos.com}"
