@@ -106,9 +106,60 @@ function executeCommand(command, id, ws) {
   });
 }
 
+// B"H — HTTP polling fallback (same as agent-poll.js, simplified)
+const SERVER = process.env.TUNNEL_SERVER || "https://awtsmoos.com";
+function api(path, method = "GET", body = null) {
+  return new Promise((resolve) => {
+    const url = new URL(SERVER + path);
+    const lib = url.protocol === "https:" ? require("node:https") : require("node:http");
+    const data = body ? JSON.stringify(body) : null;
+    const req = lib.request({
+      hostname: url.hostname,
+      port: url.port || (url.protocol === "https:" ? 443 : 80),
+      path: url.pathname + url.search,
+      method: method,
+      headers: { "Content-Type": "application/json", ...(data ? { "Content-Length": Buffer.byteLength(data) } : {}) },
+      timeout: 15000
+    }, (res) => {
+      let d = "";
+      res.on("data", c => d += c);
+      res.on("end", () => { try { resolve(JSON.parse(d)); } catch { resolve(null); } });
+    });
+    req.on("error", () => resolve(null));
+    req.on("timeout", () => { req.destroy(); resolve(null); });
+    if (data) req.write(data);
+    req.end();
+  });
+}
+
+async function startPolling() {
+  console.log("[tunnel] HTTP polling fallback active");
+  while (true) {
+    try {
+      const res = await api(`/api/tunnel/control/simple/poll?agentId=${encodeURIComponent(AGENT_ID)}&secret=${encodeURIComponent(SECRET)}`);
+      if (res && res.command) {
+        console.log(`[tunnel] Poll got command: ${res.command.slice(0, 60)}`);
+        exec(res.command, { timeout: 60000, maxBuffer: 1024 * 1024 }, async (err, stdout, stderr) => {
+          await api(`/api/tunnel/control/simple/result`, "POST", {
+            secret: SECRET,
+            id: res.id,
+            output: ((stdout || "") + (stderr || "")).slice(0, 50000)
+          });
+          console.log(`[tunnel] Poll result posted for ${res.id}`);
+        });
+      }
+    } catch (e) {}
+    await new Promise(r => setTimeout(r, 3000));
+  }
+}
+
 function main() {
   console.log(`[tunnel] WebSocket lane starting (agent: ${AGENT_ID})`);
   console.log(`[tunnel] Connecting to ${WS_URL}...`);
+
+  // B"H — Yaakov 2026-10-15: Dual transport. WS for real-time push,
+  // HTTP polling as reliable fallback. Both use the same command queue.
+  startPolling();
 
   const ws = new SimpleWS(WS_URL);
 
