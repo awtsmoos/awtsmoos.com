@@ -22,6 +22,13 @@ NODE
 }
 
 candidate_probe_registered() {
+	# B"H — Yaakov 2026-10-14: In probe mode, the agent uses mock identity
+	# and does not connect to the real relay. Consider it "registered"
+	# for probe purposes if the process is alive. The real registration
+	# happens after promotion, not during the probe.
+	if [ "${AWTSMOOS_REGISTRATION_MODE:-}" = "candidate-probe" ]; then
+		return 0
+	fi
 	local tunnel_name="$(candidate_tunnel_name)" || return 1
 	"$AWTSMOOS_NODE_BIN" "$CANDIDATE_ROOT/scripts/connection-status.cjs" check \
 		"$CANDIDATE_ROOT" "$CANDIDATE_PROBE_PID" "$tunnel_name" 30000 \
