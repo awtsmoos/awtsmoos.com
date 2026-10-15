@@ -3,6 +3,24 @@
 # Boruch Hashem
 # Blessed is He
 
+# B"H — Yaakov 2026-10-14: Beautiful stack trace on probe errors.
+if ! trap -p ERR 2>/dev/null | grep -q "STACK TRACE"; then
+  trap '{
+    echo "" >&2
+    echo "✨ ═══════════════════════════════════════════ ✨" >&2
+    echo "   PROBE STACK TRACE" >&2
+    echo "✨ ═══════════════════════════════════════════ ✨" >&2
+    echo "   Failed: $BASH_COMMAND" >&2
+    echo "" >&2
+    local i=0
+    while caller $i 2>/dev/null; do ((i++)); done | while IFS= read -r line; do
+      echo "     → $line" >&2
+    done
+    echo "✨ ═══════════════════════════════════════════ ✨" >&2
+    echo "" >&2
+  }' ERR
+fi
+
 CANDIDATE_PROBE_PID="${CANDIDATE_PROBE_PID:-}"
 CANDIDATE_PROBE_PORT="${CANDIDATE_PROBE_PORT:-}"
 CANDIDATE_IDENTITY_AUTHORITY="${CANDIDATE_IDENTITY_AUTHORITY:-readonly}"

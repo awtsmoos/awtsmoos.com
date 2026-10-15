@@ -10,13 +10,25 @@ export LANG=C
 # B"H — Yaakov 2026-10-14: ALWAYS print full stack trace on error.
 # This is the Bash equivalent of try-catch with stack printing.
 # Every failure will show exactly where it happened and the call chain.
+# Beautiful output per Yaakov's "everything should feel magical" law.
 trap '{
-  echo "=== INSTALLER STACK TRACE ===" >&2
-  echo "Failed command: $BASH_COMMAND" >&2
-  echo "Call stack (most recent first):" >&2
-  local i=0
-  while caller $i >&2; do ((i++)) || true; done
-  echo "===========================" >&2
+  echo "" >&2
+  echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
+  echo "   INSTALLER STACK TRACE — exactly where it broke" >&2
+  echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
+  echo "" >&2
+  echo "   Failed command:" >&2
+  echo "     $BASH_COMMAND" >&2
+  echo "" >&2
+  echo "   Call stack (most recent first):" >&2
+  local _i=0 _line
+  while _line=$(caller $_i 2>/dev/null); do
+    echo "     → $_line" >&2
+    _i=$((_i + 1))
+  done
+  echo "" >&2
+  echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
+  echo "" >&2
 }' ERR
 
 # The Awtsmoos chooses the primary vessel before replaceable helpers are trusted;

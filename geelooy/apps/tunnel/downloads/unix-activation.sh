@@ -3,6 +3,27 @@
 # Boruch Hashem
 # Blessed is He
 
+# B"H — Yaakov 2026-10-14: Beautiful stack trace on any error.
+# If this component is sourced, the main script's trap applies.
+# If run standalone, this ensures we always see the full error.
+if ! trap -p ERR >/dev/null 2>&1 || ! trap -p ERR | grep -q "STACK TRACE"; then
+  trap '{
+    echo "" >&2
+    echo "✨ ═══════════════════════════════════════════ ✨" >&2
+    echo "   STACK TRACE — exactly where it broke" >&2
+    echo "✨ ═══════════════════════════════════════════ ✨" >&2
+    echo "   Failed: $BASH_COMMAND" >&2
+    echo "" >&2
+    echo "   Call chain (newest first):" >&2
+    local i=0 line func src
+    while IFS= read -r line; do
+      echo "     → $line" >&2
+    done < <(caller 0 2>/dev/null; i=1; while caller $i 2>/dev/null; do ((i++)); done)
+    echo "✨ ═══════════════════════════════════════════ ✨" >&2
+    echo "" >&2
+  }' ERR
+fi
+
 # Activation proves staged life before any predecessor path is displaced. Fresh install
 # alone grants explicit identity creation authority; update probes remain read-only.
 #
