@@ -181,6 +181,31 @@ function enhanceDreamCards(discovery, items) {
 		if (!link || link.dataset.dreamEnhanced) continue;
 		link.dataset.dreamEnhanced = 'true';
 
+		// B"H — Yaakov 2026-10-15: Make the cover image clickable too.
+		// The server renders the cover <span> outside the link; wrap it in an
+		// anchor to the same destination so tapping the image navigates.
+		const cover = li.querySelector('.heichel-discovery-cover');
+		const href = link.getAttribute('href');
+		if (cover && href && !cover.closest('a')) {
+			const coverLink = document.createElement('a');
+			coverLink.href = href;
+			coverLink.className = 'dream-heichel-cover-link';
+			coverLink.setAttribute('aria-label', link.textContent.trim());
+			cover.replaceWith(coverLink);
+			coverLink.appendChild(cover);
+		}
+
+		// B"H — Yaakov 2026-10-15: Keep overviews visible.
+		// Descriptions must never vanish after enhancement; ensure the
+		// description element stays in the DOM and is not hidden.
+		const desc = li.querySelector('.heichel-discovery-description');
+		if (desc) {
+			desc.hidden = false;
+			desc.style.display = '';
+			desc.style.visibility = '';
+			desc.dataset.dreamDescKept = 'true';
+		}
+
 		// Split "עברית · English" into two spans.
 		// B"H — Yaakov 2026-10-15: Also handle concatenated "עבריתEnglish" (no separator)
 		// by detecting the Hebrew-to-Latin boundary.

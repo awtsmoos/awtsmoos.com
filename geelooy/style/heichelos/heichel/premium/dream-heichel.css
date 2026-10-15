@@ -447,3 +447,21 @@
 	font-size: 0.85rem;
 	margin-top: 1.75rem;
 }
+
+/* ============ 11. Overviews always visible (Yaakov 2026-10-15) ============ */
+/* B"H — Descriptions must never vanish after JS enhancement. High-specificity
+   safeguard (no !important) to force visibility. */
+.heichel-semantic-fallback[data-ikar-root] .heichel-semantic-discovery .heichel-discovery-description {
+	display: block;
+	visibility: visible;
+	opacity: 1;
+}
+
+/* Clickable cover image link */
+.heichel-semantic-fallback[data-ikar-root] .dream-heichel-cover-link {
+	display: block;
+	cursor: pointer;
+}
+.heichel-semantic-fallback[data-ikar-root] .dream-heichel-cover-link .heichel-discovery-cover {
+	display: block;
+}
