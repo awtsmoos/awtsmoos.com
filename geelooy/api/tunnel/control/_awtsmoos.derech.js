@@ -159,6 +159,7 @@ module.exports = {
     });
 
     // B"H — 2026-10-15: Simple tunnel fallback (temporary).
+    // NOTE: Do NOT clear require cache here — the in-memory store must persist.
     await $i.use("simple/cmd", async (vars) => {
       const { queueCommand } = require("./routes/simpleTunnel.js");
       return await queueCommand($i, vars || {});
