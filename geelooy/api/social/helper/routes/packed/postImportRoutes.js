@@ -526,6 +526,27 @@ class PackedPostImportRoutes {
 	// event-loop yields and parses ONLY lines whose key matches this
 	// heichel's prefix. The old sync full-parse blocked the loop for ~45s
 	// on the 3.9 GB production shard (and readFileSync crashed >2 GiB).
+	// B"H 2026-10-15 (import-speed-fix): targeted lookup — instead of scanning
+	// the entire 3.9 GB core shard, do direct O(1) key lookups for just the
+	// posts in this batch. A 50-post batch = 50 fast lookups, not a 45s scan.
+	// Yaakov's law: DB operations must be fast, never full table scans.
+	buildLiveHashCacheForPosts($i, heichelId, postIds) {
+		const cache = new Map();
+		for (const postId of postIds) {
+			try {
+				const key = logicalKey(['posts', heichelId, postId]);
+				const result = readPacked({ $i, shard: 'core', key });
+				// readPacked returns the value directly in production (native store),
+				// or a {key, value} record in file mode. Handle both.
+				const live = result && result.value ? result.value : result;
+				if (live && typeof live === 'object') {
+					try { cache.set(postId, contentHash(live)); } catch (_) { /* skip */ }
+				}
+			} catch (_) { /* missing = not live, skip */ }
+		}
+		return cache;
+	}
+
 	async buildLiveHashCacheAsync($i, heichelId) {
 		const cache = new Map();
 		const prefix = '/posts/' + heichelId + '/';
@@ -817,14 +838,16 @@ class PackedPostImportRoutes {
 		// B"H 2026-10-11: async streaming scan — parses only this heichel's
 		// post lines and yields to the event loop (the sync scan blocked ~45s
 		// on the 3.9 GB production shard).
-		// B"H 2026-10-13 (import-speed): skipLiveCheck bypasses the full
-		// core-shard scan for known-fresh bulk loads. The 3.9 GB scan is
-		// pure overhead when the client guarantees the posts are new.
-		// Within-job idempotency via job.doneHashes still applies.
+		// B"H 2026-10-13 (import-speed): skipLiveCheck bypasses the live check
+		// for known-fresh bulk loads. Within-job idempotency via job.doneHashes
+		// still applies.
+		// B"H 2026-10-15 (import-speed-fix): targeted O(1) lookups replace the
+		// 3.9 GB full-shard scan. DB operations must be fast — never scan.
 		let liveHashes = new Map();
 		if (!job.skipLiveCheck) {
 			try {
-				liveHashes = await this.buildLiveHashCacheAsync($i, spec.heichelId);
+				const batchPostIds = (spec.posts || []).map(p => p.postId).filter(Boolean);
+				liveHashes = this.buildLiveHashCacheForPosts($i, spec.heichelId, batchPostIds);
 			} catch (e) {
 				job.errors.push({ message: 'LIVE_CACHE_FAILED: ' + (e.message || e) });
 			}
