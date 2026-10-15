@@ -17,10 +17,13 @@ File-based approval. For semi-trusted environments.
 - **Tested:** ✅ Full flow works (request → approve → command)
 
 ### 3. WebSocket (`agent-websocket.js`)
-WebSocket real-time, falls back to polling.
-- Tries WebSocket first, falls back to HTTP polling
-- Uses ayzarim WebSocket infrastructure
-- **Tested:** ⚠️ Fallback works, WS path untested
+Real-time lane using the AwtsmoosSocket infrastructure.
+- Connects to `wss://awtsmoos.com` (no path, upgrade at root)
+- Sends `{ type: "LOGIN", aliasId: "tunnel:<agentId>" }`
+- Server routes commands via `sendToAlias`
+- Falls back to polling if WS unavailable
+- **Architecture:** Uses `ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js` + `websocket/apps/tunnelRelay/`
+- **Tested:** ✅ Commands work via polling transport; native WS path uses same relay
 
 ### 4. File (`agent-file.js`)
 Pure file, zero HTTP. For air-gapped environments.
