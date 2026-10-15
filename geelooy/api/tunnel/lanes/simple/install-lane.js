@@ -46,6 +46,7 @@ function header(title) {
 
 function main() {
   const lane = process.argv[2] || "poll";
+  const mode = process.argv[3] || "foreground"; // foreground | background
 
   header("SIMPLE TUNNEL INSTALLER");
 
@@ -57,7 +58,7 @@ function main() {
       console.log(`    ${C.cyan}${name}${C.reset} — ${C.dim}${info.desc}${C.reset}`);
     }
     console.log("");
-    console.log(`  ${C.dim}Usage: node install-lane.js [poll|approval|websocket]${C.reset}`);
+    console.log(`  ${C.dim}Usage: node install-lane.js [poll|approval|websocket|file] [foreground|background]${C.reset}`);
     console.log("");
     process.exit(1);
   }
@@ -66,19 +67,36 @@ function main() {
   console.log(`  ${C.green}${C.bold}✓${C.reset}  Installing lane: ${C.bold}${C.cyan}${lane}${C.reset}`);
   console.log(`  ${C.dim}     ${info.desc}${C.reset}`);
   console.log("");
-  console.log(`  ${C.gold}▶${C.reset}  Starting agent...`);
-  console.log(`  ${C.dim}     Command: ${info.cmd}${C.reset}`);
-  console.log("");
-  console.log(`  ${C.dim}  Press Ctrl+C to stop. The agent will poll for commands.${C.reset}`);
-  console.log("");
 
-  // Exec the agent (replaces this process)
   const agentPath = path.join(__dirname, info.file);
   if (!fs.existsSync(agentPath)) {
     console.log(`  ${C.red}Agent file not found: ${agentPath}${C.reset}`);
     process.exit(1);
   }
-  require(agentPath);
+
+  if (mode === "background") {
+    // B"H — Run in background, print PID, survive Ctrl+C
+    const { spawn } = require("node:child_process");
+    console.log(`  ${C.gold}▶${C.reset}  Starting agent in ${C.bold}background${C.reset}...`);
+    const child = spawn(process.execPath, [agentPath], {
+      detached: true,
+      stdio: "ignore",
+      env: process.env
+    });
+    child.unref();
+    console.log(`  ${C.green}${C.bold}✓${C.reset}  Agent running in background (PID: ${C.bold}${child.pid}${C.reset})`);
+    console.log(`  ${C.dim}     It will stay active even if you close this terminal.${C.reset}`);
+    console.log(`  ${C.dim}     To stop: kill ${child.pid}${C.reset}`);
+    console.log("");
+  } else {
+    // B"H — Run in foreground, Ctrl+C to stop
+    console.log(`  ${C.gold}▶${C.reset}  Starting agent in ${C.bold}foreground${C.reset}...`);
+    console.log(`  ${C.dim}     Command: ${info.cmd}${C.reset}`);
+    console.log("");
+    console.log(`  ${C.dim}  Press Ctrl+C to stop. The agent will poll for commands.${C.reset}`);
+    console.log("");
+    require(agentPath);
+  }
 }
 
 main();
