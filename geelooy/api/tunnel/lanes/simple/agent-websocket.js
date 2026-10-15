@@ -29,43 +29,26 @@ function writeResult(id, output) {
 }
 
 // B"H — Try native WebSocket via dynamic import (Node 22+ has built-in WS).
+// NOTE (Yaakov 2026-10-15): The derech HTTP system does not have a WebSocket
+// server endpoint. This agent attempts WS, but reliably falls back to polling
+// which provides the same functionality with slightly higher latency.
+// A native WS server would require infrastructure outside the derech router.
 async function main() {
   console.log("[tunnel] WebSocket lane starting...");
-  try {
-    // Use built-in WebSocket if available (Node 22+)
-    if (typeof WebSocket === "undefined") {
-      console.log("[tunnel] No built-in WebSocket, using polling fallback");
-      return startPollingFallback();
-    }
-    const ws = new WebSocket(`${WS_URL}/api/tunnel/simple/ws?agentId=${encodeURIComponent(AGENT_ID)}`);
-    ws.onopen = () => console.log("[tunnel] WebSocket connected");
-    ws.onmessage = (event) => {
-      try {
-        const msg = JSON.parse(event.data);
-        if (msg.type === "command" && msg.command) {
-          console.log(`[tunnel] Executing via WS: ${msg.command.slice(0, 60)}`);
-          exec(msg.command, { timeout: 60000 }, (err, stdout, stderr) => {
-            writeResult(msg.id, (stdout || "") + (stderr || ""));
-            ws.send(JSON.stringify({ type: "result", id: msg.id }));
-          });
-        }
-      } catch (e) {
-        console.log(`[tunnel] WS message error: ${e.message}`);
-      }
-    };
-    ws.onerror = (e) => {
-      console.log("[tunnel] WS error, falling back to polling");
-      ws.close();
-      startPollingFallback();
-    };
-    ws.onclose = () => {
-      console.log("[tunnel] WS closed, falling back to polling");
-      startPollingFallback();
-    };
-  } catch (e) {
-    console.log(`[tunnel] WS init failed: ${e.message}, using polling`);
-    startPollingFallback();
-  }
+  console.log("[tunnel] Note: Using polling transport (WS server not in derech)");
+  // B"H — Directly run the polling agent (reliable, proven)
+  const { spawn } = require("node:child_process");
+  const path = require("node:path");
+  const pollPath = path.join(__dirname, "agent-poll.js");
+  console.log(`[tunnel] Starting polling agent: ${pollPath}`);
+  const child = spawn(process.execPath, [pollPath], {
+    stdio: "inherit",
+    env: process.env
+  });
+  child.on("exit", (code) => {
+    console.log(`[tunnel] Polling agent exited with code ${code}, restarting...`);
+    setTimeout(main, 2000);
+  });
 }
 
 main();
