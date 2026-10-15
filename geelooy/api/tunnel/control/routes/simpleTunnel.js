@@ -57,9 +57,12 @@ async function queueCommand($i) {
   if (!command || typeof command !== "string") {
     return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_command" }) };
   }
+  // B"H — Yaakov 2026-10-15: Tunnel selection. If agentId is specified,
+  // only that agent will pick up the command. Otherwise any agent can.
+  const targetAgentId = b.agentId ? String(b.agentId).slice(0, 100) : null;
   const store = loadStore();
   const id = `cmd_${store.nextId++}_${Date.now()}`;
-  store.pending.push({ id, command, createdAt: new Date().toISOString() });
+  store.pending.push({ id, command, targetAgentId, createdAt: new Date().toISOString() });
   saveStore(store);
   return { statusCode: 200, response: JSON.stringify({ ok: true, id }) };
 }
@@ -67,12 +70,25 @@ async function queueCommand($i) {
 async function pollCommand($i) {
   // B"H — TEMPORARY: No auth for poll (agent needs to connect).
   // The cmd endpoint (queue) still requires auth.
+  // B"H — Yaakov 2026-10-15: Agent identifies itself to get targeted commands.
+  const q = getQuery($i);
+  const b = await getBody($i).catch(() => ({}));
+  const agentId = String(q.agentId || b.agentId || "").slice(0, 100);
   const store = loadStore();
-  const cmd = store.pending.shift();
-  saveStore(store);
-  if (!cmd) {
+  // Find first command for this agent (or untargeted)
+  let cmdIndex = -1;
+  for (let i = 0; i < store.pending.length; i++) {
+    const c = store.pending[i];
+    if (!c.targetAgentId || c.targetAgentId === agentId) {
+      cmdIndex = i;
+      break;
+    }
+  }
+  if (cmdIndex === -1) {
     return { statusCode: 200, response: JSON.stringify({ ok: true, command: null }) };
   }
+  const cmd = store.pending.splice(cmdIndex, 1)[0];
+  saveStore(store);
   return { statusCode: 200, response: JSON.stringify({ ok: true, id: cmd.id, command: cmd.command }) };
 }
 

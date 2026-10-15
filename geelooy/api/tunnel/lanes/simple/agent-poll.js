@@ -11,6 +11,7 @@ const { exec } = require("node:child_process");
 
 const SERVER = process.env.TUNNEL_SERVER || "https://awtsmoos.com";
 const SECRET = process.env.TUNNEL_SECRET || "";
+const AGENT_ID = process.env.TUNNEL_AGENT_ID || require("node:os").hostname();
 const QUEUE_FILE = process.env.TUNNEL_QUEUE_FILE || "/tmp/simple-tunnel-queue.json";
 const POLL_MS = parseInt(process.env.TUNNEL_POLL_MS || "3000", 10);
 
@@ -47,7 +48,10 @@ function writeResult(id, output) {
 
 async function poll() {
   try {
-    const cmd = await api(`/api/tunnel/control/simple/poll${SECRET ? `?secret=${encodeURIComponent(SECRET)}` : ""}`);
+    const params = new URLSearchParams();
+    if (SECRET) params.set("secret", SECRET);
+    params.set("agentId", AGENT_ID);
+    const cmd = await api(`/api/tunnel/control/simple/poll?${params.toString()}`);
     if (cmd && cmd.ok && cmd.command) {
       exec(cmd.command, { timeout: 60000 }, (err, stdout, stderr) => {
         writeResult(cmd.id, (stdout || "") + (stderr || ""));
