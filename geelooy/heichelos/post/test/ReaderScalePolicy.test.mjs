@@ -15,14 +15,14 @@ import { GevurahReaderScalePolicy } from '../functions/ReaderScalePolicy.js';
 const gevurahPolicy = new GevurahReaderScalePolicy();
 
 assert.equal(gevurahPolicy.normalize('48px'), 48);
-assert.equal(gevurahPolicy.normalize('not-a-size'), 42);
+assert.equal(gevurahPolicy.normalize('not-a-size'), 48);
 assert.equal(gevurahPolicy.normalize(2), 18);
-assert.equal(gevurahPolicy.normalize(999), 120);
+assert.equal(gevurahPolicy.normalize(999), 999);
 assert.equal(gevurahPolicy.toPixels(42.126), '42.13px');
 assert.equal(gevurahPolicy.adjust(42, 'increase'), 46);
 assert.equal(gevurahPolicy.adjust(42, 'decrease'), 38);
 assert.equal(gevurahPolicy.adjust(42, 'unknown'), 42);
-assert.equal(gevurahPolicy.adjust(119, 'increase'), 120);
+assert.equal(gevurahPolicy.adjust(119, 'increase'), 123);
 assert.equal(gevurahPolicy.adjust(19, 'decrease'), 18);
 
 const tiferesScale = gevurahPolicy.buildScale(50);

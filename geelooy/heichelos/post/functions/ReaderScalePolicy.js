@@ -12,14 +12,17 @@
 export class GevurahReaderScalePolicy {
 	/** Creates the bounded scale policy from explicit numeric laws. */
 	constructor() {
-		this.defaultSize = 42;
+		// B"H — Yaakov 2026-10-15: larger default (was 42); NO maximum —
+		// users can increase indefinitely.
+		this.defaultSize = 48;
 		this.minimumSize = 18;
-		this.maximumSize = 72;
+		this.maximumSize = Infinity;
 		this.stepSize = 4;
 	}
 
 	/**
 	 * Normalizes an unknown size into the reader's supported interval.
+	 * B"H — Yaakov 2026-10-15: no upper bound; users can increase indefinitely.
 	 * @param {unknown} ohrValue Candidate scale value.
 	 * @param {number} fallback Safe fallback size.
 	 * @returns {number} Finite bounded size.
@@ -31,10 +34,11 @@ export class GevurahReaderScalePolicy {
 			return fallback;
 		}
 
-		return Math.min(
-			this.maximumSize,
-			Math.max(this.minimumSize, gevurahSize)
-		);
+		const bounded = Math.max(this.minimumSize, gevurahSize);
+		// Only apply maximum when it's finite (Infinity = no limit).
+		return Number.isFinite(this.maximumSize)
+			? Math.min(this.maximumSize, bounded)
+			: bounded;
 	}
 
 	/**
@@ -47,37 +51,40 @@ export class GevurahReaderScalePolicy {
 	}
 
 	/**
-	 * Derives one bounded secondary scale from the main reading size.
+	 * Derives one secondary scale from the main reading size.
+	 * B"H — Yaakov 2026-10-15: maximum may be Infinity (no cap).
 	 * @param {number} mainSize Main text size.
 	 * @param {number} ratio Relative scale ratio.
 	 * @param {number} minimum Minimum derived size.
-	 * @param {number} maximum Maximum derived size.
+	 * @param {number} maximum Maximum derived size (Infinity = no cap).
 	 * @returns {string} Bounded CSS pixel value.
 	 */
 	derive(mainSize, ratio, minimum, maximum) {
-		const gevurahDerived = Math.min(
-			maximum,
-			Math.max(minimum, mainSize * ratio)
-		);
+		const scaled = Math.max(minimum, mainSize * ratio);
+		const gevurahDerived = Number.isFinite(maximum)
+			? Math.min(maximum, scaled)
+			: scaled;
 		return this.toPixels(gevurahDerived);
 	}
 
 	/**
 	 * Builds every reader-local typography custom property from one main size.
+	 * B"H — Yaakov 2026-10-15: derived sizes have no upper cap.
 	 * @param {unknown} ohrSize Candidate main size.
 	 * @returns {Record<string, string>} Localized CSS variable map.
 	 */
 	buildScale(ohrSize) {
 		const mainSize = this.normalize(ohrSize);
+		const NO_CAP = Infinity;
 
 		return {
 			'--post-text-size': this.toPixels(mainSize),
-			'--post-inline-body-size': this.derive(mainSize, 0.86, 30, 82),
-			'--post-sidebar-comment-size': this.derive(mainSize, 0.62, 22, 56),
-			'--post-inline-summary-size': this.derive(mainSize, 0.18, 13, 23),
-			'--post-inline-label-size': this.derive(mainSize, 0.16, 13, 22),
-			'--post-inline-meta-size': this.derive(mainSize, 0.145, 12, 18),
-			'--post-ui-chip-size': this.derive(mainSize, 0.17, 14, 24)
+			'--post-inline-body-size': this.derive(mainSize, 0.86, 30, NO_CAP),
+			'--post-sidebar-comment-size': this.derive(mainSize, 0.62, 22, NO_CAP),
+			'--post-inline-summary-size': this.derive(mainSize, 0.18, 13, NO_CAP),
+			'--post-inline-label-size': this.derive(mainSize, 0.16, 13, NO_CAP),
+			'--post-inline-meta-size': this.derive(mainSize, 0.145, 12, NO_CAP),
+			'--post-ui-chip-size': this.derive(mainSize, 0.17, 14, NO_CAP)
 		};
 	}
 
