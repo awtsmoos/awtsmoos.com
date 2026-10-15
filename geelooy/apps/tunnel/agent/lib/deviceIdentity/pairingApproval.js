@@ -45,6 +45,21 @@ async function wait(config, response, options = {}) {
 		Date.now() + Number(options.timeoutMs || MAX_PAIRING_WAIT_MS)
 	);
 	let consecutiveErrors = 0;
+	// B"H — ANSI styling for TTY (Yaakov 2026-10-15)
+	const isTTY = process.stdout && process.stdout.isTTY;
+	const C = isTTY ? {
+		reset: "\x1b[0m",
+		bold: "\x1b[1m",
+		green: "\x1b[38;2;0;255;136m",
+		cyan: "\x1b[38;2;0;238;255m",
+		gold: "\x1b[38;2;255;204;0m",
+		red: "\x1b[38;2;255;68;68m",
+		dim: "\x1b[2m"
+	} : { reset: "", bold: "", green: "", cyan: "", gold: "", red: "", dim: "" };
+	const logInfo = (msg) => {
+		if (isTTY) console.log(msg);
+		else options.log?.("info", msg.replace(/\x1b\[[0-9;]*m/g, ""));
+	};
 	// B"H — Level 3 of Yaakov's multi-level approval detection (2026-10-14):
 	// a WebSocket push watcher runs beside polling. It is best-effort only:
 	// any failure yields silently to polling, which stays authoritative.
@@ -68,7 +83,7 @@ async function wait(config, response, options = {}) {
 				state = await PairingClient.state(config, response.pairingId);
 				if (firstPoll) {
 					firstPoll = false;
-					options.log?.("info", `B"H Waiting for approval on your phone... (code: ${response.userCode})`);
+					logInfo(`${C.bold}${C.cyan}B"H Waiting for approval on your phone...${C.reset} ${C.dim}(code: ${response.userCode})${C.reset}`);
 				}
 			} catch (error) {
 				// B"H — a single failed poll (network blip, timeout, transient
@@ -83,7 +98,7 @@ async function wait(config, response, options = {}) {
 			// B"H — Yaakov 2026-10-14: Only when read-only state shows "approved"
 			// do we do the ONE destructive consume. Never poll with consume.
 			if (state.state === "approved") {
-				options.log?.("info", `B"H ✓ Approval received! Fetching your secure credential...`);
+				logInfo(`${C.bold}${C.green}B"H ✓ Approval received!${C.reset} ${C.cyan}Fetching your secure credential...${C.reset}`);
 				let final;
 				try {
 					final = await PairingClient.status(
@@ -95,7 +110,7 @@ async function wait(config, response, options = {}) {
 					throw pairingFailure("pairing_consume_failed");
 				}
 				if (final.state === "approved" && final.credentialEnvelope) {
-					options.log?.("info", `B"H ✓ Credential received! Starting tunnel...`);
+					logInfo(`${C.bold}${C.green}B"H ✓ Credential received!${C.reset} ${C.gold}Starting tunnel...${C.reset}`);
 					return final;
 				}
 				// Consume did not return a credential; do not retry (would get "consumed").
