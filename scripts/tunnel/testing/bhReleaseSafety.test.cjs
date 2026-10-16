@@ -19,7 +19,10 @@ const sources = [
 	"scripts/bhRelease.mjs",
 	"scripts/lib/bhReleaseProcess.mjs",
 	"scripts/lib/bhReleaseGit.mjs",
-	"scripts/lib/bhReleaseDeploy.mjs"
+	"scripts/lib/bhReleaseDeploy.mjs",
+	"scripts/production/remote-deploy-entry.sh",
+	"scripts/production/remote-deploy-worker.sh",
+	"scripts/production/deploymentCoordinator.mjs"
 ].map(readText).join("\n");
 
 assert.equal(packageJson.scripts?.bh, "node scripts/bhRelease.mjs");
@@ -38,9 +41,9 @@ assert.match(sources, /scripts\/bh\.mjs/);
 assert.match(sources, /canonical-server-activate\.sh/);
 assert.match(sources, /merge-base/);
 assert.match(sources, /--is-ancestor/);
-assert.match(sources, /merge --ff-only origin\/main/);
-assert.match(sources, /rev-parse origin\/main\^\{commit\}/);
-assert.match(sources, /rev-parse HEAD\^\{commit\}/);
+assert.match(sources, /merge --ff-only "\$remote_sha"/);
+assert.match(sources, /rev-parse origin\/main/);
+assert.match(sources, /rev-parse HEAD/);
 assert.match(sources, /verifyHomeProduction\.mjs/);
 assert.match(sources, /verifyTunnelPublicRelease\.mjs/);
 assert.match(sources, /--dry-run/);
