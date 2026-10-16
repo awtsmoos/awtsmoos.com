@@ -1,12 +1,15 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
+const { OAUTH_SCOPE_DESCRIPTIONS } = require("../../../geelooy/api/tunnel/shared/scopeCatalog.js");
+
 /**
- * @file Renders shared preview, response, and security sections for compact OpenAPI.
- * @description
- * The Awtsmoos lets repeated structure live in one vessel rather than crowd every path;
- * Awtsmoos.com keeps schema, OAuth, and preview testimony modular, readable, and whole.
+ * @file Renders transport-independent OpenAPI support contracts.
+ * @description Scope descriptions come from the one runtime OAuth catalog;
+ * adding application authority must never leave a stale public consent map.
  */
 function previewPath() {
 	return [
@@ -29,6 +32,16 @@ function responseLines() {
 		"      responses:",
 		"        \"200\": { description: OK, content: { application/json: { schema: { $ref: \"#/components/schemas/AnyResponse\" } } } }"
 	];
+}
+
+/**
+ * Emit the complete consent catalog and avoid duplicating scope declarations.
+ * Use JSON string literals for valid, escaped YAML scalar descriptions.
+ */
+function oauthScopeLines() {
+	return Object.entries(OAUTH_SCOPE_DESCRIPTIONS).map(
+		([scope, description]) => `            ${scope}: ${JSON.stringify(description)}`
+	);
 }
 
 function components() {
@@ -58,22 +71,16 @@ function components() {
 		"      type: oauth2",
 		"      flows:",
 		"        authorizationCode:",
-		"          authorizationUrl: https://awtsmoos.com/api/oauth/start",
+		"          authorizationUrl: https://awtsmoos.com/api/oauth/authorize",
 		"          tokenUrl: https://awtsmoos.com/api/oauth/token",
 		"          scopes:",
-		"            profile: Basic identity access.",
-		"            tunnel.read: Read tunnel state.",
-		"            tunnel.write: Modify authorized files.",
-		"            tunnel.command: Execute command diagnostics.",
-		"            tunnel.browser: Browser automation.",
-		"            tunnel.mission: Coordinate mission lifecycle.",
-		"            tunnel.room: Read and publish shared-room messages.",
-		"            tunnel.admin: Administrative tunnel operations."
+		...oauthScopeLines()
 	];
 }
 
 module.exports = {
 	components,
+	oauthScopeLines,
 	previewPath,
 	responseLines
 };
