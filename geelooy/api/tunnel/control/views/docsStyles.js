@@ -78,10 +78,13 @@ code {
 	background: #050a14;
 }
 pre {
-	padding: 14px;
+	max-width: 100%;
+	padding: 16px;
 	border: 1px solid var(--line);
 	border-radius: 14px;
-	white-space: pre-wrap;
+	white-space: pre;
+	overflow-x: auto;
+	tab-size: 2;
 }
 .grid {
 	display: grid;
@@ -102,6 +105,33 @@ pre {
 	padding: 16px;
 	border-left: 4px solid var(--accent);
 	background: #101f36;
+}
+:focus-visible {
+	outline: 3px solid var(--good);
+	outline-offset: 4px;
+}
+.card code,
+.hero code {
+	padding: .15em .3em;
+	border-radius: 4px;
+	box-decoration-break: clone;
+}
+.card a,
+.hero a {
+	overflow-wrap: anywhere;
+}
+.card li + li {
+	margin-top: .5em;
+}
+@media (max-width: 640px) {
+	main { width: min(100% - 24px, 1180px); padding: 16px 0 48px; }
+	.hero, .card { padding: 18px; border-radius: 14px; }
+	nav a { font-size: .9rem; padding: 10px 12px; }
+	h1 { font-size: clamp(2.1rem, 11vw, 3.2rem); }
+	pre { font-size: .84rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { scroll-behavior: auto; }
 }
 `;
 }

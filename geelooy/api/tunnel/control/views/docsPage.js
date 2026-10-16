@@ -37,6 +37,7 @@ function docsPage(catalog) {
 		${Sections.docsDeviceSection(catalog)}
 		${Sections.routingSection(catalog)}
 		${Sections.authSection(catalog)}
+		${Sections.mcpSection(catalog)}
 		${Sections.actionsSection(catalog)}
 		${Sections.examplesSection(catalog)}
 	</main>

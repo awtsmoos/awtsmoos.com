@@ -13,6 +13,7 @@
 const { docsAgentSection } = require('./docsAgentSection.js');
 const { actionsSection } = require('./docsActionSection.js');
 const { docsDeviceSection } = require('./docsDeviceSection.js');
+const { mcpSection } = require('./docsMcpSection.js');
 
 function linksSection(catalog) {
 	const links = catalog.agentLinks;
@@ -20,6 +21,7 @@ function linksSection(catalog) {
 	<a href="${links.tunnelControl}">Tunnel Control</a>
 	<a href="${links.agentManifest}">Agent Manifest</a>
 	<a href="${links.oauthMetadata}">OAuth Metadata</a>
+	<a href="#mcp">Shliach MCP</a>
 	<a href="${links.deviceLogin}">Enter Device Code</a>
 	<a href="${links.docsJson}">JSON Docs</a>
 	<a href="${links.openapi}">OpenAPI</a>
@@ -96,6 +98,7 @@ module.exports = {
 	docsDeviceSection,
 	examplesSection,
 	linksSection,
+	mcpSection,
 	routingSection,
 	setupSection
 };

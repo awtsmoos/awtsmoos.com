@@ -67,6 +67,17 @@ const apiCatalog = {
 	oauth,
 	setup,
 	transport,
+	mcp: {
+		endpoint: `${BASE_URL}/api/tunnel/control/mcp`,
+		protectedResourceMetadata: `${BASE_URL}/.well-known/oauth-protected-resource`,
+		authorizationServerMetadata: `${BASE_URL}/.well-known/oauth-authorization-server`,
+		transport: 'streamable-http-stateless',
+		minimumScope: 'tunnel.read',
+		commandScope: 'tunnel.command',
+		callMethods: ['initialize', 'ping', 'tools/list', 'tools/call'],
+		noBearerStatus: 401,
+		noBearerHeader: 'WWW-Authenticate'
+	},
 	actions,
 	actionCatalog,
 	actionGroups,

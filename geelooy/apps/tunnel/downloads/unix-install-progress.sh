@@ -3,9 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# Awtsmoos Tunnel installer presentation (Yaakov 2026-10-12):
-# a beautiful CLI — real percentage bars, tasteful color, clear step
-# introductions. Degrades to plain text when piped or on dumb terminals.
+# Awtsmoos Tunnel installer: high-contrast restrained color on real terminals;
+# readable, line-oriented progress for screen readers, SSH pipes and CI logs.
 #
 # Round 2 (Yaakov 2026-10-12): dual overall + per-step progress display,
 # polished intro screen. install_progress keeps its ABSOLUTE 0-100 semantics;
@@ -15,10 +14,10 @@ INSTALL_PROGRESS_FILE="${AWTSMOOS_INSTALL_PROGRESS_FILE:-${AWTSMOOS_INSTALL_RUNT
 INSTALL_PROGRESS_LAST=0
 INSTALL_PROGRESS_LINE_OPEN=0
 
-# --- Color detection: always beautiful (Yaakov 2026-10-14) ---
-# B"H — Yaakov 2026-10-14: ALWAYS use beautiful colors. The magical experience
-# requires colors at every step. Only disable if explicitly requested.
-if [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
+# Color and live redraws require a real terminal. Installer output is often
+# piped through SSH, CI or a log collector: terminal escapes corrupt those logs.
+# Respect NO_COLOR whenever it is set (https://no-color.org/).
+if [ -t 2 ] && [ -z "${NO_COLOR+x}" ] && [ "${TERM:-dumb}" != "dumb" ]; then
 	PRG_C_BOLD=$'\033[1m'; PRG_C_DIM=$'\033[2m'; PRG_C_GOLD=$'\033[1;33m'
 	PRG_C_GREEN=$'\033[1;32m'; PRG_C_RED=$'\033[1;31m'; PRG_C_CYAN=$'\033[1;36m'
 	PRG_C_MAGENTA=$'\033[1;35m'; PRG_C_OFF=$'\033[0m'
@@ -235,80 +234,36 @@ _prg_recalc_step() {
 prg_draw_display() {
 	[ "$PRG_TTY" = "1" ] || return 0
 	[ "$INSTALL_STEP_TOTAL" -gt 0 ] || return 0
-	# B"H — Yaakov 2026-10-14: ONE continuous percentage bar with WAY BETTER
-	# ASCII particle effects. Single line, magical, beautiful. WAY MORE!
-	local pct="$INSTALL_OVERALL_PCT"
-	# B"H — Yaakov 2026-10-14: Don't redraw if percentage hasn't changed.
-	# The \r overwrite doesn't work in all terminals (e.g., Termius), causing
-	# ugly repeats. Only redraw on change to keep it clean.
-	if [ "${PRG_LAST_PCT:-}" = "$pct" ]; then
-		return 0
-	fi
-	PRG_LAST_PCT="$pct"
-	local width=50
-	local filled=$(( pct * width / 100 ))
-	local empty=$(( width - filled ))
-	local bar="" i
-	# B"H — Yaakov 2026-10-14: GRADIENT BAR! Base color changes with progress.
-	# More beautiful than static green — rainbow magic!
-	local base_color="$PRG_C_CYAN"
-	if [ "$pct" -ge 75 ]; then base_color="$PRG_C_MAGENTA";
-	elif [ "$pct" -ge 50 ]; then base_color="$PRG_C_GOLD";
-	elif [ "$pct" -ge 25 ]; then base_color="$PRG_C_GREEN"; fi
-	# Build the bar with particle effects (EVEN MORE BEAUTIFUL! SIX-SIDED STARS! WAY MORE!)
-	for (( i=0; i<filled; i+=1 )); do
-		# Random sparkle particles with variety (WAY BETTER! EVEN MORE! SIX-SIDED! WAY MORE DENSE!)
-		if [ $(( RANDOM % 3 )) -eq 0 ] && [ "$i" -gt 0 ]; then
-			# Variety of magical particles: ✧ ⋆ ✩ ✶ (six-sided star!)
-			case $(( RANDOM % 4 )) in
-				0) bar="${bar}${PRG_C_CYAN}✧${PRG_C_OFF}" ;;
-				1) bar="${bar}${PRG_C_MAGENTA}⋆${PRG_C_OFF}" ;;
-				2) bar="${bar}${PRG_C_CYAN}✩${PRG_C_OFF}" ;;
-				3) bar="${bar}${PRG_C_GOLD}✶${PRG_C_OFF}" ;;
-			esac
+	local percent="$INSTALL_OVERALL_PCT"
+	# Redraw only changed progress or a new phase: no jitter or random glyphs.
+	[ "${PRG_LAST_PCT:-}" = "$percent" ] && return 0
+	PRG_LAST_PCT="$percent"
+	local width=28 columns="${COLUMNS:-80}"
+	case "$columns" in ''|*[!0-9]*) columns=80 ;; esac
+	[ "$columns" -lt 78 ] && width=16
+	local complete=$(( percent * width / 100 ))
+	local bar="" index color="$PRG_C_CYAN"
+	[ "$percent" -ge 35 ] && color="$PRG_C_MAGENTA"
+	[ "$percent" -ge 70 ] && color="$PRG_C_GREEN"
+	for (( index=0; index<width; index+=1 )); do
+		if [ "$index" -lt "$complete" ]; then
+			bar="${bar}${color}${PRG_FILLED}${PRG_C_OFF}"
+		elif [ "$index" -eq "$complete" ] && [ "$PRG_SMOOTH" = "1" ]; then
+			bar="${bar}${PRG_C_GOLD}◆${PRG_C_OFF}"
 		else
-			bar="${bar}${base_color}█${PRG_C_OFF}"
+			bar="${bar}${PRG_C_DIM}${PRG_EMPTY}${PRG_C_OFF}"
 		fi
 	done
-	# The leading particle (bright star at the frontier! EVEN MORE MAGICAL!)
-	if [ "$filled" -lt "$width" ]; then
-		bar="${bar}${PRG_C_GOLD}✦${PRG_C_OFF}"
-		empty=$(( empty - 1 ))
-	fi
-	for (( i=0; i<empty; i+=1 )); do
-		bar="${bar}${PRG_C_DIM}─${PRG_C_OFF}"
-	done
-	local eta="$(_prg_format_eta "$pct")"
-	[ -n "$eta" ] && eta=" ${PRG_C_DIM}${eta}${PRG_C_OFF}"
-	# B"H — Yaakov 2026-10-14: Animated emojis that change as progress goes!
-	# More emojis, six-sided stars, magical animation!
-	local anim_emoji="🌱"
-	if [ "$pct" -ge 100 ]; then anim_emoji="🎉";
-	elif [ "$pct" -ge 80 ]; then anim_emoji="🌟";
-	elif [ "$pct" -ge 60 ]; then anim_emoji="✨";
-	elif [ "$pct" -ge 40 ]; then anim_emoji="🔥";
-	elif [ "$pct" -ge 20 ]; then anim_emoji="⚡";
-	elif [ "$pct" -ge 1 ]; then anim_emoji="🌿"; fi
-	# B"H — Yaakov 2026-10-14: BETTER ANIMATIONS! Spinning magical spinner!
-	# The spinner rotates even when percentage is static, showing life!
-	: "${PRG_SPINNER_IDX:=0}"
-	PRG_SPINNER_IDX=$(( (PRG_SPINNER_IDX + 1) % 10 ))
-	local spinner_frames="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
-	local spinner="${spinner_frames:$PRG_SPINNER_IDX:1}"
-	# Single continuous line with magical particles, animated emoji, spinner, and step info
-	# B"H — Yaakov 2026-10-14: WAY BETTER! Show step number for clarity.
-	local line="$(printf ' %s%s %s%3d%%%s [%s] %sStep %s/%s:%s %s%s%s%s' \
-		"$anim_emoji" \
-		"${PRG_C_CYAN}${spinner}${PRG_C_OFF}" \
-		"$PRG_C_GOLD" "$pct" "$PRG_C_OFF" \
-		"$bar" \
+	local eta=""
+	eta="$(_prg_format_eta "$percent")"
+	[ -n "$eta" ] && eta=" ${PRG_C_DIM}(${eta})${PRG_C_OFF}"
+	# A single-line, stable, bounded ANSI presentation. One glyph is the frontier,
+	# never a random star inside completed work (important for screen readers).
+	printf '\r\033[2K%s %s%3d%%%s │%s│ %s%s/%s%s %s%s%s%s' \
+		"$PRG_C_GOLD" "$color" "$percent" "$PRG_C_OFF" "$bar" \
 		"$PRG_C_CYAN" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" "$PRG_C_OFF" \
-		"$PRG_C_DIM" "$PRG_STEP_MSG" "$PRG_C_OFF" \
-		"$eta")"
-	# B"H — Yaakov 2026-10-14: ALWAYS overwrite the line (no conditional).
-	# The PRG_DISPLAY_OPEN variable doesn't persist in subshells, causing repeats.
-	# Always use \r + clear, it works for first and subsequent lines.
-	printf '\r\033[2K%s' "$line" >&2
+		"$PRG_C_DIM" "$PRG_STEP_MSG" "$PRG_C_OFF" "$eta" >&2
+	PRG_DISPLAY_OPEN=1
 }
 
 prg_close_display() {
@@ -326,6 +281,7 @@ install_begin_step() {
 	INSTALL_STEP_TITLE="$title"
 	INSTALL_STEP_START="$range_start"; INSTALL_STEP_END="$range_end"
 	PRG_STEP_MSG="$title"
+	PRG_LAST_PCT=""
 	_prg_recalc_step
 	install_phase "$title" "$subtitle"
 	prg_draw_display
@@ -363,19 +319,13 @@ install_progress() {
 	elif [ "$PRG_TTY" = "1" ]; then
 		render_install_progress "$percent" "$message"
 	else
-		# B"H — Yaakov 2026-10-14: ONE big bar, ONE message, updating in place.
-		# Use \r to overwrite the same line, not \n for new lines.
-		local overall_bar eta
-		eta="$(_prg_format_eta "$percent")"
-		[ -n "$eta" ] && eta=" [$eta]"
-		# Big bar: 40 chars wide (was 20)
-		overall_bar="$(_prg_make_bar "$percent" 40)"
-		# Single line: [ 69%] [████████████...] Message here
-		# \r overwrites, no newline until 100%
-		if [ "$percent" -ge 100 ]; then
-			printf '\r[%3d%%] [%s]%s %s\n' "$percent" "$overall_bar" "$eta" "$message" >&2
-		else
-			printf '\r[%3d%%] [%s]%s %s' "$percent" "$overall_bar" "$eta" "$message" >&2
+		# One complete event per line in SSH, CI and redirected logs. No CR,
+		# terminal-control bytes, unrenderable emoji or overlapping messages.
+		if [ "${PRG_LAST_LOG_PCT:-}" != "$percent" ] || [ "${PRG_LAST_LOG_STEP:-}" != "$INSTALL_STEP_N" ]; then
+			printf '[%3d%%] step %s/%s %s\n' \
+				"$percent" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" "$message" >&2
+			PRG_LAST_LOG_PCT="$percent"
+			PRG_LAST_LOG_STEP="$INSTALL_STEP_N"
 		fi
 	fi
 	INSTALL_PROGRESS_LINE_OPEN=0
