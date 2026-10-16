@@ -388,6 +388,18 @@ readable). Fades on reader-ready; CSS-only fallback fades it if JS never runs.
 			}
 		});
 		obs.observe(document.body, { childList: true, subtree: true });
+		
+		// B"H 2026-10-15: Fix scroll jitter (Yaakov urgent)
+		// Disable smooth scrollIntoView that fights user scrolling
+		const origScrollIntoView = Element.prototype.scrollIntoView;
+		Element.prototype.scrollIntoView = function(options) {
+			// Only allow programmatic scrolls, block ones that interrupt user
+			if (this.closest('.meluket-sefer')) {
+				// For Meluket, use instant instead of smooth to prevent jitter
+				return origScrollIntoView.call(this, { behavior: 'auto', block: 'start' });
+			}
+			return origScrollIntoView.call(this, options);
+		};
 	})();
 	</script>
 	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision">
