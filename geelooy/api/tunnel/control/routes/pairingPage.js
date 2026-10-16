@@ -47,6 +47,7 @@ function pairingPageHtml({ pairingCode = "", pairingId = "", returnPath = "" } =
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a111a">
+<meta name="referrer" content="no-referrer">
 <title>Approve this device? · Awtsmoos</title>
 <style>
 /* B"H: A single self-contained, fast, readable approval gate. */
@@ -95,7 +96,7 @@ p.sub { color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 20px; }
 		<h1>Enter pairing code</h1>
 		<p class="sub">The installer on your machine printed a short code. Type it here to approve that device.</p>
 		<form class="manual" id="manual-form">
-			<input id="manual-input" type="text" placeholder="e.g. 5MFYRTEW" value="${code}" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="16" aria-label="Pairing code">
+			<input id="manual-input" type="text" placeholder="e.g. 5MFYRTEW" value="${safeCode}" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="16" aria-label="Pairing code">
 			<button class="btn btn-approve" type="submit">Continue</button>
 			<button class="btn btn-cancel" id="cancel2" type="button">Cancel</button>
 		</form>

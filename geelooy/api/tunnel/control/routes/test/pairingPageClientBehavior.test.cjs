@@ -80,3 +80,11 @@ test("untrusted pairing query cannot terminate the inline script",()=>{
 	assert(!html.includes('var pairingId="</script>'));
 	assert(html.includes("\\u003c"));
 });
+
+test("manual code input escapes HTML attributes and pairing links do not send referrers",()=>{
+ const html=pairingPageHtml({pairingCode:'ABCD\" autofocus onfocus=alert(1)',pairingId:'pair_fixture'});
+ assert(html.includes('value="ABCD&amp;quot;')===false);
+ assert(html.includes('value="ABCD&quot; AUTOFOCUS ONFOCUS=ALERT(1)"'));
+ assert(html.includes('<meta name="referrer" content="no-referrer">'));
+ assert(!html.includes('value="ABCD" autofocus onfocus=alert(1)"'));
+});
