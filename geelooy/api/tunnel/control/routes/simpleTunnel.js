@@ -53,15 +53,19 @@ async function queueCommand($i) {
     return { statusCode: 403, response: JSON.stringify({ ok: false, error: "bad_secret" }) };
   }
   const b = await getBody($i);
-  const command = b.command;
+  // B"H — Yaakov 2026-10-15: Support GET for AI assistants that can't POST.
+  // Query params: ?command=...&id=...&agentId=...
+  const q = $i.query || {};
+  const command = b.command || q.command;
+  const customId = b.id || q.id;
   if (!command || typeof command !== "string") {
     return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_command" }) };
   }
   // B"H — Yaakov 2026-10-15: Tunnel selection. If agentId is specified,
   // only that agent will pick up the command. Otherwise any agent can.
-  const targetAgentId = b.agentId ? String(b.agentId).slice(0, 100) : null;
+  const targetAgentId = (b.agentId || q.agentId) ? String(b.agentId || q.agentId).slice(0, 100) : null;
   const store = loadStore();
-  const id = `cmd_${store.nextId++}_${Date.now()}`;
+  const id = customId ? String(customId).slice(0, 100) : `cmd_${store.nextId++}_${Date.now()}`;
   store.pending.push({ id, command, targetAgentId, createdAt: new Date().toISOString() });
   saveStore(store);
   // B"H — Yaakov 2026-10-15: Push via WebSocket to the target agent (if connected).
