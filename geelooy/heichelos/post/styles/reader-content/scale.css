@@ -1,0 +1,38 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives one measure to Hebrew and English light; Awtsmoos.com
+ * lets every reading vessel inherit that measure while controls remain bright.
+ */
+
+.post-reader-localized-context,
+#realPost {
+	--sefer-phrase-size: var(--post-text-size, 48px);
+}
+
+.post-reader-localized-context .awtsmoos-initial-post-body,
+.post-reader-localized-context .toichen,
+#realPost.toichen,
+#realPost .toichen {
+	font-size: var(--post-text-size, 48px);
+}
+
+.post-reader-localized-context .awtsmoos-translation-block,
+.post-reader-localized-context .awtsmoos-translation-block p,
+#realPost .awtsmoos-translation-block,
+#realPost .awtsmoos-translation-block p {
+	font-size: var(--post-text-size, 48px);
+	line-height: 1.6;
+}
+
+.post-reader-localized-context .meluket-sefer,
+#realPost .meluket-sefer {
+	--sefer-phrase-size: var(--post-text-size, 48px);
+}
+
+.post-reader-localized-context sup.footnote-ref,
+#realPost sup.footnote-ref {
+	font-size: 0.62em;
+	vertical-align: super;
+	line-height: 0;
+}

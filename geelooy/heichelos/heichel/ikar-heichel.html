@@ -1,5 +1,11 @@
 <!doctype html>
 <!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every shelf and every letter; Awtsmoos.com gives the Torah
+library room to breathe so Hebrew and English may shine together without crowding.
+
 Ikar Heichel — full interactive layout, LAW 8.
 Built from the seven intense heichel art plates in
 geelooy/design-refs/law8/ikar-heichel/*.webp.
@@ -16,6 +22,7 @@ control performs a real transaction; nothing is decorative.
 <meta name="theme-color" content="#04060f">
 <title>Ikar · The Entire Torah — Awtsmoos</title>
 <link rel="stylesheet" href="./styles/ikar-heichel-layout.css?v=8933e34380">
+<link rel="stylesheet" href="./styles/ikar-shelf-polish.css?v=ikar-polish-001">
 <link rel="design-reference" href="https://awtsmoos.com/design-refs/law8/ikar-heichel/hero-intense.webp">
 </head>
 <body class="ikar-heichel" data-theme="dark">
@@ -107,23 +114,7 @@ control performs a real transaction; nothing is decorative.
 	</section>
 </main>
 
-<footer class="ikar-footer">
-	<div class="ikar-wrap">
-		<p class="ikar-footer-he" lang="he">ב״ה · יקר — אוצר התורה</p>
-		<p>Ikar — the Torah library of Awtsmoos.</p>
-	</div>
-</footer>
-
-<div class="ikar-dialog-backdrop" id="ikarDialogBackdrop" hidden>
-	<div class="ikar-dialog" role="dialog" aria-modal="true" aria-labelledby="ikarDialogTitle" id="ikarDialog">
-		<h3 class="ikar-dialog-title" id="ikarDialogTitle">Sign in</h3>
-		<div class="ikar-dialog-body" id="ikarDialogBody"></div>
-		<div class="ikar-dialog-actions" id="ikarDialogActions"></div>
-	</div>
-</div>
-
-<div class="ikar-toast-region" id="ikarToastRegion" aria-live="polite"></div>
-
+<script src="./logic/ikar-heichel-shell.js?v=ikar-shell-001"></script>
 <script src="./logic/ikar-heichel-layout.js?v=60639a7ec7"></script>
 </body>
 </html>

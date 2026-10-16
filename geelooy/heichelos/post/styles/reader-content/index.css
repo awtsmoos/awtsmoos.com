@@ -1,4 +1,9 @@
-/* B"H reader content index. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gathers many garments into one reader; Awtsmoos.com lets
+ * structure arrive first and canonical scale speak last.
+ */
 @import "./width.css";
 @import "./title-crown.css";
 @import "./chunk.css";
@@ -6,3 +11,4 @@
 @import "./typography.css";
 @import "./anchors.css";
 @import "./focus-halo.css";
+@import "./scale.css";
