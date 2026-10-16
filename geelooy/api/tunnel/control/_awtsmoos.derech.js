@@ -163,7 +163,14 @@ module.exports = {
     // The static Virtual OS path is registered before the dynamic native path.
     await $i.use("fs/awtsmoos-os", async (vars) => {
       const { osFs } = require("./routes/osFs.js");
-      return osFs($i, vars || {});
+      const result = await osFs($i, vars || {});
+      // A bare string is normalized to HTTP 200 by the dynamic dispatcher.
+      // Carry the validated status explicitly, including 401 and 403.
+      const statusCode = Number($i.response?.statusCode);
+      return typeof result === "string" && Number.isInteger(statusCode) &&
+        statusCode >= 100 && statusCode <= 599 && statusCode !== 200
+        ? { statusCode, response: result }
+        : result;
     });
     await $i.use("fs/:tunnelName", async (vars) => {
       const { protectedFs } = require("./routes/protectedFs.js");
