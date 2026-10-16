@@ -8,10 +8,14 @@ const chromeExtras = require("./extras.js");
 const chromeSession = require("./session.js");
 const leaseActions = require("./leaseActions.js");
 const ActionQueue = require("./actionQueue.js");
+const { captureBrowserTarget } = require("./targetCapture.js");
+const { transformImage } = require("./nativeImageTransform.js");
 
 const READ_ONLY_ACTIONS = new Set([
 	"chromeFind",
 	"chromeStatus",
+	"captureBrowserTarget",
+	"transformImage",
 	"chromeTargets",
 	"chromeLogs",
 	"chromeNetwork"
@@ -40,6 +44,8 @@ const ACTIONS = Object.freeze({
 	chromeSnapshot: chromeActions.chromeSnapshot,
 	chromeRunScript: chromeActions.chromeRunScript,
 	chromeScreenshot: chromeExtras.chromeScreenshot,
+	captureBrowserTarget,
+	transformImage,
 	chromeNetwork: chromeExtras.chromeNetwork,
 	chromeAccessibilitySnapshot: chromeExtras.chromeAccessibilitySnapshot,
 	chromeTestUrl: chromeExtras.chromeTestUrl,

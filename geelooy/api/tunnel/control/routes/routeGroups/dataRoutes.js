@@ -9,6 +9,7 @@
  * in explicit vessels so agents may transfer huge media without POST.
  */
 const { agentManifest } = require("../agentManifest.js");
+const { artifactPublish, artifactGet, artifactRevoke } = require("../artifactPublication.js");
 const { blob } = require("../blob.js");
 const { blobManifest } = require("../blobManifest.js");
 const { blobView } = require("../blobView.js");
@@ -34,6 +35,10 @@ const dataRoutes = Object.freeze({
 	bootstrap,
 	"agent-manifest": agentManifest,
 	"transfer/device": deviceFileTransfer,
+	"artifact/publish": artifactPublish,
+	"artifact/publish-folder-file": artifactPublish,
+	"artifact/revoke": artifactRevoke,
+	"artifact/:token/:filename": artifactGet,
 	"transfer/get/:tunnelName": fileTransferGet,
 	"ephemeral/list": ephemeralList,
 	"ephemeral/:resultId/page": ephemeralPage,

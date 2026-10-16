@@ -170,3 +170,7 @@ For the current native control actions and external-agent invitation interface,
 consult [TUNNEL_API_REFERENCE.md](TUNNEL_API_REFERENCE.md) and the live
 `/api/tunnel/control/docs.json` discovery endpoint. Discover your current
 authorized route rather than routing by a guessed friendly tunnel name.
+
+## Verified artifact transport (native browser and files)
+
+See [ARTIFACT_TRANSPORT.md](ARTIFACT_TRANSPORT.md) for explicit-target CDP capture, browser-native conversion, durable controller publication, verified local pull, authorization constraints, and current limitations.

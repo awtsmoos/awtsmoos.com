@@ -1,5 +1,5 @@
 B"H
-1.0.672
+1.0.673
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1919,6 +1919,7 @@ tools/chatgpt/storage/profileState.js
 tools/chrome.js
 tools/chrome/actionQueue.js
 tools/chrome/actions.js
+tools/chrome/captureArtifactStore.js
 tools/chrome/cdp.js
 tools/chrome/compact.js
 tools/chrome/cssForensics.js
@@ -1930,12 +1931,14 @@ tools/chrome/frontendSnapshot.js
 tools/chrome/frontendSourceProof.js
 tools/chrome/frontendVerifier.js
 tools/chrome/index.js
+tools/chrome/isolatedTargetRpc.js
 tools/chrome/launch-dependencies.js
 tools/chrome/launch-readiness.js
 tools/chrome/launch-values.js
 tools/chrome/launchArgs.js
 tools/chrome/leaseActions.js
 tools/chrome/logs.js
+tools/chrome/nativeImageTransform.js
 tools/chrome/processes.js
 tools/chrome/profileState.js
 tools/chrome/proofBundle.js
@@ -1944,6 +1947,7 @@ tools/chrome/screenshotPipeline.js
 tools/chrome/screenshotTransfer.js
 tools/chrome/session.js
 tools/chrome/snapshot.js
+tools/chrome/targetCapture.js
 tools/chrome/visionDelivery.js
 tools/command/index.js
 tools/command/inlineExecution.js
