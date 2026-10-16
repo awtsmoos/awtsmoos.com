@@ -145,7 +145,12 @@ function enforceApiKeyRate(identity, byteGuess = 0) {
     return { ok: false, error: "api_key_revoked_or_missing" };
   }
 
-  const usage = store.usage || [];
+  // The canonical peruta/telemetry recorder appends to usageEvents. The legacy
+  // usage array is retained for old clients; both must count against limits.
+  const usage = [
+    ...(Array.isArray(store.usage) ? store.usage : []),
+    ...(Array.isArray(store.usageEvents) ? store.usageEvents : [])
+  ];
   const now = Date.now();
 
   const recent = usage.filter(u =>

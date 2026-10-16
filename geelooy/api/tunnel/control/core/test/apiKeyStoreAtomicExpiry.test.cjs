@@ -21,6 +21,15 @@ async function main() {
 	assert.equal(Keys.verifyApiKey(first.rawKey).ok, false);
 	assert.equal(Keys.enforceApiKeyRate({kind:'apiKey',keyId:first.key.keyId}).ok, false);
 	assert.throws(() => Keys.createApiKeyRecord({userId:'ownerA',expiresAt:Date.now()-1}),/api_key_expiry_invalid/);
+	const limited=Keys.createApiKeyRecord({userId:'ownerA', rateLimitPerMinute:2, bytesPerDay:100});
+	const Usage = require('../usageStore.js');
+	assert.equal(Keys.enforceApiKeyRate({kind:'apiKey',keyId:limited.key.keyId}).ok,true);
+	Usage.recordUsage({userId:'ownerA',keyId:limited.key.keyId,action:'read',bytes:40,ok:true});
+	assert.equal(Keys.enforceApiKeyRate({kind:'apiKey',keyId:limited.key.keyId},50).ok,true);
+	assert.equal(Keys.enforceApiKeyRate({kind:'apiKey',keyId:limited.key.keyId},61).error,'daily_byte_limit_exceeded');
+	Usage.recordUsage({userId:'ownerA',keyId:limited.key.keyId,action:'read',bytes:40,ok:true});
+	assert.equal(Keys.enforceApiKeyRate({kind:'apiKey',keyId:limited.key.keyId}).error,'rate_limited');
+	Keys.revokeApiKeyRecord('ownerA',limited.key.keyId);
 	const second=Keys.createApiKeyRecord({userId:'ownerA'});
 	assert.equal(second.key.expiresAt,null);
 	assert.equal(Keys.verifyApiKey(second.rawKey).ok,true);
@@ -38,8 +47,8 @@ async function main() {
 		child.on('exit',status=>status===0?resolve():reject(new Error(stderr||`writer_exit_${status}`)));
 	})));
 	assert.equal(writers.length,3);
-	assert.equal(Keys.listApiKeys('ownerA').length,5);
-	console.log(JSON.stringify({ok:true,suite:'api-key-store-atomic-expiry',keys:5}));
+	assert.equal(Keys.listApiKeys('ownerA').length,6);
+	console.log(JSON.stringify({ok:true,suite:'api-key-store-atomic-expiry',keys:6}));
 	} finally {
 	if (prior===undefined) delete process.env.AWTSMOOS_TUNNEL_CONTROL_STORE;
 	else process.env.AWTSMOOS_TUNNEL_CONTROL_STORE=prior;
