@@ -14,7 +14,7 @@ const MAX_SAFE_WAIT_MS = 1500;
  * event loop or turn a control request into another long-running task.
  */
 function allowed(config = {}, payload = {}) {
-	return config.allowCommands === true || truthy(payload.allowCommands);
+	return config.allowCommands === true;
 }
 
 function argsFromPayload(payload = {}) {

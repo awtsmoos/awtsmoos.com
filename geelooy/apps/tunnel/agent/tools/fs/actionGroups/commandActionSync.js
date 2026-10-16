@@ -70,7 +70,7 @@ function falsey(value) {
 }
 
 function allowed(config = {}, payload = {}) {
-	return config.allowCommands === true || truthy(payload.allowCommands);
+	return config.allowCommands === true;
 }
 
 function disabled(action) {
@@ -78,7 +78,7 @@ function disabled(action) {
 		ok: false,
 		action,
 		error: "commands_disabled",
-		message: "Set allowCommands=true in config or payload."
+		message: "Enable allowCommands in trusted device configuration."
 	};
 }
 

@@ -16,24 +16,24 @@ const { startCommandJob, commandStatus, commandWait, commandJobOutputPage } = re
   const root = await fsp.mkdtemp(path.join(os.tmpdir(), "awtsmoos-job-life-"));
   const config = { root, allowCommands: true, tools: { command: true }, command: { enabled: true } };
   const command = process.platform === "win32" ? "echo lifecycle" : "printf lifecycle";
-  const started = await startCommandJob(config, { command, cwd: ".", timeoutMs: 10000 });
+  const started = await startCommandJob(config, { command, cwd: ".", timeoutMs: 10000, requestId: "lifecycle-owner", logicalAgentId: "lifecycle-agent" });
   assert.equal(started.ok, true);
   assert.equal(started.action, "commandStart");
   assert.ok(started.jobId);
 
-  const waited = await commandWait(config, { id: started.jobId, waitTimeoutMs: 10000, pollIntervalMs: 100, maxChars: 2000 });
+  const waited = await commandWait(config, { logicalAgentId: "lifecycle-agent", id: started.jobId, waitTimeoutMs: 10000, pollIntervalMs: 100, maxChars: 2000 });
   assert.equal(waited.ok, true);
   assert.equal(waited.action, "commandWait");
   assert.equal(waited.status, "completed");
   assert.match(waited.stdout.content, /lifecycle/);
   assert.equal(waited.stdout.hasNextPage, false);
 
-  const status = await commandStatus(config, { jobId: started.jobId });
+  const status = await commandStatus(config, { logicalAgentId: "lifecycle-agent", jobId: started.jobId });
   assert.equal(status.ok, true);
   assert.equal(status.action, "commandStatus");
   assert.equal(status.running, false);
 
-  const page = await commandJobOutputPage(config, { id: started.jobId, stream: "stdout", maxChars: 2000 });
+  const page = await commandJobOutputPage(config, { logicalAgentId: "lifecycle-agent", id: started.jobId, stream: "stdout", maxChars: 2000 });
   assert.equal(page.ok, true);
   assert.equal(page.action, "commandJobOutputPage");
   assert.match(page.content, /lifecycle/);

@@ -26,9 +26,7 @@ const { getGlobalReaper, getGlobalRegistry } = require("../../../lib/runtime/wor
 const activeJobs = new Map();
 
 function allowed(config = {}, payload = {}) {
-	return config.allowCommands === true ||
-		payload.allowCommands === true ||
-		String(payload.allowCommands).toLowerCase() === "true";
+	return config.allowCommands === true;
 }
 
 function resolveCwd(config, payload = {}) {
