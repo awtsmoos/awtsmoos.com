@@ -171,7 +171,7 @@ module.exports = {
     await $i.use("simple/result", async (vars) => {
       // POST = agent posts result, GET = client gets result
       const { postResult, getResult } = require("./routes/simpleTunnel.js");
-      const method = ($i.method || "GET").toUpperCase();
+      const method = ($i.request?.method || $i.method || "GET").toUpperCase();
       if (method === "POST") return await postResult($i, vars || {});
       return await getResult($i, vars || {});
     });
