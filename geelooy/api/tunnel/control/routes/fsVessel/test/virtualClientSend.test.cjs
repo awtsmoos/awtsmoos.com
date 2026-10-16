@@ -27,8 +27,16 @@ test("virtual client exports the resolver send adapter", async () => {
 	assert.equal(wrote.ok, true);
 	const client = virtualClient();
 	assert.equal(client.store.kind, "hosted-virtual-os-store");
-	assert.equal(client.capabilities.commandRun, false);
+	assert.equal(client.capabilities.commandRun, true);
+	assert.equal(client.allowCommands, false); // No unrestricted host shell
 	assert.equal(hostedCapabilityProfile().capabilities["fs.read"].state, "virtualized");
+	assert.equal(hostedCapabilityProfile().capabilities["command.run"].mode, "vfs-readonly-no-host-shell");
+	const readonly = await sendVirtualOs($i, "alice", { action: "commandRun", program: "pwd", cwd: "project" });
+	assert.equal(readonly.ok, true);
+	assert.equal(readonly.stdout, "project\n");
+	const blocked = await sendVirtualOs($i, "alice", { action: "commandRun", program: "sudo", args: ["id"] });
+	assert.equal(blocked.ok, false);
+	assert.equal(blocked.error, "VIRTUAL_COMMAND_POLICY_DENIED");
 });
 
 test("resolver module imports after virtual store restoration", () => {
