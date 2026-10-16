@@ -33,6 +33,9 @@ start_candidate_probe() {
 	local pid_file="$CANDIDATE_ROOT/candidate-probe.pid"
 	local log_file="$CANDIDATE_ROOT/candidate-probe.log"
 	CANDIDATE_IDENTITY_AUTHORITY="$identity_authority"
+	# The child receives candidate-probe mode; the parent must independently
+	# know that relay ownership is deliberately deferred until promotion.
+	CANDIDATE_PROBE_ISOLATED=1
 	CANDIDATE_PROBE_PORT="${AWTSMOOS_CANDIDATE_LOCAL_API_PORT:-$((47000 + $$ % 1000))}"
 	rm -f "$receipt" "$pid_file"
 	write_activation_journal "candidate_probe_starting" "$CANDIDATE_ROOT" "$ROOT"

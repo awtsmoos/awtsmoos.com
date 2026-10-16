@@ -22,11 +22,11 @@ NODE
 }
 
 candidate_probe_registered() {
-	# B"H — Yaakov 2026-10-14: In probe mode, the agent uses mock identity
-	# and does not connect to the real relay. Consider it "registered"
-	# for probe purposes if the process is alive. The real registration
-	# happens after promotion, not during the probe.
-	if [ "${AWTSMOOS_REGISTRATION_MODE:-}" = "candidate-probe" ]; then
+	# The isolated child deliberately cannot claim the real relay while the
+	# predecessor is still serving. This check confirms isolation mode was
+	# installed by start_candidate_probe; actual relay registration is verified
+	# after atomic promotion by the existing supervisor readiness gate.
+	if [ "${CANDIDATE_PROBE_ISOLATED:-0}" = "1" ]; then
 		return 0
 	fi
 	local tunnel_name="$(candidate_tunnel_name)" || return 1

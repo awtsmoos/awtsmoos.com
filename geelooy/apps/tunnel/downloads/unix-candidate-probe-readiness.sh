@@ -113,7 +113,7 @@ candidate_probe_status_line() {
 	local lane="$CANDIDATE_LAST_FAILURE_LANE" explanation
 	case "$lane" in
 		candidate_alive) explanation="Starting candidate process" ;;
-		registration) explanation="Waiting for pairing or relay registration" ;;
+		registration) explanation="Checking candidate registration mode" ;;
 		local_action) explanation="Waiting for local API response" ;;
 		version) explanation="Checking installed agent version" ;;
 		ready) explanation="Proving stable healthy samples" ;;
@@ -122,7 +122,7 @@ candidate_probe_status_line() {
 	# Two bounded lines; readable in Termux, tmux, SSH and plain CI logs.
 	printf '  PROBE  %ss elapsed  |  %ss remaining\n' "$elapsed" "$left" >&2
 	printf '         %s\n' "$explanation" >&2
-	printf '         process:%s  relay:%s  API:%s  version:%s  samples:%s\n' \
+	printf '         process:%s  isolation:%s  API:%s  version:%s  samples:%s\n' \
 		"$CANDIDATE_EVIDENCE_ALIVE" "$CANDIDATE_EVIDENCE_REGISTERED" \
 		"$CANDIDATE_EVIDENCE_ACTION" "$CANDIDATE_EVIDENCE_VERSION" \
 		"$CANDIDATE_STABLE_SAMPLES" >&2
