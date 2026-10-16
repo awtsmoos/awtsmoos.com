@@ -170,13 +170,14 @@ export class GevurahReaderScale {
 	}
 
 	/**
-	 * Scales the Meluket sefer reading vessel proportionally.
+	 * Scales the Meluket sefer reading vessel.
 	 *
-	 * B"H — the enriched-post sefer sizes its Hebrew/English text with
-	 * rem-based clamp() rules that never consume --post-text-size, so the
-	 * + / − buttons changed a variable nothing rendered. A proportional zoom
-	 * on the sefer container resizes its Hebrew and English together, live,
-	 * without touching any stylesheet.
+	 * B"H — the sefer sizes its Hebrew/English text from --sefer-phrase-size,
+	 * which resolves from --post-text-size (meluket-sefer.css declares it on
+	 * .meluket-sefer itself, inheriting --post-text-size from
+	 * .post-reader-localized-context). Setting both variables inline here
+	 * covers the case where the localized reader root is absent, so the
+	 * + / − buttons always resize the sefer's Hebrew and English together.
 	 * @param {string} mainSize Applied main CSS pixel size.
 	 * @returns {void}
 	 */

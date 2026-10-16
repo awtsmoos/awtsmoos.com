@@ -36,6 +36,15 @@
    Horizontal padding is minimal and never grows with text size —
    at large text scales the words get the room, not the margins. */
 .meluket-sefer-active .meluket-sefer {
+	/* B"H — Yaakov 2026-10-15: the sefer declares its own phrase size from
+	   the reader's --post-text-size (set inline on .post-reader-localized-context
+	   by ReaderScale, and on .meluket-sefer itself by applySeferScale).
+	   Declaring it here — not only on the .meluket-sefer-active ancestor —
+	   keeps Aa scaling working even if the ancestor chain changes, because
+	   custom properties inherit downward and this is the closest declaration
+	   to every phrase element. */
+	--sefer-phrase-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem));
+	--hebrew-optical: 1.3;
 	max-width: 1180px;
 	margin: 0 auto;
 	/* B"H — Yaakov 2026-10-15: minimal horizontal padding, text gets the room. */
@@ -415,7 +424,9 @@
 	border-radius: 10px;
 	padding: 1.25rem clamp(1rem, 3vw, 1.75rem);
 	margin: 0 0 2rem;
-	font-size: 1.15rem;
+	/* B"H — Yaakov 2026-10-15: Overview matches Hebrew body size and scales
+	   with Aa like every other text element. */
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * var(--hebrew-optical, 1.3));
 	line-height: 1.7;
 	color: var(--sefer-ink-soft);
 }
@@ -461,7 +472,8 @@
 
 .meluket-sefer-active .meluket-qa-title {
 	font-family: "Frank Ruhl Libre", Georgia, serif;
-	font-size: 1.5rem;
+	/* B"H — Yaakov 2026-10-15: Q&A scales with Aa, subordinate to body. */
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 0.62);
 	color: var(--sefer-title-ink);
 	margin: 0 0 1.25rem;
 	padding-bottom: 0.6rem;
@@ -482,13 +494,15 @@
 
 .meluket-sefer-active .meluket-qa-q {
 	font-weight: 700;
-	font-size: 1.15rem;
+	/* B"H — Yaakov 2026-10-15: scales with Aa. */
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 0.52);
 	color: var(--sefer-ink);
 	margin-bottom: 0.5rem;
 }
 
 .meluket-sefer-active .meluket-qa-a {
-	font-size: 1.08rem;
+	/* B"H — Yaakov 2026-10-15: scales with Aa. */
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 0.5);
 	line-height: 1.65;
 	color: var(--sefer-ink-soft);
 }
@@ -504,7 +518,8 @@
 
 .meluket-sefer-active .meluket-footnotes-title {
 	font-family: "Frank Ruhl Libre", Georgia, serif;
-	font-size: 5.6rem;
+	/* B"H — Yaakov 2026-10-15: scales with Aa, stays a title above body text. */
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 1.15);
 	color: var(--sefer-title-ink);
 	margin: 0 0 4rem;
 	padding-bottom: 2.4rem;
@@ -522,7 +537,9 @@
 	gap: 3.6rem;
 	padding: 3.2rem 0;
 	border-bottom: 4px dotted var(--sefer-rule);
-	font-size: 4.08rem;
+	/* B"H — Yaakov 2026-10-15: footnotes scale with Aa but stay subordinate
+	   to body text. */
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 0.72);
 	line-height: 1.65;
 }
 
@@ -531,8 +548,11 @@
 }
 
 .meluket-sefer-active .meluket-footnote-num {
-	flex: 0 0 8rem;
-	height: 8rem;
+	/* B"H — Yaakov 2026-10-15: badge scales with Aa; em-based circle never
+	   clips the number at large sizes. */
+	flex: 0 0 auto;
+	width: 2.4em;
+	height: 2.4em;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -540,7 +560,7 @@
 	background: var(--sefer-accent);
 	color: #fffdf6;
 	font-weight: 800;
-	font-size: 3.68rem;
+	font-size: calc(var(--sefer-phrase-size, 2.4rem) * 0.8);
 }
 
 .meluket-sefer-active .meluket-footnote-body {
@@ -551,6 +571,9 @@
 .meluket-sefer-active .meluket-footnote-he {
 	display: block;
 	font-family: "Frank Ruhl Libre", Georgia, serif;
+	/* B"H — Yaakov 2026-10-15: Hebrew footnote keeps the optical multiplier
+	   so it looks the same size as the English footnote. */
+	font-size: calc(1em * var(--hebrew-optical, 1.3));
 	color: var(--sefer-ink);
 	margin-bottom: 0.35rem;
 	direction: rtl;
