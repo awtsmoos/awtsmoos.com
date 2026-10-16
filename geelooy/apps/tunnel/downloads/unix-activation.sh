@@ -37,7 +37,7 @@ activate_fresh() {
 	local displaced=""
 	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}-$$"
 	mkdir -p "$(dirname "$ROOT")"
-	install_progress 65 "Pairing this machine (installer-direct)"
+	install_progress 65 "Pairing a new authorized tunnel identity"
 	# B"H — the installer does pairing directly: creates the request, shows
 	# the approval card, polls for approval, consumes, and provisions the
 	# credential into the candidate root. Instant and reliable.
@@ -45,6 +45,15 @@ activate_fresh() {
 		install_fail "pairing" \
 			"Installer-direct pairing failed." \
 			"Check the log for details."
+	fi
+	# A previously installed agent can have an invalid/revoked credential.
+	# Never accept a skipped pairing as success or redispatch that credential
+	# after promoting the new runtime. The user must approve a fresh binding.
+	if [ "${AWTSMOOS_PAIRING_SKIPPED:-0}" = "1" ] ||
+		[ ! -s "$(direct_pairing_provision_file)" ]; then
+		install_fail "pairing" \
+			"New device approval did not produce an authorized credential." \
+			"The former tunnel was left unchanged. Retry pairing while signed in."
 	fi
 	# A successful pairing response alone is not proof that the installed
 	# agent boots, registers, and performs a real local file action.
@@ -110,9 +119,19 @@ activate_release_candidate() {
 		prepare_without_activation
 		return 0
 	fi
-	if [ -f "$ROOT/main.js" ]; then
+	# A normal reinstall means a NEW device registration, not reuse of old
+	# authorization. Old credentials may be revoked (invalid_device_credential),
+	# in which case a readonly update would wait and fail indefinitely. The new
+	# binding is obtained with user approval BEFORE the predecessor is touched.
+	# Explicit --keep-old-tunnels retains the historical same-identity upgrade.
+	if [ -f "$ROOT/main.js" ] && [ "${AWTSMOOS_KEEP_OLD_TUNNELS:-0}" = "1" ]; then
+		install_event "identity" "preserved" "Reusing the existing authorization because --keep-old-tunnels was selected."
 		activate_update
 	else
+		if [ -f "$ROOT/main.js" ]; then
+			install_event "identity" "fresh" "Reinstall requires fresh account approval; old credential will not be reused."
+			prg_info "Renewing authorization with a fresh pairing code."
+		fi
 		activate_fresh
 	fi
 }

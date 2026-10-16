@@ -1,0 +1,59 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+const source=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../unix-activation.sh');
+function run(script){
+ const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'awts-fresh-repair-'));
+ try {
+  const result=spawnSync('bash',['-c',`
+set -Eeuo pipefail
+ROOT="$1/live"
+CANDIDATE_ROOT="$1/staged"
+RECOVERY_ROOT="$1/recovery"
+CANDIDATE_VERSION='1.0.999'
+mkdir -p "$ROOT" "$CANDIDATE_ROOT" "$RECOVERY_ROOT"
+printf 'old-runtime\\n' > "$ROOT/main.js"
+printf 'new-runtime\\n' > "$CANDIDATE_ROOT/main.js"
+install_event(){ :; }
+install_progress(){ :; }
+install_fail(){ echo "FAIL:$2" >&2; return 71; }
+prg_ok(){ :; }
+prg_info(){ :; }
+write_activation_journal(){ :; }
+prove_candidate_before_promotion(){ printf 'probe\\n' >> "$1/NOPE" 2>/dev/null || :; printf 'probe\\n' >> "$TRACE"; }
+promote_candidate_root(){ test "$(cat "$ROOT/main.js")" = old-runtime; printf 'promote\\n' >> "$TRACE"; }
+start_promoted_candidate(){ printf 'run\\n' >> "$TRACE"; }
+prepare_without_activation(){ :; }
+install_rescue_runtime(){ :; }
+skip_start_requested(){ return 1; }
+direct_pairing_provision_file(){ printf '%s\\n' "$CANDIDATE_ROOT/provisioned-identity.json"; }
+direct_pairing_flow(){ printf 'pair\\n' >> "$TRACE"; if [ "$PAIR_FAILURE" = 1 ]; then AWTSMOOS_PAIRING_SKIPPED=1; else printf '{}\\n' > "$CANDIDATE_ROOT/provisioned-identity.json"; fi; }
+activate_update(){ printf 'keep-old\\n' >> "$TRACE"; }
+TRACE="$1/trace"
+source "$2"
+AWTSMOOS_KEEP_OLD_TUNNELS="$3"
+PAIR_FAILURE="$4"
+activate_release_candidate
+`,`--`,tmp,source,script.includes('__KEEP__')?'1':'0',script.includes('__PAIR_FAILURE__')?'1':'0'],{encoding:'utf8',timeout:6500});
+  const trace=fs.existsSync(path.join(tmp,'trace'))?fs.readFileSync(path.join(tmp,'trace'),'utf8'):'';
+  const incumbent=fs.readFileSync(path.join(tmp,'live','main.js'),'utf8');
+  return {status:result.status,trace,incumbent,stderr:result.stderr};
+ } finally {fs.rmSync(tmp,{recursive:true,force:true});}
+}
+test('normal reinstall pairs a new identity BEFORE probing and promoting',()=>{
+ const r=run('');assert.equal(r.status,0,r.stderr);assert.equal(r.trace,'pair\nprobe\npromote\nrun\n');assert.equal(r.incumbent,'old-runtime\n');
+});
+test('explicit keep-old-tunnels reuses the previous identity and avoids fresh pairing',()=>{
+ const r=run('__KEEP__');assert.equal(r.status,0,r.stderr);assert.equal(r.trace,'probe\npromote\nrun\n');
+});
+test('a failed pairing never promotes a candidate or alters predecessor',()=>{
+ const r=run('__PAIR_FAILURE__');assert.notEqual(r.status,0);assert.equal(r.trace,'pair\n');assert.match(r.stderr,/New device approval did not produce/);assert.equal(r.incumbent,'old-runtime\n');
+});
