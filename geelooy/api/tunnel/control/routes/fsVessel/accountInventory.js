@@ -88,8 +88,13 @@ function inventory($i, accountId) {
 function resolveInventoryDevice(devices, reference) {
 	const normalized = String(reference || "").trim();
 	if (!normalized) return null;
-	const exactId = devices.find(device => device.tunnelId === normalized);
-	if (exactId) return exactId;
+	// Discovery publishes an opaque routeReference. Resolve exactly that same
+	// identifier before falling back to the legacy, potentially ambiguous name.
+	const exactMatches = devices.filter(device =>
+		device.tunnelId === normalized || device.routeReference === normalized
+	);
+	if (exactMatches.length === 1) return exactMatches[0];
+	if (exactMatches.length > 1) return null;
 	const nameMatches = devices.filter(device => device.tunnelName === normalized);
 	if (nameMatches.length === 1) return nameMatches[0];
 	const liveMatches = nameMatches.filter(View.isRoutable);

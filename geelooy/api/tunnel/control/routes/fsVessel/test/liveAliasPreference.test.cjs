@@ -38,6 +38,10 @@ assert.equal(
 	resolveInventoryDevice([live], "missing-name"),
 	null
 );
+const opaque = { ...live, routeReference: "route_live_opaque" };
+assert.equal(resolveInventoryDevice([opaque], "route_live_opaque"), opaque);
+assert.equal(resolveInventoryDevice([opaque], "tun_live"), opaque);
+assert.equal(resolveInventoryDevice([opaque, { ...opaque, tunnelId: "tun_other" }], "route_live_opaque"), null);
 
 console.log(JSON.stringify({
 	ok: true,
