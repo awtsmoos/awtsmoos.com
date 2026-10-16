@@ -23,9 +23,13 @@ const { buildInstallerComponents } = require("./installerComponents.js");
 async function registerScriptRoute($i, routeName, fileName) {
 	await $i.use(routeName, async () => {
 		let text = clean(readTunnelDownload(fileName));
-		// B"H — Yaakov 2026-10-14: temporarily skip SHA replacement to fix 500.
-		// The installer works without it; we'll add it back once the tarball
-		// build is reliable.
+		// Bind the public bootstrap to the exact verified component archive.
+		if (fileName === "unix.sh") {
+			text = text.replace(
+				"__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__",
+				buildInstallerComponents().sha256
+			);
+		}
 		return sendText(
 			$i,
 			text,

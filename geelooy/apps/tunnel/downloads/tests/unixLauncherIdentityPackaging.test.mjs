@@ -17,6 +17,7 @@ const installer = read("unix-supervisor-install.sh");
 const files = read("unix-supervisor-files.sh");
 const bootstrap = read("unix-bootstrap-components.sh");
 const launcher = read("unix-agent-launcher.cjs");
+const entryInstaller = read("unix.sh");
 
 assert.match(files, /unix-agent-identity\.cjs:awtsmoos-agent-identity\.cjs/);
 assert.match(files, /unix-agent-launcher\.cjs:awtsmoos-agent-launcher\.cjs/);
@@ -34,6 +35,13 @@ assert.match(
 );
 assert.match(launcher, /awtsmoos-agent-identity\.cjs/);
 assert.match(launcher, /unix-agent-identity\.cjs/);
+// The live launcher may not silently turn itself into a test fixture or
+// authorize new physical device identities without the pairing flow.
+assert.doesNotMatch(launcher, /process\.env\.AWTSMOOS_TEST_MODE\s*=/);
+assert.doesNotMatch(launcher, /process\.env\.AWTSMOOS_ALLOW_IDENTITY_CREATE\s*=/);
+assert.doesNotMatch(entryInstaller, /fuser\s+-k\s+3977\/tcp/);
+assert.doesNotMatch(entryInstaller, /pkill\s+-f\s+["\']tunnel\/agent/);
+assert.doesNotMatch(entryInstaller, /if \[ "\$AWTSMOOS_INSTALL_MODE" = "agent-only" \]; then/);
 
 console.log(JSON.stringify({
 	ok: true,

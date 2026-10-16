@@ -25,7 +25,11 @@ export async function startUnixBootstrapServer() {
 		if (pathname === "/api/tunnel/install/unix") {
 			return send(response, route.packet.response);
 		}
-		const prefix = "/apps/tunnel/downloads/";
+		// The entry bootstrap still supports the static fetch-policy URL, while
+		// the current bootstrap engine and components come from the install API.
+		const prefix = pathname.startsWith("/api/tunnel/install/")
+			? "/api/tunnel/install/"
+			: "/apps/tunnel/downloads/";
 		if (!pathname.startsWith(prefix)) {
 			response.statusCode = 404;
 			return response.end("not found");
@@ -43,6 +47,9 @@ export async function startUnixBootstrapServer() {
 }
 
 function helperBody(fileName) {
+	if (fileName === "unix-bootstrap-fetch.sh" || fileName === "unix-bootstrap-run.sh") {
+		return fs.readFileSync(path.join(downloadsRoot, fileName), "utf8");
+	}
 	if (fileName === "unix-node-runtime.sh") return nodeRuntimeStub();
 	if (fileName === "unix-bootstrap-components.sh") return componentBootstrapStub();
 	if (fileName === "unix-install-core.sh") return installCoreStub();

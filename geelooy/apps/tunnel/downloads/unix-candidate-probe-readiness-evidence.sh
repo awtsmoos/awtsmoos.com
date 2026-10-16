@@ -85,10 +85,12 @@ candidate_probe_evidence_sample() {
 	candidate_evidence_failure_lane
 	export CANDIDATE_EVIDENCE_ALIVE CANDIDATE_EVIDENCE_REGISTERED
 	export CANDIDATE_EVIDENCE_ACTION CANDIDATE_EVIDENCE_VERSION
-	# B"H — Yaakov 2026-10-14 FOREVER FIX: Probe only verifies the agent
-	# process stays alive. If it doesn't crash on startup, it's good.
-	# No API check, no registration, no version. Just "did it stay up?"
-	[ "$CANDIDATE_EVIDENCE_ALIVE" = "1" ]
+	# A live PID is not a verified tunnel: require the registration receipt,
+	# the local stat action, and the exact expected runtime version as well.
+	[ "$CANDIDATE_EVIDENCE_ALIVE" = "1" ] &&
+		[ "$CANDIDATE_EVIDENCE_REGISTERED" = "1" ] &&
+		[ "$CANDIDATE_EVIDENCE_ACTION" = "1" ] &&
+		[ "$CANDIDATE_EVIDENCE_VERSION" = "1" ]
 }
 
 candidate_evidence_failure_lane() {

@@ -7,17 +7,8 @@ set -Eeuo pipefail
 export LC_ALL=C
 export LANG=C
 
-# B"H — Yaakov 2026-10-14 STANDING RULE: Installer NEVER requires manual `kill`.
-# Automatically clean up stale tunnel agent processes on startup.
-# The agent's local API uses port 3977; the main web service uses 443/80.
-# This only targets the tunnel agent, never the production web server.
-if command -v fuser >/dev/null 2>&1; then
-  fuser -k 3977/tcp 2>/dev/null || true
-fi
-# Kill by command-line pattern (tunnel agent's main.js, not the web service)
-pkill -f "tunnel/agent/main\.js" 2>/dev/null || true
-# Give processes a moment to exit
-sleep 1 2>/dev/null || true
+# Preserve the incumbent until a verified replacement is ready.
+# Process retirement belongs to the transactional supervisor handoff.
 
 # B"H — Yaakov 2026-10-14: ALWAYS print full stack trace on error.
 # This is the Bash equivalent of try-catch with stack printing.
@@ -34,7 +25,7 @@ trap '{
   echo "     $BASH_COMMAND" >&2
   echo "" >&2
   echo "   Call stack (most recent first):" >&2
-  local _i=0 _line
+  _i=0; _line=""
   while _line=$(caller $_i 2>/dev/null); do
     echo "     → $_line" >&2
     _i=$((_i + 1))
@@ -51,13 +42,8 @@ origin="${origin%/}"
 canonical_root="$HOME/.awtsmoos-tunnel"
 recovery_hint="${AWTSMOOS_RECOVERY_ROOT:-$HOME/.awtsmoos-tunnel-recovery}"
 
-# B"H — Yaakov 2026-10-14: ALWAYS clear the component cache on startup.
-# Stale cached files caused hours of "fix deployed but not working" confusion.
-# The bootstrap is piped directly (not cached), so this runs fresh every time.
-# This ensures all components are downloaded fresh from the API.
-if [ -d "$recovery_hint/cache" ]; then
-	rm -rf "$recovery_hint/cache" 2>/dev/null || true
-fi
+# Keep checksum-addressed recovery archives; never erase verified custody at
+# installer entry. A changed bootstrap SHA automatically selects new components.
 
 # --- Clever terminal presentation (Yaakov 2026-10-11: the install command must look smart) ---
 # --- Colorful & fun (Yaakov 2026-10-13: make it more colorful and fun!) ---
@@ -81,10 +67,10 @@ fi
 awt_rainbow() {
 	local text="$1" i=0 char
 	local colors=("$AWT_C_RED" "$AWT_C_ORANGE" "$AWT_C_YELLOW" "$AWT_C_LIME" "$AWT_C_TEAL" "$AWT_C_BLUE" "$AWT_C_PURPLE" "$AWT_C_PINK")
-	if [ "$AWT_COLORFUL" != "1" ]; then printf '%s' "$text"; return 0; fi
+	if [ "$AWT_COLORFUL" != "1" ]; then printf '%s' "$text" >&2; return 0; fi
 	while [ $i -lt ${#text} ]; do
 		char="${text:$i:1}"
-		printf '%s%s%s' "${colors[$((i % 8))]}" "$char" "$AWT_C_OFF"
+		printf '%s%s%s' "${colors[$((i % 8))]}" "$char" "$AWT_C_OFF" >&2
 		i=$((i + 1))
 	done
 }
@@ -192,8 +178,8 @@ awt_fun()   { printf '%s🎭%s %s\n'   "$AWT_C_PINK" "$AWT_C_OFF" "$1" >&2; }
 # Backward compatible: no flags + non-interactive => full (today's behavior).
 AWTSMOOS_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-}"
 AWT_ASSUME_YES=0
-# Yaakov 2026-10-14: rerunning the installer must clear everything — no
-# manual pkill/rm ever. --clean does a full wipe first; --agent-only implies it.
+# A repeat install preserves custody by default. Destructive reset requires
+# an explicit --clean; never silently erase identity on mode selection.
 AWTSMOOS_INSTALL_CLEAN="${AWTSMOOS_INSTALL_CLEAN:-0}"
 
 print_installer_help() {
@@ -206,7 +192,7 @@ Options:
   --full            Complete tunnel: agent, guardian, recovery lanes, browser support (default)
   --minimal         Agent + registration; uses your system Node.js 18+; no browser auto-open
   --agent-only      Fastest headless install for servers; no browser, no recovery lanes
-  --clean           Kill all tunnel processes and clear all local state first (implied by --agent-only)
+  --clean           Explicitly reset installer state before installation (destructive)
   --mode=MODE       Same as --MODE (full, minimal, agent-only)
   -y, --yes         Skip the interactive menu; install with the default/flag mode
   --no-login        Skip the headless device login step
@@ -448,10 +434,8 @@ case "$AWTSMOOS_INSTALL_MODE" in
     exit $?
     ;;
 esac
-# Yaakov 2026-10-14: --agent-only always starts from a clean slate.
-if [ "$AWTSMOOS_INSTALL_MODE" = "agent-only" ]; then
-	AWTSMOOS_INSTALL_CLEAN=1
-fi
+# Agent-only is a packaging choice, never implied permission to erase
+# persistent pairing or rollback state. Only an explicit --clean may reset it.
 export AWTSMOOS_INSTALL_CLEAN
 print_install_plan "$AWTSMOOS_INSTALL_MODE"
 awt_intro_box "$AWTSMOOS_INSTALL_MODE"

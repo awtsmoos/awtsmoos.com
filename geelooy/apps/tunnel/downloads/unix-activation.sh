@@ -46,10 +46,14 @@ activate_fresh() {
 			"Installer-direct pairing failed." \
 			"Check the log for details."
 	fi
-	# B"H — direct pairing succeeded and provisioned the credential.
-	# Skip the candidate pairing probe entirely — the agent is already
-	# paired. Go straight to promotion.
-	install_progress 69 "Pairing complete — promoting agent"
+	# A successful pairing response alone is not proof that the installed
+	# agent boots, registers, and performs a real local file action.
+	install_progress 69 "Pairing complete — verifying the candidate agent"
+	if ! prove_candidate_before_promotion fresh; then
+		install_fail "candidate-probe" \
+			"Paired candidate failed startup or command readiness; live state preserved." \
+			"candidate=$CANDIDATE_ROOT root=$ROOT"
+	fi
 	if [ -e "$ROOT" ]; then
 		displaced="${ROOT}.incomplete-${stamp}-$$"
 	fi
@@ -97,7 +101,6 @@ activate_update() {
 			"Candidate promotion failed; predecessor path was restored." \
 			"candidate=$CANDIDATE_ROOT root=$ROOT rollback=$rollback"
 	fi
-	prg_ok "Registered candidate promoted"
 	start_promoted_candidate "$rollback" "$failed"
 }
 

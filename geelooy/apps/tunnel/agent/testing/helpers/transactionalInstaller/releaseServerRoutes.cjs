@@ -42,6 +42,21 @@ function respond(server, request, response) {
 	if (requestPath === "/api/tunnel/install/agent.zip") {
 		return server.send(response, 200, server.bundle, "application/zip");
 	}
+	// The production installer serves bootstrap helpers through the API, not
+	// through the static downloads URL (which may be restricted by nginx).
+	const apiPrefix = "/api/tunnel/install/";
+	if (requestPath.startsWith(apiPrefix)) {
+		const name = requestPath.slice(apiPrefix.length);
+		const allowed = new Set([
+			...(server.installerComponents.names || []),
+			"unix-bootstrap-run.sh", "unix-bootstrap-fetch.sh",
+			"unix-bootstrap-components.sh", "unix-bootstrap-components-download.sh",
+			"unix-node-runtime.sh"
+		]);
+		if (path.basename(name) === name && allowed.has(name)) {
+			return download(server, response, name);
+		}
+	}
 	const prefix = "/apps/tunnel/downloads/";
 	if (requestPath.startsWith(prefix)) {
 		const name = requestPath.slice(prefix.length);

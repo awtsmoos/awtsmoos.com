@@ -22,7 +22,7 @@ assert.match(gate, /start_launchd_supervisor/);
 assert.match(gate, /wait_for_supervisor_birth/);
 assert.match(gate, /start_detached_portable_supervisor/);
 assert.ok(gate.indexOf("stop_launchd_service") < gate.indexOf("start_detached_portable_supervisor"));
-assert.match(late, /late_candidate_process_evidence/);
+assert.match(late, /late_candidate_ready_sample/);
 assert.match(late, /AWTSMOOS_LATE_START_GRACE_SECONDS:-20/);
 assert.match(fast, /fast_repair_supervisor_start_failed/);
 assert.match(fast, /fast_repair_readiness_failed/);

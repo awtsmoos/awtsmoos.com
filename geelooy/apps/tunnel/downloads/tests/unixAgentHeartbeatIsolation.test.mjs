@@ -5,6 +5,7 @@ import { createRequire } from "node:module";
 
 process.env.AWTSMOOS_FS_EXECUTOR_TEST_MODE = "1";
 process.env.AWTSMOOS_FS_EXECUTOR_WORKERS = "2";
+process.env.AWTSMOOS_FS_EXECUTOR_MIN_WORKERS = "2";
 
 const require = createRequire(import.meta.url);
 const { IsolatedRelay } = require("../../agent/testing/helpers/isolatedRelay/server.cjs");
@@ -29,7 +30,10 @@ try {
 			payload: {
 				action: "executorTestBlock",
 				blockMs: index === 0 ? 1500 : 120,
-				logicalAgentId: `agent-${index}`
+				logicalAgentId: `agent-${index}`,
+				agentSessionId: `session-${index}`,
+				generation: 1,
+				requestId: `blocked-${index}`
 			},
 			type: "TUNNEL_REQUEST"
 		});
@@ -52,7 +56,8 @@ try {
 	const responses = await Support.waitUntil(() => {
 		const found = messages("TUNNEL_RESPONSE")
 			.filter(message => String(message.id).startsWith("blocked-"));
-		return found.length === 20 && found;
+		const complete = [...new Map(found.filter(message => message.stillRunning !== true && message.acceptanceState !== "NOT_ACCEPTED").map(message => [message.id, message])).values()];
+		return complete.length === 20 && complete;
 	}, 20000);
 	assert.ok(responses.every(response => response.ok), JSON.stringify(responses));
 	assert.ok(maximumPongMs < 1200, `pong latency reached ${maximumPongMs}ms`);

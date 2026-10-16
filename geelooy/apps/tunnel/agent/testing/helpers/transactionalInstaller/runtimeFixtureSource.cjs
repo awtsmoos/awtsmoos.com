@@ -75,6 +75,11 @@ async function main() {
 	process.on("SIGTERM", () => localApi ? localApi.close(() => process.exit(0)) : process.exit(0));
 }
 
+// Match the actual agent entry contract: supervisor may require main(), but
+// an isolated candidate launched as node main.js must also start itself.
+if (require.main === module) {
+	main().catch(error => { console.error(error.stack || error); process.exit(1); });
+}
 module.exports = { main };
 `;
 }

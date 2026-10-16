@@ -93,17 +93,15 @@ function componentSources() {
 		const full = path.join(root, name);
 		try {
 			if (!fs.statSync(full).isFile()) {
-				// B"H — Yaakov 2026-10-14: skip missing components instead of 500ing.
-				// The installer works with available files; a 500 helps no one.
-				continue;
+				throw new Error(`installer_component_not_file:${name}`);
 			}
 			sources.push({ name, data: fs.readFileSync(full) });
-		} catch (e) {
-			// Skip unreadable files — don't fail the entire tarball.
-			continue;
+		} catch (error) {
+			// A partial archive must never be advertised as an installable release.
+			throw new Error(`installer_component_unavailable:${name}:${error.code || error.message}`);
 		}
 	}
-	if (!sources.length) throw new Error('installer_component_missing:all');
+	if (sources.length !== COMPONENTS.length) throw new Error("installer_component_count_mismatch");
 	return sources;
 }
 

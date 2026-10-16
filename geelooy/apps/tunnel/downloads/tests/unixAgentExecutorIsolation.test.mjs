@@ -5,7 +5,8 @@ import { createRequire } from "node:module";
 
 process.env.AWTSMOOS_FS_EXECUTOR_TEST_MODE = "1";
 process.env.AWTSMOOS_FS_EXECUTOR_WORKERS = "2";
-process.env.AWTSMOOS_FS_EXECUTOR_IDLE_MS = "1000";
+process.env.AWTSMOOS_FS_EXECUTOR_MIN_WORKERS = "2";
+process.env.AWTSMOOS_FS_EXECUTOR_IDLE_MS = "15000";
 
 const require = createRequire(import.meta.url);
 const Executor = require("../../agent/tools/fs/executor/index.js");

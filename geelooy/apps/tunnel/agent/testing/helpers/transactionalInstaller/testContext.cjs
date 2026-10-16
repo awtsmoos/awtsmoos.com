@@ -27,6 +27,7 @@ function environment(origin, installRoot, temporaryRoot, additions = {}) {
 		AWTSMOOS_PROJECT_ROOT: temporaryRoot,
 		AWTSMOOS_INSTALL_CWD: temporaryRoot,
 		AWTSMOOS_SERVICE_MODE: "portable",
+		AWTSMOOS_SKIP_DEVICE_LOGIN: "1", // Isolated installer tests never require phone approval.
 		HOME: path.join(temporaryRoot, "home"),
 		...additions
 	};

@@ -34,12 +34,12 @@ assert.equal(result.statusCode, 200);
 assert.equal(result.packet?.response, expected);
 assert.equal(result.packet?.mimeType, "text/plain; charset=utf-8");
 assert.equal(result.headers["content-type"], "text/plain; charset=utf-8");
-assert.equal(result.headers["cache-control"], "no-store, max-age=0");
+assert.match(result.headers["cache-control"], /(?:^|,\\s*)no-store(?:,|$)/);
 assert.equal(result.headers["access-control-allow-origin"], "*");
 assert.equal(expected.includes("__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__"), false);
 assert.match(expected, new RegExp(componentSha256));
-assert.match(expected, /unix-bootstrap-components\.sh/);
-assert.match(expected, /download_installer_components/);
+assert.match(expected, /unix-bootstrap-run\.sh/);
+assert.match(expected, /bootstrap_fetch/);
 assert.match(activation, /^#!\/usr\/bin\/env bash/);
 assert.match(activation, /B"H/);
 

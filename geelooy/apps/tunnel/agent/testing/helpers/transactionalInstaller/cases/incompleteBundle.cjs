@@ -29,7 +29,7 @@ async function run() {
 		assert.notEqual(result.status, 0, Context.combinedOutput(result));
 		assert.equal(fs.readFileSync(sentinel, "utf8"), "untouched-live-root\n");
 		assert.equal(fs.existsSync(path.join(installRoot, "main.js")), false);
-		assert.match(Context.combinedOutput(result), /preflight.*failed|runtime_manifest_missing/i);
+		assert.match(Context.combinedOutput(result), /preflight.*failed|runtime_manifest_missing|candidate runtime cannot load/i);
 		return {
 			case: "incomplete_bundle_rejected",
 			status: result.status,
