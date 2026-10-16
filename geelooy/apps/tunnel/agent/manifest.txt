@@ -1,5 +1,5 @@
 B"H
-1.0.673
+1.0.674
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1292,6 +1292,7 @@ lib/instructions/pluginSkills/skills/instructions/references/18_KNOWLEDGE_GRAPH_
 lib/instructions/pluginSkills/skills/instructions/references/ACTION_VERIFICATION.md
 lib/instructions/pluginSkills/skills/instructions/references/agents.md
 lib/instructions/pluginSkills/skills/instructions/references/AlwaysGoOn.md
+lib/instructions/pluginSkills/skills/instructions/references/ARTIFACTS_AND_PUBLIC_LINKS.md
 lib/instructions/pluginSkills/skills/instructions/references/CODE_AND_PROJECT_GATES.md
 lib/instructions/pluginSkills/skills/instructions/references/CONNECTION_RUNBOOK.md
 lib/instructions/pluginSkills/skills/instructions/references/constitutional.md
@@ -1326,6 +1327,7 @@ lib/instructions/pluginSkills/skills/instructions/references/NARRATIVE_AND_CRAFT
 lib/instructions/pluginSkills/skills/instructions/references/OAUTH_SECURITY_AND_RECOVERY.md
 lib/instructions/pluginSkills/skills/instructions/references/PLUGIN_INTEGRATION_AND_DOCTOR.md
 lib/instructions/pluginSkills/skills/instructions/references/PLUGIN_LOGIN_PLAYBOOK.md
+lib/instructions/pluginSkills/skills/instructions/references/PUBLIC_SUBMISSION_CHECKLIST.md
 lib/instructions/pluginSkills/skills/instructions/references/QUALITY_SWEEP.md
 lib/instructions/pluginSkills/skills/instructions/references/readme.md
 lib/instructions/pluginSkills/skills/instructions/references/ReadThisNow.md
