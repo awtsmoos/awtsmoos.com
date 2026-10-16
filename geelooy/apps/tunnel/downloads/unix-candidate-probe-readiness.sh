@@ -103,10 +103,38 @@ process.stdin.on("end", () => {
 ' <<<"$resp" 2>/dev/null
 }
 
+# Report evidence while the probe is running, rather than hiding a two-minute
+# deadline behind a motionless percentage. The receipt retains the same proof.
+candidate_probe_status_line() {
+	local now_ms="$1" started_ms="$2" deadline_ms="$3"
+	local elapsed=$(( (now_ms - started_ms) / 1000 ))
+	local left=$(( (deadline_ms - now_ms + 999) / 1000 ))
+	[ "$left" -ge 0 ] || left=0
+	local lane="$CANDIDATE_LAST_FAILURE_LANE" explanation
+	case "$lane" in
+		candidate_alive) explanation="Starting candidate process" ;;
+		registration) explanation="Waiting for pairing or relay registration" ;;
+		local_action) explanation="Waiting for local API response" ;;
+		version) explanation="Checking installed agent version" ;;
+		ready) explanation="Proving stable healthy samples" ;;
+		*) explanation="Checking candidate startup" ;;
+	esac
+	# Two bounded lines; readable in Termux, tmux, SSH and plain CI logs.
+	printf '  PROBE  %ss elapsed  |  %ss remaining\n' "$elapsed" "$left" >&2
+	printf '         %s\n' "$explanation" >&2
+	printf '         process:%s  relay:%s  API:%s  version:%s  samples:%s\n' \
+		"$CANDIDATE_EVIDENCE_ALIVE" "$CANDIDATE_EVIDENCE_REGISTERED" \
+		"$CANDIDATE_EVIDENCE_ACTION" "$CANDIDATE_EVIDENCE_VERSION" \
+		"$CANDIDATE_STABLE_SAMPLES" >&2
+}
+
 wait_for_candidate_probe() {
 	local timeout_seconds="${AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-120}"
 	local started_ms="$(candidate_now_ms)"
 	local deadline_ms="$((started_ms + timeout_seconds * 1000))"
+	local last_reported_lane=""
+	local last_reported_at_ms=0
+	local report_interval_ms="${AWTSMOOS_CANDIDATE_REPORT_INTERVAL_MS:-5000}"
 	local announced_pairing=0
 	local announced_preparing=0
 	local announced_direct_skip=0
@@ -230,12 +258,22 @@ wait_for_candidate_probe() {
 				fi
 			fi
 		fi
+		# Force a useful reason whenever the failed lane changes, and an
+		# elapsed/remaining heartbeat every five seconds even if it does not.
+		if [ "$CANDIDATE_LAST_FAILURE_LANE" != "$last_reported_lane" ] || \
+			[ "$((now_ms - last_reported_at_ms))" -ge "$report_interval_ms" ]; then
+			candidate_probe_status_line "$now_ms" "$started_ms" "$deadline_ms"
+			last_reported_lane="$CANDIDATE_LAST_FAILURE_LANE"
+			last_reported_at_ms="$now_ms"
+		fi
 		local elapsed_ms="$((now_ms - started_ms))"
 		sleep "$(candidate_probe_sleep_seconds "$elapsed_ms")"
 	done
 	local now_ms="$(candidate_now_ms)"
 	write_candidate_readiness_receipt \
 		"timeout" "$CANDIDATE_LAST_FAILURE_LANE" "$now_ms" "$started_ms"
+	candidate_probe_status_line "$now_ms" "$started_ms" "$deadline_ms"
+	printf '  Candidate failed at: %s. See candidate-probe.log for the actual startup error.\n' "$CANDIDATE_LAST_FAILURE_LANE" >&2
 	install_event "candidate-readiness" "timeout" \
 		"Candidate did not reach stable all-lane readiness before the deadline." \
 		"lane=$CANDIDATE_LAST_FAILURE_LANE samples=$CANDIDATE_STABLE_SAMPLES"

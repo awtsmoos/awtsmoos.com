@@ -64,8 +64,13 @@ start_promoted_candidate() {
 	start_supervisor
 	if candidate_is_stably_active; then
 		write_activation_journal "candidate_stable" "$ROOT" "$rollback"
-		[ -n "$rollback" ] && [ -e "$rollback" ] &&
-			schedule_displaced_cleanup "$rollback"
+		if [ -n "$rollback" ] && [ -e "$rollback" ]; then
+			if [ "${AWTSMOOS_KEEP_OLD_TUNNELS:-0}" = "1" ]; then
+				install_event "cleanup" "preserved" "Previous runtime retained as an explicit backup." "path=$rollback"
+			else
+				schedule_displaced_cleanup "$rollback"
+			fi
+		fi
 		write_activation_journal "committed" "$ROOT" "$rollback"
 		install_event "startup" "passed" \
 			"Promoted candidate sustained registration and guardianship." \

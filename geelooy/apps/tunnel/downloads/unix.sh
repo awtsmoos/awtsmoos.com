@@ -181,6 +181,7 @@ AWT_ASSUME_YES=0
 # A repeat install preserves custody by default. Destructive reset requires
 # an explicit --clean; never silently erase identity on mode selection.
 AWTSMOOS_INSTALL_CLEAN="${AWTSMOOS_INSTALL_CLEAN:-0}"
+AWTSMOOS_KEEP_OLD_TUNNELS="${AWTSMOOS_KEEP_OLD_TUNNELS:-0}"
 
 print_installer_help() {
 	cat >&2 <<EOF
@@ -192,6 +193,7 @@ Options:
   --full            Complete tunnel: agent, guardian, recovery lanes, browser support (default)
   --minimal         Agent + registration; uses your system Node.js 18+; no browser auto-open
   --agent-only      Fastest headless install for servers; no browser, no recovery lanes
+  --keep-old-tunnels  Keep the displaced runtime as a backup after success
   --clean           Explicitly reset installer state before installation (destructive)
   --mode=MODE       Same as --MODE (full, minimal, agent-only)
   -y, --yes         Skip the interactive menu; install with the default/flag mode
@@ -260,6 +262,7 @@ parse_installer_args() {
 			--simple-websocket) AWTSMOOS_INSTALL_MODE="simple-websocket" ;;
 			--simple-file)     AWTSMOOS_INSTALL_MODE="simple-file" ;;
 			--clean)           AWTSMOOS_INSTALL_CLEAN=1 ;;
+			--keep-old-tunnels) AWTSMOOS_KEEP_OLD_TUNNELS=1 ;;
 			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}" ;;
 			-y|--yes)          AWT_ASSUME_YES=1 ;;
 			--no-login)        AWTSMOOS_SKIP_DEVICE_LOGIN=1 ;;
@@ -436,6 +439,7 @@ case "$AWTSMOOS_INSTALL_MODE" in
 esac
 # Agent-only is a packaging choice, never implied permission to erase
 # persistent pairing or rollback state. Only an explicit --clean may reset it.
+export AWTSMOOS_KEEP_OLD_TUNNELS
 export AWTSMOOS_INSTALL_CLEAN
 print_install_plan "$AWTSMOOS_INSTALL_MODE"
 awt_intro_box "$AWTSMOOS_INSTALL_MODE"
