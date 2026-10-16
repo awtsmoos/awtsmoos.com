@@ -25,7 +25,7 @@ function readContractSource(filePath) {
 /** Finds the shell variable that receives pre-rendered semantic fragments. */
 function semanticFragmentBinding(shell) {
 	return shell.match(
-		/const\s+([A-Za-z_$][\w$]*)\s*=\s*await\s+renderSemanticFragments\(semantic,\s*discovery(?:,\s*context)?\);/
+		/const\s+([A-Za-z_$][\w$]*)\s*=\s*await\s+renderSemanticFragments\(semantic,\s*discovery(?:,\s*series)?(?:,\s*context)?\);/
 	)?.[1] || '';
 }
 
@@ -47,7 +47,7 @@ export function verifyHomeHeichelContract() {
 		'Heichel route shell does not pre-render semantic head'
 	);
 	assert.equal(
-		shell.includes("$i.$ga('./heichel/semantic/fallback.html', { semantic, discovery })"),
+		/\$i\.\$ga\('\.\/heichel\/semantic\/fallback\.html',\s*\{\s*semantic,\s*discovery(?:,\s*series)?\s*\}\)/.test(shell),
 		true,
 		'Heichel route shell does not pre-render semantic fallback with discovery'
 	);
