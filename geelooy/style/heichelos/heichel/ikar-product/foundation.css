@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives Ikar one calm editorial foundation above older visual layers.
+ */
+
+:root.heichel-os-document {
+	--ikar-product-bg: #f7f1e3;
+	--ikar-product-surface: rgb(255 253 247 / 94%);
+	--ikar-product-ink: #17253a;
+	--ikar-product-soft: #655a49;
+	--ikar-product-line: rgb(180 134 45 / 24%);
+}
+
+:root[data-theme="dark"].heichel-os-document {
+	--ikar-product-bg: #07101c;
+	--ikar-product-surface: rgb(12 25 41 / 94%);
+	--ikar-product-ink: #f5ead2;
+	--ikar-product-soft: #c8b99d;
+	--ikar-product-line: rgb(231 189 100 / 26%);
+}
+
+:root.heichel-os-document body {
+	background: var(--ikar-product-bg);
+	color: var(--ikar-product-ink);
+}
+
+:root.heichel-os-document .heichel-semantic-fallback[data-ikar-root="true"] {
+	background: transparent;
+	color: var(--ikar-product-ink);
+	max-width: 78rem;
+	padding: clamp(1rem, 3vw, 2.5rem);
+}
+
+:root.heichel-os-document .heichel-semantic-fallback[data-ikar-root="true"]::before {
+	display: none;
+}
+
+:root.heichel-os-document .heichel-semantic-hero {
+	background: linear-gradient(135deg, #071a2b, #0e3140 70%, #153847);
+	border: 1px solid rgb(231 189 100 / 22%);
+	border-radius: clamp(1.2rem, 3vw, 2rem);
+	box-shadow: 0 20px 55px rgb(23 37 58 / 16%);
+	margin: 0;
+	min-height: clamp(15rem, 38vw, 25rem);
+	padding: clamp(2rem, 7vw, 5rem) clamp(1.35rem, 5vw, 4rem);
+}
+
+:root.heichel-os-document .heichel-semantic-context {
+	color: #e8bf68;
+	font-size: .76rem;
+	font-weight: 800;
+	letter-spacing: .18em;
+}
+
+:root.heichel-os-document #heichel-boot-title {
+	background: none !important;
+	color: #fff8e9 !important;
+	font-size: clamp(2.4rem, 7vw, 5rem);
+	letter-spacing: -.045em;
+	line-height: .98;
+	-webkit-text-fill-color: #fff8e9 !important;
+}
+
+:root.heichel-os-document .heichel-semantic-description {
+	color: #ded2b9;
+	font-size: clamp(1rem, 2vw, 1.2rem);
+	max-width: 42rem;
+}
+
+@media (max-width: 42rem) {
+	:root.heichel-os-document .heichel-semantic-hero {
+		min-height: 13rem;
+	}
+}

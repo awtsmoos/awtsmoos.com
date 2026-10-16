@@ -1,0 +1,76 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets discovery stay calm, searchable, and useful before hydration.
+ */
+
+:root.heichel-os-document .ikar-first-search {
+	background: var(--ikar-product-surface);
+	border: 1px solid var(--ikar-product-line);
+	box-shadow: 0 12px 34px rgb(38 31 20 / 10%);
+	margin: clamp(1rem, 3vw, 1.5rem) 0;
+	max-width: none;
+	padding: .7rem;
+}
+
+:root.heichel-os-document .ikar-first-search > span,
+:root.heichel-os-document .ikar-first-search > small {
+	color: var(--ikar-product-soft);
+}
+
+:root.heichel-os-document .ikar-first-search input {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	color: var(--ikar-product-ink);
+	min-height: 3rem;
+	padding: .65rem .75rem;
+}
+
+:root.heichel-os-document .heichel-semantic-discovery {
+	margin-top: clamp(1.25rem, 3vw, 2rem);
+}
+
+:root.heichel-os-document .heichel-semantic-discovery ul {
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+}
+
+:root.heichel-os-document .heichel-semantic-discovery li {
+	background: var(--ikar-product-surface);
+	border: 1px solid var(--ikar-product-line);
+	border-radius: 1.25rem;
+	box-shadow: 0 10px 30px rgb(38 31 20 / 8%);
+	margin: 0;
+	padding: .85rem;
+}
+
+:root.heichel-os-document .heichel-semantic-discovery a {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	color: var(--ikar-product-ink);
+	min-height: auto;
+	padding: .45rem;
+}
+
+:root.heichel-os-document .heichel-discovery-description {
+	color: var(--ikar-product-soft);
+	line-height: 1.55;
+	margin-top: .55rem;
+	padding-inline-start: 0;
+}
+
+@media (max-width: 42rem) {
+	:root.heichel-os-document .heichel-semantic-discovery ul {
+		grid-template-columns: 1fr;
+	}
+
+	:root.heichel-os-document .heichel-discovery-item {
+		flex-direction: row;
+	}
+
+	:root.heichel-os-document .heichel-discovery-item .heichel-discovery-cover {
+		width: 5.5rem;
+	}
+}

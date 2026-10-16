@@ -1,7 +1,8 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives every nested Heichel one living cosmic profile inside Awtsmoos.com; Ikar keeps a critical first-light floor even before optional bundled garments finish arriving.
+The Awtsmoos gives every Heichel semantic Torah before enhancement;
+Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 -->
 <!doctype html>
 <html class="heichel-os-document" lang="en">
@@ -11,44 +12,26 @@ The Awtsmoos gives every nested Heichel one living cosmic profile inside Awtsmoo
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta http-equiv="Expires" content="0">
 	<script>
-		// B"H: apply the reader's remembered theme before first paint so the
-		// preference carries from the reader to the series page without a flash.
-		// ALWAYS set data-theme — without it, no theme CSS applies.
 		try {
 			var __awtTheme = localStorage.getItem('awtsmoos-theme');
-			if (__awtTheme !== 'light' && __awtTheme !== 'dark') {
-				__awtTheme = 'light';
-			}
+			if (__awtTheme !== 'light' && __awtTheme !== 'dark') __awtTheme = 'light';
 			document.documentElement.setAttribute('data-theme', __awtTheme);
-		} catch (e) {
+		} catch (error) {
 			document.documentElement.setAttribute('data-theme', 'light');
 		}
 	</script>
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="theme-color" content="#04040C">
+	<meta name="theme-color" content="#071a2b">
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23071020'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='38' fill='%235bddff'%3E%D7%90%3C/text%3E%3C/svg%3E">
-	<?<script>
-		return typeof semanticHead === "string" ? semanticHead : "";
-	</script>?>
+	<?<script> return typeof semanticHead === "string" ? semanticHead : ""; </script>?>
 	<style data-ikar-critical-geometry>
 		html.heichel-os-document,
 		.heichel-os-document body,
 		.heichel-os-page,
 		.heichel-os-page > .main,
-		.heichel-semantic-fallback {
-			min-height: 100svh;
-		}
-		.heichel-os-document body {
-			background: #020713;
-			color: #f4f8ff;
-		}
-		.heichel-semantic-fallback {
-			box-sizing: border-box;
-			margin-inline: auto;
-			max-width: 78rem;
-			padding: clamp(1rem, 3vw, 2.75rem);
-			width: 100%;
-		}
+		.heichel-semantic-fallback { min-height: 100svh; }
+		.heichel-os-document body { margin: 0; background: #f7f1e3; color: #17253a; }
+		.heichel-semantic-fallback { box-sizing: border-box; margin-inline: auto; max-width: 78rem; padding: clamp(1rem, 3vw, 2.75rem); width: 100%; }
 	</style>
 	<?<script>
 		var core = [
@@ -79,27 +62,22 @@ The Awtsmoos gives every nested Heichel one living cosmic profile inside Awtsmoo
 	</script>?>
 	<link rel="stylesheet" href="/style/heichelos/heichel/dream-fallback.css?v=9f1e6b5706">
 	<link rel="stylesheet" href="/style/heichelos/heichel/heichelos-ikar-redesign.css?v=221fc3d5d7">
-	<link rel="design-reference" href="https://awtsmoos.com/design-refs/law8/ikar-reader-ref.webp" data-design-ref="https://awtsmoos.com/design-refs/law8/ikar-reader-ref.webp">
+	<link rel="stylesheet" href="/style/heichelos/heichel/ikar-product-shell.css?v=ikar-product-001">
 	<script defer src="/heichelos/heichel/critical-boot.js?v=ebce9c9fe5"></script>
-<script>
-// B"H — Register Heichel Service Worker for auto-clearing cache
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/heichelos/post/heichel-sw.js', { scope: '/heichelos/' })
-      .then(function(reg) {
-        reg.update();
-      })
-      .catch(function() { /* SW not critical */ });
-  });
-}
-</script>
+	<script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function registerHeichelWorker() {
+				navigator.serviceWorker.register('/heichelos/post/heichel-sw.js', { scope: '/heichelos/' })
+					.then(function updateWorker(registration) { registration.update(); })
+					.catch(function ignoreWorkerFailure() {});
+			});
+		}
+	</script>
 </head>
 <body class="heichel-os-document" data-heichel-page data-geelooy-route="heichel">
 	<div class="all awtsmoospage heichel-os-page geelooy-content-region">
 		<main class="main" aria-live="polite" data-heichel-render-root>
-			<?<script>
-				return typeof semanticFallback === "string" ? semanticFallback : "";
-			</script>?>
+			<?<script> return typeof semanticFallback === "string" ? semanticFallback : ""; </script>?>
 		</main>
 	</div>
 </body>

@@ -1,106 +1,81 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals identity through the real Heichel record; Awtsmoos.com adds atmosphere around the data, never a replacement name or invented description.
-Server-first: the Awtsmoos renders the semantic model and discovery links into this
-fallback before the browser wakes, so Torah text is present in the served document.
-The client script below only fills gaps the server could not know.
+The Awtsmoos renders a useful Torah library before the browser wakes;
+Awtsmoos.com lets search and enhancement attach to the same semantic vessel.
 -->
 <div class="heichel-semantic-fallback" id="heichel-semantic-fallback" data-heichel-semantic-fallback="true">
 	<?<script>
 	var s = typeof series === "object" && series ? series : null;
 	var cover = s && s.coverImage ? String(s.coverImage) : "";
-	var title = "";
-	try { title = s && (s.title || s.name || "") ? String(s.title || s.name) : ""; } catch (e) {}
-	// Escape for HTML attribute
-	cover = cover.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
-	title = title.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-	if (cover) {
-		// B"H — Yaakov 2026-10-13: responsive hero image, never a broken dark box.
-		// onerror hides the image gracefully; CSS provides a gradient fallback.
-		return '<div class="heichel-series-cover-hero"><img src="' + cover + '" alt="' + title + ' cover" loading="eager" fetchpriority="high" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');"></div>';
+	var title = s && (s.title || s.name) ? String(s.title || s.name) : "";
+	function attr(value) {
+		return String(value || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 	}
-	return "";
+	if (!cover) return "";
+	return '<div class="heichel-series-cover-hero"><img src="' + attr(cover) + '" alt="' + attr(title) + ' cover" loading="eager" fetchpriority="high" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');"></div>';
 	</script>?>
 	<header class="heichel-semantic-hero">
 		<p class="heichel-semantic-context" id="heichel-boot-context">TORAH · LIVING LIBRARY</p>
 		<h1 id="heichel-boot-title"><?<script>
-	var model = typeof semantic === "object" && semantic ? semantic : null;
-	return model && model.heading ? model.heading : "";
-</script>?></h1>
+		var model = typeof semantic === "object" && semantic ? semantic : null;
+		return model && model.heading ? model.heading : "";
+		</script>?></h1>
 		<p class="heichel-semantic-description" id="heichel-boot-description"><?<script>
-	var model = typeof semantic === "object" && semantic ? semantic : null;
-	return model && model.description ? model.description : "";
-</script>?></p>
+		var model = typeof semantic === "object" && semantic ? semantic : null;
+		return model && model.description ? model.description : "";
+		</script>?></p>
 	</header>
-	<nav class="heichel-semantic-discovery" aria-labelledby="heichel-discovery-title">
-		<h2 id="heichel-discovery-title"><?<script>
+	<?<script>
 	var model = typeof semantic === "object" && semantic ? semantic : null;
-	var isIkar = model && model.canonicalPath === "/heichelos/ikar";
-	return isIkar ? "Enter the library" : "Explore";
-</script>?></h2>
-		<ul id="heichel-discovery-list"><?<script>
 	var bag = typeof discovery === "object" && discovery ? discovery : null;
 	var links = bag && Array.isArray(bag.links) ? bag.links : [];
-	return links.map(function renderDiscoveryLink(item) {
-		if (!item || !item.path) return "";
-		var label = item.title || "Open";
-		var desc = item.description ? '<p class="heichel-discovery-description">' + item.description + "</p>" : "";
-		var cover = "";
-		if (item.coverImage && item.kind === "series") {
-			var src = String(item.coverImage).replace(/"/g, "&quot;");
-			var alt = String(label).replace(/"/g, "&quot;").replace(/</g, "&lt;");
-			// B"H — Yaakov 2026-10-13: lazy thumbnails with graceful fallback.
-			// onerror hides broken images; the card still looks beautiful.
-			cover = '<span class="heichel-discovery-cover"><img src="' + src + '" alt="' + alt + '" loading="lazy" decoding="async" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');"></span>';
+	var isIkar = model && model.canonicalPath === "/heichelos/ikar";
+	if (!isIkar || links.length < 8) return "";
+	return '<label class="ikar-first-search" data-ikar-stable-search><span>Search the library</span><input type="search" autocomplete="off" enterkeyhint="search" placeholder="Search Hebrew or English"><small aria-live="polite"></small></label>';
+	</script>?>
+	<nav class="heichel-semantic-discovery" aria-labelledby="heichel-discovery-title">
+		<h2 id="heichel-discovery-title"><?<script>
+		var model = typeof semantic === "object" && semantic ? semantic : null;
+		return model && model.canonicalPath === "/heichelos/ikar" ? "Enter the library" : "Explore";
+		</script>?></h2>
+		<ul id="heichel-discovery-list"><?<script>
+		var bag = typeof discovery === "object" && discovery ? discovery : null;
+		var links = bag && Array.isArray(bag.links) ? bag.links : [];
+		function esc(value) {
+			return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 		}
-		return '<li class="heichel-discovery-item' + (item.kind === "series" ? " heichel-discovery-series" : "") + '">' + cover + '<span class="heichel-discovery-text"><a href="' + item.path + '">' + label + "</a>" + desc + "</span></li>";
-	}).join("");
-</script>?></ul>
+		return links.map(function renderDiscoveryLink(item) {
+			if (!item || !item.path) return "";
+			var label = item.title || "Open";
+			var description = item.description ? '<p class="heichel-discovery-description">' + esc(item.description) + "</p>" : "";
+			var cover = "";
+			if (item.coverImage && item.kind === "series") {
+				cover = '<span class="heichel-discovery-cover"><img src="' + esc(item.coverImage) + '" alt="' + esc(label) + '" loading="lazy" decoding="async" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');"></span>';
+			}
+			return '<li class="heichel-discovery-item' + (item.kind === "series" ? " heichel-discovery-series" : "") + '">' + cover + '<span class="heichel-discovery-text"><a href="' + esc(item.path) + '">' + esc(label) + "</a>" + description + "</span></li>";
+		}).join("");
+		</script>?></ul>
 	</nav>
 </div>
 <script>
 (function revealHeichelFallback() {
-	var serverSemantic = typeof semantic === "object" && semantic ? semantic : null;
-	var model = serverSemantic || window.semanticModel || {};
+	var model = (typeof semantic === "object" && semantic) || window.semanticModel || {};
 	var path = String(location.pathname || "");
 	var isIkarRoot = path === "/heichelos/ikar" || path === "/heichelos/ikar/";
 	var root = document.getElementById("heichel-semantic-fallback");
-	if (isIkarRoot) {
-		root?.setAttribute("data-ikar-root", "true");
-	}
-	// Server-first: the Awtsmoos already rendered semantic truth above; only fill gaps.
+	if (isIkarRoot) root?.setAttribute("data-ikar-root", "true");
 	function fillIfEmpty(id, value) {
 		var node = document.getElementById(id);
-		if (node && !node.textContent.trim() && value) {
-			node.textContent = value;
-		}
+		if (node && !node.textContent.trim() && value) node.textContent = value;
 		return node;
 	}
 	var title = String(model.title || model.name || model.heading || (isIkarRoot ? "Ikar — Torah Library" : "Heichel")).trim();
 	var description = String(model.description || (isIkarRoot ? "Open the living Torah library, search sources, and continue into its sections." : "Open this Heichel and continue exploring its available sections.")).trim();
 	fillIfEmpty("heichel-boot-title", title);
 	var descriptionNode = fillIfEmpty("heichel-boot-description", description);
-	if (descriptionNode) {
-		descriptionNode.hidden = !descriptionNode.textContent.trim();
-	}
+	if (descriptionNode) descriptionNode.hidden = !descriptionNode.textContent.trim();
 	var discoveryTitle = document.getElementById("heichel-discovery-title");
-	if (discoveryTitle && !discoveryTitle.textContent.trim()) {
-		discoveryTitle.textContent = isIkarRoot ? "Enter the library" : "Explore";
-	}
-	var list = document.getElementById("heichel-discovery-list");
-	if (list && !list.children.length) {
-		var links = Array.isArray(model.links) ? model.links : [];
-		if (isIkarRoot && !links.length) links = [{ href: "/mawgawl/sefarim/", label: "Search the Torah library" }, { href: "/heichelos/", label: "Browse Heichelos" }];
-		links.forEach(function renderLink(item) {
-			if (!item || !item.href) return;
-			var row = document.createElement("li");
-			var anchor = document.createElement("a");
-			anchor.href = item.href;
-			anchor.textContent = item.label || item.title || item.name || "Open";
-			row.appendChild(anchor);
-			list.appendChild(row);
-		});
-	}
+	if (discoveryTitle && !discoveryTitle.textContent.trim()) discoveryTitle.textContent = isIkarRoot ? "Enter the library" : "Explore";
 })();
 </script>
