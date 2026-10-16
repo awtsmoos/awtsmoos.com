@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Execution = require("./commandSyncExecution.js");
+const Modes = require("./commandModePolicy.js");
 const { commandDenial } = require("../commandSafety/admission.js");
 const { saveCommandOutput } = require("../commandOutputStore.js");
 
@@ -37,6 +38,7 @@ function shouldRunSync(payload = {}) {
 	if (explicitSync(payload)) return true;
 	const command = commandText(payload);
 	if (!command || command.length > FAST_COMMAND_MAX_CHARS) return false;
+	if (Modes.likelyLongRunning(command)) return false;
 	const timeout = Number(payload.timeoutMs);
 	if (Number.isFinite(timeout) && timeout > FAST_COMMAND_MAX_TIMEOUT_MS) return false;
 	return true;
