@@ -35,3 +35,10 @@ test("real OS route denies signed-in session gitClone before dispatch or network
 	assert.equal(content.error,"git_import_requires_scoped_write_credential");
 	assert.equal(content.neededScope,"tunnel.write");
 });
+
+test("gitCloneStatus stays tunnel.read and cannot silently become a mutating import",()=>{
+ assert.equal(requiredScope("gitCloneStatus"),"tunnel.read");
+ const result=buildFsPayload({request:{method:"GET",headers:{}},paramKinds:{GET:{action:"gitCloneStatus",path:"project/repos/demo"}}});
+ assert.equal(result.action,"gitCloneStatus");
+ assert.equal(result.path,"project/repos/demo");
+});

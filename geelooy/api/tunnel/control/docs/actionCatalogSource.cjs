@@ -13,7 +13,7 @@ const {
 	buildActions
 } = require("../../../../apps/tunnel/agent/tools/fs/actionBuilders.js");
 
-const HOSTED_OS_ACTIONS = Object.freeze(["httpGet", "gitClone"]);
+const HOSTED_OS_ACTIONS = Object.freeze(["httpGet", "gitClone", "gitCloneStatus"]);
 
 const LEGACY_COMPATIBILITY_ACTIONS = Object.freeze([
 	"rootSelect"

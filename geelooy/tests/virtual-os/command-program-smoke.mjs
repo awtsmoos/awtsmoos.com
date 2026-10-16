@@ -3,15 +3,23 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { COMMAND_NAMES, parseCommand } from "../../os/programs/awtsmoos-command/parser.js";
+import { programs } from "../../os/basicPrograms.js";
+import { appById } from "../../os/shell/appCatalog.js";
+import { launcherAppGroups } from "../../os/shell/surfacePolicy.js";
+import { APP_CATALOG } from "../../os/shell/appCatalog.js";
 
 const read = path => fs.readFileSync(path, "utf8");
-const basic = read("geelooy/os/basicPrograms.js");
-const icons = read("geelooy/os/desktop/icons.js");
-const commands = read("geelooy/os/programs/awtsmoos-command/commands.js");
+
+const commands = ["commands", "commandContext", "fileWriteCommands", "systemCommands", "nativeCommands"]
+  .map(name => read(`geelooy/os/programs/awtsmoos-command/${name}.js`)).join("\n");
 const renderer = read("geelooy/os/programs/awtsmoos-command/renderer.js");
 
-assert(basic.includes("awtsmoosCommand"), "Command program not registered");
-assert(icons.includes("Command"), "Command desktop icon missing");
+// The slim facade no longer repeats the real program registry or desktop catalog.
+assert.equal(typeof programs.awtsmoosCommand?.launch, "function", "Command launcher missing");
+assert.equal(appById("command")?.programName, "awtsmoosCommand", "Command catalog entry missing");
+assert.equal(appById("command")?.title, "Command");
+assert(launcherAppGroups(APP_CATALOG).system.some(app => app.id === "command"),
+  "Command must remain discoverable in System without crowding the four-item desktop");
 
 const required = [
 	"help", "pwd", "ls", "ll", "tree", "cd", "mkdir", "touch", "rm", "mv", "cp",

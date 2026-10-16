@@ -55,5 +55,17 @@ test('Git Control securely dispatches an explicit source import and clears maske
 		assert.equal(input('One-use-per-request tunnel write key').value,'');
 		assert.match(status.textContent,/Imported.*2 source files/);
 		assert.equal(button.disabled,false);
+		const inspectButton=gather(container.node,n=>n.tag==='button')[1];
+		globalThis.fetch=async(url,opts)=>{
+			captured={url,opts};
+			return {ok:true,async json(){return {ok:true,filesImported:2,source:'https://github.com/octocat/Hello-World',ref:'master',partial:false,importedAt:'2026-10-16T00:00:00Z'};}};
+		};
+		await inspectButton.events.get('click')();
+		assert.match(captured.url,/action=gitCloneStatus/);
+		assert.match(captured.url,/path=project%2Frepos%2Fexample/);
+		assert.equal(captured.opts.method,'GET');
+		assert.equal(captured.opts.headers,undefined);
+		assert.match(status.textContent,/Snapshot receipt: 2 imported files/);
+		assert.equal(inspectButton.disabled,false);
 	}finally{globalThis.__GitControlTestH=previous.H;globalThis.localStorage=previous.localStorage;globalThis.fetch=previous.fetch;}
 });

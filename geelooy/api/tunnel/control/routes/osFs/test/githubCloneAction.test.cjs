@@ -9,6 +9,7 @@ const zlib=require("node:zlib");
 const {cloneSpecification}=require("../githubCloneSource.js");
 const {parseGithubArchive}=require("../githubArchiveParser.js");
 const {gitClone}=require("../githubCloneAction.js");
+const {gitCloneStatus}=require("../githubCloneStatus.js");
 const {dispatchOsFs}=require("../index.js");
 const {createContext}=require("../../fsVessel/test/helpers/memoryHostedDb.cjs");
 const {requiredScope}=require("../../../core/tunnelPayload/scope.js");
@@ -123,4 +124,22 @@ test("concurrent clones from one account are bounded and return a precise retry 
  assert.equal(second.error,"GIT_CLONE_OWNER_BUSY");
  release();
  assert.equal((await pending).ok,true);
+});
+
+test("read-only gitCloneStatus verifies owned import receipt without downloading GitHub again",async()=>{
+ const {ctx,dispatch,clone}=setup();
+ assert.equal((await clone()).ok,true);
+ const meta=await gitCloneStatus(ctx,"alice",{path:"project/repos/tiny"},dispatch);
+ assert.equal(meta.ok,true,JSON.stringify(meta));
+ assert.equal(meta.action,"gitCloneStatus");
+ assert.equal(meta.source,url);
+ assert.equal(meta.filesImported,3);
+ assert.equal(meta.fullGitHistory,false);
+ assert.equal(meta.nativeShell,false);
+ const missing=await gitCloneStatus(ctx,"alice",{path:"project/repos/missing"},dispatch);
+ assert.equal(missing.ok,false);
+ assert.equal(missing.error,"GIT_CLONE_NOT_IMPORTED");
+ const foreign=await gitCloneStatus(ctx,"mallory",{path:"project/repos/tiny"},p=>dispatchOsFs(ctx,"mallory",p));
+ assert.equal(foreign.ok,false);
+ assert.equal(foreign.error,"alias_not_owned");
 });

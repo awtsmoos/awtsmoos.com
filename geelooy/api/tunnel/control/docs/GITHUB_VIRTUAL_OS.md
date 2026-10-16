@@ -67,3 +67,18 @@ Security and performance:
 
 This limited capability doesn't imply native Git support on the browser's
 client-only simulated Virtual OS, nor does it run Git subprocesses on Hetzner.
+
+## Fast source-snapshot status (read-only)
+
+Use `gitCloneStatus` to read an account-owned imported snapshot receipt:
+
+```http
+GET /api/tunnel/control/fs/awtsmoos-os?action=gitCloneStatus&path=my-owned-alias/repos/hello-world
+```
+
+A logged-in account session or credential with `tunnel.read` may inspect its
+own snapshot receipt. This does not retry a mutable import or shell out to Git.
+A successful response includes the original source, branch/ref, number of
+imported files, skipped binaries, SHA-256 of the source archive, and import
+moment. The status describes the import receipt, **not** whether each source
+file remains unchanged today.

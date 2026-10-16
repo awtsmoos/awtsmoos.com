@@ -25,6 +25,18 @@ async function importGithub({repository,branch,destination,key,onProgress}) {
 		return result;
 	}finally{clearTimeout(timer);}
 }
+/** Read-only status lookup; requires an owned alias but never a write key. */
+async function inspectGithubSnapshot(destination) {
+	const query=new URLSearchParams({action:'gitCloneStatus',path:destination});
+	const controller=new AbortController();
+	const timer=setTimeout(()=>controller.abort(),3900);
+	try{
+		const response=await fetch('/api/tunnel/control/fs/awtsmoos-os?'+query,{method:'GET',credentials:'include',cache:'no-store',signal:controller.signal});
+		const result=await response.json();
+		if(!response.ok||result?.ok!==true)throw Error(result?.error||('HTTP '+response.status));
+		return result;
+	}finally{clearTimeout(timer);}
+}
 function label(text){return H({tag:'div',className:'vos-settings-title',text});}
 function field(type,placeholder,value='',accessibleName=placeholder){
 	const input=H({tag:'input',className:'vos-app-input',attrs:{type,placeholder,autocomplete:type==='password'?'off':'on',spellcheck:'false','aria-label':accessibleName}});
@@ -39,6 +51,7 @@ export function renderGitControlApp(windowState,container,desktopState,env) {
 	const key=field('password','Scoped tunnel.write API key','','One-use-per-request tunnel write key');
 	const feedback=H({tag:'div',className:'vos-git-status-line',attrs:{role:'status','aria-live':'polite','aria-atomic':'true'},text:'Ready. Import a public GitHub source snapshot into an owned Virtual OS alias.'});
 	const button=H({tag:'button',className:'vos-app-button',text:'Import GitHub sources',attrs:{type:'button'}});
+	const inspectButton=H({tag:'button',className:'vos-app-button',text:'Check imported snapshot',attrs:{type:'button'}});
 	let busy=false;
 	button.addEventListener('click',async()=>{
 		if(busy)return;
@@ -47,7 +60,7 @@ export function renderGitControlApp(windowState,container,desktopState,env) {
 			feedback.textContent='Enter the public repository, branch, owned destination and tunnel.write key.';
 			return;
 		}
-		busy=true;button.disabled=true;button.textContent='Importing…';key.value='';
+		busy=true;button.disabled=true;inspectButton.disabled=true;button.textContent='Importing…';key.value='';
 		feedback.textContent='Checking repository, permissions and destination…';
 		try{
 			const receipt=await importGithub({repository,branch:ref,destination:target,key:credential,onProgress:text=>{feedback.textContent=text;}});
@@ -57,7 +70,21 @@ export function renderGitControlApp(windowState,container,desktopState,env) {
 				(ignored?' '+ignored+' binary files excluded; use native Git for full checkout.':'')+
 				' Source snapshot only (no Git history or push).';
 		}catch(error){feedback.textContent='Import failed: '+(error.name==='AbortError'?'request exceeded 25 seconds':error.message);}
-		finally{busy=false;button.disabled=false;button.textContent='Import GitHub sources';}
+		finally{busy=false;button.disabled=false;inspectButton.disabled=false;button.textContent='Import GitHub sources';}
+	});
+	inspectButton.addEventListener('click',async()=>{
+		if(busy)return;
+		const target=destination.value.trim();
+		if(!target){feedback.textContent='Enter the owned Virtual OS destination to inspect.';return;}
+		busy=true;inspectButton.disabled=true;button.disabled=true;
+		feedback.textContent='Looking up the owned snapshot receipt…';
+		try{
+			const info=await inspectGithubSnapshot(target);
+			feedback.textContent='Snapshot receipt: '+info.filesImported+' imported files from '+info.source+' ('+info.ref+'), '+
+				(info.partial?'partial; binary files were skipped.':'complete text-source import.')+
+				' Imported '+info.importedAt+'. This does not verify that files remain unchanged.';
+		}catch(error){feedback.textContent='Snapshot lookup failed: '+(error.name==='AbortError'?'four-second status budget exceeded':error.message);}
+		finally{busy=false;inspectButton.disabled=false;button.disabled=false;}
 	});
 	container.replaceChildren(H({
 		tag:'div',className:'vos-app vos-git-control-app',children:[
@@ -67,7 +94,7 @@ export function renderGitControlApp(windowState,container,desktopState,env) {
 			]},
 			{tag:'div',className:'vos-git-card',children:[
 				label('Import a public GitHub repository (source snapshot)'),
-				url,branch,destination,key,button,feedback,
+				url,branch,destination,key,button,inspectButton,feedback,
 				{tag:'div',className:'vos-git-status-line',text:'Private repositories, arbitrary host shell, Git history and push are not supported here. Your API key stays in memory for this request and is cleared from the input.'}
 			]},
 			{tag:'div',className:'vos-git-card',children:[
@@ -78,4 +105,4 @@ export function renderGitControlApp(windowState,container,desktopState,env) {
 		]
 	}));
 }
-export {importGithub};
+export {importGithub,inspectGithubSnapshot};
