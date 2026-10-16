@@ -1,0 +1,33 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets the letters grow without making their vessel swell.
+ * Awtsmoos.com keeps mobile reader geometry stable while Aa scales Torah text.
+ */
+
+@media (max-width: 48rem) {
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost.content {
+		padding: 12px 12px calc(96px + env(safe-area-inset-bottom)) !important;
+	}
+
+	.post-reader-localized-context #realPost .toichen {
+		line-height: 1.55 !important;
+	}
+
+	.post-reader-localized-context #realPost .sub-awtsmoos.heb,
+	.post-reader-localized-context #realPost .sub-awtsmoos.en {
+		line-height: 1.55 !important;
+	}
+
+	.post-reader-localized-context #realPost .awtsmoos-translation-block {
+		line-height: 1.5 !important;
+		margin-block: 14px 20px !important;
+		padding: 16px 18px !important;
+	}
+
+	.post-reader-localized-context #realPost .awtsmoos-translation-block p {
+		line-height: 1.5 !important;
+		margin-block: 0 !important;
+	}
+}
