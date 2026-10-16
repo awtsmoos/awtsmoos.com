@@ -29,3 +29,6 @@ Read ../instructions/references/CSS_AND_EXTERNAL_VISUAL_VERIFICATION.md before f
 
 Read ../instructions/references/RESUMABLE_CLIENT_AND_CHANNEL_EVIDENCE.md when diagnosing a flap, resuming interrupted commands, coordinating parallel work or upgrading the runtime. Preserve complete pending receipts and require terminal exit/output proof. Use the existing queues, checkpoints and frontend gates.
 
+## Diagnose the living route before risky work
+
+When available, call the first-class read-only `awtsmoos_tunnel_doctor` against the immutable routeReference discovered by `awtsmoos_discover_device`. It independently reports connection, command capability, OAuth command scope, device grant, and freshness of execution evidence. `canAttemptNativeCommand` is not proof that a shell command completed, and `commandSuccessCertified` is not a substitute for the terminal response for this exact operation. When the doctor is absent on an older server, use discovery and status without inventing its result. Verify actual command success with an authorized harmless command, checking stdout, stderr and integer exitCode; if authorization is absent, explain the precise missing permission rather than silently bypassing it. Do not retry uncertain mutations or broaden an OAuth scope through tools.
