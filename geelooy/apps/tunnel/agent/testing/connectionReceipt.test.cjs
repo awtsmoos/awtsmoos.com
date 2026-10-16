@@ -77,6 +77,10 @@ try {
 	}, root);
 	assert.equal(rescued.activationId, "");
 	assert.equal(rescued.runtimeVersion, "1.0.495");
+	// A previous registered receipt must not override a newly restored install.
+	fs.writeFileSync(path.join(root, "install-state.txt"), "1.0.496\n");
+	const recoveredAgain = Receipt.write("registered", { tunnelId: "tun_rescue" }, root);
+	assert.equal(recoveredAgain.runtimeVersion, "1.0.496");
 
 	rescued.lastServerMessageAt = "2000-01-01T00:00:00.000Z";
 	fs.writeFileSync(Receipt.receiptPath(root), JSON.stringify(rescued));

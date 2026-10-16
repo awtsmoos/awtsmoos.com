@@ -16,8 +16,8 @@ const VERSION_FILE = "install-state.txt";
  */
 function runtimeVersion(root, current = {}) {
 	return process.env.AWTSMOOS_RUNTIME_VERSION ||
-		current.runtimeVersion ||
-		readInstalledVersion(root);
+		readInstalledVersion(root) ||
+		current.runtimeVersion || "";
 }
 
 function readInstalledVersion(root) {
