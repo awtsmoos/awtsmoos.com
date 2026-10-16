@@ -95,7 +95,7 @@ direct_pairing_show_card() {
 	expires_label="unknown"
 	if [ -n "$expires_at" ] && [ "$expires_at" -gt 0 ] 2>/dev/null; then
 		local now_ms remaining
-		now_ms="$(date +%s%3N 2>/dev/null || printf '%s000' "$(date +%s)")"
+		now_ms="$("$AWTSMOOS_NODE_BIN" -p 'Date.now()')"
 		remaining=$(( (expires_at - now_ms) / 1000 ))
 		if [ "$remaining" -gt 0 ]; then
 			expires_label="$(( (remaining + 59) / 60 )) min"
@@ -110,13 +110,13 @@ direct_pairing_show_card() {
 		display_code="${pairing_code:0:5}-${pairing_code:5}"
 	fi
 	printf '\n%s╭────────────────────────────────────────────╮%s\n' "$c_gold" "$c_off" >&2
-	printf '%s│%s  AWTSMOOS  /  SECURE DEVICE PAIRING       %s│%s\n' "$c_gold" "$c_bold" "$c_gold" "$c_off" >&2
+	printf '%s│%s  AWTSMOOS  /  SECURE DEVICE PAIRING        %s│%s\n' "$c_gold" "$c_bold" "$c_gold" "$c_off" >&2
 	printf '%s├────────────────────────────────────────────┤%s\n' "$c_gold" "$c_off" >&2
-	printf '%s│%s  Approve your new machine on your phone.  %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
+	printf '%s│%s  Approve your new machine on your phone.   %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
 	printf '%s│%s                                            %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
-	printf '%s│%s     %s%s%s\n' "$c_gold" "$c_cyan" "$display_code" "$c_off" >&2
+	printf '%s│%s     %s%s%s%28s%s│%s\n' "$c_gold" "$c_off" "$c_cyan" "$display_code" "$c_off" "" "$c_gold" "$c_off" >&2
 	printf '%s│%s                                            %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
-	printf '%s│%s  Status: awaiting account approval        %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
+	printf '%s│%s  Status: awaiting account approval         %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
 	printf '%s╰────────────────────────────────────────────╯%s\n' "$c_gold" "$c_off" >&2
 	printf '  %sApproval page:%s https://awtsmoos.com/api/tunnel/control/pairing/page\n' "$c_bold" "$c_off" >&2
 	printf '  %sQuick link (copy the full line):%s\n  %s\n' "$c_bold" "$c_off" "$approval_url" >&2
@@ -139,7 +139,7 @@ direct_pairing_wait_for_approval() {
 		"pairingId=$pairing_id"
 	while true; do
 		local now_ms
-		now_ms="$(date +%s%3N 2>/dev/null || date +%s000)"
+		now_ms="$("$AWTSMOOS_NODE_BIN" -p 'Date.now()')"
 		if [ "$((now_ms - last_poll_ms))" -ge "$poll_interval_ms" ]; then
 			last_poll_ms="$now_ms"
 			local state
