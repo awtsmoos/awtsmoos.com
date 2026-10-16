@@ -17,6 +17,7 @@ const ToolCatalog = require("./toolCatalog.js");
 const GenericTools = require("./genericTools.js");
 const DiscoveryTools = require("./discoveryTools.js");
 const Diagnostics = require("./diagnostics.js");
+const ArtifactTools = require("./artifactTools.js");
 
 const MODERN_VERSION = "2026-07-28";
 const LEGACY_VERSION = "2025-11-25";
@@ -77,7 +78,9 @@ async function callTool($i, identity, params = {}) {
 		awtsmoos_list_directory: FsTools.listDirectory,
 		awtsmoos_tunnel_action: GenericTools.tunnelAction,
 		awtsmoos_application_catalog: GenericTools.applicationCatalog,
-		awtsmoos_application_call: GenericTools.applicationCall
+		awtsmoos_application_call: GenericTools.applicationCall,
+		awtsmoos_artifact_publish: ArtifactTools.publish,
+		awtsmoos_artifact_revoke: ArtifactTools.revoke
 	};
 	const handler = handlers[params.name];
 	if (!handler) throw new Error(`Unknown MCP tool: ${params.name || ""}`);

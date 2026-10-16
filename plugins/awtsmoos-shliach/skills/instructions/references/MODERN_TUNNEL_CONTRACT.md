@@ -51,3 +51,7 @@ Offer installation only when needed; obtain current commands from bootstrap rath
 ## Report truth
 The plugin configuration can be saved while server deployment, OAuth consent or live calls remain unverified.
 State these separately. Updated package configuration alone never establishes authenticated tunnel access.
+
+## Artifact tools and live proof
+
+When exposed by the deployed MCP tools/list, awtsmoos_artifact_publish and awtsmoos_artifact_revoke are first-class controller-side tools that use the caller's OAuth identity, not a tool-created permission. Explicit owner approval is required before making one file publicly accessible. See ARTIFACTS_AND_PUBLIC_LINKS.md for exact requests and proof requirements, and PUBLIC_SUBMISSION_CHECKLIST.md before public submission. The previewLinkCreate bearer-token localhost proxy is a separate access model, not public file hosting.

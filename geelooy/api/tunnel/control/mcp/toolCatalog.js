@@ -13,6 +13,7 @@
  */
 
 const ExtendedCatalog = require("./extendedCatalog.js");
+const ArtifactCatalog = require("./artifactCatalog.js");
 
 const ROUTE = {
 	type: "string",
@@ -25,6 +26,7 @@ const PATH = {
 
 const tools = Object.freeze([
 	...ExtendedCatalog.tools,
+	...ArtifactCatalog.tools,
 	{
 		name: "awtsmoos_discover_device",
 		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },

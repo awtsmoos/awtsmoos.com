@@ -1,5 +1,5 @@
 {
-  "pluginVersion": "0.90.1",
+  "pluginVersion": "0.91.0",
   "sourcePluginId": "plugin_1e3aaae027408191ab6a75b861bd8ec4",
   "resources": [
     {
@@ -86,6 +86,11 @@
       "path": "skills/instructions/references/AlwaysGoOn.md",
       "bytes": 3914,
       "hash": "80325ef771bd4483bd0d1d92e6715fc02e383548310bb6598ff16c4d6237715a"
+    },
+    {
+      "path": "skills/instructions/references/ARTIFACTS_AND_PUBLIC_LINKS.md",
+      "bytes": 6480,
+      "hash": "129c33742eb22be69d24816942f5bb000852fc4b82468f4af2f57c8be2dade85"
     },
     {
       "path": "skills/instructions/references/CODE_AND_PROJECT_GATES.md",
@@ -234,8 +239,8 @@
     },
     {
       "path": "skills/instructions/references/MODERN_TUNNEL_CONTRACT.md",
-      "bytes": 3669,
-      "hash": "5371318c168ed78acd3a6257e7da6daf72f24b586d61f75f3e8f8983c124965e"
+      "bytes": 4233,
+      "hash": "1281e7c42ed08470aeaac021c62fc641dd43bedbe341e1f6d2921b130ed3b607"
     },
     {
       "path": "skills/instructions/references/NARRATIVE_AND_CRAFT.md",
@@ -256,6 +261,11 @@
       "path": "skills/instructions/references/PLUGIN_LOGIN_PLAYBOOK.md",
       "bytes": 6217,
       "hash": "72fd047320e7796f124e38227d1b4d2cbff2970a98526d6bed65c74cb01cdebc"
+    },
+    {
+      "path": "skills/instructions/references/PUBLIC_SUBMISSION_CHECKLIST.md",
+      "bytes": 5609,
+      "hash": "871f7a5b0b052cfdf450a753beb72c0e4dbe60db94f2269aa7997cc12244e13b"
     },
     {
       "path": "skills/instructions/references/QUALITY_SWEEP.md",
@@ -319,8 +329,8 @@
     },
     {
       "path": "skills/instructions/SKILL.md",
-      "bytes": 9080,
-      "hash": "4b9cd8dcdc05db56e6753ba712b02981661fdc9b6bb47ea6383cef778162a5df"
+      "bytes": 9584,
+      "hash": "92afa56f045b7b33cb4191d453f26aeaa5683bbbcd6a0fe8449896f0b673f103"
     },
     {
       "path": "skills/novel-voice/agents/openai.yaml",
@@ -349,8 +359,8 @@
     },
     {
       "path": "skills/tunnel-workflow/SKILL.md",
-      "bytes": 4032,
-      "hash": "d2fd7285a346db1893b753fc1817defd1312a5b291a9297889d81367193c3a9b"
+      "bytes": 4493,
+      "hash": "d669c19f56adb457c43ae5614552fcf8fead759ae732f6cef48089c6f5315a06"
     }
   ]
 }

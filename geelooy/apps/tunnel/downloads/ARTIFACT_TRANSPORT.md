@@ -138,3 +138,18 @@ Tests cover exact target IDs, 1170×2532 output, SHA-256, reusable receipts,
 mismatched request IDs, latency failures, binary read-back, owner isolation,
 path traversal, expired URLs, revocation, and native WebP conversion.
 Live results should be recorded separately from unit or simulated tests.
+
+## 6. First-class Shliach MCP artifact tools (0.91.0 packaging)
+
+The source MCP catalog now includes two explicit authenticated operations:
+
+- `awtsmoos_artifact_publish`: `{routeReference, path, ttlSeconds, allowDownload, confirmPublicSharing}`. Requires the caller's real `tunnel.admin` scope and fresh file-specific consent, because anyone with the resulting public bearer URL can download or view that file. The device path must remain within its current authorized project-root policy. This is not a general Mac filesystem sharing grant.
+- `awtsmoos_artifact_revoke`: `{artifactId}`. Revokes only an artifact owned by the authenticated publisher.
+
+The MCP tool handlers delegate to the same controller artifact store and SHA-256-verified device transfer as the direct HTTP routes. They do not mint alternate tokens, create arbitrary access rights or silently upload private files. The public controller must deploy the new source before these names appear in its `tools/list`; a plugin manifest update alone does not create a server action.
+
+The host must separately download the URL into its own local filesystem and check exact bytes and SHA-256 before asserting a real in-chat screenshot or downloadable attachment. A successful publication receipt is not proof of host ingestion.
+
+An installer upgrade can require fresh user pairing. While the candidate is waiting, the old agent may remain registered; report the actual installed runtime and advertised action list separately. The `captureBrowserTarget` source action is not live on an old agent that replies `Unknown fs action`. Never mark that action as verified merely because unit tests pass.
+
+For a practical source-linked checklist, see `plugins/awtsmoos-shliach/skills/instructions/references/ARTIFACTS_AND_PUBLIC_LINKS.md` and `PUBLIC_SUBMISSION_CHECKLIST.md`.

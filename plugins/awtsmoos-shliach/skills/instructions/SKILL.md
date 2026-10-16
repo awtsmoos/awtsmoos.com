@@ -104,3 +104,6 @@ Read references/DURABLE_WORK_AND_CONNECTION_RECOVERY.md. All four plugin skills 
 
 Read references/CSS_AND_EXTERNAL_VISUAL_VERIFICATION.md before frontend edits or UI completion claims. Fix the owning cascade rather than layering overrides; verify exact-source behavior in real Chrome, transfer screenshots into the external agent host with byte/hash checks, open the images with its image tools, and record unresolved defects before release.
 
+## Approved artifact publishing and review
+
+Read references/ARTIFACTS_AND_PUBLIC_LINKS.md for verified binary screenshot transfer, temporary URLs, public exposure approvals and host-side image readback. Read references/PUBLIC_SUBMISSION_CHECKLIST.md before describing the plugin as public-review ready. Never claim that source code or a fixture proves a live host-side attachment. The publication tool is sensitive: require path-specific explicit user approval; do not silently set confirmPublicSharing.
