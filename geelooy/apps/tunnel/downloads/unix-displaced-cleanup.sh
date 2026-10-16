@@ -94,6 +94,15 @@ schedule_previous_install_cleanup() {
 		fi
 	done
 	install_event "cleanup" "scheduled" "Previous installer generations scheduled for removal." "count=$count"
+	local other_installations="$AWTSMOOS_INSTALL_RUNTIME/unix-other-installs-cleanup.cjs"
+	if [ -f "$other_installations" ]; then
+		local report
+		if report="$(node "$other_installations" "$ROOT" 2>&1)"; then
+			install_event "cleanup" "passed" "Other owned tunnel installations retired." "$report"
+		else
+			install_event "cleanup" "warning" "Some older installations could not be retired safely." "$report"
+		fi
+	fi
 }
 
 write_cleanup_receipt() {
