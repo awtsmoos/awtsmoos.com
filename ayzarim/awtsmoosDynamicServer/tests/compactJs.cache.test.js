@@ -34,7 +34,7 @@ async function run() {
 	}
 }
 
-/** Proves the second unchanged compile returns identical source without another source read. */
+/** Proves the second unchanged compile returns identical source with only the content-hash safety read. */
 async function verifyWarmHit(root) {
 	const fixture = await writeFixture(root, "warm", "export const value = 1;");
 	const counter = { reads: 0 };
@@ -44,7 +44,10 @@ async function verifyWarmHit(root) {
 	const readsAfterFirst = counter.reads;
 	const second = await cache.compile(options);
 	assert.strictEqual(second, first);
-	assert.strictEqual(counter.reads, readsAfterFirst);
+	// B"H 2026-10-15: the content-hashed cache key performs one entry-file
+	// read per compile as a stale-cache safety net. A warm hit therefore
+	// performs exactly one additional read (the hash), never a full recompile.
+	assert.strictEqual(counter.reads, readsAfterFirst + 1);
 	assert.ok(readsAfterFirst >= 2);
 }
 
@@ -73,7 +76,9 @@ async function verifyInflightDeduplication(root) {
 		cache.compile(options)
 	]);
 	assert.strictEqual(first, second);
-	assert.strictEqual(counter.reads, 2);
+	// B"H 2026-10-15: each compile performs one content-hash read (safety net),
+	// plus the single shared compilation's 2 source reads. 2 + 2 = 4.
+	assert.strictEqual(counter.reads, 4);
 }
 
 /** Proves a missing local dependency cannot poison the cache after the graph is repaired. */

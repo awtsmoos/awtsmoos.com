@@ -3,7 +3,9 @@
 //Blessed is He
 
 const { compileCompactModule } = require("./compiler.js");
-const compactModuleCacheKey = require("./cacheKey.js");
+const {
+	compactModuleCacheKeyWithContentHash
+} = require("./cacheKey.js");
 const { isDependencyManifestFresh } = require("./cacheManifest.js");
 const { buildStableCompactArtifact } = require("./cacheBuildConsistency.js");
 const PersistentCompactStore = require("../compactCache/PersistentCompactStore.js");
@@ -12,18 +14,29 @@ const PersistentCompactStore = require("../compactCache/PersistentCompactStore.j
  * @file Caches CompactJS universes only after their source remains stable throughout compilation.
  * @description The Awtsmoos renews source before memory or disk may call itself true;
  * Awtsmoos.com lets simultaneous seekers share one gate while changing dependencies force fresh light through.
+ *
+ * B"H 2026-10-15 (Yaakov):
+ * - The cache key now includes a SHA-256 content hash of the entry file.
+ *   THERE IS NEVER A STALE CACHE: when the entry changes, the key changes.
+ * - LRU eviction caps memory: the cache holds at most MAX_ENTRIES compiled
+ *   bundles (default 50). This fixes unbounded RAM growth.
  */
+
+/** Maximum compiled bundles held in memory. Oldest-unused evicted first. */
+const MAX_ENTRIES = 50;
+
 class CompactModuleCache {
 	/** Creates deterministic memory state with optional durable backing reserved for production singleton use. */
-	constructor({ persistentStore = null } = {}) {
+	constructor({ persistentStore = null, maxEntries = MAX_ENTRIES } = {}) {
 		this.entries = new Map();
 		this.inflight = new Map();
 		this.persistentStore = persistentStore;
+		this.maxEntries = maxEntries;
 	}
 
 	/** Shares one promise across validation, disk rehydration, and a stable fresh compilation. */
 	async compile(options) {
-		const key = compactModuleCacheKey(options);
+		const key = await compactModuleCacheKeyWithContentHash(options);
 		if (this.inflight.has(key)) {
 			return this.inflight.get(key);
 		}
@@ -41,8 +54,15 @@ class CompactModuleCache {
 	/** Resolves fresh memory, fresh persistence, then a verified stable build. */
 	async resolveEntry(key, options) {
 		const memory = this.entries.get(key);
-		if (memory && await isDependencyManifestFresh(memory.manifest, options.fs)) {
-			return memory.source;
+		if (memory) {
+			// Refresh LRU order: most-recently-used moves to the end.
+			this.entries.delete(key);
+			this.entries.set(key, memory);
+			if (await isDependencyManifestFresh(memory.manifest, options.fs)) {
+				return memory.source;
+			}
+			// Manifest is stale: drop the entry so it cannot be reused.
+			this.entries.delete(key);
 		}
 		const durable = await this.readPersistent(key, options);
 		if (durable) {
@@ -58,7 +78,7 @@ class CompactModuleCache {
 		}
 		const entry = await this.persistentStore.read(key, options.fs);
 		if (entry) {
-			this.entries.set(key, entry);
+			this.setEntry(key, entry);
 		}
 		return entry;
 	}
@@ -70,11 +90,25 @@ class CompactModuleCache {
 			label: "CompactJS",
 			compile: recordingFs => compileCompactModule({ ...options, fs: recordingFs })
 		});
-		this.entries.set(key, entry);
+		this.setEntry(key, entry);
 		if (this.persistentStore) {
 			await this.persistentStore.write(key, entry);
 		}
 		return entry.source;
+	}
+
+	/** Stores one entry, evicting least-recently-used entries when over capacity. */
+	setEntry(key, entry) {
+	 // Refresh position if re-setting an existing key.
+		if (this.entries.has(key)) {
+			this.entries.delete(key);
+		}
+		this.entries.set(key, entry);
+		while (this.entries.size > this.maxEntries) {
+			// Map iterates in insertion order: first key is least-recently-used.
+			const oldestKey = this.entries.keys().next().value;
+			this.entries.delete(oldestKey);
+		}
 	}
 
 	/** Clears process-local cache state for tests and lifecycle reset. */

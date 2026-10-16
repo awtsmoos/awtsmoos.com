@@ -39,9 +39,9 @@ async function run() {
 }
 
 /**
- * @description Proves a fresh in-memory cache rehydrates durable source without reading authored modules again.
+ * @description Proves a fresh in-memory cache rehydrates durable source with only the content-hash safety read.
  * @param {string} root Temporary test universe root.
- * @returns {Promise<void>} Resolves after exact source equality and zero source-read reuse are proven.
+ * @returns {Promise<void>} Resolves after exact source equality and minimal-read reuse are proven.
  */
 async function verifyPersistentReuse(root) {
 	const fixture = await writeFixture(root, 'reuse', 'export const value = 11;');
@@ -52,7 +52,8 @@ async function verifyPersistentReuse(root) {
 		fixtureOptions(fixture, countingFs(counter))
 	);
 	assert.strictEqual(second, first);
-	assert.strictEqual(counter.reads, 0);
+	// B"H 2026-10-15: one content-hash read per compile (stale-cache safety net).
+	assert.strictEqual(counter.reads, 1);
 }
 
 /**

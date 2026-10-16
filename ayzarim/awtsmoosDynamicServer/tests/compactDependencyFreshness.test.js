@@ -79,12 +79,13 @@ test('CompactJS reuses an unchanged graph and busts on a same-size deep replacem
 		const firstReads = witness.reads();
 		const second = await cache.compile(options);
 		assert.equal(second, first);
-		assert.equal(witness.reads(), firstReads);
+		// B"H 2026-10-15: one content-hash safety read per compile.
+		assert.equal(witness.reads(), firstReads + 1);
 		await replacePreservingMtime(childFile, 'export const VALUE = "TAN";\n');
 		const renewed = await cache.compile(options);
 		assert.notEqual(renewed, first);
 		assert.match(renewed, /TAN/);
-		assert.ok(witness.reads() > firstReads);
+		assert.ok(witness.reads() > firstReads + 1);
 	} finally {
 		await fs.rm(root, { recursive: true, force: true });
 	}
@@ -105,12 +106,13 @@ test('CompactCSS reuses folded imports and busts on a same-size nested replaceme
 		const firstReads = witness.reads();
 		const second = await cache.compile(options);
 		assert.equal(second, first);
-		assert.equal(witness.reads(), firstReads);
+		// B"H 2026-10-15: one content-hash safety read per compile.
+		assert.equal(witness.reads(), firstReads + 1);
 		await replacePreservingMtime(childFile, '.card { color: tan; }\n');
 		const renewed = await cache.compile(options);
 		assert.notEqual(renewed, first);
 		assert.match(renewed, /color: tan/);
-		assert.ok(witness.reads() > firstReads);
+		assert.ok(witness.reads() > firstReads + 1);
 	} finally {
 		await fs.rm(root, { recursive: true, force: true });
 	}

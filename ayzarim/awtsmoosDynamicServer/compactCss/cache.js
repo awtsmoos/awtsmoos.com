@@ -4,7 +4,7 @@
 
 const { compileCompactStylesheet } = require("./compiler.js");
 const { compileCompactStylesheetBundle } = require("./bundleCompiler.js");
-const compactStylesheetCacheKey = require("./cacheKey.js");
+const { compactStylesheetCacheKeyWithContentHash } = require("./cacheKey.js");
 const { isDependencyManifestFresh } = require("../compactJs/cacheManifest.js");
 const { buildStableCompactArtifact } = require("../compactJs/cacheBuildConsistency.js");
 const PersistentCompactStore = require("../compactCache/PersistentCompactStore.js");
@@ -13,18 +13,27 @@ const PersistentCompactStore = require("../compactCache/PersistentCompactStore.j
  * @file Caches folded CompactCSS only when every imported stylesheet stays stable for the whole build.
  * @description The Awtsmoos renews each single or bundled cascade before memory may call it true;
  * Awtsmoos.com retries a shifting import river so persistence never embalms yesterday's hue.
+ *
+ * B"H 2026-10-15 (Yaakov):
+ * - Content-hashed cache key: THERE IS NEVER A STALE CACHE.
+ * - LRU eviction caps memory (fixes unbounded RAM growth).
  */
+
+/** Maximum compiled stylesheets held in memory. Oldest-unused evicted first. */
+const MAX_ENTRIES = 50;
+
 class CompactStylesheetCache {
 	/** Creates deterministic memory state with optional durable backing reserved for production singleton use. */
-	constructor({ persistentStore = null } = {}) {
+	constructor({ persistentStore = null, maxEntries = MAX_ENTRIES } = {}) {
 		this.entries = new Map();
 		this.inflight = new Map();
 		this.persistentStore = persistentStore;
+		this.maxEntries = maxEntries;
 	}
 
 	/** Shares one promise across validation, disk rehydration, and a stable fresh compilation. */
 	async compile(options) {
-		const key = compactStylesheetCacheKey(options);
+		const key = await compactStylesheetCacheKeyWithContentHash(options);
 		if (this.inflight.has(key)) {
 			return this.inflight.get(key);
 		}
@@ -42,8 +51,14 @@ class CompactStylesheetCache {
 	/** Resolves fresh memory, fresh persistence, then a verified stable stylesheet build. */
 	async resolveEntry(key, options) {
 		const memory = this.entries.get(key);
-		if (memory && await isDependencyManifestFresh(memory.manifest, options.fs)) {
-			return memory.source;
+		if (memory) {
+			// Refresh LRU order.
+			this.entries.delete(key);
+			this.entries.set(key, memory);
+			if (await isDependencyManifestFresh(memory.manifest, options.fs)) {
+				return memory.source;
+			}
+			this.entries.delete(key);
 		}
 		const durable = await this.readPersistent(key, options);
 		if (durable) {
@@ -59,7 +74,7 @@ class CompactStylesheetCache {
 		}
 		const entry = await this.persistentStore.read(key, options.fs);
 		if (entry) {
-			this.entries.set(key, entry);
+			this.setEntry(key, entry);
 		}
 		return entry;
 	}
@@ -71,11 +86,23 @@ class CompactStylesheetCache {
 			label: "CompactCSS",
 			compile: recordingFs => compileStylesheet({ ...options, fs: recordingFs })
 		});
-		this.entries.set(key, entry);
+		this.setEntry(key, entry);
 		if (this.persistentStore) {
 			await this.persistentStore.write(key, entry);
 		}
 		return entry.source;
+	}
+
+	/** Stores one entry, evicting least-recently-used entries when over capacity. */
+	setEntry(key, entry) {
+		if (this.entries.has(key)) {
+			this.entries.delete(key);
+		}
+		this.entries.set(key, entry);
+		while (this.entries.size > this.maxEntries) {
+			const oldestKey = this.entries.keys().next().value;
+			this.entries.delete(oldestKey);
+		}
 	}
 
 	/** Clears process-local CSS cache state for tests and lifecycle reset. */
