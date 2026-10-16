@@ -3,49 +3,50 @@
 //Blessed be He
 
 /**
- * @file shell.js
- * @description
- * The Awtsmoos gathers Heichel identity, discovery, and semantic light before the browser wakes;
- * Awtsmoos.com times each cold vessel only when asked, so hidden delay becomes truth without changing what the learner takes.
+ * @file Server-first Heichel shell renderer.
+ * @description The Awtsmoos reveals known Ikar identity immediately and lets
+ * independent public vessels travel together instead of serially blocking Torah.
  */
-
 const createDiscovery = require('./discovery.js');
 const { heichelFields } = require('./fieldMaps.js');
+const { publicReaderCache } = require('./readerDataCache.js');
 const { buildSemanticModel, normalizeSeries } = require('./semantic.js');
 const { traceAsync } = require('./torahRouteTrace.js');
 
-/** Creates the server shell renderer bound to one dynamic request vessel. */
+function isFastIkarRoot(heichelId, seriesId) {
+	return heichelId === 'ikar' && (!seriesId || seriesId === 'root');
+}
+
 function createShellRenderer($i) {
 	const { getDiscovery } = createDiscovery($i);
 
-	/** Fetches public Heichel metadata through the established property-map API. */
-	async function getHeichel(heichelId, context) {
+	async function cachedPublic(path) {
+		return publicReaderCache.read(`shell:${path}`, async () => {
+			const response = await $i.fetchAwtsmoos(path);
+			return response && !response.error ? response : null;
+		});
+	}
+
+	async function getHeichel(heichelId, seriesId, context) {
 		return traceAsync('shell:heichel', async () => {
-			const heichel = await $i.fetchAwtsmoos(
-				`/api/social/alias/itDoesntEvenMatter/heichelos/${encodeURIComponent(heichelId)}?${heichelFields()}`
-			);
-			return !heichel || heichel.error ? null : { ...heichel, id: heichelId };
-		}, context);
-	}
-
-	/** Fetches optional series metadata through the public browser endpoint. */
-	async function getSeries(heichelId, seriesId, context) {
-		if (!seriesId || seriesId === 'root') {
-			return null;
-		}
-		return traceAsync('shell:series', async () => {
-			try {
-				const response = await $i.fetchAwtsmoos(
-					`/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}`
-				);
-				return normalizeSeries(response, seriesId);
-			} catch {
-				return null;
+			if (isFastIkarRoot(heichelId, seriesId)) {
+				return { id: 'ikar', name: 'Ikar — Torah Library' };
 			}
+			const path = `/api/social/alias/itDoesntEvenMatter/heichelos/${encodeURIComponent(heichelId)}?${heichelFields()}`;
+			const heichel = await cachedPublic(path).catch(() => null);
+			return heichel ? { ...heichel, id: heichelId } : null;
 		}, context);
 	}
 
-	/** Renders route-local semantic fragments before the parent document receives them. */
+	async function getSeries(heichelId, seriesId, context) {
+		if (!seriesId || seriesId === 'root') return null;
+		return traceAsync('shell:series', async () => {
+			const path = `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}`;
+			const response = await cachedPublic(path).catch(() => null);
+			return normalizeSeries(response, seriesId);
+		}, context);
+	}
+
 	async function renderSemanticFragments(semantic, discovery, series, context) {
 		return traceAsync('shell:semantic-fragments', async () => {
 			const [semanticHead, semanticFallback] = await Promise.all([
@@ -56,18 +57,22 @@ function createShellRenderer($i) {
 		}, context);
 	}
 
-	/** Renders a semantic Heichel document while preserving the interactive client shell. */
 	async function renderHeichelShell(heichelId, seriesId = '') {
 		const context = { heichelId, seriesId: seriesId || 'root' };
 		return traceAsync('shell:total', async () => {
-			const heichel = await getHeichel(heichelId, context);
-			if (!heichel) {
-				return $i.$ga('_awtsmoos.heichelNotFound.html');
-			}
-			const [series, discovery] = await Promise.all([
-				getSeries(heichelId, seriesId, context),
-				traceAsync('shell:discovery', () => getDiscovery(heichelId, seriesId), context)
+			const heichelPromise = getHeichel(heichelId, seriesId, context);
+			const seriesPromise = getSeries(heichelId, seriesId, context);
+			const discoveryPromise = traceAsync(
+				'shell:discovery',
+				() => getDiscovery(heichelId, seriesId),
+				context
+			);
+			const [heichel, series, discovery] = await Promise.all([
+				heichelPromise,
+				seriesPromise,
+				discoveryPromise
 			]);
+			if (!heichel) return $i.$ga('_awtsmoos.heichelNotFound.html');
 			const semantic = await traceAsync(
 				'shell:semantic',
 				() => buildSemanticModel({ heichel, series, heichelId, seriesId }),
