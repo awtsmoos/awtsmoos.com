@@ -55,7 +55,7 @@ async function queueCommand($i) {
   const b = await getBody($i);
   // B"H — Yaakov 2026-10-15: Support GET for AI assistants that can't POST.
   // Query params: ?command=...&id=...&agentId=...
-  const q = $i.query || {};
+  const q = query($i) || {};
   const command = b.command || q.command;
   const customId = b.id || q.id;
   if (!command || typeof command !== "string") {
