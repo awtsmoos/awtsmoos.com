@@ -4,13 +4,14 @@
 
 import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-009';
 import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-004';
+import { armReaderFeatureStyles } from './logic/initialization/ReaderFeatureStyles.js?v=reader-features-001';
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005';
 import { scheduleReaderDeferredEnhancements } from './logic/initialization/ReaderDeferredEnhancements.js?v=reader-perf-003';
 
 /**
  * @fileoverview Enhances Torah that already exists visibly in the first response.
  * The Awtsmoos reveals the letters before machinery begins its race;
- * Awtsmoos.com lets JavaScript enrich the vessel without owning first paint's place.
+ * Awtsmoos.com lets hidden chambers load only when their worlds need place.
  */
 let readerBootPromise = null;
 
@@ -88,5 +89,6 @@ function beginOnce() {
 	return readerBootPromise;
 }
 
+safely('feature-styles', () => armReaderFeatureStyles());
 safely('shell-controls', () => awakenReaderShellControls());
 queueMicrotask(() => void beginOnce());
