@@ -14,6 +14,10 @@ function responseBytes(obj) {
   catch (_e) { return 0; }
 }
 
+function gitImportAllowed(ident) {
+  return ident.kind !== "session" && (scopeAllowed(ident, "tunnel.write") || scopeAllowed(ident, "tunnel.admin"));
+}
+
 function identityAllows(ident, neededScope) {
   if (ident.kind === "session") return true;
   return scopeAllowed(ident, neededScope) ||
@@ -42,6 +46,10 @@ async function osFs($i) {
   }
 
   const neededScope = actionRequiredScope(payload.action);
+  if (payload.action === "gitClone" && !gitImportAllowed(ident)) {
+    return json($i, attachActionGuidance({ BH: "B\"H", ok: false,
+      error: "git_import_requires_scoped_write_credential", neededScope: "tunnel.write" }, payload), 403);
+  }
   if (!identityAllows(ident, neededScope)) {
     return json($i, attachActionGuidance({ BH: "B\"H", ok: false, error: "missing_scope", neededScope }, payload), 403);
   }
@@ -79,4 +87,4 @@ function recordOsUsage(ident, payload, result, ok) {
   });
 }
 
-module.exports = { osFs };
+module.exports = { osFs, gitImportAllowed };

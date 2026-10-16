@@ -83,6 +83,7 @@ function virtualOsDevice(authenticated = false, identity = {}) {
     capabilities: {
       filesystem: { read: true, write: true },
       commands: { execute: true, background: false, interactive: false, mode: "vfs-readonly", nativeShell: false },
+      git: { publicGithubSourceImport: canWrite, history: false, push: false, nativeShell: false },
       http: { get: true, post: false },
       browser: { control: false }
     },

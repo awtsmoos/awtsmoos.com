@@ -16,7 +16,7 @@ const { SITE_PUBLICATION_WRITE_ACTIONS } = require("../../routes/fsVessel/hosted
 const PLAN_READ_ACTIONS = new Set(["tunnelPlanGet", "tunnelPlanList", "tunnelPlanHtml"]);
 const COMMAND_ACTIONS = new Set(["command", "nodeScriptRun", "shellCommand"]);
 const FILESYSTEM_WRITE_ACTIONS = Object.freeze([
-	"applyPatch", "bulkWrite", "bulkWriteIfHashes", "bulkWriteTransfers", "configSet", "copyFile",
+	"gitClone", "applyPatch", "bulkWrite", "bulkWriteIfHashes", "bulkWriteTransfers", "configSet", "copyFile",
 	"copyTree", "delete", "deleteFile", "deleteTree", "ensureFile",
 	"fileTransferCancel", "fileTransferCommit", "fileTransferCreate", "fileTransferWriteChunk",
 	"findReplace", "insertAfterFunction", "insertAfterScope", "insertBeforeFunction",

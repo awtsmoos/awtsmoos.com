@@ -66,6 +66,7 @@ function hostedCapabilityProfile() {
 			"fs.read": capability("virtualized", "hosted-vfs"),
 			"fs.write": capability("virtualized", "hosted-vfs"),
 			"http.get": capability("available", "validated-public-get"),
+			"git.import": capability("available", "github-public-source-snapshot-no-shell"),
 			"command.run": capability("available", "vfs-readonly-no-host-shell"),
 			"process.manage": capability("simulated", "hosted-process-store"),
 			"desktop.control": capability("unsupported"),

@@ -20,6 +20,7 @@ const { buildFileSearchActions } = require("./fileSearchActionFamily.js");
 const { buildQualityActions } = require("./qualityActionFamily.js");
 const { buildRuntimeActions } = require("./runtimeActionFamily.js");
 const { supportAction } = require("./supportActions.js");
+const { gitClone } = require("./githubCloneAction.js");
 const { buildTransportActions } = require("./transportActionFamily.js");
 const {
 	isVirtualWebsiteMissionAction,
@@ -71,6 +72,7 @@ function buildActionSurface($i, userId, payload, dispatch) {
 		...buildQualityActions($i, userId, payload, dispatch),
 		...buildWorkflowActions(payload, dispatch),
 		...buildRuntimeActions(payload),
+		gitClone: () => gitClone($i, userId, payload, dispatch),
 		...buildTransportActions(payload, { dispatch })
 	};
 }

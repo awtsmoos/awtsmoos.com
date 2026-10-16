@@ -9,6 +9,7 @@ const Browser = require("./browser.js");
 const Carriers = require("./carriers.js");
 const Collections = require("./collections.js");
 const Identity = require("./identity.js");
+const GitHubImport = require("./githubCloneFields.js");
 const Network = require("./network.js");
 const Numbers = require("./numbers.js");
 const Text = require("./text.js");
@@ -45,6 +46,7 @@ function buildFsPayload(input = {}) {
 		...Text.fields(carriers.raw),
 		...Browser.fields(carriers.raw, selected.action),
 		...Network.fields(carriers.raw, selected.action),
+		...GitHubImport.fields(carriers.raw, selected.action),
 		...Numbers.fields(carriers.raw),
 		...Booleans.fields(carriers.raw),
 		...Collections.fields(carriers.raw),

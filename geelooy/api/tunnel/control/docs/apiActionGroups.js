@@ -83,7 +83,7 @@ function classifyAction(name, actionCatalog) {
 }
 
 function isFilesystem(name) {
-	return /^(read|write|bulk|list|tree|find|grep|stat|copy|move|delete|mkdir|touch|ensure|empty|file|root|path)/i.test(name);
+	return /^(gitClone|read|write|bulk|list|tree|find|grep|stat|copy|move|delete|mkdir|touch|ensure|empty|file|root|path)/i.test(name);
 }
 
 function group(id, title, summary) {
