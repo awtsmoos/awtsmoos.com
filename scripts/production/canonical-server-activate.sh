@@ -75,7 +75,8 @@ if [ -f "$override" ]; then cp "$override" "$backup"; had_override=1; fi
 if systemctl is-enabled --quiet "$socket_unit" 2>/dev/null; then socket_preexisting=1; fi
 armed=1
 install -D -m 0644 "$source_override" "$override"
-printf '\nEnvironment=AWTSMOOS_RELEASE_SHA=%s\n' "$expected" >> "$override"
+printf '\nEnvironment=AWTSMOOS_RELEASE_SHA=%s\nEnvironment=AWTSMOOS_RELEASE_SOURCE_SHA=%s\n' \
+	"$expected" "$expected" >> "$override"
 install -D -m 0644 "$source_socket" "/etc/systemd/system/$socket_unit"
 bash "$watchdog_installer"
 bash "$nginx_preparer"

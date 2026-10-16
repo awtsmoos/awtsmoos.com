@@ -55,6 +55,7 @@ function proveProtocolVerifiedActivation(current, sha) {
 	const canonicalServiceSource = fs.readFileSync(require("node:path").resolve(__dirname, "../../ops/systemd/awtsmoos-immutable.conf"), "utf8");
 	assert.match(canonicalServiceSource, /--max-old-space-size=1024/);
 	assert.match(installed, new RegExp(`AWTSMOOS_RELEASE_SHA=${sha}`));
+	assert.match(installed, new RegExp(`AWTSMOOS_RELEASE_SOURCE_SHA=${sha}`));
 	assert.match(accepted.stdout, /virtualSsh=protocol-verified/);
 	assert.equal(fs.existsSync(current.artifact()), true);
 	assert.equal(current.git(current.repo, "status", "--porcelain"), "");
