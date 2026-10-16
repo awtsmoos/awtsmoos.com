@@ -38,7 +38,7 @@ const fastStart = Policy.buildPayload(request({
 	action: "commandRun",
 	command: "echo FAST"
 }), "tun_RC99m5Wz75O789hZ0pIsay5p");
-assert.equal(fastStart.relayWaitMs, 150);
+assert.equal(fastStart.relayWaitMs, 3500);
 assert.equal(fastStart.timeoutMs, undefined);
 
 const explicitRelayWait = Policy.buildPayload(request({

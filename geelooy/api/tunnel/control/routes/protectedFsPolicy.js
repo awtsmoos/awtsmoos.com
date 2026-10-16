@@ -45,7 +45,9 @@ function buildPayload($i, tunnelName) {
 	if (payload.action === "commandRun" && !timeoutWasExplicit) delete payload.timeoutMs;
 	const explicitRelayWait = post.relayWaitMs ?? get.relayWaitMs ?? post.httpSafeWaitMs ?? get.httpSafeWaitMs;
 	if (payload.action === "commandRun") {
-		payload.relayWaitMs = explicitRelayWait === undefined ? 150 : explicitRelayWait;
+		// Keep the existing WebSocket request open long enough for an ordinary
+		// subprocess to finish; 150ms forced legitimate fast results into retryAction.
+		payload.relayWaitMs = explicitRelayWait === undefined ? 3500 : explicitRelayWait;
 	}
 	return payload;
 }
