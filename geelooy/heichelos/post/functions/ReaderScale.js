@@ -64,6 +64,16 @@ export class GevurahReaderScale {
 		// below skipped this, so the buttons changed a variable nothing rendered.
 		this.applySeferScale(mainSize);
 
+		// B"H 2026-10-15: Always set on document root as universal fallback.
+		// This ensures text scaling works for ALL post types (Meluket, regular,
+		// Chitas, etc.) regardless of which reader structure is mounted.
+		const docRoot = this.document?.documentElement;
+		if (docRoot) {
+			for (const [shemVariable, ohrValue] of Object.entries(tiferesScale)) {
+				docRoot.style.setProperty(shemVariable, ohrValue);
+			}
+		}
+
 		if (!malchusRoot) {
 			this.restoreScrollAnchor(scrollAnchor);
 			return mainSize;
