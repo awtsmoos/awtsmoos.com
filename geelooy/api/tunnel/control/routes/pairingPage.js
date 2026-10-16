@@ -238,7 +238,7 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 			fail(statusEl,"Network error — check your connection and try again.");
 			return;
 		}
-		if(res.status===401 || (data && data.error==="unauthorized")){
+		if(res.status===401 || (data && (data.error==="unauthorized" || data.error==="not_authenticated" || data.error==="authentication_required"))){
 			var back=encodeURIComponent(location.pathname+location.search);
 			location.href="/login?return="+back;
 			return;
