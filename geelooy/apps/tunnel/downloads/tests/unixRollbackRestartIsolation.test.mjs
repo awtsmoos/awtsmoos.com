@@ -31,6 +31,7 @@ wait_for_runtime() { test -f "$TMP/restarted"; }
 runtime_registered() { [ "$1" = "4321" ]; }
 ensure_rollback_project_root_receipt() { [ "$1" = "4321" ]; }
 wait_for_service_supervision() { printf 'verified\n' > "$TMP/verified"; }
+source geelooy/apps/tunnel/downloads/unix-identity-rollback.sh
 source geelooy/apps/tunnel/downloads/unix-activation-rollback.sh
 restore_exact_predecessor "$ROLLBACK" "$FAILED"
 test "$(cat "$ROOT/main.js")" = predecessor

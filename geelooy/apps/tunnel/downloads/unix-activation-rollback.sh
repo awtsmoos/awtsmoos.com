@@ -30,6 +30,7 @@ restore_exact_predecessor() {
 	[ -e "$ROOT" ] && mv "$ROOT" "$failed"
 	[ -e "$rollback" ] || return 1
 	mv "$rollback" "$ROOT" || return 1
+	identity_rollback_restore || return 1
 	start_restored_supervisor || return 1
 	restored_runtime_ready "${AWTSMOOS_ROLLBACK_TIMEOUT_SECONDS:-45}" || return 1
 	mark_runtime_restored \
@@ -47,6 +48,7 @@ restore_archive_layers() {
 		stop_existing_runtime || true
 		install_event "rollback" "attempt" "Trying verified recovery archive." "offset=$offset"
 		if "$rescue" "$ROOT" "$RECOVERY_ROOT" "$offset"; then
+			identity_rollback_restore || return 1
 			if start_restored_supervisor &&
 				restored_runtime_ready "${AWTSMOOS_ROLLBACK_TIMEOUT_SECONDS:-45}"; then
 				mark_runtime_restored \

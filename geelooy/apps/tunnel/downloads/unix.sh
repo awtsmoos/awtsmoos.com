@@ -123,47 +123,30 @@ awt_magic_wand() {
 	fi
 }
 
+# One fixed-width terminal card: 40 columns even on a narrow Termux/SSH screen.
+# Color codes never contribute to the measured text width, and no emoji sits
+# inside the frame where terminal wcwidth rules could move the right border.
+awt_compact_card() {
+	local heading="$1" detail="$2"
+	local purple="${AWT_C_PURPLE:-}" reset="${AWT_C_OFF:-}"
+	local bright="${AWT_C_BOLD:-}" cyan="${AWT_C_CYAN:-}"
+	local top='──────────────────────────────────────'
+	printf '\n%s╭%s╮%s\n' "$purple" "$top" "$reset" >&2
+	printf '%s│%s %s%-36.36s%s %s│%s\n' \
+		"$purple" "$reset" "$bright" "$heading" "$reset" "$purple" "$reset" >&2
+	printf '%s│%s %s%-36.36s%s %s│%s\n' \
+		"$purple" "$reset" "$cyan" "$detail" "$reset" "$purple" "$reset" >&2
+	printf '%s╰%s╯%s\n' "$purple" "$top" "$reset" >&2
+}
+
 awt_intro_box() {
 	local mode="${1:-full}"
-	if [ "$AWT_COLORFUL" = "1" ]; then
-		cat >&2 <<EOF
-
-${AWT_C_PURPLE}  ╭──────────────────────────────────────────────────╮${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}                                                  ${AWT_C_PURPLE}│${AWT_C_OFF}
-EOF
-		printf '%s  │%s   🪄  ' "$AWT_C_PURPLE" "$AWT_C_OFF" >&2
-		awt_rainbow "AWTSMOOS TUNNEL"
-		printf '%s  — installer ✨%s%s│%s\n' "$AWT_C_BOLD" "$AWT_C_OFF" "$AWT_C_PURPLE" "$AWT_C_OFF" >&2
-		cat >&2 <<EOF
-${AWT_C_PURPLE}  │${AWT_C_OFF}                                                  ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}      ${AWT_C_DIM}your magical doorway to every machine${AWT_C_OFF}        ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}      Mode: ${AWT_C_CYAN}${mode}${AWT_C_OFF} · Ctrl+C cancels cleanly        ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}                                                  ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  ╰──────────────────────────────────────────────────╯${AWT_C_OFF}
-
-${AWT_C_DIM}  Let's get you connected... 🚀${AWT_C_OFF}
-EOF
-	else
-		printf '\n== AWTSMOOS TUNNEL installer (mode: %s) ==\nCtrl+C cancels cleanly.\n' "$mode" >&2
-	fi
+	awt_compact_card "AWTSMOOS / SECURE TUNNEL" "Mode: $mode  |  Ctrl+C cancels"
+	printf '%s  Preparing verified installation...%s\n' "${AWT_C_DIM:-}" "${AWT_C_OFF:-}" >&2
 }
 
 awt_banner() {
-	# B"H — Yaakov 2026-10-14: IMMENSE magical portal for the tunnel. Even more beautiful!
-	cat >&2 <<EOF
-${AWT_C_DIM}  ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦${AWT_C_OFF}
-${AWT_C_PURPLE}  ╭──────────────────────────────────────────────────────╮${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}                                                      ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}     ${AWT_C_GOLD}✦${AWT_C_OFF}       ${AWT_C_BOLD}AWTSMOOS TUNNEL${AWT_C_OFF}       ${AWT_C_GOLD}✦${AWT_C_OFF}      ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}                                                      ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}        ${AWT_C_DIM}── secure doorway to your machines ──${AWT_C_OFF}         ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}                                                      ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  ╰──────────────────────────────────────────────────────╯${AWT_C_OFF}
-${AWT_C_CYAN}                           ║║║${AWT_C_OFF}
-${AWT_C_CYAN}                           ║║║${AWT_C_OFF}  ${AWT_C_DIM}entering the portal...${AWT_C_OFF}  ${AWT_C_YELLOW}✨${AWT_C_OFF}
-${AWT_C_CYAN}                           ║║║${AWT_C_OFF}
-${AWT_C_DIM}  ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧${AWT_C_OFF}
-EOF
+	awt_compact_card "AWTSMOOS TUNNEL" "Secure gateway to your machines"
 }
 
 awt_step()  { printf '%s🚀%s %s\n'   "$AWT_C_CYAN" "$AWT_C_OFF" "$1" >&2; }
@@ -182,6 +165,8 @@ AWT_ASSUME_YES=0
 # an explicit --clean; never silently erase identity on mode selection.
 AWTSMOOS_INSTALL_CLEAN="${AWTSMOOS_INSTALL_CLEAN:-0}"
 AWTSMOOS_KEEP_OLD_TUNNELS="${AWTSMOOS_KEEP_OLD_TUNNELS:-0}"
+AWTSMOOS_REUSE_IDENTITY="${AWTSMOOS_REUSE_IDENTITY:-0}"
+AWTSMOOS_EXPLICIT_REINSTALL="${AWTSMOOS_EXPLICIT_REINSTALL:-0}"
 
 print_installer_help() {
 	cat >&2 <<EOF
@@ -193,7 +178,8 @@ Options:
   --full            Complete tunnel: agent, guardian, recovery lanes, browser support (default)
   --minimal         Agent + registration; uses your system Node.js 18+; no browser auto-open
   --agent-only      Fastest headless install for servers; no browser, no recovery lanes
-  --keep-old-tunnels  Keep the displaced runtime as a backup after success
+  --keep-old-tunnels  Keep earlier runtime installations, but still pair this new one
+  --reuse-identity    Explicitly reuse an existing credential (advanced/headless only)
   --clean           Explicitly reset installer state before installation (destructive)
   --mode=MODE       Same as --MODE (full, minimal, agent-only)
   -y, --yes         Skip the interactive menu; install with the default/flag mode
@@ -237,6 +223,12 @@ prompt_install_mode() {
 		printf '\n' >&2
 		return 0
 	fi
+	# A human choosing an install mode (including pressing Enter for Full)
+	# expects a replacement, never a same-version background restart.
+	case "$choice" in
+		8|9|10|delete-auth|reset-tunnel|continue) ;;
+		*) AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
+	esac
 	case "$choice" in
 		2|minimal) AWTSMOOS_INSTALL_MODE="minimal" ;;
 		3|agent-only|agentonly) AWTSMOOS_INSTALL_MODE="agent-only" ;;
@@ -254,16 +246,17 @@ prompt_install_mode() {
 parse_installer_args() {
 	while [ $# -gt 0 ]; do
 		case "$1" in
-			--full)            AWTSMOOS_INSTALL_MODE="full" ;;
-			--minimal)         AWTSMOOS_INSTALL_MODE="minimal" ;;
-			--agent-only|--agentonly) AWTSMOOS_INSTALL_MODE="agent-only" ;;
+			--full)            AWTSMOOS_INSTALL_MODE="full"; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
+			--minimal)         AWTSMOOS_INSTALL_MODE="minimal"; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
+			--agent-only|--agentonly) AWTSMOOS_INSTALL_MODE="agent-only"; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--simple-poll)     AWTSMOOS_INSTALL_MODE="simple-poll" ;;
 			--simple-approval) AWTSMOOS_INSTALL_MODE="simple-approval" ;;
 			--simple-websocket) AWTSMOOS_INSTALL_MODE="simple-websocket" ;;
 			--simple-file)     AWTSMOOS_INSTALL_MODE="simple-file" ;;
 			--clean)           AWTSMOOS_INSTALL_CLEAN=1 ;;
 			--keep-old-tunnels) AWTSMOOS_KEEP_OLD_TUNNELS=1 ;;
-			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}" ;;
+			--reuse-identity)  AWTSMOOS_REUSE_IDENTITY=1 ;;
+			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}"; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			-y|--yes)          AWT_ASSUME_YES=1 ;;
 			--no-login)        AWTSMOOS_SKIP_DEVICE_LOGIN=1 ;;
 			-h|--help)         print_installer_help; exit 0 ;;
@@ -285,25 +278,30 @@ print_install_plan() {
 	case "$mode" in
 		full)
 			awt_dim "  1. Fetch the verified installer"
-			awt_dim "  2. Preserve your identity and browser state"
-			awt_dim "  3. Install and verify the tunnel agent"
-			awt_dim "  4. Register this machine and open the control page"
+			awt_dim "  2. Keep old state safe until the new tunnel works"
+			awt_dim "  3. Approve a fresh identity; verify the new agent"
+			awt_dim "  4. Register, switch over, then retire old installs"
 			;;
 		minimal)
 			awt_dim "  1. Fetch the verified installer"
-			awt_dim "  2. Preserve your identity (uses your system Node.js 18+)"
-			awt_dim "  3. Install and verify the tunnel agent"
-			awt_dim "  4. Register this machine (control URL printed, not opened)"
+			awt_dim "  2. Stage new runtime with system Node.js 18+"
+			awt_dim "  3. Approve the device and verify the agent"
+			awt_dim "  4. Register and retire previous installations"
 			;;
 		agent-only)
 			awt_dim "  1. Fetch the verified installer"
-			awt_dim "  2. Preserve your device identity (uses your system Node.js 18+)"
-			awt_dim "  3. Install and verify the tunnel agent"
-			awt_dim "  4. Register this machine — headless, nothing else touched"
-			awt_dim "  5. Log in with no browser (approve the code on your phone)"
+			awt_dim "  2. Stage the agent with system Node.js 18+"
+			awt_dim "  3. Approve a fresh device code from your phone"
+			awt_dim "  4. Verify registration and retire prior tunnels"
 			;;
 	esac
-	awt_dim "Press Ctrl+C any time to cancel cleanly."
+	if [ "${AWTSMOOS_REUSE_IDENTITY:-0}" = "1" ]; then
+		awt_dim "Authorization: reusing existing identity by explicit request."
+	fi
+	if [ "${AWTSMOOS_KEEP_OLD_TUNNELS:-0}" = "1" ]; then
+		awt_dim "Cleanup: preserving previous installations by explicit request."
+	fi
+	awt_dim "Press Ctrl+C to cancel without erasing the predecessor."
 }
 
 select_install_root() {
@@ -439,7 +437,7 @@ case "$AWTSMOOS_INSTALL_MODE" in
 esac
 # Agent-only is a packaging choice, never implied permission to erase
 # persistent pairing or rollback state. Only an explicit --clean may reset it.
-export AWTSMOOS_KEEP_OLD_TUNNELS
+export AWTSMOOS_KEEP_OLD_TUNNELS AWTSMOOS_REUSE_IDENTITY AWTSMOOS_EXPLICIT_REINSTALL
 export AWTSMOOS_INSTALL_CLEAN
 print_install_plan "$AWTSMOOS_INSTALL_MODE"
 awt_intro_box "$AWTSMOOS_INSTALL_MODE"

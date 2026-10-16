@@ -42,6 +42,12 @@ local_bundle_sha() {
 }
 
 force_full_reinstall_requested() {
+	# A user explicitly choosing a mode requests full replacement, not another
+	# same-release restart that silently reuses a revoked credential. Unattended
+	# recovery runs without a mode remain eligible for fast repair.
+	case "${AWTSMOOS_EXPLICIT_REINSTALL:-0}" in
+		1|true|TRUE|yes|YES) return 0 ;;
+	esac
 	case "${AWTSMOOS_FORCE_REINSTALL:-0}" in
 		1|true|TRUE|yes|YES) return 0 ;;
 		*) return 1 ;;

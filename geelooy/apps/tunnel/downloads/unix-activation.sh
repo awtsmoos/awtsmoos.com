@@ -92,6 +92,11 @@ activate_update() {
 		if [ -f "$probe_log_path" ]; then
 			probe_log_content="$(tail -100 "$probe_log_path" 2>/dev/null)"
 		fi
+		# Old credentials cannot be repaired by restarting the same candidate.
+		if printf '%s' "$probe_log_content" | grep -Fq 'invalid_device_credential'; then
+			printf '\n  Credential rejected by Awtsmoos.com.\n' >&2
+			printf '  Retry without --reuse-identity to approve a fresh device.\n' >&2
+		fi
 		# Direct output: ALWAYS show the real agent messages.
 		echo "" >&2
 		echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
@@ -123,9 +128,11 @@ activate_release_candidate() {
 	# authorization. Old credentials may be revoked (invalid_device_credential),
 	# in which case a readonly update would wait and fail indefinitely. The new
 	# binding is obtained with user approval BEFORE the predecessor is touched.
-	# Explicit --keep-old-tunnels retains the historical same-identity upgrade.
-	if [ -f "$ROOT/main.js" ] && [ "${AWTSMOOS_KEEP_OLD_TUNNELS:-0}" = "1" ]; then
-		install_event "identity" "preserved" "Reusing the existing authorization because --keep-old-tunnels was selected."
+	# Retaining old runtime files is independent of reusing old authorization.
+	# An intentionally reused, rejected credential may fail; the caller must
+	# explicitly opt in to --reuse-identity, never merely --keep-old-tunnels.
+	if [ -f "$ROOT/main.js" ] && [ "${AWTSMOOS_REUSE_IDENTITY:-0}" = "1" ]; then
+		install_event "identity" "preserved" "Reusing existing authorization by explicit --reuse-identity request."
 		activate_update
 	else
 		if [ -f "$ROOT/main.js" ]; then

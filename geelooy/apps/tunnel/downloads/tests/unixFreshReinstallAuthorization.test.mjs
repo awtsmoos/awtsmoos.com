@@ -41,8 +41,9 @@ TRACE="$1/trace"
 source "$2"
 AWTSMOOS_KEEP_OLD_TUNNELS="$3"
 PAIR_FAILURE="$4"
+AWTSMOOS_REUSE_IDENTITY="$5"
 activate_release_candidate
-`,`--`,tmp,source,script.includes('__KEEP__')?'1':'0',script.includes('__PAIR_FAILURE__')?'1':'0'],{encoding:'utf8',timeout:6500});
+`,`--`,tmp,source,script.includes('__KEEP__')?'1':'0',script.includes('__PAIR_FAILURE__')?'1':'0',script.includes('__REUSE__')?'1':'0'],{encoding:'utf8',timeout:6500});
   const trace=fs.existsSync(path.join(tmp,'trace'))?fs.readFileSync(path.join(tmp,'trace'),'utf8'):'';
   const incumbent=fs.readFileSync(path.join(tmp,'live','main.js'),'utf8');
   return {status:result.status,trace,incumbent,stderr:result.stderr};
@@ -51,8 +52,11 @@ activate_release_candidate
 test('normal reinstall pairs a new identity BEFORE probing and promoting',()=>{
  const r=run('');assert.equal(r.status,0,r.stderr);assert.equal(r.trace,'pair\nprobe\npromote\nrun\n');assert.equal(r.incumbent,'old-runtime\n');
 });
-test('explicit keep-old-tunnels reuses the previous identity and avoids fresh pairing',()=>{
- const r=run('__KEEP__');assert.equal(r.status,0,r.stderr);assert.equal(r.trace,'probe\npromote\nrun\n');
+test('keep-old-tunnels retains old files but still obtains a freshly approved identity',()=>{
+ const r=run('__KEEP__');assert.equal(r.status,0,r.stderr);assert.equal(r.trace,'pair\nprobe\npromote\nrun\n');
+});
+test('separate --reuse-identity option deliberately chooses the legacy no-pair upgrade',()=>{
+ const r=run('__REUSE__');assert.equal(r.status,0,r.stderr);assert.equal(r.trace,'probe\npromote\nrun\n');
 });
 test('a failed pairing never promotes a candidate or alters predecessor',()=>{
  const r=run('__PAIR_FAILURE__');assert.notEqual(r.status,0);assert.equal(r.trace,'pair\n');assert.match(r.stderr,/New device approval did not produce/);assert.equal(r.incumbent,'old-runtime\n');

@@ -28,7 +28,7 @@ helpers=(
 	unix-recovery-validation.sh unix-recovery-identity.sh unix-recovery-candidates.sh
 	unix-recovery-rescue.sh unix-emergency-capture.sh unix-emergency-runtime.sh
 	unix-fresh-identity-grant.sh unix-activation-state.sh unix-activation-fresh.sh
-	unix-activation-rollback.sh unix-candidate-pairing.sh
+	unix-identity-rollback.sh unix-activation-rollback.sh unix-candidate-pairing.sh
 	unix-pairing-direct.cjs unix-pairing-direct-flow.sh
 	unix-candidate-probe-readiness-state.sh unix-candidate-probe-readiness-evidence.sh
 	unix-candidate-probe-readiness.sh unix-candidate-probe.sh unix-activation-promotion.sh

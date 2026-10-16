@@ -26,6 +26,8 @@ assert.equal(runPolicy("true"), "true");
 assert.equal(runPolicy("TRUE"), "true");
 assert.equal(runPolicy("yes"), "true");
 assert.equal(runPolicy("YES"), "true");
+assert.equal(runPolicy("0", "0"), "false");
+assert.equal(runPolicy("0", "1"), "true");
 
 const core = fs.readFileSync(corePath, "utf8");
 const forceGate = core.indexOf("if force_full_reinstall_requested; then");
@@ -39,16 +41,19 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "force-reinstall-policy",
 	defaultPreservesFastRepair: true,
+	explicitModeStagesFreshReplacement: true,
 	explicitForceStagesReplacement: true,
 	downgradeGateRemainsBeforeForce: true
 }, null, 2));
 
-function runPolicy(value) {
+function runPolicy(value, modeExplicit = "0") {
 	const escapedPolicy = shellQuote(policyPath);
 	const escapedValue = shellQuote(value);
+	const escapedExplicit = shellQuote(modeExplicit);
 	const command = [
 		`source ${escapedPolicy}`,
 		`AWTSMOOS_FORCE_REINSTALL=${escapedValue}`,
+		`AWTSMOOS_EXPLICIT_REINSTALL=${escapedExplicit}`,
 		"if force_full_reinstall_requested; then",
 		"\tprintf true",
 		"else",

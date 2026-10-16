@@ -42,6 +42,11 @@ restart_preserved_predecessor() {
 
 promote_candidate_root() {
 	local rollback="$1"
+	# Snapshot while the predecessor still owns the live path. If this fails,
+	# no runtime is moved and no new agent can mutate durable identity state.
+	identity_rollback_snapshot || install_fail "identity-rollback" \
+		"Could not protect the existing device identity; installation stopped." \
+		"The previous tunnel has not been displaced."
 	stop_candidate_probe
 	stop_existing_runtime || true
 	if [ -e "$ROOT" ]; then
@@ -51,6 +56,7 @@ promote_candidate_root() {
 	if ! mv "$CANDIDATE_ROOT" "$ROOT"; then
 		[ -e "$rollback" ] && mv "$rollback" "$ROOT" || true
 		restart_preserved_predecessor || true
+		identity_rollback_discard || true
 		return 1
 	fi
 	CANDIDATE_ROOT=""
@@ -73,6 +79,7 @@ start_promoted_candidate() {
 		fi
 		# The new agent is verified. Only now retire all known older generations.
 		schedule_previous_install_cleanup || true
+		identity_rollback_discard || true
 		write_activation_journal "committed" "$ROOT" "$rollback"
 		install_event "startup" "passed" \
 			"Promoted candidate sustained registration and guardianship." \
