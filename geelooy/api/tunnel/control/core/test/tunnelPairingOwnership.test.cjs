@@ -49,8 +49,10 @@ function main() {
 			request.pairingId,
 			request.requestSecret
 		);
-		assert.equal(replay.state, "consumed");
-		assert.equal(replay.credentialEnvelope, undefined);
+		assert.equal(replay.state, "approved");
+		assert.equal(replay.retried, true);
+		assert.equal(replay.credentialEnvelope, consumed.credentialEnvelope);
+		assert.equal(replay.tunnelId, consumed.tunnelId);
 		assert.equal(
 			verify(consumed.tunnelId, credential).binding.ownerAccountId,
 			"alice"

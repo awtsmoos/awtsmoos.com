@@ -12,6 +12,7 @@ const Friendly = require("./pairingErrorMessages.js");
 const Id = require("./identifiers.js");
 const Secrets = require("./secrets.js");
 const Paths = require("../storePaths.js");
+const { withStoreLock } = require("../storeLock.js");
 
 // B"H — Yaakov 2026-10-14: Dedicated pairing file (not the 11M store).
 // The 11M tunnel-control.json is too large to parse reliably on every request.
@@ -30,21 +31,26 @@ function readPairingFile() {
 	}
 }
 
+/** Only a caller holding the pairing lock may publish this atomic snapshot. */
 function writePairingFile(pairings) {
+	const file = pairingFilePath();
+	fs.mkdirSync(path.dirname(file), { recursive: true, mode: 0o700 });
+	const temp = `${file}.${process.pid}.${crypto.randomBytes(6).toString("hex")}.tmp`;
 	try {
-		const dir = path.dirname(pairingFilePath());
-		fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
-		const tmp = pairingFilePath() + ".tmp." + process.pid;
-		fs.writeFileSync(tmp, JSON.stringify(pairings), "utf8");
-		fs.renameSync(tmp, pairingFilePath());
-	} catch (e) {
-		// B"H — Yaakov 2026-10-15: NEVER swallow file errors silently.
-		// Every failure must surface (standing rule).
-		try {
-			console.error(`[pairingStore] FATAL: Failed to write pairing file: ${e.message}`);
-			console.error(e.stack);
-		} catch {}
+		fs.writeFileSync(temp, JSON.stringify(pairings), { mode: 0o600 });
+		fs.renameSync(temp, file);
+	} finally {
+		try { fs.unlinkSync(temp); } catch {}
 	}
+}
+
+/** Atomically persist one pairing without overwriting another worker's records. */
+function persistPairingRecord(pairing) {
+	return withStoreLock(`${pairingFilePath()}.lock`, () => {
+		const records = readPairingFile();
+		records[pairing.pairingId] = pairing;
+		writePairingFile(records);
+	});
 }
 
 // B"H — In-memory cache, loaded from file on first use.
@@ -59,6 +65,20 @@ function ensureMemoryLoaded() {
 			memoryPairings.set(k, v);
 		}
 	} catch {}
+}
+
+/**
+ * Disk is authoritative across Hetzner worker processes. A process-local pairing
+ * cache can be stale after another worker approves or consumes the same code.
+ */
+function currentPairing(pairingId) {
+	ensureMemoryLoaded();
+	const normalized = Id.normalizeIdentifier(pairingId);
+	const file = readPairingFile();
+	const pairing = file[normalized] || file[pairingId] ||
+		memoryPairings.get(normalized) || memoryPairings.get(pairingId) || null;
+	if (pairing) memoryPairings.set(pairing.pairingId, pairing);
+	return pairing;
 }
 
 /**
@@ -310,9 +330,7 @@ function createPairingRequest(input = {}) {
 	ensureMemoryLoaded();
 	memoryPairings.set(pairingId, pairingData);
 	try {
-		const all = readPairingFile();
-		all[pairingId] = pairingData;
-		writePairingFile(all);
+		persistPairingRecord(pairingData);
 	} catch {}
 	try {
 		console.log(`[pairingStore] created pairing=${pairingId} device=${deviceId} tunnel=${tunnelName}`);
@@ -326,13 +344,7 @@ function approvePairing(accountId, userCode, pairingId) {
 	ensureMemoryLoaded();
 	if (pairingId) {
 		const normalized = Id.normalizeIdentifier(pairingId);
-		let pairing = memoryPairings.get(normalized) || memoryPairings.get(pairingId);
-		if (!pairing) {
-			try {
-				const fileData = readPairingFile();
-				pairing = fileData[normalized] || fileData[pairingId];
-			} catch {}
-		}
+		let pairing = currentPairing(normalized);
 		if (pairing && pairing.state === "pending") {
 			const codeDigest = Secrets.digest(String(userCode || "").trim().toUpperCase());
 			if (pairing.userCodeDigest === codeDigest) {
@@ -365,9 +377,7 @@ function approvePairing(accountId, userCode, pairingId) {
 				pairing.credentialCreatedAt = Date.now();
 				memoryPairings.set(pairing.pairingId, pairing);
 				try {
-					const all = readPairingFile();
-					all[pairing.pairingId] = pairing;
-					writePairingFile(all);
+					persistPairingRecord(pairing);
 				} catch {}
 				try {
 					console.log(`[pairingStore] APPROVED pairing=${pairing.pairingId} tunnel=${credReport.tunnelId.slice(0, 12)}... account=${accountId}`);
@@ -396,9 +406,7 @@ function approvePairing(accountId, userCode, pairingId) {
 					pairing.credentialEnvelope = credReport.credentialEnvelope;
 					pairing.tunnelSecretDigest = credReport.tunnelSecretDigest;
 					try {
-						const all = readPairingFile();
-						all[pairing.pairingId] = pairing;
-						writePairingFile(all);
+						persistPairingRecord(pairing);
 					} catch {}
 					memoryPairings.set(pairing.pairingId, pairing);
 				}
@@ -424,7 +432,9 @@ function approvePairing(accountId, userCode, pairingId) {
 	try {
 		ensureMemoryLoaded();
 		// Search memory first
-		for (const pairing of memoryPairings.values()) {
+		const snapshot = readPairingFile();
+		for (const remembered of memoryPairings.values()) {
+			const pairing = snapshot[remembered.pairingId] || remembered;
 			if (pairing.userCodeDigest === codeDigest && pairing.state === "pending") {
 				// Found by code — approve it directly
 				const credReport = createTunnelCredential(pairing, accountId);
@@ -432,10 +442,13 @@ function approvePairing(accountId, userCode, pairingId) {
 					pairing.state = "approved";
 					pairing.approvedAt = Date.now();
 					pairing.approvedBy = accountId;
+						// Publish possession-bound credential before approving a code-only pairing.
+						pairing.tunnelId = credReport.tunnelId;
+						pairing.credentialEnvelope = credReport.credentialEnvelope;
+						pairing.tunnelSecretDigest = credReport.tunnelSecretDigest;
+						pairing.credentialCreatedAt = Date.now();
 					try {
-						const all = readPairingFile();
-						all[pairing.pairingId] = pairing;
-						writePairingFile(all);
+						persistPairingRecord(pairing);
 					} catch {}
 					return { ok: true, pairingId: pairing.pairingId };
 				}
@@ -452,8 +465,12 @@ function approvePairing(accountId, userCode, pairingId) {
 					pairing.state = "approved";
 					pairing.approvedAt = Date.now();
 					pairing.approvedBy = accountId;
-					fileData[pid] = pairing;
-					writePairingFile(fileData);
+						// Publish possession-bound credential before approving a code-only pairing.
+						pairing.tunnelId = credReport.tunnelId;
+						pairing.credentialEnvelope = credReport.credentialEnvelope;
+						pairing.tunnelSecretDigest = credReport.tunnelSecretDigest;
+						pairing.credentialCreatedAt = Date.now();
+					persistPairingRecord(pairing);
 					memoryPairings.set(pid, pairing);
 					return { ok: true, pairingId: pid };
 				}
@@ -482,14 +499,7 @@ function describePairing(pairingId) {
 	}
 	// B"H — Check memory first, then dedicated file (NOT the 11M store).
 	ensureMemoryLoaded();
-	let pairing = memoryPairings.get(normalized) || memoryPairings.get(pairingId);
-	if (!pairing) {
-		try {
-			const fileData = readPairingFile();
-			pairing = fileData[normalized] || fileData[pairingId];
-			if (pairing) memoryPairings.set(pairing.pairingId, pairing);
-		} catch {}
-	}
+	let pairing = currentPairing(normalized);
 	if (!pairing) {
 		return { ok: false, error: "pairing_not_found" };
 	}
@@ -513,14 +523,7 @@ function consumePairing(pairingId, requestSecret) {
 	// B"H — Use dedicated file (not 11M store).
 	ensureMemoryLoaded();
 	const normalized = Id.normalizeIdentifier(pairingId);
-	let pairing = memoryPairings.get(normalized) || memoryPairings.get(pairingId);
-	if (!pairing) {
-		try {
-			const fileData = readPairingFile();
-			pairing = fileData[normalized] || fileData[pairingId];
-			if (pairing) memoryPairings.set(pairing.pairingId, pairing);
-		} catch {}
-	}
+	let pairing = currentPairing(normalized);
 	if (!pairing) {
 		try { console.log(`[pairingStore] consume FAIL pairing=${pairingId} reason=not_found`); } catch {}
 		return result;
@@ -558,13 +561,22 @@ function consumePairing(pairingId, requestSecret) {
 			}
 		}
 	}
+	// The possessing device may reach another server worker after a reconnect.
+	// Keep the RSA-encrypted envelope (never the plaintext credential) for one
+	// bounded recovery window in the shared pairing record as well as memory.
+	if (pairing.state === "consumed" && pairing.credentialRetryEnvelope &&
+		Date.now() - Number(pairing.consumedAt || 0) < 5 * 60 * 1000) {
+		return {
+			ok: true, state: "approved", retried: true,
+			tunnelId: pairing.tunnelId,
+			credentialEnvelope: pairing.credentialRetryEnvelope
+		};
+	}
 	if (pairing.state !== "approved") {
 		if (pairing.state === "pending") {
 			pairing.expiresAt = Date.now() + PAIRING_LIFETIME_MS;
 			try {
-				const all = readPairingFile();
-				all[pairing.pairingId] = pairing;
-				writePairingFile(all);
+				persistPairingRecord(pairing);
 			} catch {}
 		}
 		result = { ok: true, state: pairing.state, expiresAt: pairing.expiresAt };
@@ -590,6 +602,7 @@ function consumePairing(pairingId, requestSecret) {
 	}
 	pairing.state = "consumed";
 	pairing.consumedAt = Date.now();
+	pairing.credentialRetryEnvelope = pairing.credentialEnvelope;
 	result = {
 		ok: true,
 		state: "approved",
@@ -609,9 +622,7 @@ function consumePairing(pairingId, requestSecret) {
 	});
 	delete pairing.credentialEnvelope;
 	try {
-		const all = readPairingFile();
-		all[pairing.pairingId] = pairing;
-		writePairingFile(all);
+		persistPairingRecord(pairing);
 	} catch {}
 	memoryPairings.set(pairing.pairingId, pairing);
 	try { console.log(`[pairingStore] consume OK pairing=${pairing.pairingId} tunnel=${pairing.tunnelId.slice(0, 12)}...`); } catch {}

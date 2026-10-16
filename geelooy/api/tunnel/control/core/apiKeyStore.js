@@ -2,7 +2,7 @@
 // B"H
 
 const crypto = require("crypto");
-const { readStore, writeStore } = require("./store.js");
+const { readStore, mutateStore } = require("./store.js");
 
 function hashKey(key) {
   return crypto.createHash("sha256").update(String(key)).digest("hex");
@@ -22,6 +22,7 @@ function publicKeyView(key) {
     bytesPerDay: key.bytesPerDay,
     createdAt: key.createdAt,
     lastUsedAt: key.lastUsedAt || null,
+    expiresAt: key.expiresAt || null,
     revoked: !!key.revoked
   };
 }
@@ -49,13 +50,14 @@ function createApiKeyRecord(details) {
     bytesPerDay: Number(details.bytesPerDay || 50000000),
     createdAt: now,
     lastUsedAt: null,
+    expiresAt: optionalExpiry(details.expiresAt, now),
     revoked: false
   };
 
-  const store = readStore();
-  store.apiKeys = store.apiKeys || {};
-  store.apiKeys[keyId] = record;
-  writeStore(store);
+  mutateStore(store => {
+    store.apiKeys = store.apiKeys || {};
+    store.apiKeys[keyId] = record;
+  });
 
   return {
     rawKey,
@@ -65,33 +67,49 @@ function createApiKeyRecord(details) {
 
 function verifyApiKey(rawKey) {
   const hash = hashKey(rawKey);
-  const store = readStore();
+  const candidate = Object.values(readStore().apiKeys || {})
+    .find(entry => entry.keyHash === hash && !entry.revoked && !expired(entry));
+  if (!candidate) return { ok: false, error: "invalid_api_key" };
 
-  const key = Object.values(store.apiKeys || {})
-    .find(k => k.keyHash === hash && !k.revoked);
-
-  if (!key) {
-    return { ok: false, error: "invalid_api_key" };
+  // Authentication reads a freshly atomically published store. Its success path
+  // must not rewrite the entire store for every WebSocket RPC / HTTP request.
+  if (Date.now() - Number(candidate.lastUsedAt || 0) < 60000) {
+    return { ok: true, key: candidate };
   }
-
-  key.lastUsedAt = Date.now();
-  writeStore(store);
-
-  return { ok: true, key };
+  let key = null;
+  mutateStore(store => {
+    const current = store.apiKeys?.[candidate.keyId];
+    if (!current || current.revoked || expired(current) || current.keyHash !== hash) return;
+    current.lastUsedAt = Date.now();
+    key = { ...current };
+  });
+  return key ? { ok: true, key } : { ok: false, error: "invalid_api_key" };
 }
 
 function revokeApiKeyRecord(userId, keyId) {
-  const store = readStore();
-  const key = store.apiKeys?.[keyId];
+  let revoked = false;
+  mutateStore(store => {
+    const key = store.apiKeys?.[keyId];
+    if (!key || key.userId !== userId) return;
+    key.revoked = true;
+    key.revokedAt = Date.now();
+    revoked = true;
+  });
+  return revoked;
+}
 
-  if (!key || key.userId !== userId) {
-    return false;
+/** Optional expiry is an absolute millisecond timestamp, not an implicit time-to-live. */
+function optionalExpiry(value, createdAt) {
+  if (value === undefined || value === null || value === "") return null;
+  const expiresAt = Number(value);
+  if (!Number.isSafeInteger(expiresAt) || expiresAt <= createdAt) {
+    throw new Error("api_key_expiry_invalid");
   }
+  return expiresAt;
+}
 
-  key.revoked = true;
-  key.revokedAt = Date.now();
-  writeStore(store);
-  return true;
+function expired(key, now = Date.now()) {
+  return Number(key?.expiresAt || 0) > 0 && Number(key.expiresAt) <= now;
 }
 
 function scopeAllowed(identity, neededScope) {
@@ -123,7 +141,7 @@ function enforceApiKeyRate(identity, byteGuess = 0) {
   const store = readStore();
   const key = store.apiKeys?.[identity.keyId];
 
-  if (!key || key.revoked) {
+  if (!key || key.revoked || expired(key)) {
     return { ok: false, error: "api_key_revoked_or_missing" };
   }
 
