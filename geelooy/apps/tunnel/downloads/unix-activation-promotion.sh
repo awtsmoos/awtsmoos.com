@@ -71,6 +71,8 @@ start_promoted_candidate() {
 				schedule_displaced_cleanup "$rollback"
 			fi
 		fi
+		# The new agent is verified. Only now retire all known older generations.
+		schedule_previous_install_cleanup || true
 		write_activation_journal "committed" "$ROOT" "$rollback"
 		install_event "startup" "passed" \
 			"Promoted candidate sustained registration and guardianship." \

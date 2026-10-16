@@ -9,7 +9,7 @@ safe_displaced_runtime() {
 	local candidate="${1:-}"
 	case "$candidate" in
 		"${ROOT}.activation-rollback-"*) return 0 ;;
-		"${ROOT}.incomplete-"*) return 0 ;;
+		"${ROOT}.incomplete-"*|"${ROOT}.failed-"*|		"${ROOT}.candidate-"*|"${ROOT}.recovery-displaced-"*) return 0 ;;
 	esac
 	return 1
 }
@@ -18,7 +18,7 @@ schedule_displaced_cleanup() {
 	local candidate="${1:-}"
 	local name
 	local receipt
-	if [ ! -e "$candidate" ]; then
+	if [ ! -e "$candidate" ] && [ ! -L "$candidate" ]; then
 		return 0
 	fi
 	if ! safe_displaced_runtime "$candidate"; then
@@ -64,6 +64,36 @@ NODE
 	install_event "cleanup" "scheduled" \
 		"Displaced runtime cleanup continues after installer success." \
 		"candidate=$candidate receipt=$receipt pid=$!"
+}
+
+# Erase previous runtime generations after the new agent has proved real
+# registration. No matching candidate is touched during staging or rollback.
+# The caller must invoke this ONLY after candidate_is_stably_active succeeds.
+schedule_previous_install_cleanup() {
+	if [ "${AWTSMOOS_KEEP_OLD_TUNNELS:-0}" = "1" ]; then
+		install_event "cleanup" "preserved" "Prior installations retained by --keep-old-tunnels."
+		return 0
+	fi
+	local obsolete="" count=0
+	for obsolete in \
+		"${ROOT}.activation-rollback-"* \
+		"${ROOT}.incomplete-"* \
+		"${ROOT}.failed-"* \
+		"${ROOT}.candidate-"* \
+		"${ROOT}.recovery-displaced-"*; do
+		[ -e "$obsolete" ] || [ -L "$obsolete" ] || continue
+		[ "$obsolete" != "$ROOT" ] || continue
+		# A previous worker may still be active. Never destroy an owned
+		# process's working runtime; leave an actionable warning instead.
+		if LC_ALL=C ps axww -o command= 2>/dev/null | grep -F -- "$obsolete/main.js" | grep -v 'grep -F' >/dev/null 2>&1; then
+			install_event "cleanup" "warning" "Older runtime is still executing; deferred removal." "path=$obsolete"
+			continue
+		fi
+		if schedule_displaced_cleanup "$obsolete"; then
+			count=$((count + 1))
+		fi
+	done
+	install_event "cleanup" "scheduled" "Previous installer generations scheduled for removal." "count=$count"
 }
 
 write_cleanup_receipt() {
