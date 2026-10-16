@@ -7,6 +7,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { mutateStore, readStore } = require("../store.js");
 const Approval = require("./pairingApproval.js");
+const PairingCode = require("./pairingCode.js");
 const Binding = require("./bindingStore.js");
 const Friendly = require("./pairingErrorMessages.js");
 const Id = require("./identifiers.js");
@@ -310,7 +311,7 @@ function createPairingRequest(input = {}) {
 	}
 	const pairingId = `pair_${Secrets.randomToken(18)}`;
 	const requestSecret = Secrets.randomToken(32);
-	const userCode = Secrets.randomToken(6).toUpperCase();
+	const userCode = PairingCode.createCode();
 	const expiresAt = Date.now() + PAIRING_LIFETIME_MS;
 	const pairingData = {
 		pairingId,
@@ -328,10 +329,16 @@ function createPairingRequest(input = {}) {
 	// B"H — Store in dedicated file (small, fast) and memory.
 	// Do NOT use the 11M shared store — it's too slow to parse on every request.
 	ensureMemoryLoaded();
-	memoryPairings.set(pairingId, pairingData);
 	try {
 		persistPairingRecord(pairingData);
-	} catch {}
+	} catch (error) {
+		return {
+			ok: false,
+			error: "pairing_persistence_failed",
+			message: "The pairing could not be saved. No approval code was issued. Please retry."
+		};
+	}
+	memoryPairings.set(pairingId, pairingData);
 	try {
 		console.log(`[pairingStore] created pairing=${pairingId} device=${deviceId} tunnel=${tunnelName}`);
 	} catch {}
@@ -345,8 +352,11 @@ function approvePairing(accountId, userCode, pairingId) {
 	if (pairingId) {
 		const normalized = Id.normalizeIdentifier(pairingId);
 		let pairing = currentPairing(normalized);
+		if (pairing && pairing.state === "pending" && pairing.expiresAt <= Date.now()) {
+			return { ok: false, error: "pairing_expired", message: Friendly.messageFor("pairing_expired") };
+		}
 		if (pairing && pairing.state === "pending") {
-			const codeDigest = Secrets.digest(String(userCode || "").trim().toUpperCase());
+			const codeDigest = Secrets.digest(PairingCode.normalizedCode(userCode));
 			if (pairing.userCodeDigest === codeDigest) {
 				// B"H — 2026-10-14: Create tunnel credential BEFORE marking approved.
 				// LOTS of safeguards: if credential creation fails, DO NOT approve.
@@ -390,6 +400,7 @@ function approvePairing(accountId, userCode, pairingId) {
 					report: credReport.steps
 				};
 			}
+			return { ok: false, error: "pairing_code_mismatch", message: Friendly.messageFor("pairing_code_mismatch") };
 		}
 		// B"H — Yaakov 2026-10-14: Idempotent re-approval. If the same account
 		// already approved this pairing (double-submit, retry), return success
@@ -428,7 +439,7 @@ function approvePairing(accountId, userCode, pairingId) {
 		error: "pairing_not_found",
 		message: Friendly.messageFor("pairing_not_found")
 	};
-	const codeDigest = Secrets.digest(String(userCode || "").trim().toUpperCase());
+	const codeDigest = Secrets.digest(PairingCode.normalizedCode(userCode));
 	try {
 		ensureMemoryLoaded();
 		// Search memory first

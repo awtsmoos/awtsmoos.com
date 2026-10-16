@@ -83,7 +83,7 @@ NODE
 
 # B"H — beautiful approval card for installer-direct pairing.
 direct_pairing_show_card() {
-	local pairing_id pairing_code approval_url expires_at
+	local pairing_id pairing_code approval_url expires_at expires_label
 	pairing_id="$(direct_pairing_field pairingId)"
 	[ -n "$pairing_id" ] || return 1
 	pairing_code="$(direct_pairing_field userCode)"
@@ -92,37 +92,36 @@ direct_pairing_show_card() {
 		approval_url="https://awtsmoos.com/api/tunnel/control/pairing/page?pairingId=${pairing_id}&pairingCode=${pairing_code}"
 	fi
 	expires_at="$(direct_pairing_field expiresAt)"
-	local expires_label="soon"
+	expires_label="unknown"
 	if [ -n "$expires_at" ] && [ "$expires_at" -gt 0 ] 2>/dev/null; then
-		local remaining=$(( (expires_at - $(date +%s%3N)) / 1000 ))
-		if [ "$remaining" -gt 120 ]; then
-			expires_label="$(( remaining / 60 )) minutes"
-		elif [ "$remaining" -gt 0 ]; then
-			expires_label="${remaining}s"
+		local now_ms remaining
+		now_ms="$(date +%s%3N 2>/dev/null || printf '%s000' "$(date +%s)")"
+		remaining=$(( (expires_at - now_ms) / 1000 ))
+		if [ "$remaining" -gt 0 ]; then
+			expires_label="$(( (remaining + 59) / 60 )) min"
+		else
+			expires_label="expired"
 		fi
 	fi
-	local c_gold="${PRG_C_GOLD:-}" c_off="${PRG_C_OFF:-}" c_bold="${PRG_C_BOLD:-}"
-	local c_cyan="${PRG_C_CYAN:-}" c_dim="${PRG_C_DIM:-}"
-	if [ "${PRG_TTY:-0}" = "1" ]; then
-		printf '\n' >&2
-		printf '%s  ╭──────────────────────────────────────────────────╮%s\n' "$c_gold" "$c_off" >&2
-		printf '%s  │  %s🔑  APPROVE THIS MACHINE%s                      │%s\n' "$c_gold" "$c_bold" "$c_gold" "$c_off" >&2
-		printf '%s  ├──────────────────────────────────────────────────┤%s\n' "$c_gold" "$c_off" >&2
-		printf '%s  │%s  The tunnel agent is ready and waiting.           %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
-		printf '%s  │%s  On your phone, open:                           %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
-		printf '%s  │%s     %s%s%s\n' "$c_gold" "$c_cyan" "$approval_url" "$c_off" >&2
-		printf '%s  │%s  and enter this code:                           %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
-		printf '%s  │%s         %s%s%s\n' "$c_gold" "$c_bold" "$pairing_code" "$c_off" >&2
-		printf '%s  │%s  Tap Approve. This screen keeps waiting for you. %s│%s\n' "$c_gold" "$c_dim" "$c_gold" "$c_off" >&2
-		printf '%s  │%s  Code expires in %s. Ctrl+C cancels cleanly.      %s│%s\n' "$c_gold" "$c_dim" "$expires_label" "$c_gold" "$c_off" >&2
-		printf '%s  ╰──────────────────────────────────────────────────╯%s\n' "$c_gold" "$c_off" >&2
-	else
-		printf '\n🔑  APPROVE THIS MACHINE\n' >&2
-		printf 'The tunnel agent is ready and waiting.\n' >&2
-		printf 'On your phone, open: %s\n' "$approval_url" >&2
-		printf 'Enter code: %s\n' "$pairing_code" >&2
-		printf 'Tap Approve. Waiting for you (code expires in %s; Ctrl+C cancels).\n' "$expires_label" >&2
+	local c_gold="${PRG_C_GOLD:-}" c_off="${PRG_C_OFF:-}"
+	local c_cyan="${PRG_C_CYAN:-}" c_bold="${PRG_C_BOLD:-}"
+	local display_code="$pairing_code"
+	if [ "${#pairing_code}" -eq 10 ]; then
+		display_code="${pairing_code:0:5}-${pairing_code:5}"
 	fi
+	printf '\n%s╭────────────────────────────────────────────╮%s\n' "$c_gold" "$c_off" >&2
+	printf '%s│%s  AWTSMOOS  /  SECURE DEVICE PAIRING       %s│%s\n' "$c_gold" "$c_bold" "$c_gold" "$c_off" >&2
+	printf '%s├────────────────────────────────────────────┤%s\n' "$c_gold" "$c_off" >&2
+	printf '%s│%s  Approve your new machine on your phone.  %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
+	printf '%s│%s                                            %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
+	printf '%s│%s     %s%s%s\n' "$c_gold" "$c_cyan" "$display_code" "$c_off" >&2
+	printf '%s│%s                                            %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
+	printf '%s│%s  Status: awaiting account approval        %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
+	printf '%s╰────────────────────────────────────────────╯%s\n' "$c_gold" "$c_off" >&2
+	printf '  %sApproval page:%s https://awtsmoos.com/api/tunnel/control/pairing/page\n' "$c_bold" "$c_off" >&2
+	printf '  %sQuick link (copy the full line):%s\n  %s\n' "$c_bold" "$c_off" "$approval_url" >&2
+	printf '  Expires in %s · Ctrl+C cancels this installer.\n' "$expires_label" >&2
+	printf '  %sDo not approve a code you did not request.%s\n\n' "$c_gold" "$c_off" >&2
 	return 0
 }
 

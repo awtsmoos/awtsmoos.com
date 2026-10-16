@@ -26,6 +26,7 @@ function esc(value) {
 function pairingPageHtml({ pairingCode = "", pairingId = "", returnPath = "" } = {}) {
 	const code = String(pairingCode || "").trim().toUpperCase();
 	const safeCode = esc(code);
+	const displayCode = esc(code.length === 10 ? `${code.slice(0, 5)}-${code.slice(5)}` : code);
 	const safeReturn = esc(returnPath);
 	const safePairingId = esc(String(pairingId || ""));
 	const hasCode = code.length >= 4;
@@ -114,8 +115,8 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 }
 .codebox .code{
 	font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-	font-size:34px; font-weight:700; letter-spacing:.28em; color:var(--green);
-	text-indent:.28em; word-break:break-all;
+	font-size:clamp(21px,6vw,32px); font-weight:700; letter-spacing:.12em; color:var(--green);
+	text-indent:0; overflow-wrap:anywhere;
 	text-shadow:0 0 20px rgba(0,255,136,.8), 0 0 40px rgba(0,255,136,.4);
 }
 /* B"H — Yaakov 2026-10-14: INTENSE verification link, each part on new line! */
@@ -184,8 +185,8 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 	<div id="view-approve" class="${hasCode ? "" : "hidden"}">
 		<h1>Approve this device?</h1>
 		<p class="sub">A tunnel installer asked to link this device to your account. Approve only if you just ran the installer on your own machine.</p>
-		<div class="codebox"><div class="code" id="code">${safeCode}</div></div>
-		${safePairingId ? `<div class="verify-link"><div class="verify-label">✓ VERIFICATION LINK</div><a href="https://awtsmoos.com/api/tunnel/control/pairing/page?pairingId=${safePairingId}&amp;pairingCode=${safeCode}" class="verify-url">https://awtsmoos.com/api/tunnel/control/pairing/page<br>?pairingId=${safePairingId}<br>&amp;pairingCode=${safeCode}</a></div>` : ""}
+		<div class="codebox"><div class="code" id="code">${displayCode}</div></div>
+		${safePairingId ? `<div class="verify-link"><div class="verify-label">SECURE PAIRING REQUEST</div><p class="verify-url">This code is tied to the installer you just started. Confirm it matches the code on your other screen.</p></div>` : ""}
 		<button class="btn btn-approve" id="approve" type="button">Approve this device</button>
 		<button class="btn btn-cancel" id="cancel" type="button">Cancel</button>
 		<p class="status" id="status" role="status" aria-live="polite"></p>

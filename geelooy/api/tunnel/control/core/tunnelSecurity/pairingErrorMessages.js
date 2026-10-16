@@ -17,6 +17,14 @@ const MESSAGES = Object.freeze({
 		message: "This pairing code wasn't found — it probably expired or was already used. Re-run the installer on your server to get a fresh code, then approve the new one.",
 		action: INSTALL_COMMAND
 	},
+	pairing_code_mismatch: {
+		title: "Pairing code does not match",
+		message: "This code does not match the active pairing request. Check the exact characters shown by your installer; the request is still pending."
+	},
+	pairing_persistence_failed: {
+		title: "Pairing could not be saved",
+		message: "The server could not save this pairing request. Retry the installer; no valid approval code was issued."
+	},
 	pairing_expired: {
 		title: "Pairing code expired",
 		message: "This pairing code expired before it was approved. Re-run the installer on your server for a fresh code.",
