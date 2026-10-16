@@ -158,6 +158,34 @@ module.exports = {
       }
     });
 
+    // Restore the authenticated native and Virtual OS action doors. These are
+    // lazy so an unrelated control route cannot prevent pairing at startup.
+    // The static Virtual OS path is registered before the dynamic native path.
+    await $i.use("fs/awtsmoos-os", async (vars) => {
+      const { osFs } = require("./routes/osFs.js");
+      return osFs($i, vars || {});
+    });
+    await $i.use("fs/:tunnelName", async (vars) => {
+      const { protectedFs } = require("./routes/protectedFs.js");
+      return protectedFs($i, vars || {});
+    });
+    await $i.use("devices", async (vars) => {
+      const { devices } = require("./routes/devices.js");
+      return devices($i, vars || {});
+    });
+    await $i.use("docs", async (vars) => {
+      const { docsHtml } = require("./routes/docsHtml.js");
+      return docsHtml($i, vars || {});
+    });
+    await $i.use("docs.json", async (vars) => {
+      const { docsJson } = require("./routes/docsJson.js");
+      return docsJson($i, vars || {});
+    });
+    await $i.use("openapi", async (vars) => {
+      const { openApi } = require("./routes/openApi.js");
+      return openApi($i, vars || {});
+    });
+
     // B"H — 2026-10-15: Simple tunnel fallback (temporary).
     // NOTE: Do NOT clear require cache here — the in-memory store must persist.
     await $i.use("simple/cmd", async (vars) => {
