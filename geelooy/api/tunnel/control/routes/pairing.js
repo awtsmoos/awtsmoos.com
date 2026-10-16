@@ -82,6 +82,12 @@ async function pairingPage($i) {
 	const params = query($i) || {};
 	const pairingCode = String(params.pairingCode || params.code || "");
 	const pairingId = String(params.pairingId || "");
+	const response = $i.response || $i.res;
+	if (response && !response.headersSent && typeof response.setHeader === "function") {
+		response.setHeader("Cache-Control", "no-store, max-age=0");
+		response.setHeader("Referrer-Policy", "no-referrer");
+		response.setHeader("X-Content-Type-Options", "nosniff");
+	}
 	return html($i, pairingPageHtml({ pairingCode, pairingId }));
 }
 

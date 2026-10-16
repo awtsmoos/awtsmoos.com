@@ -1,20 +1,64 @@
-/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews the account gate through shared Revelation foundations while this focused route keeps its own quiet auth garment.
+The account gate stands alone: no homepage cascade, remote fonts or unrelated animation.
 */
-@import url("/style/revelation-v4/index.css?v=auth-revelation-001");
-@import url("/style/forms.css?v=auth-revelation-001");
-
+:root { color-scheme:light; }
+:root[data-theme="dark"] { color-scheme:dark; }
 .login-page {
-	isolation: isolate;
+  --auth-bg:#f7f1e3; --auth-panel:#fffdf6; --auth-text:#2b2118;
+  --auth-muted:#665645; --auth-border:#d5c4a4; --auth-accent:#82622e;
+  margin:0; min-height:100svh; background:var(--auth-bg); color:var(--auth-text);
+  font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
 }
-
+:root[data-theme="dark"] .login-page {
+  --auth-bg:#171209; --auth-panel:#211b12; --auth-text:#f4e9d5;
+  --auth-muted:#d2bd9d; --auth-border:#62513a; --auth-accent:#f2c56e;
+}
+.login-page *, .login-page *::before, .login-page *::after { box-sizing:border-box; }
+.login-page .BH {
+  position:fixed; top:max(13px,env(safe-area-inset-top));
+  left:max(13px,env(safe-area-inset-left)); z-index:2; padding:10px 13px;
+  background:var(--auth-panel); color:var(--auth-text);
+  border:1px solid var(--auth-border);border-radius:11px;
+  font-weight:800; box-shadow:0 4px 18px #0001;
+}
+.login-page .login-shell {
+  display:grid; place-items:center; min-height:100svh;
+  padding:max(75px,env(safe-area-inset-top)) 16px max(20px,env(safe-area-inset-bottom));
+}
 .login-page .login-card {
-	max-inline-size: min(100%, 30rem);
+  position:relative; width:min(100%,440px); padding:clamp(22px,5vw,35px);
+  border:1px solid var(--auth-border);border-radius:18px;
+  background:var(--auth-panel);color:var(--auth-text);
+  box-shadow:0 20px 65px #0002;
 }
-
-.login-page .login-form {
-	inline-size: 100%;
+.login-page .login-card__glow { display:none; }
+.login-page .login-kicker { color:var(--auth-accent);font-size:12px;letter-spacing:.09em;font-weight:700;margin:0 0 8px; }
+.login-page .login-card h1 { font:700 clamp(31px,8vw,45px)/1.15 Georgia,serif;color:var(--auth-text);margin:0 0 13px; }
+.login-page .login-subtitle { color:var(--auth-muted);font-size:15px;line-height:1.6;margin:0 0 15px; }
+.login-page .secondary-link { display:inline-block;margin:0 0 17px;color:var(--auth-accent);font-weight:700;text-decoration:underline;text-underline-offset:3px; }
+.login-page .login-form { display:grid;gap:15px;width:100%; }
+.login-page .field-stack { display:grid;gap:6px;min-width:0;padding:0; }
+.login-page .field-stack label {font-size:14px;font-weight:650;color:var(--auth-text);}
+.login-page .field-stack input {
+  width:100%;min-width:0;min-height:49px;padding:12px 13px;
+  background:var(--auth-bg);color:var(--auth-text);
+  border:1px solid var(--auth-border);border-radius:9px;
+  font:inherit;font-size:16px;
 }
+.login-page .field-stack input::placeholder { color:var(--auth-muted);opacity:.85; }
+.login-page .login-form button {
+  margin-top:5px;min-height:49px;padding:12px 17px;
+  background:var(--auth-accent);color:var(--auth-panel);
+  border:1px solid var(--auth-accent);border-radius:9px;
+  font:700 16px system-ui,sans-serif;cursor:pointer;
+}
+.login-page .login-form button:hover {filter:brightness(1.08);}
+.login-page :is(input,button,.secondary-link):focus-visible {outline:3px solid var(--auth-accent);outline-offset:3px;}
+.login-page .server-message {font-size:14px;color:var(--auth-muted);line-height:1.5;margin:16px 0 0;overflow-wrap:anywhere;}
+@media (max-width:480px) {
+ .login-page .login-shell {place-items:start center;padding:76px 12px 22px;}
+ .login-page .login-card {padding:22px 19px;border-radius:15px;}
+}
+@media (prefers-reduced-motion:reduce) { .login-page *, .login-page *::before, .login-page *::after {animation:none!important;transition:none!important;} }

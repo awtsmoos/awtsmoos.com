@@ -12,7 +12,10 @@ const { pairingPageHtml } = require("../pairingPage.js");
 test("approval page redirects on not_authenticated body, including HTTP 200 envelopes", () => {
 	const markup = pairingPageHtml({ pairingCode: "ABCDEFGH23", pairingId: "pair_test" });
 	assert(markup.includes('data.error==="not_authenticated"'));
-	assert(markup.includes('location.href="/login?return="+back'));
+	assert(markup.includes('location.href="/login/?next="+back'));
 	assert(markup.includes("ABCDE-FGH23"));
 	assert(!markup.includes("VERIFICATION LINK"));
+	assert(markup.includes("<h2>Approved ✓</h2>"));
+	assert(!markup.includes("magicalBg"));
+	assert(!markup.includes("floatStars"));
 });

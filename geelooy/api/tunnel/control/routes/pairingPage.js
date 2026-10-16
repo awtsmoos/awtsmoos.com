@@ -19,6 +19,16 @@ function esc(value) {
 		.replace(/"/g, "&quot;");
 }
 
+/** Script-safe JSON for user-supplied query fields embedded in inline JavaScript. */
+function scriptJson(value) {
+	return JSON.stringify(String(value || ""))
+		.replace(/</g, "\\u003c")
+		.replace(/>/g, "\\u003e")
+		.replace(/&/g, "\\u0026")
+		.replace(/\u2028/g, "\\u2028")
+		.replace(/\u2029/g, "\\u2029");
+}
+
 /**
  * Builds the standalone approval page. pairingCode may be empty for the
  * manual-entry mode (user types the code from the installer's card).
@@ -28,7 +38,7 @@ function pairingPageHtml({ pairingCode = "", pairingId = "", returnPath = "" } =
 	const safeCode = esc(code);
 	const displayCode = esc(code.length === 10 ? `${code.slice(0, 5)}-${code.slice(5)}` : code);
 	const safeReturn = esc(returnPath);
-	const safePairingId = esc(String(pairingId || ""));
+	const safePairingId = String(pairingId || "");
 	const hasCode = code.length >= 4;
 
 	return `<!DOCTYPE html>
@@ -36,146 +46,36 @@ function pairingPageHtml({ pairingCode = "", pairingId = "", returnPath = "" } =
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0a0e14">
+<meta name="theme-color" content="#0a111a">
 <title>Approve this device? · Awtsmoos</title>
 <style>
-/* B"H — Yaakov 2026-10-14: ULTRA INTENSE MAGICAL STYLES! */
-:root{
-	--bg:#05080d; --card:#0d1520; --line:#2a3f5c; --text:#ffffff;
-	--dim:#a8bdd6; --green:#00ff88; --green-dark:#00cc6a; --red:#ff4444;
-	--gold:#ffcc00; --blue:#00aaff; --purple:#bb44ff; --cyan:#00eeff;
-}
-*{box-sizing:border-box;border-radius:0;margin:0;padding:0}
-html,body{height:100%}
-body{
-	background:linear-gradient(135deg, #05080d 0%, #0a1220 25%, #0d1a2f 50%, #0a1220 75%, #05080d 100%);
-	background-size:300% 300%;
-	animation:magicalBg 8s ease infinite;
-	color:var(--text);
-	font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-	display:flex; align-items:center; justify-content:center;
-	padding:20px; -webkit-text-size-adjust:100%;
-}
-@keyframes magicalBg{
-	0%,100%{background-position:0% 50%}
-	50%{background-position:100% 50%}
-}
-/* B"H — Yaakov 2026-10-14: Floating magical stars! */
-body::before{
-	content:"✦ ✧ ⋆ ✩ ✶";
-	position:fixed; top:10%; left:0; right:0; text-align:center;
-	font-size:24px; letter-spacing:2em; color:rgba(77,166,255,.15);
-	animation:floatStars 20s linear infinite; pointer-events:none;
-}
-body::after{
-	content:"⋆ ✩ ✦ ✧ ✶";
-	position:fixed; bottom:10%; left:0; right:0; text-align:center;
-	font-size:18px; letter-spacing:3em; color:rgba(157,77,255,.12);
-	animation:floatStars 25s linear infinite reverse; pointer-events:none;
-}
-@keyframes floatStars{
-	0%{transform:translateX(-50px); opacity:.3}
-	50%{opacity:.8}
-	100%{transform:translateX(50px); opacity:.3}
-}
-.card{
-	width:100%; max-width:430px; background:var(--card);
-	border:1px solid var(--line); padding:34px 30px 30px;
-	box-shadow:0 18px 60px rgba(0,0,0,.55), 0 0 40px rgba(77,166,255,.15);
-	position:relative; overflow:hidden;
-}
-.card::before{
-	content:""; position:absolute; top:0; left:-100%; width:100%; height:2px;
-	background:linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
-	animation:shimmer 3s linear infinite;
-}
-@keyframes shimmer{
-	0%{left:-100%} 100%{left:100%}
-}
-.kicker{
-	color:var(--green); font-size:11px; letter-spacing:.32em;
-	font-weight:700; margin-bottom:14px;
-}
-h1{
-	font-size:27px; line-height:1.25; margin-bottom:12px; font-weight:700;
-	background:linear-gradient(135deg, #e8f0fa, #4dd2ff, #9d4dff);
-	-webkit-background-clip:text; -webkit-text-fill-color:transparent;
-	background-clip:text;
-}
-p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
-.codebox{
-	background:#0a0f18; border:1px solid var(--line);
-	padding:20px 12px; text-align:center; margin-bottom:22px;
-	position:relative;
-	animation:codeGlow 2.5s ease-in-out infinite;
-}
-@keyframes codeGlow{
-	0%,100%{box-shadow:0 0 30px rgba(0,255,136,.3); border-color:var(--line)}
-	50%{box-shadow:0 0 60px rgba(0,255,136,.7); border-color:var(--green)}
-}
-.codebox .code{
-	font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-	font-size:clamp(21px,6vw,32px); font-weight:700; letter-spacing:.12em; color:var(--green);
-	text-indent:0; overflow-wrap:anywhere;
-	text-shadow:0 0 20px rgba(0,255,136,.8), 0 0 40px rgba(0,255,136,.4);
-}
-/* B"H — Yaakov 2026-10-14: INTENSE verification link, each part on new line! */
-.verify-link{
-	background:#0a0f18; border:2px solid var(--green);
-	padding:16px 12px; margin-bottom:22px; text-align:center;
-	box-shadow:0 0 30px rgba(0,255,136,.3), inset 0 0 20px rgba(0,255,136,.1);
-	animation:verifyPulse 2s ease-in-out infinite;
-}
-@keyframes verifyPulse{
-	0%,100%{box-shadow:0 0 30px rgba(0,255,136,.3), inset 0 0 20px rgba(0,255,136,.1)}
-	50%{box-shadow:0 0 50px rgba(0,255,136,.6), inset 0 0 30px rgba(0,255,136,.2)}
-}
-.verify-label{
-	color:var(--green); font-size:12px; font-weight:800; letter-spacing:.3em;
-	margin-bottom:10px; text-shadow:0 0 10px rgba(0,255,136,.8);
-}
-.verify-url{
-	display:block; color:var(--cyan); font-size:12px; line-height:1.8;
-	word-break:break-all; text-decoration:none; font-family:ui-monospace,monospace;
-}
-.verify-url:hover{color:#ffffff; text-shadow:0 0 10px rgba(0,238,255,.8);}
-.btn{
-	display:block; width:100%; padding:15px 12px; font-size:16px; font-weight:700;
-	border:1px solid transparent; cursor:pointer; text-align:center;
-	margin-bottom:10px; transition:all .2s ease;
-	-webkit-tap-highlight-color:transparent;
-}
-.btn:active{transform:translateY(1px) scale(.98)}
-.btn-approve{
-	background:linear-gradient(135deg, var(--green), #25b86a);
-	color:#06130b; border-color:var(--green);
-	box-shadow:0 4px 20px rgba(47,212,126,.3);
-}
-.btn-approve:hover{
-	background:linear-gradient(135deg, #45e292, var(--green));
-	box-shadow:0 6px 30px rgba(47,212,126,.5);
-	transform:translateY(-1px);
-}
-.btn-approve:disabled{background:var(--green-dark); border-color:var(--green-dark); color:#0a0e14; cursor:wait; opacity:.75; box-shadow:none; transform:none}
-.btn-cancel{background:transparent; color:var(--dim); border-color:var(--line); margin-bottom:0}
-.btn-cancel:hover{color:var(--text); border-color:var(--dim)}
-.status{min-height:22px; font-size:13.5px; color:var(--dim); margin-top:14px; line-height:1.5}
-.status.error{color:var(--red)}
-.success{display:none; text-align:center; padding:8px 0 2px}
-.success.show{display:block}
-.check{
-	width:74px; height:74px; margin:0 auto 18px; display:block;
-}
-.success h2{color:var(--green); font-size:24px; margin-bottom:8px}
-.success p{color:var(--dim); font-size:14px; line-height:1.6}
-.manual input{
-	display:block; width:100%; background:#0a0f18; border:1px solid var(--line);
-	color:var(--text); font-size:22px; padding:14px; text-align:center;
-	font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-	letter-spacing:.2em; text-transform:uppercase; margin-bottom:12px;
-}
-.manual input:focus{outline:none; border-color:var(--green)}
-.card .hidden{display:none}
+/* B"H: A single self-contained, fast, readable approval gate. */
+:root { color-scheme:dark; --bg:#0a111a;--card:#121d2a;--line:#364757;--ink:#f4f8fa;--muted:#b9cbd4;--green:#49e69b;--red:#ff9c9c; }
+* { box-sizing:border-box; }
+html,body { min-height:100%;margin:0; }
+body { background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;display:grid;place-items:center;padding:20px; }
+.card { width:min(100%,420px);padding:28px;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:0 18px 50px #0004; }
+.kicker { font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--green);margin-bottom:16px; }
+h1 { font-size:clamp(23px,6vw,29px);line-height:1.2;margin:0 0 12px; }
+p.sub { color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 20px; }
+.codebox { padding:13px 10px;margin-bottom:18px;background:#09111a;border:1px solid var(--line);border-radius:10px;text-align:center; }
+.code { color:var(--green);font:bold clamp(21px,5.5vw,30px)/1.4 ui-monospace,monospace;letter-spacing:.08em;overflow-wrap:anywhere; }
+.btn { width:100%;padding:14px 12px;min-height:48px;border-radius:9px;border:1px solid var(--line);font:700 16px/1.25 system-ui,sans-serif;cursor:pointer;margin-bottom:10px; }
+.btn-approve { background:var(--green);color:#052115;border-color:var(--green); }
+.btn-approve:disabled { opacity:.65;cursor:wait; }
+.btn-cancel { background:transparent;color:var(--muted); }
+.btn:focus-visible,.manual input:focus-visible { outline:3px solid var(--green);outline-offset:3px; }
+.status { min-height:20px;color:var(--muted);font-size:14px;line-height:1.5;margin:8px 0 0; }
+.status.error { color:var(--red); }
+.manual input { width:100%;min-height:48px;padding:12px;margin-bottom:12px;border:1px solid var(--line);border-radius:8px;background:#0a111a;color:var(--ink);font:20px ui-monospace,monospace;text-align:center;text-transform:uppercase; }
+.success { display:none;text-align:center;padding:24px 2px 10px; }
+.success.show { display:block; }
+.check { width:72px;height:72px;display:block;margin:0 auto 16px; }
+.success h2 { color:var(--green);font-size:25px;margin:0 0 8px; }
+.success p { margin:0;color:var(--muted);font-size:14px;line-height:1.6; }
+.card .hidden { display:none; }
+@media (max-width:380px) { body {padding:12px;} .card {padding:20px;} }
+@media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important;transition:none!important; } }
 </style>
 </head>
 <body>
@@ -186,7 +86,6 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 		<h1>Approve this device?</h1>
 		<p class="sub">A tunnel installer asked to link this device to your account. Approve only if you just ran the installer on your own machine.</p>
 		<div class="codebox"><div class="code" id="code">${displayCode}</div></div>
-		${safePairingId ? `<div class="verify-link"><div class="verify-label">SECURE PAIRING REQUEST</div><p class="verify-url">This code is tied to the installer you just started. Confirm it matches the code on your other screen.</p></div>` : ""}
 		<button class="btn btn-approve" id="approve" type="button">Approve this device</button>
 		<button class="btn btn-cancel" id="cancel" type="button">Cancel</button>
 		<p class="status" id="status" role="status" aria-live="polite"></p>
@@ -208,8 +107,8 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 			<circle cx="37" cy="37" r="34" stroke="#2fd47e" stroke-width="4"/>
 			<path d="M23 38.5 33 48l18-21" stroke="#2fd47e" stroke-width="5" stroke-linecap="square"/>
 		</svg>
-		<h2>Device approved ✓</h2>
-		<p>The tunnel is linking now. You can close this page — the installer will finish on its own.</p>
+		<h2>Approved ✓</h2>
+		<p>Approval saved. Return to the installer and wait for device registration to finish.</p>
 	</div>
 </main>
 <script>
@@ -218,13 +117,13 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 	var approveBtn=document.getElementById("approve");
 	var status=document.getElementById("status");
 	var status2=document.getElementById("status2");
-	var returnPath=${JSON.stringify(safeReturn)};
-	var pairingId=${JSON.stringify(safePairingId)};
+	var returnPath=${scriptJson(safeReturn)};
+	var pairingId=${scriptJson(safePairingId)};
 	function fail(el,msg){ el.textContent=msg; el.classList.add("error"); }
 	async function approve(code,btn,statusEl){
 		btn.disabled=true;
 		statusEl.classList.remove("error");
-		statusEl.textContent="Approving encrypted device identity…";
+		statusEl.textContent="Checking your approval…";
 		var res, data=null;
 		try{
 			res=await fetch("/api/tunnel/control/pairing/approve",{
@@ -240,12 +139,12 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 		}
 		if(res.status===401 || (data && (data.error==="unauthorized" || data.error==="not_authenticated" || data.error==="authentication_required"))){
 			var back=encodeURIComponent(location.pathname+location.search);
-			location.href="/login?return="+back;
+			location.href="/login/?next="+back;
 			return;
 		}
 		if(!data || !data.ok){
 			btn.disabled=false;
-			var msg=(data && data.message)||"This code was not recognized — it may have expired. Re-run the installer for a fresh code.";
+			var msg=(data && data.message)||(data && data.error ? "Approval failed: "+data.error : "Approval was not accepted. Check the code and try again.");
 			fail(statusEl,msg);
 			return;
 		}
@@ -254,7 +153,7 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 		document.getElementById("view-success").classList.add("show");
 	}
 	if(approveBtn){
-		var code=${JSON.stringify(code)};
+		var code=${scriptJson(code)};
 		approveBtn.addEventListener("click",function(){ approve(code,approveBtn,status); });
 		document.getElementById("cancel").addEventListener("click",function(){
 			location.href=returnPath || "/";
