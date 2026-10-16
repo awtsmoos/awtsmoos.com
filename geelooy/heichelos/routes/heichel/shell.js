@@ -4,11 +4,12 @@
 
 /**
  * @file Server-first Heichel shell renderer.
- * @description The Awtsmoos reveals known Ikar identity immediately and lets
- * independent public vessels travel together instead of serially blocking Torah.
+ * @description The Awtsmoos reveals canonical Ikar from local truth alone;
+ * other Heichels keep live cached discovery without blocking permanent Torah doors.
  */
 const createDiscovery = require('./discovery.js');
 const { heichelFields } = require('./fieldMaps.js');
+const { getIkarRootDiscovery } = require('./ikarRootDiscovery.js');
 const { publicReaderCache } = require('./readerDataCache.js');
 const { buildSemanticModel, normalizeSeries } = require('./semantic.js');
 const { traceAsync } = require('./torahRouteTrace.js');
@@ -47,6 +48,13 @@ function createShellRenderer($i) {
 		}, context);
 	}
 
+	function getShellDiscovery(heichelId, seriesId, context) {
+		return traceAsync('shell:discovery', () => {
+			if (isFastIkarRoot(heichelId, seriesId)) return getIkarRootDiscovery();
+			return getDiscovery(heichelId, seriesId);
+		}, context);
+	}
+
 	async function renderSemanticFragments(semantic, discovery, series, context) {
 		return traceAsync('shell:semantic-fragments', async () => {
 			const [semanticHead, semanticFallback] = await Promise.all([
@@ -60,17 +68,10 @@ function createShellRenderer($i) {
 	async function renderHeichelShell(heichelId, seriesId = '') {
 		const context = { heichelId, seriesId: seriesId || 'root' };
 		return traceAsync('shell:total', async () => {
-			const heichelPromise = getHeichel(heichelId, seriesId, context);
-			const seriesPromise = getSeries(heichelId, seriesId, context);
-			const discoveryPromise = traceAsync(
-				'shell:discovery',
-				() => getDiscovery(heichelId, seriesId),
-				context
-			);
 			const [heichel, series, discovery] = await Promise.all([
-				heichelPromise,
-				seriesPromise,
-				discoveryPromise
+				getHeichel(heichelId, seriesId, context),
+				getSeries(heichelId, seriesId, context),
+				getShellDiscovery(heichelId, seriesId, context)
 			]);
 			if (!heichel) return $i.$ga('_awtsmoos.heichelNotFound.html');
 			const semantic = await traceAsync(
