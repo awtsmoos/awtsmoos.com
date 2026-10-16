@@ -4,59 +4,61 @@
 
 /**
  * @file Server-first public Torah post renderer.
- * @description The Awtsmoos gathers teaching, metadata, identity, settings, sources, discussion, and translations before the shell is born; optional timing reveals cold vessels without changing ordinary output.
+ * @description The Awtsmoos resolves the teaching once, sends readable Torah immediately,
+ * and leaves comments, public translations, and richer interaction outside first-byte work.
  */
 const { createReaderData } = require('./readerData.js');
 const { buildPostSemantic } = require('./postSemantic.js');
 const { postStructuredDataTag } = require('./postStructuredData.js');
-const { renderPostAnnotations } = require('./comments/postAnnotations.js');
+const { renderInitialPostPreview } = require('./initialPostPreview.js');
 const { traceAsync } = require('./torahRouteTrace.js');
 
 function createPostReader($i) {
 	const readerData = createReaderData($i);
 
-	/** Renders all server-critical fragments in parallel and names each cold stage only when tracing is enabled. */
-	async function renderReaderFragments(data, semantic) {
-		const context = {
+	function routeContext(data) {
+		return {
 			heichelId: data.heichel?.id || '',
 			seriesId: data.parentSeries || '',
 			postId: data.postId || ''
-		};
-		const initialContentData = {
-			post: data.post || null,
-			heichel: data.heichel || null,
-			alias: data.alias || null,
-			parentSeries: data.parentSeries || '',
-			postId: data.postId || '',
-			indexInSeries: data.indexInSeries || ''
-		};
-		const parts = await Promise.all([
-			traceAsync('reader-fragment:semantic-head', () => $i.$ga('./post/semantic-head.html', { semantic }), context),
-			traceAsync('reader-fragment:settings', () => $i.$ga('./post/reader-settings.html'), context),
-			traceAsync('reader-fragment:initial-content', () => $i.$ga('./post/initial-content.html', initialContentData), context),
-			traceAsync('reader-fragment:annotations', () => renderPostAnnotations($i, data), context)
-		]);
-		return {
-			postSemanticHead: parts[0] || '',
-			readerSettingsHtml: parts[1] || '',
-			initialContentHtml: parts[2] || '',
-			postAnnotationsHtml: parts[3] || ''
 		};
 	}
 
-	/** Resolves one teaching into the complete public reader template. */
-	async function renderResolvedReader(data) {
-		const context = {
-			heichelId: data.heichel?.id || '',
-			seriesId: data.parentSeries || '',
-			postId: data.postId || ''
+	/**
+	 * Renders only document-critical fragments.
+	 * Sources/comments/translations must never hold the first visible Torah hostage.
+	 */
+	async function renderReaderFragments(data, semantic) {
+		const context = routeContext(data);
+		const [postSemanticHead, readerSettingsHtml] = await Promise.all([
+			traceAsync(
+				'reader-fragment:semantic-head',
+				() => $i.$ga('./post/semantic-head.html', { semantic }),
+				context
+			),
+			traceAsync(
+				'reader-fragment:settings',
+				() => $i.$ga('./post/reader-settings.html'),
+				context
+			)
+		]);
+		return {
+			postSemanticHead: postSemanticHead || '',
+			readerSettingsHtml: readerSettingsHtml || '',
+			initialContentHtml: renderInitialPostPreview(data),
+			postAnnotationsHtml: ''
 		};
+	}
+
+	/** Resolves one teaching into the public reader template. */
+	async function renderResolvedReader(data) {
+		const context = routeContext(data);
 		const semantic = {
 			...buildPostSemantic(data),
 			structuredDataTag: postStructuredDataTag(data)
 		};
 		const fragments = await traceAsync(
-			'reader:fragments',
+			'reader:critical-fragments',
 			() => renderReaderFragments(data, semantic),
 			context
 		);
@@ -79,7 +81,9 @@ function createPostReader($i) {
 		return traceAsync(
 			'reader-data:series-total',
 			async () => renderResolvedReader(await readerData.loadSeriesPost(
-				vars.heichel, vars.series, vars.post,
+				vars.heichel,
+				vars.series,
+				vars.post,
 				{ israel: String(vars.chitasIsrael || vars.query?.chitasIsrael || '') === '1' }
 			)),
 			{ heichelId: vars.heichel, seriesId: vars.series, postId: vars.post }

@@ -1,27 +1,28 @@
 //B"H
 //Boruch Hashem
 //Blessed be He
-
 "use strict";
 
 /**
  * @module SearchStartupWarmup
- * @description
- * The Awtsmoos schedules cold search preparation without binding HTTP readiness;
- * Awtsmoos.com keeps one observable state vessel so success, timeout, or failure
- * can be inspected without unhandled rejection or hidden startup delay.
+ * The Awtsmoos gives HTTP Torah a quiet first breath before heavy search preparation.
  */
-
 const {
 	warmSearchCaches
 } = require("../../../geelooy/api/social/helper/search/rag/searchCacheWarmup.js");
 
-/** Returns false only when this worker explicitly relinquishes search prewarming. */
+const DEFAULT_STARTUP_WARMUP_DELAY_MS = 30000;
+
 function searchStartupWarmupEnabled(netzachEnvironment = process.env) {
 	return netzachEnvironment.AWTSMOOS_DISABLE_SEARCH_STARTUP_WARMUP !== "true";
 }
 
-/** Resolves the initialized database root without guessing another storage vessel. */
+function searchStartupWarmupDelay(netzachEnvironment = process.env) {
+	const configured = Number(netzachEnvironment.AWTSMOOS_SEARCH_STARTUP_WARMUP_DELAY_MS);
+	if (Number.isFinite(configured) && configured >= 0) return configured;
+	return DEFAULT_STARTUP_WARMUP_DELAY_MS;
+}
+
 function searchDatabaseRoot(malchusServer, dependencies = {}) {
 	return dependencies.root
 		|| process.awtsmoosDbPath
@@ -29,7 +30,6 @@ function searchDatabaseRoot(malchusServer, dependencies = {}) {
 		|| null;
 }
 
-/** Converts one unexpected warm failure into compact non-fatal testimony. */
 function warmFailure(error) {
 	return {
 		ok: false,
@@ -38,7 +38,6 @@ function warmFailure(error) {
 	};
 }
 
-/** Runs the worker-isolated catalog warm operation for direct callers/tests. */
 async function warmSearchAtStartup(
 	malchusServer,
 	netzachEnvironment = process.env,
@@ -60,7 +59,6 @@ async function warmSearchAtStartup(
 	}
 }
 
-/** Applies completion testimony without replacing the observable state object. */
 function completeState(state, result) {
 	state.result = result;
 	state.finishedAt = Date.now();
@@ -68,19 +66,26 @@ function completeState(state, result) {
 	return result;
 }
 
-/**
- * Starts warmup without awaiting it. The contained promise always resolves to
- * compact testimony, so startup can never inherit an unhandled worker rejection.
- */
+function waitForQuietWindow(delayMs, dependencies = {}) {
+	const schedule = dependencies.setTimeout || setTimeout;
+	return new Promise(resolve => {
+		const timer = schedule(resolve, delayMs);
+		timer?.unref?.();
+	});
+}
+
+/** Schedules search warmup after a real quiet window without delaying HTTP readiness. */
 function startSearchStartupWarmup(
 	malchusServer,
 	netzachEnvironment = process.env,
 	dependencies = {}
 ) {
+	const delayMs = dependencies.delayMs ?? searchStartupWarmupDelay(netzachEnvironment);
 	const state = {
 		status: "scheduled",
 		startedAt: Date.now(),
 		finishedAt: null,
+		delayMs,
 		result: null,
 		promise: null
 	};
@@ -93,7 +98,7 @@ function startSearchStartupWarmup(
 		return state;
 	}
 	const run = dependencies.warmSearchAtStartup || warmSearchAtStartup;
-	state.promise = Promise.resolve()
+	state.promise = waitForQuietWindow(delayMs, dependencies)
 		.then(() => {
 			state.status = "warming";
 			return run(malchusServer, netzachEnvironment, dependencies);
@@ -104,8 +109,10 @@ function startSearchStartupWarmup(
 }
 
 module.exports = {
+	DEFAULT_STARTUP_WARMUP_DELAY_MS,
 	completeState,
 	searchDatabaseRoot,
+	searchStartupWarmupDelay,
 	searchStartupWarmupEnabled,
 	startSearchStartupWarmup,
 	warmFailure,

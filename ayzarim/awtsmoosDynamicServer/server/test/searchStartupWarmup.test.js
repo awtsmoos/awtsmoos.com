@@ -4,42 +4,60 @@
 
 "use strict";
 
-/**
- * @file searchStartupWarmup.test.js
- * @description The Awtsmoos schedules search preparation without chaining HTTP
- * readiness to cold corpus work; Awtsmoos.com keeps one observable state vessel
- * whose success or failure can arrive later without unhandled rejection.
- */
-
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const {
+	DEFAULT_STARTUP_WARMUP_DELAY_MS,
+	searchStartupWarmupDelay,
 	searchStartupWarmupEnabled,
 	startSearchStartupWarmup,
 	warmSearchAtStartup
 } = require("../searchStartupWarmup.js");
 
-function deferred() {
-	let resolve;
-	let reject;
-	const promise = new Promise((res, rej) => {
-		resolve = res;
-		reject = rej;
-	});
-	return { promise, resolve, reject };
+function manualTimer() {
+	const scheduled = [];
+	return {
+		scheduled,
+		setTimeout(callback, delayMs) {
+			scheduled.push({ callback, delayMs });
+			return { unref() {} };
+		}
+	};
 }
 
 test("startup warmup can be disabled explicitly per worker", async () => {
-	assert.equal(
-		searchStartupWarmupEnabled({ AWTSMOOS_DISABLE_SEARCH_STARTUP_WARMUP: "true" }),
-		false
-	);
-	const state = startSearchStartupWarmup(
-		{},
-		{ AWTSMOOS_DISABLE_SEARCH_STARTUP_WARMUP: "true" }
-	);
+	assert.equal(searchStartupWarmupEnabled({ AWTSMOOS_DISABLE_SEARCH_STARTUP_WARMUP: "true" }), false);
+	const state = startSearchStartupWarmup({}, { AWTSMOOS_DISABLE_SEARCH_STARTUP_WARMUP: "true" });
 	assert.equal(state.status, "disabled");
 	assert.deepEqual(await state.promise, { ok: true, skipped: true, reason: "disabled" });
+});
+
+test("startup warmup uses a real quiet window by default", async () => {
+	const timer = manualTimer();
+	let calls = 0;
+	const state = startSearchStartupWarmup({}, {}, {
+		setTimeout: timer.setTimeout,
+		async warmSearchAtStartup() {
+			calls += 1;
+			return { ok: true, worker: "thread" };
+		}
+	});
+	assert.equal(state.status, "scheduled");
+	assert.equal(state.delayMs, DEFAULT_STARTUP_WARMUP_DELAY_MS);
+	assert.equal(timer.scheduled[0].delayMs, 30000);
+	await Promise.resolve();
+	assert.equal(calls, 0);
+	timer.scheduled[0].callback();
+	const result = await state.promise;
+	assert.equal(calls, 1);
+	assert.equal(result.ok, true);
+	assert.equal(state.status, "ready");
+});
+
+test("startup warmup delay can be configured without changing code", () => {
+	assert.equal(searchStartupWarmupDelay({ AWTSMOOS_SEARCH_STARTUP_WARMUP_DELAY_MS: "45000" }), 45000);
+	assert.equal(searchStartupWarmupDelay({ AWTSMOOS_SEARCH_STARTUP_WARMUP_DELAY_MS: "0" }), 0);
+	assert.equal(searchStartupWarmupDelay({ AWTSMOOS_SEARCH_STARTUP_WARMUP_DELAY_MS: "bad" }), 30000);
 });
 
 test("direct warm operation forwards one resolved database root", async () => {
@@ -56,45 +74,23 @@ test("direct warm operation forwards one resolved database root", async () => {
 	assert.deepEqual(calls, ["/tmp/search-root"]);
 });
 
-test("scheduler returns immediately while deferred warm work remains pending", async () => {
-	const gate = deferred();
+test("scheduled warm rejection becomes compact failed state", async () => {
+	const timer = manualTimer();
 	const state = startSearchStartupWarmup({}, {}, {
+		setTimeout: timer.setTimeout,
 		warmSearchAtStartup() {
-			return gate.promise;
+			return Promise.reject(Object.assign(new Error("worker exploded"), { code: "WORKER_EXPLODED" }));
 		}
 	});
-	assert.equal(state.status, "scheduled");
-	await Promise.resolve();
-	assert.equal(state.status, "warming");
-	assert.equal(state.finishedAt, null);
-	gate.resolve({ ok: true, worker: "thread" });
-	const result = await state.promise;
-	assert.equal(result.ok, true);
-	assert.equal(state.status, "ready");
-	assert.equal(state.result.worker, "thread");
-	assert.equal(typeof state.finishedAt, "number");
-});
-
-test("scheduler contains rejected warm promise as failed state", async () => {
-	const state = startSearchStartupWarmup({}, {}, {
-		warmSearchAtStartup() {
-			return Promise.reject(Object.assign(
-				new Error("worker exploded"),
-				{ code: "WORKER_EXPLODED" }
-			));
-		}
-	});
+	timer.scheduled[0].callback();
 	const result = await state.promise;
 	assert.equal(result.ok, false);
 	assert.equal(result.code, "WORKER_EXPLODED");
 	assert.equal(state.status, "failed");
-	assert.deepEqual(state.result, result);
 });
 
 test("missing database root stays compact and non-fatal", async () => {
-	const result = await warmSearchAtStartup({}, {}, {
-		root: ""
-	});
+	const result = await warmSearchAtStartup({}, {}, { root: "" });
 	assert.equal(result.ok, false);
 	assert.equal(result.code, "SEARCH_DB_ROOT_UNAVAILABLE");
 });

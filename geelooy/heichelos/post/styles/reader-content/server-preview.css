@@ -1,0 +1,15 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps server Torah visible until client Torah actually manifests.
+ * Once richer content exists beside the preview, the preview yields without a flash.
+ */
+
+#realPost > [data-awtsmoos-server-preview] {
+	content-visibility: auto;
+}
+
+#realPost:has(> [data-awtsmoos-server-preview] ~ *) > [data-awtsmoos-server-preview] {
+	display: none;
+}
