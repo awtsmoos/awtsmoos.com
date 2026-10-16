@@ -19,6 +19,7 @@ const DiscoveryTools = require("./discoveryTools.js");
 
 const MODERN_VERSION = "2026-07-28";
 const LEGACY_VERSION = "2025-11-25";
+const SUPPORTED_VERSIONS = Object.freeze([MODERN_VERSION, LEGACY_VERSION, "2025-03-26"]);
 const SERVER_INFO = Object.freeze({ name: "Awtsmoos Shliach", version: "1.0.0" });
 const INSTRUCTIONS =
 	"Use Awtsmoos direct access. Discover a live device first and route filesystem calls by its immutable routeReference.";
@@ -42,7 +43,7 @@ function stamp(result, modern) {
 
 function discovery() {
 	return stamp({
-		supportedVersions: [MODERN_VERSION, LEGACY_VERSION],
+		supportedVersions: [...SUPPORTED_VERSIONS],
 		capabilities: { tools: {} },
 		instructions: INSTRUCTIONS,
 		ttlMs: 300000,
@@ -52,7 +53,7 @@ function discovery() {
 
 function initialize(message = {}) {
 	const requested = message.params?.protocolVersion;
-	const protocolVersion = requested && requested !== MODERN_VERSION
+	const protocolVersion = SUPPORTED_VERSIONS.includes(requested)
 		? requested
 		: LEGACY_VERSION;
 	return {
@@ -82,7 +83,8 @@ async function callTool($i, identity, params = {}) {
 	return {
 		content: [{ type: "text", text: JSON.stringify(payload, null, 2) }],
 		structuredContent: payload,
-		isError: false
+		isError: Boolean(payload && typeof payload === "object" &&
+			(payload.ok === false || payload.statusCode >= 400))
 	};
 }
 

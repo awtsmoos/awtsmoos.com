@@ -11,12 +11,14 @@ const Respond = require("../core/respond.js");
  * @param {object} $i Live request context, retaining the OAuth challenge headers.
  * @param {object} data JSON-RPC body.
  * @param {number} status HTTP result.
+ * @param {object} headers Explicit router-forwarded headers.
  * @returns {object} Router-supported status, MIME type and response body.
  */
-function json($i, data, status = 200) {
+function json($i, data, status = 200, headers = {}) {
 	Respond.setStatus($i, status);
 	return {
 		statusCode: status,
+		headers,
 		mimeType: "application/json; charset=utf-8",
 		response: JSON.stringify(data, null, 2)
 	};

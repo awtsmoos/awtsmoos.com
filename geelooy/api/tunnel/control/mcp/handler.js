@@ -42,7 +42,7 @@ function requestMethod($i) {
 async function handleMcp($i) {
 	if (requestMethod($i) !== "POST") {
 		Respond.setHeader($i, "Allow", "POST");
-		return Transport.json($i, rpcError(null, -32600, "MCP requires POST."), 405);
+		return Transport.json($i, rpcError(null, -32600, "MCP requires POST."), 405, { Allow: "POST" });
 	}
 	let message;
 	try {
@@ -58,7 +58,8 @@ async function handleMcp($i) {
 		return Transport.json(
 			$i,
 			rpcError(message.id, -32000, "OAuth bearer authorization required."),
-			authorization.status
+			authorization.status,
+			authorization.headers
 		);
 	}
 	if (message.id === undefined && message.method === "notifications/initialized") {

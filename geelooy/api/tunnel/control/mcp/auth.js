@@ -26,7 +26,9 @@ function challenge($i, error = "invalid_token", status = 401) {
 		`error="${error}"`
 	].join(" ");
 	Respond.setHeader($i, "WWW-Authenticate", value);
-	return { ok: false, error, status };
+	// The dynamic router serializes returned envelopes, not mutable response
+	// headers. Preserve the challenge on both transport paths.
+	return { ok: false, error, status, headers: { "WWW-Authenticate": value } };
 }
 
 /** Validates signature, exact MCP audience, and minimum read authority. */
