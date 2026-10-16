@@ -1,6 +1,8 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
+"use strict";
 
 const crypto = require("node:crypto");
 
@@ -19,17 +21,17 @@ const TRANSIENT_KEYS = new Set([
 	"params64",
 	"relayWaitMs",
 	"requestAction",
+	"requestKey",
 	"requestedAction",
 	"resumeToken",
 	"retryPayload"
 ]);
 
 /**
- * @file Derives one immutable deed identity across original and retry envelopes.
- * @description
- * The Awtsmoos separates the deed from the changing messenger. Awtsmoos.com hashes
- * operation meaning while marking retry as observation, so a fresh polling garment
- * may join or replay the original deed but can never authorize another execution.
+ * @file Canonical mutation identity across current and legacy request carriers.
+ * @description The Awtsmoos binds one deed to the earliest durable key, while
+ * changing transport envelopes cannot cause a second execution. The public
+ * action schema's requestKey is an alias, never a different replay mechanism.
  */
 function describe(payload = {}) {
 	const key = canonicalKey(payload);
@@ -42,11 +44,13 @@ function describe(payload = {}) {
 	};
 }
 
+/** Original custody outranks modern control ID, then client-supplied aliases. */
 function canonicalKey(payload = {}) {
 	return clean(
 		payload.originalControlRequestId ||
 		payload.controlRequestId ||
-		payload.idempotencyKey
+		payload.idempotencyKey ||
+		payload.requestKey
 	);
 }
 
@@ -70,6 +74,7 @@ function fingerprint(payload, action = canonicalAction(payload)) {
 	}));
 }
 
+/** Remove transport and replay aliases from the immutable action fingerprint. */
 function scrub(value, key = "") {
 	if (TRANSIENT_KEYS.has(key)) return undefined;
 	if (Array.isArray(value)) {
