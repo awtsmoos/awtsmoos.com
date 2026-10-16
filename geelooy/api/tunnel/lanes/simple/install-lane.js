@@ -16,7 +16,7 @@ const C = {
 const LANES = {
   "poll": {
     file: "agent-poll.js",
-    desc: "HTTP polling, no approval. For trusted environments.",
+    desc: "Credential-bound HTTP polling with safe diagnostic command profile.",
     cmd: "node agent-poll.js"
   },
   "approval": {
@@ -26,7 +26,7 @@ const LANES = {
   },
   "websocket": {
     file: "agent-websocket.js",
-    desc: "WebSocket real-time. Falls back to polling.",
+    desc: "Retired insecure WS prototype. Use the advanced native tunnel instead.",
     cmd: "node agent-websocket.js"
   },
   "file": {
@@ -63,6 +63,10 @@ function main() {
     process.exit(1);
   }
 
+  if (lane === "websocket") {
+    console.error("Use the advanced native tunnel for authenticated WebSockets; this legacy prototype is disabled.");
+    process.exit(2);
+  }
   const info = LANES[lane];
   console.log(`  ${C.green}${C.bold}✓${C.reset}  Installing lane: ${C.bold}${C.cyan}${lane}${C.reset}`);
   console.log(`  ${C.dim}     ${info.desc}${C.reset}`);

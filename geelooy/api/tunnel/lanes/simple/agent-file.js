@@ -12,9 +12,11 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { exec } = require("node:child_process");
+const { execFile } = require("node:child_process");
+const Policy = require("./agent-command-policy.js");
 
 const AGENT_ID = process.env.TUNNEL_AGENT_ID || require("node:os").hostname();
+if (!/^[A-Za-z0-9._-]{1,100}$/.test(AGENT_ID)) throw Error("invalid_agent_identity");
 const CMD_DIR = process.env.TUNNEL_CMD_DIR || "/tmp/simple-tunnel-commands";
 const RESULT_DIR = process.env.TUNNEL_RESULT_DIR || "/tmp/simple-tunnel-results";
 const POLL_MS = 2000;
@@ -36,11 +38,13 @@ function checkForCommands() {
     const cmds = JSON.parse(data);
     const list = Array.isArray(cmds) ? cmds : [cmds];
     // Clear the file so we don't re-run
-    fs.writeFileSync(myCmdFile, "[]");
+    fs.writeFileSync(myCmdFile, "[]", { mode: 0o600 });
     for (const cmd of list) {
-      if (!cmd || !cmd.id || !cmd.command) continue;
-      console.log(`[tunnel] Executing: ${String(cmd.command).slice(0, 60)}`);
-      exec(String(cmd.command), { timeout: 60000 }, (err, stdout, stderr) => {
+      if (!cmd || !/^[A-Za-z0-9_-]{1,100}$/.test(String(cmd.id || "")) || !cmd.command) continue;
+      let action;
+      try { action = Policy.parse(cmd.command); }
+      catch { console.error("[tunnel] rejected file-lane command by safe policy"); continue; }
+      execFile(action.program, action.args, { timeout: 30000, maxBuffer: 64000 }, (err, stdout, stderr) => {
         const output = (stdout || "") + (stderr || "");
         const resultFile = path.join(myResultDir, `${cmd.id}.json`);
         try {
@@ -48,7 +52,7 @@ function checkForCommands() {
             id: cmd.id,
             output: output.slice(0, 50000),
             completedAt: new Date().toISOString()
-          }));
+          }), { mode: 0o600 });
           console.log(`[tunnel] Result written: ${resultFile}`);
         } catch (e) {
           console.log(`[tunnel] Write failed: ${e.message}`);

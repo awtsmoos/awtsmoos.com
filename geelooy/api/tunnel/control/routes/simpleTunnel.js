@@ -1,184 +1,168 @@
-// B"H — Simple tunnel command queue (Yaakov 2026-10-15)
-// TEMPORARY fallback until full pairing system is fixed.
-// Minimal: agent polls for commands, executes, posts results.
-// Uses file-based store for multi-process compatibility.
+// B"H
+// Boruch Hashem
+// Blessed is He
+"use strict";
 
+/**
+ * A small native-agent compatibility queue, distinct from the advanced WS tunnel.
+ * Every command is explicitly targeted, both clients and polling agents authenticate,
+ * GET-only clients may sign short-lived URLs, and results return to the server.
+ */
+const crypto = require("node:crypto");
 const fs = require("node:fs");
+const path = require("node:path");
 const { body, query } = require("../core/request.js");
-const STORE_PATH = "/tmp/simple-tunnel-queue.json";
+const Auth = require("./simpleTunnelAuth.js");
+const Store = require("./simpleTunnelStore.js");
 
-function loadStore() {
-  try {
-    const data = fs.readFileSync(STORE_PATH, "utf8");
-    return JSON.parse(data);
-  } catch (e) {
-    return { pending: [], results: {}, nextId: 1 };
-  }
+function reply(statusCode, payload) {
+  return { statusCode, response: JSON.stringify({ BH: 'B"H', ...payload }) };
 }
-
-function saveStore(store) {
-  try {
-    fs.writeFileSync(STORE_PATH, JSON.stringify(store));
-  } catch (e) {
-    // Ignore write errors
-  }
+function invalid(auth) {
+  return reply(auth.status || 403, { ok: false, error: auth.error || "simple_tunnel_permission_denied" });
 }
-
-async function checkSecret($i) {
-  const q = query($i) || {};
-  const b = await body($i).catch(() => ({})) || {};
-  const secret = q.secret || b.secret;
-  // B"H — Direct comparison (temporary). Avoids in-memory Set issues across processes.
-  return secret === "965e29cfea49bf116e9ede9f3deff2adcb441d2dede90e5586fb3f722e1bc16c";
+function agentId(value) {
+  const id = String(value || "").trim();
+  return /^[a-zA-Z0-9._-]{1,100}$/.test(id) ? id : "";
 }
-
-async function getBody($i) {
-  try {
-    return await body($i) || {};
-  } catch (e) {
-    return {};
-  }
+function resultId(value) {
+  const id = String(value || "");
+  return /^simple_[A-Za-z0-9_-]{32,80}$/.test(id) ? id : "";
 }
-
-function getQuery($i) {
-  try {
-    return query($i) || {};
-  } catch (e) {
-    return {};
-  }
+function nonceClaim(store, authorized) {
+  if (authorized.mechanism !== "signed-url") return true;
+  const digest = crypto.createHash("sha256").update(authorized.nonce).digest("hex");
+  if (store.usedNonces[digest]) return false;
+  store.usedNonces[digest] = authorized.expires;
+  return true;
+}
+function actionError(error) {
+  return reply(error.message === "simple_tunnel_store_busy" ? 503 : 500, {
+    ok: false, error: error.message === "simple_tunnel_store_busy"
+      ? "simple_tunnel_store_busy" : "simple_tunnel_store_unavailable"
+  });
+}
+function runInStore(fn) {
+  try { return Store.transaction(fn); }
+  catch (error) { return actionError(error); }
 }
 
 async function queueCommand($i) {
-  if (!(await checkSecret($i))) {
-    return { statusCode: 403, response: JSON.stringify({ ok: false, error: "bad_secret" }) };
+  const b = await body($i), q = query($i);
+  const command = b.command ?? q.command;
+  const targetAgentId = agentId(b.agentId || q.agentId);
+  const authorized = Auth.authorization($i, "client", "cmd", {
+    body: b, agentId: targetAgentId, command
+  });
+  if (!authorized.ok) return invalid(authorized);
+  if (!targetAgentId) return reply(400, { ok: false, error: "simple_tunnel_target_required" });
+  if (typeof command !== "string" || !command.trim() || command.length > 4096 || /[\x00-\x08\x0b-\x1f\x7f]/.test(command)) {
+    return reply(400, { ok: false, error: "simple_tunnel_invalid_command" });
   }
-  const b = await getBody($i);
-  // B"H — Yaakov 2026-10-15: Support GET for AI assistants that can't POST.
-  // Query params: ?command=...&id=...&agentId=...
-  const q = query($i) || {};
-  const command = b.command || q.command;
-  const customId = b.id || q.id;
-  if (!command || typeof command !== "string") {
-    return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_command" }) };
-  }
-  // B"H — Yaakov 2026-10-15: Tunnel selection. If agentId is specified,
-  // only that agent will pick up the command. Otherwise any agent can.
-  const targetAgentId = (b.agentId || q.agentId) ? String(b.agentId || q.agentId).slice(0, 100) : null;
-  const store = loadStore();
-  const id = customId ? String(customId).slice(0, 100) : `cmd_${store.nextId++}_${Date.now()}`;
-  store.pending.push({ id, command, targetAgentId, createdAt: new Date().toISOString() });
-  saveStore(store);
-  // B"H — Yaakov 2026-10-15: Push via WebSocket to the target agent (if connected).
-  // The agent also polls as fallback, so this is a latency optimization.
-  if (targetAgentId && $i.ws) {
-    try {
-      $i.ws.sendToAlias(`tunnel:${targetAgentId}`, {
-        type: "command",
-        id: id,
-        command: command
-      });
-    } catch (e) {
-      // B"H — WS push is best-effort; polling fallback ensures delivery.
-    }
-  }
-  return { statusCode: 200, response: JSON.stringify({ ok: true, id }) };
+  return runInStore(store => {
+    if (!nonceClaim(store, authorized)) return reply(409, { ok: false, error: "REPLAY_DETECTED" });
+    if (store.pending.length >= 100) return reply(429, { ok: false, error: "simple_tunnel_queue_full" });
+    const id = `simple_${crypto.randomBytes(24).toString("base64url")}`;
+    store.pending.push({ id, command, agentId: targetAgentId, createdAt: Date.now() });
+    return reply(200, { ok: true, id, agentId: targetAgentId, queued: true });
+  });
 }
 
 async function pollCommand($i) {
-  // B"H — TEMPORARY: No auth for poll (agent needs to connect).
-  // The cmd endpoint (queue) still requires auth.
-  // B"H — Yaakov 2026-10-15: Agent identifies itself to get targeted commands.
-  const q = getQuery($i);
-  const b = await getBody($i).catch(() => ({}));
-  const agentId = String(q.agentId || b.agentId || "").slice(0, 100);
-  const store = loadStore();
-  // Find first command for this agent (or untargeted)
-  let cmdIndex = -1;
-  for (let i = 0; i < store.pending.length; i++) {
-    const c = store.pending[i];
-    if (!c.targetAgentId || c.targetAgentId === agentId) {
-      cmdIndex = i;
-      break;
-    }
-  }
-  if (cmdIndex === -1) {
-    return { statusCode: 200, response: JSON.stringify({ ok: true, command: null }) };
-  }
-  const cmd = store.pending.splice(cmdIndex, 1)[0];
-  saveStore(store);
-  return { statusCode: 200, response: JSON.stringify({ ok: true, id: cmd.id, command: cmd.command }) };
+  const b = await body($i), q = query($i);
+  const authorized = Auth.authorization($i, "agent", "poll", { body: b, agentId: agentId(b.agentId || q.agentId) });
+  if (!authorized.ok) return invalid(authorized);
+  const requestingAgent = agentId(b.agentId || q.agentId);
+  if (!requestingAgent) return reply(400, { ok: false, error: "simple_tunnel_agent_required" });
+  return runInStore(store => {
+    const index = store.pending.findIndex(item => item.agentId === requestingAgent);
+    if (index < 0) return reply(200, { ok: true, command: null });
+    const cmd = store.pending.splice(index, 1)[0];
+    store.active[cmd.id] = { agentId: requestingAgent, createdAt: Date.now() };
+    return reply(200, { ok: true, id: cmd.id, command: cmd.command, agentId: requestingAgent });
+  });
 }
 
 async function postResult($i) {
-  // B"H — TEMPORARY: No auth for postResult (agent needs to post).
-  const b = await getBody($i);
-  const { id, output } = b;
-  if (!id) {
-    return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_id" }) };
-  }
-  const store = loadStore();
-  store.results[id] = { output: String(output || ""), completedAt: new Date().toISOString() };
-  saveStore(store);
-  return { statusCode: 200, response: JSON.stringify({ ok: true }) };
+  const b = await body($i);
+  const authorized = Auth.authorization($i, "agent", "post", { body: b, agentId: agentId(b.agentId) });
+  if (!authorized.ok) return invalid(authorized);
+  const id = resultId(b.id), reportingAgent = agentId(b.agentId);
+  if (!id || !reportingAgent) return reply(400, { ok: false, error: "simple_tunnel_invalid_result_identity" });
+  return runInStore(store => {
+    const current = store.active[id];
+    if (!current || current.agentId !== reportingAgent) {
+      return reply(404, { ok: false, error: "simple_tunnel_job_not_found" });
+    }
+    if (store.results[id]) return reply(409, { ok: false, error: "simple_tunnel_result_already_submitted" });
+    const exitCode = Number.isInteger(b.exitCode) ? b.exitCode : 1;
+    const output = String(b.output || "").slice(0, 64000);
+    store.results[id] = { output, exitCode, truncated: String(b.output || "").length > 64000,
+      completedAt: Date.now(), agentId: reportingAgent };
+    return reply(200, { ok: true, id, accepted: true });
+  });
 }
 
 async function getResult($i) {
-  if (!(await checkSecret($i))) {
-    return { statusCode: 403, response: JSON.stringify({ ok: false, error: "bad_secret" }) };
-  }
-  const q = getQuery($i);
-  const id = q.id;
-  const store = loadStore();
-  const result = store.results[id];
-  if (!result) {
-    return { statusCode: 200, response: JSON.stringify({ ok: true, done: false }) };
-  }
-  delete store.results[id]; // One-time read
-  saveStore(store);
-  return { statusCode: 200, response: JSON.stringify({ ok: true, done: true, output: result.output }) };
-}
-
-// B"H — Temporary setup endpoint DISABLED (Yaakov 2026-10-15).
-// Security hole: was unauthenticated with hardcoded secret. Removed.
-async function setup($i) {
-  return { statusCode: 410, response: JSON.stringify({ ok: false, error: "endpoint_disabled" }) };
-}
-
-module.exports = { queueCommand, pollCommand, postResult, getResult, setup, requestApproval, checkApproval };
-
-// B"H — Approval lane endpoints (Yaakov 2026-10-15)
-// File-based approval: agent requests, user touches .approved file on server.
-const APPROVAL_DIR = "/tmp/simple-tunnel-approvals";
-
-async function requestApproval($i) {
-  const b = await getBody($i);
-  const agentId = String(b.agentId || "").slice(0, 100);
-  if (!agentId) {
-    return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_agentId" }) };
-  }
-  try {
-    fs.mkdirSync(APPROVAL_DIR, { recursive: true, mode: 0o700 });
-    const reqFile = `${APPROVAL_DIR}/${agentId}.json`;
-    if (!fs.existsSync(reqFile)) {
-      fs.writeFileSync(reqFile, JSON.stringify({ agentId, status: "pending", requestedAt: new Date().toISOString() }));
+  const b = await body($i), q = query($i);
+  const id = resultId(q.id || b.id);
+  const authorized = Auth.authorization($i, "client", "result", { body: b, id });
+  if (!authorized.ok) return invalid(authorized);
+  if (!id) return reply(400, { ok: false, error: "simple_tunnel_invalid_result_id" });
+  return runInStore(store => {
+    if (authorized.mechanism === "signed-url") {
+      const nonceHash = crypto.createHash("sha256").update(authorized.nonce).digest("hex");
+      if (store.usedNonces[nonceHash]) return reply(409, { ok: false, error: "REPLAY_DETECTED" });
     }
-    return { statusCode: 200, response: JSON.stringify({ ok: true, status: "pending" }) };
-  } catch (e) {
-    return { statusCode: 500, response: JSON.stringify({ ok: false, error: e.message }) };
-  }
+    const result = store.results[id];
+    // A short-lived signed result URL can be polled repeatedly until completion;
+    // consume its nonce only when the result is actually delivered.
+    if (result && !nonceClaim(store, authorized)) return reply(409, { ok: false, error: "REPLAY_DETECTED" });
+    if (!result) {
+      return reply(200, { ok: true, done: false, id, pending: Boolean(store.active[id] || store.pending.some(c => c.id === id)) });
+    }
+    delete store.results[id];
+    delete store.active[id];
+    return reply(200, { ok: true, done: true, id, output: result.output,
+      exitCode: result.exitCode, truncated: result.truncated });
+  });
+}
+
+async function status($i) {
+  const b = await body($i);
+  const authorized = Auth.authorization($i, "client", "status", { body: b });
+  if (!authorized.ok) return invalid(authorized);
+  return runInStore(store => reply(200, { ok: true, pending: store.pending.length,
+    active: Object.keys(store.active).length, readyResults: Object.keys(store.results).length }));
+}
+
+async function setup() {
+  return reply(410, { ok: false, error: "endpoint_disabled" });
+}
+
+// Manual-approval compatibility cannot bypass the agent's independent credential.
+async function requestApproval($i) {
+  const b = await body($i), q = query($i);
+  const auth = Auth.authorization($i, "agent", "request", { body: b, agentId: agentId(b.agentId || q.agentId) });
+  if (!auth.ok) return invalid(auth);
+  const id = agentId(b.agentId || q.agentId);
+  if (!id) return reply(400, { ok: false, error: "simple_tunnel_invalid_agent" });
+  const directory = process.env.AWTSMOOS_SIMPLE_TUNNEL_APPROVAL_DIR || "/var/lib/awtsmoos/simple-tunnel-approvals";
+  fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
+  const record = path.join(directory, `${id}.json`);
+  try { fs.writeFileSync(record, JSON.stringify({ agentId: id, requestedAt: Date.now() }), { mode: 0o600, flag: "wx" }); }
+  catch (error) { if (error.code !== "EEXIST") return actionError(error); }
+  return reply(200, { ok: true, status: "pending" });
 }
 
 async function checkApproval($i) {
-  const q = getQuery($i);
-  const agentId = String(q.agentId || "").slice(0, 100);
-  if (!agentId) {
-    return { statusCode: 400, response: JSON.stringify({ ok: false, error: "missing_agentId" }) };
-  }
-  try {
-    const approvedFile = `${APPROVAL_DIR}/${agentId}.approved`;
-    const approved = fs.existsSync(approvedFile);
-    return { statusCode: 200, response: JSON.stringify({ ok: true, approved }) };
-  } catch (e) {
-    return { statusCode: 500, response: JSON.stringify({ ok: false, error: e.message }) };
-  }
+  const b = await body($i), q = query($i);
+  const auth = Auth.authorization($i, "agent", "approved", { body: b, agentId: agentId(b.agentId || q.agentId) });
+  if (!auth.ok) return invalid(auth);
+  const id = agentId(b.agentId || q.agentId);
+  if (!id) return reply(400, { ok: false, error: "simple_tunnel_invalid_agent" });
+  const directory = process.env.AWTSMOOS_SIMPLE_TUNNEL_APPROVAL_DIR || "/var/lib/awtsmoos/simple-tunnel-approvals";
+  return reply(200, { ok: true, approved: fs.existsSync(path.join(directory, `${id}.approved`)) });
 }
+
+module.exports = { queueCommand, pollCommand, postResult, getResult, status, setup, requestApproval, checkApproval };

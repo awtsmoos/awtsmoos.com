@@ -1,64 +1,112 @@
-// B"H — Simple tunnel lane: Polling (no approval)
-// Yaakov 2026-10-15
-// Minimal file-based command tunnel. Agent polls server, executes commands.
-// No pairing, no RSA, no approval. For trusted environments.
-// Server: geelooy/api/tunnel/control/routes/simpleTunnel.js
-// Agent: geelooy/api/tunnel/lanes/simple/agent-poll.js
+#!/usr/bin/env node
+// B"H
+// Boruch Hashem
+// Blessed is He
+"use strict";
 
+/**
+ * Authenticated polling agent for environments where persistent WS is unavailable.
+ * Executes only commands that the authenticated server has assigned to this agent.
+ * POSTs output to the server: local-only queue writes were not result delivery.
+ */
 const https = require("node:https");
+const { exec, execFile } = require("node:child_process");
+const Policy = require("./agent-command-policy.js");
+const os = require("node:os");
 const fs = require("node:fs");
-const { exec } = require("node:child_process");
 
-const SERVER = process.env.TUNNEL_SERVER || "https://awtsmoos.com";
-const SECRET = process.env.TUNNEL_SECRET || "";
-const AGENT_ID = process.env.TUNNEL_AGENT_ID || require("node:os").hostname();
-const QUEUE_FILE = process.env.TUNNEL_QUEUE_FILE || "/tmp/simple-tunnel-queue.json";
-const POLL_MS = parseInt(process.env.TUNNEL_POLL_MS || "3000", 10);
+const server = new URL(process.env.TUNNEL_SERVER || "https://awtsmoos.com");
+const agentId = String(process.env.TUNNEL_AGENT_ID || os.hostname()).slice(0, 100);
+const key = String(process.env.TUNNEL_AGENT_KEY || process.env.TUNNEL_SECRET || "").trim() ||
+  ((process.env.TUNNEL_AGENT_KEY_FILE || process.env.CREDENTIALS_DIRECTORY)
+    ? fs.readFileSync(process.env.TUNNEL_AGENT_KEY_FILE || `${process.env.CREDENTIALS_DIRECTORY}/simple-agent.key`, "utf8").trim()
+    : "");
+const pollMs = Math.max(500, Number(process.env.TUNNEL_POLL_MS || 3000));
+const policy = { timeout: 60000, maxBuffer: 128000 };
 
-function api(path) {
+if (server.protocol !== "https:" || key.length < 32 || !/^[a-zA-Z0-9._-]{1,100}$/.test(agentId)) {
+  console.error("simple_tunnel_https_or_agent_credential_missing");
+  process.exit(2);
+}
+
+function api(endpoint, payload = null) {
   return new Promise((resolve, reject) => {
-    const url = new URL(SERVER + path);
-    const req = https.request({
-      hostname: url.hostname,
-      path: url.pathname + url.search,
-      method: "GET",
-      timeout: 10000,
-      headers: { "User-Agent": "simple-tunnel-agent/3.0" }
-    }, (res) => {
-      let chunks = [];
-      res.on("data", c => chunks.push(c));
-      res.on("end", () => {
-        try { resolve(JSON.parse(Buffer.concat(chunks).toString())); }
-        catch (e) { resolve({ ok: false }); }
+    const url = new URL(endpoint, server);
+    const body = payload === null ? null : JSON.stringify(payload);
+    const req = https.request(url, { method: body === null ? "GET" : "POST",
+      timeout: 15000,
+      headers: {
+        "x-awtsmoos-simple-agent-key": key,
+        "User-Agent": "awtsmoos-simple-agent/4.0",
+        ...(body !== null ? { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) } : {})
+      }
+    }, response => {
+      const chunks = []; let bytes = 0;
+      response.on("data", chunk => {
+        bytes += chunk.length;
+        if (bytes > 128000) { req.destroy(new Error("simple_tunnel_response_too_large")); return; }
+        chunks.push(chunk);
+      });
+      response.on("end", () => {
+        try {
+          const parsed = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+          if (!parsed.ok || response.statusCode >= 400) reject(new Error(parsed.error || "simple_tunnel_http_failure"));
+          else resolve(parsed);
+        } catch (error) { reject(error); }
       });
     });
-    req.on("timeout", () => { req.destroy(); reject(new Error("timeout")); });
+    req.on("timeout", () => req.destroy(new Error("simple_tunnel_timeout")));
     req.on("error", reject);
+    if (body !== null) req.write(body);
     req.end();
   });
 }
 
-function writeResult(id, output) {
-  try {
-    const store = JSON.parse(fs.readFileSync(QUEUE_FILE, "utf8"));
-    store.results[id] = { output: String(output).slice(0, 50000), completedAt: new Date().toISOString() };
-    fs.writeFileSync(QUEUE_FILE, JSON.stringify(store));
-  } catch (e) { /* ignore */ }
-}
-
-async function poll() {
-  try {
-    const params = new URLSearchParams();
-    if (SECRET) params.set("secret", SECRET);
-    params.set("agentId", AGENT_ID);
-    const cmd = await api(`/api/tunnel/control/simple/poll?${params.toString()}`);
-    if (cmd && cmd.ok && cmd.command) {
-      exec(cmd.command, { timeout: 60000 }, (err, stdout, stderr) => {
-        writeResult(cmd.id, (stdout || "") + (stderr || ""));
-      });
+async function execute(item) {
+  const result = await new Promise(resolve => {
+    let executable;
+    try {
+      executable = process.env.TUNNEL_SIMPLE_COMMAND_PROFILE === "advanced"
+        ? { program: item.command, args: [], nativeShell: true }
+        : Policy.parse(item.command);
+    } catch (error) {
+      resolve({ id: item.id, agentId, output: "simple_tunnel_command_policy_denied",
+        exitCode: 126 });
+      return;
     }
-  } catch (e) { /* retry silently */ }
-  setTimeout(poll, POLL_MS);
+    const done = (error, stdout, stderr) => resolve({
+      id: item.id, agentId,
+      output: ((stdout || "") + (stderr || "")).slice(0, 64000),
+      exitCode: Number.isInteger(error?.code) ? error.code : error ? 1 : 0
+    });
+    if (executable.nativeShell) exec(executable.program, policy, done);
+    else execFile(executable.program, executable.args, policy, done);
+  });
+  for (let attempt = 0; attempt < 5; attempt++) {
+    try {
+      await api("/api/tunnel/control/simple/result", result);
+      console.log(`[simple-tunnel] delivered result ${item.id}`);
+      return;
+    } catch (error) {
+      if (attempt === 4) console.error(`[simple-tunnel] result delivery failed for ${item.id}: ${error.message}`);
+      else await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+    }
+  }
 }
 
-poll();
+let stopped = false;
+process.on("SIGTERM", () => { stopped = true; });
+process.on("SIGINT", () => { stopped = true; });
+
+(async () => {
+  console.log(`[simple-tunnel] authenticated polling started for ${agentId}`);
+  while (!stopped) {
+    try {
+      const job = await api(`/api/tunnel/control/simple/poll?agentId=${encodeURIComponent(agentId)}`);
+      if (job.command && job.id) await execute(job);
+    } catch (error) {
+      if (!stopped) console.error(`[simple-tunnel] ${error.message}`);
+    }
+    if (!stopped) await new Promise(resolve => setTimeout(resolve, pollMs));
+  }
+})().catch(error => { console.error(error.message); process.exitCode = 1; });

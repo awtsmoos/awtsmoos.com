@@ -20,6 +20,7 @@ function render(actions = []) {
 		...bootstrapPath(),
 		...devicePath(),
 		...hostedSafePath(),
+		...simpleSecurePaths(),
 		...actionPath(actions),
 		...Transfer.render(),
 		...Support.previewPath(),
@@ -90,6 +91,43 @@ function hostedSafePath() {
 		"        - { name: timeoutMs, in: query, schema: { type: integer, minimum: 100, maximum: 30000 } }",
 		"        - { name: maxBytes, in: query, schema: { type: integer, minimum: 1, maximum: 2000000 } }",
 		...Support.responseLines()
+	];
+}
+
+/** Limited native Simple Tunnel GET compatibility, authenticated separately from OAuth. */
+function simpleSecurePaths() {
+	return [
+		"  /api/tunnel/control/simple/cmd:",
+		"    get:",
+		"      operationId: awtsmoosSimpleEnqueue",
+		"      summary: Enqueue a limited native command with a private client header or expiring signed URL.",
+		"      description: GET-only clients must use expires, nonce and HMAC sig; never embed long-lived keys in URLs. Agent ID is required and commands are policy-gated on the agent.",
+		"      security: [{ SimpleClientKey: [] }, { SimpleSignedUrl: [] }]",
+		"      parameters:",
+		"        - { name: agentId, in: query, required: true, schema: { type: string } }",
+		"        - { name: command, in: query, required: true, schema: { type: string, maxLength: 4096 } }",
+		"        - { name: expires, in: query, schema: { type: integer } }",
+		"        - { name: nonce, in: query, schema: { type: string } }",
+		"        - { name: sig, in: query, schema: { type: string } }",
+		...Support.responseLines(),
+		"  /api/tunnel/control/simple/result:",
+		"    get:",
+		"      operationId: awtsmoosSimpleResult",
+		"      summary: Poll and consume a simple command's authenticated output.",
+		"      security: [{ SimpleClientKey: [] }, { SimpleSignedUrl: [] }]",
+		"      parameters:",
+		"        - { name: id, in: query, required: true, schema: { type: string } }",
+		"        - { name: expires, in: query, schema: { type: integer } }",
+		"        - { name: nonce, in: query, schema: { type: string } }",
+		"        - { name: sig, in: query, schema: { type: string } }",
+		...Support.responseLines(),
+		"  /api/tunnel/control/simple/status:",
+		"    get:",
+		"      operationId: awtsmoosSimpleStatus",
+		"      summary: Read authenticated aggregate queue counters, not command content.",
+		"      security: [{ SimpleClientKey: [] }, { SimpleSignedUrl: [] }]",
+		"      responses:",
+		"        '200': { description: Authorized queue status or structured denial }"
 	];
 }
 

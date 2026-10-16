@@ -65,6 +65,12 @@ Universal default scope: ${catalog.oauth.externalAgent.defaultScope}</pre>
 function examplesSection() {
 	return `<section class="card" id="examples">
 	<h2>7. Intent-level examples</h2>
+	<h3>Safe Simple Tunnel GET queue</h3>
+	<p>The separate lightweight Simple Tunnel requires a configured secret for clients and a distinct per-device credential for the polling agent. For GET-only clients prefer a five-minute HMAC-signed URL with nonce; <code>?secret=</code> is accepted for migration but leaks via URL logs.</p>
+	<pre>GET /api/tunnel/control/simple/cmd?agentId=mac-1&amp;command=pwd&amp;expires=...&amp;nonce=...&amp;sig=...
+GET /api/tunnel/control/simple/result?id=RETURNED_ID&amp;expires=...&amp;nonce=...&amp;sig=...
+GET /api/tunnel/control/simple/status</pre>
+	<p>The default Simple Tunnel native agent runs only safe diagnostics, not an unrestricted shell. Consult <code>geelooy/api/tunnel/lanes/simple/README.md</code> for signature instructions, per-agent credentials, and retention.</p>
 	<h3>Make a hosted folder public</h3>
 	<pre>{ "action": "sitePublishFolder", "path": "asdf/projects/orbit-run", "siteId": "orbit-run", "mode": "direct" }</pre>
 	<p>Use the returned <code>publication.canonicalUrl</code>. Never derive the website URL from <code>/geelooy/os/...</code>. Verify expected public content separately before claiming live.</p>

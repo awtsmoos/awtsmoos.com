@@ -18,7 +18,7 @@ registered WebSocket device agent -> execution -> response or durable job receip
 | Native Mac/Linux/Hetzner agent | paired account binding + registered WebSocket, `my-device` | `tunnelId` (opaque `routeReference`) | action manifest and scoped permissions | WebSocket receipt / async job |
 | Browser tunnel | authenticated browser session | browser tunnel ID | only advertised browser actions | WebSocket result |
 | Hosted Virtual OS | authenticated account, synthetic device | `awtsmoos-virtual-os` | hosted VFS only; native commands currently unsupported | hosted VFS response |
-| Simple HTTP tunnel | legacy lightweight poller, separate queue | `agentId` | legacy queue (security hardening pending) | polled result |
+| Simple HTTP tunnel | credential-bound agent-specific HTTPS poller, separate queue | `agentId` | non-shell safe diagnostics by default | authenticated agent POST + client GET result |
 | Mission room | existing native agent mission actions | `missionId` + agent identity | existing native mission coordinator | room inbox/events (live two-agent test pending) |
 
 ## Authorization and safety
@@ -29,6 +29,6 @@ Capability describes implemented runtime actions; scoped API permissions are che
 
 - Authenticated external API `commandRun`/`commandWait` receipt roundtrip (Mac, Hetzner)
 - Hosted Virtual OS command sandbox, outbound HTTP GET / SSRF protection
-- Legacy Simple Tunnel: replace exposed raw query secret and unsafe unauthenticated poll/result with signed scoped requests
+- Simple Tunnel hardening: per-device derived agent credentials, signed GET/nonce replay, authenticated poll/result, and real result POST implemented; verify the live credential-provisioned Mac and Hetzner paths
 - Advanced reconnect and result replay, multi-agent mission room and task/file claim concurrency
 - Verify these through real API clients before claiming acceptance.

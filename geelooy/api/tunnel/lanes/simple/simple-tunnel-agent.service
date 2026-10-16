@@ -1,30 +1,25 @@
-# B"H — Simple tunnel agent systemd service (Yaakov 2026-10-15)
-# Install: sudo cp simple-tunnel-agent.service /etc/systemd/system/
-# Enable: sudo systemctl enable simple-tunnel-agent.service
-# Start: sudo systemctl start simple-tunnel-agent.service
-
+# B"H
+# Use the installer to install this isolated agent with private systemd credentials.
 [Unit]
-Description=Awtsmoos Simple Tunnel Agent (permanent baseline)
+Description=Awtsmoos Secure Simple Tunnel Agent
 After=network-online.target
 Wants=network-online.target
-
 [Service]
 Type=simple
-User=root
-WorkingDirectory=/root
-# B"H — Use the resilient wrapper for auto-restart
-ExecStart=/usr/bin/node /root/simple-tunnel-agent/agent-resilient.js
-Restart=always
-RestartSec=5
-# B"H — Environment (adjust as needed)
+DynamicUser=yes
+WorkingDirectory=/opt/awtsmoos-simple-agent
+ExecStart=/usr/bin/node /opt/awtsmoos-simple-agent/agent-resilient.js
 Environment=TUNNEL_SERVER=https://awtsmoos.com
 Environment=TUNNEL_AGENT_ID=hetzner-prod
-# Environment=TUNNEL_SECRET=your-secret-here
-
-# B"H — Logging
-StandardOutput=journal
-StandardError=journal
-SyslogIdentifier=simple-tunnel-agent
-
+Environment=TUNNEL_AGENT_FILE=/opt/awtsmoos-simple-agent/agent-poll.js
+LoadCredential=simple-agent.key:/etc/awtsmoos/simple-agent-hetzner-prod.key
+Restart=always
+RestartSec=5
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
 [Install]
 WantedBy=multi-user.target

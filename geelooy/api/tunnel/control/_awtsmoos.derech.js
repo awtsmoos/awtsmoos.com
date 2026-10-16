@@ -196,6 +196,10 @@ module.exports = {
       const { pollCommand } = require("./routes/simpleTunnel.js");
       return await pollCommand($i, vars || {});
     });
+    await $i.use("simple/status", async (vars) => {
+      const { status } = require("./routes/simpleTunnel.js");
+      return await status($i, vars || {});
+    });
     await $i.use("simple/result", async (vars) => {
       // POST = agent posts result, GET = client gets result
       const { postResult, getResult } = require("./routes/simpleTunnel.js");

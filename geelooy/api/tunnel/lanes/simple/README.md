@@ -1,37 +1,47 @@
-# B"H — Simple Tunnel Lanes (Yaakov 2026-10-15)
+# B"H — Simple Tunnel: authenticated limited transport
 
-**PERMANENT BASELINE** — These are the foundational tunnel lanes. Never remove.
+The Simple Tunnel is **not** the advanced native agent or an administrative shell. It is a credential-bound, per-device lightweight command queue with GET-compatible client calls, authenticated agent polling and HTTP POST result delivery. The authenticated advanced tunnel remains the normal choice for richer filesystem, Git, browser, persistent WebSocket, cancellation and Mission Room actions.
 
-File-based, minimal, independent command tunnels. Each lane is a complete
-standalone system for bidirectional command execution.
+## Production security
 
-## Lanes
+Two **independent** high-entropy private keys must be configured on the server, never committed:
 
-### 1. `agent-poll.js` — Polling (no approval)
-- Agent polls server every 3s for commands
-- Executes via shell, writes result to shared file
-- No approval needed. For trusted environments.
-- Server: `geelooy/api/tunnel/control/routes/simpleTunnel.js`
-- Run: `node agent-poll.js`
-- Env: `TUNNEL_SERVER`, `TUNNEL_SECRET` (optional), `TUNNEL_QUEUE_FILE`
+- `/etc/awtsmoos/simple-client.key`: authorizes a client to enqueue, observe and check queue status; also signs five-minute GET URLs.
+- `/etc/awtsmoos/simple-agent.key`: a private *master* deriving an independent agent key per `agentId` by HMAC-SHA256 over `awtsmoos-simple-agent:${agentId}`. Agents receive only their **derived** key, never the master.
 
-### 2. `agent-approval.js` — With file-based approval
-- Agent requests pairing, waits for manual approval
-- Approve via: `touch /tmp/simple-tunnel-approvals/<agentId>.approved` on server
-- Then uses standard poll loop
-- For semi-trusted environments.
+The systemd override sets `AWTSMOOS_SIMPLE_TUNNEL_CLIENT_KEY_FILE` and `AWTSMOOS_SIMPLE_TUNNEL_AGENT_KEY_FILE`. If either is absent, the corresponding operations fail closed with `simple_tunnel_not_configured`. The previously hard-coded credential was retired and MUST NOT be reused. Keep the key files readable only by the server owner. Rotate both keys if any earlier credentials were exposed.
 
-### 3. Direct (planned)
-- WebSocket-based, no polling overhead
-- For low-latency requirements.
+Native polling agents receive their derived key through `TUNNEL_AGENT_KEY_FILE` (or systemd `LoadCredential=`). No secret belongs in a command URL, a service unit's plain-text `Environment`, or the repository.
 
-## Server Endpoints
-- `POST /api/tunnel/control/simple/cmd` — Queue command (requires secret)
-- `GET /api/tunnel/control/simple/poll` — Agent polls (public)
-- `POST /api/tunnel/control/simple/result` — Agent posts result (public, temp)
-- `GET /api/tunnel/control/simple/result?id=...` — Client reads result (requires secret)
+**Default agent command profile is `safe`:** `pwd`, `whoami`, `uname`, `date`, read-only `git status`, `git --version`, Node and npm version reports, and literal alphanumeric `echo`. It uses `execFile`, not a shell. `TUNNEL_SIMPLE_COMMAND_PROFILE=advanced` is explicitly opt-in on an owner-controlled native machine and unlocks shell execution; never set it on a shared server or with a broad credential.
 
-## Security Note
-These are TEMPORARY fallbacks. The full tunnel uses RSA-OAEP, bindings,
-and credential digests. Do not use simple lanes for sensitive operations
-without additional hardening.
+## API
+
+The client prefers the private `x-awtsmoos-simple-client-key` header. Agents send a derived `x-awtsmoos-simple-agent-key` header. Public command/result/status routes:
+
+- `GET /api/tunnel/control/simple/cmd?agentId=mac-1&command=pwd` queues a bounded request and returns an opaque ID.
+- `GET /api/tunnel/control/simple/result?id=RETURNED_ID` responds `{ok:true,done:false}` until completed, then returns `{ok:true,done:true,output,exitCode,truncated}` once.
+- `GET /api/tunnel/control/simple/status` returns aggregate queue counts without exposing commands or secrets.
+- `GET /api/tunnel/control/simple/poll?agentId=mac-1` authenticates the agent and delivers only commands intended for that agent.
+- `POST /api/tunnel/control/simple/result` accepts `{id,agentId,output,exitCode}` only from the authenticated correct agent with an active job.
+
+Old GET `?secret=` is tolerated for authorized clients but should be migrated because URLs are logged and leaked. For GET-only clients, use an expiring **signed URL** instead. Canonical signature input is the newline-joined UTF-8 tuple `(purpose, agentId, id, sha256(command), expires, nonce)`, signed by HMAC-SHA256 with the client key; use query `expires` (epoch milliseconds, within five minutes), `nonce` (16–96 URL-safe random characters), and `sig` (lowercase hex). `purpose` is `cmd` for queue or `result` for result read. Commands are bound to an explicit agent ID. Signed enqueue and completed result reads consume the nonce; pending result polls may reuse the same signed URL until completion. No user secrets are returned by status.
+
+Example with a configured client key in `TUNNEL_CLIENT_KEY` (do not print it):
+
+```bash
+curl -fsS -H "x-awtsmoos-simple-client-key: $TUNNEL_CLIENT_KEY" \
+  'https://awtsmoos.com/api/tunnel/control/simple/cmd?agentId=mac-1&command=pwd'
+```
+
+### Restart and retention
+
+The file-backed queue is stored at `/var/lib/awtsmoos/simple-tunnel-queue.json` (or the private configured path), protected by a cross-worker lock, private mode, and atomic rename. Pending requests expire after five minutes; active jobs/results expire after thirty minutes. The agent sends output to the server before declaring delivery. An accepted command isn't silently redispatched after reconnect because that could duplicate side effects; return `done:false` and investigate an abandoned job.
+
+### Lanes
+
+`agent-poll.js` — authenticated HTTPS polling; `agent-approval.js` — same authentication plus manual approval; `agent-file.js` — air-gapped local safe-policy execution. The insecure hand-written WebSocket prototype has been disabled; use the authenticated Advanced Tunnel native agent for persistent WebSocket.
+
+### Limitations
+
+Simple Tunnel is a compatibility protocol, not complete per-user OAuth authorization, full durable queue system, native command cancellation, or a Mission Room. For long-running or high-privilege actions, use the advanced authenticated tunnel with scoped permissions. Do not advertise capabilities that the active agent does not implement.

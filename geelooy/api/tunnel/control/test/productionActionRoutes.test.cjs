@@ -10,7 +10,7 @@ test("production mounts protected native and Virtual OS action routes", async ()
     assert.equal(routes.has(name), false, `duplicate route: ${name}`);
     routes.set(name, handler);
   }});
-  for (const name of ["my-device", "fs/awtsmoos-os", "fs/:tunnelName", "devices", "docs", "docs.json", "openapi", "simple/cmd", "simple/result"]) {
+  for (const name of ["my-device", "fs/awtsmoos-os", "fs/:tunnelName", "devices", "docs", "docs.json", "openapi", "simple/cmd", "simple/result", "simple/status", "me", "device-login/code", "devices/protocol/messages", "mcp"]) {
     assert.equal(typeof routes.get(name), "function", `missing production route: ${name}`);
   }
 });

@@ -74,6 +74,19 @@ const apiCatalog = {
 	publicationProtocol: publicationProtocol(),
 	listingModes,
 	commandLifecycle: commandLifecycle(),
+	simpleTunnel: {
+		level: 1,
+		mode: "credential-bound-native-polling",
+		endpoint: "/api/tunnel/control/simple/cmd",
+		result: "/api/tunnel/control/simple/result",
+		status: "/api/tunnel/control/simple/status",
+		clientAuth: "x-awtsmoos-simple-client-key; GET-only signed URL expires+nonce+sig HMAC-SHA256",
+		agentAuth: "x-awtsmoos-simple-agent-key derived per agentId",
+		defaultCommandProfile: "safe-diagnostics-no-shell",
+		legacyQuerySecret: "supported but discouraged; rotate exposed old credentials",
+		resultDelivery: "agent POSTs authenticated bounded output; client GET reads once",
+		limitations: "no automatic command replay or advanced native session; use the advanced tunnel for privileged work"
+	},
 	virtualOsCommandLane: {
 		endpoint: "/api/tunnel/control/fs/awtsmoos-os",
 		action: "commandRun",
