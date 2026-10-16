@@ -1,0 +1,74 @@
+:root.heichel-os-document .ikar-first-search input:focus,
+:root.heichel-os-document .ikar-first-search input:focus-visible {
+	outline: none;
+	border-color: var(--ikar-gold);
+	box-shadow: 0 0 0 4px var(--ikar-gold-glow), var(--ikar-shadow-card-hover);
+}
+:root.heichel-os-document .ikar-first-search input:active {
+	transform: scale(0.995);
+}
+:root.heichel-os-document .ikar-first-search input:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	color: var(--ikar-search-placeholder);
+}
+:root.heichel-os-document .ikar-first-search small {
+	color: var(--ikar-ink-soft);
+	font-size: 0.85rem;
+	min-height: 1.2em;
+}
+
+/* ---------- category cards: luminous, golden icons, glow hover ---------- */
+:root.heichel-os-document .heichel-semantic-discovery {
+	margin-top: clamp(1.5rem, 5vw, 3rem);
+}
+:root.heichel-os-document #heichel-discovery-title {
+	font-size: clamp(1.6rem, 5vw, 2.4rem);
+	margin-bottom: 0.35rem;
+}
+:root.heichel-os-document .heichel-semantic-discovery ul {
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+}
+:root.heichel-os-document .heichel-semantic-discovery a {
+	position: relative;
+	align-items: flex-start;
+	gap: 1rem;
+	min-height: 5.5rem;
+	padding: 1.25rem 1.35rem;
+	border: 1px solid var(--ikar-card-border);
+	border-radius: 1.25rem;
+	background: var(--ikar-card);
+	color: var(--ikar-ink);
+	box-shadow: var(--ikar-shadow-card);
+	overflow: hidden;
+}
+:root.heichel-os-document .heichel-semantic-discovery a::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(ellipse 60% 80% at 15% 20%, var(--ikar-gold-glow), transparent 70%);
+	opacity: 0;
+	transition: opacity 0.25s ease;
+	pointer-events: none;
+	color: transparent;
+}
+:root.heichel-os-document .heichel-semantic-discovery a:hover {
+	border-color: var(--ikar-gold);
+	transform: translateY(-3px);
+	box-shadow: var(--ikar-shadow-card-hover);
+}
+:root.heichel-os-document .heichel-semantic-discovery a:hover::before {
+	opacity: 1;
+}
+:root.heichel-os-document .heichel-semantic-discovery a:focus,
+:root.heichel-os-document .heichel-semantic-discovery a:focus-visible {
+	outline: 3px solid var(--sefer-focus, #b3541e);
+	outline-offset: 3px;
+	border-color: var(--ikar-gold);
+	box-shadow: var(--ikar-shadow-card-hover);
+}
+:root.heichel-os-document .heichel-semantic-discovery a:active {
+	transform: scale(0.98) translateY(0);
+	box-shadow: var(--ikar-shadow-card);
+}

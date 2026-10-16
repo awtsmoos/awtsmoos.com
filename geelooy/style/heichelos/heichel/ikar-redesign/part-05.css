@@ -1,0 +1,75 @@
+
+/* Description text under cards. */
+:root.heichel-os-document .heichel-discovery-description {
+	font-size: 0.95rem;
+	line-height: 1.65;
+	margin-top: 0.75rem;
+	padding-inline-start: 4.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root.heichel-os-document .heichel-semantic-discovery a,
+	:root.heichel-os-document .heichel-semantic-discovery a::before,
+	:root.heichel-os-document .dream-heichel-icon,
+	:root.heichel-os-document .dream-heichel-chevron,
+	:root.heichel-os-document .ikar-first-search input {
+		transition: none;
+		color: var(--ikar-ink);
+	}
+	:root.heichel-os-document .heichel-semantic-discovery a:hover {
+		transform: none;
+	}
+}
+
+/* B"H — Load error card (Yaakov 2026-10-13): never a blank page.
+ * When content fails to load, the user sees what happened + retry. */
+:root.heichel-os-document .heichel-load-error {
+	max-width: 36rem;
+	margin: 2rem auto;
+	padding: 2rem;
+	text-align: center;
+	border: 1px solid var(--ikar-card-border, #e2d3ae);
+	border-radius: 1.25rem;
+	background: var(--ikar-card, #fffdf6);
+	box-shadow: var(--ikar-shadow-card, 0 2px 10px rgba(90, 70, 40, 0.08));
+}
+:root.heichel-os-document .heichel-load-error h2 {
+	font-size: 1.4rem;
+	margin: 0 0 0.5rem;
+	color: var(--ikar-ink, #2b2118);
+}
+:root.heichel-os-document .heichel-load-error p {
+	color: var(--ikar-ink-soft, #6b5d48);
+	margin: 0 0 1.25rem;
+	font-size: 0.95rem;
+}
+:root.heichel-os-document .heichel-load-error .p-button {
+	margin: 0 0.5rem;
+}
+
+/* B"H — Image fallbacks (Yaakov 2026-10-13): never a dark empty box.
+ * Broken images hide gracefully; covers get luminous placeholders. */
+
+/* Broken images: hide, don't show a dark box */
+:root.heichel-os-document img.img-broken {
+	display: none;
+}
+
+/* Discovery card covers: luminous placeholder while loading */
+:root.heichel-os-document .heichel-discovery-cover {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border-radius: 0.75rem;
+	overflow: hidden;
+	background: linear-gradient(135deg, #1a2340 0%, #0d1428 50%, #1a2340 100%);
+	position: relative;
+}
+
+:root.heichel-os-document .heichel-discovery-cover::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(ellipse 60% 80% at 50% 30%, rgba(212, 169, 78, 0.25), transparent 70%);
+	pointer-events: none;
+}

@@ -1,0 +1,77 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Ikar Heichel flagship redesign — Yaakov 2026-10-13.
+ * The /heichelos/ikar/ Torah library landing: breathtaking hero with the
+ * seven-halls cover, rich textured background, gold search, luminous
+ * category cards with golden icons and glow hover states.
+ *
+ * Linked AFTER dream-fallback.css, so equal-specificity rules here win.
+ * Yaakov's laws: no !important; full :hover/:focus-visible/:active states;
+ * explicit colors for BOTH themes; CSS custom-property tokens only.
+ */
+
+:root.heichel-os-document {
+	--ikar-gold: #d4a94e;
+	--ikar-gold-deep: #8a6d3b;
+	--ikar-gold-bright: #f0c96a;
+	--ikar-gold-glow: rgba(212, 169, 78, 0.45);
+	--ikar-night: #0a0f1e;
+	--ikar-night-deep: #04060f;
+	--ikar-cream: #faf5e9;
+	--ikar-cream-deep: #f1e7d0;
+	--ikar-ink: #2b2118;
+	--ikar-ink-soft: #6b5d48;
+	--ikar-card: #fffdf6;
+	--ikar-card-border: #e2d3ae;
+	--ikar-hero-veil: linear-gradient(180deg, rgba(4, 6, 15, 0.25) 0%, rgba(4, 6, 15, 0.55) 55%, rgba(4, 6, 15, 0.88) 100%);
+	--ikar-body-bg: var(--ikar-cream);
+	--ikar-search-bg: #fffdf8;
+	--ikar-search-ink: #2b2118;
+	--ikar-search-placeholder: #9a8a6d;
+	--ikar-shadow-card: 0 2px 10px rgba(90, 70, 40, 0.08), 0 12px 32px rgba(90, 70, 40, 0.10);
+	--ikar-shadow-card-hover: 0 4px 16px rgba(90, 70, 40, 0.12), 0 18px 48px rgba(212, 169, 78, 0.22), 0 0 0 1px var(--ikar-gold);
+}
+:root[data-theme="dark"].heichel-os-document {
+	--ikar-body-bg: var(--ikar-night-deep);
+	--ikar-ink: #f0e7d3;
+	--ikar-ink-soft: #c9b992;
+	--ikar-card: #141b2e;
+	--ikar-card-border: #2c3a55;
+	--ikar-search-bg: #10182c;
+	--ikar-search-ink: #f5edd8;
+	--ikar-search-placeholder: #7a8aa5;
+	--ikar-shadow-card: 0 2px 10px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.4);
+	--ikar-shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.4), 0 18px 48px rgba(212, 169, 78, 0.28), 0 0 0 1px var(--ikar-gold);
+}
+
+/* ---------- page background: rich, textured, never plain ---------- */
+:root.heichel-os-document body {
+	background-color: var(--ikar-body-bg);
+	background-image:
+		radial-gradient(ellipse 80% 50% at 50% -10%, var(--ikar-gold-glow), transparent 70%),
+		url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-reader-particles-0-8389b760-24e1-45a8-a50a-406066eb1e47.webp?v=1035a6304b");
+	background-attachment: fixed;
+	color: var(--ikar-ink);
+}
+:root[data-theme="dark"].heichel-os-document body {
+	background-image:
+		radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212, 169, 78, 0.12), transparent 70%),
+		url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-email-particles-0-4201fae6-bd31-457d-8fa9-6551a54b93d1.webp?v=5ccc6b9244");
+}
+
+/* ---------- hero: seven halls cover, title over the art ---------- */
+:root.heichel-os-document .heichel-semantic-hero {
+	position: relative;
+	max-width: none;
+	margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+	padding: clamp(3rem, 10vw, 6rem) clamp(1.25rem, 5vw, 3rem) clamp(2.5rem, 8vw, 4.5rem);
+	border-radius: 1.5rem;
+	overflow: hidden;
+	background-color: var(--ikar-night);
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/heichelos.webp?v=d11b4015ae");
+	background-size: cover;
+	background-position: center;
+	isolation: isolate;
+}

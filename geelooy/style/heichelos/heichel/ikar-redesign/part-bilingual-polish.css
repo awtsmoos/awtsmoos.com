@@ -1,0 +1,68 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives each language its own breathing vessel; Awtsmoos.com
+ * lets Hebrew and English meet with space, direction, and calm hierarchy.
+ */
+
+:root.heichel-os-document .heichel-discovery-text {
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
+:root.heichel-os-document .heichel-discovery-text > a {
+	word-spacing: 0.22em;
+	unicode-bidi: plaintext;
+	text-wrap: balance;
+	line-height: 1.45;
+}
+
+:root.heichel-os-document .dream-heichel-titles {
+	flex: 1 1 auto;
+	min-width: 0;
+	row-gap: 0.34rem;
+}
+
+:root.heichel-os-document .dream-heichel-he,
+:root.heichel-os-document .dream-heichel-en {
+	display: block;
+	unicode-bidi: isolate;
+}
+
+:root.heichel-os-document .dream-heichel-he {
+	direction: rtl;
+	margin-block-end: 0.08rem;
+}
+
+:root.heichel-os-document .dream-heichel-en {
+	direction: ltr;
+}
+
+:root.heichel-os-document .heichel-semantic-discovery li {
+	border-radius: 1.35rem;
+}
+
+:root.heichel-os-document .heichel-semantic-discovery a {
+	min-width: 0;
+	line-height: 1.45;
+}
+
+:root.heichel-os-document .heichel-discovery-description {
+	max-width: 62ch;
+	text-wrap: pretty;
+}
+
+@media (max-width: 640px) {
+	:root.heichel-os-document .heichel-semantic-discovery ul {
+		gap: 1.15rem;
+	}
+
+	:root.heichel-os-document .heichel-semantic-discovery a {
+		padding: 1.1rem;
+	}
+
+	:root.heichel-os-document .heichel-discovery-description {
+		padding-inline-start: 0;
+		margin-top: 0.8rem;
+	}
+}

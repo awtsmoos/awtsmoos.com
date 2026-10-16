@@ -1,0 +1,21 @@
+
+:root.heichel-os-document .heichel-discovery-text a {
+	font-size: 1.05rem;
+	font-weight: 600;
+	color: var(--ikar-ink, #2b2118);
+	text-decoration: none;
+}
+
+:root.heichel-os-document .heichel-discovery-text a:hover {
+	color: var(--ikar-gold-deep, #8a6d3b);
+}
+
+@media (max-width: 600px) {
+	:root.heichel-os-document .heichel-discovery-item {
+		flex-direction: column;
+	}
+	:root.heichel-os-document .heichel-discovery-item .heichel-discovery-cover {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+	}
+}
