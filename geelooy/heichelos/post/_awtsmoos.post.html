@@ -1,16 +1,83 @@
+<!DOCTYPE html>
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers the reader from small vessels; Awtsmoos.com reveals Torah
-first, then lets optional worlds awaken only when their appointed time arrives.
+
+The Awtsmoos reveals Torah before machinery can veil the light; Awtsmoos.com
+serves the living text in the first response, then lets every ornament ignite.
 -->
-<!DOCTYPE html>
 <html lang="en">
 <head>
-	<?<script> return $a("heichelos/post/template/reader-head-foundation.html") </script>?>
-	<?<script> return $a("heichelos/post/template/reader-head-styles.html") </script>?>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#fffdf7">
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23071020'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='38' fill='%235bddff'%3E%D7%90%3C/text%3E%3C/svg%3E">
+	<?<script>
+		if (typeof postSemanticHead === "string" && postSemanticHead) return postSemanticHead;
+		return "<title>Torah Teaching | Awtsmoos</title><meta name=\"robots\" content=\"noindex,follow\">";
+	</script>?>
+	<style>
+		html { -webkit-text-size-adjust: 100%; background: #fffdf7; }
+		body { margin: 0; color: #1a1a1a; background: #fffdf7; font-family: Georgia, "Times New Roman", serif; }
+		#realPost { display: block; min-height: 40vh; max-width: 52rem; margin: 0 auto; padding: 1.25rem 1rem 7rem; font-size: 1.25rem; line-height: 1.75; visibility: visible; opacity: 1; }
+		#realPost [dir="rtl"], #realPost .heb { direction: rtl; text-align: right; }
+		#realPost img { max-width: 100%; height: auto; }
+		.sidebar { display: none; }
+	</style>
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-inline-extracted.css?v=857ad47f54" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/translations.css?v=e7516b6a2" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=125f73f805" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/main.css?v=reader-instant-001" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/meluket-reader-overhaul.css?v=99b0f58a4" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=e28d530e4" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=99b0f58a4" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/critical-shell.css?v=aeac4c6fcb" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/live-template.css?v=5627f3dda2" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/mobile-reading.css?v=b07bbcf2e6" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/torah-authority.css?v=04a6028e35" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/reader-recovery.css?v=678be44358" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/law8/law8-post-reader.css?v=73878fd365" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/reader-padding-fix.css?v=99b0f58a4-pad-001" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/heichelos/post/styles/scroll-stability.css?v=99b0f58a4-stable-001" media="print" onload="this.media='all'">
+	<link rel="stylesheet" href="/feed/css/anchoredComments.css?v=1" media="print" onload="this.media='all'">
+	<script>
+		try {
+			const theme = localStorage.getItem('awtsmoos-theme');
+			document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : 'light';
+		} catch (error) {
+			document.documentElement.dataset.theme = 'light';
+		}
+	</script>
 </head>
 <body>
-	<?<script> return $a("heichelos/post/template/reader-body.html") </script>?>
+	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision">
+		<div class="awtsmoos-integrated-header"><?<script> return $a("nav/header.html") </script>?></div>
+		<div class="main">
+			<div class="scroll-view-wrapper">
+				<div class="content" id="realPost"><?<script> return typeof initialContentHtml === "string" ? initialContentHtml : ""; </script>?></div>
+			</div>
+			<div class="sidebar hidden-comments"></div>
+		</div>
+		<div class="awtsmoos-floating-controls" aria-label="Reader controls">
+			<button type="button" id="typographyBtn" title="Typography & Settings" aria-label="Typography and settings" aria-controls="typographyDetails" aria-expanded="false">Aa</button>
+			<button type="button" id="commentaryBtn" title="Community & Sources" aria-label="Open community and source sidebar">Sources</button>
+		</div>
+		<div id="scribeLensOverlay" class="scribe-lens-overlay"></div>
+		<?<script> return typeof readerSettingsHtml === "string" ? readerSettingsHtml : ""; </script>?>
+		<?<script> return typeof postAnnotationsHtml === "string" ? postAnnotationsHtml : ""; </script>?>
+		<div id="command-palette-container"></div>
+		<div id="awtsmoos-verse-menu-container"></div>
+	</div>
+	<script>
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				const registerScript = document.createElement('script');
+				registerScript.src = '/register.js?v=fcaa78a126';
+				registerScript.defer = true;
+				document.head.appendChild(registerScript);
+				import('/heichelos/post/postLogic.js?v=reader-instant-001');
+			});
+		});
+	</script>
 </body>
 </html>

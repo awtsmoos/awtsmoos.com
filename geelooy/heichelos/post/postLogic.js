@@ -5,13 +5,12 @@
 import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-009';
 import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-004';
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005';
-import { chitasLoaderBoot, dismissChitasLoader } from './logic/initialization/chitasLoader.js?v=chitas-loader-1';
 import { scheduleReaderDeferredEnhancements } from './logic/initialization/ReaderDeferredEnhancements.js?v=reader-perf-003';
 
 /**
- * @fileoverview Critical reader boot: readable text first, enrichment later.
- * The Awtsmoos recreates the page before adornment can claim the throne;
- * Awtsmoos.com reveals Torah first, then awakens optional lights in their time.
+ * @fileoverview Enhances Torah that already exists visibly in the first response.
+ * The Awtsmoos reveals the letters before machinery begins its race;
+ * Awtsmoos.com lets JavaScript enrich the vessel without owning first paint's place.
  */
 let readerBootPromise = null;
 
@@ -22,7 +21,9 @@ function reportFailure(error, subsystem) {
 			stack: error?.stack || '',
 			kind: 'subsystem-failure'
 		});
-	} catch { /* reporting cannot break reading */ }
+	} catch {
+		/* Reporting must never interrupt readable Torah. */
+	}
 	console.warn(`B"H reader subsystem failed safely [${subsystem}]`, error);
 }
 
@@ -44,19 +45,37 @@ async function safelyAsync(subsystem, task) {
 	}
 }
 
+function scheduleIdleInfrastructure() {
+	const awaken = () => {
+		void import('./logic/initialization/ReaderClientErrorReporter.js?v=reader-instant-001');
+		void import('./logic/initialization/ReaderServiceWorkerBoot.js?v=reader-instant-001');
+	};
+	const schedule = () => {
+		if (globalThis.requestIdleCallback) {
+			globalThis.requestIdleCallback(awaken, { timeout: 4000 });
+			return;
+		}
+		setTimeout(awaken, 1200);
+	};
+	if (document.readyState === 'complete') {
+		schedule();
+		return;
+	}
+	window.addEventListener('load', schedule, { once: true });
+}
+
 async function performReaderBoot() {
-	safely('chitas-loader-boot', () => chitasLoaderBoot());
 	safely('boot-state-start', () => tiferesReaderBootState.start());
 	await safelyAsync('canonical-ignite', () => ignite());
 	safely('boot-state-settle', () => {
 		if (document.body?.dataset?.socialReaderReady === 'true') {
 			tiferesReaderBootState.complete();
-		} else {
-			tiferesReaderBootState.completeFallback();
+			return;
 		}
+		tiferesReaderBootState.completeFallback();
 	});
-	safely('loader-dismiss', () => dismissChitasLoader());
 	safely('deferred-enhancements', () => scheduleReaderDeferredEnhancements());
+	safely('idle-infrastructure', () => scheduleIdleInfrastructure());
 }
 
 function beginOnce() {
@@ -69,11 +88,5 @@ function beginOnce() {
 	return readerBootPromise;
 }
 
-function beginWhenReady() {
-	safely('shell-controls', () => awakenReaderShellControls());
-	void beginOnce();
-}
-
 safely('shell-controls', () => awakenReaderShellControls());
-queueMicrotask(beginOnce);
-document.addEventListener('DOMContentLoaded', beginWhenReady, { once: true });
+queueMicrotask(() => void beginOnce());
