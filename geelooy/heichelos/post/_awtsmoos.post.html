@@ -320,6 +320,76 @@ readable). Fades on reader-ready; CSS-only fallback fades it if JS never runs.
 	</div>
 	<div id="awtsmoos-style-notice" role="status">Styles are still loading — showing plain text.</div>
 	<style id="awtsmoos-custom-styles"></style>
+	<script>
+	// B"H 2026-10-15: Direct text scaling bypass (Yaakov urgent fix)
+	// This bypasses the compact JS cache which serves stale code.
+	// Listens for Scribe's Lens +/- clicks and directly scales text.
+	(function() {
+		let currentSize = 48;
+		try {
+			const saved = localStorage.getItem('currentPostFontSize');
+			if (saved) currentSize = parseFloat(saved) || 48;
+		} catch(e) {}
+		
+		function applySize(px) {
+			currentSize = px;
+			try { localStorage.setItem('currentPostFontSize', String(px)); } catch(e) {}
+			// Scale Meluket sefer directly
+			const sefer = document.querySelector('.meluket-sefer');
+			if (sefer) {
+				sefer.style.setProperty('--post-text-size', px + 'px', '');
+				sefer.style.setProperty('--sefer-phrase-size', px + 'px', '');
+				// Direct font-size on phrase elements as fallback
+				sefer.querySelectorAll('.meluket-sefer-phrase-he, .meluket-sefer-phrase-en').forEach(el => {
+					el.style.fontSize = px + 'px';
+				});
+			}
+			// Scale regular post reader
+			const ctx = document.querySelector('.post-reader-localized-context');
+			if (ctx) {
+				ctx.style.setProperty('--post-text-size', px + 'px', '');
+			}
+			// Update the display
+			document.querySelectorAll('.scribe-lens-text-scale-value, [data-text-scale-value]').forEach(el => {
+				el.textContent = Math.round(px) + 'px';
+			});
+		}
+		
+		// Watch for Scribe's Lens +/- buttons
+		document.addEventListener('click', function(e) {
+			const btn = e.target.closest('button');
+			if (!btn) return;
+			const txt = (btn.textContent || '').trim();
+			const aria = btn.getAttribute('aria-label') || '';
+			if (txt === '+' || aria.includes('increase') || aria.includes('larger')) {
+				// Check if this is in Scribe's Lens
+				if (btn.closest('.scribe-lens-overlay, #scribeLensOverlay, [class*="scribe"]')) {
+					applySize(currentSize + 4);
+				}
+			} else if (txt === '−' || txt === '-' || aria.includes('decrease') || aria.includes('smaller')) {
+				if (btn.closest('.scribe-lens-overlay, #scribeLensOverlay, [class*="scribe"]')) {
+					applySize(Math.max(8, currentSize - 4));
+				}
+			}
+		}, true);
+		
+		// Apply saved size on load
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', () => setTimeout(() => applySize(currentSize), 500));
+		} else {
+			setTimeout(() => applySize(currentSize), 500);
+		}
+		// Re-apply when Meluket content loads (it's async)
+		const obs = new MutationObserver(() => {
+			const sefer = document.querySelector('.meluket-sefer');
+			if (sefer && !sefer.dataset.scaled) {
+				sefer.dataset.scaled = '1';
+				applySize(currentSize);
+			}
+		});
+		obs.observe(document.body, { childList: true, subtree: true });
+	})();
+	</script>
 	<div class="all awtsmoospage post-reader-localized-context awtsmoos-reader-vision">
 		<div class="awtsmoos-integrated-header"><?<script> return $a("nav/header.html") </script>?></div>
 		<div class="awtsmoos-floating-controls" aria-label="Reader controls">
