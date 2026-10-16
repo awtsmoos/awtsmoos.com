@@ -134,20 +134,10 @@ async function getResult($i) {
   return { statusCode: 200, response: JSON.stringify({ ok: true, done: true, output: result.output }) };
 }
 
-// B"H — Temporary setup endpoint (no auth). Sets the secret at runtime.
+// B"H — Temporary setup endpoint DISABLED (Yaakov 2026-10-15).
+// Security hole: was unauthenticated with hardcoded secret. Removed.
 async function setup($i) {
-  // B"H — Accept secret from query, body, or use default.
-  // Temporary: if no secret provided, use the hardcoded one.
-  const q = getQuery($i);
-  const b = await getBody($i);
-  let secret = q.secret || b.secret;
-  if (!secret) {
-    secret = "965e29cfea49bf116e9ede9f3deff2adcb441d2dede90e5586fb3f722e1bc16c";
-  }
-  if (typeof secret !== "string" || secret.length < 16) {
-    return { statusCode: 400, response: JSON.stringify({ ok: false, error: "invalid_secret" }) };
-  }
-  return { statusCode: 200, response: JSON.stringify({ ok: true, message: "Secret set" }) };
+  return { statusCode: 410, response: JSON.stringify({ ok: false, error: "endpoint_disabled" }) };
 }
 
 module.exports = { queueCommand, pollCommand, postResult, getResult, setup, requestApproval, checkApproval };
