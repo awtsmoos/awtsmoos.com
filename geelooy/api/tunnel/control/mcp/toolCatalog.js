@@ -47,6 +47,16 @@ const tools = Object.freeze([
 		}
 	},
 	{
+		name: "awtsmoos_tunnel_doctor",
+		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+		description: "Diagnose authorized route liveness, command capabilities, account/device scope and freshness of real command evidence without running a command.",
+		inputSchema: {
+			type: "object",
+			properties: { routeReference: ROUTE },
+			additionalProperties: false
+		}
+	},
+	{
 		name: "awtsmoos_read_file",
 		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
 		description: "Read one exact file directly through an immutable Awtsmoos route.",

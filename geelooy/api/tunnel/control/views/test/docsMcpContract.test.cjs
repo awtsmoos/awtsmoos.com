@@ -16,6 +16,7 @@ test('machine and human MCP documentation share canonical OAuth resource', () =>
   assert.match(page, /Awtsmoos Shliach MCP integration/);
   assert.match(page, /WWW-Authenticate/);
   assert.match(page, /awtsmoos_action_schema/);
+  assert.match(page, /awtsmoos_tunnel_doctor/);
   assert.match(page, /awtsmoos_tunnel_action/);
   assert.match(page, /id="mcp"/);
   assert.match(page, /href="#mcp"/);

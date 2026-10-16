@@ -16,6 +16,7 @@ function mcpSection(catalog = {}) {
 	<li>Call <code>tools/list</code> and <code>awtsmoos_discover_device</code>.</li>
 	<li>Use the discovered immutable <code>routeReference</code> and <code>awtsmoos_action_schema</code> before invoking <code>awtsmoos_tunnel_action</code>.</li>
 	<li>Inspect the real action result, including exit status. Keep any durable job receipt and resume observation rather than blindly retrying a command.</li></ol>
+	<p>Use the read-only <code>awtsmoos_tunnel_doctor</code> to distinguish transport, device capability, granted scope and fresh execution evidence. The doctor does not run a command, and a route may be reachable without a recently proved successful execution.</p>
 	<p>Filesystem writes and native commands require their specific scopes and device permissions. The Virtual OS read-only command lane is not a native server shell. See the <a href="${catalog.agentLinks?.docsJson}">machine-readable action catalog</a> for current schemas.</p>
 	</section>`;
 }

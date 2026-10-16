@@ -15,8 +15,9 @@ const { dispatch } = require("./protocol.js");
 
 test("MCP retains old tools and declares mutation conservatively", () => {
 	const names = tools.map(tool => tool.name);
-	assert.equal(new Set(names).size, 9);
-	for (const name of ["awtsmoos_read_file", "awtsmoos_list_directory",
+	assert.equal(new Set(names).size, tools.length);
+	assert.equal(tools.length, 10);
+	for (const name of ["awtsmoos_tunnel_doctor", "awtsmoos_read_file", "awtsmoos_list_directory",
 		"awtsmoos_tunnel_action", "awtsmoos_application_call"]) {
 		assert.ok(names.includes(name));
 	}

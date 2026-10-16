@@ -16,6 +16,7 @@ const FsTools = require("./fsTools.js");
 const ToolCatalog = require("./toolCatalog.js");
 const GenericTools = require("./genericTools.js");
 const DiscoveryTools = require("./discoveryTools.js");
+const Diagnostics = require("./diagnostics.js");
 
 const MODERN_VERSION = "2026-07-28";
 const LEGACY_VERSION = "2025-11-25";
@@ -71,6 +72,7 @@ async function callTool($i, identity, params = {}) {
 		awtsmoos_action_schema: DiscoveryTools.awtsmoosActionSchema,
 		awtsmoos_discover_device: DeviceTools.discover,
 		awtsmoos_tunnel_status: DeviceTools.status,
+		awtsmoos_tunnel_doctor: Diagnostics.tunnelDoctor,
 		awtsmoos_read_file: FsTools.readFile,
 		awtsmoos_list_directory: FsTools.listDirectory,
 		awtsmoos_tunnel_action: GenericTools.tunnelAction,
