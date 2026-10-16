@@ -71,7 +71,7 @@ function buildActionSurface($i, userId, payload, dispatch) {
 		...buildQualityActions($i, userId, payload, dispatch),
 		...buildWorkflowActions(payload, dispatch),
 		...buildRuntimeActions(payload),
-		...buildTransportActions(payload)
+		...buildTransportActions(payload, { dispatch })
 	};
 }
 

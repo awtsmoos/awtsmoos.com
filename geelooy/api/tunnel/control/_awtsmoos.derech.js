@@ -223,5 +223,34 @@ module.exports = {
       const { serveLaneFile } = require("./routes/simpleLanes.js");
       return await serveLaneFile($i, vars || {});
     });
+    // The emergency pairing/control routes above retain their tested behavior;
+    // every other guarded production route comes from the canonical route table.
+    await mountRemainingGuardedRoutes($i);
   }
 };
+
+/**
+ * B"H — Restore the canonical 107-route surface without duplicating emergency
+ * pairing and runtime command doors. Each handler keeps the real request context.
+ */
+const EXPLICIT_ROUTES = new Set([
+  "pairing/request", "pairing/status", "pairing/state", "pairing/page", "pairing/approve",
+  "my-device", "devices", "fs/awtsmoos-os", "fs/:tunnelName", "docs", "docs.json", "openapi"
+]);
+async function mountRemainingGuardedRoutes($i) {
+  const { routeTable } = require("./routes/table.js");
+  for (const [route, handler] of Object.entries(routeTable)) {
+    if (EXPLICIT_ROUTES.has(route)) continue;
+    if (typeof handler !== "function") throw Error(`tunnel_route_invalid_handler:${route}`);
+    await $i.use(route, async vars => {
+      const result = await handler($i, vars || {});
+      // String JSON responses are normalized to HTTP 200 by the dynamic server
+      // unless their validated HTTP status accompanies them in a wrapper.
+      const statusCode = Number($i.response?.statusCode);
+      return typeof result === "string" && Number.isInteger(statusCode) &&
+        statusCode >= 100 && statusCode <= 599 && statusCode !== 200
+        ? { statusCode, response: result }
+        : result;
+    });
+  }
+}

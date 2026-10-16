@@ -74,6 +74,24 @@ const apiCatalog = {
 	publicationProtocol: publicationProtocol(),
 	listingModes,
 	commandLifecycle: commandLifecycle(),
+	virtualOsCommandLane: {
+		endpoint: "/api/tunnel/control/fs/awtsmoos-os",
+		action: "commandRun",
+		requires: "authenticated tunnel.command",
+		profile: "virtual-readonly",
+		allowedPrograms: ["pwd", "echo", "ls", "cat", "head", "tail", "wc", "grep", "find"],
+		nativeShell: false,
+		backgroundJobs: false,
+		example: "/api/tunnel/control/fs/awtsmoos-os?action=commandRun&command=pwd&cwd=asdf%2Fprojects"
+	},
+	virtualOsHttpGet: {
+		endpoint: "/api/tunnel/control/fs/awtsmoos-os",
+		action: "httpGet",
+		method: "GET",
+		requires: "authenticated tunnel.read",
+		policy: "public HTTP(S) targets only; pinned public DNS, no internal IPs/custom ports, max 3 redirects, 2MB body and 30s timeout",
+		example: "/api/tunnel/control/fs/awtsmoos-os?action=httpGet&url=https%3A%2F%2Fexample.com&timeoutMs=15000&maxBytes=2000000"
+	},
 	defaults: {
 		maxFiles: 3,
 		maxChars: 8000,

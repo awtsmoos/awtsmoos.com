@@ -4,8 +4,8 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 8.0.0-compact
-  description: "B'H. Read responseFocus before continuing. Answer multipleChoiceSelfInterrogation before unrelated actions. Use one of the fourteen public capability names in action. Put the exact internal tunnel operation in the required operation parameter. Examples: action=files operation=read; action=command operation=commandRun; action=status operation=agentDoctor; action=recover operation=nativeGenerationReplace. Legacy direct operation names may remain compatible for older clients but are not public tools. ChatGPT URL workflow: when given a ChatGPT conversation URL, use action=browser with operation=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Website-agent workflow: use action=agent with operation=aiAgentSpawnWebsiteMission and parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt. Report progress with operation=websiteAgentMissionMessage and mark complete only with evidence."
+  version: 8.1.0-compact-transfer
+  description: "B'H. Read responseFocus before continuing. Answer multipleChoiceSelfInterrogation before unrelated actions. Use one public capability name in action and the exact internal tunnel operation in operation. Examples: action=files operation=read; action=command operation=commandRun; action=status operation=agentDoctor; action=recover operation=nativeGenerationReplace. Legacy direct operation names may remain compatible for older clients but are not public tools. Never place multi-megabyte text, binary files, writes64, actions64, or giant content64 values in the generic action URL. Use awtsmoosTunnelTransferGet to create a resumable transfer, send bounded content64 fragments with per-chunk SHA-256, inspect status when needed, then commit only after the final expected SHA-256 matches. For large transactional batches, stage each large file first and send only compact transfer references to the batch commit path. ChatGPT URL workflow: when given a ChatGPT conversation URL, use action=browser with operation=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Website-agent workflow: use action=agent with operation=aiAgentSpawnWebsiteMission and parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt. Report progress with operation=websiteAgentMissionMessage and mark complete only with evidence."
 servers:
   - url: https://awtsmoos.com
 paths:
@@ -23,11 +23,26 @@ paths:
       security: [{ OAuth2: [profile, tunnel.read] }]
       responses:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+  /api/tunnel/control/fs/awtsmoos-os:
+    get:
+      operationId: awtsmoosHostedSafeAction
+      summary: Run a hosted Virtual OS read-only command or bounded public HTTP GET.
+      description: Hosted commands run only against account-owned VFS (not native shell); HTTP GET pins public DNS and blocks internal targets and unsafe redirects.
+      security: [{ OAuth2: [profile, tunnel.read] }, { OAuth2: [profile, tunnel.command] }]
+      parameters:
+        - { name: action, in: query, required: true, schema: { type: string, enum: [httpGet, commandRun] } }
+        - { name: url, in: query, schema: { type: string, format: uri } }
+        - { name: command, in: query, schema: { type: string, maxLength: 4096 } }
+        - { name: cwd, in: query, schema: { type: string } }
+        - { name: timeoutMs, in: query, schema: { type: integer, minimum: 100, maximum: 30000 } }
+        - { name: maxBytes, in: query, schema: { type: integer, minimum: 1, maximum: 2000000 } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
   /api/tunnel/control/fs/{tunnelName}:
     get:
       operationId: awtsmoosTunnelAction
       summary: Run one compact tunnel capability and exact internal operation.
-      description: "B'H. Read responseFocus before continuing. Answer multipleChoiceSelfInterrogation before unrelated actions. Use one of the fourteen public capability names in action. Put the exact internal tunnel operation in the required operation parameter. Examples: action=files operation=read; action=command operation=commandRun; action=status operation=agentDoctor; action=recover operation=nativeGenerationReplace. Legacy direct operation names may remain compatible for older clients but are not public tools. ChatGPT URL workflow: when given a ChatGPT conversation URL, use action=browser with operation=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Website-agent workflow: use action=agent with operation=aiAgentSpawnWebsiteMission and parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt. Report progress with operation=websiteAgentMissionMessage and mark complete only with evidence."
+      description: "B'H. Read responseFocus before continuing. Answer multipleChoiceSelfInterrogation before unrelated actions. Use one public capability name in action and the exact internal tunnel operation in operation. Examples: action=files operation=read; action=command operation=commandRun; action=status operation=agentDoctor; action=recover operation=nativeGenerationReplace. Legacy direct operation names may remain compatible for older clients but are not public tools. Never place multi-megabyte text, binary files, writes64, actions64, or giant content64 values in the generic action URL. Use awtsmoosTunnelTransferGet to create a resumable transfer, send bounded content64 fragments with per-chunk SHA-256, inspect status when needed, then commit only after the final expected SHA-256 matches. For large transactional batches, stage each large file first and send only compact transfer references to the batch commit path. ChatGPT URL workflow: when given a ChatGPT conversation URL, use action=browser with operation=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Website-agent workflow: use action=agent with operation=aiAgentSpawnWebsiteMission and parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt. Report progress with operation=websiteAgentMissionMessage and mark complete only with evidence."
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.mission, tunnel.room, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }
@@ -153,6 +168,14 @@ paths:
         - { name: findings, in: query, schema: { type: string } }
         - { name: references, in: query, schema: { type: string } }
         - { name: reason, in: query, schema: { type: string } }
+        - { name: previewTitle, in: query, schema: { type: string } }
+        - { name: previewVisibility, in: query, schema: { type: string } }
+        - { name: previewId, in: query, schema: { type: string } }
+        - { name: transferId, in: query, schema: { type: string } }
+        - { name: expectedSha256, in: query, schema: { type: string } }
+        - { name: sha256, in: query, schema: { type: string } }
+        - { name: name, in: query, schema: { type: string } }
+        - { name: entryFile, in: query, schema: { type: string } }
         - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
         - { name: offsetBytes, in: query, schema: { type: integer, default: 0 } }
         - { name: maxInlineChars, in: query, schema: { type: integer, default: 12000 } }
@@ -167,6 +190,10 @@ paths:
         - { name: waitTimeoutMs, in: query, schema: { type: integer, default: 25000 } }
         - { name: budgetPerutas, in: query, schema: { type: integer, default: 0 } }
         - { name: ttlSeconds, in: query, schema: { type: integer, default: 3600 } }
+        - { name: previewTtlSeconds, in: query, schema: { type: integer, default: 3600 } }
+        - { name: totalBytes, in: query, schema: { type: integer, default: 0 } }
+        - { name: chunkBytes, in: query, schema: { type: integer, default: 65536 } }
+        - { name: offset, in: query, schema: { type: integer, default: 0 } }
         - { name: page, in: query, schema: { type: integer, default: 1 } }
         - { name: pageSize, in: query, schema: { type: integer, default: 50 } }
         - { name: port, in: query, schema: { type: integer, default: 9222 } }
@@ -185,6 +212,8 @@ paths:
         - { name: replaceAll, in: query, schema: { type: boolean, default: true } }
         - { name: dryRun, in: query, schema: { type: boolean, default: true } }
         - { name: confirm, in: query, schema: { type: boolean, default: false } }
+        - { name: overwrite, in: query, schema: { type: boolean, default: true } }
+        - { name: verify, in: query, schema: { type: boolean, default: true } }
         - { name: optional, in: query, schema: { type: boolean, default: false } }
         - { name: continueOnError, in: query, schema: { type: boolean, default: false } }
         - { name: asyncCommand, in: query, schema: { type: boolean, default: false } }
@@ -199,6 +228,34 @@ paths:
         - { name: complete, in: query, schema: { type: boolean, default: false } }
       responses:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+  /api/tunnel/control/transfer/get/{tunnelName}:
+    get:
+      operationId: awtsmoosTunnelTransferGet
+      summary: Stage, resume, verify, commit, or read large files through bounded GET fragments.
+      description: Use this operation for large text/files before generic write, bulkWrite, or actionBatch would exceed a safe URI. Raw upload fragments must stay within the server GET fallback limit.
+      security: [{ OAuth2: [profile, tunnel.read, tunnel.write] }]
+      parameters:
+        - { name: tunnelName, in: path, required: true, schema: { type: string } }
+        - name: action
+          in: query
+          required: true
+          schema: { type: string, enum: [sourceInfo, sourceProof, read, create, status, write, commit, cancel] }
+        - { name: p, in: query, schema: { type: string } }
+        - { name: path, in: query, schema: { type: string } }
+        - { name: transfer_id, in: query, schema: { type: string } }
+        - { name: offset, in: query, schema: { type: integer, minimum: 0 } }
+        - { name: max_bytes, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: total_bytes, in: query, schema: { type: integer, minimum: 0 } }
+        - { name: chunk_bytes, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: expected_sha256, in: query, schema: { type: string } }
+        - { name: sha256, in: query, schema: { type: string } }
+        - { name: overwrite, in: query, schema: { type: boolean, default: true } }
+        - { name: content64, in: query, schema: { type: string } }
+      responses:
+        '200': { description: Transfer operation result. }
+        '400': { description: Invalid transfer request or oversized fragment. }
+        '401': { description: Authentication required. }
+        '403': { description: Required tunnel scope missing. }
   /api/tunnel/control/preview/{tunnelName}:
     get:
       operationId: awtsmoosPreviewProxy
@@ -232,8 +289,7 @@ components:
             tunnel.read: Read tunnel state.
             tunnel.write: Modify authorized files.
             tunnel.command: Execute command diagnostics.
-            tunnel.browser: Control authorized browser sessions.
-            tunnel.mission: Coordinate delegated mission agents.
-            tunnel.room: Create and mutate shared mission rooms.
-            tunnel.admin: Perform administrative tunnel operations.
-            awtsmoos.api: Call Awtsmoos application APIs (social, heichelos, series, posts) through the tunnel gateway.
+            tunnel.browser: Browser automation.
+            tunnel.mission: Coordinate mission lifecycle.
+            tunnel.room: Read and publish shared-room messages.
+            tunnel.admin: Administrative tunnel operations.

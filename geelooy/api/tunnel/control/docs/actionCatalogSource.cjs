@@ -13,6 +13,8 @@ const {
 	buildActions
 } = require("../../../../apps/tunnel/agent/tools/fs/actionBuilders.js");
 
+const HOSTED_OS_ACTIONS = Object.freeze(["httpGet"]);
+
 const LEGACY_COMPATIBILITY_ACTIONS = Object.freeze([
 	"rootSelect"
 ]);
@@ -37,6 +39,7 @@ function createActionCatalog() {
 	);
 	return [...new Set([
 		...runtimeActions,
+		...HOSTED_OS_ACTIONS,
 		...LEGACY_COMPATIBILITY_ACTIONS
 	])].sort();
 }

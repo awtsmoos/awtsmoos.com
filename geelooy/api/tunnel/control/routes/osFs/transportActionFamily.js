@@ -13,6 +13,8 @@
  */
 const { dispatchCommandSupport } = require("./commandSupport.js");
 const { dispatchNetworkSupport } = require("./networkSupport.js");
+const { secureHttpGet } = require("./secureHttpGet.js");
+const { runHostedReadCommand } = require("./hostedReadCommands.js");
 
 const NETWORK_ACTIONS = Object.freeze([
 	"httpRequest",
@@ -65,10 +67,12 @@ const COMMAND_ACTIONS = Object.freeze([
  * @param {object} payload Public hosted-OS action payload.
  * @returns {object} Transport delegation action map.
  */
-function buildTransportActions(payload = {}) {
+function buildTransportActions(payload = {}, context = {}) {
 	return {
 		...delegates(NETWORK_ACTIONS, dispatchNetworkSupport, payload),
-		...delegates(COMMAND_ACTIONS, dispatchCommandSupport, payload)
+		...delegates(COMMAND_ACTIONS, dispatchCommandSupport, payload),
+		httpGet: () => secureHttpGet(payload),
+		commandRun: () => runHostedReadCommand(payload, context.dispatch)
 	};
 }
 

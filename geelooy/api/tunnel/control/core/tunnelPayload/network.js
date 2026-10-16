@@ -12,6 +12,7 @@ const Parse = require("./parse.js");
  */
 
 const NETWORK_ACTIONS = Object.freeze([
+	"httpGet",
 	"httpRequest",
 	"httpJson",
 	"httpDownload",

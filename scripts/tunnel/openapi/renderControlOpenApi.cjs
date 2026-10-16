@@ -19,6 +19,7 @@ function render(actions = []) {
 		...header(),
 		...bootstrapPath(),
 		...devicePath(),
+		...hostedSafePath(),
 		...actionPath(actions),
 		...Transfer.render(),
 		...Support.previewPath(),
@@ -68,6 +69,26 @@ function simpleGet(pathName, operationId, summary, security) {
 		`      operationId: ${operationId}`,
 		`      summary: ${summary}`,
 		`      security: ${security}`,
+		...Support.responseLines()
+	];
+}
+
+/** Document the two implemented hosted execution modes without implying a native shell. */
+function hostedSafePath() {
+	return [
+		"  /api/tunnel/control/fs/awtsmoos-os:",
+		"    get:",
+		"      operationId: awtsmoosHostedSafeAction",
+		"      summary: Run a hosted Virtual OS read-only command or bounded public HTTP GET.",
+		"      description: Hosted commands run only against account-owned VFS (not native shell); HTTP GET pins public DNS and blocks internal targets and unsafe redirects.",
+		"      security: [{ OAuth2: [profile, tunnel.read] }, { OAuth2: [profile, tunnel.command] }]",
+		"      parameters:",
+		"        - { name: action, in: query, required: true, schema: { type: string, enum: [httpGet, commandRun] } }",
+		"        - { name: url, in: query, schema: { type: string, format: uri } }",
+		"        - { name: command, in: query, schema: { type: string, maxLength: 4096 } }",
+		"        - { name: cwd, in: query, schema: { type: string } }",
+		"        - { name: timeoutMs, in: query, schema: { type: integer, minimum: 100, maximum: 30000 } }",
+		"        - { name: maxBytes, in: query, schema: { type: integer, minimum: 1, maximum: 2000000 } }",
 		...Support.responseLines()
 	];
 }

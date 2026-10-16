@@ -14,7 +14,7 @@ const Projection = require("./devicePublicProjection.js");
  */
 function state($i, identity) {
 	const authorized = inventory($i, identity.accountId);
-	const virtualDevice = virtualOsDevice(true);
+	const virtualDevice = virtualOsDevice(true, identity);
 	return {
 		identity: {
 			kind: identity.kind,

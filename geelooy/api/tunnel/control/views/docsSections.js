@@ -70,6 +70,12 @@ function examplesSection() {
 	<p>Use the returned <code>publication.canonicalUrl</code>. Never derive the website URL from <code>/geelooy/os/...</code>. Verify expected public content separately before claiming live.</p>
 	<h3>Snapshot instead of live source</h3>
 	<pre>{ "action": "sitePublishFolder", "path": "asdf/projects/orbit-run", "siteId": "orbit-run", "mode": "snapshot" }</pre>
+	<h3>Real hosted Virtual OS public HTTP GET</h3>
+	<p>Authenticated users can call the hosted VFS gateway with <code>action=httpGet</code>. This uses a pinned public DNS address, blocks private/metadata IPs, limits redirects, response bytes, and timeouts. It does not expose a native host shell.</p>
+	<pre>GET /api/tunnel/control/fs/awtsmoos-os?action=httpGet&amp;url=https%3A%2F%2Fexample.com&amp;timeoutMs=15000&amp;maxBytes=2000000</pre>
+	<h3>Hosted Virtual OS read-only command lane</h3>
+	<p>Real read-only VFS commands are available with <code>tunnel.command</code> permission: pwd, echo, ls, cat, head, tail, wc, grep and find. These execute against the account-owned virtual filesystem, not a native shell. Git, Node, npm, sudo and arbitrary shell syntax are denied until an independently isolated sandbox exists.</p>
+	<pre>GET /api/tunnel/control/fs/awtsmoos-os?action=commandRun&amp;command=pwd&amp;cwd=asdf%2Fprojects</pre>
 	<h3>Inspect before editing a native repo</h3>
 	<pre>list p=.
 tree p=. depth=2 limit=150

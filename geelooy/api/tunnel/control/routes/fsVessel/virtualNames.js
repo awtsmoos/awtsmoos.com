@@ -64,15 +64,34 @@ function hintsWantVirtualOs(hints = {}) {
  * @param {boolean} authenticated Whether current user is authenticated.
  * @returns {object} Public synthetic device descriptor.
  */
-function virtualOsDevice(authenticated = false) {
+function virtualOsDevice(authenticated = false, identity = {}) {
+  const scopes = Array.isArray(identity.scopes) ? identity.scopes : [];
+  const permitted = scope => Boolean(authenticated) && (
+    identity.kind === "session" || scopes.includes("tunnel.admin") || scopes.includes(scope)
+  );
+  const canRead = permitted("tunnel.read");
+  const canWrite = permitted("tunnel.write");
+  const canCommand = permitted("tunnel.command");
   return {
     tunnelName: VIRTUAL_OS_TUNNEL_NAME,
     aliases: [LEGACY_OS_TUNNEL_NAME],
     deviceName: "Awtsmoos Virtual OS",
     root: "awtsmoos://virtual-os",
-    allowWrite: true,
+    allowWrite: canWrite,
     allowSecrets: false,
-    allowCommands: false,
+    allowCommands: canCommand,
+    capabilities: {
+      filesystem: { read: true, write: true },
+      commands: { execute: true, background: false, interactive: false, mode: "vfs-readonly", nativeShell: false },
+      http: { get: true, post: false },
+      browser: { control: false }
+    },
+    permissions: {
+      filesystem: { read: canRead, write: canWrite },
+      commands: { execute: canCommand, requiresScope: "tunnel.command" },
+      http: { get: canRead }
+    },
+    policy: { commandProfile: "virtual-readonly", allowedPrograms: ["pwd", "echo", "ls", "cat", "head", "tail", "wc", "grep", "find"], networkPolicy: "public-http", secretPolicy: "deny", allowedRoots: ["awtsmoos://virtual-os"] },
     isAlive: true,
     synthetic: true,
     kind: "virtual-os",

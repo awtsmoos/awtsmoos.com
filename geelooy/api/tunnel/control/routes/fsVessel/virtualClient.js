@@ -32,7 +32,7 @@ function virtualClient() {
 		capabilities: {
 			fsRead: true,
 			fsWrite: true,
-			commandRun: false,
+			commandRun: true,
 			chrome: false,
 			virtualOs: false
 		},
@@ -65,7 +65,8 @@ function hostedCapabilityProfile() {
 		capabilities: {
 			"fs.read": capability("virtualized", "hosted-vfs"),
 			"fs.write": capability("virtualized", "hosted-vfs"),
-			"command.run": capability("unsupported"),
+			"http.get": capability("available", "validated-public-get"),
+			"command.run": capability("available", "vfs-readonly-no-host-shell"),
 			"process.manage": capability("simulated", "hosted-process-store"),
 			"desktop.control": capability("unsupported"),
 			"browser.control": capability("unsupported"),
