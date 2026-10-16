@@ -1,5 +1,5 @@
 B"H
-1.0.668
+1.0.669
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2028,6 +2028,7 @@ tools/fs/actionGroups/cognition/safePathExplain.js
 tools/fs/actionGroups/cognitionActions.js
 tools/fs/actionGroups/commandActions.js
 tools/fs/actionGroups/commandActionSync.js
+tools/fs/actionGroups/commandModePolicy.js
 tools/fs/actionGroups/commandPresetActions.js
 tools/fs/actionGroups/commandSyncExecution.js
 tools/fs/actionGroups/commandTreeActions.js
