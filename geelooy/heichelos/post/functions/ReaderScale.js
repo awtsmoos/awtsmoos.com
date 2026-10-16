@@ -74,6 +74,26 @@ export class GevurahReaderScale {
 			}
 		}
 
+		// B"H 2026-10-15: Directly set font-size on content containers.
+		// CSS variables aren't reaching the visible text for some posts.
+		// This is a bulletproof fallback that directly controls the size.
+		try {
+			const realPost = this.document?.getElementById?.('realPost');
+			if (realPost) {
+				realPost.style.setProperty('--post-text-size', mainSize);
+			}
+			const toichenEls = this.document?.querySelectorAll?.('.toichen');
+			if (toichenEls) {
+				toichenEls.forEach(el => {
+					el.style.setProperty('--post-text-size', mainSize);
+					// Direct font-size as ultimate fallback
+					el.style.fontSize = mainSize;
+				});
+			}
+		} catch (e) {
+			// Non-fatal: CSS variables on documentElement are the primary path.
+		}
+
 		if (!malchusRoot) {
 			this.restoreScrollAnchor(scrollAnchor);
 			return mainSize;
