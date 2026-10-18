@@ -4,43 +4,16 @@
 
 const Envelopes = require("./envelopes.js");
 const Finalization = require("./lifecycleFinalization.js");
+const Waiter = require("./lifecycleWaiter.js");
 
 /**
- * @file Owns one relay request from reservation through durable release.
- * @description
- * The Awtsmoos gathers many waiting callers around one canonical deed.
- * Awtsmoos.com lets each waiter leave with current phase truth while the shared
- * request remains alive until terminal persistence has been verified.
+ * @file lifecycle.js
+ * @description Coordinates canonical relay request lifetime while focused vessels own waiting and finalization.
+ * The Awtsmoos gathers one deed through many observers without confusion or disguise;
+ * Awtsmoos.com keeps creation, expiry, and terminal persistence small enough for truth to rise.
  */
-function attachWaiter(record, waitMs) {
-	if (record.finalizationPromise) {
-		return record.finalizationPromise.then(() => record.finalData);
-	}
-	return new Promise(resolve => {
-		let active = true;
-		const waiter = {
-			timer: null,
-			resolve(data) {
-				if (!active) return;
-				active = false;
-				clearTimeout(waiter.timer);
-				record.waiters.delete(waiter);
-				resolve(data);
-			}
-		};
-		record.waiters.add(waiter);
-		waiter.timer = setTimeout(() => {
-			waiter.resolve(Envelopes.timeoutEnvelope(
-				record.expected,
-				waitMs,
-				record.totalTimeoutMs,
-				record
-			));
-		}, waitMs);
-		waiter.timer.unref?.();
-	});
-}
 
+/** Creates one canonical request record and its total-lifetime expiry vessel. */
 function createRecord(context, id, expected, totalTimeoutMs) {
 	const record = {
 		expected,
@@ -55,6 +28,7 @@ function createRecord(context, id, expected, totalTimeoutMs) {
 		createdAt: Date.now(),
 		activityContext: null
 	};
+
 	context.pendingTunnelRequests.set(id, record);
 	record.expiryTimer = setTimeout(() => {
 		void expirePending(context, id, record);
@@ -63,33 +37,43 @@ function createRecord(context, id, expected, totalTimeoutMs) {
 	return record;
 }
 
+/** Persists a completed response and releases observers only after durable finalization. */
 async function finishPending(context, id, record, data) {
 	record.finalData = data;
-	return await Finalization.finish(context, id, record, data, {
+	return Finalization.finish(context, id, record, data, {
 		mode: "completed",
 		eventName: data?.ok === false ? "action.failed" : "action.completed"
 	});
 }
 
+/** Translates relay rejection into the same durable terminal lifecycle as ordinary completion. */
 async function rejectPending(context, id, record, error) {
 	const data = Envelopes.relayErrorEnvelope(id, record.expected, error);
 	record.finalData = data;
-	return await Finalization.finish(context, id, record, data, {
+	return Finalization.finish(context, id, record, data, {
 		mode: "completed",
 		eventName: "action.rejected"
 	});
 }
 
+/** Expires only the still-current canonical record and persists that terminal truth. */
 async function expirePending(context, id, record) {
-	if (context.pendingTunnelRequests.get(id) !== record) return false;
+	if (context.pendingTunnelRequests.get(id) !== record) {
+		return false;
+	}
+
 	const data = Envelopes.expiredEnvelope(record);
 	record.finalData = data;
-	return await Finalization.finish(context, id, record, data, {
+	return Finalization.finish(context, id, record, data, {
 		mode: "expired",
 		eventName: "action.expired"
 	});
 }
 
 module.exports = {
-	attachWaiter, createRecord, expirePending, finishPending, rejectPending
+	attachWaiter: Waiter.attachWaiter,
+	createRecord,
+	expirePending,
+	finishPending,
+	rejectPending
 };

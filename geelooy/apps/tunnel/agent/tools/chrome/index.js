@@ -2,117 +2,69 @@
 // Boruch Hashem
 // Blessed is He
 
-const Frontend = require("./frontendVerifier.js");
-const chromeActions = require("./actions.js");
-const chromeExtras = require("./extras.js");
-const chromeSession = require("./session.js");
-const leaseActions = require("./leaseActions.js");
+/**
+ * @file index.js
+ * @description Coordinates Chrome dispatch after the public action registry has named each vessel.
+ * The Awtsmoos joins safe sight and mutable motion without confusing either domain;
+ * Awtsmoos.com lets read-only work flow directly while changing deeds cross one guarded line.
+ */
+
 const ActionQueue = require("./actionQueue.js");
-const { captureBrowserTarget } = require("./targetCapture.js");
-const { transformImage } = require("./nativeImageTransform.js");
-
-const READ_ONLY_ACTIONS = new Set([
-	"chromeFind",
-	"chromeStatus",
-	"captureBrowserTarget",
-	"transformImage",
-	"chromeTargets",
-	"chromeLogs",
-	"chromeNetwork"
-]);
-
-const ACTIONS = Object.freeze({
-	chromeVerifyFrontend: Frontend.verify,
-	chromeFind: chromeActions.chromeFind,
-	chromeLaunch: chromeActions.chromeLaunch,
-	chromeStop: chromeActions.chromeStop,
-	chromeStatus: chromeActions.chromeStatus,
-	chromeTargets: chromeActions.chromeTargets,
-	chromeTargetSelector: leaseActions.chromeTargetAcquire,
-	chromeTargetAcquire: leaseActions.chromeTargetAcquire,
-	chromeTargetRelease: leaseActions.chromeTargetRelease,
-	chromeNewPage: chromeActions.chromeNewPage,
-	chromeClosePage: chromeActions.chromeClosePage,
-	chromeCloseTabs: chromeActions.chromeCloseTabs,
-	chromeNavigate: chromeActions.chromeNavigate,
-	chromeEval: chromeActions.chromeEval,
-	chromeEvalSlim: chromeActions.chromeEval,
-	chromeWaitForSelector: chromeActions.chromeWaitForSelector,
-	chromeClick: chromeActions.chromeClick,
-	chromeType: chromeActions.chromeType,
-	chromeLogs: chromeActions.chromeLogs,
-	chromeSnapshot: chromeActions.chromeSnapshot,
-	chromeRunScript: chromeActions.chromeRunScript,
-	chromeScreenshot: chromeExtras.chromeScreenshot,
-	captureBrowserTarget,
-	transformImage,
-	chromeNetwork: chromeExtras.chromeNetwork,
-	chromeAccessibilitySnapshot: chromeExtras.chromeAccessibilitySnapshot,
-	chromeTestUrl: chromeExtras.chromeTestUrl,
-	chromeDoctor: chromeExtras.chromeDoctor,
-	browserDoctor: chromeExtras.chromeDoctor,
-	browserTrace: chromeExtras.chromeDoctor,
-	browserInspect: chromeExtras.chromeDoctor,
-	chromeCookies: chromeSession.chromeCookies,
-	chromeCookieSet: chromeSession.chromeCookieSet,
-	chromeCookieDelete: chromeSession.chromeCookieDelete,
-	chromeStorage: chromeSession.chromeStorage,
-	chromeStorageSet: chromeSession.chromeStorageSet,
-	chromeStorageDelete: chromeSession.chromeStorageDelete,
-	chromeSessionExport: chromeSession.chromeSessionExport,
-	chromeSessionImport: chromeSession.chromeSessionImport,
-	httpUseChromeCookies: chromeSession.httpUseChromeCookies,
-	chromeUseHttpCookies: chromeSession.chromeUseHttpCookies
-});
+const Registry = require("./actionRegistry.js");
+const { actionQueueTimeout } = require("./actionQueuePolicy.js");
 
 /**
- * Dispatches one Chrome action while protecting the single mutable CDP lane.
- * Read-only inspection may execute immediately, while navigation, typing, clicking,
- * session mutation, and composite browser checks are serialized through ActionQueue.
- * Every object result receives a queue snapshot so callers can prove the lane drained.
+ * Enriches one object result with current serialized-lane evidence.
+ * @param {object|*} result Raw Chrome action result.
+ * @returns {object|*} Result with queue evidence when the result is object-like.
+ */
+function withQueueEvidence(result) {
+	if (!result || typeof result !== "object") {
+		return result;
+	}
+
+	return {
+		...result,
+		chromeActionQueue: ActionQueue.snapshot()
+	};
+}
+
+/**
+ * Dispatches one Chrome action while protecting the mutable CDP lane.
  * @param {object} payload Chrome action envelope containing at least an action name.
  * @returns {Promise<object|*>} Action result enriched with queue evidence when possible.
  */
 async function handleChrome(payload = {}) {
 	const action = String(payload.action || "");
-	const worker = ACTIONS[action];
+	const worker = Registry.workerFor(action);
+
 	if (!worker) {
 		return {
 			ok: false,
 			action,
 			error: "unknown_chrome_action",
-			availableActions: Object.keys(ACTIONS)
+			availableActions: Object.keys(Registry.ACTIONS)
 		};
 	}
+
 	const execute = async () => {
 		const result = await worker(payload);
-		return result && typeof result === "object"
-			? { ...result, chromeActionQueue: ActionQueue.snapshot() }
-			: result;
+		return withQueueEvidence(result);
 	};
-	return READ_ONLY_ACTIONS.has(action)
-		? execute()
-		: ActionQueue.run(execute, { timeoutMs: actionQueueTimeout(payload) });
+
+	if (Registry.isReadOnly(action)) {
+		return execute();
+	}
+
+	return ActionQueue.run(execute, {
+		timeoutMs: actionQueueTimeout(payload)
+	});
 }
 
-/**
- * Gives the serialized Chrome lane enough time to outlive its inner stage budgets.
- * Composite browser checks may launch Chrome, reconnect CDP, navigate, wait for DOM,
- * inspect logs, and snapshot in sequence; the queue must never pre-empt those stages.
- * Explicit queue/action timeouts remain authoritative for callers needing a tighter bound.
- * @param {object} payload Chrome action request.
- * @returns {number|undefined} Outer queue timeout in milliseconds.
- */
-function actionQueueTimeout(payload = {}) {
-	const explicit = Number(payload.actionTimeoutMs || payload.queueTimeoutMs);
-	if (Number.isFinite(explicit) && explicit > 0) return explicit;
-	const operation = Number(payload.timeoutMs);
-	if (!Number.isFinite(operation) || operation <= 0) return undefined;
-	const action = String(payload.action || "");
-	const composite = /^(?:chromeTestUrl|chromeDoctor|browserDoctor|browserTrace|browserInspect)$/.test(action);
-	return composite
-		? Math.max(60000, operation * 4 + 20000)
-		: operation + 15000;
-}
-
-module.exports = { ACTIONS, READ_ONLY_ACTIONS, actionQueueTimeout, handleChrome };
+module.exports = {
+	ACTIONS: Registry.ACTIONS,
+	READ_ONLY_ACTIONS: Registry.READ_ONLY_ACTIONS,
+	actionQueueTimeout,
+	handleChrome,
+	withQueueEvidence
+};
