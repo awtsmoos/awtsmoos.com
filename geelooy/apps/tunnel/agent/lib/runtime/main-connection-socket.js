@@ -25,8 +25,18 @@ function wireConnectionSocket(options) {
 		scheduleReconnect
 	} = options;
 	let releaseOpen = () => {};
+	// B"H — durable response playback is reconnect/periodic work, never
+	// a side-effect of every inbound request or ACK. The old behavior
+	// resent the entire unacknowledged outbox for every packet, creating
+	// quadratic response storms under many simultaneous command waits.
+	const repeatEveryMs = 2500;
+	const setIntervalFn = options.setIntervalFn || setInterval;
+	const clearIntervalFn = options.clearIntervalFn || clearInterval;
+	let replayTimer = null;
 
 	function releaseObservers() {
+		if (replayTimer !== null) clearIntervalFn(replayTimer);
+		replayTimer = null;
 		releaseOpen();
 		releaseOpen = () => {};
 	}
@@ -41,11 +51,15 @@ function wireConnectionSocket(options) {
 		scheduleReconnect
 	});
 	const inbound = Inbound.createInboundDispatch(deliver);
+	const openInitializer = options.openInitializer || Open.initializeConnectionOpen;
 
 	function deliver(raw) {
 		if (!owns(ws, generation) || terminal.isTerminal()) return;
+		const registeredBefore = dependencies.state.registrationConfirmed === true;
 		messages.handle(raw, ws);
-		if (dependencies.state.registrationConfirmed === true) {
+		// Replay once on authenticated registration or after reconnect. Do
+		// not replay for every accepted read, progress ping or response ACK.
+		if (!registeredBefore && dependencies.state.registrationConfirmed === true) {
 			ResponseSocket.flush(dependencies, ws);
 		}
 	}
@@ -54,7 +68,18 @@ function wireConnectionSocket(options) {
 		if (!owns(ws, generation)) {
 			return ws.close(true);
 		}
-		const initialized = Open.initializeConnectionOpen({
+		if (replayTimer === null) {
+			replayTimer = setIntervalFn(() => {
+				if (!owns(ws, generation) || terminal.isTerminal() ||
+					dependencies.state.registrationConfirmed !== true) return;
+				const pending = dependencies.TransportMailbox
+					? dependencies.TransportMailbox.outbox().length
+					: dependencies.state.pendingResponses?.length || 0;
+				if (pending > 0) ResponseSocket.flush(dependencies, ws);
+			}, repeatEveryMs);
+			replayTimer?.unref?.();
+		}
+		const initialized = openInitializer({
 			dependencies,
 			ws,
 			config,

@@ -60,6 +60,13 @@ options.jitterRatio ?? env.AWTSMOOS_RECONNECT_JITTER,
 
 function defaultMaximumForFailure(failure = null) {
 
+  // B"H — RFC 6455 code 1012 explicitly means a server restart. Unlike
+  // 502/503 pressure or a revoked identity it deserves a prompt reconnect;
+  // the single-timer generation fence still prevents socket storms.
+  if (String(failure?.code || "") === "websocket_remote_close_1012") {
+    return 2500;
+  }
+
   const category = String(failure?.category || "").trim().toLowerCase();
 
 return FAST_NETWORK_CATEGORIES.has(category)
