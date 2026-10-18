@@ -27,11 +27,11 @@ const MAX_HTTP_BYTES = Number(
  */
 function maxTimeout() {
 	const number = Number(
-		process.env.AWTSMOOS_CDP_MAX_TIMEOUT_MS || 86400000
+		process.env.AWTSMOOS_CDP_MAX_TIMEOUT_MS || 30000
 	);
 	return Number.isFinite(number)
-		? Math.max(10000, Math.min(number, 604800000))
-		: 86400000;
+		? Math.max(1000, Math.min(number, 120000))
+		: 30000;
 }
 
 function timeoutOf(value, fallback = 30000) {
@@ -398,6 +398,9 @@ function rawCdpCall(method, params = {}, timeoutMs = 30000) {
 		const timer = setTimeout(() => {
 			if (!callbacks.has(id)) return;
 			callbacks.delete(id);
+			// A timed-out response must not keep the next Chrome operation
+			// queued behind an unhealthy DevTools socket. Force reacquisition.
+			closeCurrent(`CDP method ${method} timed out`);
 			reject(new Error(
 				`CDP timeout for ${method} after ${limit}ms`
 			));
