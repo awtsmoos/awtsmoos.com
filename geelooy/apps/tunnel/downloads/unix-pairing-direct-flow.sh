@@ -297,11 +297,18 @@ NODE
 	PRIVATE_KEY="$private_key" CREDENTIAL="$credential" \
 	"$AWTSMOOS_NODE_BIN" - "$(direct_pairing_provision_file)" <<'NODE' 2>/dev/null
 const fs = require("node:fs");
+const crypto = require("node:crypto");
+const canonicalPublicKey = crypto.createPublicKey(process.env.PRIVATE_KEY)
+	.export({ type: "spki", format: "pem" });
+const suppliedPublicKey = crypto.createPublicKey(process.env.PUBLIC_KEY)
+	.export({ type: "spki", format: "pem" });
+if (canonicalPublicKey !== suppliedPublicKey) process.exit(1);
 const data = {
 	deviceId: process.env.DEVICE_ID,
 	tunnelId: process.env.TUNNEL_ID,
-	publicKey: process.env.PUBLIC_KEY,
-	publicKeyFingerprint: process.env.FINGERPRINT,
+	publicKey: canonicalPublicKey,
+	publicKeyFingerprint: crypto.createHash("sha256")
+		.update(canonicalPublicKey, "utf8").digest("base64url"),
 	privateKey: process.env.PRIVATE_KEY,
 	credential: process.env.CREDENTIAL,
 	provisionedAt: new Date().toISOString()

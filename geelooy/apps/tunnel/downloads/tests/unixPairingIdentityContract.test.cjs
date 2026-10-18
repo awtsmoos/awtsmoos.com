@@ -73,3 +73,11 @@ test('coherent provisioned device is stored, loaded and consumed exactly once',a
   fs.rmSync(temp,{recursive:true,force:true});
  }
 });
+
+test('installer canonicalizes PEM in the provisioned file before writing its fingerprint',()=>{
+ const fs=require('node:fs');const path=require('node:path');const script=fs.readFileSync(path.resolve(__dirname,'../unix-pairing-direct-flow.sh'),'utf8');
+ assert.match(script,/canonicalPublicKey = crypto\.createPublicKey\(process\.env\.PRIVATE_KEY\)/);
+ assert.match(script,/suppliedPublicKey = crypto\.createPublicKey\(process\.env\.PUBLIC_KEY\)/);
+ assert.match(script,/canonicalPublicKey !== suppliedPublicKey/);
+ assert.match(script,/update\(canonicalPublicKey, "utf8"\)/);
+});
