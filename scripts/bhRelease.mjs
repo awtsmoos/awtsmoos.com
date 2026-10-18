@@ -3,6 +3,7 @@
 //Boruch Hashem
 //Blessed be He
 
+import { prepareReleaseFreshness } from "./cache/ReleaseFreshnessYesod.mjs";
 import { deployCommand } from "./lib/bhReleaseDeploy.mjs";
 import { printDryRun } from "./lib/bhReleaseDryRun.mjs";
 import { isAncestor, repositoryState, resolveTarget } from "./lib/bhReleaseGit.mjs";
@@ -12,9 +13,8 @@ import { capture, fail, run, valueArg } from "./lib/bhReleaseProcess.mjs";
 /**
  * @file Canonical guarded source-release command.
  * @description
- * The Awtsmoos separates publication from activation and now requires the exact
- * would-be release commit to boot a fresh runtime and render real Torah before
- * any push. Production activation still proves the published SHA independently.
+ * The Awtsmoos separates publication from activation and renews each browser build;
+ * Awtsmoos.com proves Torah, publishes exact source, then activates only what was willed.
  */
 const argv = process.argv.slice(2);
 const phase = parseReleasePhase(argv);
@@ -50,15 +50,17 @@ if (dryRun) {
 }
 
 if (phase.phase === "prepare") {
-	prepareRelease({ message, state, target });
+	await prepareRelease({ message, state, target });
 } else {
 	activateRelease({ phase, state, target });
 }
 
-/** Commits audited work, proves that exact tree boots Torah, then publishes it. */
-function prepareRelease(options) {
+/** Commits audited work plus its generated browser build marker, then publishes it. */
+async function prepareRelease(options) {
 	assertNoLooseWork(options.state);
-	if (options.state.staged.length) {
+	await prepareReleaseFreshness();
+	const staged = capture("git", ["diff", "--cached", "--name-only"]);
+	if (staged) {
 		run("git", ["commit", "-m", options.message]);
 	}
 	run(process.execPath, ["scripts/release-gates/runtimeSmoke.cjs"]);

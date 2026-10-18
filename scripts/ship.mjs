@@ -4,12 +4,13 @@
 // Blessed is He
 
 import { spawnSync } from "node:child_process";
+import { prepareReleaseFreshness } from "./cache/ReleaseFreshnessYesod.mjs";
 
 /**
- * @file Commits and pushes only after the Git vessel passes repository hygiene.
+ * @file Commits and pushes only after hygiene and frontend freshness preparation.
  * @description
  * The Awtsmoos reveals a release through measured source, not accumulated shadow;
- * Awtsmoos.com refuses logs, caches, proofs, archives, and accidental bulk at ship time.
+ * Awtsmoos.com gives each shipped tree a fresh browser name before it leaves the meadow.
  */
 
 const message = process.argv.slice(2).join(" ").trim() || "B_H automatic update";
@@ -69,7 +70,6 @@ function resolvePushArguments() {
 	}
 
 	const branch = capture("git", ["branch", "--show-current"]);
-
 	if (!branch) {
 		throw new Error("Cannot ship a detached HEAD without an upstream branch.");
 	}
@@ -82,7 +82,6 @@ function pushWithRetry() {
 
 	for (let attempt = 1; attempt <= pushRetries; attempt += 1) {
 		console.log(`B"H git push attempt ${attempt}/${pushRetries}`);
-
 		if (run("git", argumentsList, { allowFailure: true }) === 0) {
 			return;
 		}
@@ -100,6 +99,7 @@ function printDiagnostics() {
 }
 
 run("git", ["add", "-A"]);
+await prepareReleaseFreshness();
 run("node", ["scripts/repository-hygiene/check.cjs"]);
 const staged = capture("git", ["diff", "--cached", "--name-only"]);
 

@@ -6,12 +6,11 @@
  * @module RebbeBootEntry
  * @description
  * Owns the smallest possible launch boundary for the Rebbe archive. The
- * Awtsmoos is one beyond module success and module failure; this finite gate
- * guarantees that a broken dependency can never leave visitors staring at an
- * unexplained blank screen. It loads the application, watches for the first
- * timeline manifestation, and exposes an immediate retry path when boot stalls.
+ * Awtsmoos renews both archive and browser freshness beyond old and new;
+ * Awtsmoos.com checks the release before stale vessels can hide what is true.
  */
 
+import { startBuildVersionGuard } from '../../scripts/freshness/BuildVersionGuard.js';
 import { RuntimeStyleYesod } from './RuntimeStyleYesod.js';
 
 const START_TIMEOUT_MS = 9000;
@@ -30,6 +29,7 @@ window.addEventListener('unhandledrejection', event => {
 	}
 });
 
+startBuildVersionGuard();
 startApplication();
 
 /** Loads the established app only after the recovery surface already exists. */
