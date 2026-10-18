@@ -44,11 +44,8 @@ direct_pairing_request() {
 		--device-name "$(hostname 2>/dev/null || echo "tunnel-device")" \
 		--platform "$(uname -s 2>/dev/null)-$(uname -m 2>/dev/null)" \
 		2>/dev/null)" || {
-		# B"H — Yaakov 2026-10-14: Pairing is optional. If the control API is
-		# unavailable (e.g., testing on production), warn and continue instead
-		# of failing the entire installation. The agent can be paired later.
-		printf '%s\n' "⚠️  Pairing skipped: could not create pairing request (control API unavailable)." >&2
-		printf '%s\n' "   The tunnel agent is installed and will work. Pair manually later if needed." >&2
+		# B"H — fresh pairing is mandatory. Never claim an unpaired agent works.
+		printf '%s\n' "Pairing request failed after bounded retries. No unpaired runtime will be promoted." >&2
 		return 1
 	}
 	local ok

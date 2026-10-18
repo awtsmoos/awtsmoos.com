@@ -52,12 +52,13 @@ function postJson(origin, path, payload) {
 				"Content-Type": "application/json",
 				"Content-Length": Buffer.byteLength(body)
 			},
-			timeout: 15000
+			timeout: 30000
 		}, res => {
 			let data = "";
 			res.on("data", chunk => { data += chunk; });
 			res.on("end", () => {
 				try {
+					if (res.statusCode >= 500) return reject(new Error(`pairing_server_http_${res.statusCode}`));
 					resolve(JSON.parse(data));
 				} catch (e) {
 					reject(new Error(`invalid_json_response:${data.slice(0, 200)}`));
@@ -72,6 +73,23 @@ function postJson(origin, path, payload) {
 		req.write(body);
 		req.end();
 	});
+}
+
+/** B"H — retry transient network/server failures, never invalid user input.
+ * Reuse the same physical public key and device ID for every attempt. */
+async function retryPairingRequest(post, attempts = 3, pause = ms => new Promise(r => setTimeout(r, ms))) {
+	let last;
+	for (let attempt = 1; attempt <= attempts; attempt++) {
+		try {
+			const reply = await post();
+			if (reply?.ok || !["service_unavailable", "upstream_unavailable", "temporary_failure"].includes(reply?.error)) return reply;
+			last = new Error(`pairing_temporary_${reply.error}`);
+		} catch (error) {
+			last = error;
+		}
+		if (attempt < attempts) await pause(attempt * 1000);
+	}
+	throw last || new Error("pairing_unavailable");
 }
 
 function wirePublicKey(publicKeyPem) {
@@ -104,13 +122,14 @@ async function cmdRequest(args) {
 	});
 	const deviceId = `dev_${crypto.randomBytes(18).toString("base64url")}`;
 
-	const result = await postJson(origin, "/api/tunnel/control/pairing/request", {
+	const payload = {
 		deviceId,
 		tunnelName,
 		deviceName: String(deviceName).slice(0, 160),
 		platform: String(platform).slice(0, 80),
 		devicePublicKey: wirePublicKey(publicKey)
-	});
+	};
+	const result = await retryPairingRequest(() => postJson(origin, "/api/tunnel/control/pairing/request", payload));
 
 	if (!result.ok) {
 		console.error(JSON.stringify({ ok: false, error: result.error || "request_failed", message: result.message }));
@@ -190,4 +209,5 @@ async function main() {
 	}
 }
 
-main();
+if (require.main === module) main();
+module.exports = { retryPairingRequest };
