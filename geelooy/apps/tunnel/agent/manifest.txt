@@ -1,5 +1,5 @@
 B"H
-1.0.674
+1.0.675
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -196,6 +196,8 @@ ai/relay/split-browser/targetProtectionState.cjs
 ai/relay/split-browser/urlMap.cjs
 awt
 awt.cmd
+ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryHelpers.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON-old.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/binaryFileClassWrapper.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/constants.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/deserialize/array.js
@@ -251,6 +253,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/serialize/serializeMetadataEntry
 ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/serialize/serializeValue.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/util/floatHandler.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/util/readHeader.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryOS.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/fragmentation.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/index.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/admin/sidecars.js
@@ -994,6 +997,12 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/smartPointer/shape.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/spaces/free.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/stringPacker.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/utils/structBuilder.js
+ayzarim/DosDB/awtsmoosBinary/binaryFileClassWrapper.js
+ayzarim/DosDB/awtsmoosBinary/constants.js
+ayzarim/DosDB/awtsmoosBinary/db.js
+ayzarim/DosDB/awtsmoosBinary/fileBuffer.js
+ayzarim/DosDB/awtsmoosBinary/helpers.js
+ayzarim/DosDB/awtsmoosBinary/index.js
 ayzarim/ssh/Binah-Constants.js
 ayzarim/ssh/Chesed-KexKeys.js
 ayzarim/ssh/Chesed-KexReply.js

@@ -24,6 +24,10 @@ try {
 	fs.writeFileSync(path.join(installRoot, "config.json"), "{\"tunnelName\":\"awt-release-probe\"}\n");
 	assert.equal(fs.existsSync(path.join(installRoot, "ai/relay/split-browser/controlPage.cjs")), true);
 	assert.equal(fs.existsSync(path.join(installRoot, "ai/relay/split-browser/proxy.cjs")), true);
+	// B"H — An absent sibling helper once broke mission initialization on Hetzner.
+	const binaryHelper = "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryHelpers.js";
+	assert.equal(fs.existsSync(path.join(installRoot, binaryHelper)), true);
+	assert.doesNotThrow(() => require(path.join(installRoot, "ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js")));
 	const hidden = walk(installRoot).filter(file => /smoke-server|\.test\./i.test(file));
 	assert.deepEqual(hidden, []);
 	const probe = spawnSync(process.execPath, [path.join(installRoot, "scripts/install-probe.cjs"), installRoot], {

@@ -51,5 +51,7 @@ module.exports = Object.freeze([
 	...WORKER_RUNTIME_FILES,
 	"ai/relay/split-browser/controlPage.cjs",
 	"ai/relay/split-browser/commands/BrowserSessionStatus.cjs",
-	"ai/relay/split-browser/proxy.cjs"
+	"ai/relay/split-browser/proxy.cjs",
+	"ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryHelpers.js",
+	"ayzarim/DosDB/awtsmoosBinary/fileBuffer.js"
 ]);

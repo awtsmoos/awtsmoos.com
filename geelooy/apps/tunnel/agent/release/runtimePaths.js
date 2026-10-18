@@ -19,6 +19,15 @@ const EXTERNAL_DIRECTORIES = Object.freeze([
 	"ayzarim/ssh"
 ]);
 
+// B"H — Indexed single-file dependencies outside nested runtime directories.
+const EXTERNAL_FILES = Object.freeze([
+	...[
+		"awtsmoosBinaryHelpers.js", "awtsmoosBinaryJSON-old.js", "awtsmoosBinaryOS.js",
+		"binaryFileClassWrapper.js", "constants.js", "db.js", "fileBuffer.js",
+		"helpers.js", "index.js"
+	].map(name => `ayzarim/DosDB/awtsmoosBinary/${name}`)
+]);
+
 const FORBIDDEN_SEGMENTS = new Set([
 	"__MACOSX",
 	"coverage",
@@ -43,6 +52,7 @@ function isProductionPath(value) {
 
 module.exports = {
 	EXTERNAL_DIRECTORIES,
+	EXTERNAL_FILES,
 	FORBIDDEN_SEGMENTS,
 	REQUIRED_STARTUP_FILES,
 	isProductionPath

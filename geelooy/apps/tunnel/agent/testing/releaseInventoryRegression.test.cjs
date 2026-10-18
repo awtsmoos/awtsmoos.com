@@ -54,7 +54,9 @@ const critical = [
 	"tools/fs/atomic-file-write.js",
 	"tools/chrome/actionQueue.js",
 	"tools/relay/isolatedFetch.js",
-	"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js"
+	"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js",
+	"ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryHelpers.js",
+	"ayzarim/DosDB/awtsmoosBinary/fileBuffer.js"
 ];
 
 Catalog.assertManifestCoverage(committed.files, roots);

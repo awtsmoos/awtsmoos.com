@@ -23,11 +23,16 @@ function agentFiles(roots = SourcePaths.resolveRoots(), indexed = GitIndex.index
 }
 
 function externalFiles(roots = SourcePaths.resolveRoots(), indexed = GitIndex.indexedFiles(roots)) {
-	return Paths.EXTERNAL_DIRECTORIES.flatMap(relative => {
+	const direct = Paths.EXTERNAL_FILES.map(relative => {
+		const indexedPath = SourcePaths.slash(relative);
+		if (!indexed.includes(indexedPath)) throw new Error(`external_runtime_not_indexed:${relative}`);
+		return relative;
+	});
+	return [...direct, ...Paths.EXTERNAL_DIRECTORIES.flatMap(relative => {
 		const sourceRoot = SourcePaths.sourcePathFor(relative, roots);
 		assertDirectory(sourceRoot, `external_runtime_directory_missing:${relative}`);
 		return GitIndex.filesBelow(sourceRoot, relative, roots, indexed, Paths.isProductionPath);
-	});
+	})];
 }
 
 function collect(_currentFiles = [], roots = SourcePaths.resolveRoots()) {
