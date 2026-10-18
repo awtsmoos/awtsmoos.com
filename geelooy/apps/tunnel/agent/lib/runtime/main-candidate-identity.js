@@ -72,6 +72,14 @@ function provisionFromInstaller(dependencies, config) {
 		if (!data.deviceId || !data.tunnelId || !data.credential || !data.privateKey) {
 			return null;
 		}
+		// B"H — fail before mutating a durable physical witness if the public
+		// fingerprint or private key differs from the approved pairing key.
+		// Never turn an incoherent candidate into an owning registration attempt.
+		dependencies.DeviceIdentity.KeyCoherence.assert({
+			deviceId: data.deviceId,
+			publicKey: data.publicKey,
+			publicKeyFingerprint: data.publicKeyFingerprint
+		}, data.privateKey);
 		dependencies.log?.("info", "B\"H loading installer-provisioned device identity.");
 		// B"H — store the private key and credential in the secure store.
 		dependencies.DeviceIdentity.SecureStore.write(data.deviceId, "private-key", data.privateKey);

@@ -40,7 +40,21 @@ activate_fresh() {
 	# B"H — the installer does pairing directly: creates the request, shows
 	# the approval card, polls for approval, consumes, and provisions the
 	# credential into the candidate root. Instant and reliable.
-	if ! direct_pairing_flow "${AWTSMOOS_TUNNEL_NAME:-}"; then
+	# B"H — the exact staged tunnelName is the relay registration identity.
+	# Never pair under hostname/Awtsmoos when config uses another registered name.
+	local pairing_tunnel_name
+	pairing_tunnel_name="$("$AWTSMOOS_NODE_BIN" - "$CANDIDATE_ROOT/config.json" <<'NODE'
+const fs = require("node:fs");
+try {
+  const config = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+  const name = String(config.tunnelName || "");
+  if (!/^[A-Za-z0-9._:@-]{1,160}$/.test(name)) process.exit(1);
+  process.stdout.write(name);
+} catch { process.exit(1); }
+NODE
+)" || install_fail "pairing" "Candidate tunnel name is invalid." "The staged runtime has no valid tunnelName."
+	[ -n "$pairing_tunnel_name" ] || install_fail "pairing" "Candidate tunnel name missing." "Cannot authorize a different device name."
+	if ! direct_pairing_flow "$pairing_tunnel_name"; then
 		install_fail "pairing" \
 			"Installer-direct pairing failed." \
 			"Check the log for details."

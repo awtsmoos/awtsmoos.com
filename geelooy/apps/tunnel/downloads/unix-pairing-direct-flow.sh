@@ -26,7 +26,8 @@ direct_pairing_provision_file() { printf '%s' "${CANDIDATE_ROOT:-}/provisioned-i
 # the direct-pairing data file and prints the user code.
 direct_pairing_request() {
 	local tunnel_name="${1:-}"
-	[ -n "$tunnel_name" ] || tunnel_name="$(hostname 2>/dev/null || echo "tunnel-device")"
+	# The caller must supply the exact config tunnelName, never invent one.
+	[ -n "$tunnel_name" ] || return 1
 	[ -n "$AWTSMOOS_NODE_BIN" ] || {
 		install_fail "direct-pairing" \
 			"Node.js is not available for direct pairing." \
@@ -320,14 +321,10 @@ NODE
 # starting a candidate for the pairing step on fresh installs.
 direct_pairing_flow() {
 	local tunnel_name="${1:-}"
-	# B"H — Yaakov 2026-10-14: If the pairing request fails (e.g., control API
-	# unavailable), skip the entire pairing flow gracefully. The agent is
-	# installed and can be paired later. Do NOT fail the installation.
+	# B"H — device approval is mandatory for a fresh privileged runtime.
+	# A failed request must leave the previous installation untouched.
 	if ! direct_pairing_request "$tunnel_name"; then
-		printf '%s\n' "ℹ️  Continuing without pairing. The installation will complete." >&2
-		export AWTSMOOS_DIRECT_PAIRING_DONE=1
-		export AWTSMOOS_PAIRING_SKIPPED=1
-		return 0
+		return 1
 	fi
 	if ! direct_pairing_wait_for_approval; then
 		install_fail "direct-pairing" \

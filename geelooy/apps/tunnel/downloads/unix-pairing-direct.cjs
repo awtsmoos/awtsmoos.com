@@ -99,9 +99,10 @@ function wirePublicKey(publicKeyPem) {
 }
 
 function fingerprint(publicKeyPem) {
-	const key = crypto.createPublicKey(publicKeyPem);
-	const der = key.export({ format: "der", type: "spki" });
-	return crypto.createHash("sha256").update(der).digest("base64url");
+	// B"H — KeyCoherence.fingerprint hashes canonical PEM text, not DER bytes.
+	// The metadata witness MUST match that same canonical representation.
+	const pem = crypto.createPublicKey(publicKeyPem).export({ format: "pem", type: "spki" });
+	return crypto.createHash("sha256").update(pem, "utf8").digest("base64url");
 }
 
 async function cmdRequest(args) {
@@ -210,4 +211,4 @@ async function main() {
 }
 
 if (require.main === module) main();
-module.exports = { retryPairingRequest };
+module.exports = { retryPairingRequest, fingerprint };
