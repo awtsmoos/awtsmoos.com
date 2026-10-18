@@ -78,6 +78,16 @@ function tunnelRequest(context) {
 
 function proxyUrl(context) {
 	const query = context.paramKinds?.GET || context.$_GET || {};
+	// Native previews encode the loopback URL as url64. Previously the
+	// generated link silently fell back to '/', sending the wrong target.
+	if (query.url64) {
+		const encoded = String(query.url64);
+		if (encoded.length > 4096 || !/^[A-Za-z0-9+/_=-]+$/.test(encoded)) return "/";
+		try {
+			const decoded = Buffer.from(encoded, "base64").toString("utf8");
+			return /^https?:\/\//i.test(decoded) ? decoded : "/";
+		} catch { return "/"; }
+	}
 	return query.url || query.path || "/";
 }
 

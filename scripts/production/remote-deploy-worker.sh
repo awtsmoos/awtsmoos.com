@@ -32,6 +32,13 @@ if [ -n "$requested" ] && [ "$requested" != "$remote_sha" ]; then
 fi
 
 head_sha="$(git -C "$repo" rev-parse HEAD)"
+static_policy="$repo/scripts/production/static-deploy-safety.cjs"
+static_marker="${AWTSMOOS_STATIC_DEPLOY_MARKER:-/var/lib/awtsmoos-production-deploy/static-release.json}"
+static_only=0
+if [ "$head_sha" != "$remote_sha" ] && [ -f "$static_policy" ] && \
+  node "$static_policy" eligible "$repo" "$head_sha" "$remote_sha"; then
+  static_only=1
+fi
 if [ "$head_sha" = "$remote_sha" ]; then
 	if bash "$release_match" "$remote_sha" "$service"; then
 		printf 'B"H CANONICAL_DEPLOY_NOOP sha=%s repo=%s\n' "$remote_sha" "$repo"
@@ -43,6 +50,20 @@ else
 	git -C "$repo" merge --ff-only "$remote_sha"
 	[ "$(git -C "$repo" rev-parse HEAD)" = "$remote_sha" ] || fail canonical_fast_forward_mismatch
 	[ -z "$(git -C "$repo" status --porcelain)" ] || fail canonical_repo_dirty_after_update
+fi
+
+# A proven browser-only fast-forward needs no Node or Nginx restart: both
+# would sever long-lived tunnel connections for no running-code change.
+# Verify the incumbent service is genuinely alive BEFORE publishing the marker.
+if [ "$static_only" -eq 1 ]; then
+  systemctl is-active --quiet "$service" || fail static_service_unhealthy
+  pid="$(systemctl show "$service" -p MainPID --value)"
+  [[ "$pid" =~ ^[0-9]+$ ]] && [ "$pid" -gt 1 ] || fail static_service_pid_missing
+  curl -fsS --max-time 4 "${AWTSMOOS_PRODUCTION_HEALTH_URL:-http://127.0.0.1:8080/}" >/dev/null || fail static_service_http_unhealthy
+  [ -z "$(git -C "$repo" status --porcelain)" ] || fail static_repo_dirty
+  node "$static_policy" mark "$static_marker" "$remote_sha" "$pid" || fail static_marker_failed
+  printf 'B"H CANONICAL_DEPLOY_OK sha=%s repo=%s mode=static_no_restart pid=%s\n' "$remote_sha" "$repo" "$pid"
+  exit 0
 fi
 
 if [ -f "$repo/scripts/tunnel/syncPluginInstructionMirror.cjs" ] && [ -d "$repo/plugins/awtsmoos-shliach" ]; then

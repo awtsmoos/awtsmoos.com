@@ -119,3 +119,16 @@ function contextFixture(method, calls, response, results) {
 		}
 	};
 }
+
+test("native url64 preview link decodes the exact local-server address", async () => {
+ await withStore(async ({previewProxy}) => {
+  const calls=[];
+  const url='http://127.0.0.1:48888/my/page?x=1';
+  const ctx=contextFixture('GET',calls,responseFixture(),[{ok:true,status:200,body:'PREVIEW_MARKER'}]);
+  ctx.paramKinds.GET={url64:Buffer.from(url,'utf8').toString('base64')};
+  const output=await previewProxy(ctx,{tunnelName:'alpha'});
+  assert.equal(output,'PREVIEW_MARKER');
+  assert.equal(calls[0][2].url,url);
+  assert.equal(calls[0][2].responseBodyMode,'base64');
+ });
+});

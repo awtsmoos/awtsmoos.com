@@ -8,8 +8,11 @@
  */
 function expose(action, output = {}) {
 	const url = output.publicUrl || output.proxyUrl || output.url || output.viewUrl || "";
+	const publicVerified = output.publicVerified === true;
 	const summary = url
-		? `Awtsmoos preview: ${url}`
+		? (publicVerified
+			? `Awtsmoos verified preview: ${url}`
+			: `Awtsmoos private preview registered but NOT publicly verified (owner authorization may be required): ${url}`)
 		: `Awtsmoos ${action}: ${output.ok ? "complete" : output.error || "failed"}`;
 	return {
 		...output,

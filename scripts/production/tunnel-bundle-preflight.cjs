@@ -12,6 +12,11 @@ function run(rootValue = process.argv[2] || process.cwd()) {
 	const root = path.resolve(rootValue);
 	const Bundle = require(path.join(root, "geelooy/api/tunnel/install/tools/zipBundle.js"));
 	const bundle = Bundle.buildAgentBundle(root);
+	// Production activation precomputes the exact bytes that the website will
+	// later serve. The artifact never enters the canonical Git worktree.
+	if (process.env.AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR) {
+		Bundle.writeVerifiedCache(bundle, process.env.AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR);
+	}
 	if (!bundle?.sha256 || !bundle?.manifestSha256 || !bundle?.version) {
 		throw new Error("tunnel_bundle_preflight_incomplete");
 	}

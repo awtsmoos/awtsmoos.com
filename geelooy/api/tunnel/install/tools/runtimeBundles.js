@@ -82,6 +82,11 @@ function walk(abs, root, files) {
 function buildBundle(name) {
 	const dirs = BUNDLES[name];
 	if (!dirs) throw new Error(`unknown_runtime_bundle:${name}`);
+	// B"H — do not traverse and hash 1,100+ source files on every GET.
+	// A bounded refresh keeps live development compatible, while verified
+	// production upgrades restart the server and reset this process cache.
+	const old = cached && cached[name];
+	if (old && Date.now() - Number(old.builtAt || 0) < 120000) return old;
 	const sources = collectFiles(dirs);
 	if (!sources.length) throw new Error(`runtime_bundle_empty:${name}`);
 	const sourceSha256 = Tar.hash(Buffer.concat(sources.flatMap(s => [
@@ -100,6 +105,7 @@ function buildBundle(name) {
 		sha256: Tar.hash(buffer),
 		files: sources.length,
 		sourceSha256,
+		builtAt: Date.now(),
 	});
 	cached = { ...(cached || {}), [name]: built };
 	return built;

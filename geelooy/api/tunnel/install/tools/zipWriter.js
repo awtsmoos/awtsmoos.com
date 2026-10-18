@@ -61,14 +61,19 @@ function buildZip(entries) {
 	return Buffer.concat(parts);
 }
 
+// B"H — Precompute the CRC polynomial once. The old bit-at-a-time loop
+// multiplied a 10 MB agent ZIP by 80 million JS iterations and made cold
+// installer requests block the production relay for several seconds.
+const CRC_TABLE = Uint32Array.from({ length: 256 }, (_, i) => {
+	let value = i;
+	for (let bit = 0; bit < 8; bit++) {
+		value = (value & 1) ? ((value >>> 1) ^ 0xedb88320) : (value >>> 1);
+	}
+	return value >>> 0;
+});
 function crc32(data) {
 	let crc = 0xffffffff;
-	for (const byte of data) {
-		crc ^= byte;
-		for (let bit = 0; bit < 8; bit += 1) {
-			crc = (crc & 1) ? ((crc >>> 1) ^ 0xedb88320) : (crc >>> 1);
-		}
-	}
+	for (const byte of data) crc = CRC_TABLE[(crc ^ byte) & 255] ^ (crc >>> 8);
 	return (crc ^ 0xffffffff) >>> 0;
 }
 

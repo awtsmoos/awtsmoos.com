@@ -67,7 +67,8 @@ done
 [ -d "$repo/users" ] || fail canonical_users_missing
 [ -d "$repo/geelooy/.data" ] || fail canonical_data_missing
 
-node "$tunnel_preflight" "$repo" >/dev/null || fail tunnel_bundle_preflight_failed
+AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR="${AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR:-/var/cache/awtsmoos-tunnel-bundle}" \
+  node "$tunnel_preflight" "$repo" >/dev/null || fail tunnel_bundle_preflight_failed
 node "$extension_builder"
 [ -s "$extension_artifact" ] || fail extension_artifact_missing
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail extension_build_dirtied_repo

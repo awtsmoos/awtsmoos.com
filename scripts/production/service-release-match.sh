@@ -13,5 +13,13 @@ systemctl_bin="${AWTSMOOS_SYSTEMCTL_BIN:-systemctl}"
 environment="$($systemctl_bin show "$service" -p Environment --value 2>/dev/null || true)"
 case " $environment " in
 	*" AWTSMOOS_RELEASE_SHA=$target "*) exit 0 ;;
-	*) exit 1 ;;
 esac
+# Static deployments advance browser bytes without changing the running Node
+# generation's release environment. The recorded PID fences stale markers.
+marker="${AWTSMOOS_STATIC_DEPLOY_MARKER:-/var/lib/awtsmoos-production-deploy/static-release.json}"
+policy="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}/scripts/production/static-deploy-safety.cjs"
+if [ -f "$policy" ] && $systemctl_bin is-active --quiet "$service"; then
+    pid="$($systemctl_bin show "$service" -p MainPID --value 2>/dev/null || true)"
+    [[ "$pid" =~ ^[0-9]+$ ]] && [ "$pid" -gt 1 ] && node "$policy" matches "$marker" "$target" "$pid" && exit 0
+fi
+exit 1
