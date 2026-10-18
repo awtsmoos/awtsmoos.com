@@ -25,14 +25,23 @@ function buildPreviewLinkActions({ config, payload }) {
 				port: payload?.port,
 				label: payload?.label,
 				ttlMinutes: payload?.ttlMinutes,
-				stateRoot
+				stateRoot,
+				tunnelName: config?.tunnelName
 			}),
 		previewLinkRevoke: async () =>
 			PreviewLinks.previewLinkRevoke({
 				tokenId: payload?.tokenId,
 				stateRoot
 			}),
-		previewLinkList: async () => PreviewLinks.previewLinkList({ stateRoot })
+		previewLinkList: async () => PreviewLinks.previewLinkList({ stateRoot }),
+		previewLinkProxy: async () => PreviewLinks.handlePreviewLinkRequest({
+			tokenId: payload?.tokenId,
+			path: payload?.path,
+			method: payload?.method,
+			headers: payload?.headers,
+			body64: payload?.body64,
+			stateRoot
+		})
 	};
 }
 

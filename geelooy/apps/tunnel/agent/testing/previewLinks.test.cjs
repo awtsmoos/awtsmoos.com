@@ -253,3 +253,12 @@ test("previewLinkList returns metadata only -- no token values leak", () => {
 	const stored = JSON.parse(fs.readFileSync(path.join(stateRoot, "preview-links.json"), "utf8"));
 	assert.ok(!serialized.includes(stored.links[created.tokenId].tokenSha256), "list must not contain token hashes");
 });
+test('named tunnel creates a browser fragment capability without leaking the bearer to HTTP query',()=>{
+ const root=freshStateRoot();try{
+  const entry=PreviewLinks.previewLinkCreate({port:3000,tunnelName:'awt-mac-one',stateRoot:root});
+  assert.match(entry.url,/\/api\/tunnel\/control\/preview-link\/awt-mac-one\/pl_[0-9a-f]{24}\/$/);
+  const browser=new URL(entry.browserUrl);assert.equal(browser.search,'');
+  assert.equal(browser.hash,'#awtsmoos_preview='+entry.token);
+  assert(!entry.url.includes(entry.token));
+ }finally{fs.rmSync(root,{recursive:true,force:true})}
+});

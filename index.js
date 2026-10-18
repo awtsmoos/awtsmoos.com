@@ -79,6 +79,11 @@ async function revealAwtsmoosRuntime() {
 	const malchusMail = mailDisabled ? null : new AwtsMail();
 	const binahDynamicServer = new AwtsServer(__dirname, malchusMail);
 	const yesodSocketServer = new AwtsSocket();
+	// B"H — when independently guarded, native WebSockets and their canonical
+	// receipts live outside this replaceable HTTP process generation.
+	if (process.env.AWTSMOOS_GUARDIAN_ACTIVE === "1") {
+		require("./scripts/tunnel/guardian/guardianBridge.cjs").attachBridge(yesodSocketServer);
+	}
 	binahDynamicServer.ws = yesodSocketServer;
 	await binahDynamicServer.init();
 	warmRequestAuthorities(binahDynamicServer);

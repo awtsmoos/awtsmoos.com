@@ -1,0 +1,21 @@
+# B"H
+[Unit]
+Description=Awtsmoos independent persistent WebSocket tunnel guardian
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/mnt/HC_Volume_102267213/git/awtsmoos.com
+ExecStart=/usr/bin/node --max-old-space-size=512 /mnt/HC_Volume_102267213/git/awtsmoos.com/scripts/tunnel/guardian/guardianMain.cjs
+Restart=always
+RestartSec=2
+TimeoutStopSec=10
+Environment=AWTSMOOS_GUARDIAN_KEY_FILE=/etc/awtsmoos/tunnel-guardian.key
+Environment=AWTSMOOS_TUNNEL_GUARDIAN_PORT=47475
+NoNewPrivileges=yes
+PrivateTmp=yes
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

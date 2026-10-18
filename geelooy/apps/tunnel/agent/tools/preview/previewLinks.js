@@ -275,12 +275,14 @@ function extractBearerToken(headers = {}) {
  *           port:number, label:string, createdAt:string, expiresAt:string}}
  * @throws {Error} `invalid_port` on a bad port.
  */
-function previewLinkCreate({ port, label, ttlMinutes, stateRoot } = {}) {
+function previewLinkCreate({ port, label, ttlMinutes, stateRoot, tunnelName } = {}) {
 	const cleanPort = validatePort(port);
 	const ttl = clampTtl(ttlMinutes);
 	const nowMs = Date.now();
 	const token = crypto.randomBytes(TOKEN_BYTES).toString("hex");
 	const tokenId = `pl_${crypto.randomBytes(TOKEN_ID_BYTES).toString("hex")}`;
+	const tunnel = String(tunnelName || "").trim();
+	if (tunnel && !/^[a-zA-Z0-9_-]{1,128}$/.test(tunnel)) throw Error("invalid_tunnel_name");
 	const record = {
 		tokenId,
 		tokenSha256: sha256Hex(token),
@@ -297,7 +299,15 @@ function previewLinkCreate({ port, label, ttlMinutes, stateRoot } = {}) {
 	return {
 		ok: true,
 		action: "previewLinkCreate",
-		url: `${RELAY_PREVIEW_BASE}/${tokenId}/`,
+		url: tunnel
+			? `https://awtsmoos.com/api/tunnel/control/preview-link/${encodeURIComponent(tunnel)}/${tokenId}/`
+			: `${RELAY_PREVIEW_BASE}/${tokenId}/`,
+		// This opt-in browser capability uses a URL fragment, never a query
+		// parameter: fragments are not transmitted in HTTP requests or Referer.
+		// The relay serves a fixed cookie-bootstrap page then removes the hash.
+		browserUrl: tunnel
+			? `https://awtsmoos.com/api/tunnel/control/preview-link/${encodeURIComponent(tunnel)}/${tokenId}/#awtsmoos_preview=${token}`
+			: "",
 		tokenId,
 		token,
 		port: cleanPort,

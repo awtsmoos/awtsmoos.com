@@ -13,6 +13,7 @@ const {
 	previewUpdate
 } = require("../previewGateway.js");
 const { previewProxy } = require("../previewProxy.js");
+const { previewLinkRelay } = require("../previewLinkRelay.js");
 const { view, viewProxy, viewRaw, viewWs } = require("../view.js");
 const {
 	conversationGet,
@@ -52,7 +53,8 @@ const previewRoutes = Object.freeze({
 	"view/:previewId/proxy": viewProxy,
 	"view/:previewId/ws": viewWs,
 	"view/:previewId": view,
-	"preview/:tunnelName": previewProxy
+	"preview/:tunnelName": previewProxy,
+	"preview-link/:tunnelName/:tokenId/:tail*": previewLinkRelay
 });
 
 module.exports = {

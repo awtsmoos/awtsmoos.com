@@ -30,6 +30,7 @@ const { buildOsSurfaceActions } = require("../actionGroups/osSurfaceActions.js")
 const { buildPlanActions } = require("../actionGroups/planActions.js");
 const { buildPortActions } = require("../actionGroups/portActions.js");
 const { buildPreviewActions } = require("../actionGroups/previewActions.js");
+const { buildPreviewLinkActions } = require("../actionGroups/previewLinkActions.js");
 const { buildPreviewReceiptActions } = require("../actionGroups/previewReceiptActions.js");
 const { buildProjectActions } = require("../actionGroups/projectActions.js");
 const { buildProjectCollaborationActions } = require("../actionGroups/projectCollaborationActions.js");
@@ -92,6 +93,7 @@ function buildFoundationActions(context, buildActions) {
 		...buildWriteActions(context),
 		...buildWorkflowActions(context, buildActions),
 		...buildPreviewActions(context),
+		...buildPreviewLinkActions(context),
 		...buildShareActions(context),
 		...buildRemoteDriveActions(context),
 		...buildPreviewReceiptActions(context),
