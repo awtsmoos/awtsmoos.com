@@ -3,17 +3,16 @@
 # Boruch Hashem
 # Blessed is He
 
-# B"H — Yaakov 2026-10-14: Beautiful stack trace on any error.
-# If this component is sourced, the main script's trap applies.
-# If run standalone, this ensures we always see the full error.
-if ! trap -p ERR >/dev/null 2>&1 || ! trap -p ERR | grep -q "STACK TRACE"; then
+# B"H — Diagnostic locations only. Shell commands can carry pairing
+# credentials; never interpolate BASH_COMMAND into failed-install output.
+if ! trap -p ERR >/dev/null 2>&1; then
   trap '{
     trap - ERR  # Prevent infinite recursion
     echo "" >&2
     echo "✨ ═══════════════════════════════════════════ ✨" >&2
     echo "   STACK TRACE — exactly where it broke" >&2
     echo "✨ ═══════════════════════════════════════════ ✨" >&2
-    echo "   Failed: $BASH_COMMAND" >&2
+    echo "   Failed installer operation; source locations follow." >&2
     echo "" >&2
     echo "   Call chain (newest first):" >&2
     local i=0 line func src

@@ -11,7 +11,7 @@ if ! trap -p ERR 2>/dev/null | grep -q "STACK TRACE"; then
     echo "✨ ═══════════════════════════════════════════ ✨" >&2
     echo "   PROBE STACK TRACE" >&2
     echo "✨ ═══════════════════════════════════════════ ✨" >&2
-    echo "   Failed: $BASH_COMMAND" >&2
+    echo "   Candidate probe failed; source locations follow." >&2
     echo "" >&2
     local i=0
     while caller $i 2>/dev/null; do i=$((i + 1)); done | while IFS= read -r line; do

@@ -4,6 +4,7 @@
 
 const AgentAutonomyStartup = require("./main-agent-autonomy.js");
 const CandidateIdentity = require("./main-candidate-identity.js");
+const IdentityEnvironment = require("../deviceIdentity/environment.js");
 const Helpers = require("./main-startup-helpers.js");
 
 /**
@@ -27,7 +28,12 @@ function createStartupRuntime(dependencies) {
 		});
 		await CandidateIdentity.ensureDeviceIdentity(dependencies, config);
 		const filesystemExecutor = dependencies.FsExecutor?.warm?.() || null;
-		const socket = dependencies.connection.connect();
+		// B"H — a candidate is non-owning: its synthetic identity must NEVER
+		// register on the production relay. Only the promoted agent may use
+		// the freshly approved installer credential to establish that connection.
+		const socket = IdentityEnvironment.isCandidateProbe()
+			? null
+			: dependencies.connection.connect();
 		const cleanup = projectRootHealth.ok
 			? Helpers.cleanupHistory(dependencies, config)
 			: Helpers.skipped("project_root_unavailable");

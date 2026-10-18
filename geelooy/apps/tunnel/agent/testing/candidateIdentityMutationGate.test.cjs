@@ -33,10 +33,8 @@ const SecureStore = require("../lib/deviceIdentity/secureStore.js");
 			/candidate_identity_mutation_forbidden/
 		);
 		let pairCalls = 0;
-		await assert.rejects(
-			() => CandidateIdentity.ensureDeviceIdentity(identityDependencies(() => pairCalls += 1), {}),
-			error => error.code === "candidate_identity_unavailable"
-		);
+		const isolated = await CandidateIdentity.ensureDeviceIdentity(identityDependencies(() => pairCalls += 1), {});
+		assert.equal(isolated.probeMode, true);
 		assert.equal(pairCalls, 0);
 		let invalidations = 0;
 		const rejected = Recovery.recover(recoveryDependencies(() => invalidations += 1), "invalid_device_credential");
@@ -47,8 +45,9 @@ const SecureStore = require("../lib/deviceIdentity/secureStore.js");
 		Metadata.write({}, { deviceId: "dev_fresh" });
 		SecureStore.write("dev_fresh", "credential", "fresh-secret");
 		assert.equal(SecureStore.read("dev_fresh", "credential"), "fresh-secret");
-		await CandidateIdentity.ensureDeviceIdentity(identityDependencies(() => pairCalls += 1), {});
-		assert.equal(pairCalls, 1);
+		const freshProbe = await CandidateIdentity.ensureDeviceIdentity(identityDependencies(() => pairCalls += 1), {});
+		assert.equal(freshProbe.probeMode, true);
+		assert.equal(pairCalls, 0);
 		const owning = Recovery.recover(recoveryDependencies(() => invalidations += 1), "invalid_device_credential");
 		assert.equal(owning.rotated, true);
 		assert.equal(invalidations, 1);
