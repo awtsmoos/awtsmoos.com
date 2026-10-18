@@ -68,7 +68,18 @@ repair_matching_release() {
 		write_activation_journal "verified_current_start_skipped" "$ROOT" "$ROOT"
 		return 0
 	fi
-	current_runtime_is_stably_healthy || true
+	# B"H — installing the same release is idempotent. Do not terminate
+	# a verified, registered guardian just to create another generation.
+	# Operators may still explicitly demand a restart with
+	# AWTSMOOS_INSTALL_REFRESH=1; unhealthy agents retain full repair.
+	if [ "${AWTSMOOS_INSTALL_REFRESH:-0}" != "1" ] && current_runtime_is_stably_healthy; then
+		# Reuse recovery workers only for this exact self-verified release;
+		# upgrades and unhealthy repairs must start fresh workers.
+		AWTSMOOS_REUSE_VERIFIED_RECOVERY_LANES=1
+		complete_fast_repair "verified_current_healthy" \
+			"Signed release and native relay are already healthy; no restart needed."
+		return 0
+	fi
 	restart_verified_release "replaced_current_generation" \
 		"Current release restarted with fresh active queues and archived prior coordination state."
 }

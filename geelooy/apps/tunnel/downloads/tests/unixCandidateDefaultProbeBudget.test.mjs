@@ -19,12 +19,12 @@ assert.match(readiness, /AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-120/);
 assert.doesNotMatch(readiness, /AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-90/);
 assert.match(readiness, /candidate_stability_ready/);
 assert.match(state, /AWTSMOOS_CANDIDATE_PROBE_STABLE_SAMPLES:-4/);
-assert.match(state, /AWTSMOOS_CANDIDATE_PROBE_STABLE_MS:-5000/);
+assert.match(state, /AWTSMOOS_CANDIDATE_PROBE_STABLE_MS:-1800/);
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "unix-candidate-default-probe-budget",
 	defaultTimeoutSeconds: 120,
 	stableSamples: 4,
-	stableMs: 5000
+	stableMs: 1800
 }));

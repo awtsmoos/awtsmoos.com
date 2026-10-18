@@ -81,6 +81,15 @@ install_portable_recovery_lanes() {
 		[ -n "$pair" ] || continue
 		lane="${pair%%:*}"
 		relative="${pair#*:}"
+		# B"H — a verified same-release reinstall is idempotent: do not
+		# kill four already-owned, live recovery workers. An absent or foreign
+		# worker still goes through the usual supervised start and verification.
+		if [ "${AWTSMOOS_REUSE_VERIFIED_RECOVERY_LANES:-0}" = "1" ]; then
+			local existing_pid="$(cat "$(portable_recovery_lane_pid_file "$lane")" 2>/dev/null || true)"
+			if portable_recovery_lane_process_matches "$existing_pid" "$ROOT/$relative"; then
+				continue
+			fi
+		fi
 		start_portable_recovery_lane "$lane" "$relative" || failed=1
 	done <<EOF_PAIRS
 $(recovery_lane_pairs)

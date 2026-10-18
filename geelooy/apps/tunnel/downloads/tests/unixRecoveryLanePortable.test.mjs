@@ -34,6 +34,10 @@ try {
 	finalPids = snapshot();
 	for (const pid of first) await waitForGone(pid);
 	for (const [index, pid] of finalPids.entries()) assertDetached(pid, laneEntry(lanes[index]));
+	// A sealed, already-healthy same-version install must reuse these exact
+	// workers instead of killing and recreating four independent recovery doors.
+	run("AWTSMOOS_REUSE_VERIFIED_RECOVERY_LANES=1 install_portable_recovery_lanes");
+	assert.deepEqual(snapshot(), finalPids, "healthy recovery workers were unnecessarily restarted");
 	console.log(JSON.stringify({ ok: true, suite: "unix-recovery-lane-portable", tempRuntimeDeleted: true, lanes: lanes.length }));
 } finally {
 	try { run("stop_portable_recovery_lanes"); } catch {}

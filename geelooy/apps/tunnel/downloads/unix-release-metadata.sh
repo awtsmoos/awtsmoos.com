@@ -24,11 +24,19 @@ load_release_metadata() {
 	rm -rf "$RELEASE_METADATA_ROOT"
 	mkdir -p "$RELEASE_METADATA_ROOT"
 	install_progress 22 "Checking published tunnel release"
-	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 120 --speed-time 30 --speed-limit 1024 		"$origin/api/tunnel/install/bundle-manifest" -o "$RELEASE_DESCRIPTOR_PATH"; then
-		rm -rf "$RELEASE_METADATA_ROOT"
-		return 1
-	fi
-	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 120 --speed-time 30 --speed-limit 1024 		"$origin/api/tunnel/install/manifest.txt" -o "$RELEASE_MANIFEST_PATH"; then
+	# B"H — the descriptor and manifest are independent immutable public
+	# resources. Fetch them concurrently; hash and compare both before trusting
+	# either. Wait for both children even when one fails, leaving no curl orphan.
+	local descriptor_pid manifest_pid descriptor_status=0 manifest_status=0
+	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 120 --speed-time 30 --speed-limit 1024 \
+		"$origin/api/tunnel/install/bundle-manifest" -o "$RELEASE_DESCRIPTOR_PATH" &
+	descriptor_pid=$!
+	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 120 --speed-time 30 --speed-limit 1024 \
+		"$origin/api/tunnel/install/manifest.txt" -o "$RELEASE_MANIFEST_PATH" &
+	manifest_pid=$!
+	wait "$descriptor_pid" || descriptor_status=$?
+	wait "$manifest_pid" || manifest_status=$?
+	if [ "$descriptor_status" -ne 0 ] || [ "$manifest_status" -ne 0 ]; then
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi
