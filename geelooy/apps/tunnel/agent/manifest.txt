@@ -1,5 +1,5 @@
 B"H
-1.0.685
+1.0.686
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2969,6 +2969,7 @@ tools/fs/staticServers.js
 tools/fs/symbolOutline.js
 tools/fs/transfer/transferSession.js
 tools/fs/tree.js
+tools/fs/virtualMountPath.js
 tools/fs/virtualOsProject/snapshot.js
 tools/fs/virtualOsProject/views.js
 tools/fs/workflowExpressions.js
