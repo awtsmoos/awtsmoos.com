@@ -35,14 +35,40 @@ load_release_metadata() {
 		"$origin/api/tunnel/install/manifest.txt" -o "$RELEASE_MANIFEST_PATH" &
 	manifest_pid=$!
 	wait "$descriptor_pid" || descriptor_status=$?
-	wait "$manifest_pid" || manifest_status=$?
-	if [ "$descriptor_status" -ne 0 ] || [ "$manifest_status" -ne 0 ]; then
+	if [ "$descriptor_status" -ne 0 ]; then
+		wait "$manifest_pid" || true
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi
-	if ! IFS="$tab" read -r CANDIDATE_VERSION BUNDLE_URL BUNDLE_SHA BUNDLE_BYTES 		MANIFEST_SHA RELEASE_SOURCE_SHA < <(read_release_descriptor "$RELEASE_DESCRIPTOR_PATH"); then
+	if ! IFS="$tab" read -r CANDIDATE_VERSION BUNDLE_URL BUNDLE_SHA BUNDLE_BYTES \
+		MANIFEST_SHA RELEASE_SOURCE_SHA < <(read_release_descriptor "$RELEASE_DESCRIPTOR_PATH"); then
+		wait "$manifest_pid" || true
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
+	fi
+	# B"H — only an exact already-installed bundle may supply the same
+	# cryptographically hashed manifest. It is verified against the LIVE HTTPS
+	# descriptor first; new releases still download and verify the public file.
+	local reuse_installed_manifest=0
+	if [ -n "${ROOT:-}" ] && [ -f "$ROOT/installed-manifest.txt" ] && \
+		[ -f "$ROOT/install-state.txt" ] && [ -f "$ROOT/install-bundle.sha256" ] && \
+		[ "$(cat "$ROOT/install-state.txt")" = "$CANDIDATE_VERSION" ] && \
+		[ "$(awk 'NR == 1 { print $1 }' "$ROOT/install-bundle.sha256")" = "$BUNDLE_SHA" ] && \
+		[ "$(sha256_file "$ROOT/installed-manifest.txt")" = "$MANIFEST_SHA" ]; then
+		reuse_installed_manifest=1
+	fi
+	if [ "$reuse_installed_manifest" -eq 1 ]; then
+		# The manifest fetch was speculative; terminate only our own child
+		# and wait for it before replacing its output. Never leave a writer.
+		kill "$manifest_pid" 2>/dev/null || true
+		wait "$manifest_pid" 2>/dev/null || true
+		cp -p "$ROOT/installed-manifest.txt" "$RELEASE_MANIFEST_PATH" || return 1
+	else
+		wait "$manifest_pid" || manifest_status=$?
+		if [ "$manifest_status" -ne 0 ]; then
+			rm -rf "$RELEASE_METADATA_ROOT"
+			return 1
+		fi
 	fi
 	local actual_manifest_sha="$(sha256_file "$RELEASE_MANIFEST_PATH")"
 	if [ "$actual_manifest_sha" != "$MANIFEST_SHA" ]; then

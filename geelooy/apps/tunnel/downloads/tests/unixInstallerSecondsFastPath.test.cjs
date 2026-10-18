@@ -2,6 +2,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const os=require('node:os');
+const crypto=require('node:crypto');
 const path=require('node:path');
 const {spawnSync}=require('node:child_process');
 const test=require('node:test');
@@ -60,4 +61,34 @@ echo "reused:${'${AWTSMOOS_REUSE_VERIFIED_RECOVERY_LANES:-0}'}:finished:$FAST_RE
   assert.equal(refresh.status,0,refresh.stderr);assert.match(refresh.stdout,/restarted/);
   const unhealthy=shell(cmd,{MOCK_HEALTHY:'0'});
   assert.equal(unhealthy.status,0,unhealthy.stderr);assert.match(unhealthy.stdout,/restarted/);
+});
+
+
+test('matching installed manifest short-circuits slow remote manifest without skipping SHA verification',()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'awt-manifest-cache-'));
+ const installed=path.join(dir,'installed');fs.mkdirSync(installed);
+ const manifest='B"H\nverified local witness\n';
+ const sha=crypto.createHash('sha256').update(manifest).digest('hex');
+ fs.writeFileSync(path.join(installed,'installed-manifest.txt'),manifest);
+ fs.writeFileSync(path.join(installed,'install-state.txt'),'1.0.123\n');
+ fs.writeFileSync(path.join(installed,'install-bundle.sha256'),'bundlehash\n');
+ try {
+  const cmd=`set -u
+AWTSMOOS_INSTALL_RUNTIME=${quote(dir)}; ROOT=${quote(installed)}; origin=https://example.invalid
+source ${quote(path.join(root,'unix-release-metadata.sh'))}
+install_progress(){ :; }
+sha256_file(){ shasum -a 256 "$1" | awk '{print $1}'; }
+read_release_descriptor(){ printf '1.0.123\\thttps://example.invalid/fake.zip\\tbundlehash\\t99\\t${sha}\\t0123456789012345678901234567890123456789\\n'; }
+curl(){
+ local target='' previous='' label=''
+ for arg in "$@"; do [ "$previous" = '-o' ] && target="$arg"; previous="$arg"; done
+ case "$target" in *bundle-manifest.json) label=descriptor;; *manifest.txt) label=manifest;; *) return 90;; esac
+ if [ "$label" = manifest ]; then sleep 1.2; fi
+ printf 'remote response\\n' > "$target"
+}
+if load_release_metadata; then printf 'ok:'; sha256_file "$RELEASE_MANIFEST_PATH"; else printf 'failed'; fi`;
+  const r=shell(cmd);assert.equal(r.status,0,r.stderr);
+  assert.match(r.stdout,new RegExp('ok:'+sha));
+  assert.equal(fs.readFileSync(path.join(dir,'release-metadata/manifest.txt'),'utf8'),manifest);
+ }finally{fs.rmSync(dir,{recursive:true,force:true})}
 });
