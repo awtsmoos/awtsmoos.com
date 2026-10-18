@@ -3,26 +3,28 @@
 // Blessed is He
 
 /**
- * @file apps-filter.js
+ * @file Apps catalog bootstrap with freshness and poisoned-import recovery.
  * @description
- * The Awtsmoos gathers the Apps discovery graph without hiding failure or duplicating boot.
- * Awtsmoos.com exposes one readiness promise so other modules can await the same connected
- * runtime that the page itself uses, while visible failure remains inside Malchus.
+ * The Awtsmoos gathers every public doorway while remaining beyond every remembered failure;
+ * Awtsmoos.com watches the release identity and gives a failed module one fresh vessel before
+ * Malchus reveals an actionable error to the visitor.
  */
 
 import { AppsFilterBootMalchusView } from "./filter/AppsFilterBootMalchusView.js";
+import { importAppsFilterRuntime } from "./AppsFilterRuntimeImporter.js";
+
+startAppsBuildFreshness();
 
 /**
- * Boots the Apps catalog through a recoverable dynamic import boundary.
+ * Boots the Apps catalog through a resilient dynamic-import boundary.
  *
  * @returns {Promise<object|null>} Connected Apps runtime, or null after visible failure.
- * @sideEffects Dynamically imports the runtime and manifests failure when boot cannot complete.
  */
 export async function revealAppsFilterTiferes() {
 	const malchusFailureView = new AppsFilterBootMalchusView(document);
 
 	try {
-		const { AppsFilterTiferesRuntime } = await import("./filter/AppsFilterTiferesRuntime.v2.js?v=apps-runtime-005");
+		const { AppsFilterTiferesRuntime } = await importAppsFilterRuntime();
 		return new AppsFilterTiferesRuntime(document).connect();
 	} catch (gevurahFailure) {
 		console.error("Awtsmoos Apps catalog boot failed", gevurahFailure);
@@ -32,10 +34,23 @@ export async function revealAppsFilterTiferes() {
 }
 
 /**
- * The single route boot promise, exported as the stable programmatic readiness contract.
+ * Starts build freshness independently so its failure can never block catalog discovery.
  *
- * Consumers may await this value and use the connected runtime API without creating a
- * second controller or mutable global singleton.
+ * @returns {Promise<void>} Resolves after guard startup succeeds or safely defers.
+ */
+async function startAppsBuildFreshness() {
+	try {
+		const { startBuildVersionGuard } = await import(
+			"../../scripts/freshness/BuildVersionGuard.js?v=apps-freshness-001"
+		);
+		startBuildVersionGuard();
+	} catch (error) {
+		console.warn('B"H Apps build freshness guard deferred.', error);
+	}
+}
+
+/**
+ * The single route boot promise, exported as the stable programmatic readiness contract.
  *
  * @type {Promise<object|null>}
  */
