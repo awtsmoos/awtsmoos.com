@@ -1,5 +1,6 @@
 B"H
-1.0.687
+1.0.688
+main.js
 STABILITY_COVENANT.md
 ai/relay/direct/README.md
 ai/relay/direct/browser/ActiveTargetLease.mjs
@@ -1691,7 +1692,6 @@ lib/ws/transportLiveness.js
 lib/ws/transportLivenessEvidence.js
 lib/ws/transportLivenessSchedulerGrace.js
 lib/ws/transportLivenessSettings.js
-main.js
 next-runtime/command/activeRegistry.js
 next-runtime/command/admission.js
 next-runtime/command/atomicMeta.js
