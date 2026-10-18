@@ -10,29 +10,18 @@ export LANG=C
 # Preserve the incumbent until a verified replacement is ready.
 # Process retirement belongs to the transactional supervisor handoff.
 
-# B"H — Yaakov 2026-10-14: ALWAYS print full stack trace on error.
-# This is the Bash equivalent of try-catch with stack printing.
-# Every failure will show exactly where it happened and the call chain.
-# Beautiful output per Yaakov's "everything should feel magical" law.
+# B"H — Safe file/line diagnostics. Do not echo BASH_COMMAND: pairing and
+# encrypted credential routines may pass possession secrets in command args.
 trap '{
-  trap - ERR  # Prevent infinite recursion if trap code fails
-  echo "" >&2
-  echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
-  echo "   INSTALLER STACK TRACE — exactly where it broke" >&2
-  echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
-  echo "" >&2
-  echo "   Failed command:" >&2
-  echo "     $BASH_COMMAND" >&2
-  echo "" >&2
-  echo "   Call stack (most recent first):" >&2
+  trap - ERR
+  printf "\n%s[ AWTSMOOS INSTALL FAILED ]%s\n" "${AWT_C_RED:-}" "${AWT_C_OFF:-}" >&2
+  printf "  Location trace (no secret command arguments):\n" >&2
   _i=0; _line=""
   while _line=$(caller $_i 2>/dev/null); do
-    echo "     → $_line" >&2
+    printf "    %s\n" "$_line" >&2
     _i=$((_i + 1))
   done
-  echo "" >&2
-  echo "✨ ═══════════════════════════════════════════════════ ✨" >&2
-  echo "" >&2
+  printf "  Preserve the existing tunnel and consult the installer error above.\n\n" >&2
 }' ERR
 
 # The Awtsmoos chooses the primary vessel before replaceable helpers are trusted;
@@ -47,8 +36,10 @@ recovery_hint="${AWTSMOOS_RECOVERY_ROOT:-$HOME/.awtsmoos-tunnel-recovery}"
 
 # --- Clever terminal presentation (Yaakov 2026-10-11: the install command must look smart) ---
 # --- Colorful & fun (Yaakov 2026-10-13: make it more colorful and fun!) ---
-# B"H — Yaakov 2026-10-14: ALWAYS beautiful, not just on TTY!
-if [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
+# B"H — Color only on a real interactive terminal. Never leak escape
+# sequences into piped SSH logs, CI output or screen-reader transcripts.
+# Respect NO_COLOR whenever defined, even when set to an empty value.
+if [ -t 2 ] && [ -z "${NO_COLOR+x}" ] && [ "${TERM:-dumb}" != "dumb" ]; then
 	AWT_C_BOLD=$'\033[1m'; AWT_C_DIM=$'\033[2m'; AWT_C_GOLD=$'\033[1;33m'
 	AWT_C_GREEN=$'\033[1;32m'; AWT_C_RED=$'\033[1;31m'; AWT_C_CYAN=$'\033[1;36m'
 	AWT_C_MAGENTA=$'\033[1;35m'; AWT_C_BLUE=$'\033[1;34m'; AWT_C_YELLOW=$'\033[1;93m'
@@ -123,19 +114,26 @@ awt_magic_wand() {
 	fi
 }
 
-# One fixed-width terminal card: 40 columns even on a narrow Termux/SSH screen.
+# Adaptive installer banner: 40 columns normally, narrower on tiny Termux screens.
 # Color codes never contribute to the measured text width, and no emoji sits
 # inside the frame where terminal wcwidth rules could move the right border.
 awt_compact_card() {
 	local heading="$1" detail="$2"
 	local purple="${AWT_C_PURPLE:-}" reset="${AWT_C_OFF:-}"
 	local bright="${AWT_C_BOLD:-}" cyan="${AWT_C_CYAN:-}"
-	local top='──────────────────────────────────────'
+	local columns="${COLUMNS:-80}" inner=36 top
+	case "$columns" in ''|*[!0-9]*) columns=80 ;; esac
+	if [ "$columns" -lt 40 ]; then
+		inner=$(( columns - 4 ))
+		[ "$inner" -lt 16 ] && inner=16
+	fi
+	printf -v top '%*s' "$(( inner + 2 ))" ''
+	top="${top// /─}"
 	printf '\n%s╭%s╮%s\n' "$purple" "$top" "$reset" >&2
-	printf '%s│%s %s%-36.36s%s %s│%s\n' \
-		"$purple" "$reset" "$bright" "$heading" "$reset" "$purple" "$reset" >&2
-	printf '%s│%s %s%-36.36s%s %s│%s\n' \
-		"$purple" "$reset" "$cyan" "$detail" "$reset" "$purple" "$reset" >&2
+	printf '%s│%s %s%-*.*s%s %s│%s\n' \
+		"$purple" "$reset" "$bright" "$inner" "$inner" "$heading" "$reset" "$purple" "$reset" >&2
+	printf '%s│%s %s%-*.*s%s %s│%s\n' \
+		"$purple" "$reset" "$cyan" "$inner" "$inner" "$detail" "$reset" "$purple" "$reset" >&2
 	printf '%s╰%s╯%s\n' "$purple" "$top" "$reset" >&2
 }
 
@@ -149,13 +147,13 @@ awt_banner() {
 	awt_compact_card "AWTSMOOS TUNNEL" "Secure gateway to your machines"
 }
 
-awt_step()  { printf '%s🚀%s %s\n'   "$AWT_C_CYAN" "$AWT_C_OFF" "$1" >&2; }
-# B"H — Yaakov 2026-10-14: Even more beautiful blues, fun, magical!
-awt_ok()    { printf '%s💙✨%s %s\n'   "$AWT_C_CYAN" "$AWT_C_OFF" "$1" >&2; }
-awt_warn()  { printf '%s⚠️%s %s\n'   "$AWT_C_YELLOW" "$AWT_C_OFF" "$1" >&2; }
-awt_fail()  { printf '%s💥%s %s\n'   "$AWT_C_RED" "$AWT_C_OFF" "$1" >&2; }
-awt_dim()   { printf '%s%s%s\n'     "$AWT_C_DIM" "$1" "$AWT_C_OFF" >&2; }
-awt_fun()   { printf '%s🎭%s %s\n'   "$AWT_C_PINK" "$AWT_C_OFF" "$1" >&2; }
+# B"H — one-cell markers render consistently in narrow Termux terminals.
+awt_step()  { printf '%s  >%s %s\n' "$AWT_C_CYAN" "$AWT_C_OFF" "$1" >&2; }
+awt_ok()    { printf '%s  ✓%s %s\n' "$AWT_C_GREEN" "$AWT_C_OFF" "$1" >&2; }
+awt_warn()  { printf '%s  !%s %s\n' "$AWT_C_YELLOW" "$AWT_C_OFF" "$1" >&2; }
+awt_fail()  { printf '%s  ×%s %s\n' "$AWT_C_RED" "$AWT_C_OFF" "$1" >&2; }
+awt_dim()   { printf '%s%s%s\n' "$AWT_C_DIM" "$1" "$AWT_C_OFF" >&2; }
+awt_fun()   { printf '%s  ◆%s %s\n' "$AWT_C_PINK" "$AWT_C_OFF" "$1" >&2; }
 
 # --- Install modes (Yaakov 2026-10-12): full / minimal / agent-only ---
 # Backward compatible: no flags + non-interactive => full (today's behavior).

@@ -240,7 +240,9 @@ prg_draw_display() {
 	PRG_LAST_PCT="$percent"
 	local width=28 columns="${COLUMNS:-80}"
 	case "$columns" in ''|*[!0-9]*) columns=80 ;; esac
-	[ "$columns" -lt 78 ] && width=16
+	[ "$columns" -lt 80 ] && width=$(( columns - 17 ))
+	[ "$width" -gt 28 ] && width=28
+	[ "$width" -lt 6 ] && width=6
 	local complete=$(( percent * width / 100 ))
 	local bar="" index color="$PRG_C_CYAN"
 	[ "$percent" -ge 35 ] && color="$PRG_C_MAGENTA"
@@ -257,6 +259,15 @@ prg_draw_display() {
 	local eta=""
 	eta="$(_prg_format_eta "$percent")"
 	[ -n "$eta" ] && eta=" ${PRG_C_DIM}(${eta})${PRG_C_OFF}"
+	# B"H — Tiny Termux/SSH terminals receive one short stable progress line.
+	# The separate phase heading contains the full description; never force-wrap
+	# an ANSI live progress redraw across multiple physical rows.
+	if [ "$columns" -lt 80 ]; then
+		printf '\r\033[2K%s%3d%%%s [%s] %s/%s' \
+			"$color" "$percent" "$PRG_C_OFF" "$bar" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" >&2
+		PRG_DISPLAY_OPEN=1
+		return 0
+	fi
 	# A single-line, stable, bounded ANSI presentation. One glyph is the frontier,
 	# never a random star inside completed work (important for screen readers).
 	printf '\r\033[2K%s %s%3d%%%s │%s│ %s%s/%s%s %s%s%s%s' \
@@ -336,6 +347,15 @@ install_intro() {
 	local mode="${1:-full}"
 	prg_close_display
 	if [ "$PRG_TTY" = "1" ]; then
+		local columns="${COLUMNS:-80}"
+		case "$columns" in ''|*[!0-9]*) columns=80 ;; esac
+		if [ "$columns" -lt 60 ]; then
+			printf '\n%s  ▌%s %sAWTSMOOS TUNNEL%s\n' "$PRG_C_GOLD" "$PRG_C_OFF" "$PRG_C_BOLD" "$PRG_C_OFF" >&2
+			printf '    %sSECURE DEVICE INSTALLER%s\n' "$PRG_C_DIM" "$PRG_C_OFF" >&2
+			printf '    %sMode:%s %s%s%s\n' "$PRG_C_GOLD" "$PRG_C_OFF" "$PRG_C_CYAN" "$mode" "$PRG_C_OFF" >&2
+			printf '    Ctrl+C cancels.\n\n' >&2
+			return 0
+		fi
 		printf '\n' >&2
 		printf '%s  ╭──────────────────────────────────────────────────╮%s\n' "$PRG_C_GOLD" "$PRG_C_OFF" >&2
 		printf '%s  │%s   ✦  %sAWTSMOOS TUNNEL%s  — installer                  %s│%s\n' \

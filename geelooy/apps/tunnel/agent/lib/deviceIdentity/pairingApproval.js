@@ -150,48 +150,45 @@ async function sleepUnlessPush(push, ms) {
 	push.takeFired();
 }
 
+/** Presents one bounded approval panel and keeps the raw URL available to headless logs. */
 function announce(log, response, approval) {
-	// B"H — Yaakov 2026-10-14: URL on its own line, intense CLI styling!
-	const isTTY = process.stdout && process.stdout.isTTY;
-	const C = isTTY ? {
-		reset: "\x1b[0m",
-		bold: "\x1b[1m",
-		green: "\x1b[38;2;0;255;136m",
-		cyan: "\x1b[38;2;0;238;255m",
-		gold: "\x1b[38;2;255;204;0m",
-		dim: "\x1b[2m"
-	} : { reset: "", bold: "", green: "", cyan: "", gold: "", dim: "" };
-
-	log?.("info", `${C.bold}${C.green}B"H Pairing code: ${response.userCode}${C.reset}`);
-	log?.("info", "Open this URL in a browser. Do not paste it into a shell:");
-	// URL on its own line, no log prefix, with intense styling
-	if (isTTY) {
-		console.log("");
-		console.log(`${C.cyan}${C.bold}╔${"═".repeat(60)}╗${C.reset}`);
-		console.log(`${C.cyan}${C.bold}║${C.reset}  ${C.gold}✦ APPROVAL URL ✦${C.reset}${" ".repeat(41)}${C.cyan}${C.bold}║${C.reset}`);
-		console.log(`${C.cyan}${C.bold}╠${"═".repeat(60)}╣${C.reset}`);
-		// Split URL across lines for readability
-		const url = String(approval);
-		const maxLen = 56;
-		for (let i = 0; i < url.length; i += maxLen) {
-			const chunk = url.slice(i, i + maxLen);
-			const pad = " ".repeat(Math.max(0, 60 - chunk.length - 2));
-			console.log(`${C.cyan}${C.bold}║${C.reset} ${C.cyan}${chunk}${C.reset}${pad}${C.cyan}${C.bold}║${C.reset}`);
-		}
-		console.log(`${C.cyan}${C.bold}╚${"═".repeat(60)}╝${C.reset}`);
-		console.log("");
-	} else {
-		console.log(approval);
-	}
-	log?.("info", "Leave this terminal running after approval.");
-	log?.("info", `Pairing expires: ${new Date(response.expiresAt).toISOString()}`);
-	log?.("info", "The code stays valid while this installer keeps running — take your time.");
-	// B"H — Yaakov 2026-10-14: Pause to let user copy the URL before polls scroll the screen.
-	if (isTTY) {
-		console.log(`${C.dim}─── Copy the URL above, then press Enter to start waiting for approval ───${C.reset}`);
-	} else {
-		console.log("─── Copy the URL above ───");
-	}
+    const isTTY = Boolean(process.stdout?.isTTY);
+    const colored = isTTY && !("NO_COLOR" in process.env) && process.env.TERM !== "dumb";
+    const C = colored ? {
+        reset: "\x1b[0m", bold: "\x1b[1m", green: "\x1b[1;32m",
+        cyan: "\x1b[1;36m", purple: "\x1b[1;35m", gold: "\x1b[1;33m", dim: "\x1b[2m"
+    } : { reset: "", bold: "", green: "", cyan: "", purple: "", gold: "", dim: "" };
+    const url = String(approval || "").replace(/[\x00-\x1f\x7f]/g, "").slice(0, 2048);
+    log?.("info", `B"H Pairing code: ${response.userCode}`);
+    log?.("info", "Open this URL in a browser. Do not paste it into a shell:");
+    if (isTTY) {
+        const width = Math.max(24, Math.min(78, Number(process.stdout.columns) || 78));
+        const inner = width - 4;
+        const border = "─".repeat(width - 2);
+        const row = (text, ink = C.cyan) => {
+            for (let i = 0; i < Math.max(text.length, 1); i += inner) {
+                const slice = text.slice(i, i + inner);
+                console.log(`${C.purple}│${C.reset} ${ink}${slice.padEnd(inner)}${C.reset} ${C.purple}│${C.reset}`);
+            }
+        };
+        console.log("");
+        console.log(`${C.purple}╭${border}╮${C.reset}`);
+        row("APPROVE ON YOUR PHONE", C.gold);
+        console.log(`${C.purple}├${border}┤${C.reset}`);
+        row(url);
+        console.log(`${C.purple}╰${border}╯${C.reset}`);
+        console.log(`${C.green}Full URL:${C.reset} ${url}`);
+        console.log("");
+    } else if (typeof log === "function") {
+        // B"H — console-only output bypassed the authorized headless log collector.
+        log("info", url);
+    } else {
+        console.log(url);
+    }
+    log?.("info", "Leave this terminal running after approval.");
+    log?.("info", `Pairing expires: ${new Date(response.expiresAt).toISOString()}`);
+    log?.("info", "The code stays valid while this installer keeps running — take your time.");
+    if (isTTY) console.log(`${C.dim}Copy the URL, then continue in this terminal.${C.reset}`);
 }
 
 function delay(milliseconds) {

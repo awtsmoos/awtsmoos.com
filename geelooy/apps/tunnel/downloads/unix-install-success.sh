@@ -19,58 +19,45 @@ workspace_status_label() {
 	fi
 }
 
+# B"H — one concise success receipt for both desktop and narrow mobile terminals.
+# The same URL-panel helpers as the pairing flow retain every character of the link.
 print_tunnel_online_card() {
-	local tunnel_id="$1"
-	local device_name="$2"
-	local control_url="$3"
-	local version="${4:-}"
-	local G="" B="" D="" O=""
-	if [ "${PRG_TTY:-0}" = "1" ]; then
-		G="$PRG_C_GREEN"; B="$PRG_C_BOLD"; D="$PRG_C_DIM"; O="$PRG_C_OFF"
-	fi
-	# B"H — truncate so the box never breaks on long names.
-	local id_show="$tunnel_id" name_show="$device_name"
-	[ "${#id_show}" -gt 34 ] && id_show="${id_show:0:33}…"
-	[ "${#name_show}" -gt 34 ] && name_show="${name_show:0:33}…"
-	if [ "${PRG_TTY:-0}" != "1" ]; then
-		printf '\n✓ TUNNEL ONLINE\n' >&2
-		printf 'This machine is now connected via Awtsmoos Tunnel.\n\n' >&2
-		printf '✓ Device paired and registered\n' >&2
-		printf '✓ Secure credential provisioned\n' >&2
-		printf '✓ Agent running and connected\n' >&2
-		printf '✓ Guardian watching over it\n\n' >&2
-		printf 'Tunnel ID: %s\n' "$tunnel_id" >&2
-		printf 'Device:    %s\n' "$device_name" >&2
-		[ -n "$control_url" ] && printf 'Manage:    %s\n' "$control_url" >&2
-		[ -n "$version" ] && [ "$version" != "unknown" ] && printf 'Version:   %s\n' "$version" >&2
-		printf '\n' >&2
-		return 0
-	fi
-	# _toc <colored-text> <visible-length> — pads to the 46-char content width.
-	_toc() {
-		local text="$1" vlen="$2" pad
-		pad=$(( 46 - vlen ))
-		[ "$pad" -lt 0 ] && pad=0
-		printf '║  %s%*s  ║\n' "$text" "$pad" "" >&2
-	}
-	local rule="══════════════════════════════════════════════════"
-	printf '\n' >&2
-	printf '%s╔%s╗%s\n' "$G" "$rule" "$O" >&2
-	_toc "${G}✓${O}  ${B}TUNNEL ONLINE${O}" 16
-	printf '%s╠%s╣%s\n' "$G" "$rule" "$O" >&2
-	_toc "${D}This machine is now connected.${O}" 30
-	_toc "" 0
-	_toc "${G}✓${O} Device paired and registered" 30
-	_toc "${G}✓${O} Secure credential provisioned" 31
-	_toc "${G}✓${O} Agent running and connected" 29
-	_toc "${G}✓${O} Guardian watching over it" 27
-	printf '%s╠%s╣%s\n' "$G" "$rule" "$O" >&2
-	_toc "${D}Tunnel ID:${O} ${B}${id_show}${O}" $(( 11 + ${#id_show} ))
-	_toc "${D}Device:   ${O} ${B}${name_show}${O}" $(( 11 + ${#name_show} ))
-	printf '%s╚%s╝%s\n' "$G" "$rule" "$O" >&2
-	[ -n "$control_url" ] && printf '%sManage: %s%s\n' "$D" "$control_url" "$O" >&2
-	[ -n "$version" ] && [ "$version" != "unknown" ] && printf '%sVersion: %s%s\n' "$D" "$version" "$O" >&2
-	printf '\n' >&2
+    local tunnel_id="$1" device_name="$2" control_url="$3" version="${4:-}"
+    local green="${PRG_C_GREEN:-}" cyan="${PRG_C_CYAN:-}" purple="${PRG_C_MAGENTA:-}"
+    local bold="${PRG_C_BOLD:-}" off="${PRG_C_OFF:-}" width
+    if [ "${PRG_TTY:-0}" != "1" ] || ! declare -F pairing_card_rule >/dev/null; then
+        printf '\n✓ TUNNEL ONLINE\n' >&2
+        printf '✓ Device paired and registered\n' >&2
+        printf '✓ Credential provisioned\n' >&2
+        printf '✓ Relay connected; guardian active\n' >&2
+        printf 'Tunnel ID: %s\nDevice: %s\n' "$tunnel_id" "$device_name" >&2
+        [ -n "$control_url" ] && printf 'Manage: %s\n' "$control_url" >&2
+        [ -n "$version" ] && [ "$version" != 'unknown' ] && printf 'Version: %s\n' "$version" >&2
+        return 0
+    fi
+    width="$(pairing_card_columns)"
+    printf '\n%s%s ✓ AWTSMOOS TUNNEL ONLINE%s\n' "$green" "$bold" "$off" >&2
+    pairing_card_rule top "$width" "$green"
+    pairing_card_rows ' DEVICE CONNECTED' "$width" "$green" "$bold"
+    pairing_card_rule middle "$width" "$green"
+    pairing_card_rows ' ✓ Paired and registered' "$width" "$green" "$green"
+    pairing_card_rows ' ✓ Credential provisioned' "$width" "$green" "$green"
+    pairing_card_rows ' ✓ Relay connected' "$width" "$green" "$green"
+    pairing_card_rows ' ✓ Guardian active' "$width" "$green" "$green"
+    pairing_card_rule middle "$width" "$green"
+    pairing_card_rows " Device: ${device_name}" "$width" "$green" "$cyan"
+    pairing_card_rows " ID: ${tunnel_id}" "$width" "$green" "$cyan"
+    [ -n "$version" ] && [ "$version" != 'unknown' ] && pairing_card_rows " Version: ${version}" "$width" "$green" "$cyan"
+    pairing_card_rule bottom "$width" "$green"
+    if [ -n "$control_url" ]; then
+        control_url="$(printf '%s' "$control_url" | LC_ALL=C tr -d '\000-\037\177')"
+        printf '\n%s  MANAGE YOUR TUNNEL%s\n' "$bold" "$off" >&2
+        pairing_card_rule top "$width" "$purple"
+        pairing_card_rows "$control_url" "$width" "$purple" "$cyan"
+        pairing_card_rule bottom "$width" "$purple"
+        printf '  %sFull URL:%s %s\n' "$green" "$off" "$control_url" >&2
+    fi
+    printf '\n' >&2
 }
 
 # Headless operator card (Yaakov 2026-10-14): for agent-only / server / GPU
@@ -99,6 +86,30 @@ print_headless_operator_card() {
 		printf 'Manage it: %s\n\n' "$control_url" >&2
 		return 0
 	fi
+	# B"H — use the same responsive panels as pairing and the online receipt.
+	if declare -F pairing_card_rule >/dev/null; then
+		local width green="${PRG_C_GREEN:-}" purple="${PRG_C_MAGENTA:-}"
+		width="$(pairing_card_columns)"
+		printf '\n%s%s HEADLESS TUNNEL READY%s\n' "$C" "$B" "$O" >&2
+		pairing_card_rule top "$width" "$C"
+		pairing_card_rows " Name: ${tunnel_name}" "$width" "$C" "$B"
+		pairing_card_rows " ID: ${tunnel_id}" "$width" "$C" "$B"
+		pairing_card_rule middle "$width" "$C"
+		pairing_card_rows ' Reachable through Awtsmoos' "$width" "$C" "$green"
+		pairing_card_rows ' File transfer: SHA-256 verified' "$width" "$C" "$green"
+		pairing_card_rule bottom "$width" "$C"
+		if [ -n "$control_url" ]; then
+			control_url="$(printf '%s' "$control_url" | LC_ALL=C tr -d '\000-\037\177')"
+			printf '\n%s  MANAGE THIS DEVICE%s\n' "$B" "$O" >&2
+			pairing_card_rule top "$width" "$purple"
+			pairing_card_rows "$control_url" "$width" "$purple" "$C"
+			pairing_card_rule bottom "$width" "$purple"
+			printf '  Full URL: %s\n' "$control_url" >&2
+		fi
+		printf '\n' >&2
+		return 0
+	fi
+
 	_hoc() {
 		local text="$1" vlen="$2" pad
 		pad=$(( 46 - vlen ))

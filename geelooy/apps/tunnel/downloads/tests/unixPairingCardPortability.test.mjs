@@ -38,7 +38,7 @@ test("Mac installer shows a compact, aligned approval card with portable millise
 	const lines = card.split("\n").filter(Boolean);
 	assert.match(card, /Status: awaiting approval/);
 	assert.match(card, /Approval link \(copy\):/);
-	assert(lines.filter(line => !line.includes("https://") && !line.includes("Approval link")).every(line => Array.from(line).length <= 40));
+	assert(lines.filter(line => !line.includes("https://") && !line.includes("Approval link")).every(line => Array.from(line).length <= 78));
 });
 
 test("approval poll completes on macOS without GNU date extensions", () => {
@@ -50,4 +50,28 @@ test("approval poll completes on macOS without GNU date extensions", () => {
 		prg_ok() { :; }
 		direct_pairing_wait_for_approval`);
 	assert.equal(result.status, 0, result.stderr);
+});
+
+test("approval URL has a dedicated mobile-width panel without losing its copyable original", () => {
+  const url = 'https://example.test/approve?pairingId=abcdefghijklmnopqrstuvwxyz&pairingCode=ABCDEFGH23';
+  for (const cols of [32, 40, 78]) {
+    const result = runCase(`
+      COLUMNS=${cols}; PRG_SMOOTH=1
+      direct_pairing_field() {
+        case "$1" in
+          pairingId) echo pair_fixture ;;
+          userCode) echo ABCDEFGH23 ;;
+          approvalUrl) echo '${url}' ;;
+          expiresAt) echo 0 ;;
+        esac
+      }
+      direct_pairing_show_card`);
+    assert.equal(result.status, 0, result.stderr);
+    const lines = result.stderr.split('\n');
+    const frame = lines.filter(line => /^[╭│├╰]/u.test(line));
+    assert(frame.length >= 8, 'both code and URL must be framed');
+    assert(frame.every(line => Array.from(line).length === cols), 'box must fit terminal');
+    assert(result.stderr.includes(`Full URL: ${url}`), 'copy line must remain complete');
+    assert(!result.stderr.includes(String.fromCharCode(27)), 'no ANSI escapes in piped output');
+  }
 });

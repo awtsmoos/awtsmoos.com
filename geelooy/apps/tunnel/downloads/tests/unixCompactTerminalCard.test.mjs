@@ -62,3 +62,17 @@ printf '%s,%s,%s,%s' "$AWTSMOOS_INSTALL_MODE" "$AWTSMOOS_EXPLICIT_REINSTALL" "$A
 	assert.equal(parse(['--full','--reuse-identity','--keep-old-tunnels']),'full,1,1,1');
 	assert.equal(parse(['--no-login','--yes']),',0,0,0');
 });
+
+test('first installer banner shrinks for 24 and 32 column Termux terminals',()=>{
+  for (const cols of [24,32]) {
+    const rendered=render(`COLUMNS=${cols}; awt_banner`);
+    const lines=rendered.split('\n').filter(row=>/^[╭│╰]/.test(row));
+    assert.equal(lines.length,4);
+    assert(lines.every(row=>Array.from(row).length===cols),JSON.stringify(lines));
+  }
+});
+
+test('installer never leaks credentials through ERR diagnostics or ANSI in non-TTY output',()=>{
+  assert.equal(source.includes('$BASH_COMMAND'),false,'raw failed commands may contain secrets');
+  assert.match(source,/\[ -t 2 \] && \[ -z "\$\{NO_COLOR\+x\}" \]/);
+});

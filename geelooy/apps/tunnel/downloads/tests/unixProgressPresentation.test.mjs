@@ -39,3 +39,13 @@ test('interactive terminal receives a bounded, colored progress display', { skip
   assert.match(result.stdout, /Registration fresh/);
 });
 process.on('exit', () => fs.rmSync(root, { recursive: true, force: true }));
+
+test('live progress has no line-wrap at mobile terminal widths', () => {
+  for (const cols of [24,32,40]) {
+    const cmd = `source "${source}"; COLUMNS=${cols}; PRG_TTY=1; INSTALL_STEP_TOTAL=3; INSTALL_STEP_N=1; INSTALL_OVERALL_PCT=42; PRG_STEP_MSG='Checking the installed candidate'; prg_draw_display; prg_close_display`;
+    const r=spawnSync('bash',['-c',cmd],{encoding:'utf8'});
+    assert.equal(r.status,0,r.stderr);
+    const printed=r.stderr.replace(/\x1b\[[0-9;]*[A-Za-z]/g,'').replace(/\r/g,'').trim();
+    assert(Array.from(printed).length<=cols, `${cols} columns: ${JSON.stringify(printed)}`);
+  }
+});

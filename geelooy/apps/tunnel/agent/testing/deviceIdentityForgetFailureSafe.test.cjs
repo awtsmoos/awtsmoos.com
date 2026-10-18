@@ -38,7 +38,7 @@ require.cache[secureStorePath].exports = {
 };
 delete require.cache[forgetPath];
 const Forget = require(forgetPath);
-const result = Forget.forget({ installRoot });
+const result = Forget.forget({ installRoot }, { forceReset: true });
 
 assert.equal(result.ok, true);
 assert.equal(result.removed, true);

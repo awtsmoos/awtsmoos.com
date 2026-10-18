@@ -40,7 +40,7 @@ test("pairing commit immediately seals the approved identity generation", () => 
 	assert.equal(Store.read(config).source, "pairing_commit");
 	const metadata = Metadata.read(config);
 	assert.equal(SecureStore.read(metadata.deviceId, "credential"), credential);
-	Forget.forget(config);
+	Forget.forget(config, { forceReset: true });
 	assert.equal(Slots.restore(config).state, "restored");
 	const restored = Metadata.read(config);
 	assert.equal(SecureStore.read(restored.deviceId, "credential"), credential);

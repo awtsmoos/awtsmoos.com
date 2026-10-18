@@ -81,43 +81,100 @@ try {
 NODE
 }
 
-# B"H — beautiful approval card for installer-direct pairing.
+# B"H — terminal-width-aware panels. URLs stay complete and copyable.
+# All content is treated as literal text, never as a printf format or ANSI command.
+pairing_card_columns() {
+    local columns="${COLUMNS:-}" terminal_size=""
+    if [ -z "$columns" ] && [ -t 2 ]; then
+        terminal_size="$(stty size < /dev/tty 2>/dev/null)" || terminal_size=""
+        columns="${terminal_size##* }"
+    fi
+    case "$columns" in ''|*[!0-9]*) columns=80 ;; esac
+    [ "$columns" -gt 78 ] && columns=78
+    [ "$columns" -lt 24 ] && columns=24
+    printf '%s' "$columns"
+}
+
+pairing_card_rule() {
+    local type="$1" width="$2" color="$3" left right edge line="" i
+    if [ "${PRG_SMOOTH:-0}" = "1" ]; then
+        edge='─'
+        case "$type" in top) left='╭'; right='╮' ;; bottom) left='╰'; right='╯' ;; *) left='├'; right='┤' ;; esac
+    else
+        edge='-'
+        left='+'; right='+'
+    fi
+    for (( i=2; i<width; i++ )); do line="${line}${edge}"; done
+    printf '%s%s%s%s%s\n' "$color" "$left" "$line" "$right" "${PRG_C_OFF:-}" >&2
+}
+
+pairing_card_rows() {
+    local value="$1" width="$2" color="$3" ink="$4"
+    local inner=$(( width - 4 )) piece padding side='|'
+    [ "${PRG_SMOOTH:-0}" = "1" ] && side='│'
+    # Splitting creates visual rows only. Print the unsplit, copyable URL afterward.
+    while [ -n "$value" ]; do
+        piece="${value:0:inner}"
+        value="${value:inner}"
+        padding=$((inner - ${#piece}))
+        printf '%s%s%s %s%s%s%*s %s%s%s\n' \
+            "$color" "$side" "${PRG_C_OFF:-}" "$ink" "$piece" "${PRG_C_OFF:-}" \
+            "$padding" '' "$color" "$side" "${PRG_C_OFF:-}" >&2
+    done
+}
+
+# B"H — the pairing code is large, the approval link has its own colored
+# panel, and machine output remains readable with NO_COLOR or piped logs.
 direct_pairing_show_card() {
-	local pairing_id pairing_code approval_url expires_at expires_label
-	pairing_id="$(direct_pairing_field pairingId)"
-	[ -n "$pairing_id" ] || return 1
-	pairing_code="$(direct_pairing_field userCode)"
-	approval_url="$(direct_pairing_field approvalUrl)"
-	if [ -z "$approval_url" ]; then
-		approval_url="https://awtsmoos.com/api/tunnel/control/pairing/page?pairingId=${pairing_id}&pairingCode=${pairing_code}"
-	fi
-	expires_at="$(direct_pairing_field expiresAt)"
-	expires_label="unknown"
-	if [ -n "$expires_at" ] && [ "$expires_at" -gt 0 ] 2>/dev/null; then
-		local now_ms remaining
-		now_ms="$("$AWTSMOOS_NODE_BIN" -p 'Date.now()')"
-		remaining=$(( (expires_at - now_ms) / 1000 ))
-		if [ "$remaining" -gt 0 ]; then
-			expires_label="$(( (remaining + 59) / 60 )) min"
-		else
-			expires_label="expired"
-		fi
-	fi
-	local c_gold="${PRG_C_GOLD:-}" c_off="${PRG_C_OFF:-}"
-	local c_cyan="${PRG_C_CYAN:-}" c_bold="${PRG_C_BOLD:-}"
-	local display_code="$pairing_code"
-	if [ "${#pairing_code}" -eq 10 ]; then
-		display_code="${pairing_code:0:5}-${pairing_code:5}"
-	fi
-	# B"H — Compact output never assumes a 46-column terminal.
-	printf '\n%sAWTSMOOS  |  DEVICE PAIRING%s\n' "$c_bold" "$c_off" >&2
-	printf '  Code: %s%s%s\n' "$c_cyan" "$display_code" "$c_off" >&2
-	printf '  Status: awaiting approval\n' >&2
-	printf '  Open: https://awtsmoos.com/api/tunnel/control/pairing/page\n' >&2
-	printf '  Approval link (copy):\n  %s\n' "$approval_url" >&2
-	printf '  Expires in %s\n' "$expires_label" >&2
-	printf '  Approve only your own pairing code.\n\n' >&2
-	return 0
+    local pairing_id pairing_code approval_url expires_at expires_label
+    pairing_id="$(direct_pairing_field pairingId)"
+    [ -n "$pairing_id" ] || return 1
+    pairing_code="$(direct_pairing_field userCode)"
+    approval_url="$(direct_pairing_field approvalUrl)"
+    if [ -z "$approval_url" ]; then
+        approval_url="https://awtsmoos.com/api/tunnel/control/pairing/page?pairingId=${pairing_id}&pairingCode=${pairing_code}"
+    fi
+    # Never allow a server-provided URL to inject terminal control sequences.
+    approval_url="$(printf '%s' "$approval_url" | LC_ALL=C tr -d '\000-\037\177')"
+    [ "${#approval_url}" -le 2048 ] || approval_url='https://awtsmoos.com/api/tunnel/control/pairing/page'
+    expires_at="$(direct_pairing_field expiresAt)"
+    expires_label="unknown"
+    if [ -n "$expires_at" ] && [ "$expires_at" -gt 0 ] 2>/dev/null; then
+        local now_ms remaining
+        now_ms="$("$AWTSMOOS_NODE_BIN" -p 'Date.now()')"
+        remaining=$(( (expires_at - now_ms) / 1000 ))
+        if [ "$remaining" -gt 0 ]; then
+            expires_label="$(( (remaining + 59) / 60 )) min"
+        else
+            expires_label="expired"
+        fi
+    fi
+    local display_code="$pairing_code"
+    if [ "${#pairing_code}" -eq 10 ]; then
+        display_code="${pairing_code:0:5}-${pairing_code:5}"
+    fi
+    local width color_code="${PRG_C_GOLD:-}" color_link="${PRG_C_MAGENTA:-}"
+    local ink="${PRG_C_CYAN:-}" bold="${PRG_C_BOLD:-}" green="${PRG_C_GREEN:-}" off="${PRG_C_OFF:-}"
+    width="$(pairing_card_columns)"
+    printf '\n%s%s AWTSMOOS TUNNEL%s\n' "$color_code" "$bold" "$off" >&2
+    printf '  SECURE DEVICE PAIRING\n\n' >&2
+    pairing_card_rule top "$width" "$color_code"
+    pairing_card_rows " PAIRING CODE" "$width" "$color_code" "$bold"
+    pairing_card_rows " ${display_code}" "$width" "$color_code" "$ink"
+    pairing_card_rule bottom "$width" "$color_code"
+    printf '\n%s  Approval link (copy):%s\n' "$bold" "$off" >&2
+    pairing_card_rule top "$width" "$color_link"
+    pairing_card_rows " OPEN ON YOUR PHONE" "$width" "$color_link" "$bold"
+    pairing_card_rule middle "$width" "$color_link"
+    pairing_card_rows "$approval_url" "$width" "$color_link" "$ink"
+    pairing_card_rule bottom "$width" "$color_link"
+    # Keep one unbroken logical line for reliable terminal selection/copy.
+    printf '  %sFull URL:%s %s\n' "$green" "$off" "$approval_url" >&2
+    printf '  Or enter the code at:\n  https://awtsmoos.com/api/tunnel/control/pairing/page\n' >&2
+    printf '\n  %sStatus:%s awaiting approval\n' "$color_code" "$off" >&2
+    printf '  Expires in %s. Ctrl+C cancels.\n' "$expires_label" >&2
+    printf '  Approve only your own pairing code.\n\n' >&2
+    return 0
 }
 
 # B"H — waits for the human to approve, polling pairing/state directly.
