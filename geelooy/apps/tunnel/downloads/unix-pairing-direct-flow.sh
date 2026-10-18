@@ -109,19 +109,14 @@ direct_pairing_show_card() {
 	if [ "${#pairing_code}" -eq 10 ]; then
 		display_code="${pairing_code:0:5}-${pairing_code:5}"
 	fi
-	printf '\n%s╭────────────────────────────────────────────╮%s\n' "$c_gold" "$c_off" >&2
-	printf '%s│%s  AWTSMOOS  /  SECURE DEVICE PAIRING        %s│%s\n' "$c_gold" "$c_bold" "$c_gold" "$c_off" >&2
-	printf '%s├────────────────────────────────────────────┤%s\n' "$c_gold" "$c_off" >&2
-	printf '%s│%s  Approve your new machine on your phone.   %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
-	printf '%s│%s                                            %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
-	printf '%s│%s     %s%s%s%28s%s│%s\n' "$c_gold" "$c_off" "$c_cyan" "$display_code" "$c_off" "" "$c_gold" "$c_off" >&2
-	printf '%s│%s                                            %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
-	printf '%s│%s  Status: awaiting account approval         %s│%s\n' "$c_gold" "$c_off" "$c_gold" "$c_off" >&2
-	printf '%s╰────────────────────────────────────────────╯%s\n' "$c_gold" "$c_off" >&2
-	printf '  %sApproval page:%s https://awtsmoos.com/api/tunnel/control/pairing/page\n' "$c_bold" "$c_off" >&2
-	printf '  %sQuick link (copy the full line):%s\n  %s\n' "$c_bold" "$c_off" "$approval_url" >&2
-	printf '  Expires in %s · Ctrl+C cancels this installer.\n' "$expires_label" >&2
-	printf '  %sDo not approve a code you did not request.%s\n\n' "$c_gold" "$c_off" >&2
+	# B"H — Compact output never assumes a 46-column terminal.
+	printf '\n%sAWTSMOOS  |  DEVICE PAIRING%s\n' "$c_bold" "$c_off" >&2
+	printf '  Code: %s%s%s\n' "$c_cyan" "$display_code" "$c_off" >&2
+	printf '  Status: awaiting approval\n' >&2
+	printf '  Open: https://awtsmoos.com/api/tunnel/control/pairing/page\n' >&2
+	printf '  Approval link (copy):\n  %s\n' "$approval_url" >&2
+	printf '  Expires in %s\n' "$expires_label" >&2
+	printf '  Approve only your own pairing code.\n\n' >&2
 	return 0
 }
 
@@ -131,7 +126,7 @@ direct_pairing_wait_for_approval() {
 	local pairing_id
 	pairing_id="$(direct_pairing_field pairingId)"
 	[ -n "$pairing_id" ] || return 1
-	local poll_interval_ms=5000
+	local poll_interval_ms=1500
 	local last_poll_ms=0
 	direct_pairing_show_card || true
 	install_event "direct-pairing" "waiting" \
@@ -169,7 +164,7 @@ direct_pairing_wait_for_approval() {
 				return 1
 			fi
 		fi
-		sleep 2
+		sleep 1
 	done
 }
 

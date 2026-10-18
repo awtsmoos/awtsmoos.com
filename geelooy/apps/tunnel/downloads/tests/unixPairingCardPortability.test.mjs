@@ -35,9 +35,10 @@ test("Mac installer shows a compact, aligned approval card with portable millise
 	const card = result.stderr;
 	assert.match(card, /ABCDE-FGH23/);
 	assert.match(card, /Expires in 10 min/);
-	const lines = card.split("\n").filter(line => /^[╭│├╰]/.test(line));
-	assert.equal(lines.length, 9);
-	assert(lines.every(line => Array.from(line).length === 46));
+	const lines = card.split("\n").filter(Boolean);
+	assert.match(card, /Status: awaiting approval/);
+	assert.match(card, /Approval link \(copy\):/);
+	assert(lines.filter(line => !line.includes("https://") && !line.includes("Approval link")).every(line => Array.from(line).length <= 40));
 });
 
 test("approval poll completes on macOS without GNU date extensions", () => {
