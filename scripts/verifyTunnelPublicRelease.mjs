@@ -28,7 +28,7 @@ const bundle = Zip.buildAgentBundle();
 const components = Components.buildInstallerComponents();
 const sourceTar = Tar.buildTar(Components.componentSources());
 
-const publicManifest = await bytes("/apps/tunnel/agent/manifest.txt");
+const publicManifest = await bytes("/api/tunnel/install/manifest.txt");
 assert.deepEqual(publicManifest, localManifest, "public manifest differs from local release");
 const descriptor = await json("/api/tunnel/install/bundle-manifest");
 assert.deepEqual(descriptor, Descriptor.build(bundle), "public bundle descriptor differs");

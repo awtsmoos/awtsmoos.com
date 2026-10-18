@@ -15,10 +15,13 @@ candidate_late_readiness_grace() {
 	local base_seconds="${AWTSMOOS_LATE_START_GRACE_SECONDS:-20}"
 	local progress_seconds="${AWTSMOOS_LATE_START_PROGRESS_GRACE_SECONDS:-10}"
 	local hard_seconds="${AWTSMOOS_LATE_START_HARD_GRACE_SECONDS:-60}"
-	local started_at="$(date +%s)" now="$started_at"
+	local started_at="$(date +%s)" now
+	now="$started_at"
 	local deadline=$(( started_at + base_seconds )) hard_deadline=$(( started_at + hard_seconds ))
-	local phase="$(startup_phase)" rank="$(startup_phase_rank "$phase")"
-	local previous_rank="$rank" stable=0
+	local phase rank previous_rank stable=0
+	phase="$(startup_phase)"
+	rank="$(startup_phase_rank "$phase")"
+	previous_rank="$rank"
 	[ "$rank" -gt 0 ] || return 1
 	install_event "startup" "warning" \
 		"Late startup evidence appeared; entering progress-aware bounded grace." \

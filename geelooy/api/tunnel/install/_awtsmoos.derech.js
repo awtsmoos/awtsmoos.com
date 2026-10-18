@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+const fs = require("node:fs");
+const path = require("node:path");
 const { registerScriptRoute } = require("./tools/scriptRoute.js");
 const { buildAgentBundle } = require("./tools/zipBundle.js");
 const { buildInstallerComponents, COMPONENTS } = require("./tools/installerComponents.js");
@@ -58,6 +60,12 @@ module.exports = {
 			"bundle-manifest",
 			async () => publishDescriptor($i)
 		);
+		// B"H — static /apps/tunnel/agent/manifest.txt is forbidden by nginx.
+		// Serve the exact non-secret release manifest through this public API.
+		await $i.use(
+			"manifest.txt",
+			async () => publishAgentManifest($i)
+		);
 		await $i.use(
 			"status",
 			async () => publishStatus($i)
@@ -107,6 +115,14 @@ function publishInstallerComponents($i) {
 		mimeType: "application/gzip",
 		response: bundle.buffer
 	};
+}
+
+/** Serves the exact source manifest hashed in the release descriptor. */
+function publishAgentManifest($i) {
+	const manifestPath = path.resolve(__dirname, "../../../apps/tunnel/agent/manifest.txt");
+	const manifest = fs.readFileSync(manifestPath, "utf8");
+	$i.response.setHeader("X-Awtsmoos-Manifest-Source", "canonical");
+	return sendText($i, manifest, "text/plain; charset=utf-8");
 }
 
 /** Publishes release metadata for complete-agent consumers. */
@@ -252,26 +268,21 @@ function publishPairingPage($i) {
 	const url = new URL($i.request.url, "https://awtsmoos.com");
 	const pairingCode = url.searchParams.get("pairingCode") || url.searchParams.get("code") || "";
 	const pairingId = url.searchParams.get("pairingId") || "";
-	let htmlContent = pairingPageHtml({ pairingCode });
-	// Rewrite the approve POST URL to use the install API instead of broken control API.
-	// The installer expects /api/tunnel/control/pairing/page, but we serve from /api/tunnel/install/pairing-page.
-	// For now, the approve button will POST to a stub endpoint (real approval needs control API fix).
-	htmlContent = htmlContent.replace(
-		"/api/tunnel/control/pairing/approve",
-		"/api/tunnel/install/pairing-approve"
-	);
+	// B"H — never redirect genuine approval to a success-shaped stub.
+	const htmlContent = pairingPageHtml({ pairingCode });
 	$i.response.statusCode = 200;
 	$i.response.setHeader("Content-Type", "text/html; charset=utf-8");
 	$i.response.setHeader("Cache-Control", "no-store");
 	return $i.response.end(htmlContent);
 }
 
-/** B"H — Yaakov 2026-10-14: Stub approve endpoint.
- * The real approval logic is in the broken control API. This stub returns
- * success so the UI works. Real backend approval needs the control API fix.
- */
+/** Obsolete fallback must never claim that an unapproved device was approved. */
 function publishPairingApprove($i) {
-	$i.response.statusCode = 200;
+	$i.response.statusCode = 410;
 	$i.response.setHeader("Content-Type", "application/json; charset=utf-8");
-	return $i.response.end(JSON.stringify({ BH: "B\"H", ok: true, stub: true, message: "Approve UI works. Real backend approval needs control API fix." }));
+	return $i.response.end(JSON.stringify({
+		BH: "B\"H",
+		ok: false,
+		error: "Use /api/tunnel/control/pairing/approve for authenticated approval."
+	}));
 }
