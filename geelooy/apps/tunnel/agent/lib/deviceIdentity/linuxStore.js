@@ -30,8 +30,11 @@ function machineKey() {
 }
 
 function file(service, account) {
-	const installRoot = path.resolve(String(process.env.AWTSMOOS_INSTALL_ROOT || os.homedir()));
-	const root = path.join(installRoot, STORE_DIRNAME);
+	// B"H — authorized secrets must outlive replaceable candidate/runtime
+	// directories. The installer migrates older encrypted files before update.
+	const recoveryRoot = path.resolve(String(process.env.AWTSMOOS_RECOVERY_ROOT ||
+		path.join(os.homedir(), ".awtsmoos-tunnel-recovery")));
+	const root = path.join(recoveryRoot, "state", "private", STORE_DIRNAME);
 	const name = crypto.createHash("sha256")
 		.update(`${service}\0${account}`)
 		.digest("hex");

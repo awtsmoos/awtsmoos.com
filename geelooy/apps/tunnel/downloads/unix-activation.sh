@@ -96,6 +96,25 @@ activate_update() {
 	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}-$$"
 	install_progress 69 "Proving candidate while predecessor remains recoverable"
 	write_activation_journal "predecessor_preserved" "$CANDIDATE_ROOT" "$ROOT"
+	# Read the approved credential AND its corresponding private key from the
+	# staged agent's own store before stopping the working predecessor.
+	if ! AWTSMOOS_INSTALL_ROOT="$CANDIDATE_ROOT" AWTSMOOS_RECOVERY_ROOT="$RECOVERY_ROOT" \
+		"$AWTSMOOS_NODE_BIN" - "$CANDIDATE_ROOT" "$RECOVERY_ROOT" <<'NODE'
+const path = require("node:path");
+const [root, recovery] = process.argv.slice(2);
+const Identity = require(path.join(root, "lib/deviceIdentity/index.js"));
+const options = { installRoot: root, recoveryRoot: recovery };
+const metadata = Identity.Metadata.read(options);
+const state = Identity.load(options);
+const privateKey = metadata?.deviceId && Identity.SecureStore.read(metadata.deviceId, "private-key");
+const coherent = privateKey && Identity.KeyCoherence.inspect(metadata, privateKey);
+if (!state.ok || !coherent?.ok) process.exit(73);
+NODE
+	then
+		install_fail "identity-reuse" \
+			"Staged runtime cannot read the already-approved key and credential." \
+			"The healthy predecessor was preserved; no new pairing was requested."
+	fi
 	if ! prove_candidate_before_promotion readonly; then
 		# B"H — Yaakov 2026-10-14 STANDING RULE: Installer ALWAYS shows the
 		# agent's real output (same as `node main.js`), but better formatted.

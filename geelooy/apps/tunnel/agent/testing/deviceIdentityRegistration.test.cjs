@@ -9,7 +9,7 @@ const { createRegistrationRuntime } = require("../lib/runtime/main-registration.
 const { ensureDeviceIdentity } = require("../lib/runtime/main-startup.js");
 
 const packet = nativeRegistrationPacket({
-	config: { tunnelName: "awt-test", tools: {} },
+	config: { tunnelName: "awt-test", root: process.cwd(), tools: {} },
 	agentVersion: "test",
 	identity: {
 		ok: true,
@@ -24,7 +24,7 @@ assert.equal(packet.tunnelId, "tun_test");
 assert.equal(packet.deviceCredential, "secret-test-credential");
 assert.equal(packet.name, "awt-test");
 const unpaired = nativeRegistrationPacket({
-	config: { tunnelName: "awt-test", tools: {} },
+	config: { tunnelName: "awt-test", root: process.cwd(), tools: {} },
 	agentVersion: "test",
 	identity: { ok: false, state: "unpaired", error: "device_pairing_required" }
 });
@@ -62,6 +62,7 @@ assert.equal(sent.deviceCredential, "secret-test-credential");
 	let pairingCalls = 0;
 	const paired = await ensureDeviceIdentity({
 		DeviceIdentity: {
+			CreationAuthority: { assertCreationAllowed() { return true; } },
 			load: () => ({ ok: false, state: "unpaired" }),
 			pair: async () => (pairingCalls++, { ok: true, state: "paired" })
 		},

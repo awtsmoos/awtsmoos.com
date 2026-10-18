@@ -22,6 +22,7 @@ migrate_dynamic_state() {
 	local stopped="0"
 	mkdir -p "$state_root"
 	backup_device_identity
+	migrate_linux_secure_store
 	mkdir -p "$state_root/device-state"
 	# Agent-only mode is headless: no browser, so no Chrome profile to preserve.
 	if [ -d "$legacy_profile" ] && mode_preserves_chrome_profile; then
@@ -192,5 +193,43 @@ fs.writeFileSync(temporary, `${JSON.stringify({
 	completedAt: new Date().toISOString()
 }, null, 2)}\n`);
 fs.renameSync(temporary, file);
+NODE
+}
+
+# B"H — encrypted Linux key custody must survive candidate promotion. Copy
+# before touching the live runtime; the old directory remains for rollback.
+# New agents address the protected recovery root, not a replaceable tree.
+migrate_linux_secure_store() {
+	[ "$(uname -s)" = "Linux" ] || return 0
+	"$AWTSMOOS_NODE_BIN" - "$ROOT" "$RECOVERY_ROOT" <<'NODE'
+const fs = require("node:fs");
+const path = require("node:path");
+const [install, recovery] = process.argv.slice(2);
+const source = path.join(install, ".linux-secure-store");
+const target = path.join(recovery, "state", "private", ".linux-secure-store");
+let stat;
+try { stat = fs.lstatSync(source); }
+catch (error) { if (error.code === "ENOENT") process.exit(0); throw error; }
+if (!stat.isDirectory() || stat.isSymbolicLink()) throw Error("identity_store_source_invalid");
+fs.mkdirSync(target, { recursive: true, mode: 0o700 });
+if (fs.lstatSync(target).isSymbolicLink()) throw Error("identity_store_target_symlink");
+fs.chmodSync(target, 0o700);
+for (const name of fs.readdirSync(source)) {
+	if (!/^[0-9a-f]{64}$/.test(name)) throw Error("identity_store_filename_invalid");
+	const from = path.join(source, name), to = path.join(target, name);
+	const info = fs.lstatSync(from);
+	if (!info.isFile() || info.isSymbolicLink()) throw Error("identity_store_entry_invalid");
+	const ciphertext = fs.readFileSync(from);
+	try {
+		const existing = fs.readFileSync(to);
+		if (!existing.equals(ciphertext)) throw Error("identity_store_conflict");
+		continue;
+	} catch (error) {
+		if (error.code !== "ENOENT") throw error;
+	}
+	const temporary = `${to}.${process.pid}.tmp`;
+	fs.writeFileSync(temporary, ciphertext, { flag: "wx", mode: 0o600 });
+	fs.renameSync(temporary, to);
+}
 NODE
 }

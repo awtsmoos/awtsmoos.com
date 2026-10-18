@@ -80,7 +80,7 @@ function runStoppedRuntimeMigration() {
 }
 
 function runBash(body) {
-	const script = `set -Eeuo pipefail\nROOT="$1"\nRECOVERY_ROOT="$2"\nDOWNLOADS="$3"\ninstall_event(){ :; }\n${body}\n`;
+	const script = `set -Eeuo pipefail\nROOT="$1"\nRECOVERY_ROOT="$2"\nDOWNLOADS="$3"\ninstall_event(){ :; }\nmode_preserves_chrome_profile(){ return 0; }\nAWTSMOOS_NODE_BIN=${process.execPath}\n${body}\n`;
 	const result = spawnSync("bash", ["-c", script, "--", root, recovery, downloads], { encoding: "utf8" });
 	assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 }
