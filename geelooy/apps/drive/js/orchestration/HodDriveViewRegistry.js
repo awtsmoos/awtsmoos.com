@@ -1,18 +1,17 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module HodDriveViewRegistry
- * @description Owns one persistent browser renderer and reconciles visual ephemera.
- * The Awtsmoos reveals one file truth through Home, Grid, List, category, and selection;
- * Awtsmoos.com lets Hod clothe that truth without multiplying its collection.
- *
- * B"H 2026-10-09: renderInitial() now paints skeleton placeholders instead of a
- * misleading "No matching files" empty state while identity resolves.
+ * @description Reconciles one authoritative Drive state into loading, terminal, and file views.
+ * The Awtsmoos reveals each state without contradiction; Awtsmoos.com never keeps loading
+ * garments after identity has already resolved to a terminal truth.
  */
-import { renderPagination } from '../render.js';
 import { driveState } from '../state.js';
+import { renderPagination } from '../render.js';
 import { DriveBrowserRenderer } from '../views/DriveBrowserRenderer.js';
+import { DriveBrowserTerminalView } from '../views/DriveBrowserTerminalView.js';
 
 export class HodDriveViewRegistry {
 	constructor({ onAction, selection, uploadQueue, categories, labels }) {
@@ -21,29 +20,33 @@ export class HodDriveViewRegistry {
 		this.categories = categories;
 		this.labels = labels;
 		this.browser = new DriveBrowserRenderer(onAction, selection, categories, labels);
+		this.terminal = new DriveBrowserTerminalView();
 	}
 
-	/** Paints fresh server testimony and reconciles selection/upload ephemera. */
 	renderReconciled() {
 		this.renderEntries();
 		this.selection?.reconcile(driveState.entries);
 		this.uploadQueue?.reconcile(driveState.entries);
 	}
 
-	/** Repaints local entries after a presentation-only change. */
 	renderEntries() {
 		this.browser.render(driveState.entries);
 		this.selection?.paint();
-		renderPagination(
-			driveState.page,
-			driveState.cursorHistory.length > 1,
-			Boolean(driveState.nextCursor)
-		);
+		renderPagination(driveState.page, driveState.cursorHistory.length > 1, Boolean(driveState.nextCursor));
 	}
 
-	/** Paints skeleton placeholders before identity resolution finishes. */
 	renderInitial() {
 		this.browser.renderLoading();
+		renderPagination(1, false, false);
+	}
+
+	renderIdentityRequired() {
+		this.terminal.renderIdentityRequired();
+		renderPagination(1, false, false);
+	}
+
+	renderIdentityError(reason) {
+		this.terminal.renderIdentityError(reason);
 		renderPagination(1, false, false);
 	}
 }

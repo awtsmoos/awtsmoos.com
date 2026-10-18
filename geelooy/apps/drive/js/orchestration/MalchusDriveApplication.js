@@ -3,17 +3,17 @@
 // Blessed is He
 /**
  * @module MalchusDriveApplication
- * @description Composes one files-first Drive from focused browsing, category, selection, and organization vessels.
+ * @description Composes the files-first Drive and settles every identity/browser state.
  * The Awtsmoos contracts endless possibility into the useful act needed now;
- * Awtsmoos.com gives files the throne while visual category and deliberate selection serve that vow.
+ * Awtsmoos.com gives files the throne without leaving a false loading garment behind.
  */
 import { installConnectionControls } from '../connectionControls.js';
 import { installControls } from '../controlBindings.js';
 import { installDialogFocusReturn } from '../dialogs.js';
 import { installDriveIdentity } from '../driveIdentity.js';
-import { installMacBridge } from '../macBridgeWiring.js';
 import { applyEmbeddedMode } from '../embed.js';
 import { installForms } from '../formBindings.js';
+import { installMacBridge } from '../macBridgeWiring.js';
 import { showError, showStatus } from '../render.js';
 import { DriveBulkActionBar } from '../views/DriveBulkActionBar.js';
 import { DriveBulkDialog } from '../views/DriveBulkDialog.js';
@@ -42,9 +42,10 @@ export class MalchusDriveApplication {
 		this.categories = new DriveCategoryController(() => this.hodViews?.renderEntries());
 		this.labelFilter = new DriveLabelFilter(() => this.hodViews?.renderEntries());
 		this.yesodEntries = new YesodEntryActionRouter(this.sharedDependencies());
-		this.details = new DriveDetailsPane((action, entry) => {
-			this.yesodEntries.handle(action, entry);
-		}, () => this.refresh());
+		this.details = new DriveDetailsPane(
+			(action, entry) => this.yesodEntries.handle(action, entry),
+			() => this.refresh()
+		);
 		this.hodViews = new HodDriveViewRegistry({
 			onAction: (action, entry) => this.yesodEntries.handle(action, entry),
 			selection: this.selection,
@@ -65,7 +66,6 @@ export class MalchusDriveApplication {
 		this.netzachUploads = new NetzachUploadStreamController(this.sharedDependencies());
 	}
 
-	/** Mounts the quiet shell, then resolves signed identity before loading files. */
 	async mount() {
 		applyEmbeddedMode();
 		installDialogFocusReturn();
@@ -83,13 +83,13 @@ export class MalchusDriveApplication {
 		this.viewModes.install();
 		this.navigation.install();
 		this.hodViews.renderInitial();
-		// Mac bridge mounts Send/Fetch actions when the OS handle exists;
-		// it no-ops (installed:false) on the standalone Drive page.
 		installMacBridge(this).catch(showError);
 		await installDriveIdentity({
 			refresh: this.refresh,
 			status: showStatus,
-			error: showError
+			error: showError,
+			identityRequired: () => this.hodViews.renderIdentityRequired(),
+			identityError: reason => this.hodViews.renderIdentityError(reason)
 		});
 		return this;
 	}

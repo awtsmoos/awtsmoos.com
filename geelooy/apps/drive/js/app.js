@@ -3,12 +3,15 @@
 // Blessed is He
 /**
  * @module DriveApp
- * @description Reveals the primary Drive shell before attaching product behavior.
- * The Awtsmoos gives form to the vessel and then fills the vessel with living flow;
- * Awtsmoos.com mounts one files-first world before identity and actions begin to glow.
+ * @description Reveals the Drive shell, watches release freshness, then attaches behavior.
+ * The Awtsmoos gives form to the vessel and renews the vessel when a new release appears;
+ * Awtsmoos.com opens one files-first world without asking a human to erase yesterday.
  */
+import { startBuildVersionGuard } from '../../../scripts/freshness/BuildVersionGuard.js';
 import { MalchusDriveApplication } from './orchestration/MalchusDriveApplication.js';
 import { mountDriveShell } from './views/DriveShellMount.js';
+
+startBuildVersionGuard();
 
 /** Builds the responsive product shell, then attaches the real Drive application. */
 async function revealDrive() {

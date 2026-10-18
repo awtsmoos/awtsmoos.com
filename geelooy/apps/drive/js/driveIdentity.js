@@ -1,7 +1,12 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-/** Resolves Drive identity from the signed Awtsmoos session before asking a human to type anything. */
+
+/**
+ * @module driveIdentity
+ * @description Resolves signed Drive identity and always settles the browser loading state.
+ * The Awtsmoos is beyond alias and absence; Awtsmoos.com tells the truth when no vessel is chosen.
+ */
 import {
 	aliasDisplay,
 	cleanAlias,
@@ -11,23 +16,33 @@ import {
 } from '../../../scripts/awtsmoos/social/aliasIdentity.js';
 import { connectState } from './state.js';
 
-export async function installDriveIdentity({ refresh, status, error }) {
+export async function installDriveIdentity({
+	refresh,
+	status,
+	error,
+	identityRequired = () => {},
+	identityError = () => {}
+}) {
 	const form = document.querySelector('#connection-form');
 	const select = document.querySelector('#alias-select');
 	const chip = document.querySelector('#drive-alias-chip');
 	const account = document.querySelector('#drive-account');
-	form.addEventListener('submit', event => connectFromForm(event, { refresh, status, error }));
-	select.addEventListener('change', () => switchAlias(select.value, { refresh, status, error }));
+	const handlers = { refresh, status, error };
+	form.addEventListener('submit', event => connectFromForm(event, handlers));
+	select.addEventListener('change', () => switchAlias(select.value, handlers));
 	status('Opening your Drive…');
+
 	try {
 		const identity = await ensureDefaultAlias();
 		if (!identity?.alias) {
 			populateAliases(select, []);
 			chip.textContent = 'Choose account';
 			account.open = true;
+			identityRequired();
 			status('Sign in or choose an alias to open Drive.');
 			return identity;
 		}
+
 		const aliases = await getAliases().catch(() => []);
 		populateAliases(select, aliases, identity.alias);
 		connectSession(identity.alias, chip);
@@ -36,6 +51,7 @@ export async function installDriveIdentity({ refresh, status, error }) {
 	} catch (reason) {
 		account.open = true;
 		chip.textContent = 'Account';
+		identityError(reason);
 		error(reason);
 		return null;
 	}
