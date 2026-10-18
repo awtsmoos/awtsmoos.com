@@ -41,7 +41,7 @@ test('installer mode card remains 40 columns for full and agent-only',()=>{
 	}
 });
 
-test('explicit mode selection requests a full replacement while keep and reuse remain independent flags',()=>{
+test('full mode is idempotent; explicit reinstall and stripped modes remain distinct flags',()=>{
 	const parser=functionSource('parse_installer_args');
 	function parse(options) {
 		const shell = `${parser}
@@ -57,9 +57,12 @@ printf '%s,%s,%s,%s' "$AWTSMOOS_INSTALL_MODE" "$AWTSMOOS_EXPLICIT_REINSTALL" "$A
 		assert.equal(r.status,0,r.stderr);
 		return r.stdout;
 	}
-	assert.equal(parse(['--full','--yes']),'full,1,0,0');
-	assert.equal(parse(['--full','--yes','--keep-old-tunnels']),'full,1,0,1');
-	assert.equal(parse(['--full','--reuse-identity','--keep-old-tunnels']),'full,1,1,1');
+	assert.equal(parse(['--full','--yes']),'full,0,0,0');
+	assert.equal(parse(['--mode=full','--yes']),'full,0,0,0');
+	assert.equal(parse(['--reinstall','--full','--yes']),'full,1,0,0');
+	assert.equal(parse(['--minimal','--yes']),'minimal,1,0,0');
+	assert.equal(parse(['--full','--yes','--keep-old-tunnels']),'full,0,0,1');
+	assert.equal(parse(['--full','--reuse-identity','--keep-old-tunnels']),'full,0,1,1');
 	assert.equal(parse(['--no-login','--yes']),',0,0,0');
 });
 

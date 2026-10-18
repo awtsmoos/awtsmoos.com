@@ -160,6 +160,7 @@ awt_fun()   { printf '%s  ◆%s %s\n' "$AWT_C_PINK" "$AWT_C_OFF" "$1" >&2; }
 AWTSMOOS_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-}"
 AWT_ASSUME_YES=0
 AWT_QUICK=0
+AWT_MODE_FLAG_SEEN=0
 # A repeat install preserves custody by default. Destructive reset requires
 # an explicit --clean; never silently erase identity on mode selection.
 AWTSMOOS_INSTALL_CLEAN="${AWTSMOOS_INSTALL_CLEAN:-0}"
@@ -174,7 +175,7 @@ ${AWT_C_DIM}  ── secure doorway to your machines ──${AWT_C_OFF}
 Usage: curl -fsSL $origin/api/tunnel/install/unix | bash -s -- [options]
 
 Options:
-  --full            Complete tunnel: agent, guardian, recovery lanes, browser support (default)
+  --full            Select complete tunnel features (default; no forced re-pairing)
   --minimal         Agent + registration; uses your system Node.js 18+; no browser auto-open
   --agent-only      Fastest headless install for servers; no browser, no recovery lanes
   --keep-old-tunnels  Keep earlier runtime installations, but still pair this new one
@@ -182,6 +183,8 @@ Options:
   --clean           Explicitly reset installer state before installation (destructive)
   --mode=MODE       Same as --MODE (full, minimal, agent-only)
   --quick           Verify an already installed online tunnel locally, without updates or restarts
+  --reinstall       Force a new transactional installation and fresh account approval
+  --refresh         Restart the current verified release; does not reset identity
   -y, --yes         Skip the interactive menu; install with the default/flag mode
   --no-login        Skip the headless device login step
   -h, --help        Show this help
@@ -223,10 +226,11 @@ prompt_install_mode() {
 		printf '\n' >&2
 		return 0
 	fi
-	# A human choosing an install mode (including pressing Enter for Full)
-	# expects a replacement, never a same-version background restart.
+	# Selecting Full describes capabilities; it is not permission to throw
+	# away a working paired device. Only a deliberate mode change or the
+	# separate --reinstall flag requests a fresh identity/replacement.
 	case "$choice" in
-		8|9|10|delete-auth|reset-tunnel|continue) ;;
+		''|1|full|8|9|10|delete-auth|reset-tunnel|continue) ;;
 		*) AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 	esac
 	case "$choice" in
@@ -246,9 +250,9 @@ prompt_install_mode() {
 parse_installer_args() {
 	while [ $# -gt 0 ]; do
 		case "$1" in
-			--full)            AWTSMOOS_INSTALL_MODE="full"; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
-			--minimal)         AWTSMOOS_INSTALL_MODE="minimal"; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
-			--agent-only|--agentonly) AWTSMOOS_INSTALL_MODE="agent-only"; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
+			--full)            AWTSMOOS_INSTALL_MODE="full"; AWT_MODE_FLAG_SEEN=1 ;;
+			--minimal)         AWTSMOOS_INSTALL_MODE="minimal"; AWT_MODE_FLAG_SEEN=1; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
+			--agent-only|--agentonly) AWTSMOOS_INSTALL_MODE="agent-only"; AWT_MODE_FLAG_SEEN=1; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--simple-poll)     AWTSMOOS_INSTALL_MODE="simple-poll" ;;
 			--simple-approval) AWTSMOOS_INSTALL_MODE="simple-approval" ;;
 			--simple-websocket) AWTSMOOS_INSTALL_MODE="simple-websocket" ;;
@@ -256,8 +260,10 @@ parse_installer_args() {
 			--clean)           AWTSMOOS_INSTALL_CLEAN=1 ;;
 			--keep-old-tunnels) AWTSMOOS_KEEP_OLD_TUNNELS=1 ;;
 			--reuse-identity)  AWTSMOOS_REUSE_IDENTITY=1 ;;
-			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}"; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
+			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}"; AWT_MODE_FLAG_SEEN=1; [ "$AWTSMOOS_INSTALL_MODE" = full ] || AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
 			--quick)           AWT_QUICK=1 ;;
+			--reinstall)       AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
+			--refresh)         AWTSMOOS_INSTALL_REFRESH=1 ;;
 			-y|--yes)          AWT_ASSUME_YES=1 ;;
 			--no-login)        AWTSMOOS_SKIP_DEVICE_LOGIN=1 ;;
 			-h|--help)         print_installer_help; exit 0 ;;
@@ -280,7 +286,7 @@ print_install_plan() {
 		full)
 			awt_dim "  1. Fetch the verified installer"
 			awt_dim "  2. Keep old state safe until the new tunnel works"
-			awt_dim "  3. Approve a fresh identity; verify the new agent"
+			awt_dim "  3. Reuse a healthy agent, or approve a new identity if needed"
 			awt_dim "  4. Register, switch over, then retire old installs"
 			;;
 		minimal)
@@ -420,7 +426,8 @@ NODE
 awt_banner
 parse_installer_args "$@"
 if [ "$AWT_QUICK" = "1" ]; then
-	if [ "$AWTSMOOS_EXPLICIT_REINSTALL" = "1" ] || [ "$AWTSMOOS_INSTALL_CLEAN" = "1" ]; then
+	if [ "$AWTSMOOS_EXPLICIT_REINSTALL" = "1" ] || [ "$AWTSMOOS_INSTALL_CLEAN" = "1" ] || \
+		[ "$AWT_MODE_FLAG_SEEN" = "1" ] || [ "${AWTSMOOS_INSTALL_REFRESH:-0}" = "1" ]; then
 		awt_fail '--quick cannot be combined with reinstall or clean flags.'
 		exit 64
 	fi
@@ -492,7 +499,7 @@ case "$AWTSMOOS_INSTALL_MODE" in
 esac
 # Agent-only is a packaging choice, never implied permission to erase
 # persistent pairing or rollback state. Only an explicit --clean may reset it.
-export AWTSMOOS_KEEP_OLD_TUNNELS AWTSMOOS_REUSE_IDENTITY AWTSMOOS_EXPLICIT_REINSTALL
+export AWTSMOOS_KEEP_OLD_TUNNELS AWTSMOOS_REUSE_IDENTITY AWTSMOOS_EXPLICIT_REINSTALL AWTSMOOS_INSTALL_REFRESH
 export AWTSMOOS_INSTALL_CLEAN
 print_install_plan "$AWTSMOOS_INSTALL_MODE"
 awt_intro_box "$AWTSMOOS_INSTALL_MODE"
