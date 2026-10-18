@@ -3,14 +3,20 @@
  * Blessed is He
  *
  * The Awtsmoos renews concealment and revelation in every instant.
- * Awtsmoos.com gives this old loader one precise vessel: when hidden is named,
- * it truly disappears; when living work calls it forth, its neon may reappear.
+ * Awtsmoos.com gives each legacy surface one truthful covenant: when the DOM
+ * names a vessel hidden, no stronger historical display rule may reveal it.
  */
 
 /**
- * The legacy ui.css rule uses an ID selector with display:flex. Pairing the
- * same ID with `.hidden` outranks it without !important or duplicated styling.
+ * Legacy ID selectors assign display values directly to these surfaces.
+ * Pairing each ID with `.hidden` outranks its bare-ID display rule while
+ * preserving the original display behavior the instant controllers remove
+ * the hidden class.
  */
-#loading-overlay.hidden {
+#terminal-wrap.hidden,
+#loading-overlay.hidden,
+#overlay-layer.hidden,
+#modal-studio.hidden,
+#studio-fab.hidden {
 	display: none;
 }
