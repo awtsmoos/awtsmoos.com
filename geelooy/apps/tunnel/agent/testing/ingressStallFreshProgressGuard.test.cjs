@@ -33,7 +33,7 @@ assert.equal(guarded.reason, "fresh_execution_progress");
 
 const trulyStale = Policy.classify({
 	...activeIngress,
-	execution: { ...activeIngress.execution, recentSuccess: false },
+	execution: { ...activeIngress.execution, recentSuccess: false, unresolved: 3, queued: 2 },
 	pressure: { activeWork: false, forwardProgressFresh: false, deferRepair: false }
 });
 assert.equal(trulyStale.eligible, true);
@@ -41,7 +41,7 @@ assert.equal(trulyStale.reason, "execution_ingress_stalled");
 
 const independentStageStall = Policy.classify({
 	...activeIngress,
-	execution: { ...activeIngress.execution, stageStalled: true }
+	execution: { ...activeIngress.execution, stageStalled: true, unresolved: 1 }
 });
 assert.equal(independentStageStall.eligible, true);
 assert.equal(independentStageStall.reason, "execution_consumer_stalled");

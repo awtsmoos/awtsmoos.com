@@ -36,7 +36,7 @@ const Failure = require("../lib/ws/transportFailure.js");
 	assert.equal(Reconnect.delayForAttempt(9, deterministic(dns)), 5000);
 
 	Reconnect.markRegistered(state);
-	assert.equal(state.reconnectAttempt, 0);
+	assert.equal(state.reconnectAttempt, 8, "a short-lived registration must not reset storm backoff");
 	Reconnect.markAccepted(state);
 	assert.equal(state.reconnectAttempt, 0);
 	console.log(JSON.stringify({ ok: true, suite: "proxy-storm-reconnect-gate", delays, networkReturnCapMs: 5000 }));
@@ -55,5 +55,5 @@ function assertJitterBounded() {
 	const low = Reconnect.delayForAttempt(5, { env: {}, jitterRatio: 0.2, random: () => 0 });
 	const high = Reconnect.delayForAttempt(5, { env: {}, jitterRatio: 0.2, random: () => 1 });
 	assert.equal(low, 24000);
-	assert.equal(high, 36000);
+	assert.equal(high, 30000); // capped even when positive jitter would exceed ceiling
 }
