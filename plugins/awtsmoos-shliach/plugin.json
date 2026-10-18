@@ -21,7 +21,7 @@
         "developerName": "Jacob Kaufer",
         "displayName": "Awtsmoos Shliach (Agent)",
         "logo": "./assets/gpt-icon.png",
-        "longDescription": "Awtsmoos Shliach (Agent) connects authorized Awtsmoos accounts and devices to discover live instructions, inspect status, read and write permitted files, run separately authorized commands, verify browser screenshots and publish one approved file through short-lived, revocable links. Remote actions require OAuth scopes, account ownership and live device permissions. Publishing files publicly requires explicit approval and tunnel.admin scope; URLs are accessible to their holders until expiry or revocation. No plugin installation charge or in-plugin checkout. The separate Awtsmoos service may track Peruta usage credits and return external purchase/upgrade links. The Awtsmoos worldview and artistic voice are preserved in the installed writing skills.",
+        "longDescription": "Awtsmoos Shliach (Agent) connects authorized Awtsmoos accounts and devices to discover live instructions, inspect status, read and write permitted files, run separately authorized commands, verify browser screenshots and publish one approved file through short-lived, revocable binary resource links with MIME, size and SHA-256 verification. Remote actions require OAuth scopes, account ownership and live device permissions. Publishing files publicly requires explicit approval and tunnel.admin scope; URLs are accessible to their holders until expiry or revocation. No plugin installation charge or in-plugin checkout. The separate Awtsmoos service may track Peruta usage credits and return external purchase/upgrade links. The Awtsmoos worldview and artistic voice are preserved in the installed writing skills.",
         "privacyPolicyURL": "https://awtsmoos.com/shliach-plugin/privacy/",
         "shortDescription": "Authorized Awtsmoos tools, plans and verified artifact sharing",
         "supportURL": "https://awtsmoos.com/shliach-plugin/support/",
@@ -30,7 +30,7 @@
       },
       "publication": {
         "countries": [],
-        "release_notes": "Version 0.91.0: explicit consent-gated public artifact publishing/revocation, detailed binary screenshot and temporary-link handling, live instruction discovery, stronger reviewer acceptance checklist and tested MCP tool descriptions."
+        "release_notes": "0.92.0: incremental verified binary artifacts (128 MiB cap), MCP resource_link, GET/HEAD/HTTP byte ranges, host import truth and corruption tests. Internal relay still uses Base64 chunks."
       },
       "review": {
         "commerce": true,
@@ -98,5 +98,5 @@
     }
   },
   "name": "gpt-dd2f54ed93cfaecc85f3be2573857188",
-  "version": "0.91.0"
+  "version": "0.92.0"
 }

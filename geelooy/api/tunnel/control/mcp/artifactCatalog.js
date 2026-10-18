@@ -15,7 +15,7 @@ const MUTATION = {
 const tools = Object.freeze([
 	{
 		name: "awtsmoos_artifact_publish",
-		description: "Publish exactly one named, owner-authorized tunnel file as a temporary public URL. The URL grants access to anyone possessing it. Requires tunnel.admin and explicit user approval.",
+		description: "Copy exactly one authorized device file into verified controller-owned binary storage, returning a SHA-256 proof and temporary MCP resource_link. The link grants access to anyone possessing it. Requires tunnel.admin and fresh explicit approval. A resource_link alone does not prove ChatGPT imported the bytes.",
 		annotations: MUTATION,
 		inputSchema: {
 			type: "object",

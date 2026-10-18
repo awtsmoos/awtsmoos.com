@@ -45,6 +45,8 @@ async function publish($i, identity, args = {}) {
 	return {
 		...receipt,
 		kind: "temporary_public_artifact",
+		hostImportConfirmed: false,
+		transferEncoding: "device-json-base64-chunks,controller-https-binary",
 		publiclyAccessibleToLinkHolders: true,
 		revocable: true,
 		note: "This is a bearer-capability URL. Anyone holding it can access the file until expiration or revocation."

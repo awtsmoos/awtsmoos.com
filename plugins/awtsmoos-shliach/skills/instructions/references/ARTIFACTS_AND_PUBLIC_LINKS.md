@@ -29,7 +29,7 @@ downloaded the bytes. Every boundary needs independent evidence.
    }
    ```
    The server requires `tunnel.admin`, verifies SHA-256 for each transferred
-   chunk and the complete file, and privately stores its own 16 MiB maximum
+   chunk and the complete file, and incrementally stores its own 128 MiB maximum
    copy before returning `artifactId`, `url`, `sha256`, `bytes` and
    `expiresAt`. `confirmPublicSharing:true` must reflect the user's
    actual informed approval; never set it merely to satisfy a schema.
@@ -127,3 +127,30 @@ MCP OAuth `tools/list`, admin-scoped public publish, outside-network GET,
 matching SHA-256, offline-Mac GET while TTL remains, revocation/expiry,
 and unauthorized denial. Unsupported/missing permissions must be reported as
 blocked, not passed. Record no credentials or private captured content.
+
+
+## Binary resource-link release contract (0.92.0)
+
+The agent-to-controller hop STILL uses Base64-encoded JSON chunks, with at
+most 1 MiB per chunk. It is NOT a native WebSocket binary transport.
+The controller writes a separately owned private binary file incrementally,
+verifies every chunk and its final SHA-256, and rejects/tidies corrupt partial
+transfers. The controller-to-recipient HTTPS download serves original raw
+bytes and supports GET, HEAD and single byte ranges, Content-Length, ETag
+and no-store. MCP success produces a standards-compliant resource_link
+containing the short-lived URL, MIME type and byte size.
+
+CRITICAL: A resource_link is NOT evidence that ChatGPT imported the file.
+The actual recipient must download the URL, validate the file size and
+SHA-256, save the binary locally, and obtain a real host file identifier or
+attachment. The result marks hostImportConfirmed=false. Never invent a
+sandbox link. These URLs are accessible to anyone with the link until
+expiration or authorized revocation; exact-file informed approval is still
+mandatory for publishing. Max artifact size is 128 MiB, not unlimited.
+
+Full public release requires live confirmation of OAuth and owner scoping,
+a real Mac screenshot and byte-identical proof, 5 MiB+ transfer integrity,
+interruption/reconnection, independent outside-network binary download,
+HEAD/ranges, expiration and revocation, Mac-offline controller download,
+host-side actual import and local checksum, browser screenshot latency, and
+marketplace review. Local unit tests do not establish all of these.

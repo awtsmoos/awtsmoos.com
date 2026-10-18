@@ -8,7 +8,7 @@
     "com.openai": {
       "publication": {
         "countries": [],
-        "release_notes": "Version 0.91.0: explicit consent-gated public artifact publishing/revocation, detailed binary screenshot and temporary-link handling, live instruction discovery, stronger reviewer acceptance checklist and tested MCP tool descriptions."
+        "release_notes": "0.92.0: incremental verified binary artifacts (128 MiB cap), MCP resource_link, GET/HEAD/HTTP byte ranges, host import truth and corruption tests. Internal relay still uses Base64 chunks."
       },
       "review": {
         "commerce": true,
@@ -100,5 +100,5 @@
   "mcpServers": "./.mcp.json",
   "name": "gpt-dd2f54ed93cfaecc85f3be2573857188",
   "skills": "./skills",
-  "version": "0.91.0"
+  "version": "0.92.0"
 }

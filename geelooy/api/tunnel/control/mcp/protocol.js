@@ -85,8 +85,21 @@ async function callTool($i, identity, params = {}) {
 	const handler = handlers[params.name];
 	if (!handler) throw new Error(`Unknown MCP tool: ${params.name || ""}`);
 	const payload = await handler($i, identity, args);
+	const content = [{ type: "text", text: JSON.stringify(payload, null, 2) }];
+	// Standard MCP file resource link: the host may fetch actual binary bytes.
+	// It is emitted only for explicit, consent-gated successful publication;
+	// the URL is a short-lived bearer capability and is not a ChatGPT file ID.
+	if (params.name === "awtsmoos_artifact_publish" && payload?.ok === true &&
+		/^https:\/\/awtsmoos\.com\/api\/tunnel\/control\/artifact\/[a-f0-9]{64}\//.test(String(payload.url||"")) &&
+		Number.isSafeInteger(payload.bytes) && payload.bytes>0) {
+		const name = decodeURIComponent(new URL(payload.url).pathname.split("/").pop());
+		content.push({ type: "resource_link", name, title: name,
+			uri: payload.url, mimeType: payload.mimeType, size: payload.bytes,
+			description: "Time-limited link-holder-accessible verified binary artifact. SHA-256: "+payload.sha256+
+			". Download to the host and verify the complete file before claiming local attachment." });
+	}
 	return {
-		content: [{ type: "text", text: JSON.stringify(payload, null, 2) }],
+		content,
 		structuredContent: payload,
 		isError: Boolean(payload && typeof payload === "object" &&
 			(payload.ok === false || payload.statusCode >= 400))
