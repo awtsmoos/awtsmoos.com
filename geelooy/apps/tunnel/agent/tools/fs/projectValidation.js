@@ -3,6 +3,7 @@ const childProcess = require("child_process");
 const fs = require("fs/promises");
 const path = require("path");
 const { safePath } = require("./pathGuard.js");
+const VirtualMount=require("./virtualMountPath.js");
 
 function execNode(args, cwd, timeoutMs = 30000) {
   return new Promise(resolve => {
@@ -14,9 +15,11 @@ function execNode(args, cwd, timeoutMs = 30000) {
 
 async function syntaxCheck(config, payload = {}) {
   const p = payload.path || payload.p || ".";
-  const full = safePath(config, p);
+  const resolved = VirtualMount.resolve(config,p,payload.cwd||"/");
+  const full = resolved.absolutePath;
   const got = await execNode(["--check", full], path.dirname(full), Number(payload.timeoutMs || 30000));
-  return { ...got, action: payload.action || "syntaxCheck", path: p, absolutePath: full };
+  return { ...got, action: payload.action || "syntaxCheck", path: p, absolutePath: full,
+    virtualMount: resolved.virtual ? resolved.mount : null };
 }
 
 async function yamlValidate(config, payload = {}) {

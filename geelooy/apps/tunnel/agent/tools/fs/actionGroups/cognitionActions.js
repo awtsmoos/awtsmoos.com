@@ -52,6 +52,22 @@ function buildCognitionActions(context) {
 	const actions = buildGenericActions(context);
 	installContextCompiler(context, actions);
 	installInstructionCompatibility(context, actions);
+	// B"H — legacy command names that describe irreversible operations must
+	// not fall through to a generic report with ok:true. Such a response was
+	// mistaken for a successful production systemd restart. Fail closed until
+	// an explicit, authorized service-specific execution proves its result.
+	for (const operation of ["serverStart", "serverStop", "serverRestart",
+		"processKillSafe", "portKillSafe"]) {
+		actions[operation] = async () => ({
+			ok: false, action: operation, performed: false,
+			error: "explicit_service_control_required",
+			requestedService: context.payload?.service || null,
+			required: "Use a separately authorized commandRun with the exact target service and verify systemctl state and MainPID. A generic cognition report never executes a service operation.",
+			productionService: "awtsmoos.service",
+			guardianService: "awtsmoos-tunnel-guardian.service",
+			caution: "Do not restart the independent guardian when restarting the website."
+		});
+	}
 	actions.actionAliasResolver = buildActionAliasResolver(context);
 	actions.safePathExplain = buildSafePathExplain(context);
 	return actions;

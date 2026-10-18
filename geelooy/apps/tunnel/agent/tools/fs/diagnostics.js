@@ -2,6 +2,7 @@
 const fsp = require("fs/promises");
 const path = require("path");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
+const VirtualMount=require("./virtualMountPath.js");
 
 const SKIP_DIRS = new Set(["node_modules", ".git", ".next", "dist", "build", ".cache"]);
 
@@ -58,7 +59,9 @@ async function walkBounded(config, rootFull, maxEntries, visit) {
  * @returns {Promise<object>} Recent file result.
  */
 async function recentFiles(config, payload = {}) {
-  const root = safePath(config, payload.path || payload.p || ".");
+  const requestedPath = payload.path || payload.p || ".";
+  const resolved = VirtualMount.resolve(config, requestedPath, payload.cwd || "/");
+  const root = resolved.absolutePath;
   const sinceMinutes = Math.max(1, Math.min(Number(payload.sinceMinutes || 120), 60 * 24 * 30));
   const sinceMs = Date.now() - sinceMinutes * 60 * 1000;
   const maxResults = Math.max(1, Math.min(Number(payload.maxResults || 100), 500));
@@ -90,7 +93,9 @@ async function recentFiles(config, payload = {}) {
  * @returns {Promise<object>} Large file result.
  */
 async function largeFiles(config, payload = {}) {
-  const root = safePath(config, payload.path || payload.p || ".");
+  const requestedPath = payload.path || payload.p || ".";
+  const resolved = VirtualMount.resolve(config, requestedPath, payload.cwd || "/");
+  const root = resolved.absolutePath;
   const minBytes = Math.max(1, Number(payload.minBytes || 500000));
   const maxResults = Math.max(1, Math.min(Number(payload.maxResults || 100), 500));
   const found = [];
@@ -121,7 +126,9 @@ async function largeFiles(config, payload = {}) {
  * @returns {Promise<object>} Duplicate basename result.
  */
 async function duplicateBasenames(config, payload = {}) {
-  const root = safePath(config, payload.path || payload.p || ".");
+  const requestedPath = payload.path || payload.p || ".";
+  const resolved = VirtualMount.resolve(config, requestedPath, payload.cwd || "/");
+  const root = resolved.absolutePath;
   const maxResults = Math.max(1, Math.min(Number(payload.maxResults || 100), 300));
   const groups = new Map();
 
@@ -156,7 +163,9 @@ async function duplicateBasenames(config, payload = {}) {
  * @returns {Promise<object>} Stats.
  */
 async function textStats(config, payload = {}) {
-  const root = safePath(config, payload.path || payload.p || ".");
+  const requestedPath = payload.path || payload.p || ".";
+  const resolved = VirtualMount.resolve(config, requestedPath, payload.cwd || "/");
+  const root = resolved.absolutePath;
   let files = 0;
   let bytes = 0;
   let lines = 0;
@@ -180,7 +189,8 @@ async function textStats(config, payload = {}) {
   return {
     ok: true,
     action: "textStats",
-    path: payload.path || payload.p || ".",
+    path: requestedPath,
+    virtualMount: resolved.virtual ? resolved.mount : null,
     visited,
     files,
     bytes,
