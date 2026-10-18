@@ -19,6 +19,7 @@ fail() {
 python3 - "$config" <<'PY'
 from pathlib import Path
 import sys
+import re
 
 path = Path(sys.argv[1])
 text = path.read_text()
@@ -36,13 +37,26 @@ required = (
     ("/igeres-hakodesh/", "\tlocation ^~ /igeres-hakodesh/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
     ("/אגרות-קודש/", "\tlocation ^~ /אגרות-קודש/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
 )
-missing = [block for route, block in required if f"location ^~ {route}" not in text]
+# B"H — modular Nginx vhosts place the authoritative location blocks inside
+# explicitly included snippet files. Read and validate those includes before
+# considering any mutation of the root vhost. Never flatten or overwrite a
+# modular configuration owned by another deployment system.
+includes = re.findall(r"(?m)^\s*include\s+([^;\s]+);", text)
+snippets = []
+for include in includes:
+    if "*" in include:
+        continue  # No glob expansion through an untrusted configuration.
+    snippet = Path(include)
+    if snippet.is_file():
+        snippets.append(snippet.read_text())
+combined = text + "\n" + "\n".join(snippets)
+missing = [(route, block) for route, block in required if f"location ^~ {route}" not in combined]
 if not missing:
     raise SystemExit(0)
 marker = "\n\tlocation / {"
 if marker not in text:
-    raise SystemExit("root_location_marker_missing")
-insert = "\n" + "\n".join(block.rstrip("\n") for block in missing) + "\n"
+    raise SystemExit("modular_dynamic_routes_missing:" + ",".join(route for route, _ in missing))
+insert = "\n" + "\n".join(block.rstrip("\n") for _, block in missing) + "\n"
 path.write_text(text.replace(marker, insert + marker, 1))
 PY
 
