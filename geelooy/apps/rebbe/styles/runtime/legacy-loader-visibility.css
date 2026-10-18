@@ -1,0 +1,16 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews concealment and revelation in every instant.
+ * Awtsmoos.com gives this old loader one precise vessel: when hidden is named,
+ * it truly disappears; when living work calls it forth, its neon may reappear.
+ */
+
+/**
+ * The legacy ui.css rule uses an ID selector with display:flex. Pairing the
+ * same ID with `.hidden` outranks it without !important or duplicated styling.
+ */
+#loading-overlay.hidden {
+	display: none;
+}

@@ -12,6 +12,8 @@
  * timeline manifestation, and exposes an immediate retry path when boot stalls.
  */
 
+import { RuntimeStyleYesod } from './RuntimeStyleYesod.js';
+
 const START_TIMEOUT_MS = 9000;
 const gate = createGate();
 let settled = false;
@@ -40,6 +42,7 @@ async function startApplication() {
 	}, START_TIMEOUT_MS);
 
 	try {
+		await RuntimeStyleYesod.install();
 		await import('./main.js');
 		await waitForTimeline();
 		settled = true;
