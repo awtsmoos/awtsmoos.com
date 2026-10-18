@@ -159,6 +159,7 @@ awt_fun()   { printf '%s  ◆%s %s\n' "$AWT_C_PINK" "$AWT_C_OFF" "$1" >&2; }
 # Backward compatible: no flags + non-interactive => full (today's behavior).
 AWTSMOOS_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-}"
 AWT_ASSUME_YES=0
+AWT_QUICK=0
 # A repeat install preserves custody by default. Destructive reset requires
 # an explicit --clean; never silently erase identity on mode selection.
 AWTSMOOS_INSTALL_CLEAN="${AWTSMOOS_INSTALL_CLEAN:-0}"
@@ -180,6 +181,7 @@ Options:
   --reuse-identity    Explicitly reuse an existing credential (advanced/headless only)
   --clean           Explicitly reset installer state before installation (destructive)
   --mode=MODE       Same as --MODE (full, minimal, agent-only)
+  --quick           Verify an already installed online tunnel locally, without updates or restarts
   -y, --yes         Skip the interactive menu; install with the default/flag mode
   --no-login        Skip the headless device login step
   -h, --help        Show this help
@@ -255,6 +257,7 @@ parse_installer_args() {
 			--keep-old-tunnels) AWTSMOOS_KEEP_OLD_TUNNELS=1 ;;
 			--reuse-identity)  AWTSMOOS_REUSE_IDENTITY=1 ;;
 			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}"; AWTSMOOS_EXPLICIT_REINSTALL=1 ;;
+			--quick)           AWT_QUICK=1 ;;
 			-y|--yes)          AWT_ASSUME_YES=1 ;;
 			--no-login)        AWTSMOOS_SKIP_DEVICE_LOGIN=1 ;;
 			-h|--help)         print_installer_help; exit 0 ;;
@@ -368,8 +371,62 @@ on_install_interrupt() {
 	exit 130
 }
 
+# B"H — fast status is deliberately NOT an install or an update. A normal
+# --yes run still verifies the live server and repairs/upgrades as required.
+quick_existing_tunnel() {
+	local selected_root="$1"
+	[ -f "$selected_root/main.js" ] || {
+		awt_fail 'No installed agent at the selected root. Run --yes to install.'
+		return 1
+	}
+	command -v node >/dev/null 2>&1 || {
+		awt_fail 'Quick verification requires a local Node.js runtime.'
+		return 1
+	}
+	node - "$selected_root" <<'NODE'
+// B"H — never accept a guessed PID or just a successful local TCP response.
+const fs=require('node:fs'), path=require('node:path'), crypto=require('node:crypto');
+const {spawnSync}=require('node:child_process');
+const root=path.resolve(process.argv[2]);
+const fail=message=>{console.error(`Tunnel quick check failed: ${message}. No changes were made. Run --yes to repair or update.`);process.exitCode=1;};
+(async()=>{
+  const version=fs.readFileSync(path.join(root,'install-state.txt'),'utf8').trim();
+  const manifest=fs.readFileSync(path.join(root,'installed-manifest.txt'));
+  const declared=fs.readFileSync(path.join(root,'install-manifest.sha256'),'utf8').trim().split(/\s+/)[0];
+  const actual=crypto.createHash('sha256').update(manifest).digest('hex');
+  if (!version || actual!==declared) return fail('installed manifest seal does not match');
+  const controller=path.join(root,'scripts/recovery-control.cjs');
+  const evidence=spawnSync(process.execPath,[controller,'check',root],{encoding:'utf8',timeout:3500,maxBuffer:65536});
+  let seal={};try{seal=JSON.parse(evidence.stdout||'{}')}catch{}
+  if(evidence.status!==0||seal.ok!==true)return fail('installed runtime seal is invalid');
+  let config={};try{config=JSON.parse(fs.readFileSync(path.join(root,'config.json'),'utf8'))}catch{}
+  const port=Number(config.localApi?.port || process.env.AWTSMOOS_LOCAL_API_PORT || 3977);
+  if(!Number.isInteger(port)||port<1||port>65535)return fail('invalid local agent port');
+  const response=await fetch(`http://127.0.0.1:${port}/readyz`,{signal:AbortSignal.timeout(1800)});
+  if(!response.ok)return fail('local health endpoint unavailable');
+  const readiness=await response.json();
+  if(readiness.ok!==true||readiness.relayReady!==true||readiness.state!=='registered'||
+      readiness.connectionAlive!==true||readiness.parentAlive!==true||readiness.runtimeVersion!==version||
+      !Number.isFinite(readiness.receiptAgeMs)||readiness.receiptAgeMs<0||readiness.receiptAgeMs>60000){
+    return fail('no current authenticated registration');
+  }
+  console.log(`B"H — TUNNEL ONLINE (${version}); verified local seal and live relay in quick mode.`);
+  console.log('No files, services, credentials, or running agent were changed.');
+  console.log('Quick mode does not check for updates. Run --yes for a normal install/update.');
+})().catch(e=>fail(String(e.code||e.message||'health unavailable').slice(0,120)));
+NODE
+}
+
 awt_banner
 parse_installer_args "$@"
+if [ "$AWT_QUICK" = "1" ]; then
+	if [ "$AWTSMOOS_EXPLICIT_REINSTALL" = "1" ] || [ "$AWTSMOOS_INSTALL_CLEAN" = "1" ]; then
+		awt_fail '--quick cannot be combined with reinstall or clean flags.'
+		exit 64
+	fi
+	quick_existing_tunnel "$(select_install_root)"
+	exit $?
+fi
 if [ -z "$AWTSMOOS_INSTALL_MODE" ] && [ "$AWT_ASSUME_YES" != "1" ]; then
 	prompt_install_mode
 fi
