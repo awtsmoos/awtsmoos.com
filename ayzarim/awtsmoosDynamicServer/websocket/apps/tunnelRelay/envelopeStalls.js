@@ -17,15 +17,21 @@ function acceptanceStallEnvelope(expected = {}, reason = "device_request_accepta
 		ok: false,
 		action: "tunnelRequestAcceptanceTimedOut",
 		status: 504,
-		state: "not_accepted",
-		accepted: false,
+		// A missing ACK is not evidence that a remote write did not run.
+		// Keep the immutable receipt terminal for this observation, while
+		// requiring reconciliation before any mutation is ever resubmitted.
+		state: "acceptance_unproven",
+		accepted: null,
 		durable: true,
 		terminal: true,
 		pending: false,
 		retryable: false,
+		reconciliationRequired: true,
+		commandExecutionUnknown: true,
+		safeToRetryMutation: false,
 		healthImpact: "request_only",
 		error: reason,
-		message: "The request was not acknowledged before its acceptance deadline. Tunnel transport health remains independently determined."
+		message: "No acceptance ACK arrived before the deadline; remote execution remains unknown. Reconcile this exact receipt before repeating any mutation."
 	};
 }
 

@@ -32,7 +32,10 @@ test("acceptance timeout becomes terminal request-only state", async t => {
 	const durable = await State.hydrate(fixture, "acceptance-request", record.expected);
 	assert.equal(durable.state, "failed");
 	assert.equal(durable.data.terminal, true);
-	assert.equal(durable.data.accepted, false);
+	assert.equal(durable.data.accepted, null);
+	assert.equal(durable.data.state, "acceptance_unproven");
+	assert.equal(durable.data.reconciliationRequired, true);
+	assert.equal(durable.data.safeToRetryMutation, false);
 	assert.equal(durable.data.action, "tunnelRequestAcceptanceTimedOut");
 	assert.equal(durable.data.healthImpact, "request_only");
 	assert.equal(durable.data.error, "device_request_acceptance_timeout");
