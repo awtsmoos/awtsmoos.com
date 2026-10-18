@@ -57,7 +57,7 @@ const config = readExisting();
 const random = Math.floor(Math.random() * 90000) + 10000;
 const value = {
 	...durableState(config),
-	relay: process.env.AWTSMOOS_RELAY || config.relay || "wss://awtsmoos.com",
+	relay: process.env.AWTSMOOS_RELAY || config.relay || "wss://awtsmoos.com/api/tunnel/ws",
 	tunnelName: process.env.AWTSMOOS_TUNNEL_NAME || config.tunnelName ||
 		`awt-${process.env.USER || "user"}-${random}`,
 	local: process.env.AWTSMOOS_LOCAL || config.local || "http://localhost:3000",

@@ -75,3 +75,21 @@ test('real authenticated WebSocket registration survives an unrelated HTTP websi
   fs.rmSync(dir,{recursive:true,force:true});
  }
 });
+test('guardian bridge preserves ordinary website/browser sockets and routes only guardian-owned device requests away',async()=>{
+ const secret='e'.repeat(64),guardian=createGuardian({secret,ws:fixture(),disableCookieAuth:true});const addr=await guardian.listen(0);
+ const browser={isTunnel:true,accessKind:'session',accountId:'owner-a',tunnelId:'browser-a',tunnelName:'browser-a',registrationKey:'owner-a:browser-a'};
+ const localRegistry=new Map([[browser.registrationKey,browser]]),localClients=new Set([browser]);
+ const ws={tunnelClients:localRegistry,tunnels:localRegistry,clients:localClients,
+  async sendTunnelRequest(a,r,p){return {ok:true,source:'local',accountId:a,reference:r,payload:p}},
+  async sendTunnelRecoveryControl(){return {ok:true,source:'local'}},sendToAlias(){return true}};
+ const bridge=attachBridge(ws,{secret,port:addr.port,refreshMs:5000});
+ try{await bridge.refresh();
+  assert.equal(ws.clients,localClients);
+  assert.equal(ws.clients.has(browser),true);
+  assert.equal(ws.tunnelClients.get(browser.registrationKey),browser);
+  const own=await ws.sendTunnelRequest('owner-a','browser-a',{action:'browser-read'},1000);
+  assert.equal(own.source,'local');
+  const native=await ws.sendTunnelRequest('owner-a','t-a',{action:'native-read'},1000);
+  assert.equal(native.ok,true);assert.equal(native.payload.action,'native-read');
+ }finally{bridge.stop();await new Promise(r=>guardian.server.close(r))}
+});

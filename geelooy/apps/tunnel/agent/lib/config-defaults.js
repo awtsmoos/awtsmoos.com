@@ -35,7 +35,7 @@ const DEFAULT_MISSION = Object.freeze({
 function buildDefaults(projectRoot = process.env.AWTSMOOS_PROJECT_ROOT || process.env.AWTSMOOS_INSTALL_CWD || process.cwd()) {
 	return {
 		tunnelName: "",
-		relay: "wss://awtsmoos.com",
+		relay: "wss://awtsmoos.com/api/tunnel/ws",
 		local: "http://127.0.0.1:8080",
 		root: path.resolve(projectRoot),
 		allowWrite: true,

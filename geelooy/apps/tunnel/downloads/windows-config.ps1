@@ -14,7 +14,7 @@ function Initialize-AwtsConfig {
 	$localApiPort = [int](Get-AwtsEnv 'AWTSMOOS_LOCAL_API_PORT' '3977')
 	$config = @{
 		BH = 'BH'
-		relay = Get-AwtsEnv 'AWTSMOOS_RELAY' 'wss://awtsmoos.com'
+		relay = Get-AwtsEnv 'AWTSMOOS_RELAY' 'wss://awtsmoos.com/api/tunnel/ws'
 		tunnelName = $name
 		local = Get-AwtsEnv 'AWTSMOOS_LOCAL' 'http://localhost:3000'
 		root = Get-AwtsEnv 'AWTSMOOS_PROJECT_ROOT' (Get-Location).Path
