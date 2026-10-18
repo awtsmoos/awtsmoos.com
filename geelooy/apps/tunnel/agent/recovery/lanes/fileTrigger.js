@@ -19,8 +19,11 @@ function create(options = {}) {
 	const token = options.token || Auth.token(kernel.recoveryRoot);
 	const root = options.root || path.join(kernel.recoveryRoot, "state", "file-recovery");
 	const intervalMs = Math.max(100, Number(options.intervalMs || 500));
+	const makeWatcher = options.makeWatcher || fs.watch;
 	prepare(root);
 	let timer = null;
+	let watcher = null;
+	let burst = null;
 
 	function scan() {
 		for (const name of fs.readdirSync(path.join(root, "inbox")).sort()) {
@@ -29,16 +32,42 @@ function create(options = {}) {
 		}
 	}
 
+	function scheduleScan() {
+		if (burst || !timer) return;
+		// Coalesce rename/write events; the periodic scan remains the
+		// fallback when fs.watch loses events or the filesystem lacks it.
+		burst = setTimeout(() => {
+			burst = null;
+			try { scan(); } catch (error) { options.onError?.(error); }
+		}, 12);
+	}
+
 	function start() {
 		scan();
 		timer = setInterval(scan, intervalMs);
 		timer.unref?.();
-		return { root, intervalMs };
+		try {
+			watcher = makeWatcher(path.join(root, "inbox"), (event, name) => {
+				if (!name || String(name).endsWith(".json")) scheduleScan();
+			});
+			watcher.on("error", error => {
+				options.onError?.(error);
+				watcher?.close();
+				watcher = null;
+			});
+		} catch (error) {
+			options.onError?.(error);
+		}
+		// Cover the gap between the first scan and starting the watcher.
+		scan();
+		return { root, intervalMs, eventDriven: Boolean(watcher) };
 	}
 
 	function stop() {
 		if (timer) clearInterval(timer);
-		timer = null;
+		if (burst) clearTimeout(burst);
+		watcher?.close();
+		timer = burst = watcher = null;
 	}
 
 	return { root, scan, start, stop };

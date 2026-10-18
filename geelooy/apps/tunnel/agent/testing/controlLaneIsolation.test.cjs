@@ -1,28 +1,37 @@
 // B"H
-const assert = require('assert');
-const P = require('../lib/runtime/priority.js');
+// Boruch Hashem
+// Blessed is He
 
-const lanes = P.makeLaneState();
+const assert = require('node:assert/strict');
+const Priority = require('../lib/runtime/priority.js');
+
+/** Proves real, identity-bound scheduler custody rather than stale counters. */
+const lanes = Priority.makeLaneState();
 const limits = {
-  MAX_INFLIGHT: 1,
-  MAX_QUEUE: 1,
-  CONTROL_QUEUE_LIMIT: 2,
-  LANE_LIMITS: {
-    p0_control: 1,
-    p1_fs_light: 1,
-    p2_chrome_light: 1,
-    p3_heavy: 1,
-    p4_bulk: 1
-  }
+	MAX_INFLIGHT: 1,
+	MAX_QUEUE: 1,
+	CONTROL_QUEUE_LIMIT: 2,
+	LANE_LIMITS: { p0_control: 1, p3_heavy: 1 },
+	REQUESTER_QUEUE_LIMITS: { p3_heavy: 1, p0_control: 2 }
 };
 
-lanes.p3_heavy.inflight = 1;
-P.enqueue(lanes, { data: { payload: { kind: 'command', action: 'commandRun' } } });
-P.enqueue(lanes, { data: { payload: { kind: 'command', action: 'commandStatus' } } });
+function item(action, requestId) {
+	return { data: { payload: {
+		kind: 'command', action,
+		logicalAgentId: 'lane-fixture-agent',
+		agentSessionId: 'lane-fixture-session',
+		generation: 1, requestId
+	} } };
+}
 
-assert.equal(P.canStartLane(lanes, 'p3_heavy', limits), false);
-assert.equal(P.canStartLane(lanes, 'p0_control', limits), true);
-assert.equal(P.canQueue(lanes, 'p3_heavy', limits), false);
-assert.equal(P.canQueue(lanes, 'p0_control', limits), true);
+Priority.enqueue(lanes, item('commandRemoteShell', 'heavy-running'));
+const active = Priority.takeNext(lanes, limits, Priority.createSchedulerState());
+assert.equal(active?.lane, 'p3_heavy');
+Priority.enqueue(lanes, item('commandRemoteShell', 'heavy-queued'));
+Priority.enqueue(lanes, item('commandStatus', 'status-ready'));
 
-console.log(JSON.stringify({ ok: true, suite: 'control-lane-isolation' }, null, 2));
+assert.equal(Priority.nextLane(lanes, limits, Priority.createSchedulerState()), 'p0_control',
+	'control must start even while the heavy lane consumes all worker capacity');
+assert.equal(Priority.canQueue(lanes, 'p3_heavy', limits, item('commandRemoteShell', 'heavy-third')), false);
+assert.equal(Priority.canQueue(lanes, 'p0_control', limits, item('commandStatus', 'status-second')), true);
+console.log(JSON.stringify({ ok: true, suite: 'control-lane-isolation', verified: ['heavy-inflight', 'control-bypass', 'queue-admission'] }));
