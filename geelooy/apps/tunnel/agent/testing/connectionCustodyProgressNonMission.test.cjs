@@ -1,7 +1,5 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
+"use strict";
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -12,13 +10,11 @@ const ParentProgress = require("../lib/connection-vessel/controller-custody-prog
 const ChildCustody = require("../lib/connection-vessel/child-runtime-custody.js");
 
 /**
- * @file Proves ordinary tunnel work advances custody without fabricated mission identity.
- * @description
- * The Awtsmoos names an ordinary deed completely through request, control, generation,
- * and incarnation. Awtsmoos.com accepts absent mission dimensions on both sides while
- * still fencing stale children, wrong generations, wrong controls, and injected shlichus.
+ * @file Non-mission exact custody preserves assignments, starts and identity.
+ * @description The Awtsmoos remembers even a deed without a mission ID;
+ * a worker's assignment is no proof that its labor has begun.
  */
-test("non-mission custody reaches running under the exact core fence", () => {
+test("non-mission custody starts only with real handler testimony", () => {
 	const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-nonmission-custody-"));
 	try {
 		const mailbox = createMailbox(sandbox);
@@ -28,42 +24,33 @@ test("non-mission custody reaches running under the exact core fence", () => {
 		const notices = [];
 		const parent = ParentProgress.create({ notify: value => notices.push(value) || true });
 		const child = ChildCustody.createCustody({
-			mailbox,
-			parent: { noteCustody: () => true },
+			mailbox, parent: { noteCustody: () => true },
 			state: { generation: 4, childIncarnationId: "child-normal" }
 		});
-
-		assert.equal(parent.progress({
-			id: "receipt-normal",
-			connectionCustody: identity
-		}, "lane_running", { consumerStarted: false }), true);
+		const request = { id: "receipt-normal", connectionCustody: identity };
+		assert.equal(parent.progress(request, "lane_running", { consumerStarted: false }), true);
 		assert.equal(child.noteCustodyProgress("receipt-normal", notices.pop()), true);
 		assert.equal(record(mailbox).phase, "queued");
 
-		assert.equal(parent.progress({
-			id: "receipt-normal",
-			connectionCustody: identity
-		}, "executor_worker_assigned", { workerId: "worker-normal" }), true);
+		assert.equal(parent.progress(request, "executor_worker_assigned", { workerId: "worker-normal" }), true);
+		const assigned = notices.pop();
+		assert.equal(child.noteCustodyProgress("receipt-normal", assigned), true);
+		assert.equal(record(mailbox).phase, "worker_starting");
+		assert.equal(record(mailbox).workerId, "worker-normal");
+
+		assert.equal(parent.progress(request, "command_handler_started", {
+			workerId: "worker-normal", consumerStarted: true
+		}), true);
 		const running = notices.pop();
 		assert.equal(child.noteCustodyProgress("receipt-normal", running), true);
 		assert.equal(record(mailbox).phase, "running");
 		assert.equal(record(mailbox).workerId, "worker-normal");
-		assert.equal(child.noteCustodyProgress("receipt-normal", {
-			...running,
-			controlRequestId: "wrong-control"
-		}), false);
-		assert.equal(child.noteCustodyProgress("receipt-normal", {
-			...running,
-			generation: 5
-		}), false);
-		assert.equal(child.noteCustodyProgress("receipt-normal", {
-			...running,
-			childIncarnationId: "child-stale"
-		}), false);
-		assert.equal(child.noteCustodyProgress("receipt-normal", {
-			...running,
-			logicalAgentId: "injected-agent"
-		}), false);
+		for (const mutation of [
+			{ controlRequestId: "wrong-control" }, { generation: 5 },
+			{ childIncarnationId: "child-stale" }, { logicalAgentId: "injected-agent" }
+		]) {
+			assert.equal(child.noteCustodyProgress("receipt-normal", { ...running, ...mutation }), false);
+		}
 	} finally {
 		fs.rmSync(sandbox, { recursive: true, force: true });
 	}
@@ -73,20 +60,16 @@ function createMailbox(sandbox) {
 	const root = path.join(sandbox, "project");
 	fs.mkdirSync(root, { recursive: true });
 	return Mailbox.createMailbox({
-		deviceStateRoot: path.join(sandbox, "state"),
-		root,
+		deviceStateRoot: path.join(sandbox, "state"), root,
 		tunnelName: "awt-nonmission-custody"
 	});
 }
 
 function coreIdentity() {
 	return {
-		requestId: "request-normal",
-		requestKey: "request-normal",
-		controlRequestId: "control-normal",
-		transportReceiptId: "receipt-normal",
-		generation: 4,
-		childIncarnationId: "child-normal"
+		requestId: "request-normal", requestKey: "request-normal",
+		controlRequestId: "control-normal", transportReceiptId: "receipt-normal",
+		generation: 4, childIncarnationId: "child-normal"
 	};
 }
 
