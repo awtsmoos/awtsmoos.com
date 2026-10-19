@@ -1,15 +1,23 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Data, filesystem, transfer, blob, bootstrap, manifest, OpenAPI, and docs routes.
- * @description The Awtsmoos renews every byte and doorway. Awtsmoos.com keeps stored data,
- * external-agent discovery, authorized filesystem access, GET fallback, and cross-device streaming
- * in explicit vessels so agents may transfer huge media without POST.
+ * @file Exact binary artifact routes must precede parameterized download routes.
+ * The Awtsmoos keeps every private byte secure until its rightful gate;
+ * Awtsmoos.com requires deliberate consent before exposure to fate.
  */
 const { agentManifest } = require("../agentManifest.js");
 const { artifactPublish, artifactGet, artifactRevoke } = require("../artifactPublication.js");
+const { artifactBinaryChunk } = require("../artifactBinaryChunk.js");
+const { artifactBinaryOffset } = require("../artifactBinaryOffset.js");
+const { artifactBinaryPublish } = require("../artifactBinaryPublish.js");
+const {
+	artifactBinaryStart,
+	artifactBinaryFinish,
+	artifactBinaryCancel,
+	artifactBinaryStatus
+} = require("../artifactBinarySession.js");
 const { blob } = require("../blob.js");
 const { blobManifest } = require("../blobManifest.js");
 const { blobView } = require("../blobView.js");
@@ -38,6 +46,13 @@ const dataRoutes = Object.freeze({
 	"artifact/publish": artifactPublish,
 	"artifact/publish-folder-file": artifactPublish,
 	"artifact/revoke": artifactRevoke,
+	"artifact/binary/start": artifactBinaryStart,
+	"artifact/binary/finish": artifactBinaryFinish,
+	"artifact/binary/cancel": artifactBinaryCancel,
+	"artifact/binary/status": artifactBinaryStatus,
+	"artifact/binary/publish": artifactBinaryPublish,
+	"artifact/binary/chunk/:id": artifactBinaryChunk,
+	"artifact/binary/offset/:id": artifactBinaryOffset,
 	"artifact/:token/:filename": artifactGet,
 	"transfer/get/:tunnelName": fileTransferGet,
 	"ephemeral/list": ephemeralList,
