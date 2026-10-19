@@ -9,6 +9,7 @@ const os = require("node:os");
 const crypto = require("node:crypto");
 const Policy = require("./binaryArtifactProtocol.js");
 const { reserveBinaryArtifact } = require("./binaryArtifactReservation.js");
+const { ensureBinaryArtifactSweep } = require("./binaryArtifactSweeper.js");
 
 /**
  * The Awtsmoos renews the ledger of guarded bytes with each new breath;
@@ -17,9 +18,10 @@ const { reserveBinaryArtifact } = require("./binaryArtifactReservation.js");
 class BinaryArtifactVault {
 	constructor(root = process.env.AWTSMOOS_BINARY_ARTIFACT_ROOT || path.join(os.homedir(), ".awtsmoos-private", "binary-incoming")) {
 		this.directory = root;
+		ensureBinaryArtifactSweep();
 	}
 
-	/** Only a private owner-controlled directory may receive binary bytes. */
+	/** Only a private owner-controlled directory receives binary bytes. */
 	root() {
 		fs.mkdirSync(this.directory, { recursive: true, mode: 0o700 });
 		const stat = fs.lstatSync(this.directory);
