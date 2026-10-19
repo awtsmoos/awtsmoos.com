@@ -1,5 +1,5 @@
 B"H
-1.0.686
+1.0.687
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1149,6 +1149,7 @@ lib/connection-vessel/mailbox-record-quarantine.js
 lib/connection-vessel/mailbox-semantic-recovery.js
 lib/connection-vessel/mailbox-startup-evidence.js
 lib/connection-vessel/mailbox-startup-reset.js
+lib/connection-vessel/mailbox-store-id.js
 lib/connection-vessel/mailbox-store-limits.js
 lib/connection-vessel/mailbox-store-reader.js
 lib/connection-vessel/mailbox-store.js
@@ -2054,6 +2055,8 @@ tools/fs/actionGroups/cognition/actionAliasResolver.js
 tools/fs/actionGroups/cognition/contextCompilerAdapter.js
 tools/fs/actionGroups/cognition/genericCognitionProject.js
 tools/fs/actionGroups/cognition/genericCognitionReport.js
+tools/fs/actionGroups/cognition/merkavaParserSmoke.js
+tools/fs/actionGroups/cognition/merkavaParserSources.js
 tools/fs/actionGroups/cognition/safePathExplain.js
 tools/fs/actionGroups/cognitionActions.js
 tools/fs/actionGroups/commandActions.js
