@@ -36,6 +36,7 @@ export const GAME_COLLECTIONS = Object.freeze([
 
 const BASE_GAME_COVENANTS = Object.freeze([
 	...ORIGINAL_GAMES,
+	...PARTY_GAMES,
 	...ADVENTURE_GAMES,
 	...QUICK_PLAY_GAMES
 ]);
