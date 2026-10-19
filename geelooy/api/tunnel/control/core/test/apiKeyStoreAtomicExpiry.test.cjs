@@ -17,6 +17,13 @@ async function main() {
 	assert.equal(Keys.verifyApiKey(first.rawKey).ok, true);
 	assert.equal(Keys.verifyApiKey(first.rawKey).ok, true);
 	assert.equal(Keys.enforceApiKeyRate({kind:'apiKey',keyId:first.key.keyId}).ok, true);
+	// Regression: currentIdentity() normalizes the verified key ID to clientId,
+	// not keyId. Both real HTTP authorization and usage limits must recognize it.
+	const Auth = require('../auth.js');
+	const identity = Auth.identityRecord({kind:'apiKey',userId:'ownerA',clientId:first.key.keyId,scopes:['tunnel.command']});
+	assert.equal(identity.keyId, undefined);
+	assert.equal(identity.clientId, first.key.keyId);
+	assert.equal(Keys.enforceApiKeyRate(identity).ok, true);
 	Store.mutateStore(store => {store.apiKeys[first.key.keyId].expiresAt=Date.now()-1;});
 	assert.equal(Keys.verifyApiKey(first.rawKey).ok, false);
 	assert.equal(Keys.enforceApiKeyRate({kind:'apiKey',keyId:first.key.keyId}).ok, false);

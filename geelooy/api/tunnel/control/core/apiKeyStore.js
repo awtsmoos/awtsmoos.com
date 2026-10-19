@@ -139,7 +139,10 @@ function enforceApiKeyRate(identity, byteGuess = 0) {
   }
 
   const store = readStore();
-  const key = store.apiKeys?.[identity.keyId];
+  // Authenticated API-key identities expose their verified key ID as clientId.
+  // Accept keyId for older internal callers without skipping authorization.
+  const keyId = identity.clientId || identity.keyId;
+  const key = store.apiKeys?.[keyId];
 
   if (!key || key.revoked || expired(key)) {
     return { ok: false, error: "api_key_revoked_or_missing" };
