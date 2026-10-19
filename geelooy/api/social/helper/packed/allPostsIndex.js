@@ -5,8 +5,9 @@
  * same hybrid packed writer as posts, migrations, and tests. A local `$i` root
  * receives JSONL shards; production without `$i.db.directory` uses AwtsmoosDB.
  */
-const { logicalKey } = require('./shardPaths.js');
-const { writePacked, readPacked, listPackedRecords, excerptOf } = require('./socialPacked.js');
+const fs = require('fs');
+const { logicalKey, shardFile, SHARDS } = require('./shardPaths.js');
+const { writePacked, readPacked, listPackedRecords, excerptOf, fileRoot } = require('./socialPacked.js');
 
 function allPostKey({ heichelId, postId }) { return logicalKey(['allPosts', heichelId, postId]); }
 function postIdOf(post) { return post?.postId || post?.id || ''; }
@@ -35,8 +36,33 @@ function readAllPost({ $i, heichelId, postId }) {
  * a series listing.
  * @returns {Map<string, Array<object>>} seriesId -> compact posts (newest first)
  */
+//B"H 2026-10-19 (series-api-perf): cache the grouped compact-post map by the
+//allPosts shard file's mtime+size, so series listing pages cost one stat()
+//call on repeat reads instead of re-grouping. Invalidated automatically on
+//any append/rewrite.
+const groupedCache = new Map(); // cacheKey -> { mtimeMs, size, groups }
+function allPostsShardFile($i) {
+  try {
+    const root = fileRoot($i);
+    if (!root || !SHARDS || !SHARDS['allPosts']) return '';
+    return shardFile(root, 'allPosts') || '';
+  } catch { return ''; }
+}
 function allPostsGrouped({ $i, heichelId = '', seriesIds = [] } = {}) {
   const wanted = new Set(seriesIds.map(String));
+  const cacheKey = 'allPosts|' + heichelId + '|' + [...wanted].sort().join(',');
+  const file = allPostsShardFile($i);
+  let st = null;
+  if (file) { try { st = fs.statSync(file); } catch { st = null; } }
+  if (st) {
+    const hit = groupedCache.get(cacheKey);
+    if (hit && hit.mtimeMs === st.mtimeMs && hit.size === st.size) return hit.groups;
+  }
+  const groups = buildAllPostsGrouped({ $i, heichelId, wanted });
+  if (st) groupedCache.set(cacheKey, { mtimeMs: st.mtimeMs, size: st.size, groups });
+  return groups;
+}
+function buildAllPostsGrouped({ $i, heichelId = '', wanted = new Set() } = {}) {
   const groups = new Map();
   const seen = new Set();
   const records = listPackedRecords({ $i, shard: 'allPosts' }).slice().reverse();

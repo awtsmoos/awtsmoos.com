@@ -384,15 +384,51 @@ async function readPackedAsync({ $i, shard = 'core', key }) {
   }
   try { return store.get({ shard, parts: ['records', key] })?.value || null; } catch { return null; }
 }
+//B"H 2026-10-19 (series-api-perf): listPackedRecords() re-parsed the ENTIRE
+//shard file on every call — 168MB for allPosts, 475MB for search — which made
+//GET /api/social/heichelos/ikar/series take 5+ seconds for a 1.3KB response.
+//Results are now cached in memory keyed by file identity (dev:ino) + mtimeMs
+//+ size, so repeat reads cost a single stat() call ("a tiny bit at a time").
+//Any append/rewrite invalidates automatically. A full scan of a shard file
+//larger than SCAN_WARN_BYTES always logs a warning (rate-limited) so future
+//regressions surface in logs instead of silently slowing endpoints.
+//Callers must treat the returned array as read-only.
+const SCAN_WARN_BYTES = 1 * 1024 * 1024;
+const SCAN_WARN_MIN_INTERVAL_MS = 60 * 1000;
+const listRecordsCache = new Map(); // file -> { id, mtimeMs, size, data }
+const scanWarnedAt = new Map(); // shard -> timestampMs
 function listPackedRecords({ $i, shard = 'core' } = {}) {
   const root = fileRoot($i);
-  if (root) return latestFileRecords(root, shard);
-  const latest = new Map();
-  try {
-    for (const record of store.list({ shard, predicate: r => r.parts?.[0] === 'records' })) if (record.value?.key) latest.set(record.value.key, record.value);
-  } catch { return []; }
-  return [...latest.values()];
+  if (!root) {
+    const latest = new Map();
+    try {
+      for (const record of store.list({ shard, predicate: r => r.parts?.[0] === 'records' })) if (record.value?.key) latest.set(record.value.key, record.value);
+    } catch { return []; }
+    return [...latest.values()];
+  }
+  const file = fileFor(root, shard);
+  if (!file) return [];
+  let st = null;
+  try { st = fs.statSync(file); } catch { return []; }
+  const id = st.dev + ':' + st.ino;
+  const cached = listRecordsCache.get(file);
+  if (cached && cached.id === id && cached.mtimeMs === st.mtimeMs && cached.size === st.size) {
+    return cached.data;
+  }
+  if (st.size > SCAN_WARN_BYTES) {
+    const now = Date.now();
+    const last = scanWarnedAt.get(shard) || 0;
+    if (now - last > SCAN_WARN_MIN_INTERVAL_MS) {
+      scanWarnedAt.set(shard, now);
+      if (typeof console !== 'undefined') console.warn('B"H packed full-scan: shard=' + shard + ' size=' + (st.size / 1048576).toFixed(1) + 'MB');
+    }
+  }
+  const data = latestFileRecords(root, shard);
+  listRecordsCache.set(file, { id, mtimeMs: st.mtimeMs, size: st.size, data });
+  return data;
 }
+/** Drops the listPackedRecords cache (tests / graceful shutdown). */
+function clearListRecordsCache() { listRecordsCache.clear(); scanWarnedAt.clear(); }
 async function listPackedRecordsAsync({ $i, shard = 'core' } = {}) {
   const root = fileRoot($i);
   if (root) return latestFileRecordsAsync(root, shard);
@@ -625,4 +661,4 @@ async function getPostsByParent({ $i, parentPostId, limit = 200 } = {}) {
   }
   return out;
 }
-module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats, excerptOf, allPostValue, getPostsByParent };
+module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, clearListRecordsCache, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats, excerptOf, allPostValue, getPostsByParent };
