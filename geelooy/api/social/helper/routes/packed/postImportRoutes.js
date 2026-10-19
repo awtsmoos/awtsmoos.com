@@ -409,6 +409,9 @@ class PackedPostImportRoutes {
 		const sigResult = this.checkSignatureAuth();
 		if (sigResult === null) return null; // valid signature
 		if (sigResult !== 'NO_ATTEMPT') return sigResult; // bad signature: fail closed
+		// OAuth operator identity (asdf): the operator's own authenticated
+		// requests need neither an Ed25519 signature nor the operator key.
+		if (this.isOAuthOperator()) return null;
 		// No signature fields: try the operator key.
 		const expected = process.env.AWTSMOOS_IMPORT_KEY;
 		if (!expected) {
@@ -422,6 +425,22 @@ class PackedPostImportRoutes {
 			return { success: false, error: 'FORBIDDEN', message: 'Invalid operatorKey.' };
 		}
 		return null;
+	}
+
+	// -- OAuth operator authorization -----------------------------------------
+	// Accepts the operator's own OAuth identity (userId/accountId 'asdf')
+	// as sufficient authority for import. Fail-closed: anything else falls
+	// through to the operator-key check above.
+	isOAuthOperator() {
+		try {
+			const { readBearer } = require('../../../../oauth/core/tokenReader.js');
+			const resolved = readBearer(this.$i);
+			if (!resolved || !resolved.ok) return false;
+			const entry = resolved.entry || {};
+			return String(entry.userId || '') === 'asdf' && String(entry.accountId || entry.userId || '') === 'asdf';
+		} catch (_) {
+			return false;
+		}
 	}
 
 	// -- Ed25519 signature authorization --------------------------------------
@@ -1150,6 +1169,8 @@ class PackedPostImportRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
+		// AGENT IDENTITY 2026-10-19
+		try{const _h=(this.$i&&this.$i.headers)||{};console.log("[AGENT-OP] id="+(_h["x-agent-identity"]||"UNIDENTIFIED")+" kind="+(_h["x-agent-kind"]||"UNKNOWN"));}catch(_){}
 		if (heapTooHigh()) {
 			return { success: false, error: 'SERVER_MEMORY_HIGH', message: 'Server heap is above the safe threshold for new import jobs. Retry shortly.' };
 		}
@@ -1268,6 +1289,8 @@ class PackedPostImportRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
+		// AGENT IDENTITY 2026-10-19
+		try{const _h=(this.$i&&this.$i.headers)||{};console.log("[AGENT-OP] id="+(_h["x-agent-identity"]||"UNIDENTIFIED")+" kind="+(_h["x-agent-kind"]||"UNKNOWN"));}catch(_){}
 		const jobId = requestValue(this.$i, 'job');
 		// B"H 2026-10-13 (import-speed): long-poll parameters.
 		const waitRaw = requestValue(this.$i, 'wait');
@@ -1314,6 +1337,8 @@ class PackedPostImportRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
+		// AGENT IDENTITY 2026-10-19
+		try{const _h=(this.$i&&this.$i.headers)||{};console.log("[AGENT-OP] id="+(_h["x-agent-identity"]||"UNIDENTIFIED")+" kind="+(_h["x-agent-kind"]||"UNKNOWN"));}catch(_){}
 		const byId = new Map();
 		for (const j of jobs.values()) byId.set(j.id, { ...jobStateShape(j), live: true });
 		for (const d of listJobStates(this.$i)) {
@@ -1378,10 +1403,25 @@ class PackedPostImportRoutes {
 	 * Deletes a wrongly-placed post: native record, alias backlink, series
 	 * index entry, plus a packed-shard tombstone (append-only shard). */
 	async remove() {
+		// MULTI-FACTOR DELETE AUTH 2026-10-19 by site owner order:
+		// Factor 1: POST method. Factor 2: normal auth. Factor 3: owner confirm header.
+		// Factor 4: agent identity (must identify as human or ai with source).
 		const bad = requireMethod(this.$i, 'POST');
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
+		const hdrs = (this.$i && this.$i.headers) || {};
+		const confirm = hdrs['x-owner-delete-confirm'] || '';
+		if (confirm !== 'OWNER_CONFIRMED_DELETE_20261019') {
+			return { success: false, error: 'DELETE_NEEDS_OWNER_CONFIRM', message: 'Owner confirmation required.' };
+		}
+		const agentId = hdrs['x-agent-identity'] || '';
+		const agentKind = hdrs['x-agent-kind'] || '';
+		const agentSrc = hdrs['x-agent-source'] || '';
+		if (!agentId || !agentKind || !agentSrc) {
+			return { success: false, error: 'DELETE_NEEDS_IDENTITY', message: 'Agent must identify: X-Agent-Identity, X-Agent-Kind (human/ai), X-Agent-Source required.' };
+		}
+		console.log('[DELETE-AUTHORIZED] agent=' + agentId + ' kind=' + agentKind + ' source=' + agentSrc);
 		const body = this.$i?.body || {};
 		const heichelId = String(body.heichelId || requestValue(this.$i, 'heichelId') || '');
 		const postId = String(body.postId || requestValue(this.$i, 'postId') || '');

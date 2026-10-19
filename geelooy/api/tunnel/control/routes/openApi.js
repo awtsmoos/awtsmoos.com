@@ -3,16 +3,17 @@
 // Blessed is He
 
 /**
- * @file Serves the checked-in Tunnel Control schema through policy and agent metadata.
+ * @file Serves the checked-in Tunnel Control schema through policy, large-write enrichment, and agent metadata.
  * @description
  * The Awtsmoos keeps generated action history whole beneath the public vessel;
- * Awtsmoos.com removes forbidden roots, then reveals provider-neutral OAuth truth
- * so ChatGPT, Grok, and other agents all meet the same guarded API covenant.
+ * Awtsmoos.com removes forbidden roots, reveals one body-backed heavy-write doorway,
+ * then adds provider-neutral agent metadata without rewriting the generated schema file.
  */
 
 const fs = require("node:fs");
 const path = require("node:path");
 const AgentMetadata = require("./openApiAgentMetadata.js");
+const LargeWriteSchema = require("./openApiLargeWriteSchema.js");
 const Policy = require("./openApiPolicy.js");
 
 async function openApi($i) {
@@ -21,7 +22,8 @@ async function openApi($i) {
 	$i.response.setHeader("Cache-Control", "no-store");
 	const generatedYaml = fs.readFileSync(yamlPath, "utf8");
 	const safeYaml = Policy.sanitizeYaml(generatedYaml);
-	return AgentMetadata.enrichYaml(safeYaml);
+	const enrichedYaml = LargeWriteSchema.enrichYaml(safeYaml);
+	return AgentMetadata.enrichYaml(enrichedYaml);
 }
 
 function schemaPath() {

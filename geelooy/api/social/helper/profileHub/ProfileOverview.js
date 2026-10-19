@@ -31,7 +31,14 @@ function publicBase(profile, ownerView) {
 }
 
 async function profileOverview({ $i, aliasId, viewerAliasId = '' }) {
-	const profile = await aggregateProfile({ $i, aliasId });
+	let profile = await aggregateProfile({ $i, aliasId });
+	// FALLBACK 2026-10-19: try prefixed alias IDs (ikar-, halachah-, bavli-, etc.)
+	if (!profile) {
+		for (const prefix of ['ikar-','halachah-','bavli-','yerushalmi-','rambam-','mishnah-']) {
+			profile = await aggregateProfile({ $i, aliasId: prefix + aliasId });
+			if (profile) break;
+		}
+	}
 	if (!profile) {
 		return {
 			error: {

@@ -1,0 +1,130 @@
+/* B"H */
+/* Boruch Hashem. Blessed is He. */
+/* The Awtsmoos gives dark night its gold; Awtsmoos.com lets the glyphs unfold. */
+@font-face {
+	font-family: AwtsGlyph;
+	src: url("./glyph.woff") format("woff"), url("./glyph.ttf") format("truetype");
+	font-display: swap;
+}
+:root {
+	color-scheme: dark;
+	--ink: #eaf0fd;
+	--muted: #99a9c0;
+	--gold: #e6bf7c;
+	--edge: #293950;
+}
+* { box-sizing: border-box; }
+body {
+	margin: 0;
+	background: radial-gradient(ellipse at 5% 0%, #182b48 0%, #0b1424 43%, #080f1b 100%);
+	color: var(--ink);
+	font-family: system-ui, -apple-system, sans-serif;
+}
+main { max-width: 1150px; padding: 28px 20px 90px; margin: auto; }
+nav, .meta, .heading, .controls, .toggle-row, .statistics {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+nav {
+	border-bottom: 1px solid var(--edge);
+	padding-bottom: 21px;
+	font-size: 12px;
+	letter-spacing: .12em;
+}
+nav a, footer a { color: var(--gold); text-decoration: none; font-weight: 700; }
+nav span, small, .footnote, footer { color: var(--muted); }
+header { padding: 70px 0 52px; }
+.eyebrow, small {
+	font-size: 11px;
+	letter-spacing: .20em;
+	text-transform: uppercase;
+	color: var(--gold);
+}
+h1 {
+	font-size: clamp(45px, 8vw, 96px);
+	font-weight: 760;
+	letter-spacing: -.065em;
+	line-height: .98;
+	margin: 22px 0;
+}
+h1 em { color: var(--gold); font-style: normal; font-weight: 350; }
+.intro { max-width: 620px; font-size: 18px; line-height: 1.7; color: var(--muted); }
+.meta { justify-content: flex-start; font-size: 12px; color: var(--gold); margin-top: 28px; }
+.meta span { border: 1px solid var(--edge); border-radius: 50px; padding: 10px 16px; }
+.panel {
+	border: 1px solid var(--edge);
+	border-radius: 20px;
+	background: linear-gradient(120deg, #162238db, #111a2bdd);
+	padding: 29px;
+	margin-bottom: 22px;
+	box-shadow: 0 10px 35px #0002;
+}
+h2 { font-size: 23px; font-weight: 600; letter-spacing: -.025em; margin: 9px 0 20px; }
+.panel p { color: var(--muted); line-height: 1.65; font-size: 14px; }
+.heading { align-items: flex-start; }
+.heading label { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 12px; }
+input[type=range] { accent-color: var(--gold); width: 120px; }
+button {
+	border: 1px solid #46516b;
+	color: #cbd5e4;
+	padding: 10px 17px;
+	background: #1e2c42;
+	border-radius: 10px;
+	font-size: 13px;
+	cursor: pointer;
+}
+button[aria-pressed=true] { background: var(--gold); color: #182133; font-weight: 750; }
+.controls { justify-content: flex-start; margin: 12px 0 22px; }
+#reader {
+	font-family: AwtsGlyph, serif;
+	font-size: 40px;
+	line-height: 1.8;
+	min-height: 185px;
+	overflow-wrap: break-word;
+	background: #0c1525;
+	border: 1px solid #273a56;
+	border-radius: 15px;
+	padding: 25px;
+	text-align: right;
+}
+#reader bdi { display: inline; unicode-bidi: isolate; direction: ltr; white-space: normal; }
+.footnote { font-size: 12px !important; }
+.columns { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.columns .panel { min-width: 0; }
+.fragments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+.fragment-tile { background: #0b1524; border: 1px solid var(--edge); border-radius: 12px; text-align: center; min-width: 0; }
+.fragment-tile span { display: block; font: 100px/1.5 AwtsGlyph, serif; color: var(--gold); min-height: 150px; overflow: hidden; }
+.fragment-tile small { display: block; padding-bottom: 16px; letter-spacing: 0; }
+.toggle-row { justify-content: flex-start; font-size: 12px; color: var(--muted); }
+input[type=checkbox] { accent-color: var(--gold); }
+.combined {
+	background: #0b1524;
+	border-radius: 12px;
+	text-align: center;
+	color: var(--gold);
+	font: 140px/1.45 AwtsGlyph, serif;
+	margin-top: 16px;
+	min-height: 205px;
+	direction: ltr;
+}
+pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #0b1422; padding: 18px; border-radius: 12px; color: var(--gold); font-size: 13px; line-height: 1.7; }
+.statistics { gap: 8px; justify-content: flex-start; }
+.statistics span { padding: 9px 12px; border: 1px solid var(--edge); border-radius: 9px; font-size: 12px; color: var(--muted); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; white-space: nowrap; }
+th, td { padding: 17px 14px; text-align: right; border-bottom: 1px solid var(--edge); }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--gold); font-weight: 550; }
+td { font-variant-numeric: tabular-nums; }
+footer { text-align: center; margin-top: 50px; font-size: 12px; line-height: 1.9; }
+@media(max-width:720px) {
+	.columns { grid-template-columns: 1fr; }
+	.panel { padding: 19px; }
+	header { padding: 52px 0 35px; }
+	#reader { padding: 16px; }
+	.fragment-tile span { font-size: 72px; min-height: 110px; }
+	.combined { font-size: 110px; min-height: 170px; }
+}

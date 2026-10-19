@@ -1692,7 +1692,20 @@ export function awakenPhraseTranslationReader(post) {
 	}
 	console.log("B\"H phrase reader activating:", grouped.length, "sections,", phrases.length, "phrases");
 
-	const readable = (post.translation && post.translation.readable) || {};
+	const readableRaw = (post.translation && post.translation.readable) || {};
+	// B"H — normalize readable to {sectionId: englishText}.
+	// Shape A (legacy): {sec-001: "...", sec-002: "..."} — direct map.
+	// Shape B (translation pipeline): {sections: [{sectionId, english}, ...]}.
+	const readable = (() => {
+		if (readableRaw && Array.isArray(readableRaw.sections)) {
+			const map = {};
+			for (const s of readableRaw.sections) {
+				if (s && s.sectionId) map[String(s.sectionId)] = s.english || s.text || '';
+			}
+			return map;
+		}
+		return readableRaw;
+	})();
 	const summaries = post.summaries || {};
 	const sectionSummaries = summaries.sectionSummaries || {};
 	const langMode = readSavedLangMode();
