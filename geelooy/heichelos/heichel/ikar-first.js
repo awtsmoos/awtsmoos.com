@@ -229,7 +229,8 @@ function enhanceDreamCards(discovery, items) {
 			const en = document.createElement('span');
 			en.className = 'dream-heichel-en';
 			en.textContent = parts.slice(1).join(' · ');
-			titles.append(he, en);
+			// B"H 2026-10-19: separator between Hebrew and English (was rendering as "תורה שבכתבThe Written Torah")
+			titles.append(he, document.createTextNode(' · '), en);
 		} else {
 			const en = document.createElement('span');
 			en.className = 'dream-heichel-en';
