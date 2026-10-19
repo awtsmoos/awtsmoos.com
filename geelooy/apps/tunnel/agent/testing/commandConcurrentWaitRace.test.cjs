@@ -17,7 +17,7 @@ const { startCommandJob, commandWait, commandJobOutputPage } = require("../tools
   const config = { root, allowCommands: true, tools: { command: true }, command: { enabled: true } };
   const count = 32;
   const commandFor = index => process.platform === "win32" ? `echo RACE_${index}` : `printf RACE_${index}`;
-  const jobs = await Promise.all(Array.from({ length: count }, (_, index) => startCommandJob(config, { command: commandFor(index), cwd: ".", timeoutMs: 30000 }).then(job => ({ index, job }))));
+  const jobs = await Promise.all(Array.from({ length: count }, (_, index) => startCommandJob(config, { command: commandFor(index), cwd: ".", timeoutMs: 30000, logicalAgentId: "race-fixture-"+Math.floor(index/4), agentSessionId: "race-fixture-session", requestId: "race-"+index }).then(job => ({ index, job }))));
   for (const item of jobs) {
     assert.equal(item.job.ok, true);
     assert.ok(item.job.jobId);

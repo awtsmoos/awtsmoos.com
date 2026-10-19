@@ -18,6 +18,7 @@ const limits = {
 	CONTROL_QUEUE_LIMIT: Number.POSITIVE_INFINITY,
 	LANE_LIMITS: {
 		p0_control: 8,
+		p1_command_admission: 8,
 		p1_fs_light: 8,
 		p2_chrome_light: 4,
 		p3_heavy: 4,
@@ -25,6 +26,7 @@ const limits = {
 	},
 	REQUESTER_LANE_LIMITS: {
 		p0_control: 7,
+		p1_command_admission: 3,
 		p1_fs_light: 7,
 		p2_chrome_light: 3,
 		p3_heavy: 3,
@@ -50,7 +52,7 @@ assert.equal(selected[1].requesterKey.includes("agent-b"), true);
 assert.equal(Priority.takeNext(lanes, limits, scheduler), null);
 assert.equal(Priority.release(
 	lanes,
-	"p3_heavy",
+	selected[0].lane,
 	selected[0].requesterKey,
 	selected[0].requestKey
 ), true);

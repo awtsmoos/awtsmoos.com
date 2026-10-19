@@ -8,16 +8,20 @@ const installer = fs.readFileSync(
 	path.resolve(__dirname, "../../downloads/unix.sh"),
 	"utf8"
 );
+const componentSource = fs.readFileSync(
+	path.resolve(__dirname, "../../downloads/unix-bootstrap-components-download.sh"),
+	"utf8"
+);
 
-assert.match(installer, /installer-components\.tar\.gz/);
-assert.match(installer, /actual_components_sha256/);
-assert.match(installer, /Verified reinstall component bundle ready/);
-assert.match(installer, /AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-16/);
-assert.match(installer, /parallel_downloads" -le 16/);
-assert.match(installer, /wait_for_download_batch/);
-assert.match(installer, /connect-timeout 10/);
-assert.ok(installer.includes('temporary="$runtime_root/.$helper.part"'));
-assert.match(installer, /mv -f "\$temporary" "\$runtime_root\/\$helper"/);
+assert.match(componentSource, /installer-components\.tar\.gz/);
+assert.match(componentSource, /file_sha256/);
+assert.match(componentSource, /Using cached verified installer components/);
+assert.match(componentSource, /AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-4/);
+assert.ok(componentSource.includes("\"$parallel\" -le 4"));
+assert.match(componentSource, /wait_for_component_batch/);
+assert.match(componentSource, /fallback_origin_ready/);
+assert.ok(componentSource.includes('temporary="$runtime_root/.$helper.part"'));
+assert.match(componentSource, /mv -f "\$temporary" "\$runtime_root\/\$helper"/);
 assert.doesNotMatch(
 	installer,
 	/Downloading reinstall components[^]*curl -fsSL[^]*chmod \+x "\$runtime_root\/\$helper"/,
@@ -28,8 +32,8 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "unix-parallel-bootstrap-downloads",
 	preferredBundleRequests: 1,
-	defaultFallbackConcurrency: 16,
-	maxConcurrency: 16,
+	defaultFallbackConcurrency: 4,
+	maxConcurrency: 4,
 	atomicFallbackDownloads: true,
 	hashVerifiedBundle: true
 }, null, 2));
