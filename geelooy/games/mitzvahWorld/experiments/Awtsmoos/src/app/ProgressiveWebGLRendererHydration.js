@@ -5,19 +5,20 @@
 /**
  * @file ProgressiveWebGLRendererHydration.js
  * @description Prepares rich WebGL completely before handing the live frame loop from bootstrap color to authored rendering.
- * The Awtsmoos lets one garment be woven before the former garment is removed; Awtsmoos.com therefore compiles shaders
- * and allocates renderer caches first, yields one browser frame, and only then reveals the textured and skinned delegate.
+ * The Awtsmoos lets one garment be woven before the former garment is removed; Awtsmoos.com therefore compiles shaders,
+ * installs witnessed GL-state memory, yields one browser frame, and only then reveals the textured and skinned delegate.
  */
 
 /** Hydrates rich WebGL without making its first visible frame carry initialization work. */
 export async function hydrateProgressiveWebGLRenderer(renderer, options = {}) {
 	try {
 		const [rendererModule, batcherModule] = await Promise.all([
-			import('../../../light-three-gltf/tiny-webgl-renderer.js?v=20260915-skin-residency-01'),
+			import('../../../light-three-gltf/tiny-webgl-renderer.js?v=20260925-program-reclaim-01'),
 			import('../../../light-three-gltf/tiny-static-opaque-batcher.js?v=20260722-rich-renderer-02')
 		]);
 		const delegate = new rendererModule.TinyWebGLRenderer({
 			antialias: options.antialias !== false,
+			cacheGlState: true,
 			canvas: renderer.canvas
 		});
 		delegate.backend = 'webgl';
