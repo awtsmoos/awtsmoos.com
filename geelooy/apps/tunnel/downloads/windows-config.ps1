@@ -28,15 +28,15 @@ function Initialize-AwtsConfig {
 
 function Get-AwtsManifestContext {
 	param([string]$Origin)
-	$manifestText = Download-AwtsText ($Origin.TrimEnd('/') + '/apps/tunnel/agent/manifest.txt')
+	$manifestText = Download-AwtsText ($Origin.TrimEnd('/') + '/api/tunnel/install/manifest.txt')
 	$lines = Get-ManifestLines $manifestText
 	if ($lines.Count -lt 3) { throw 'Manifest is missing version, entry, or files.' }
 	$context = @{
 		Version = [string]$lines[0]
 		Entry = [string]$lines[1]
 		Files = @($lines | Select-Object -Skip 2)
-		Hash = Get-Sha256Text (($lines -join "`n"))
-		Text = ($lines -join "`n")
+		Hash = Get-Sha256Text $manifestText
+		Text = $manifestText
 	}
 	if ($context.Entry -ne 'main.js') { throw 'Manifest entry is invalid.' }
 	foreach ($filePath in $context.Files) {

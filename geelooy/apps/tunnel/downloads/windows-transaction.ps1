@@ -45,7 +45,7 @@ function Save-AwtsRollback {
 
 function Install-AwtsStage {
 	param([hashtable]$Transaction, [string]$Origin, [hashtable]$Manifest)
-	Install-AwtsmoosBundles $Transaction.Stage $Origin
+	Install-AwtsmoosBundles $Transaction.Stage $Origin $Manifest.Hash
 	if (-not (Test-AllManifestFiles $Transaction.Stage $Manifest.Entry $Manifest.Files)) {
 		throw 'Staged bundle verification failed.'
 	}
