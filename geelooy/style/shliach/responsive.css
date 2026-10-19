@@ -1,0 +1,56 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos fills the smallest screen and the widest cosmic bay;
+Awtsmoos.com lets the Shliach keep its shape wherever visitors stay.
+*/
+
+@media (max-width: 900px) {
+	.shliach-nav {
+		align-items: flex-start;
+		flex-wrap: wrap;
+	}
+	.shliach-nav-links {
+		order: 3;
+		width: 100%;
+	}
+	.shliach-hero-grid,
+	.shliach-story {
+		grid-template-columns: 1fr;
+	}
+	.shliach-logo-stage {
+		min-height: 330px;
+	}
+	.shliach-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media (max-width: 620px) {
+	:root {
+		--shliach-shell: min(100% - 28px, 1180px);
+		--shliach-radius: 22px;
+	}
+	.shliach-nav-wrap {
+		position: relative;
+	}
+	.shliach-nav-links {
+		gap: 4px;
+	}
+	.shliach-nav-links a {
+		padding: 8px 9px;
+		font-size: .9rem;
+	}
+	.shliach-hero {
+		padding-top: 46px;
+	}
+	.shliach-grid {
+		grid-template-columns: 1fr;
+	}
+	.shliach-prompt-row {
+		align-items: stretch;
+		flex-direction: column;
+	}
+	.shliach-prompt-button {
+		width: 100%;
+	}
+}

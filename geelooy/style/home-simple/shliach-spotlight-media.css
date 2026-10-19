@@ -1,0 +1,79 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos keeps the Shliach image whole so identity is never cropped away;
+Awtsmoos.com gives mobile media a measured vessel while the mission copy leads the day.
+*/
+
+.shliach-spotlight-image-link {
+	align-items: center;
+	aspect-ratio: 1;
+	background: linear-gradient(145deg, rgba(18, 31, 58, .95), rgba(5, 10, 22, .98));
+	border: 1px solid rgba(141, 183, 255, .2);
+	border-radius: 1.45rem;
+	display: flex;
+	justify-content: center;
+	overflow: hidden;
+	position: relative;
+}
+
+.shliach-spotlight-image-link[data-media-state="missing"] {
+	aspect-ratio: auto;
+	min-height: 8rem;
+}
+
+.shliach-spotlight-image {
+	aspect-ratio: 1;
+	display: block;
+	height: auto;
+	object-fit: contain;
+	transition: transform 180ms ease, filter 180ms ease;
+	width: 100%;
+}
+
+.shliach-spotlight-media-fallback {
+	align-items: center;
+	color: #dbe9ff;
+	display: flex;
+	flex-direction: column;
+	gap: .35rem;
+	justify-content: center;
+	min-height: 8rem;
+	padding: 1rem;
+	text-align: center;
+	width: 100%;
+}
+
+.shliach-spotlight-media-fallback[hidden] {
+	display: none;
+}
+
+.shliach-spotlight-media-fallback strong {
+	color: #8db7ff;
+	font-size: 3rem;
+	line-height: 1;
+}
+
+.shliach-spotlight-media-fallback small {
+	font-size: .82rem;
+	font-weight: 800;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.shliach-spotlight-image-link:hover .shliach-spotlight-image {
+	filter: brightness(1.05);
+	transform: scale(1.018);
+}
+
+@media (max-width: 720px) {
+	.shliach-spotlight-image-link {
+		justify-self: center;
+		max-width: min(58vw, 224px);
+		width: 100%;
+	}
+
+	.shliach-spotlight-image-link[data-media-state="missing"] {
+		max-width: 12rem;
+	}
+}
