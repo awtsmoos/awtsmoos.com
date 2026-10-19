@@ -1,0 +1,114 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets responsive surfaces answer with light while the content itself remains perfectly still.
+*/
+
+.shliach-card,
+.shliach-logo-stage,
+.shliach-cta-band,
+.shliach-prompt-shell {
+	--shliach-x: 50%;
+	--shliach-y: 50%;
+}
+
+.shliach-card::after {
+	background: radial-gradient(circle at var(--shliach-x) var(--shliach-y), rgba(98, 216, 255, .16), transparent 36%);
+	content: "";
+	inset: 0;
+	opacity: 0;
+	pointer-events: none;
+	position: absolute;
+	transition: opacity .28s ease;
+}
+
+.shliach-card > * {
+	position: relative;
+	z-index: 1;
+}
+
+.shliach-card[data-shliach-reactive="active"]::after,
+.shliach-card:hover::after,
+.shliach-card:focus-within::after {
+	opacity: 1;
+}
+
+.shliach-logo-stage {
+	background: radial-gradient(circle at var(--shliach-x) var(--shliach-y), rgba(98, 216, 255, .22), transparent 26%), radial-gradient(circle, rgba(143, 98, 255, .16), transparent 68%);
+	transition: box-shadow .28s ease;
+}
+
+.shliach-logo-stage[data-shliach-reactive="active"] {
+	box-shadow: 0 0 70px rgba(98, 216, 255, .08);
+}
+
+.shliach-prompt-form {
+	transition: box-shadow .28s ease;
+}
+
+.shliach-prompt-form:focus-within,
+.shliach-prompt-form[data-prompt-state="ready"] {
+	box-shadow: 0 26px 90px rgba(33, 160, 255, .15), 0 0 0 1px rgba(98, 216, 255, .12);
+}
+
+.shliach-prompt-form[data-prompt-state="attention"] {
+	box-shadow: 0 0 0 2px rgba(245, 200, 107, .4), 0 24px 80px rgba(245, 200, 107, .1);
+}
+
+.shliach-prompt-form[data-prompt-state="opening"] {
+	box-shadow: 0 0 0 2px rgba(143, 98, 255, .4), 0 26px 90px rgba(143, 98, 255, .14);
+}
+
+.shliach-prompt-status::before {
+	background: #71809a;
+	border-radius: 50%;
+	content: "";
+	display: inline-block;
+	height: 7px;
+	margin-right: 8px;
+	vertical-align: .08em;
+	width: 7px;
+}
+
+[data-prompt-state="ready"] .shliach-prompt-status::before { background: var(--shliach-cyan); }
+[data-prompt-state="attention"] .shliach-prompt-status::before { background: var(--shliach-gold); }
+[data-prompt-state="opening"] .shliach-prompt-status::before { background: var(--shliach-violet); }
+
+.shliach-prompt-button,
+.shliach-launch {
+	overflow: hidden;
+	position: relative;
+}
+
+.shliach-prompt-button::after,
+.shliach-launch::after {
+	background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .62), transparent 65%);
+	content: "";
+	inset: 0;
+	pointer-events: none;
+	position: absolute;
+	transform: translateX(-135%);
+	transition: transform .55s ease;
+}
+
+.shliach-prompt-button:hover::after,
+.shliach-prompt-button:focus-visible::after,
+.shliach-launch:hover::after,
+.shliach-launch:focus-visible::after {
+	transform: translateX(135%);
+}
+
+.shliach-nav-links [aria-current="page"] {
+	background: rgba(98, 216, 255, .09);
+	border-color: rgba(98, 216, 255, .3);
+	color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.shliach-card::after,
+	.shliach-prompt-form,
+	.shliach-prompt-button::after,
+	.shliach-launch::after {
+		transition: none !important;
+	}
+}
