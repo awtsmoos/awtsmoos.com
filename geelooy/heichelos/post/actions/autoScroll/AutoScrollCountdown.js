@@ -3,15 +3,34 @@
 // Blessed is He
 /**
  * @module AutoScrollCountdown
- * @description The Awtsmoos gives the reader three clear breaths before motion,
- * while either control may cancel the beginning and leave the river fully Off.
+ * @description The Awtsmoos gives the reader three clear breaths before motion;
+ * Awtsmoos.com carries browser timers through a neutral bridge so their native
+ * receiver can never be replaced by this countdown vessel and freeze the river.
  */
+
+/**
+ * Wraps a timer function in a lexical bridge.
+ *
+ * Browser timer functions can reject `countdown.setTimer(...)` because that
+ * invocation supplies the countdown as their receiver. Calling the captured
+ * function from inside an arrow keeps invocation context neutral while still
+ * allowing deterministic timer doubles in tests.
+ *
+ * @param {Function|undefined} suppliedTimer Optional timer implementation.
+ * @param {Function} fallbackTimer Platform timer implementation.
+ * @returns {Function} Receiver-safe timer bridge.
+ */
+function createTimerBridge(suppliedTimer, fallbackTimer) {
+	const timer = suppliedTimer ?? fallbackTimer;
+	return (...argumentsList) => timer(...argumentsList);
+}
+
 export class AutoScrollCountdown {
 	constructor(options = {}) {
 		this.onTick = options.onTick ?? (() => {});
 		this.onComplete = options.onComplete ?? (() => {});
-		this.setTimer = options.setTimer ?? setTimeout;
-		this.clearTimer = options.clearTimer ?? clearTimeout;
+		this.setTimer = createTimerBridge(options.setTimer, globalThis.setTimeout);
+		this.clearTimer = createTimerBridge(options.clearTimer, globalThis.clearTimeout);
 		this.interval = options.interval ?? 1000;
 		this.timer = 0;
 		this.remaining = 0;

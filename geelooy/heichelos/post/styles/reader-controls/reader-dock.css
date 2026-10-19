@@ -1,0 +1,111 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file Reader dock authority across phone, landscape, and desktop.
+ * @description
+ * The Awtsmoos gives every reader tool a measured vessel and every word its air;
+ * Awtsmoos.com stacks the scrolling river above its dock so no control eclipses another there.
+ */
+body .all.post-reader-localized-context.awtsmoos-reader-vision {
+	--reader-dock-edge: max(.8rem, env(safe-area-inset-right, 0px));
+	--reader-dock-bottom: max(.8rem, env(safe-area-inset-bottom, 0px));
+	--reader-dock-height: 54px;
+	--reader-dock-gap: .75rem;
+	--reader-river-size: 78px;
+}
+
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .awtsmoos-auto-scroll-floating {
+	top: auto !important;
+	left: auto !important;
+	right: var(--reader-dock-edge) !important;
+	bottom: calc(var(--reader-dock-bottom) + var(--reader-dock-height) + var(--reader-dock-gap)) !important;
+	width: var(--reader-river-size) !important;
+	min-width: var(--reader-river-size) !important;
+	height: var(--reader-river-size) !important;
+	min-height: var(--reader-river-size) !important;
+	transform: none !important;
+}
+
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> :is(.awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating):focus-visible {
+	outline: 3px solid rgba(103, 232, 249, .95) !important;
+	outline-offset: 3px !important;
+}
+
+@media (max-width: 48rem) {
+	body .all.post-reader-localized-context.awtsmoos-reader-vision {
+		--reader-dock-edge: max(.7rem, env(safe-area-inset-right, 0px));
+		--reader-dock-bottom: max(.7rem, env(safe-area-inset-bottom, 0px));
+		--reader-dock-height: 52px;
+		--reader-dock-gap: .7rem;
+		--reader-river-size: 64px;
+	}
+
+	body .all.post-reader-localized-context.awtsmoos-reader-vision
+		> .awtsmoos-floating-controls {
+		top: auto !important;
+		left: auto !important;
+		right: var(--reader-dock-edge) !important;
+		bottom: var(--reader-dock-bottom) !important;
+		flex-direction: row !important;
+		align-items: center !important;
+		gap: .35rem !important;
+		height: var(--reader-dock-height) !important;
+		max-width: calc(100dvw - 1.4rem) !important;
+		padding: .25rem !important;
+		border: 1px solid rgba(112, 225, 255, .2) !important;
+		border-radius: 1rem !important;
+		background: linear-gradient(180deg, rgba(13, 26, 43, .94), rgba(5, 12, 24, .88)) !important;
+		box-shadow: 0 14px 30px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+		-webkit-backdrop-filter: blur(16px) saturate(125%) !important;
+		backdrop-filter: blur(16px) saturate(125%) !important;
+		transform: none !important;
+	}
+
+	body .all.post-reader-localized-context.awtsmoos-reader-vision
+		> .awtsmoos-floating-controls button {
+		min-width: 44px !important;
+		height: 44px !important;
+		min-height: 44px !important;
+		padding-inline: .7rem !important;
+		border-radius: .75rem !important;
+		border-color: rgba(133, 229, 255, .16) !important;
+		background: linear-gradient(180deg, rgba(23, 43, 65, .96), rgba(10, 24, 40, .96)) !important;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+		touch-action: manipulation;
+	}
+
+	body .all.post-reader-localized-context.awtsmoos-reader-vision
+		> .awtsmoos-auto-scroll-floating {
+		padding: .42rem !important;
+		border: 1px solid rgba(189, 255, 241, .34) !important;
+		box-shadow: 0 14px 34px rgba(4, 120, 87, .34), inset 0 1px 0 rgba(255, 255, 255, .26) !important;
+		-webkit-backdrop-filter: blur(14px) saturate(130%) !important;
+		backdrop-filter: blur(14px) saturate(130%) !important;
+		touch-action: manipulation;
+	}
+}
+
+@media (max-width: 23.75rem) {
+	body .all.post-reader-localized-context.awtsmoos-reader-vision
+		> .awtsmoos-floating-controls button {
+		padding-inline: .55rem !important;
+		font-size: .76rem !important;
+	}
+}
+
+@media (max-height: 31.25rem) and (orientation: landscape) and (max-width: 64rem) {
+	body .all.post-reader-localized-context.awtsmoos-reader-vision {
+		--reader-river-size: 54px;
+		--reader-dock-gap: .45rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body .all.post-reader-localized-context.awtsmoos-reader-vision
+		> :is(.awtsmoos-floating-controls, .awtsmoos-auto-scroll-floating) {
+		transition: none !important;
+	}
+}
