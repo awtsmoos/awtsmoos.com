@@ -34,6 +34,7 @@ const {
 	ephemeralSearch
 } = require("../ephemeral.js");
 const { handoff } = require("../handoff.js");
+const { largeWrite } = require("../largeWrite.js");
 const { openApi } = require("../openApi.js");
 const { openApiKey } = require("../openApiKey.js");
 const { osFs } = require("../osFs.js");
@@ -66,6 +67,7 @@ const dataRoutes = Object.freeze({
 	"blob/:blobId": blob,
 	"fs/awtsmoos-os": osFs,
 	"fs/:tunnelName": protectedFs,
+	"write-large/:tunnelName": largeWrite,
 	openapi: openApi,
 	"openapi-key": openApiKey,
 	docs: docsHtml,

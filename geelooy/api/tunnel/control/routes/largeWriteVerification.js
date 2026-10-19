@@ -5,7 +5,7 @@
 const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
 const Policy = require("./protectedFsPolicy.js");
 const Scheduler = require("./protectedFsSchedulerIdentity.js");
-const Transfer = require("./largeWriteTransfer.js");
+const Operation = require("./largeWriteTransferOperation.js");
 
 /**
  * @file largeWriteVerification.js
@@ -16,7 +16,6 @@ const Transfer = require("./largeWriteTransfer.js");
 
 const JS_PATH = /\.(?:cjs|mjs|js)$/i;
 
-/** Creates one fresh direct-action payload without reusing the write mutation identity. */
 function verificationPayload(context, path) {
 	const base = {
 		...context.payload
@@ -40,7 +39,6 @@ function verificationPayload(context, path) {
 	}, context.identity, context.tunnelName);
 }
 
-/** Sends one syntax-check witness through the already-authorized target route. */
 async function sendVerification(context, path) {
 	const payload = verificationPayload(context, path);
 	const vessel = resolveFsVessel({
@@ -55,23 +53,23 @@ async function sendVerification(context, path) {
 	});
 
 	if (!vessel?.ok) {
-		const error = new Error(vessel?.body?.error || vessel?.error || "verification_route_unavailable");
+		const error = new Error(
+			vessel?.body?.error || vessel?.error || "verification_route_unavailable"
+		);
 		error.status = vessel?.status || 409;
 		throw error;
 	}
 
-	return Transfer.settled(
+	return Operation.settled(
 		await vessel.send(),
 		"javascript_verification_unconfirmed"
 	);
 }
 
-/** Returns null when verification is unnecessary, otherwise the syntax-check result. */
 async function verify(context, parsed, sender = sendVerification) {
 	if (!parsed.verifyJs || !JS_PATH.test(parsed.path)) {
 		return null;
 	}
-
 	return sender(context, parsed.path);
 }
 

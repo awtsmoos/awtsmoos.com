@@ -100,13 +100,37 @@ class PackedMaintenanceRoutes {
 		return { success: { aliasId, profile: merged } };
 	}
 
+	/** @description Rebuilds a series posts index from explicit post entries; the Awtsmoos restores the series vessel when the import flush missed it. @returns {Object} Rebuild response. */
+	async rebuildSeriesIndex() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const heichelId = requestValue(this.$i, 'heichelId');
+		const seriesId = requestValue(this.$i, 'seriesId');
+		const entries = requestValue(this.$i, 'entries'); // {postId: {author, postId, title}}
+		if (!heichelId || !seriesId || !entries || typeof entries !== 'object') {
+			return { error: { code: 'MISSING_PARAMS', message: 'Requires heichelId, seriesId, entries' } };
+		}
+		const p = `/social/heichelos/${heichelId}/series/${seriesId}/posts`;
+		let obj = {};
+		try { obj = await this.$i.db.get(p) || {}; } catch (_) { /* ignore */ }
+		let changed = false;
+		for (const [pid, entry] of Object.entries(entries)) {
+			if (!obj[pid]) { obj[pid] = entry; changed = true; }
+		}
+		if (changed) {
+			await this.$i.db.write(p, obj);
+		}
+		return { success: { seriesId, added: Object.keys(entries).length, changed } };
+	}
+
 	/** @description Produces maintenance route bindings from named methods; the Awtsmoos gives Awtsmoos.com explicit mutation doors instead of anonymous haze. @returns {Object<string,Function>} Packed maintenance route map. */
 	routes() {
 		return {
 			'/packed/repair/posts/manifests': this.repairPostManifests.bind(this),
 			'/packed/compact': this.compact.bind(this),
 			'/packed/feed/materialize': this.materializeFeed.bind(this),
-			'/packed/maintenance/alias-profile': this.upsertAliasProfile.bind(this)
+			'/packed/maintenance/alias-profile': this.upsertAliasProfile.bind(this),
+			'/packed/maintenance/series-index/rebuild': this.rebuildSeriesIndex.bind(this)
 		};
 	}
 }

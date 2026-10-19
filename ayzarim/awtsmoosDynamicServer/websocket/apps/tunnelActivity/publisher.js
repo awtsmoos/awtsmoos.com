@@ -15,7 +15,14 @@ const { getActivityHub } = require("./hubAccess.js");
 /** Publishes one account-bound activity record without throwing into its caller. */
 function publishActivity(server, input = {}) {
 	try {
-		return getActivityHub(server).publish(input);
+		const event = getActivityHub(server).publish(input);
+		// Mirror to disk for HTTP history API (2026-10-19)
+		try {
+			const fs = require('fs');
+			const logPath = '/mnt/HC_Volume_102267213/dayuhChadash/tunnel-activity.jsonl';
+			fs.appendFileSync(logPath, JSON.stringify({ at: new Date().toISOString(), ...input }) + chr(10));
+		} catch (_) {}
+		return event;
 	} catch {
 		return null;
 	}
