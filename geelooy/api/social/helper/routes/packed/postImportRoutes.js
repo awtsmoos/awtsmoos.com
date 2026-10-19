@@ -84,6 +84,7 @@ const { requireMethod, requestValue } = require('./requestValues.js');
 const { mirrorPost, mirrorPostBulk, mirrorPostsBulk, readPacked, listPackedRecords, fileRoot, forEachLineFastAsync, fastKeyType } = require('../../packed/socialPacked.js');
 const { logicalKey } = require('../../packed/shardPaths.js');
 const importSign = require('./importSign.js');
+const { scheduleJobStateCleanup } = require('./postImportJobStateRetention.js');
 
 // ---------------------------------------------------------------------------
 // Job registry (in-process; survives as long as the server process lives).
@@ -164,16 +165,9 @@ function saveJobState($i, job) {
 	try {
 		const dir = jobStateDir($i);
 		fs.mkdirSync(dir, { recursive: true });
+		// Preserve durable checkpoints without synchronously scanning history.
 		fs.writeFileSync(path.join(dir, job.id + '.json'), JSON.stringify(jobStateShape(job)));
-		// Prune state files older than 7 days (best effort).
-		const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
-		for (const f of fs.readdirSync(dir)) {
-			if (!f.endsWith('.json')) continue;
-			try {
-				const st = fs.statSync(path.join(dir, f));
-				if (st.mtimeMs < cutoff) fs.unlinkSync(path.join(dir, f));
-			} catch (_) { /* ignore */ }
-		}
+		scheduleJobStateCleanup(dir);
 	} catch (_) { /* best effort */ }
 }
 
