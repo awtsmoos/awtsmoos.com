@@ -3,41 +3,40 @@
 // Blessed is He
 
 /**
- * @file Adds coupled instruction families when one task implies a complete quality surface.
- * @description
- * The Awtsmoos lets one visible change touch many responsible vessels. Awtsmoos.com
- * therefore couples only the packs that must travel together for a complete implementation.
+ * @file Couples specialist instruction families only when task evidence actually points there.
+ * @description The Awtsmoos reveals the right vessel for the right deed; Awtsmoos.com therefore
+ * lets CSS summon CSS law without forcing every backend mission to carry the whole visual library.
  */
 const RULES = Object.freeze([
 	{
-		pattern: /(css|scss|style|theme|frontend|\bui\b|component|page|layout)/,
+		pattern: /(css|scss|sass|less|stylesheet|style|theme|responsive|mobile|breakpoint|z-index|stacking|fouc|unstyled|visual|animation|motion)/,
 		ids: [
+			"ui.css-production-working-agreement",
 			"ui.localized-styles",
 			"ui.layout-integrity",
-			"ui.progressive-disclosure",
 			"ui.mobile-first-structure",
-			"ui.futuristic-professional",
-			"ui.interaction-states",
 			"ui.motion-discipline",
 			"ui.complete-styling"
 		]
 	},
 	{
-		pattern: /(javascript|typescript|\bjs\b|\bts\b|node|function|class|module|refactor)/,
+		pattern: /(frontend|\bui\b|component|page|layout|dialog|dropdown|menu|interaction)/,
 		ids: [
-			"code.javascript-architecture",
-			"code.modularity-120",
-			"code.naming-documentation",
-			"code.artistry-readability"
+			"ui.layout-integrity",
+			"ui.progressive-disclosure",
+			"ui.mobile-first-structure",
+			"ui.futuristic-professional",
+			"ui.interaction-states",
+			"ui.complete-styling"
 		]
 	},
 	{
+		pattern: /(javascript|typescript|\bjs\b|\bts\b|node|function|class|module|refactor)/,
+		ids: ["code.javascript-architecture", "code.modularity-120", "code.naming-documentation", "code.artistry-readability"]
+	},
+	{
 		pattern: /(api|endpoint|route|schema|request|response|contract)/,
-		ids: [
-			"api.simple-data-contracts",
-			"api.progressive-capability",
-			"code.error-lifecycle-contracts"
-		]
+		ids: ["api.simple-data-contracts", "api.progressive-capability", "code.error-lifecycle-contracts"]
 	},
 	{
 		pattern: /(tunnel|worker|socket|retry|queue|recovery|stability|supervisor|installer)/,
@@ -57,12 +56,10 @@ const RULES = Object.freeze([
 	}
 ]);
 
-/** Adds every coupled ID whose semantic pattern matches the normalized task signal. */
 function applyRules(signal = {}, ids = new Set()) {
 	for (const rule of RULES) {
-		if (rule.pattern.test(signal.combined || "")) {
-			for (const id of rule.ids) ids.add(id);
-		}
+		if (!rule.pattern.test(signal.combined || "")) continue;
+		for (const id of rule.ids) ids.add(id);
 	}
 	return ids;
 }

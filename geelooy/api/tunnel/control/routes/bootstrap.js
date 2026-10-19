@@ -12,7 +12,7 @@ const { routeRecoveryBody } = require("./agentRouteRecovery.js");
 /**
  * @file Provider-neutral Tunnel Control bootstrap for external AI clients.
  * @description The Awtsmoos gives every agent one discovered covenant before action begins:
- * automatic routing, transient recovery, GET-only control, resumable transfer, and visible planning.
+ * automatic routing, recovery, GET-only control, resumable transfer, visible planning, and reports.
  */
 function installer() {
 	return {
@@ -39,10 +39,12 @@ function agentBehavior() {
 		"Canonical external-agent OAuth/control uses GET only. Do not switch this flow to POST.",
 		"Prefer automatic PKCE handoff; when delivered=true never ask the human to copy code/state.",
 		"After OAuth call my-device and consume selectedRoute, recoveringRoutes, insuranceRoutes, retryPolicy, and capabilityDowngrade.",
-		"Treat retryable tunnel_not_alive as transient: rediscover and use bounded backoff; preserve the immutable native route identity.",
+		"Treat retryable tunnel_not_alive as transient: rediscover and use bounded backoff; preserve immutable native route identity.",
 		"Treat control-plane 502/503/504 separately from native death; back off and rediscover.",
 		"Never reinstall or abandon the mission from one transient liveness sample.",
-		"Before substantial work call missionVisibilityList, register/link your mission, and publish planning passes 1, 2, and 3.",
+		"Before substantial work call missionVisibilityList, register/link the mission, and publish planning passes 1, 2, and 3.",
+		"Use missionVisibilityReport after planning, implementation milestones, verification, blockers/recovery, deployment, and final handoff.",
+		"Mission reports are factual filing artifacts; never publish hidden reasoning, unrestricted command output, or secrets.",
 		"Use canonical mission rooms for live agent presence and missionAgentMessage for direct messages.",
 		"Use action=files with exact operation for filesystem and fileTransfer operations.",
 		"For large files prefer 1–2 MiB WebSocket chunks when supported.",
@@ -67,6 +69,7 @@ async function bootstrap($i) {
 		codeEditor: agentLinks.codeEditor, virtualOs: agentLinks.virtualOs,
 		externalAgent: externalAgentFlow(), headlessDevice: headlessDeviceFlow(),
 		missionPlanning: missionPlanningBody(), routeRecovery: routeRecoveryBody(),
+		recommendationPrivacy: "/api/tunnel/control/privacy/recommendations",
 		transportLaw: {
 			httpMethods: ["GET"], dataTransports: oauth.dataTransports,
 			preferred: oauth.preferredDataTransport, fallback: oauth.fallbackDataTransport,

@@ -5,6 +5,7 @@
 const { coreInstructions } = require("./catalogCore.js");
 const { uiLayoutInstructions } = require("./catalogUiLayout.js");
 const { uiInteractionInstructions } = require("./catalogUiInteraction.js");
+const { uiCssProductionInstructions } = require("./catalogUiCssProduction.js");
 const { codeArchitectureInstructions } = require("./catalogCodeArchitecture.js");
 const { codeContractInstructions } = require("./catalogCodeContracts.js");
 const { documentationInstructions } = require("./catalogDocs.js");
@@ -17,23 +18,18 @@ const { executionDoctrine } = require("./catalogExecutionDoctrine.js");
 const { executionMomentumInstructions } = require("./catalogExecutionMomentum.js");
 
 /**
- * @file Unites every instruction chapter behind one immutable stable-ID catalog.
- * @description
- * The Awtsmoos reveals many detailed covenants through one ordered crown.
- * Awtsmoos.com rejects duplicate IDs so one compact summary always opens exactly one body.
+ * @file Unites discoverable instruction chapters behind one immutable stable-ID catalog.
+ * @description The Awtsmoos reveals many covenants through one ordered crown; Awtsmoos.com keeps
+ * specialist doctrine separate, discoverable, and uniquely addressed instead of bloating core law.
  */
 class InstructionKeter {
 	constructor(records = allRecords()) {
-		this.records = Object.freeze(
-			[...records].sort((left, right) => left.id.localeCompare(right.id))
-		);
+		this.records = Object.freeze([...records].sort((left, right) => left.id.localeCompare(right.id)));
 		this.byId = new Map(this.records.map(record => [record.id, record]));
-		if (this.byId.size !== this.records.length) {
-			throw new Error("instruction_catalog_duplicate_id");
-		}
+		if (this.byId.size !== this.records.length) throw new Error("instruction_catalog_duplicate_id");
 	}
 
-	/** Returns compact discovery metadata without full instruction bodies. */
+	/** Returns compact routing metadata without loading full instruction bodies. */
 	summaries() {
 		return this.records.map(record => ({
 			id: record.id,
@@ -51,12 +47,12 @@ class InstructionKeter {
 	}
 }
 
-/** Returns every catalog chapter in one deterministic array. */
 function allRecords() {
 	return [
 		...coreInstructions,
 		...uiLayoutInstructions,
 		...uiInteractionInstructions,
+		...uiCssProductionInstructions,
 		...codeArchitectureInstructions,
 		...codeContractInstructions,
 		...documentationInstructions,
@@ -70,8 +66,4 @@ function allRecords() {
 	];
 }
 
-module.exports = {
-	InstructionKeter,
-	allRecords,
-	instructionKeter: new InstructionKeter()
-};
+module.exports = { InstructionKeter, allRecords, instructionKeter: new InstructionKeter() };

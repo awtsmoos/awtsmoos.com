@@ -7,7 +7,7 @@ import { legacyItem, legacyRows, roomItem, visibilityItem } from "./workBoardSou
 /**
  * @file Deduplicates and classifies all unfinished mission testimony for Mission Control.
  * @description The Awtsmoos gathers many witnesses into one visible mission without creating a
- * rival authority. Awtsmoos.com keeps action bound to canonical rooms and uses this only for view truth.
+ * rival authority; filed operational reports remain compact view testimony, never a second mission bus.
  */
 export function collectWork(state = {}, now = Date.now()) {
 	const work = new Map();
@@ -45,7 +45,8 @@ function merge(map, incoming) {
 		hasRoom: current.hasRoom || incoming.hasRoom,
 		agents: unique([...current.agents, ...incoming.agents]),
 		sources: unique([...current.sources, ...incoming.sources]),
-		planning: incoming.planning || current.planning
+		planning: incoming.planning || current.planning,
+		reportSummary: richerReport(current.reportSummary, incoming.reportSummary)
 	});
 }
 
@@ -65,14 +66,7 @@ function finalize(item, now) {
 	const ageMs = updatedMs ? Math.max(0, now - updatedMs) : null;
 	const terminal = /\b(completed|complete|done|archived|cancelled|canceled)\b/.test(status);
 	const stale = ageMs !== null && ageMs > 30 * 60 * 1000;
-	return {
-		...item,
-		terminal,
-		stale,
-		ageMs,
-		updatedMs,
-		category: category(item, status, stale)
-	};
+	return { ...item, terminal, stale, ageMs, updatedMs, category: category(item, status, stale) };
 }
 
 function category(item, status, stale) {
@@ -83,23 +77,14 @@ function category(item, status, stale) {
 	if (stale && !item.agents.length) return "orphaned";
 	return "in progress";
 }
-
-function matchesFilter(item, filter) {
-	return filter === "all" || item.category === filter;
+function richerReport(left, right) {
+	if (!left) return right || null;
+	if (!right) return left;
+	return Number(right.count || 0) >= Number(left.count || 0) ? right : left;
 }
-function rank(item) {
-	return ({ "needs attention": 0, recovering: 1, "active now": 2, "in progress": 3, orphaned: 4 })[item.category] ?? 5;
-}
-function strongerStatus(left, right) {
-	const value = `${left} ${right}`;
-	return /blocked|failed|error|needs.?human/i.test(value) ? right || left : left || right;
-}
-function newerStamp(left, right) {
-	return (Date.parse(right || "") || 0) > (Date.parse(left || "") || 0) ? right : left;
-}
-function unique(values) {
-	return [...new Set(values.filter(Boolean))];
-}
-function text(value) {
-	return String(value || "").trim();
-}
+function matchesFilter(item, filter) { return filter === "all" || item.category === filter; }
+function rank(item) { return ({ "needs attention": 0, recovering: 1, "active now": 2, "in progress": 3, orphaned: 4 })[item.category] ?? 5; }
+function strongerStatus(left, right) { const value = `${left} ${right}`; return /blocked|failed|error|needs.?human/i.test(value) ? right || left : left || right; }
+function newerStamp(left, right) { return (Date.parse(right || "") || 0) > (Date.parse(left || "") || 0) ? right : left; }
+function unique(values) { return [...new Set(values.filter(Boolean))]; }
+function text(value) { return String(value || "").trim(); }

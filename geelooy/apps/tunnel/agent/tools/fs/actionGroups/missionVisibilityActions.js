@@ -5,10 +5,9 @@
 const { createStore } = require("./missionVisibility/store.js");
 
 /**
- * @file Tunnel actions for durable mission visibility and three-pass operational planning.
- * @description The Awtsmoos gathers scattered coordination into one visible mission board.
- * Awtsmoos.com accepts finite planning artifacts here while canonical mission rooms remain the
- * authority for live agents, heartbeats, claims, and human-to-agent messages.
+ * @file Tunnel actions for mission visibility, three-pass planning, and operational milestone reports.
+ * @description The Awtsmoos gathers scattered coordination into one visible mission board while
+ * Awtsmoos.com keeps plans finite, reports factual, and canonical rooms authoritative for live speech.
  */
 function buildMissionVisibilityActions(context) {
 	const payload = { ...(context.payload || {}) };
@@ -27,8 +26,7 @@ function buildMissionVisibilityActions(context) {
 			if (!title) return fail("missionVisibilityRegister", "title_required");
 			if (!description) return fail("missionVisibilityRegister", "description_required");
 			try {
-				const mission = store.register(payload);
-				return success("missionVisibilityRegister", mission);
+				return success("missionVisibilityRegister", store.register(payload));
 			} catch (error) {
 				return fail("missionVisibilityRegister", error.code || "register_failed");
 			}
@@ -36,8 +34,7 @@ function buildMissionVisibilityActions(context) {
 		async missionVisibilityUpdate() {
 			const current = record();
 			if (!current) return fail("missionVisibilityUpdate", "mission_not_found");
-			const mission = store.update(current.id, payload);
-			return success("missionVisibilityUpdate", mission);
+			return success("missionVisibilityUpdate", store.update(current.id, payload));
 		},
 		async missionVisibilityPlanningPass() {
 			const current = record();
@@ -49,11 +46,24 @@ function buildMissionVisibilityActions(context) {
 				return fail("missionVisibilityPlanningPass", error.code || "planning_pass_failed", current.id);
 			}
 		},
+		async missionVisibilityReport() {
+			const current = record();
+			if (!current) return fail("missionVisibilityReport", "mission_not_found");
+			try {
+				const mission = store.submitReport(current.id, payload);
+				return { ...success("missionVisibilityReport", mission), reportSummary: mission.reportSummary };
+			} catch (error) {
+				return fail("missionVisibilityReport", error.code || "mission_report_failed", current.id);
+			}
+		},
 		async missionVisibilityList() {
 			const missions = store.listActive();
 			return {
-				ok: true, action: "missionVisibilityList", count: missions.length, missions,
-				guidance: "Publish operational planning passes 1, 2, and 3 with missionVisibilityPlanningPass; canonical mission rooms own live messaging."
+				ok: true,
+				action: "missionVisibilityList",
+				count: missions.length,
+				missions,
+				guidance: "Publish planning passes 1, 2, and 3, then use missionVisibilityReport after implementation, verification, blockers/recovery, deployment, and final handoff. Canonical mission rooms own live messaging."
 			};
 		},
 		async missionVisibilityGet() {
