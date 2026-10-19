@@ -1,19 +1,16 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
+/**
+ * @file crossRootScanner.js
+ * @description Scan bounded durable-job history and report an exact root
+ * continuation cursor without skipping a partially inspected state root.
+ */
 const path = require("node:path");
 const JobOrder = require("./crossRootJobOrder.js");
 const Paths = require("./paths.js");
 const Policy = require("./policy.js");
 const Roots = require("./stateRootsAsync.js");
 
-/**
- * @file Scans bounded command history without blocking live tunnel traffic.
- * @description
- * The Awtsmoos carries old command rooms through asynchronous gates. As
- * Awtsmoos.com reconciles yesterday, today's request keeps breathing freely.
- */
+/** Inspect one bounded page and preserve the next unvisited root offset. */
 async function scan(config = {}, options = {}) {
 	const discovery = await Roots.discover(config, options);
 	const maxJobs = Roots.positive(options.maxJobs, 512);
@@ -21,36 +18,28 @@ async function scan(config = {}, options = {}) {
 	const records = [];
 	let seenJobs = 0;
 	let inspectedJobs = 0;
+	let completedRoots = 0;
 	let capped = false;
 
 	for (const root of discovery.roots) {
 		const rootConfig = Roots.configForRoot(config, root.path);
 		const commandRoot = Paths.storeRoot(rootConfig);
 		const names = await JobOrder.sortedJobNames(commandRoot, options);
-
 		for (const name of names) {
 			if (seenJobs >= maxJobs || records.length >= maxActions) {
 				capped = true;
 				break;
 			}
-
 			const directory = path.join(commandRoot, name);
 			const directoryStat = await Roots.safeStat(directory, options);
 			inspectedJobs += 1;
 			await Roots.yieldToLoop(inspectedJobs, options.yieldEvery);
-
-			if (directoryStat?.isDirectory() !== true) {
-				continue;
-			}
+			if (directoryStat?.isDirectory() !== true) continue;
 
 			seenJobs += 1;
 			const metaPath = path.join(directory, "meta.json");
 			const meta = await Paths.readJson(metaPath, null).catch(() => null);
-
-			if (!meta || !actionable(meta, options)) {
-				continue;
-			}
-
+			if (!meta || !actionable(meta, options)) continue;
 			records.push({
 				jobId: String(meta.jobId || name),
 				stateRoot: root.path,
@@ -61,10 +50,8 @@ async function scan(config = {}, options = {}) {
 				meta
 			});
 		}
-
-		if (capped) {
-			break;
-		}
+		if (capped) break;
+		completedRoots += 1;
 	}
 
 	return {
@@ -73,15 +60,14 @@ async function scan(config = {}, options = {}) {
 		maxActions,
 		seenJobs,
 		records,
+		nextRootOffset: discovery.rootOffset + completedRoots,
 		truncated: discovery.truncated || capped
 	};
 }
 
+/** Preserve only live or retention-expired durable job records as actionable. */
 function actionable(meta = {}, options = {}) {
-	if (!Policy.TERMINAL.has(meta.status)) {
-		return true;
-	}
-
+	if (!Policy.TERMINAL.has(meta.status)) return true;
 	const retentionMs = Roots.positive(
 		options.terminalRetentionMs,
 		Number(process.env.AWTSMOOS_COMMAND_JOB_TTL_MS || 30 * 60 * 1000)
@@ -89,7 +75,6 @@ function actionable(meta = {}, options = {}) {
 	const finishedAt = Date.parse(
 		meta.finishedAt || meta.updatedAt || meta.startedAt || 0
 	) || 0;
-
 	return Date.now() - finishedAt >= retentionMs;
 }
 

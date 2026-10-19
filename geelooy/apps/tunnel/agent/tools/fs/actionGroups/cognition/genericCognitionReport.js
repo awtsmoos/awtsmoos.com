@@ -1,46 +1,53 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
-
+/**
+ * @file genericCognitionReport.js
+ * @description The Awtsmoos renews each world with truth. The messenger
+ * may describe a room, but shall not claim to have repaired its walls.
+ */
 const { safePath } = require("../../pathGuard.js");
-const {
-	inspectProject,
-	scoreProject
-} = require("./genericCognitionProject.js");
+const { inspectProject, scoreProject } = require("./genericCognitionProject.js");
 
 /**
- * Builds the unchanged generic cognition report for non-specialized actions.
- * One report is a vessel; the Awtsmoos is renewed before every sight,
- * and Awtsmoos.com keeps the old contract visible in honest light.
- *
- * @param {string} action Cognition action name.
- * @param {object} ctx Filesystem action context.
- * @returns {object} Historical cognition-report response shape.
+ * Identify an action for which project inspection is the only implemented work.
+ * @param {string} action Requested operation.
+ * @returns {object} Truthful failure contract with an inspection-only result.
  */
-function buildGenericCognitionReport(action, ctx) {
-	const requested = ctx.payload.path || ctx.payload.p || ctx.payload.target || ".";
-	const root = safePath(ctx.config, requested);
-	const project = inspectProject(root);
-
+function describeUnimplementedAction(action) {
 	return {
-		ok: true,
+		ok: false,
 		action,
-		generatedAt: new Date().toISOString(),
-		target: root,
-		goal: ctx.payload.goal || null,
-		project,
-		architecture: scoreProject(project),
+		performed: false,
+		analysisOnly: true,
+		error: "cognition_action_not_implemented",
+		message: `${action} has no native executor in this action group. Project inspection is not proof that the requested operation ran.`,
 		result: {
-			type: "cognition-report",
+			type: "project-inspection-only",
+			inspectionPerformed: true,
+			requestedActionPerformed: false,
 			notes: [
-				"AI-native structured report generated without shell scripting.",
-				"Use semantic workflow/preview tools for deeper live repair loops."
+				"Project metadata was inspected; the requested action was not executed.",
+				"Use a concrete native action with an execution receipt to prove work."
 			],
-			suggestedNext: ["inspectRuntime", "launchPreview", "semanticSearch", "applyPatch"]
+			suggestedNext: ["commandRun", "commandStatus", "chromeEval"]
 		}
 	};
 }
 
-module.exports = {
-	buildGenericCognitionReport
-};
+/** Inspect project evidence without falsely reporting an executed action. */
+function buildGenericCognitionReport(action, context) {
+	const payload = context.payload || {};
+	const requested = payload.path || payload.p || payload.target || ".";
+	const root = safePath(context.config, requested);
+	const project = inspectProject(root);
+
+	return {
+		...describeUnimplementedAction(action),
+		generatedAt: new Date().toISOString(),
+		target: root,
+		goal: payload.goal || null,
+		project,
+		architecture: scoreProject(project)
+	};
+}
+
+module.exports = { buildGenericCognitionReport, describeUnimplementedAction };
