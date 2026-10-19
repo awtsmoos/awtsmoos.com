@@ -139,13 +139,15 @@ function enforceApiKeyRate(identity, byteGuess = 0) {
   }
 
   const store = readStore();
-  const key = store.apiKeys?.[identity.keyId];
+  // Verified API-key identities use clientId, not keyId. Support legacy callers.
+  const keyId = identity.clientId || identity.keyId;
+  const key = store.apiKeys?.[keyId];
 
   if (!key || key.revoked || expired(key)) {
     return { ok: false, error: "api_key_revoked_or_missing" };
   }
 
-  // Optimized 2026-10-19: newest-first iteration with early break.
+  // Append-only ledgers are scanned newest-first; old days stop the scan early.
   const usageEvents = Array.isArray(store.usageEvents) ? store.usageEvents : [];
   const legacyUsage = Array.isArray(store.usage) ? store.usage : [];
   const minAt = minuteStart();
@@ -170,7 +172,7 @@ function enforceApiKeyRate(identity, byteGuess = 0) {
   if (todayBytes + byteGuess > byteLimit) {
     return { ok: false, error: "daily_byte_limit_exceeded", limit: key.bytesPerDay };
   }
-return { ok: true };
+  return { ok: true };
 }
 
 module.exports = {

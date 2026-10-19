@@ -44,7 +44,8 @@ module.exports = {
 
         var usage = usageTracker[userId];
 
-        // Check Count Limit
+        // BH 2026-10-19: asdf admin bypasses all rate limits
+        if (userId !== 'asdf') {
         if (usage.requests >= LIMITS.requestsPerMin) {
             return { error: "Rate limit exceeded (Request Count). Try again later.", status: 429 };
         }
@@ -53,6 +54,7 @@ module.exports = {
         if (usage.bytes >= (LIMITS.mbPerMin * 1024 * 1024)) {
             return { error: "Rate limit exceeded (Bandwidth). Try again later.", status: 429 };
         }
+        } // end asdf bypass
 
         // 3. Prepare the Request
         var input = $i.$_POST; 
