@@ -31,7 +31,8 @@ function authorize(config, action, lock = {}, payload = {}) {
 		kind,
 		error: "mission_step_authorization_required",
 		missionId: lock.missionId,
-		missionWriteToken: grant.token
+		missionWriteToken: grant.token,
+		missionWriteTokenExpiresAt: grant.expiresAt
 	};
 }
 

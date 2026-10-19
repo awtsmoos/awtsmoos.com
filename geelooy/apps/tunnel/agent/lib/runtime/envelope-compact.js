@@ -40,7 +40,12 @@ function compactMissionSurface(result = {}, payload = {}) {
 	);
 	const mission = attach && !hasFsPayload(out) ? compactMission(out) : undefined;
 	const debugRef = detailsRef(out);
-	for (const key of BLOAT_KEYS) delete out[key];
+	const authorizationDenial = out.error === "mission_step_authorization_required";
+	for (const key of BLOAT_KEYS) {
+		// Never hide the executable retry of a terminal, unexecuted source write.
+		if (authorizationDenial && (key === "mustCallNext" || key === "nextRequiredToolCall")) continue;
+		delete out[key];
+	}
 	if (mission) out.mission = mission;
 	else delete out.mission;
 	if (debugRef) out.detailsRef = debugRef;
@@ -60,7 +65,7 @@ function compactMission(source = {}) {
 		next: nextCall ? `Resume available via ${nextCall.action}.` : source.summary || source.next || "Continue with the next safe action.",
 		nextSuggestedToolCall: nextCall || undefined,
 		engagementRequired: false,
-		why: blocked ? blockReason(source) : undefined,
+		why: blocked ? (source.error || (source.mustContinue === true ? "continuation_required" : blockReason(source))) : undefined,
 		detailsRef: detailsRef(source)
 	});
 }

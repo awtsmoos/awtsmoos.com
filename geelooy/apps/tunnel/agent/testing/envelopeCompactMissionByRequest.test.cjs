@@ -35,7 +35,7 @@ assert.equal(out.responseShape, "compact-envelope-v2");
 assert.equal(out.mission.active, false);
 assert.equal(out.mission.advisory, false);
 assert.equal(out.mission.nextSuggestedToolCall.action, "commandJobStatus");
-assert.equal(out.mission.why, "explicit_block");
+assert.equal(out.mission.why, "continuation_required");
 assert.equal(out.multipleChoiceSelfInterrogation, undefined);
 assert.equal(out.continuationPressure, undefined);
 assert.equal(out.workQueue, undefined);

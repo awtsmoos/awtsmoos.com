@@ -24,7 +24,7 @@ const LEGACY_VERSION = "2025-11-25";
 const SUPPORTED_VERSIONS = Object.freeze([MODERN_VERSION, LEGACY_VERSION, "2025-03-26"]);
 const SERVER_INFO = Object.freeze({ name: "Awtsmoos Shliach", version: "1.0.0" });
 const INSTRUCTIONS =
-	"Use Awtsmoos direct access. Discover a live device first and route filesystem calls by its immutable routeReference.";
+	"Use Awtsmoos direct access. Discover a live device first and route filesystem calls by its immutable routeReference. For mission_step_authorization_required, repeat the same action with its returned missionWriteToken inside params; never duplicate pending commands.";
 
 function modernRequest(message = {}) {
 	return message.method === "server/discover" ||
@@ -84,7 +84,23 @@ async function callTool($i, identity, params = {}) {
 	};
 	const handler = handlers[params.name];
 	if (!handler) throw new Error(`Unknown MCP tool: ${params.name || ""}`);
-	const payload = await handler($i, identity, args);
+	let payload;
+	try {
+		payload = await handler($i, identity, args);
+	} catch (error) {
+		// A legitimate denied file write is a completed TOOL result, not an
+		// opaque JSON-RPC failure. Return its short-lived scoped retry witness
+		// so an authorized caller can act, without replaying the original write.
+		if (error?.data && typeof error.data === "object" &&
+			!Array.isArray(error.data) && error.data.ok === false) {
+			return {
+				content: [{ type: "text", text: JSON.stringify(error.data, null, 2) }],
+				structuredContent: error.data,
+				isError: true
+			};
+		}
+		throw error;
+	}
 	const content = [{ type: "text", text: JSON.stringify(payload, null, 2) }];
 	// Standard MCP file resource link: the host may fetch actual binary bytes.
 	// It is emitted only for explicit, consent-gated successful publication;
