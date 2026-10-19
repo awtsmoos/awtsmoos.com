@@ -32,8 +32,19 @@ function validate(root = defaultRoot) {
 		catch { errors.push(key + "_invalid"); }
 	}
 	check(ui.displayName && ui.shortDescription && ui.longDescription, "listing_missing");
-	check(openai.review?.test_cases?.positive?.length >= 5, "review_positive_cases_missing");
-	check(openai.review?.test_cases?.negative?.length >= 3, "review_negative_cases_missing");
+	check(openai.review?.test_cases?.positive?.length === 5, "review_requires_exactly_five_positive_cases");
+	check(openai.review?.test_cases?.negative?.length === 3, "review_requires_exactly_three_negative_cases");
+	for(const kind of ["positive","negative"]){
+		const cases=openai.review?.test_cases?.[kind]||[];
+		for(const [index,item] of cases.entries()){
+			check(typeof item.prompt==="string"&&item.prompt.trim().length>0,"review_"+kind+"_"+index+"_prompt_missing");
+			check(typeof item.description==="string"&&item.description.trim().length>0,"review_"+kind+"_"+index+"_description_missing");
+			if(kind==="positive"){
+				check(typeof item.tools_triggered==="string"&&item.tools_triggered.trim().length>0,"review_positive_"+index+"_tools_missing");
+				check(typeof item.expected_behavior==="string"&&item.expected_behavior.trim().length>0,"review_positive_"+index+"_expected_behavior_missing");
+			}
+		}
+	}
 	check(openai.review?.commerce === true, "external_credit_disclosure_missing");
 	const origin = "https://awtsmoos.com/api/tunnel/control/mcp";
 	check(config.mcpServers?.["awtsmoos-api"]?.url === origin, "mcp_url_mismatch");

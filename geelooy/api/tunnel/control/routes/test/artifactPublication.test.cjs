@@ -114,3 +114,14 @@ test("bounded rotating expiry cleanup eventually visits metadata past an initial
  assert.equal(Store.inspect(expired.artifactId),null);
  for(const item of active)Store.revoke("rotation",item.artifactId);
 });
+
+
+test("any authorized file type gets correct binary MIME without altering bytes",()=>{
+ const kinds=[["document.pdf","application/pdf"],["archive.zip","application/zip"],["recording.mp3","audio/mpeg"],["movie.mp4","video/mp4"],["world.glb","model/gltf-binary"],["unknown.data","application/octet-stream"]];
+ for(const [name,mime] of kinds){
+  const original=Buffer.from([0,255,128,1,42]);
+  const pub=Store.create({owner:"any-file",body:original,path:name});
+  assert.equal(pub.mimeType,mime,name);assert(Store.inspect(pub.artifactId).buffer.equals(original));
+  assert.equal(Store.revoke("any-file",pub.artifactId),true);
+ }
+});

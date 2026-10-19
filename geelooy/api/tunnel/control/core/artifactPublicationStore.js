@@ -16,7 +16,16 @@ const CHUNK_BYTES=1024*1024;
 function storageRoot() {fs.mkdirSync(ROOT,{recursive:true,mode:0o700});return ROOT;}
 function filenames(token) {if(!TOKEN_RE.test(String(token||"")))throw new Error("invalid_artifact_token");const base=path.join(storageRoot(),token);return {data:base+".bin",meta:base+".json"};}
 function mimeFor(name,override) {
-	const types={png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp",gif:"image/gif",pdf:"application/pdf",txt:"text/plain; charset=utf-8",json:"application/json",log:"text/plain; charset=utf-8"};
+	const types={
+		png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp",gif:"image/gif",
+		pdf:"application/pdf",txt:"text/plain; charset=utf-8",json:"application/json",log:"text/plain; charset=utf-8",
+		mp3:"audio/mpeg",wav:"audio/wav",ogg:"audio/ogg",m4a:"audio/mp4",flac:"audio/flac",
+		mp4:"video/mp4",webm:"video/webm",mov:"video/quicktime",
+		zip:"application/zip",tar:"application/x-tar",gz:"application/gzip",tgz:"application/gzip",
+		csv:"text/csv; charset=utf-8",md:"text/markdown; charset=utf-8",
+		glb:"model/gltf-binary",gltf:"model/gltf+json",
+	};
+
 	const fallback=types[path.extname(name).slice(1).toLowerCase()]||"application/octet-stream";
 	return /^(image\/(png|jpeg|webp|gif)|application\/(pdf|json|octet-stream)|text\/plain)(; charset=utf-8)?$/.test(String(override||"")) ? override : fallback;
 }

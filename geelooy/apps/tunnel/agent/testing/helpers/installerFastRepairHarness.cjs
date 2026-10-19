@@ -76,7 +76,8 @@ printf 'fast_repair_completed=%s candidate_version=%s\\n' "$FAST_REPAIR_COMPLETE
 			AWTSMOOS_PROJECT_ROOT: requestedRoot,
 			AWTSMOOS_INSTALL_CWD: requestedRoot,
 			AWTS_TEST_HEALTHY: options.healthy === false ? "0" : "1",
-			AWTS_TEST_SKIP: options.skip === true ? "1" : "0"
+			AWTS_TEST_SKIP: options.skip === true ? "1" : "0",
+			AWTSMOOS_INSTALL_REFRESH: options.refresh === true ? "1" : "0"
 		}
 	});
 }

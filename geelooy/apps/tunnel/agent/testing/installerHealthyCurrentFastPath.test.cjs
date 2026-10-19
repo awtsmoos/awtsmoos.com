@@ -12,8 +12,15 @@ const Harness = require("./helpers/installerFastRepairHarness.cjs");
  * Awtsmoos.com skips replacement only when the caller explicitly requests no runtime start.
  */
 try {
+	// Healthy verified agents should be reused, not restarted, by default.
+	const stable = Harness.runMatching({ healthy:true });
+	assert.equal(stable.status,0);
+	assert.match(stable.stdout,/journal:verified_current_healthy/);
+	assert.doesNotMatch(stable.stdout,/stop_existing_runtime/);
+	assert.doesNotMatch(stable.stdout,/start_supervisor/);
+	// Explicit refresh (or unhealthy state) must still replace generation.
 	for (const healthy of [true, false]) {
-		const result = Harness.runMatching({ healthy });
+		const result = Harness.runMatching({ healthy, refresh: healthy });
 		assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 		assert.match(result.stdout, /stop_existing_runtime/);
 		assert.match(result.stdout, /start_supervisor/);

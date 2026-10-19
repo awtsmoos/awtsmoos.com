@@ -1,2 +1,3 @@
 75cdb1a8091e90da4085aa8753847ed1c99f603ddb360974dcd394ac7b5ec038  awtsmoos-shliach-0.91.0.zip
 df74c8bde260c773b2efc7fb4a492896af9289e7487d99c922192d22788755fd  awtsmoos-shliach-0.92.0.zip
+6022ce7deefc865ea9fbc41780a55f1aa4135ac45d4729264a9a5fbb726fae74  awtsmoos-shliach-0.93.0.zip

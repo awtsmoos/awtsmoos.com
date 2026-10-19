@@ -35,7 +35,7 @@ assert.ok(
 );
 assert.match(components, /unix-fast-repair-health\.sh/);
 assert.match(components, /unix-emergency-continuity\.sh/);
-assert.match(download, /AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-16/);
+assert.match(download, /AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-4/);
 assert.match(download, /installer-components-%s\.tar\.gz/);
 assert.match(download, /file_sha256/);
 assert.match(download, /Using cached verified installer components/);
