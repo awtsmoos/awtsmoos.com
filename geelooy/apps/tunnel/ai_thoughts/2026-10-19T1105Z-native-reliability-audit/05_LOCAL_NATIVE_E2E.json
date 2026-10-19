@@ -1,0 +1,61 @@
+{
+  "host": "Yackovs-MacBook-Air.local",
+  "date": "2026-10-19T11:34:10.604Z",
+  "origin": "loopback /command",
+  "controlRequestId": "awts-verified-9229-1792409650604",
+  "expectedOutput": "AWTSMOOS_DURABLE_RECEIPT_42",
+  "calls": [
+    {
+      "ms": 123,
+      "http": 200,
+      "pollMs": 8,
+      "ok": true,
+      "status": "spawning",
+      "stdout": "",
+      "outputBytes": 27
+    },
+    {
+      "ms": 386,
+      "http": 200,
+      "pollMs": 12,
+      "ok": true,
+      "status": "completed",
+      "exitCode": 0,
+      "stdout": "",
+      "outputBytes": 27,
+      "finishedAt": "2026-10-19T11:34:10.723Z"
+    }
+  ],
+  "submit": {
+    "http": 200,
+    "ms": 115,
+    "ok": true,
+    "jobId": "cmdjob_mvf6fdvi_f5c3f2a6b378",
+    "status": "spawning",
+    "mode": "async_job"
+  },
+  "outputProof": {
+    "http": 200,
+    "ok": true,
+    "jobId": "cmdjob_mvf6fdvi_f5c3f2a6b378",
+    "stream": "stdout",
+    "content": "AWTSMOOS_DURABLE_RECEIPT_42",
+    "hasNextPage": false,
+    "jobStatus": "completed",
+    "fullOutputAvailable": true
+  },
+  "installedFalseSuccess": {
+    "http": 200,
+    "ok": true,
+    "action": "merkavaParserSmoke",
+    "resultType": "cognition-report",
+    "requestedOperationPerformed": false,
+    "source": "installed_agent_local_http"
+  },
+  "readiness": {
+    "ok": true,
+    "relayReady": true,
+    "commandExecution": "not_probed",
+    "runtimeVersion": "1.0.681"
+  }
+}
