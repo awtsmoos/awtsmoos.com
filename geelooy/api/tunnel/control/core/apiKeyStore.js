@@ -139,8 +139,7 @@ function enforceApiKeyRate(identity, byteGuess = 0) {
   }
 
   const store = readStore();
-  // Authenticated API-key identities expose their verified key ID as clientId.
-  // Accept keyId for older internal callers without skipping authorization.
+  // Verified API-key identities use clientId, not keyId. Support legacy callers.
   const keyId = identity.clientId || identity.keyId;
   const key = store.apiKeys?.[keyId];
 
@@ -148,39 +147,31 @@ function enforceApiKeyRate(identity, byteGuess = 0) {
     return { ok: false, error: "api_key_revoked_or_missing" };
   }
 
-  // The canonical peruta/telemetry recorder appends to usageEvents. The legacy
-  // usage array is retained for old clients; both must count against limits.
-  const usage = [
-    ...(Array.isArray(store.usage) ? store.usage : []),
-    ...(Array.isArray(store.usageEvents) ? store.usageEvents : [])
-  ];
-  const now = Date.now();
-
-  const recent = usage.filter(u =>
-    u.keyId === key.keyId &&
-    u.at >= minuteStart()
-  );
-
-  if (recent.length >= Number(key.rateLimitPerMinute || 60)) {
-    return {
-      ok: false,
-      error: "rate_limited",
-      limit: key.rateLimitPerMinute
-    };
+  // Append-only ledgers are scanned newest-first; old days stop the scan early.
+  const usageEvents = Array.isArray(store.usageEvents) ? store.usageEvents : [];
+  const legacyUsage = Array.isArray(store.usage) ? store.usage : [];
+  const minAt = minuteStart();
+  const dayAt = todayStart();
+  const rateLimit = Number(key.rateLimitPerMinute || 60);
+  const byteLimit = Number(key.bytesPerDay || 50000000);
+  let recentCount = 0;
+  let todayBytes = 0;
+  function scanUsage(arr) {
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const u = arr[i];
+      if (u.at < dayAt) break;
+      if (u.keyId !== key.keyId) continue;
+      if (u.at >= minAt && ++recentCount >= rateLimit) return "limited";
+      todayBytes += Number(u.bytes || 0);
+    }
+    return null;
   }
-
-  const todayBytes = usage
-    .filter(u => u.keyId === key.keyId && u.at >= todayStart())
-    .reduce((a, b) => a + Number(b.bytes || 0), 0);
-
-  if (todayBytes + byteGuess > Number(key.bytesPerDay || 50000000)) {
-    return {
-      ok: false,
-      error: "daily_byte_limit_exceeded",
-      limit: key.bytesPerDay
-    };
+  if (scanUsage(usageEvents) === "limited" || scanUsage(legacyUsage) === "limited") {
+    return { ok: false, error: "rate_limited", limit: key.rateLimitPerMinute };
   }
-
+  if (todayBytes + byteGuess > byteLimit) {
+    return { ok: false, error: "daily_byte_limit_exceeded", limit: key.bytesPerDay };
+  }
   return { ok: true };
 }
 
