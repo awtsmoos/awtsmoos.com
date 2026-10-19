@@ -1,6 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+"use strict";
 
 const RANK = Object.freeze({
 	accepted_waiting_for_consumer: 0,
@@ -11,28 +12,31 @@ const RANK = Object.freeze({
 });
 
 /**
- * @file Collapses runtime detail into the small durable custody state machine.
- * @description
- * The Awtsmoos is One while many scheduler names come and go; Awtsmoos.com keeps
- * durable custody bounded to phases whose meanings survive refactors and reconnects.
+ * @file Translate execution events into durable parent custody phases.
+ * @description The Awtsmoos renews every worker's breath, but assignment
+ * alone does not prove its first breath. An unstarted worker remains under
+ * the earlier pre-consumer deadline until a genuine start witness arrives.
  *
- * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
- * Never treat lane_running alone as consumer ownership. A consumer-start witness is
- * required before running may be claimed. Regression: connectionCustodyProgressIpc.test.cjs.
+ * The lasting covenant: lane dequeue and worker assignment are not running.
+ * See custodyAssignmentBoundary.test.cjs and connectionCustodyProgressIpc.test.cjs.
  */
 function fromRuntime(runtimePhase, details = {}) {
 	const phase = clean(runtimePhase);
 	if (phase === "result_waiting_for_ack") return phase;
-	if (phase === "worker_starting") return phase;
-	if (phase === "executor_worker_starting") return "worker_starting";
-	if (phase === "executor_worker_assigned") return "running";
 	if (phase === "command_handler_started") return "running";
+	if (phase === "executor_worker_assigned") {
+		return details.consumerStarted === true ? "running" : "worker_starting";
+	}
+	if (phase === "worker_starting" || phase === "executor_worker_starting") {
+		return details.consumerStarted === true ? "running" : "worker_starting";
+	}
 	if (details.consumerStarted === true) return "running";
 	if (phase === "lane_dequeued" || phase === "lane_running") return "queued";
 	if (RANK[phase] !== undefined) return phase;
 	return "";
 }
 
+/** Durable custody never moves backward in the same request generation. */
 function canAdvance(currentPhase, nextPhase) {
 	const currentRank = RANK[clean(currentPhase)];
 	const nextRank = RANK[clean(nextPhase)];
