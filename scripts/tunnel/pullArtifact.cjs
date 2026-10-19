@@ -12,7 +12,7 @@ const {Readable,Transform}=require("node:stream");
 /** Verified artifact ingestion, executed on the receiving AI's own computer.
  *  Does not depend on any image package or the source Mac being online.
  */
-async function pullArtifact({url,sha256,destDir,maxBytes=16*1024*1024,fetchImpl=fetch}={}) {
+async function pullArtifact({url,sha256,destDir,maxBytes=128*1024*1024,expectedBytes,fetchImpl=fetch}={}) {
 	const location=new URL(String(url||""));
 	if(location.protocol!=="https:"||location.hostname!=="awtsmoos.com"||
 		!/^\/api\/tunnel\/control\/artifact\/[a-f0-9]{64}\/[a-zA-Z0-9._%-]+$/.test(location.pathname)) {
@@ -22,6 +22,10 @@ async function pullArtifact({url,sha256,destDir,maxBytes=16*1024*1024,fetchImpl=
 	if(!destDir||!path.isAbsolute(destDir))throw Error("absolute_destination_required");
 	const response=await fetchImpl(url,{redirect:"error",signal:AbortSignal.timeout(15000)});
 	if(!response.ok||!response.body)throw Error("artifact_fetch_failed:"+response.status);
+	const declared=Number(response.headers?.get?.("content-length")||0);
+	if(Number.isFinite(declared)&&declared>maxBytes)throw Error("artifact_advertised_size_exceeds_limit");
+	if(expectedBytes!==undefined&&(!Number.isSafeInteger(expectedBytes)||expectedBytes<1||expectedBytes>maxBytes))throw Error("artifact_expected_size_invalid");
+	if(expectedBytes!==undefined&&declared&&declared!==expectedBytes)throw Error("artifact_content_length_mismatch");
 	const folder=path.resolve(destDir);
 	await fs.promises.mkdir(folder,{recursive:true,mode:0o700});
 	const extension=(location.pathname.split("/").pop()||"file").replace(/[^a-zA-Z0-9._-]/g,"").slice(-30);
@@ -38,8 +42,9 @@ async function pullArtifact({url,sha256,destDir,maxBytes=16*1024*1024,fetchImpl=
 		await pipeline(Readable.fromWeb(response.body),meter,fs.createWriteStream(temporary,{flags:"wx",mode:0o600}));
 		const actual=hasher.digest("hex");
 		if(actual!==String(sha256).toLowerCase())throw Error("artifact_hash_mismatch");
+		if(expectedBytes!==undefined&&bytes!==expectedBytes)throw Error("artifact_expected_size_mismatch");
 		await fs.promises.rename(temporary,destination);
-		return {ok:true,path:destination,bytes,sha256:actual};
+		return {ok:true,path:destination,bytes,sha256:actual,localCopyVerified:true};
 	}catch(error){await fs.promises.rm(temporary,{force:true});throw error;}
 }
 

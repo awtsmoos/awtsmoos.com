@@ -31,3 +31,26 @@ test("untrusted artifact URLs, tampered bytes and redirects cannot write a file"
 		assert.deepEqual(fs.readdirSync(dir),[]);
 	}finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
+
+
+test("declared and actual length mismatches cannot create a verified local file",async()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),"awt-pull-length-"));
+ try{
+  await assert.rejects(pullArtifact({url,sha256,destDir:dir,expectedBytes:999,
+   fetchImpl:async()=>new Response(binary,{headers:{"Content-Length":String(binary.length)}})}),/content_length_mismatch/);
+  await assert.rejects(pullArtifact({url,sha256,destDir:dir,expectedBytes:binary.length+1,
+   fetchImpl:async()=>new Response(ReadableStreamFromBinary(),{status:200})}),/expected_size_mismatch/);
+  assert.deepEqual(fs.readdirSync(dir),[]);
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+ function ReadableStreamFromBinary(){
+  return new ReadableStream({start(controller){controller.enqueue(binary);controller.close()}});
+ }
+});
+test("oversize advertised payload is rejected before streaming bytes",async()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),"awt-pull-max-"));
+ try{
+  await assert.rejects(pullArtifact({url,sha256,destDir:dir,maxBytes:10,
+   fetchImpl:async()=>new Response(binary,{headers:{"Content-Length":"12"}})}),/advertised_size_exceeds_limit/);
+  assert.deepEqual(fs.readdirSync(dir),[]);
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});

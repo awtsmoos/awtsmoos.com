@@ -90,18 +90,31 @@ function inspect(token,{bytes=true,now=Date.now()}={}) {
 	}catch{return null;}
 }
 /** Bounded garbage collection so expired private files cannot grow forever. */
+let cleanupCursor=0;
 function cleanupExpired(limit=100,now=Date.now()) {
-	let cleared=0;
-	for(const name of fs.readdirSync(storageRoot()).filter(x=>TOKEN_RE.test(x.slice(0,-5))&&x.endsWith(".json")).slice(0,Math.max(1,limit))){
-		const token=name.slice(0,-5),paths=filenames(token);
+	const files=fs.readdirSync(storageRoot()).filter(x=>TOKEN_RE.test(x.slice(0,-5))&&x.endsWith(".json")).sort();
+	if(!files.length){cleanupCursor=0;return 0;}
+	const maxDeleted=Math.max(1,Math.min(1000,Number(limit)||100));
+	const checkedCap=Math.min(files.length,Math.max(1000,maxDeleted*10));
+	let cleared=0,checked=0;
+	while(checked<checkedCap&&cleared<maxDeleted){
+		const name=files[(cleanupCursor+checked)%files.length],token=name.slice(0,-5),paths=filenames(token);
+		checked++;
 		try{
 			const record=JSON.parse(fs.readFileSync(paths.meta,"utf8"));
 			if(Number(record.expiresAt)>now)continue;
 		}catch{}
 		fs.rmSync(paths.meta,{force:true});fs.rmSync(paths.data,{force:true});cleared++;
 	}
+	cleanupCursor=(cleanupCursor+checked)%files.length;
 	return cleared;
 }
+// Independent of future publications: an idle controller must still remove
+// expired bearer artifacts. The timer is unref'd and cannot keep Node alive.
+const purgeTimer=setInterval(()=>{
+	try{cleanupExpired(200)}catch{/* next sweep retries; no timer crash */}
+},5*60*1000);
+purgeTimer.unref?.();
 
 function revoke(owner,token) {
 	const found=inspect(token,{bytes:false});

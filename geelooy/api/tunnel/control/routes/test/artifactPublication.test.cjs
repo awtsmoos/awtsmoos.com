@@ -99,3 +99,18 @@ test("authenticated publication verifies chunks and persists a downloadable serv
    assert.equal(Store.revoke("reviewer-owned-test",receipt.artifactId),true);
  } finally{Auth.currentIdentity=originalAuth;Device.send=originalSend;}
 });
+
+
+test("bounded rotating expiry cleanup eventually visits metadata past an initial page of live artifacts",()=>{
+ const fs=require("node:fs"),path=require("node:path");
+ const active=[];
+ for(let i=0;i<140;i++)active.push(Store.create({owner:"rotation",body:Buffer.from("fixture "+i),path:"item.txt",ttlSeconds:120}));
+ const expired=Store.create({owner:"rotation",body:Buffer.from("expired"),path:"expired.txt",ttlSeconds:60});
+ const recordPath=path.join(root,expired.artifactId+".json"),record=JSON.parse(fs.readFileSync(recordPath,"utf8"));
+ record.expiresAt=Date.now()-1;fs.writeFileSync(recordPath,JSON.stringify(record));
+ let cleared=0;
+ for(let i=0;i<10;i++)cleared+=Store.cleanupExpired(1);
+ assert(cleared>=1,"rotating cursor must reach expired artifact");
+ assert.equal(Store.inspect(expired.artifactId),null);
+ for(const item of active)Store.revoke("rotation",item.artifactId);
+});
