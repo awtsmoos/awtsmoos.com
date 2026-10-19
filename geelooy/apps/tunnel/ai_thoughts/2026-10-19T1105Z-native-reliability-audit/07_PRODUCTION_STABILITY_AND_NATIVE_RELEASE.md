@@ -1,9 +1,9 @@
 B"H
 
 # Awtsmoos Tunnel and Production Stability — Live Repair Report
-**Date:** October 19, 2026 (New York time)  
-**Target devices:** `awt-awtsmoos-2184` on the Mac and `awt-root-73967` on Hetzner  
-**Site:** `/mnt/HC_Volume_102267213/git/awtsmoos.com`  
+**Date:** October 19, 2026 (New York time)
+**Target devices:** `awt-awtsmoos-2184` on the Mac and `awt-root-73967` on Hetzner
+**Site:** `/mnt/HC_Volume_102267213/git/awtsmoos.com`
 **Mac Git checkout:** `/Users/awtsmoos/work/awtsmoos.com`
 
 ## Scope and evidence classifications
