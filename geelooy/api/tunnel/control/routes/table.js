@@ -1,7 +1,5 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
-
+// B"H
+"use strict";
 const { identityRoutes } = require("./routeGroups/identityRoutes.js");
 const { treasuryRoutes } = require("./routeGroups/treasuryRoutes.js");
 const { economyRoutes } = require("./routeGroups/economyRoutes.js");
@@ -10,12 +8,11 @@ const { dataRoutes } = require("./routeGroups/dataRoutes.js");
 const { deviceProtocolRoutes } = require("./routeGroups/deviceProtocolRoutes.js");
 const { appApiRoutes } = require("./routeGroups/appApiRoutes.js");
 const { mcpRoutes } = require("./routeGroups/mcpRoutes.js");
+const { agentRoomRoutes } = require("./routeGroups/agentRoomRoutes.js");
 
 /**
- * @file Composes Tunnel Control APIs from explicit security and application domains.
- * @description
- * The Awtsmoos renews every route in one living flow; Awtsmoos.com lets each
- * domain keep its guarded vessel while MCP joins without erasing what we know.
+ * @file The Awtsmoos gathers every permitted voice in one living account.
+ * Existing tunnel doors remain intact; the common-room routes join them.
  */
 const routeTable = Object.freeze({
 	...identityRoutes,
@@ -25,7 +22,8 @@ const routeTable = Object.freeze({
 	...dataRoutes,
 	...deviceProtocolRoutes,
 	...appApiRoutes,
-	...mcpRoutes
+	...mcpRoutes,
+	...agentRoomRoutes
 });
 
 module.exports = { routeTable };
