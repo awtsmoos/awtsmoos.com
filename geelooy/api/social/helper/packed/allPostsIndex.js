@@ -36,11 +36,13 @@ function readAllPost({ $i, heichelId, postId }) {
  * a series listing.
  * @returns {Map<string, Array<object>>} seriesId -> compact posts (newest first)
  */
-//B"H 2026-10-19 (series-api-perf): cache the grouped compact-post map by the
-//allPosts shard file's mtime+size, so series listing pages cost one stat()
-//call on repeat reads instead of re-grouping. Invalidated automatically on
-//any append/rewrite.
-const groupedCache = new Map(); // cacheKey -> { mtimeMs, size, groups }
+//B"H 2026-10-19 (series-api-perf): the grouped compact-post map is cached in
+//memory AND persisted to disk (<shard>.grouped.json), so series listing pages
+//cost one stat() call on repeat reads — even across service restarts. Both
+//layers validate the shard file's mtimeMs+size, so any append/rewrite
+//invalidates automatically. This is the permanent fix for the 5s series-list.
+const groupedCache = new Map(); // 'allPosts|<heichelId>' -> { mtimeMs, size, groups }
+const GROUPED_CACHE_VERSION = 1;
 function allPostsShardFile($i) {
   try {
     const root = fileRoot($i);
@@ -48,19 +50,56 @@ function allPostsShardFile($i) {
     return shardFile(root, 'allPosts') || '';
   } catch { return ''; }
 }
-function allPostsGrouped({ $i, heichelId = '', seriesIds = [] } = {}) {
-  const wanted = new Set(seriesIds.map(String));
-  const cacheKey = 'allPosts|' + heichelId + '|' + [...wanted].sort().join(',');
+function groupedCacheFile(file) { return file + '.grouped.json'; }
+function loadGroupedFromDisk(file, st) {
+  try {
+    const raw = fs.readFileSync(groupedCacheFile(file), 'utf8');
+    if (raw.length > 128 * 1024 * 1024) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || parsed.v !== GROUPED_CACHE_VERSION) return null;
+    if (parsed.mtimeMs !== st.mtimeMs || parsed.size !== st.size) return null;
+    const groups = new Map();
+    for (const [sid, arr] of Object.entries(parsed.groups || {})) groups.set(sid, arr);
+    return groups;
+  } catch { return null; }
+}
+function saveGroupedToDisk(file, st, groups) {
+  try {
+    const obj = { v: GROUPED_CACHE_VERSION, mtimeMs: st.mtimeMs, size: st.size, groups: {} };
+    for (const [sid, arr] of groups) obj.groups[sid] = arr;
+    fs.writeFileSync(groupedCacheFile(file), JSON.stringify(obj));
+  } catch { /* best-effort */ }
+}
+function getFullGrouping($i, heichelId) {
+  const cacheKey = 'allPosts|' + heichelId;
   const file = allPostsShardFile($i);
   let st = null;
   if (file) { try { st = fs.statSync(file); } catch { st = null; } }
   if (st) {
     const hit = groupedCache.get(cacheKey);
     if (hit && hit.mtimeMs === st.mtimeMs && hit.size === st.size) return hit.groups;
+    const diskGroups = loadGroupedFromDisk(file, st);
+    if (diskGroups) {
+      groupedCache.set(cacheKey, { mtimeMs: st.mtimeMs, size: st.size, groups: diskGroups });
+      return diskGroups;
+    }
   }
-  const groups = buildAllPostsGrouped({ $i, heichelId, wanted });
-  if (st) groupedCache.set(cacheKey, { mtimeMs: st.mtimeMs, size: st.size, groups });
+  const groups = buildAllPostsGrouped({ $i, heichelId, wanted: new Set() });
+  if (st) {
+    groupedCache.set(cacheKey, { mtimeMs: st.mtimeMs, size: st.size, groups });
+    saveGroupedToDisk(file, st, groups);
+  }
   return groups;
+}
+function allPostsGrouped({ $i, heichelId = '', seriesIds = [] } = {}) {
+  const wanted = new Set(seriesIds.map(String));
+  const full = getFullGrouping($i, heichelId);
+  if (!wanted.size) return full;
+  const out = new Map();
+  for (const sid of wanted) {
+    if (full.has(sid)) out.set(sid, full.get(sid));
+  }
+  return out;
 }
 function buildAllPostsGrouped({ $i, heichelId = '', wanted = new Set() } = {}) {
   const groups = new Map();
