@@ -70,6 +70,64 @@ function saveGroupedToDisk(file, st, groups) {
     fs.writeFileSync(groupedCacheFile(file), JSON.stringify(obj));
   } catch { /* best-effort */ }
 }
+//B"H 2026-10-19: incremental tail merge — when the shard only GREW (the
+//common case: imports appending), parse just the new bytes and merge them
+//into the cached groups instead of re-scanning 175MB. Full rebuild only when
+//the file shrank or was replaced.
+function mergeTailRecords(entry, file, from, to) {
+  const fd = fs.openSync(file, 'r');
+  try {
+    const CHUNK = 4 * 1024 * 1024;
+    const buf = Buffer.allocUnsafe(CHUNK);
+    let pos = from;
+    let leftover = '';
+    const applyLine = (line) => {
+      if (!line) return;
+      let rec;
+      try { rec = JSON.parse(line); } catch { return; }
+      if (!rec || !rec.key) return;
+      const value = rec.value || {};
+      const k = allPostKey({ heichelId: value.heichelId, postId: postIdOf(value) });
+      if (!k) return;
+      // remove old entry everywhere
+      const prev = entry.byKey.get(k);
+      if (prev) {
+        for (const sid of prev.seriesIds) {
+          const arr = entry.groups.get(sid);
+          if (arr) {
+            const ix = arr.findIndex(p => p.postId === prev.compact.postId && p.heichelId === prev.compact.heichelId);
+            if (ix >= 0) arr.splice(ix, 1);
+          }
+        }
+        entry.byKey.delete(k);
+      }
+      if (rec.op === 'del') return;
+      const compact = compactPost(value);
+      const seriesIds = new Set(
+        [value.seriesId, value.parentSeriesId].map(v => String(v || '')).filter(Boolean)
+      );
+      if (!seriesIds.size) seriesIds.add('root');
+      const sidArr = [...seriesIds];
+      entry.byKey.set(k, { seriesIds: sidArr, compact });
+      for (const sid of sidArr) {
+        if (!entry.groups.has(sid)) entry.groups.set(sid, []);
+        entry.groups.get(sid).unshift(compact);
+      }
+    };
+    while (pos < to) {
+      const n = fs.readSync(fd, buf, 0, Math.min(CHUNK, to - pos), pos);
+      if (n <= 0) break;
+      pos += n;
+      const text = leftover + buf.subarray(0, n).toString('utf8');
+      const lines = text.split('\n');
+      leftover = lines.pop();
+      for (const line of lines) applyLine(line);
+    }
+    if (leftover) applyLine(leftover);
+  } finally {
+    fs.closeSync(fd);
+  }
+}
 function getFullGrouping($i, heichelId) {
   const cacheKey = 'allPosts|' + heichelId;
   const file = allPostsShardFile($i);
@@ -78,18 +136,42 @@ function getFullGrouping($i, heichelId) {
   if (st) {
     const hit = groupedCache.get(cacheKey);
     if (hit && hit.mtimeMs === st.mtimeMs && hit.size === st.size) return hit.groups;
+    if (hit && st.size >= hit.size && hit.mtimeMs <= st.mtimeMs) {
+      // append-only growth: merge just the tail
+      mergeTailRecords(hit, file, hit.size, st.size);
+      hit.mtimeMs = st.mtimeMs;
+      hit.size = st.size;
+      saveGroupedToDisk(file, st, hit.groups);
+      return hit.groups;
+    }
     const diskGroups = loadGroupedFromDisk(file, st);
     if (diskGroups) {
-      groupedCache.set(cacheKey, { mtimeMs: st.mtimeMs, size: st.size, groups: diskGroups });
+      const entry = { mtimeMs: st.mtimeMs, size: st.size, groups: diskGroups, byKey: rebuildByKey(diskGroups) };
+      groupedCache.set(cacheKey, entry);
       return diskGroups;
     }
   }
   const groups = buildAllPostsGrouped({ $i, heichelId, wanted: new Set() });
   if (st) {
-    groupedCache.set(cacheKey, { mtimeMs: st.mtimeMs, size: st.size, groups });
+    const entry = { mtimeMs: st.mtimeMs, size: st.size, groups, byKey: rebuildByKey(groups) };
+    groupedCache.set(cacheKey, entry);
     saveGroupedToDisk(file, st, groups);
   }
   return groups;
+}
+/** Rebuilds the postKey -> {seriesIds, compact} index from grouped data. */
+function rebuildByKey(groups) {
+  const byKey = new Map();
+  for (const [sid, arr] of groups) {
+    for (const compact of arr) {
+      const k = allPostKey({ heichelId: compact.heichelId, postId: compact.postId });
+      if (!k || byKey.has(k)) continue;
+      const e = byKey.get(k);
+      if (e) { if (!e.seriesIds.includes(sid)) e.seriesIds.push(sid); }
+      else byKey.set(k, { seriesIds: [sid], compact });
+    }
+  }
+  return byKey;
 }
 function allPostsGrouped({ $i, heichelId = '', seriesIds = [] } = {}) {
   const wanted = new Set(seriesIds.map(String));
