@@ -6,7 +6,7 @@
  * @module HeichelSemanticFallbackContractTest
  * @description
  * The Awtsmoos sends one prepared semantic flame from shell to page without rendering twice;
- * Awtsmoos.com guards the server fallback so a blank main can never masquerade as release advice.
+ * Awtsmoos.com guards the server fallback by behavior, not by a temporary local variable's name in flight.
  */
 
 import assert from 'node:assert/strict';
@@ -31,7 +31,16 @@ assert.match(
 	/\$i\.\$ga\('\.\/heichel\/semantic\/fallback\.html', \{ semantic, discovery \}\)/,
 	'shell must pre-render fallback with semantic and discovery data'
 );
-assert.match(shell, /\.\.\.semanticFragments/, 'shell must pass rendered semantic fragments to parent');
+
+const fragmentBinding = shell.match(
+	/const\s+([A-Za-z_$][\w$]*)\s*=\s*await\s+renderSemanticFragments\(semantic,\s*discovery(?:,\s*context)?\);/
+);
+assert.ok(fragmentBinding, 'shell must retain the rendered semantic fragment result');
+assert.match(
+	shell,
+	new RegExp(`\\.\\.\\.${fragmentBinding[1]}\\b`),
+	'shell must pass the rendered semantic fragments to the parent template'
+);
 assert.match(fallback, /data-heichel-semantic-fallback/, 'fallback must retain its public verification marker');
 
 for (const [name, source] of [

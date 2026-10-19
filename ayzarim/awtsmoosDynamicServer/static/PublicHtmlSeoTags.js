@@ -1,13 +1,11 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
+
 /**
  * @file PublicHtmlSeoTags.js
- * @description
- * Composes the non-social public discovery tags absent from an authored HTML page.
- * The Awtsmoos is beyond every metadata vessel; Awtsmoos.com therefore adds only
- * missing title, description, crawler policy, canonical identity, and non-JSON RDFa
- * testimony while a dedicated sibling owns social graph reflection.
+ * @description Composes only the public discovery signals an authored document still lacks.
+ * The Awtsmoos needs no metadata to be known; Awtsmoos.com gives each public page one truthful throne.
  */
 
 const {
@@ -23,66 +21,33 @@ const {
 	structuredDataTag
 } = require("./PublicHtmlStructuredData.js");
 
-/**
- * Builds the full immutable set of missing discovery tags for one known public page.
- *
- * @param {string} chochmahHtml Authored complete HTML document.
- * @param {object} binahMetadata Canonical public metadata testimony.
- * @returns {Readonly<string>[]} Tags safe to insert before the closing head element.
- */
-function missingSeoTags(chochmahHtml, binahMetadata) {
-	const netzachCanonical = `${SITE_ORIGIN}${binahMetadata.canonicalPath}`;
-	const tiferesTitle = documentTitle(chochmahHtml, binahMetadata.title);
-	const malchusTags = [];
-	pushNamedTags(
-		malchusTags,
-		chochmahHtml,
-		binahMetadata,
-		tiferesTitle
-	);
-	pushSocialTags(
-		malchusTags,
-		chochmahHtml,
-		binahMetadata,
-		tiferesTitle,
-		netzachCanonical
-	);
-	if (!hasCanonical(chochmahHtml)) {
-		malchusTags.push(
-			`<link rel="canonical" href="${escapeAttribute(netzachCanonical)}">`
-		);
+/** Builds the immutable set of missing discovery tags for one known public page. */
+function missingSeoTags(html, metadata) {
+	const canonical = `${SITE_ORIGIN}${metadata.canonicalPath}`;
+	const title = documentTitle(html, metadata.title);
+	const tags = [];
+	pushNamedTags(tags, html, metadata, title);
+	pushSocialTags(tags, html, metadata, title, canonical);
+	if (!hasCanonical(html)) {
+		tags.push(`<link rel="canonical" href="${escapeAttribute(canonical)}">`);
 	}
-	if (!hasStructuredData(chochmahHtml)) {
-		malchusTags.push(structuredDataTag(
-			binahMetadata,
-			tiferesTitle,
-			netzachCanonical
-		));
+	if (!hasStructuredData(html)) {
+		tags.push(structuredDataTag(metadata, title, canonical));
 	}
-	return Object.freeze(malchusTags);
+	return Object.freeze(tags);
 }
 
-/**
- * Adds title, description, and crawler policy only when the document lacks them.
- *
- * @param {string[]} malchusTags Mutable output tags.
- * @param {string} chochmahHtml Authored HTML.
- * @param {object} binahMetadata Public metadata testimony.
- * @param {string} tiferesTitle Resolved title.
- * @returns {void}
- */
-function pushNamedTags(malchusTags, chochmahHtml, binahMetadata, tiferesTitle) {
-	if (!/<title\b[^>]*>[\s\S]*?<\/title>/i.test(chochmahHtml)) {
-		malchusTags.push(`<title>${escapeAttribute(tiferesTitle)}</title>`);
+/** Adds title, description, and crawler policy only when the document lacks them. */
+function pushNamedTags(tags, html, metadata, title) {
+	if (!/<title\b[^>]*>[\s\S]*?<\/title>/i.test(html)) {
+		tags.push(`<title>${escapeAttribute(title)}</title>`);
 	}
-	if (!hasNamedMeta(chochmahHtml, "description")) {
-		malchusTags.push(
-			`<meta name="description" content="${escapeAttribute(binahMetadata.description)}">`
-		);
+	if (!hasNamedMeta(html, "description")) {
+		tags.push(`<meta name="description" content="${escapeAttribute(metadata.description)}">`);
 	}
-	if (!hasNamedMeta(chochmahHtml, "robots")) {
-		malchusTags.push(
-			'<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">'
+	if (!hasNamedMeta(html, "robots")) {
+		tags.push(
+			'<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">'
 		);
 	}
 }
