@@ -33,3 +33,11 @@ B"H
 - **Not yet performed**: a disruptive in-flight mutation fault-injection test; do not risk unknown real jobs for an uncontrolled demonstration.
 - A longer-duration soak with production incident telemetry is still appropriate for ongoing operational confidence. No finite test establishes permanent future stability.
 - Preserve installed v1.0.687 release provenance. Do not blindly force-pull the dirty production checkout or delete its backups or queued work.
+
+## Additional WAN-path and legacy-poller investigation
+
+- The public `https://awtsmoos.com/` homepage is served by Nginx as static HTML, not by the Node HTTP listener used in the local service burst test. Its current size was ~270 KB after decompression (~58.5 KB compressed). Nginx gzip is already enabled; WebSocket location explicitly disables proxy buffering, as required. The site's A record resolved to the production server directly during these probes.
+- From the Mac, a first 15-request HTTPS probe succeeded 2/15 (13 eight-second timeouts); later smaller probes varied from subsecond responses to several seconds. A separate 30-request public HTTPS probe succeeded 20/30 within five seconds. From the production server, the public URL returned in ~25-30 ms. This isolates an intermittent Mac-to-public-network delivery problem **without establishing a server-side cause or a fix**. Do not advertise WAN 100% availability based on localhost checks.
+- The `/api/tunnel/control/simple/poll` legacy fallback endpoint generated hundreds of known HTTP 503 replies. The obsolete `simple-tunnel-agent.service` was already disabled, but a detached Bash loop from an old root login session was still querying that endpoint every few seconds.
+- Confirmed the orphaned loop PID 4143046 had PPID 1, had been running ~3 days 20 hours, and invoked a repeated `curl` simple-poll with sleep. Terminated **that PID only** using SIGTERM; the active website service, 1.0.687 native agent, and independent guardian remained active. The last recorded poll in the subsequent sampled access log was at **22:05:13 UTC**, with no later entries seen during that review.
+- No Nginx buffering, caching, DNS, firewall, or SSL settings were changed without a demonstrated cause. Public-path variance remains a distinct follow-up risk from native tunnel correctness.
