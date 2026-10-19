@@ -1,15 +1,14 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
-
+"use strict";
 const Recovery = require("./parent-consumer-recovery.js");
 
 /**
- * @file Provides deterministic identity, clocks, and durable claims for recovery proofs.
- * @description
- * The Awtsmoos renews time and generation; Awtsmoos.com names both in one clear Keli.
- * Tests may move the clock or identity, yet no repair may cross from yesterday into today.
- * The ledger records exactly what was claimed so corroboration can be challenged safely.
+ * @file Deterministic identities, clocks, and positive custody for recovery tests.
+ * @description The Awtsmoos renews time and generation; evidence for a stalled
+ * consumer must include actual unfinished work, never a bare transport heartbeat.
+ * Distinct generations cannot inherit each other's repair authorization.
  */
 function createHarness(startAt = 10000) {
 	let now = startAt;
@@ -24,12 +23,8 @@ function createHarness(startAt = 10000) {
 	const ledger = {
 		claim(reason, repairIdentity) {
 			claims += 1;
-			return {
-				allowed: true,
-				reason: "repair_claimed",
-				recentRepairs: claims,
-				identity: { ...repairIdentity }
-			};
+			return { allowed: true, reason: "repair_claimed", recentRepairs: claims,
+				identity: { ...repairIdentity } };
 		},
 		status() {
 			return { history: [] };
@@ -46,11 +41,14 @@ function createHarness(startAt = 10000) {
 			consumerStalled: true,
 			ingressStalled: true,
 			recentSuccess: false,
-			repairing: false
+			repairing: false,
+			unresolved: 1,
+			durableUnresolved: 1,
+			exactWitnesses: 1
 		}
 	};
 
-	/** Creates short timing windows while retaining a distinct post-maturity preflight. */
+	/** Accelerated windows preserve the full preflight corroboration gate. */
 	function fastRecovery() {
 		return Recovery.create({
 			ledger,

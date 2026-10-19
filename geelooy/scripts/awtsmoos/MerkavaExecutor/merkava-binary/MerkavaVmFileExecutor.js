@@ -1,31 +1,26 @@
 // B"H
 /**
  * @file MerkavaVmFileExecutor.js
- * @description Chapter 43 — The gateway knows two languages and gives
- * every vessel the proper voice. The Awtsmoos renews the scroll each instant;
- * imports keep their light while CommonJS finds its own virtual home.
+ * @description Chapter 43 — The gateway recognizes the entry's own speech.
+ * The Awtsmoos renews the words, and unrelated scripts cannot steal its voice.
  */
-const originalExecutor = require('./MerkavaVmFileExecutorLegacy.js');
-const { executeVirtualCommonJs } = require('./MerkavaVirtualRequire.js');
+const originalExecutor = require("./MerkavaVmFileExecutorLegacy.js");
+const { executeVirtualCommonJs } = require("./MerkavaVirtualRequire.js");
+const { entryModuleFormat, assertSupportedModuleFormat } = require("./MerkavaModuleFormat.js");
 
-/** Select CommonJS only when the provided virtual files contain no ESM declarations. */
-function usesVirtualCommonJs(files = {}) {
-	const sources = Object.values(originalExecutor.normalizeFiles(files));
-	const hasCommonJs = sources.some(source => /\brequire\s*\(|\bmodule\.exports\b|\bexports\s*\./.test(String(source)));
-	const hasEcmaModules = sources.some(source => /(?:^|\n)\s*(?:import\s+(?!\()|export\s+)/m.test(String(source)));
-	return hasCommonJs && !hasEcmaModules;
+/** Prefer the executing entry's grammar to unrelated declarations elsewhere. */
+function usesVirtualCommonJs(files = {}, entry = "/main.js") {
+	return entryModuleFormat({ files, entry, runtime: "node" }, originalExecutor).format === "commonjs";
 }
 
-/** Preserve the existing ESM executor, supplying bounded virtual requires for CommonJS. */
+/** Keep supported module loaders bounded to supplied virtual files. */
 async function executeVmFiles(options = {}) {
-	if (!usesVirtualCommonJs(options.files || {})) {
-		return originalExecutor.executeVmFiles(options);
+	const description = entryModuleFormat(options, originalExecutor);
+	assertSupportedModuleFormat(description);
+	if (description.format === "commonjs") {
+		return executeVirtualCommonJs(options, originalExecutor);
 	}
-	return executeVirtualCommonJs(options, originalExecutor);
+	return originalExecutor.executeVmFiles(options);
 }
 
-module.exports = {
-	...originalExecutor,
-	executeVmFiles,
-	usesVirtualCommonJs
-};
+module.exports = { ...originalExecutor, executeVmFiles, usesVirtualCommonJs };
