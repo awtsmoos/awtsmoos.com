@@ -4,7 +4,7 @@
 openapi: 3.1.0
 info:
   title: Awtsmoos Tunnel Control GPT Actions
-  version: 8.1.0-compact-transfer
+  version: 9.0.0-body-first
   description: "B'H. Read responseFocus before continuing. Answer multipleChoiceSelfInterrogation before unrelated actions. Use one public capability name in action and the exact internal tunnel operation in operation. Examples: action=files operation=read; action=command operation=commandRun; action=status operation=agentDoctor; action=recover operation=nativeGenerationReplace. Legacy direct operation names may remain compatible for older clients but are not public tools. Never place multi-megabyte text, binary files, writes64, actions64, or giant content64 values in the generic action URL. Use awtsmoosTunnelTransferGet to create a resumable transfer, send bounded content64 fragments with per-chunk SHA-256, inspect status when needed, then commit only after the final expected SHA-256 matches. For large transactional batches, stage each large file first and send only compact transfer references to the batch commit path. ChatGPT URL workflow: when given a ChatGPT conversation URL, use action=browser with operation=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Website-agent workflow: use action=agent with operation=aiAgentSpawnWebsiteMission and parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt. Report progress with operation=websiteAgentMissionMessage and mark complete only with evidence."
 servers:
   - url: https://awtsmoos.com
@@ -27,7 +27,7 @@ paths:
     get:
       operationId: awtsmoosHostedSafeAction
       summary: Run a hosted Virtual OS read-only command or bounded public HTTP GET.
-      description: Hosted commands run only against account-owned VFS (not native shell); HTTP GET pins public DNS and blocks internal targets and unsafe redirects.
+      description: Hosted commands run only against account-owned VFS; HTTP GET pins public DNS and blocks internal targets and unsafe redirects.
       security: [{ OAuth2: [profile, tunnel.read] }, { OAuth2: [profile, tunnel.command] }]
       parameters:
         - { name: action, in: query, required: true, schema: { type: string, enum: [httpGet, commandRun] } }
@@ -42,7 +42,7 @@ paths:
     get:
       operationId: awtsmoosSimpleEnqueue
       summary: Enqueue a limited native command with a private client header or expiring signed URL.
-      description: GET-only clients must use expires, nonce and HMAC sig; never embed long-lived keys in URLs. Agent ID is required and commands are policy-gated on the agent.
+      description: GET-only clients must use expires, nonce and HMAC sig; agent ID is required and commands are policy-gated on the agent.
       security: [{ SimpleClientKey: [] }, { SimpleSignedUrl: [] }]
       parameters:
         - { name: agentId, in: query, required: true, schema: { type: string } }
@@ -72,10 +72,205 @@ paths:
       responses:
         '200': { description: Authorized queue status or structured denial }
   /api/tunnel/control/fs/{tunnelName}:
-    get:
+    post:
       operationId: awtsmoosTunnelAction
-      summary: Run one compact tunnel capability and exact internal operation.
+      summary: Run one compact tunnel capability with a JSON request body.
       description: "B'H. Read responseFocus before continuing. Answer multipleChoiceSelfInterrogation before unrelated actions. Use one public capability name in action and the exact internal tunnel operation in operation. Examples: action=files operation=read; action=command operation=commandRun; action=status operation=agentDoctor; action=recover operation=nativeGenerationReplace. Legacy direct operation names may remain compatible for older clients but are not public tools. Never place multi-megabyte text, binary files, writes64, actions64, or giant content64 values in the generic action URL. Use awtsmoosTunnelTransferGet to create a resumable transfer, send bounded content64 fragments with per-chunk SHA-256, inspect status when needed, then commit only after the final expected SHA-256 matches. For large transactional batches, stage each large file first and send only compact transfer references to the batch commit path. ChatGPT URL workflow: when given a ChatGPT conversation URL, use action=browser with operation=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Website-agent workflow: use action=agent with operation=aiAgentSpawnWebsiteMission and parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt. Report progress with operation=websiteAgentMissionMessage and mark complete only with evidence."
+      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.mission, tunnel.room, tunnel.admin] }]
+      parameters:
+        - { name: tunnelName, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              additionalProperties: true
+              properties:
+                action:
+                  type: string
+                  enum:
+                    - agent
+                    - batch
+                    - browser
+                    - command
+                    - files
+                    - git
+                    - mission
+                    - preview
+                    - recover
+                    - runtime
+                    - status
+                    - system
+                    - test
+                    - web
+                operation: { type: string }
+                p: { type: string }
+                path: { type: string }
+                cwd: { type: string }
+                root: { type: string }
+                content: { type: string }
+                content64: { type: string }
+                find: { type: string }
+                find64: { type: string }
+                replace: { type: string }
+                replace64: { type: string }
+                query: { type: string }
+                query64: { type: string }
+                command: { type: string }
+                command64: { type: string }
+                text: { type: string }
+                text64: { type: string }
+                goal: { type: string }
+                goal64: { type: string }
+                params: { type: string }
+                params64: { type: string }
+                actions: { type: string }
+                actions64: { type: string }
+                actionsJson: { type: string }
+                actionsJson64: { type: string }
+                writes: { type: string }
+                writes64: { type: string }
+                files: { type: string }
+                files64: { type: string }
+                paths: { type: string }
+                paths64: { type: string }
+                tree: { type: string }
+                tree64: { type: string }
+                vars: { type: string }
+                vars64: { type: string }
+                url: { type: string }
+                conversationUrl: { type: string }
+                chatgptUrl: { type: string }
+                sessionId: { type: string }
+                chatgptSessionId: { type: string }
+                conversationId: { type: string }
+                selector: { type: string }
+                targetVessel: { type: string }
+                vessel: { type: string }
+                fallback: { type: string }
+                routeReference: { type: string }
+                treeId: { type: string }
+                outputId: { type: string }
+                jobId: { type: string }
+                taskId: { type: string }
+                actionId: { type: string }
+                processKey: { type: string }
+                receiptId: { type: string }
+                workerId: { type: string }
+                stream: { type: string }
+                controlRequestId: { type: string }
+                originalControlRequestId: { type: string }
+                clientRequestId: { type: string }
+                requestedAction: { type: string }
+                requestAction: { type: string }
+                resumeToken: { type: string }
+                continuationPrompt: { type: string }
+                continuationPrompt64: { type: string }
+                multipleChoiceAnswer: { type: string }
+                choice: { type: string }
+                answer: { type: string }
+                missionId: { type: string }
+                websiteMissionId: { type: string }
+                parentWebsiteMissionId: { type: string }
+                parentMissionId: { type: string }
+                projectRoot: { type: string }
+                logicalAgentId: { type: string }
+                agentSessionId: { type: string }
+                agentId: { type: string }
+                parentAgentId: { type: string }
+                agentName: { type: string }
+                claimId: { type: string }
+                delegationId: { type: string }
+                requestKey: { type: string }
+                spawnRequestKey: { type: string }
+                provider: { type: string }
+                providerId: { type: string }
+                model: { type: string }
+                apiKey: { type: string }
+                apiKey64: { type: string }
+                message: { type: string }
+                message64: { type: string }
+                prompt: { type: string }
+                prompt64: { type: string }
+                childPrompt: { type: string }
+                system: { type: string }
+                system64: { type: string }
+                profile: { type: string }
+                role: { type: string }
+                scope: { type: string }
+                kind: { type: string }
+                evidence: { type: string }
+                reportId: { type: string }
+                next: { type: string }
+                findings: { type: string }
+                references: { type: string }
+                reason: { type: string }
+                previewTitle: { type: string }
+                previewVisibility: { type: string }
+                previewId: { type: string }
+                transferId: { type: string }
+                expectedSha256: { type: string }
+                sha256: { type: string }
+                name: { type: string }
+                entryFile: { type: string }
+                offsetChars: { type: integer, default: 0 }
+                offsetBytes: { type: integer, default: 0 }
+                maxInlineChars: { type: integer, default: 12000 }
+                pageChars: { type: integer, default: 12000 }
+                maxChars: { type: integer, default: 12000 }
+                maxBytes: { type: integer, default: 24000 }
+                totalMaxChars: { type: integer, default: 24000 }
+                maxFiles: { type: integer, default: 5 }
+                depth: { type: integer, default: 2 }
+                limit: { type: integer, default: 150 }
+                timeoutMs: { type: integer, default: 240000 }
+                waitTimeoutMs: { type: integer, default: 25000 }
+                budgetPerutas: { type: integer, default: 0 }
+                ttlSeconds: { type: integer, default: 3600 }
+                previewTtlSeconds: { type: integer, default: 3600 }
+                totalBytes: { type: integer, default: 0 }
+                chunkBytes: { type: integer, default: 65536 }
+                offset: { type: integer, default: 0 }
+                page: { type: integer, default: 1 }
+                pageSize: { type: integer, default: 50 }
+                port: { type: integer, default: 9222 }
+                pollIntervalMs: { type: integer, default: 7000 }
+                leaseMs: { type: integer, default: 3600000 }
+                maxTurns: { type: integer, default: 40 }
+                batchTurns: { type: integer, default: 1 }
+                keepTurns: { type: integer, default: 24 }
+                keepTabs: { type: integer, default: 1 }
+                settleMs: { type: integer, default: 2500 }
+                allowWrite: { type: boolean }
+                allowCommands: { type: boolean }
+                allowSecrets: { type: boolean }
+                enableLocalHttpProxy: { type: boolean }
+                regex: { type: boolean, default: false }
+                replaceAll: { type: boolean, default: true }
+                dryRun: { type: boolean, default: true }
+                confirm: { type: boolean, default: false }
+                overwrite: { type: boolean, default: true }
+                verify: { type: boolean, default: true }
+                optional: { type: boolean, default: false }
+                continueOnError: { type: boolean, default: false }
+                asyncCommand: { type: boolean, default: false }
+                background: { type: boolean, default: false }
+                inlineOutput: { type: boolean, default: true }
+                guidanceDebug: { type: boolean, default: false }
+                debugGuidance: { type: boolean, default: false }
+                blockOnUserMessage: { type: boolean, default: true }
+                allowContinue: { type: boolean, default: false }
+                optimizeDom: { type: boolean, default: true }
+                closeOldTabs: { type: boolean, default: false }
+                complete: { type: boolean, default: false }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+    get:
+      operationId: awtsmoosTunnelActionLegacyGet
+      summary: Legacy small-query tunnel action compatibility.
+      description: Use POST awtsmoosTunnelAction for large scripts, writes, batches, and structured payloads.
       security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.mission, tunnel.room, tunnel.admin] }]
       parameters:
         - { name: tunnelName, in: path, required: true, schema: { type: string } }

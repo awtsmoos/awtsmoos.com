@@ -1,25 +1,30 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file EretzPostPlayableActivation.js
- * @description Holds every rich or optional doorway behind an explicit first-play activation function.
- * The Awtsmoos gives the meadow its truthful first breath before ornaments rise and gleam;
- * Awtsmoos.com lets optional light flow only after the blocking veil has left the living stream.
+ * @description Hydrates full control systems only after strict playable publication, then continues visual and optional promotion.
+ * The Awtsmoos lets the Chossid walk before richer garments descend;
+ * Awtsmoos.com upgrades the same living runtime after truth is proven, never replacing the traveler who already moves.
  */
-import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 
+import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
+import { resolveGeneratedRuntimeChunkUrl } from './GeneratedRuntimeChunkUrl.js';
+
+const READABLE_SOURCE = 'EretzPostPlayableActivation.js';
+const POST_CONTROL_URL = generated('mitzvah-world-post-control.compact.js');
 const POST_PLAYABLE_URL = deferred('EretzPostPlayablePriority.js');
 const VISUAL_SEQUENCE_URL = deferred('EretzVisualPromotionSequence.js');
 
-/** Installs one idempotent continuation that may be called only after strict playable publication. */
+/** Installs one idempotent continuation that runs only after strict playable publication. */
 export function installEretzPostPlayableActivation(core, options, boot, environment) {
 	let activated = false;
 	core.diagnostics.activatePostPlayable = () => {
 		if (activated) return core.diagnostics.postPlayablePriorityPromise || null;
 		activated = true;
 		boot.complete();
+		startPostControlHydration(core, options, boot);
 		const visuals = startVisualPromotion(core, options, boot, environment);
 		startPostPlayable(core, options, boot, environment, visuals);
 		return core.diagnostics.postPlayablePriorityPromise;
@@ -27,7 +32,28 @@ export function installEretzPostPlayableActivation(core, options, boot, environm
 	return core.diagnostics;
 }
 
-/** Starts authored visual promotion after the first-play gate has already opened truthfully. */
+/** Upgrades the exact first-control runtime after readiness without revoking already-working movement. */
+function startPostControlHydration(core, options, boot) {
+	const diagnostics = core.diagnostics;
+	diagnostics.postControlHydrationStage = 'loading-module';
+	const promise = import(POST_CONTROL_URL)
+		.then(module => {
+			diagnostics.postControlHydrationStage = 'hydrating';
+			return module.hydrateBootstrapPostControl(core, options, core.qualityProfile, boot);
+		})
+		.then(result => {
+			diagnostics.postControlHydrationStage = 'ready';
+			return result;
+		})
+		.catch(error => {
+			diagnostics.postControlHydrationStage = 'degraded';
+			diagnostics.postControlHydrationError = error;
+			console.warn('[MitzvahWorld] Post-control hydration degraded.', error);
+			return null;
+		});
+	diagnostics.postControlHydrationPromise = promise;
+}
+
 function startVisualPromotion(core, options, boot, environment) {
 	const diagnostics = core.diagnostics;
 	diagnostics.rendererPolicyStage = 'loading-sequence';
@@ -52,7 +78,6 @@ function startVisualPromotion(core, options, boot, environment) {
 	return promise;
 }
 
-/** Waits for required visual promotion before opening the broader optional post-play coordinator. */
 function startPostPlayable(core, options, boot, environment, visualPromise) {
 	const diagnostics = core.diagnostics;
 	diagnostics.postPlayablePriorityStage = 'waiting-for-required-visuals';
@@ -76,5 +101,9 @@ function degradePostPlayable(diagnostics, error) {
 }
 
 function deferred(specifier) {
-	return resolveDeferredAppModuleUrl(specifier, import.meta.url, 'EretzPostPlayableActivation.js');
+	return resolveDeferredAppModuleUrl(specifier, import.meta.url, READABLE_SOURCE);
+}
+
+function generated(fileName) {
+	return resolveGeneratedRuntimeChunkUrl(fileName, import.meta.url, READABLE_SOURCE);
 }

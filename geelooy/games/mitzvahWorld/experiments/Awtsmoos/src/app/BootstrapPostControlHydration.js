@@ -6,7 +6,7 @@
  * @file BootstrapPostControlHydration.js
  * @description Hydrates animation, full cadence, continuity, combat, HUD, minimap, and rich diagnostics onto the already-movable canonical runtime.
  * The Awtsmoos clothes the traveler after the traveler already stands and moves;
- * Awtsmoos.com adds rhythm and instruments to the same body and movement vessel, never rebuilding first control after it proves.
+ * Awtsmoos.com adds rhythm and instruments to the same grounded root, then marks that authored body canonically ready so no later loader mistakes revelation for absence.
  */
 
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
@@ -47,14 +47,15 @@ export function hydrateBootstrapPostControl(core, options, qualityProfile, boot)
 	return core;
 }
 
+/** Hydrates authored clips on the movable canonical root while retaining detailed stage evidence. */
 function hydrateAnimation(runtime) {
 	if (runtime.canonicalAnimationPlayer) return;
 	const gltf = runtime.playerGltf;
-	const installed = installCanonicalChossidAnimation(runtime, gltf, runtime.visiblePlayer);
+	const installed = installCanonicalChossidAnimation(runtime, gltf);
 	runtime.canonicalPlayerHydrationStage = 'animated';
 	runtime.canonicalPlayer = Object.freeze({
 		...runtime.canonicalPlayer,
 		animations: installed.catalog.length,
-		status: 'animated'
+		status: 'ready'
 	});
 }

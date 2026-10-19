@@ -4,14 +4,15 @@
 
 /**
  * @file build-js.cjs
- * @description Builds each runtime artifact once; release verification repeats this complete canonical operation for determinism.
- * The Awtsmoos gathers code and essential earth into measured vessels before the release may speak its name;
- * Awtsmoos.com now shows each long stage aloud, so honest compiler labor can never masquerade as a frozen frame.
+ * @description Builds first control before rich hydration, then seals critical chunks with byte-derived preload identities.
+ * The Awtsmoos gives the Chossid feet before ornaments; Awtsmoos.com keeps the blocking gate lean,
+ * while post-control abundance becomes a later generated vessel that may awaken only after playable truth.
  */
 
 const fs = require('node:fs');
 const path = require('node:path');
 const { buildEssentialReleaseAssets } = require('./EssentialReleaseAssetBuilder.cjs');
+const { buildRuntimeChunkPreloadIdentity } = require('./RuntimeChunkPreloadIdentity.cjs');
 const { compilerFunction } = require('./js/CompactJsAdapter.cjs');
 const { writeCompactJsBuild } = require('./js/CompactJsBuildWriter.cjs');
 const { buildRuntimeChunk } = require('./js/RuntimeChunkBuild.cjs');
@@ -32,7 +33,7 @@ main().catch(error => {
 	process.exitCode = 1;
 });
 
-/** Regenerates essential assets, first control, then every deferred runtime chunk once. */
+/** Regenerates assets, first control, deferred runtime chunks, and canonical preload identities. */
 async function main() {
 	console.error('[Mitzvah World build] essential assets');
 	const skipAssets = process.argv.includes('--skip-assets');
@@ -53,18 +54,14 @@ async function main() {
 	const chunks = [];
 	for (const configuration of chunkConfigurations()) {
 		console.error(`[Mitzvah World build] chunk:${configuration.name}`);
-		chunks.push(await buildRuntimeChunk({
-			...configuration,
-			compileOnce: compileChunk,
-			gameRoot
-		}));
+		chunks.push(await buildRuntimeChunk({ ...configuration, compileOnce: compileChunk, gameRoot }));
 	}
-	// The signed deploy endpoint rejects files over 5MB (HTTP 413); keep the world
-	// chunk deployable by splitting it at a module boundary when it grows past the cap.
 	const { splitWorldChunk } = require('./split-world-chunk.cjs');
 	const splitReceipt = splitWorldChunk();
 	console.error('[Mitzvah World build] world chunk split:', JSON.stringify(splitReceipt.chunkA || splitReceipt.skipped));
-	console.log(JSON.stringify({ chunks, essentialAssets, main: mainManifest, worldSplit: splitReceipt }));
+	const preloadIdentity = buildRuntimeChunkPreloadIdentity(gameRoot);
+	console.error('[Mitzvah World build] preload identity:', JSON.stringify(preloadIdentity));
+	console.log(JSON.stringify({ chunks, essentialAssets, main: mainManifest, preloadIdentity, worldSplit: splitReceipt }));
 }
 
 function compileMain(entryFile) {
@@ -76,20 +73,15 @@ function compileChunk(entryFile, options = {}) {
 }
 
 function compileSource(entryFile, preserveDynamicImports, sourceMaps) {
-	return compile({
-		entryFile,
-		fs: fs.promises,
-		preserveDynamicImports,
-		rootDir: publicRoot,
-		sourceMaps
-	});
+	return compile({ entryFile, fs: fs.promises, preserveDynamicImports, rootDir: publicRoot, sourceMaps });
 }
 
 function chunkConfigurations() {
 	return [
 		chunk('foundation', 'EretzWorldFoundation.js'),
 		chunk('player', 'EretzEssentialAssetLoader.js'),
-		chunk('core', 'BootstrapCoreRuntimeAssembly.js'),
+		chunk('core', 'BootstrapEssentialPrimeAssembly.js'),
+		chunk('post-control', 'BootstrapPostControlHydration.js'),
 		chunk('presentation', 'MinimalMeadowPresentationBundle.js'),
 		chunk('world', 'MinimalMeadowWorldBundle.js', { preserveDynamicImports: true }),
 		chunk('optional', 'MinimalMeadowOptionalBundle.js')

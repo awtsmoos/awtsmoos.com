@@ -16,6 +16,7 @@ const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 	? new URL('./', SOURCE_URL)
 	: new URL('./launcher/', SOURCE_URL);
 const PAGE_BOOT_URL = launcherModuleUrl('bootMitzvahWorldPage.js');
+const RUNTIME_BOOT_URL = launcherModuleUrl('MinimalSharedMeadowRuntimePage.js');
 
 markCompactScriptStart(globalThis);
 
@@ -29,7 +30,7 @@ export async function bootMinimalSharedMeadowPage(documentValue = document, envi
 /** Boots only the shared meadow runtime for embedded or verification surfaces. */
 export async function bootMinimalSharedMeadowRuntimePage(hosts, options = {}, environment = globalThis) {
 	markCompactScriptStart(environment);
-	const module = await import(launcherModuleUrl('MinimalSharedMeadowRuntimePage.js'));
+	const module = await import(RUNTIME_BOOT_URL);
 	return module.bootMinimalSharedMeadowRuntimePage(hosts, options, environment);
 }
 

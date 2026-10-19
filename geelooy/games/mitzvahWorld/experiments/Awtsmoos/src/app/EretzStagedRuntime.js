@@ -4,9 +4,9 @@
 
 /**
  * @file EretzStagedRuntime.js
- * @description Preserves foundation-before-core loading so canonical Chossid decode keeps uncontended first-play priority.
+ * @description Loads foundation first, then only the minimal canonical-player movement prime needed for first control.
  * The Awtsmoos gives the essential traveler first passage through the narrow gate;
- * Awtsmoos.com lets movement code follow only after foundation is true, avoiding parse contention that made Chossid decode late.
+ * Awtsmoos.com lets rich animation, combat, HUD, and abundance wait until the Chossid can already walk.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
@@ -21,7 +21,7 @@ const READABLE_SOURCE = 'EretzStagedRuntime.js';
 const FOUNDATION_CHUNK_URL = generated('mitzvah-world-foundation.compact.js');
 const CORE_CHUNK_URL = generated('mitzvah-world-core.compact.js');
 
-/** Creates the playable runtime with essential foundation work receiving first-play priority. */
+/** Creates the playable runtime with movement proof ahead of every post-control system. */
 export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	const environment = options.environment || globalThis;
 	const document = environment.document || globalThis.document;
@@ -31,7 +31,7 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 		url: compact('../performance/WorldQualityProfile.js')
 	});
 	const qualityModule = await import(compact('../performance/WorldQualityProfile.js'));
-	const qualityProfile = qualityModule.resolveWorldQuality(options, options.environment || globalThis);
+	const qualityProfile = qualityModule.resolveWorldQuality(options, environment);
 	throwIfLaunchAborted(options.signal);
 
 	boot.begin('webgl-world-foundation');
@@ -48,14 +48,13 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	throwIfLaunchAborted(options.signal);
 
 	boot.begin('core-runtime');
-	reportLaunchProgress(options, 'Awakening compressed movement and the first living frame…', 0.96, {
-		stage: 'bootstrap-core-runtime',
+	reportLaunchProgress(options, 'Giving the Chossid movement and the first living frame…', 0.96, {
+		stage: 'bootstrap-essential-prime',
 		url: CORE_CHUNK_URL
 	});
-	// First frame is proven; the core systems that grant first control now load.
 	transitionMitzvahWorldBootState(environment, document, 'world-loading', null);
 	const coreModule = await import(CORE_CHUNK_URL);
-	const core = coreModule.assembleBootstrapCoreRuntime(foundation, options, qualityProfile, boot);
+	const core = coreModule.assembleBootstrapEssentialPrime(foundation, options, qualityProfile, boot);
 	return {
 		...core,
 		foundation,
@@ -63,12 +62,10 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	};
 }
 
-/** Resolves a small authored dependency through cached CompactJS. */
 function compact(specifier) {
 	return resolveDeferredAppModuleUrl(specifier, import.meta.url, READABLE_SOURCE);
 }
 
-/** Resolves one generated playable runtime artifact as a terminal browser URL. */
 function generated(fileName) {
 	return resolveGeneratedRuntimeChunkUrl(fileName, import.meta.url, READABLE_SOURCE);
 }

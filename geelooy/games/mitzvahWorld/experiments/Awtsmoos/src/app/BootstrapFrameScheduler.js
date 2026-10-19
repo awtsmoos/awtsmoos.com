@@ -4,15 +4,15 @@
 
 /**
  * @file BootstrapFrameScheduler.js
- * @description Owns one display-synchronized gameplay pulse without racing a timer against every animation frame.
- * Netzach carries the visible rhythm while Gevurah permits a timer only when the browser offers no animation-frame vessel;
- * the Awtsmoos recreates every pulse before time can count it, and Awtsmoos.com keeps the hot path quiet and level.
+ * @description Owns one exact-once gameplay pulse with rAF cadence and a bounded timer liveness watchdog.
+ * Netzach prefers the visible browser rhythm while Gevurah keeps one quiet lamp burning when that rhythm is withheld;
+ * the Awtsmoos recreates every pulse before either clock can claim independence, and Awtsmoos.com lets only the first messenger enter.
  */
 
 export class BootstrapFrameScheduler {
 	/**
 	 * @param {object} environment Browser-like scheduling environment.
-	 * @param {number} fallbackMs Timer delay used only when requestAnimationFrame is unavailable.
+	 * @param {number} fallbackMs Maximum wait before the timer watchdog advances a suspended rAF frame.
 	 */
 	constructor(environment = globalThis, fallbackMs = 40) {
 		this.environment = environment;
@@ -28,12 +28,10 @@ export class BootstrapFrameScheduler {
 		this.callback = null;
 		this.pendingId = null;
 		this.pendingKind = null;
-		this.onAnimationFrame = timestamp => {
-			this.flush(timestamp, 'animation-frame');
-		};
-		this.onTimer = () => {
-			this.flush(this.now(), 'timer-fallback');
-		};
+		this.watchdogId = null;
+		this.onAnimationFrame = timestamp => this.flush(timestamp, 'animation-frame');
+		this.onWatchdog = () => this.flush(this.now(), 'timer-watchdog');
+		this.onTimerFallback = () => this.flush(this.now(), 'timer-fallback');
 	}
 
 	/**
@@ -43,44 +41,48 @@ export class BootstrapFrameScheduler {
 	 */
 	schedule(callback) {
 		this.callback = callback;
-		if (this.pendingId !== null) {
-			return this;
-		}
+		if (this.pendingId !== null || this.watchdogId !== null) return this;
 		if (this.requestFrame) {
 			this.pendingKind = 'animation-frame';
 			this.pendingId = this.requestFrame(this.onAnimationFrame);
+			if (this.scheduleTimer) {
+				this.watchdogId = this.scheduleTimer(this.onWatchdog, this.fallbackMs);
+			}
 			return this;
 		}
 		if (this.scheduleTimer) {
 			this.pendingKind = 'timer-fallback';
-			this.pendingId = this.scheduleTimer(this.onTimer, this.fallbackMs);
+			this.pendingId = this.scheduleTimer(this.onTimerFallback, this.fallbackMs);
 			return this;
 		}
 		throw new Error('MitzvahWorld requires requestAnimationFrame or setTimeout scheduling.');
 	}
 
-	/** Cancels the single pending pulse and clears its retained callback. */
+	/** Cancels every clock belonging to the single pending pulse. */
 	cancel() {
-		if (this.pendingId !== null) {
-			if (this.pendingKind === 'animation-frame') {
-				this.cancelFrame?.(this.pendingId);
-			} else {
-				this.cancelTimer?.(this.pendingId);
-			}
-		}
 		this.callback = null;
-		this.pendingId = null;
-		this.pendingKind = null;
+		this.clearClocks();
 	}
 
 	flush(timestamp, source) {
 		const callback = this.callback;
 		this.callback = null;
+		this.clearClocks();
+		if (callback) callback(timestamp, source);
+	}
+
+	clearClocks() {
+		const pendingId = this.pendingId;
+		const pendingKind = this.pendingKind;
+		const watchdogId = this.watchdogId;
 		this.pendingId = null;
 		this.pendingKind = null;
-		if (callback) {
-			callback(timestamp, source);
+		this.watchdogId = null;
+		if (pendingId !== null) {
+			if (pendingKind === 'animation-frame') this.cancelFrame?.(pendingId);
+			else this.cancelTimer?.(pendingId);
 		}
+		if (watchdogId !== null) this.cancelTimer?.(watchdogId);
 	}
 
 	now() {

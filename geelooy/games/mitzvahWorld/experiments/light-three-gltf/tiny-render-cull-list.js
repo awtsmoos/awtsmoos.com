@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-render-cull-list.js
- * @description Applies the exact conservative camera law to a list of meshes.
- * The Awtsmoos sustains what lies beyond the eye; Awtsmoos.com submits only the
- * present camera-visible vessels while recording every lawful rejection.
+ * @description Owns the one authoritative pre-draw visibility gate for mesh lists.
+ * The Awtsmoos renews every hidden and revealed vessel in a single living light;
+ * Awtsmoos.com lets each flattened kli face one truthful camera judgment before draw.
  */
 
 import {
@@ -14,16 +14,64 @@ import {
 	meshCullingReason
 } from './tiny-render-culling.js';
 
-export function cullMeshList(meshes, camera, options, stats) {
-	const visible = [];
-	const context = cameraCullContext(camera);
-	for (const mesh of meshes) {
-		const reason = meshCullingReason(mesh, camera, options, context);
-		if (reason) {
-			stats[reason] += 1;
+/**
+ * Creates the reusable Ohr context shared by every list in one frame.
+ *
+ * @param {object|null} camera Camera whose frustum reveals the present vessels.
+ * @returns {object|null} Reusable camera culling context.
+ */
+export function createOhrCullContext(camera) {
+	return cameraCullContext(camera);
+}
+
+/**
+ * Appends only camera-visible keilim into an existing render list.
+ * One loop judges ordinary, batched, transparent, and instanced-parent meshes alike,
+ * so no later draw strategy can escape the same conservative law of the Awtsmoos.
+ *
+ * @param {Array<object>} keilim Candidate meshes.
+ * @param {Array<object>} revealedKeilim Destination list.
+ * @param {object|null} camera Active camera.
+ * @param {object} options Renderer options.
+ * @param {object} cullLedger Mutable rejection counters.
+ * @param {object|null} ohrContext Reusable camera culling context.
+ * @returns {Array<object>} The destination list.
+ */
+export function appendVisibleKeilim(
+	keilim,
+	revealedKeilim,
+	camera,
+	options,
+	cullLedger,
+	ohrContext = createOhrCullContext(camera)
+) {
+	for (const kli of keilim) {
+		const concealment = meshCullingReason(kli, camera, options, ohrContext);
+		if (concealment) {
+			cullLedger[concealment] += 1;
 			continue;
 		}
-		visible.push(mesh);
+		revealedKeilim.push(kli);
 	}
-	return visible;
+	return revealedKeilim;
+}
+
+/**
+ * Returns a fresh visible list while preserving the historic public helper.
+ *
+ * @param {Array<object>} keilim Candidate meshes.
+ * @param {object|null} camera Active camera.
+ * @param {object} options Renderer options.
+ * @param {object} cullLedger Mutable rejection counters.
+ * @returns {Array<object>} Visible meshes.
+ */
+export function cullMeshList(keilim, camera, options, cullLedger) {
+	return appendVisibleKeilim(
+		keilim,
+		[],
+		camera,
+		options,
+		cullLedger,
+		createOhrCullContext(camera)
+	);
 }

@@ -1,16 +1,17 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves playable-meadow identity, tiny first control, deterministic chunks, release-owned essential assets, compression, and deferred cinema reachability.
- * The Awtsmoos gives Awtsmoos.com one cache family from first threshold through the grounded Chossid and textured meadow;
- * every first-play garment must exist in the deployable Git vessel, never merely in one builder's local filesystem shadow.
+ * @description Proves content-hashed first control, deferred post-control hydration, release-owned assets, and complete deferred reachability.
+ * The Awtsmoos gives Awtsmoos.com one truthful road from first step to later abundance;
+ * the critical core must move the Chossid, while richer garments wait in their own generated vessel.
  */
 
 const assert = require('node:assert/strict');
 const childProcess = require('node:child_process');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
@@ -27,7 +28,8 @@ const ESSENTIAL_ASSETS = Object.freeze([
 const chunks = Object.freeze([
 	['foundation', 'createEretzWorldFoundation'],
 	['player', 'loadEretzEssentialAssets'],
-	['core', 'assembleBootstrapCoreRuntime'],
+	['core', 'assembleBootstrapEssentialPrime'],
+	['post-control', 'hydrateBootstrapPostControl'],
 	['presentation', 'installMinimalMeadowPresentationBundle'],
 	['world', 'installMinimalMeadowWorldSystems'],
 	['optional', 'hydrateMinimalMeadowPlayer']
@@ -37,15 +39,16 @@ const firstControlForbidden = Object.freeze([
 	'VillageRiverHydrology', 'Wellspring', 'WorldEcologyOccupancy', 'WorldSpatialRealismApi'
 ]);
 
-test('production page selects fresh compact game and preloads essential generated chunks', () => {
+test('production page selects compact game and only three content-hashed critical preloads', () => {
 	const html = text('index.html');
 	const stylesheets = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)].map(match => match[1]);
 	const modules = [...html.matchAll(/<script[\s\S]*?type="module"[\s\S]*?src="([^"]+)"[\s\S]*?<\/script>/g)].map(match => match[1]);
 	assert.deepEqual(stylesheets, ['./styles/generated/mitzvah-world.production.css', '../styles/player-shell/index.css?compact=true']);
 	assert.deepEqual(modules, [`./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_VERSION}`, '../scripts/player-shell/index.js?compact=true']);
 	for (const name of ['foundation', 'player', 'core']) {
-		assert.match(html, new RegExp(`mitzvah-world-${name}\\.compact\\.js\\?v=${RELEASE_VERSION}`));
+		assert.ok(html.includes(`rel="modulepreload" href="${runtimeChunkHref(name)}"`));
 	}
+	assert.doesNotMatch(html, /modulepreload[^>]+mitzvah-world-post-control\.compact\.js/);
 });
 
 test('production CSS is complete and every representation is verified', () => {
@@ -77,9 +80,7 @@ test('first-control stays under eight kilobytes and contains no deferred world s
 	for (const marker of ['PAGE_BOOT_URL', 'MinimalSharedMeadowRuntimePage.js', 'bootMinimalSharedMeadowPage']) {
 		assert.match(compact, new RegExp(marker));
 	}
-	for (const forbidden of firstControlForbidden) {
-		assert.doesNotMatch(compact, new RegExp(forbidden), forbidden);
-	}
+	for (const forbidden of firstControlForbidden) assert.doesNotMatch(compact, new RegExp(forbidden), forbidden);
 	verifyRepresentations('experiments/Awtsmoos/src/mitzvah-world.compact.js', manifest.representations);
 });
 
@@ -104,3 +105,10 @@ test('deferred creative mode preserves the complete served cinema graph', () => 
 		assert.match(cinema, new RegExp(marker), marker);
 	}
 });
+
+function runtimeChunkHref(name) {
+	const relative = `experiments/Awtsmoos/src/mitzvah-world-${name}.compact.js`;
+	const bytes = fs.readFileSync(path.join(GAME_ROOT, relative));
+	const sha256 = crypto.createHash('sha256').update(bytes).digest('hex');
+	return `./${relative}?v=${sha256}`;
+}

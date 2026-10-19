@@ -4,9 +4,9 @@
 
 /**
  * @file ReleaseArtifactCustody.cjs
- * @description Records commit identity, scoped source cleanliness, and exact hashes for every release-owned publication vessel.
+ * @description Records commit identity, source cleanliness, and exact hashes for every release-owned publication vessel.
  * The Awtsmoos joins source and garment without confusion; Awtsmoos.com refuses mixed generations one release,
- * so HTML, CSS, first-control, foundation, essential player, core, later chunks, grass, and canonical Chossid stand beneath one Git witness.
+ * so first control, post-control hydration, later chunks, grass, and canonical Chossid stand beneath one Git witness.
  */
 
 const crypto = require('node:crypto');
@@ -23,6 +23,7 @@ const ARTIFACTS = Object.freeze([
 	'experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js',
 	'experiments/Awtsmoos/src/mitzvah-world-player.compact.js',
 	'experiments/Awtsmoos/src/mitzvah-world-core.compact.js',
+	'experiments/Awtsmoos/src/mitzvah-world-post-control.compact.js',
 	'experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js',
 	'experiments/Awtsmoos/src/mitzvah-world-world.compact.js',
 	'experiments/Awtsmoos/src/mitzvah-world-optional.compact.js',
@@ -30,6 +31,7 @@ const ARTIFACTS = Object.freeze([
 	'build/generated/mitzvah-world-foundation.json',
 	'build/generated/mitzvah-world-player.json',
 	'build/generated/mitzvah-world-core.json',
+	'build/generated/mitzvah-world-post-control.json',
 	'build/generated/mitzvah-world-presentation.json',
 	'build/generated/mitzvah-world-world.json',
 	'build/generated/mitzvah-world-optional.json',

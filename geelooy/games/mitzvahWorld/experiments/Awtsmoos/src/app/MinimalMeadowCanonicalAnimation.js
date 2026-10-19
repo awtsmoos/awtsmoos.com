@@ -4,17 +4,28 @@
 
 /**
  * @file MinimalMeadowCanonicalAnimation.js
- * @description Binds every imported Chossid clip to the hydrated skeleton and preserves the authoritative controller explicitly.
- * The Awtsmoos gives motion and stillness one living vessel; Awtsmoos.com keeps that exact controller reachable across bootstrap,
- * gameplay composition, Movie Studio, diagnostics, and reproduction so a later compatibility player cannot erase fourteen authored clips.
+ * @description Binds every imported Chossid clip while publishing the grounded world model as the authoritative animation-player root.
+ * The Awtsmoos gives inner bones and outer travel one ordered living vessel; Awtsmoos.com keeps the moving root truthful across bootstrap,
+ * gameplay composition, Movie Studio, diagnostics, and reproduction while direct clip channels continue animating the authored GLB within.
  */
 
 import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
 import { createClipMap } from './EretzPlayerModel.js';
 
-export function installCanonicalChossidAnimation(runtime, gltf, visiblePlayer) {
+/**
+ * Installs the canonical animation controller on the movable outer player root.
+ *
+ * @param {object} runtime Canonical player runtime with an installed grounded model.
+ * @param {object} gltf Parsed canonical Chossid GLTF.
+ * @returns {object} Installed animation catalog, clips, default clip, and player.
+ */
+export function installCanonicalChossidAnimation(runtime, gltf) {
+	const canonicalRoot = runtime.model;
+	if (!canonicalRoot) {
+		throw new Error('Canonical Chossid animation requires runtime.model.');
+	}
 	const animations = gltf.animations || [];
-	const player = new TinyAnimationPlayer(visiblePlayer, animations);
+	const player = new TinyAnimationPlayer(canonicalRoot, animations);
 	const clips = createClipMap(animations);
 	const catalog = createCanonicalChossidAnimationCatalog(animations);
 	const defaultClip = clips.stand || player.names[0] || '';

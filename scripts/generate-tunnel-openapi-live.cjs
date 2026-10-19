@@ -11,8 +11,8 @@ const Renderer = require("./tunnel/openapi/renderControlOpenApi.cjs");
  * @file Generates compact public tunnel artifacts without rewriting legacy inner catalogs.
  * @description
  * The Awtsmoos is One while old hosted vessels may still remember many exact names.
- * Awtsmoos.com writes fourteen public capabilities to GPT and AI surfaces, yet leaves
- * the broad Virtual OS compatibility catalog untouched until its inner callers are retired.
+ * Awtsmoos.com writes fourteen public capabilities to GPT and AI surfaces, now through a body-first action gate
+ * so large intent is never forced to stretch through one fragile query string.
  */
 const root = path.resolve(__dirname, "..");
 const outputs = {
@@ -32,7 +32,10 @@ function main() {
 		actionCount: actions.length,
 		actions,
 		yamlBytes: Buffer.byteLength(yaml),
-		hasRequiredOperation: yaml.includes("name: operation, in: query, required: true"),
+		hasPostAction: yaml.includes("operationId: awtsmoosTunnelAction"),
+		hasJsonBody: yaml.includes("requestBody:") && yaml.includes("application/json:"),
+		hasLegacyGet: yaml.includes("operationId: awtsmoosTunnelActionLegacyGet"),
+		hasTaskIdBody: yaml.includes("taskId: { type: string }"),
 		leaksInternalDoctorEnum: yaml.includes("              - agentDoctor"),
 		leaksInternalReadEnum: yaml.includes("              - read"),
 		legacyVirtualCatalogPreserved: fs.existsSync(path.join(

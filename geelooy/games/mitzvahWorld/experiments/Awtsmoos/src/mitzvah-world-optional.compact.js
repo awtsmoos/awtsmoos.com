@@ -2264,7 +2264,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_pyympq = {
+	const __awtsmoosDefault_1w2urep = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2277,7 +2277,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_pyympq;
+	__exports.default = __awtsmoosDefault_1w2urep;
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -4007,12 +4007,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_tb3ovh = {
+	const __awtsmoosDefault_1ep8c8g = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_tb3ovh;
+	__exports.default = __awtsmoosDefault_1ep8c8g;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
@@ -6485,17 +6485,28 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MinimalMeadowCanonicalAnimation.js
-	 * @description Binds every imported Chossid clip to the hydrated skeleton and preserves the authoritative controller explicitly.
-	 * The Awtsmoos gives motion and stillness one living vessel; Awtsmoos.com keeps that exact controller reachable across bootstrap,
-	 * gameplay composition, Movie Studio, diagnostics, and reproduction so a later compatibility player cannot erase fourteen authored clips.
+	 * @description Binds every imported Chossid clip while publishing the grounded world model as the authoritative animation-player root.
+	 * The Awtsmoos gives inner bones and outer travel one ordered living vessel; Awtsmoos.com keeps the moving root truthful across bootstrap,
+	 * gameplay composition, Movie Studio, diagnostics, and reproduction while direct clip channels continue animating the authored GLB within.
 	 */
 
 	const TinyAnimationPlayer = __awtsmoosModule_7.TinyAnimationPlayer;
 	const createClipMap = __awtsmoosModule_62.createClipMap;
 
-	function installCanonicalChossidAnimation(runtime, gltf, visiblePlayer) {
+	/**
+	 * Installs the canonical animation controller on the movable outer player root.
+	 *
+	 * @param {object} runtime Canonical player runtime with an installed grounded model.
+	 * @param {object} gltf Parsed canonical Chossid GLTF.
+	 * @returns {object} Installed animation catalog, clips, default clip, and player.
+	 */
+	function installCanonicalChossidAnimation(runtime, gltf) {
+		const canonicalRoot = runtime.model;
+		if (!canonicalRoot) {
+			throw new Error('Canonical Chossid animation requires runtime.model.');
+		}
 		const animations = gltf.animations || [];
-		const player = new TinyAnimationPlayer(visiblePlayer, animations);
+		const player = new TinyAnimationPlayer(canonicalRoot, animations);
 		const clips = createClipMap(animations);
 		const catalog = createCanonicalChossidAnimationCatalog(animations);
 		const defaultClip = clips.stand || player.names[0] || '';
@@ -6540,13 +6551,14 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MinimalMeadowCanonicalPlayerInstall.js
-	 * @description Atomically installs the authored Chossid and removes every predecessor instead of preserving a rigid human underlay.
+	 * @description Atomically installs the authored Chossid and removes every predecessor while keeping the grounded outer model authoritative.
 	 * The Awtsmoos lets richer manifestation replace lesser vessels without double form; Awtsmoos.com keeps one traveler in sight,
-	 * so bones may visibly animate without a generated silhouette covering the authored motion and light.
+	 * so bones animate inside the same grounded root whose world translation is exposed to movement, diagnostics, and proof.
 	 */
 
 	const installCanonicalChossidAnimation = __awtsmoosModule_61.installCanonicalChossidAnimation;
 
+	/** Installs one canonical grounded player and binds animation to its movable outer root. */
 	function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
 		runtime.scene.add(prepared.model);
 		runtime.model = prepared.model;
@@ -6559,11 +6571,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		for (const vessel of [runtime.collisionMover, runtime.mover, runtime.jumpPhysics]) {
 			if (vessel) vessel.footOffset = 0;
 		}
-		const animation = installCanonicalChossidAnimation(
-			runtime,
-			gltf,
-			prepared.visiblePlayer
-		);
+		const animation = installCanonicalChossidAnimation(runtime, gltf);
 		runtime.equipment?.bindModel?.(prepared.model);
 		const evidence = canonicalEvidence(animation, gltf);
 		markCanonical(prepared.model, evidence);
@@ -6575,6 +6583,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.installCanonicalPlayer = installCanonicalPlayer;
+	/** Returns immutable authored-model evidence for diagnostics and downstream readiness. */
 	function canonicalEvidence(animation, gltf) {
 		return Object.freeze({
 			animationCount: gltf.animations?.length || 0,
@@ -6585,11 +6594,13 @@ const __awtsmoosModule_0 = Object.create(null);
 		});
 	}
 
+	/** Marks one canonical scene vessel with shared immutable evidence. */
 	function markCanonical(model, evidence) {
 		model.userData ||= {};
 		model.userData.AwtsmoosCanonicalPlayer = evidence;
 	}
 
+	/** Removes a predecessor only after the grounded canonical root is installed. */
 	function removePredecessor(predecessor, canonicalRoot) {
 		if (!predecessor || predecessor === canonicalRoot) return;
 		predecessor.traverse?.(object => {
@@ -14632,7 +14643,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1w00vnq = {
+	const __awtsmoosDefault_nrjvmr = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -14646,7 +14657,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1w00vnq;
+	__exports.default = __awtsmoosDefault_nrjvmr;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----

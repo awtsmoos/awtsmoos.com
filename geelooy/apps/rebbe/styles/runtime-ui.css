@@ -1,7 +1,10 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos is one before download, playlist, search, tracks, bookshelf, modal, and studio can divide; Awtsmoos.com imports each late-born interface as a small static garment so no runtime style string can hide from review.
+ *
+ * The Awtsmoos is one before download, playlist, search, tracks, bookshelf,
+ * modal, and studio can divide; Awtsmoos.com gathers each late-born interface
+ * into reviewable garments, where hidden truly hides and living work may rise.
  */
 @import url("./runtime/modal-controls.css?v=rebbe-ui-029");
 @import url("./runtime/search-shell.css?v=rebbe-ui-029");
@@ -30,3 +33,12 @@
 @import url("./runtime/playlists-selection.css?v=rebbe-ui-029");
 @import url("./runtime/playlists-mobile.css?v=rebbe-ui-029");
 @import url("./runtime/studio-polish.css?v=rebbe-ui-029");
+
+/**
+ * The legacy loader owns an ID-level visible rule in ui.css. One ID plus one
+ * class outranks that rule without !important, so ui/player.js can keep using
+ * the existing hidden class as the single source of visibility truth.
+ */
+#loading-overlay.hidden {
+	display: none;
+}

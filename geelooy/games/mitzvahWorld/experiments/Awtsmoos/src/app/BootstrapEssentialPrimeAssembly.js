@@ -4,17 +4,22 @@
 
 /**
  * @file BootstrapEssentialPrimeAssembly.js
- * @description Creates the visible canonical Chossid, real collision-aware movement controller, one rendered prime, and a tiny temporary movement heartbeat.
- * The Awtsmoos gives the traveler body, earth, step, visible world, and living control before later rhythm enters time;
- * Awtsmoos.com proves first play with one lawful stride and keeps that same controller alive until animation, HUD, combat, and rich cadence climb.
+ * @description Creates the canonical Chossid, real collision movement, one rendered prime, and authoritative first-control evidence.
+ * The Awtsmoos gives the traveler a real step before naming the step complete;
+ * Awtsmoos.com records movement only after body, collision, movement update, and visible render have all become fact.
  */
 
 import { startBootstrapEssentialMovementLoop } from './BootstrapEssentialMovementLoop.js';
 import { BootstrapMovementController } from './BootstrapMovementController.js';
 import { createBootstrapEssentialPlayerRuntime } from './BootstrapEssentialPlayerRuntime.js';
 import { attachEretzWorldExperience } from './EretzWorldFeaturePolicy.js';
+import {
+	ESSENTIAL_MILESTONES,
+	completeMitzvahWorldEssentialMilestone
+} from './MitzvahWorldEssentialBoot.js';
+import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 
-/** Builds and visibly primes the real player movement runtime without starting post-control systems. */
+/** Builds, visibly primes, and certifies the real player movement runtime before post-control systems. */
 export function assembleBootstrapEssentialPrime(
 	foundation,
 	options,
@@ -42,12 +47,23 @@ export function assembleBootstrapEssentialPrime(
 	runtime.bootstrapFrames = 1;
 	runtime.lastFrameError = null;
 	runtime.runtimeFrameSource = 'essential-prime';
+	publishMovementReady(environment);
 	runtime.essentialMovementLoop = startLoop(runtime, movement, environment);
 	return {
 		diagnostics: essentialDiagnostics(runtime, movement, qualityProfile, boot),
 		movement,
 		runtime
 	};
+}
+
+/** Publishes the existing movement fact only after the real prime movement transaction succeeds. */
+function publishMovementReady(environment) {
+	completeMitzvahWorldEssentialMilestone(
+		environment,
+		ESSENTIAL_MILESTONES.PLAYER_MOVEMENT_ENABLED,
+		{ importerStage: 'bootstrap-runtime-prime' }
+	);
+	markMitzvahWorldStartupMilestone(environment, 'playerControllable');
 }
 
 /** Renders the moved canonical player through the already-live foundation renderer. */

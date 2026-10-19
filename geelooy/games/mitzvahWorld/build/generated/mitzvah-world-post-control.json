@@ -1,0 +1,28 @@
+{
+	"determinismVerification": "repeat-canonical-build",
+	"deterministic": true,
+	"entry": "experiments/Awtsmoos/src/app/BootstrapPostControlHydration.js",
+	"moduleCount": 1,
+	"modules": [],
+	"name": "post-control",
+	"outputBytes": 224695,
+	"outputHash": "5a1b3b9bcea580190800eb6b47d9829e1a2ddb8cccbe77a9f8be2de3404dff0c",
+	"preserveDynamicImports": false,
+	"representations": {
+		"brotli": {
+			"bytes": 47770,
+			"encoding": "br",
+			"sha256": "4318deca0cab8dad815d7c37a32eed65348a0709f01ef5ad700c6202efa0c723"
+		},
+		"gzip": {
+			"bytes": 57087,
+			"encoding": "gzip",
+			"sha256": "259f59f0509c6220325c0e57de6daecf79a3cb8c459f3752f004502d29323bc5"
+		},
+		"identity": {
+			"bytes": 224695,
+			"encoding": "identity",
+			"sha256": "5a1b3b9bcea580190800eb6b47d9829e1a2ddb8cccbe77a9f8be2de3404dff0c"
+		}
+	}
+}

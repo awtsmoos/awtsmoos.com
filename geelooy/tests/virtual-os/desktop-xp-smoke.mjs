@@ -15,7 +15,12 @@ const files = [
 for (const file of files) if (!fs.existsSync(file)) throw new Error(`${file} missing`);
 
 const icons = read("geelooy/os/desktop/icons.js");
-for (const term of ["command", "Connected Tunnels", "Awtsmoos Virtual OS", "Preview Artifacts"]) {
+// The desktop intentionally surfaces four favorites; Command remains in the
+// complete launcher catalog rather than cluttering the first page.
+const secondary = read("geelooy/os/shell/appCatalogSecondary.js");
+if (!secondary.includes('id: "command"')) throw new Error("Command app missing from launcher catalog");
+if (!icons.includes("surfaceApps(APP_CATALOG)")) throw new Error("desktop favorites not sourced from catalog");
+for (const term of ["connected-tunnels", "Connected Computers", "Awtsmoos Virtual OS", "Preview Artifacts"]) {
 	if (!icons.includes(term)) throw new Error(`desktop icon missing ${term}`);
 }
 for (const [file, term] of [

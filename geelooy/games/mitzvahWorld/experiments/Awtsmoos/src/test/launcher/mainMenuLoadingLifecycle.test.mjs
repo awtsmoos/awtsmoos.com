@@ -1,13 +1,14 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file mainMenuLoadingLifecycle.test.mjs
- * @description Locks menu and direct-world launch to the same strict page-owned loading-to-playable covenant.
- * The Awtsmoos joins one veil to one truthful threshold; Awtsmoos.com lets the menu hand diagnostics back,
- * so physical readiness closes the veil before the word playable can ever cross the final boundary.
+ * @description Locks chooser display and selected gameplay to one strict, exact-once page readiness authority.
+ * The Awtsmoos leaves the doorway open without calling it a world; Awtsmoos.com crowns only real diagnostics,
+ * so menu choice and direct route meet at one finalizer after physical evidence has crossed the threshold.
  */
+
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
@@ -15,13 +16,22 @@ import test from 'node:test';
 const LAUNCHER_ROOT = new URL('../../launcher/', import.meta.url);
 const source = name => readFile(new URL(name, LAUNCHER_ROOT), 'utf8');
 
-test('page boot routes direct and menu gameplay through one strict finalizer', async () => {
+test('page boot treats menu shell as nonterminal and direct routes as gameplay', async () => {
 	const boot = await source('bootMitzvahWorldPage.js');
-	assert.match(boot, /const finalizeGameplay = diagnostics => publishMitzvahWorldPlayable/);
+	assert.match(boot, /requestedMitzvahWorldRoute\(new URLSearchParams\(route\)\)/);
 	assert.match(boot, /onWorldLaunchComplete: finalizeGameplay/);
-	assert.match(boot, /if \(isMitzvahWorldGameplayDiagnostics\(launchedTiferes\)\)/);
-	assert.match(boot, /finalizeGameplay\(launchedTiferes\)/);
-	assert.match(boot, /loadingMalchus\.world\(updateOhr\)/);
+	assert.match(boot, /if \(requestedRoute !== 'menu'\) finalizeGameplay\(launched\)/);
+	assert.doesNotMatch(boot, /launcher returned without gameplay diagnostics/);
+});
+
+test('page gameplay finalizer owns strict diagnostics and exactly-once readiness', async () => {
+	const finalizer = await source('MitzvahWorldPageGameplayFinalizer.js');
+	assert.match(finalizer, /isMitzvahWorldGameplayDiagnostics\(diagnostics\)/);
+	assert.match(finalizer, /completedDiagnostics !== diagnostics/);
+	assert.match(finalizer, /publishMitzvahWorldPlayable\(diagnostics/);
+	assert.match(finalizer, /options\.environment\.AwtsmoosMitzvahWorld = diagnostics/);
+	assert.match(finalizer, /options\.rootState\.setBootStage\('ready'\)/);
+	assert.match(finalizer, /publishMitzvahWorldPageBootReceipt/);
 });
 
 test('launcher forwards selected-world completion authority into menu options', async () => {
@@ -29,7 +39,7 @@ test('launcher forwards selected-world completion authority into menu options', 
 	assert.match(launcher, /onWorldLaunchComplete:\s*dependencies\.onWorldLaunchComplete/);
 });
 
-test('successful menu launch gives the finalizer the real runtime result before transition completion', async () => {
+test('menu gives finalizer the real runtime result before transition completion', async () => {
 	const menu = await source('MainMenu.js');
 	const publish = menu.indexOf('publishMainMenuRuntime(options.environment || globalThis, result)');
 	const finalize = menu.indexOf('options.onWorldLaunchComplete?.(result)');
@@ -40,9 +50,9 @@ test('successful menu launch gives the finalizer the real runtime result before 
 	assert.doesNotMatch(menu.slice(menu.indexOf('} catch (error)')), /onWorldLaunchComplete/);
 });
 
-test('strict publisher finishes and verifies the blocking overlay before runtime publication', async () => {
+test('strict publisher finishes certified essentials before overlay and runtime publication', async () => {
 	const publisher = await source('MitzvahWorldPlayablePublisher.js');
-	const finish = publisher.indexOf('loading.finish()');
+	const finish = publisher.indexOf('loading.finish(essential)');
 	const overlay = publisher.indexOf('inspectMinimalMeadowOverlayDismissal(documentValue)');
 	const playable = publisher.indexOf('markRuntimePlayable(diagnostics, documentValue)');
 	const optional = publisher.indexOf('diagnostics.activatePostPlayable?.()');

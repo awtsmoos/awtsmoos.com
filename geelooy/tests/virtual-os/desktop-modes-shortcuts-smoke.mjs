@@ -14,6 +14,13 @@ for (const term of ['grid','free','office','nextDesktopMode','modeLabel']) asser
 for (const term of ['getDesktopMode','office','free','snap','clamp','avoidCollisions']) assert(layout.includes(term), `layout missing ${term}`);
 for (const term of ['desktop:icon-positions','getDesktopMode','phone']) assert(storage.includes(term), `storage missing ${term}`);
 for (const term of ['addDesktopShortcut','prepareDesktopSurface','createDesktopIconNode','bindDesktopAccessibility']) assert(surface.includes(term), `surface missing ${term}`);
-for (const term of ['loadShortcuts','pinAllPages','badge','page']) assert(icons.includes(term), `icons missing ${term}`);
-for (const term of ['Search desktop','Wallpaper:','Copy Desktop Diagnostics','Install developer template','Lock desktop']) assert(menu.includes(term), `menu missing ${term}`);
+const iconRecords = read('geelooy/os/desktop/iconRecords.js');
+const pages = read('geelooy/os/desktop/pages.js');
+assert(icons.includes('shortcutIcons()'), 'desktop does not compose shortcut records');
+assert(iconRecords.includes('loadShortcuts()'), 'shortcut persistence not connected to icons');
+assert(pages.includes('pinAllPages'), 'all-page shortcut visibility not supported');
+for (const term of ['badge','page']) assert(iconRecords.includes(term), `icon records missing ${term}`);
+const menuItems = read('geelooy/os/desktop/contextMenuItems.js');
+assert(menu.includes('desktopMenuItems(context)'), 'desktop menu does not call menu actions');
+for (const term of ['Search desktop','Wallpaper:','Copy Desktop Diagnostics','Install developer template','Lock desktop']) assert(menuItems.includes(term), `menu items missing ${term}`);
 console.log('B"H desktop-modes-shortcuts-smoke passed');

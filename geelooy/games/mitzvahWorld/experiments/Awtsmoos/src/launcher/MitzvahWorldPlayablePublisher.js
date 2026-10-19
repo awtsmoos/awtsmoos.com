@@ -1,13 +1,14 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MitzvahWorldPlayablePublisher.js
- * @description Owns the sole page-level covenant that may publish a staged gameplay runtime as playable.
- * The Awtsmoos joins rendered light, rooted earth, moving feet, a living camera, and the vanished veil in one refrain;
- * Awtsmoos.com reads movement from the same diagnostics vessel production actually returns, so truthful proof cannot be lost between layers.
+ * @description Owns the sole page covenant that may publish five proven essentials and physical gameplay as playable.
+ * The Awtsmoos joins rendered light, rooted earth, moving feet, living camera, and vanished veil in one refrain;
+ * Awtsmoos.com lowers the loader only with the same certified ledger that later crowns the runtime plain.
  */
+
 import { getMitzvahWorldEssentialBootSnapshot } from '../app/MitzvahWorldEssentialBoot.js';
 import { markRuntimePlayable } from '../app/RuntimeStateMarker.js';
 import {
@@ -26,15 +27,12 @@ export function publishMitzvahWorldPlayable(diagnostics, options = {}) {
 	const loading = options.loading;
 	const essential = getMitzvahWorldEssentialBootSnapshot(environment);
 	assertEssentialReady(essential);
-	const physical = inspectMinimalMeadowPlayableRuntime(
-		diagnostics?.runtime,
-		diagnostics?.movement
-	);
+	const physical = inspectMinimalMeadowPlayableRuntime(diagnostics?.runtime, diagnostics?.movement);
 	assertReceiptReady('physical gameplay', physical);
 	if (!loading || typeof loading.finish !== 'function') {
 		throw new Error('Mitzvah World playable publication requires the page-owned loading screen.');
 	}
-	loading.finish();
+	loading.finish(essential);
 	const overlay = inspectMinimalMeadowOverlayDismissal(documentValue);
 	assertReceiptReady('blocking overlay dismissal', overlay);
 	const receipt = Object.freeze({ essential, overlay, physical, ready: true });

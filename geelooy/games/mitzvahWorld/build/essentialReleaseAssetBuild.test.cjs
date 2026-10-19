@@ -29,7 +29,7 @@ test('canonical JS build regenerates essential release assets before bundle publ
 
 test('every essential packaged asset exactly matches pinned source identity', () => {
 	const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-	assert.equal(manifest.version, 2);
+	assert.equal(manifest.version, 3);
 	for (const [name, definition] of Object.entries(ASSETS)) {
 		const record = manifest.assets[name];
 		const bytes = fs.readFileSync(path.join(assetRoot, definition.fileName));

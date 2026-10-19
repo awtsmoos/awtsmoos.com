@@ -1,388 +1,595 @@
 {
-  "blocking": [],
-  "diagnostics": {
-    "customPropertyConflicts": [],
-    "duplicateKeyframes": [],
-    "globalLeakage": [],
-    "overrides": [],
-    "zIndexConflicts": []
-  },
-  "files": [
-    "styles/source/fragments/mitzvah-world-foundation-002.css",
-    "styles/source/fragments/mitzvah-world-combat-001.css",
-    "styles/source/fragments/mitzvah-world-combat-002.css",
-    "styles/source/fragments/mitzvah-world-combat-target-detail-001.css",
-    "styles/source/fragments/mitzvah-world-combat-003.css",
-    "styles/source/fragments/mitzvah-world-actions-001.css",
-    "styles/source/fragments/mitzvah-world-action-interactions-001.css",
-    "styles/source/fragments/mitzvah-world-actions-002.css",
-    "styles/source/fragments/mitzvah-world-actions-003-minimap-controls.css",
-    "styles/source/fragments/mitzvah-world-game-rail-001.css",
-    "styles/source/fragments/mitzvah-world-glyphs-001.css",
-    "styles/source/fragments/mitzvah-world-houses-001.css",
-    "styles/source/fragments/mitzvah-world-inventory-001.css",
-    "styles/source/fragments/mitzvah-world-inventory-002.css",
-    "styles/source/fragments/mitzvah-world-loading-001.css",
-    "styles/source/fragments/mitzvah-world-loading-002.css",
-    "styles/source/fragments/mitzvah-world-boot-future-001.css",
-    "styles/source/fragments/mitzvah-world-boot-future-002.css",
-    "styles/source/fragments/mitzvah-world-meadow-hud-001.css",
-    "styles/source/fragments/mitzvah-world-direct-action-001.css",
-    "styles/source/fragments/mitzvah-world-meadow-menu-001.css",
-    "styles/source/fragments/mitzvah-world-menu-shell-001.css",
-    "styles/source/fragments/mitzvah-world-mobile-001.css",
-    "styles/source/fragments/mitzvah-world-mobile-jump-001.css",
-    "styles/source/fragments/mitzvah-world-panels-001.css",
-    "styles/source/fragments/mitzvah-world-panel-surfaces-001.css",
-    "styles/source/fragments/mitzvah-world-quest-001.css",
-    "styles/source/fragments/mitzvah-world-quest-controls-001.css",
-    "styles/source/fragments/mitzvah-world-quest-tracker-001.css",
-    "styles/source/fragments/mitzvah-world-runtime-responsive-001.css",
-    "styles/source/fragments/mitzvah-world-runtime-states-001.css",
-    "styles/source/fragments/mitzvah-world-runtime-motion-001.css",
-    "styles/source/fragments/mitzvah-world-status-001.css",
-    "styles/source/fragments/mitzvah-world-status-002.css",
-    "styles/source/fragments/mitzvah-world-runtime-mounts-002.css",
-    "styles/source/fragments/mitzvah-world-direct-layout-001.css",
-    "styles/source/fragments/mitzvah-world-cinematic-mobile-001.css",
-    "styles/source/fragments/mitzvah-world-future-hud-001.css",
-    "styles/source/fragments/mitzvah-world-future-hud-002.css",
-    "styles/source/imports-001.css",
-    "styles/creative-dock/mitzvah-world-creative-dock-layout.css",
-    "styles/creative-dock/mitzvah-world-creative-dock-core.css",
-    "styles/creative-dock/mitzvah-world-creative-dock-motion.css",
-    "styles/creative-dock/mitzvah-world-creative-dock-action-layout.css",
-    "styles/creative-dock/mitzvah-world-creative-dock-action-states.css",
-    "styles/creative-dock/mitzvah-world-creative-dock-subviews.css",
-    "styles/creative-dock/mitzvah-world-creative-dock-controls.css",
-    "styles/creative-dock/mitzvah-world-creative-dock-responsive.css",
-    "styles/creative-dock/mitzvah-world-creative-dock-accessibility.css",
-    "styles/creator-rail/mitzvah-world-creator-rail-core.css",
-    "styles/creator-rail/mitzvah-world-creator-rail-layout.css",
-    "styles/creator-rail/mitzvah-world-creator-rail-controls.css",
-    "styles/creator-rail/mitzvah-world-creator-rail-states.css",
-    "styles/creator-rail/mitzvah-world-creator-rail-responsive.css",
-    "styles/creator-rail/mitzvah-world-creator-rail-accessibility.css",
-    "styles/mitzvah-world-creator-rail.css",
-    "styles/mitzvah-world-creative-dock.css",
-    "styles/source/mitzvah-world.css"
-  ],
-  "inputBytes": 124558,
-  "outputBytes": 110271,
-  "sourcePolicy": {
-    "errors": [],
-    "files": [
-      {
-        "bytes": 2851,
-        "lines": 104,
-        "path": "styles/source/fragments/mitzvah-world-foundation-002.css"
-      },
-      {
-        "bytes": 3044,
-        "lines": 112,
-        "path": "styles/source/fragments/mitzvah-world-combat-001.css"
-      },
-      {
-        "bytes": 2057,
-        "lines": 88,
-        "path": "styles/source/fragments/mitzvah-world-combat-002.css"
-      },
-      {
-        "bytes": 902,
-        "lines": 35,
-        "path": "styles/source/fragments/mitzvah-world-combat-target-detail-001.css"
-      },
-      {
-        "bytes": 776,
-        "lines": 35,
-        "path": "styles/source/fragments/mitzvah-world-combat-003.css"
-      },
-      {
-        "bytes": 2791,
-        "lines": 104,
-        "path": "styles/source/fragments/mitzvah-world-actions-001.css"
-      },
-      {
-        "bytes": 2770,
-        "lines": 72,
-        "path": "styles/source/fragments/mitzvah-world-action-interactions-001.css"
-      },
-      {
-        "bytes": 1739,
-        "lines": 68,
-        "path": "styles/source/fragments/mitzvah-world-actions-002.css"
-      },
-      {
-        "bytes": 2845,
-        "lines": 89,
-        "path": "styles/source/fragments/mitzvah-world-actions-003-minimap-controls.css"
-      },
-      {
-        "bytes": 2614,
-        "lines": 109,
-        "path": "styles/source/fragments/mitzvah-world-game-rail-001.css"
-      },
-      {
-        "bytes": 2144,
-        "lines": 86,
-        "path": "styles/source/fragments/mitzvah-world-glyphs-001.css"
-      },
-      {
-        "bytes": 1145,
-        "lines": 36,
-        "path": "styles/source/fragments/mitzvah-world-houses-001.css"
-      },
-      {
-        "bytes": 2460,
-        "lines": 108,
-        "path": "styles/source/fragments/mitzvah-world-inventory-001.css"
-      },
-      {
-        "bytes": 2160,
-        "lines": 91,
-        "path": "styles/source/fragments/mitzvah-world-inventory-002.css"
-      },
-      {
-        "bytes": 3172,
-        "lines": 105,
-        "path": "styles/source/fragments/mitzvah-world-loading-001.css"
-      },
-      {
-        "bytes": 3056,
-        "lines": 115,
-        "path": "styles/source/fragments/mitzvah-world-loading-002.css"
-      },
-      {
-        "bytes": 3462,
-        "lines": 104,
-        "path": "styles/source/fragments/mitzvah-world-boot-future-001.css"
-      },
-      {
-        "bytes": 5384,
-        "lines": 94,
-        "path": "styles/source/fragments/mitzvah-world-boot-future-002.css"
-      },
-      {
-        "bytes": 2565,
-        "lines": 96,
-        "path": "styles/source/fragments/mitzvah-world-meadow-hud-001.css"
-      },
-      {
-        "bytes": 2307,
-        "lines": 71,
-        "path": "styles/source/fragments/mitzvah-world-direct-action-001.css"
-      },
-      {
-        "bytes": 2804,
-        "lines": 96,
-        "path": "styles/source/fragments/mitzvah-world-meadow-menu-001.css"
-      },
-      {
-        "bytes": 2724,
-        "lines": 94,
-        "path": "styles/source/fragments/mitzvah-world-menu-shell-001.css"
-      },
-      {
-        "bytes": 2966,
-        "lines": 91,
-        "path": "styles/source/fragments/mitzvah-world-mobile-001.css"
-      },
-      {
-        "bytes": 1904,
-        "lines": 62,
-        "path": "styles/source/fragments/mitzvah-world-mobile-jump-001.css"
-      },
-      {
-        "bytes": 2705,
-        "lines": 92,
-        "path": "styles/source/fragments/mitzvah-world-panels-001.css"
-      },
-      {
-        "bytes": 1706,
-        "lines": 57,
-        "path": "styles/source/fragments/mitzvah-world-panel-surfaces-001.css"
-      },
-      {
-        "bytes": 2773,
-        "lines": 112,
-        "path": "styles/source/fragments/mitzvah-world-quest-001.css"
-      },
-      {
-        "bytes": 1805,
-        "lines": 56,
-        "path": "styles/source/fragments/mitzvah-world-quest-controls-001.css"
-      },
-      {
-        "bytes": 1680,
-        "lines": 55,
-        "path": "styles/source/fragments/mitzvah-world-quest-tracker-001.css"
-      },
-      {
-        "bytes": 1615,
-        "lines": 57,
-        "path": "styles/source/fragments/mitzvah-world-runtime-responsive-001.css"
-      },
-      {
-        "bytes": 3135,
-        "lines": 104,
-        "path": "styles/source/fragments/mitzvah-world-runtime-states-001.css"
-      },
-      {
-        "bytes": 1146,
-        "lines": 54,
-        "path": "styles/source/fragments/mitzvah-world-runtime-motion-001.css"
-      },
-      {
-        "bytes": 2694,
-        "lines": 118,
-        "path": "styles/source/fragments/mitzvah-world-status-001.css"
-      },
-      {
-        "bytes": 2259,
-        "lines": 91,
-        "path": "styles/source/fragments/mitzvah-world-status-002.css"
-      },
-      {
-        "bytes": 1307,
-        "lines": 47,
-        "path": "styles/source/fragments/mitzvah-world-runtime-mounts-002.css"
-      },
-      {
-        "bytes": 3102,
-        "lines": 107,
-        "path": "styles/source/fragments/mitzvah-world-direct-layout-001.css"
-      },
-      {
-        "bytes": 3878,
-        "lines": 104,
-        "path": "styles/source/fragments/mitzvah-world-cinematic-mobile-001.css"
-      },
-      {
-        "bytes": 3223,
-        "lines": 82,
-        "path": "styles/source/fragments/mitzvah-world-future-hud-001.css"
-      },
-      {
-        "bytes": 2575,
-        "lines": 82,
-        "path": "styles/source/fragments/mitzvah-world-future-hud-002.css"
-      },
-      {
-        "bytes": 2730,
-        "lines": 48,
-        "path": "styles/source/imports-001.css"
-      },
-      {
-        "bytes": 2205,
-        "lines": 74,
-        "path": "styles/creative-dock/mitzvah-world-creative-dock-layout.css"
-      },
-      {
-        "bytes": 2632,
-        "lines": 89,
-        "path": "styles/creative-dock/mitzvah-world-creative-dock-core.css"
-      },
-      {
-        "bytes": 831,
-        "lines": 20,
-        "path": "styles/creative-dock/mitzvah-world-creative-dock-motion.css"
-      },
-      {
-        "bytes": 1823,
-        "lines": 65,
-        "path": "styles/creative-dock/mitzvah-world-creative-dock-action-layout.css"
-      },
-      {
-        "bytes": 2370,
-        "lines": 76,
-        "path": "styles/creative-dock/mitzvah-world-creative-dock-action-states.css"
-      },
-      {
-        "bytes": 1428,
-        "lines": 55,
-        "path": "styles/creative-dock/mitzvah-world-creative-dock-subviews.css"
-      },
-      {
-        "bytes": 527,
-        "lines": 12,
-        "path": "styles/creative-dock/mitzvah-world-creative-dock-controls.css"
-      },
-      {
-        "bytes": 1279,
-        "lines": 43,
-        "path": "styles/creative-dock/mitzvah-world-creative-dock-responsive.css"
-      },
-      {
-        "bytes": 692,
-        "lines": 25,
-        "path": "styles/creative-dock/mitzvah-world-creative-dock-accessibility.css"
-      },
-      {
-        "bytes": 2184,
-        "lines": 77,
-        "path": "styles/creator-rail/mitzvah-world-creator-rail-core.css"
-      },
-      {
-        "bytes": 2287,
-        "lines": 69,
-        "path": "styles/creator-rail/mitzvah-world-creator-rail-layout.css"
-      },
-      {
-        "bytes": 2909,
-        "lines": 105,
-        "path": "styles/creator-rail/mitzvah-world-creator-rail-controls.css"
-      },
-      {
-        "bytes": 2356,
-        "lines": 60,
-        "path": "styles/creator-rail/mitzvah-world-creator-rail-states.css"
-      },
-      {
-        "bytes": 1773,
-        "lines": 56,
-        "path": "styles/creator-rail/mitzvah-world-creator-rail-responsive.css"
-      },
-      {
-        "bytes": 1620,
-        "lines": 60,
-        "path": "styles/creator-rail/mitzvah-world-creator-rail-accessibility.css"
-      },
-      {
-        "bytes": 796,
-        "lines": 15,
-        "path": "styles/mitzvah-world-creator-rail.css"
-      },
-      {
-        "bytes": 922,
-        "lines": 16,
-        "path": "styles/mitzvah-world-creative-dock.css"
-      },
-      {
-        "bytes": 421,
-        "lines": 11,
-        "path": "styles/source/mitzvah-world.css"
-      }
-    ]
-  },
-  "stateCoverage": {
-    "missing": [],
-    "ready": true
-  },
-  "representations": {
-    "brotli": {
-      "bytes": 14490,
-      "encoding": "br",
-      "sha256": "2cf44d4f8ad6b70b792063e8498ee6f9858dac31ec412f8194809a896bdf417d"
-    },
-    "gzip": {
-      "bytes": 17370,
-      "encoding": "gzip",
-      "sha256": "64902e26afb0dc46f3d049608767e777a5fbda2de7b794cf857a75844c00d6de"
-    },
-    "identity": {
-      "bytes": 110271,
-      "encoding": "identity",
-      "sha256": "2642796834024604cb4b11f404df8dd170e7b9e26e808dd093aa377d724e637b"
-    }
-  }
+	"blocking": [
+		{
+			"code": "line-limit",
+			"detail": "128 lines exceeds 120.",
+			"path": "styles/source/fragments/mitzvah-world-combat-002.css"
+		},
+		{
+			"code": "important",
+			"detail": "`!important` is forbidden in active localized source.",
+			"path": "styles/source/fragments/mitzvah-world-combat-002.css"
+		},
+		{
+			"code": "line-limit",
+			"detail": "126 lines exceeds 120.",
+			"path": "styles/source/fragments/mitzvah-world-actions-001.css"
+		},
+		{
+			"code": "line-limit",
+			"detail": "178 lines exceeds 120.",
+			"path": "styles/source/fragments/mitzvah-world-game-rail-001.css"
+		},
+		{
+			"code": "important",
+			"detail": "`!important` is forbidden in active localized source.",
+			"path": "styles/source/fragments/mitzvah-world-inventory-001.css"
+		},
+		{
+			"code": "line-limit",
+			"detail": "152 lines exceeds 120.",
+			"path": "styles/source/fragments/mitzvah-world-runtime-states-001.css"
+		},
+		{
+			"code": "line-limit",
+			"detail": "127 lines exceeds 120.",
+			"path": "styles/source/fragments/mitzvah-world-cinematic-mobile-001.css"
+		},
+		{
+			"code": "line-limit",
+			"detail": "157 lines exceeds 120.",
+			"path": "styles/creator-rail/mitzvah-world-creator-rail-controls.css"
+		},
+		":root",
+		"[data-theme=\"light\"]",
+		"[data-target-collapse]:hover",
+		"[data-target-collapse]:active",
+		"[data-target-collapse]:focus-visible",
+		"[data-collapse]:hover",
+		"[data-collapse]:active",
+		"[data-collapse]:focus-visible",
+		"[data-rail-collapse]:hover",
+		"[data-rail-collapse]:active",
+		"[data-rail-collapse]:focus-visible",
+		":root",
+		"[data-theme=\"light\"]",
+		"a[href]:hover",
+		"a[href]:active",
+		"a[href]:focus-visible",
+		"[role=\"button\"]:hover",
+		"[role=\"button\"]:active",
+		"[role=\"button\"]:focus-visible",
+		"[role=\"button\"]:hover",
+		"[role=\"button\"]:active",
+		"[role=\"button\"]:focus-visible",
+		"a[href]:hover",
+		"a[href]:active",
+		"a[href]:focus-visible",
+		"summary:hover",
+		"summary:focus-visible",
+		"button[data-retract-toggle]:hover",
+		"button[data-retract-toggle]:active",
+		"button[data-retract-toggle]:focus-visible",
+		"[role=\"button\"]:hover",
+		"[role=\"button\"]:active",
+		"[role=\"button\"]:focus-visible",
+		"a[href]:hover",
+		"a[href]:active",
+		"a[href]:focus-visible",
+		".Awtsmoos-creative-dock__actions button:hover",
+		".Awtsmoos-creative-dock__actions button:active",
+		".Awtsmoos-creative-dock__actions button:focus-visible",
+		"button:hover",
+		"button:active",
+		"button:focus-visible",
+		"summary:hover",
+		"summary:active",
+		"summary:focus-visible",
+		{
+			"key": "root|#mitzvah-world-root .Awtsmoos-combat-bar button:focus-visible|outline",
+			"next": "2px solid currentColor",
+			"previous": "2px solid #ffe4a2"
+		},
+		{
+			"key": "root|#mitzvah-world-root .Awtsmoos-combat-bar button:focus-visible|outline-offset",
+			"next": "2px",
+			"previous": "3px"
+		},
+		{
+			"key": "root|#mitzvah-world-root .Awtsmoos-action-bar button,\n#mitzvah-world-root .Mitzvah-action-slot|color",
+			"next": "var(--aw-text)",
+			"previous": "var(--mw-text-primary)"
+		},
+		{
+			"key": "root|#mitzvah-world-root .Awtsmoos-creative-dock__trigger > span:first-child|color",
+			"next": "var(--aw-text)",
+			"previous": "rgba(179, 255, 206, 0.9)"
+		},
+		{
+			"key": "root|#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary)|color",
+			"next": "var(--aw-text)",
+			"previous": "var(--Awtsmoos-creator-text)"
+		}
+	],
+	"diagnostics": {
+		"customPropertyConflicts": [],
+		"duplicateKeyframes": [],
+		"globalLeakage": [
+			":root",
+			"[data-theme=\"light\"]",
+			"[data-target-collapse]:hover",
+			"[data-target-collapse]:active",
+			"[data-target-collapse]:focus-visible",
+			"[data-collapse]:hover",
+			"[data-collapse]:active",
+			"[data-collapse]:focus-visible",
+			"[data-rail-collapse]:hover",
+			"[data-rail-collapse]:active",
+			"[data-rail-collapse]:focus-visible",
+			":root",
+			"[data-theme=\"light\"]",
+			"a[href]:hover",
+			"a[href]:active",
+			"a[href]:focus-visible",
+			"[role=\"button\"]:hover",
+			"[role=\"button\"]:active",
+			"[role=\"button\"]:focus-visible",
+			"[role=\"button\"]:hover",
+			"[role=\"button\"]:active",
+			"[role=\"button\"]:focus-visible",
+			"a[href]:hover",
+			"a[href]:active",
+			"a[href]:focus-visible",
+			"summary:hover",
+			"summary:focus-visible",
+			"button[data-retract-toggle]:hover",
+			"button[data-retract-toggle]:active",
+			"button[data-retract-toggle]:focus-visible",
+			"[role=\"button\"]:hover",
+			"[role=\"button\"]:active",
+			"[role=\"button\"]:focus-visible",
+			"a[href]:hover",
+			"a[href]:active",
+			"a[href]:focus-visible",
+			".Awtsmoos-creative-dock__actions button:hover",
+			".Awtsmoos-creative-dock__actions button:active",
+			".Awtsmoos-creative-dock__actions button:focus-visible",
+			"button:hover",
+			"button:active",
+			"button:focus-visible",
+			"summary:hover",
+			"summary:active",
+			"summary:focus-visible"
+		],
+		"overrides": [
+			{
+				"key": "root|#mitzvah-world-root .Awtsmoos-combat-bar button:focus-visible|outline",
+				"next": "2px solid currentColor",
+				"previous": "2px solid #ffe4a2"
+			},
+			{
+				"key": "root|#mitzvah-world-root .Awtsmoos-combat-bar button:focus-visible|outline-offset",
+				"next": "2px",
+				"previous": "3px"
+			},
+			{
+				"key": "root|#mitzvah-world-root .Awtsmoos-action-bar button,\n#mitzvah-world-root .Mitzvah-action-slot|color",
+				"next": "var(--aw-text)",
+				"previous": "var(--mw-text-primary)"
+			},
+			{
+				"key": "root|#mitzvah-world-root .Awtsmoos-creative-dock__trigger > span:first-child|color",
+				"next": "var(--aw-text)",
+				"previous": "rgba(179, 255, 206, 0.9)"
+			},
+			{
+				"key": "root|#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary)|color",
+				"next": "var(--aw-text)",
+				"previous": "var(--Awtsmoos-creator-text)"
+			}
+		],
+		"zIndexConflicts": []
+	},
+	"files": [
+		"styles/source/fragments/mitzvah-world-foundation-002.css",
+		"styles/source/fragments/mitzvah-world-combat-001.css",
+		"styles/source/fragments/mitzvah-world-combat-002.css",
+		"styles/source/fragments/mitzvah-world-combat-target-detail-001.css",
+		"styles/source/fragments/mitzvah-world-combat-003.css",
+		"styles/source/fragments/mitzvah-world-actions-001.css",
+		"styles/source/fragments/mitzvah-world-action-interactions-001.css",
+		"styles/source/fragments/mitzvah-world-actions-002.css",
+		"styles/source/fragments/mitzvah-world-actions-003-minimap-controls.css",
+		"styles/source/fragments/mitzvah-world-game-rail-001.css",
+		"styles/source/fragments/mitzvah-world-glyphs-001.css",
+		"styles/source/fragments/mitzvah-world-houses-001.css",
+		"styles/source/fragments/mitzvah-world-inventory-001.css",
+		"styles/source/fragments/mitzvah-world-inventory-002.css",
+		"styles/source/fragments/mitzvah-world-loading-001.css",
+		"styles/source/fragments/mitzvah-world-loading-002.css",
+		"styles/source/fragments/mitzvah-world-boot-future-001.css",
+		"styles/source/fragments/mitzvah-world-boot-future-002.css",
+		"styles/source/fragments/mitzvah-world-meadow-hud-001.css",
+		"styles/source/fragments/mitzvah-world-direct-action-001.css",
+		"styles/source/fragments/mitzvah-world-meadow-menu-001.css",
+		"styles/source/fragments/mitzvah-world-menu-shell-001.css",
+		"styles/source/fragments/mitzvah-world-mobile-001.css",
+		"styles/source/fragments/mitzvah-world-mobile-jump-001.css",
+		"styles/source/fragments/mitzvah-world-panels-001.css",
+		"styles/source/fragments/mitzvah-world-panel-surfaces-001.css",
+		"styles/source/fragments/mitzvah-world-quest-001.css",
+		"styles/source/fragments/mitzvah-world-quest-controls-001.css",
+		"styles/source/fragments/mitzvah-world-quest-tracker-001.css",
+		"styles/source/fragments/mitzvah-world-runtime-responsive-001.css",
+		"styles/source/fragments/mitzvah-world-runtime-states-001.css",
+		"styles/source/fragments/mitzvah-world-runtime-motion-001.css",
+		"styles/source/fragments/mitzvah-world-status-001.css",
+		"styles/source/fragments/mitzvah-world-status-002.css",
+		"styles/source/fragments/mitzvah-world-runtime-mounts-002.css",
+		"styles/source/fragments/mitzvah-world-direct-layout-001.css",
+		"styles/source/fragments/mitzvah-world-cinematic-mobile-001.css",
+		"styles/source/fragments/mitzvah-world-future-hud-001.css",
+		"styles/source/fragments/mitzvah-world-future-hud-002.css",
+		"styles/source/imports-001.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-layout.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-core.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-motion.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-action-layout.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-action-states.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-subviews.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-controls.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-responsive.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-accessibility.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-core.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-layout.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-controls.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-states.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-responsive.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-accessibility.css",
+		"styles/mitzvah-world-creator-rail.css",
+		"styles/mitzvah-world-creative-dock.css",
+		"styles/source/mitzvah-world.css"
+	],
+	"inputBytes": 160737,
+	"outputBytes": 114504,
+	"sourcePolicy": {
+		"errors": [
+			{
+				"code": "line-limit",
+				"detail": "128 lines exceeds 120.",
+				"path": "styles/source/fragments/mitzvah-world-combat-002.css"
+			},
+			{
+				"code": "important",
+				"detail": "`!important` is forbidden in active localized source.",
+				"path": "styles/source/fragments/mitzvah-world-combat-002.css"
+			},
+			{
+				"code": "line-limit",
+				"detail": "126 lines exceeds 120.",
+				"path": "styles/source/fragments/mitzvah-world-actions-001.css"
+			},
+			{
+				"code": "line-limit",
+				"detail": "178 lines exceeds 120.",
+				"path": "styles/source/fragments/mitzvah-world-game-rail-001.css"
+			},
+			{
+				"code": "important",
+				"detail": "`!important` is forbidden in active localized source.",
+				"path": "styles/source/fragments/mitzvah-world-inventory-001.css"
+			},
+			{
+				"code": "line-limit",
+				"detail": "152 lines exceeds 120.",
+				"path": "styles/source/fragments/mitzvah-world-runtime-states-001.css"
+			},
+			{
+				"code": "line-limit",
+				"detail": "127 lines exceeds 120.",
+				"path": "styles/source/fragments/mitzvah-world-cinematic-mobile-001.css"
+			},
+			{
+				"code": "line-limit",
+				"detail": "157 lines exceeds 120.",
+				"path": "styles/creator-rail/mitzvah-world-creator-rail-controls.css"
+			}
+		],
+		"files": [
+			{
+				"bytes": 3406,
+				"lines": 114,
+				"path": "styles/source/fragments/mitzvah-world-foundation-002.css"
+			},
+			{
+				"bytes": 3329,
+				"lines": 114,
+				"path": "styles/source/fragments/mitzvah-world-combat-001.css"
+			},
+			{
+				"bytes": 3684,
+				"lines": 128,
+				"path": "styles/source/fragments/mitzvah-world-combat-002.css"
+			},
+			{
+				"bytes": 1105,
+				"lines": 36,
+				"path": "styles/source/fragments/mitzvah-world-combat-target-detail-001.css"
+			},
+			{
+				"bytes": 1417,
+				"lines": 48,
+				"path": "styles/source/fragments/mitzvah-world-combat-003.css"
+			},
+			{
+				"bytes": 3702,
+				"lines": 126,
+				"path": "styles/source/fragments/mitzvah-world-actions-001.css"
+			},
+			{
+				"bytes": 4146,
+				"lines": 98,
+				"path": "styles/source/fragments/mitzvah-world-action-interactions-001.css"
+			},
+			{
+				"bytes": 1942,
+				"lines": 69,
+				"path": "styles/source/fragments/mitzvah-world-actions-002.css"
+			},
+			{
+				"bytes": 3130,
+				"lines": 91,
+				"path": "styles/source/fragments/mitzvah-world-actions-003-minimap-controls.css"
+			},
+			{
+				"bytes": 4930,
+				"lines": 178,
+				"path": "styles/source/fragments/mitzvah-world-game-rail-001.css"
+			},
+			{
+				"bytes": 2347,
+				"lines": 87,
+				"path": "styles/source/fragments/mitzvah-world-glyphs-001.css"
+			},
+			{
+				"bytes": 1348,
+				"lines": 37,
+				"path": "styles/source/fragments/mitzvah-world-houses-001.css"
+			},
+			{
+				"bytes": 2962,
+				"lines": 117,
+				"path": "styles/source/fragments/mitzvah-world-inventory-001.css"
+			},
+			{
+				"bytes": 2445,
+				"lines": 93,
+				"path": "styles/source/fragments/mitzvah-world-inventory-002.css"
+			},
+			{
+				"bytes": 3375,
+				"lines": 106,
+				"path": "styles/source/fragments/mitzvah-world-loading-001.css"
+			},
+			{
+				"bytes": 3340,
+				"lines": 117,
+				"path": "styles/source/fragments/mitzvah-world-loading-002.css"
+			},
+			{
+				"bytes": 3911,
+				"lines": 108,
+				"path": "styles/source/fragments/mitzvah-world-boot-future-001.css"
+			},
+			{
+				"bytes": 6485,
+				"lines": 106,
+				"path": "styles/source/fragments/mitzvah-world-boot-future-002.css"
+			},
+			{
+				"bytes": 2768,
+				"lines": 97,
+				"path": "styles/source/fragments/mitzvah-world-meadow-hud-001.css"
+			},
+			{
+				"bytes": 2510,
+				"lines": 72,
+				"path": "styles/source/fragments/mitzvah-world-direct-action-001.css"
+			},
+			{
+				"bytes": 3367,
+				"lines": 108,
+				"path": "styles/source/fragments/mitzvah-world-meadow-menu-001.css"
+			},
+			{
+				"bytes": 3070,
+				"lines": 96,
+				"path": "styles/source/fragments/mitzvah-world-menu-shell-001.css"
+			},
+			{
+				"bytes": 3169,
+				"lines": 92,
+				"path": "styles/source/fragments/mitzvah-world-mobile-001.css"
+			},
+			{
+				"bytes": 2509,
+				"lines": 74,
+				"path": "styles/source/fragments/mitzvah-world-mobile-jump-001.css"
+			},
+			{
+				"bytes": 3271,
+				"lines": 104,
+				"path": "styles/source/fragments/mitzvah-world-panels-001.css"
+			},
+			{
+				"bytes": 2720,
+				"lines": 87,
+				"path": "styles/source/fragments/mitzvah-world-panel-surfaces-001.css"
+			},
+			{
+				"bytes": 3271,
+				"lines": 120,
+				"path": "styles/source/fragments/mitzvah-world-quest-001.css"
+			},
+			{
+				"bytes": 2090,
+				"lines": 58,
+				"path": "styles/source/fragments/mitzvah-world-quest-controls-001.css"
+			},
+			{
+				"bytes": 1883,
+				"lines": 56,
+				"path": "styles/source/fragments/mitzvah-world-quest-tracker-001.css"
+			},
+			{
+				"bytes": 2550,
+				"lines": 81,
+				"path": "styles/source/fragments/mitzvah-world-runtime-responsive-001.css"
+			},
+			{
+				"bytes": 4597,
+				"lines": 152,
+				"path": "styles/source/fragments/mitzvah-world-runtime-states-001.css"
+			},
+			{
+				"bytes": 1349,
+				"lines": 55,
+				"path": "styles/source/fragments/mitzvah-world-runtime-motion-001.css"
+			},
+			{
+				"bytes": 2978,
+				"lines": 120,
+				"path": "styles/source/fragments/mitzvah-world-status-001.css"
+			},
+			{
+				"bytes": 2626,
+				"lines": 94,
+				"path": "styles/source/fragments/mitzvah-world-status-002.css"
+			},
+			{
+				"bytes": 2140,
+				"lines": 69,
+				"path": "styles/source/fragments/mitzvah-world-runtime-mounts-002.css"
+			},
+			{
+				"bytes": 3305,
+				"lines": 108,
+				"path": "styles/source/fragments/mitzvah-world-direct-layout-001.css"
+			},
+			{
+				"bytes": 5113,
+				"lines": 127,
+				"path": "styles/source/fragments/mitzvah-world-cinematic-mobile-001.css"
+			},
+			{
+				"bytes": 3980,
+				"lines": 98,
+				"path": "styles/source/fragments/mitzvah-world-future-hud-001.css"
+			},
+			{
+				"bytes": 3683,
+				"lines": 113,
+				"path": "styles/source/fragments/mitzvah-world-future-hud-002.css"
+			},
+			{
+				"bytes": 2933,
+				"lines": 49,
+				"path": "styles/source/imports-001.css"
+			},
+			{
+				"bytes": 2408,
+				"lines": 75,
+				"path": "styles/creative-dock/mitzvah-world-creative-dock-layout.css"
+			},
+			{
+				"bytes": 3289,
+				"lines": 102,
+				"path": "styles/creative-dock/mitzvah-world-creative-dock-core.css"
+			},
+			{
+				"bytes": 1116,
+				"lines": 22,
+				"path": "styles/creative-dock/mitzvah-world-creative-dock-motion.css"
+			},
+			{
+				"bytes": 3189,
+				"lines": 96,
+				"path": "styles/creative-dock/mitzvah-world-creative-dock-action-layout.css"
+			},
+			{
+				"bytes": 3812,
+				"lines": 109,
+				"path": "styles/creative-dock/mitzvah-world-creative-dock-action-states.css"
+			},
+			{
+				"bytes": 2087,
+				"lines": 67,
+				"path": "styles/creative-dock/mitzvah-world-creative-dock-subviews.css"
+			},
+			{
+				"bytes": 730,
+				"lines": 13,
+				"path": "styles/creative-dock/mitzvah-world-creative-dock-controls.css"
+			},
+			{
+				"bytes": 1563,
+				"lines": 45,
+				"path": "styles/creative-dock/mitzvah-world-creative-dock-responsive.css"
+			},
+			{
+				"bytes": 1428,
+				"lines": 46,
+				"path": "styles/creative-dock/mitzvah-world-creative-dock-accessibility.css"
+			},
+			{
+				"bytes": 2469,
+				"lines": 79,
+				"path": "styles/creator-rail/mitzvah-world-creator-rail-core.css"
+			},
+			{
+				"bytes": 2490,
+				"lines": 70,
+				"path": "styles/creator-rail/mitzvah-world-creator-rail-layout.css"
+			},
+			{
+				"bytes": 5191,
+				"lines": 157,
+				"path": "styles/creator-rail/mitzvah-world-creator-rail-controls.css"
+			},
+			{
+				"bytes": 3445,
+				"lines": 83,
+				"path": "styles/creator-rail/mitzvah-world-creator-rail-states.css"
+			},
+			{
+				"bytes": 2516,
+				"lines": 69,
+				"path": "styles/creator-rail/mitzvah-world-creator-rail-responsive.css"
+			},
+			{
+				"bytes": 2842,
+				"lines": 84,
+				"path": "styles/creator-rail/mitzvah-world-creator-rail-accessibility.css"
+			},
+			{
+				"bytes": 999,
+				"lines": 16,
+				"path": "styles/mitzvah-world-creator-rail.css"
+			},
+			{
+				"bytes": 1125,
+				"lines": 17,
+				"path": "styles/mitzvah-world-creative-dock.css"
+			},
+			{
+				"bytes": 624,
+				"lines": 12,
+				"path": "styles/source/mitzvah-world.css"
+			}
+		]
+	},
+	"stateCoverage": {
+		"missing": [],
+		"ready": true
+	}
 }

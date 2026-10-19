@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-const Parameters = require("./controlParameters.cjs");
+const ActionPath = require("./renderActionPath.cjs");
 const Guidance = require("./guidance.cjs");
 const Support = require("./renderControlSupport.cjs");
 const Transfer = require("./renderTransferGet.cjs");
@@ -10,9 +10,8 @@ const Transfer = require("./renderTransferGet.cjs");
 /**
  * @file Renders the compact Awtsmoos Tunnel OpenAPI document.
  * @description
- * The Awtsmoos keeps ordinary deeds small and gives great files their own river;
- * Awtsmoos.com exposes bounded resumable GET transfer separately so giant bodies never
- * have to become generic query strings merely to reach an owned tunnel.
+ * The Awtsmoos keeps ordinary deeds small and gives great intent a body rather than an endless URI;
+ * Awtsmoos.com preserves the legacy GET doorway while the primary action covenant travels as JSON.
  */
 function render(actions = []) {
 	return [
@@ -21,7 +20,7 @@ function render(actions = []) {
 		...devicePath(),
 		...hostedSafePath(),
 		...simpleSecurePaths(),
-		...actionPath(actions),
+		...ActionPath.render(actions),
 		...Transfer.render(),
 		...Support.previewPath(),
 		...Support.components(),
@@ -37,7 +36,7 @@ function header() {
 		"openapi: 3.1.0",
 		"info:",
 		"  title: Awtsmoos Tunnel Control GPT Actions",
-		"  version: 8.1.0-compact-transfer",
+		"  version: 9.0.0-body-first",
 		`  description: ${JSON.stringify(Guidance.RESPONSE_RULE)}`,
 		"servers:",
 		"  - url: https://awtsmoos.com",
@@ -46,12 +45,7 @@ function header() {
 }
 
 function bootstrapPath() {
-	return simpleGet(
-		"/api/tunnel/control/bootstrap",
-		"awtsmoosBootstrap",
-		"Get setup instructions.",
-		"[]"
-	);
+	return simpleGet("/api/tunnel/control/bootstrap", "awtsmoosBootstrap", "Get setup instructions.", "[]");
 }
 
 function devicePath() {
@@ -74,14 +68,13 @@ function simpleGet(pathName, operationId, summary, security) {
 	];
 }
 
-/** Document the two implemented hosted execution modes without implying a native shell. */
 function hostedSafePath() {
 	return [
 		"  /api/tunnel/control/fs/awtsmoos-os:",
 		"    get:",
 		"      operationId: awtsmoosHostedSafeAction",
 		"      summary: Run a hosted Virtual OS read-only command or bounded public HTTP GET.",
-		"      description: Hosted commands run only against account-owned VFS (not native shell); HTTP GET pins public DNS and blocks internal targets and unsafe redirects.",
+		"      description: Hosted commands run only against account-owned VFS; HTTP GET pins public DNS and blocks internal targets and unsafe redirects.",
 		"      security: [{ OAuth2: [profile, tunnel.read] }, { OAuth2: [profile, tunnel.command] }]",
 		"      parameters:",
 		"        - { name: action, in: query, required: true, schema: { type: string, enum: [httpGet, commandRun] } }",
@@ -94,14 +87,13 @@ function hostedSafePath() {
 	];
 }
 
-/** Limited native Simple Tunnel GET compatibility, authenticated separately from OAuth. */
 function simpleSecurePaths() {
 	return [
 		"  /api/tunnel/control/simple/cmd:",
 		"    get:",
 		"      operationId: awtsmoosSimpleEnqueue",
 		"      summary: Enqueue a limited native command with a private client header or expiring signed URL.",
-		"      description: GET-only clients must use expires, nonce and HMAC sig; never embed long-lived keys in URLs. Agent ID is required and commands are policy-gated on the agent.",
+		"      description: GET-only clients must use expires, nonce and HMAC sig; agent ID is required and commands are policy-gated on the agent.",
 		"      security: [{ SimpleClientKey: [] }, { SimpleSignedUrl: [] }]",
 		"      parameters:",
 		"        - { name: agentId, in: query, required: true, schema: { type: string } }",
@@ -128,28 +120,6 @@ function simpleSecurePaths() {
 		"      security: [{ SimpleClientKey: [] }, { SimpleSignedUrl: [] }]",
 		"      responses:",
 		"        '200': { description: Authorized queue status or structured denial }"
-	];
-}
-
-function actionPath(actions) {
-	return [
-		"  /api/tunnel/control/fs/{tunnelName}:",
-		"    get:",
-		"      operationId: awtsmoosTunnelAction",
-		"      summary: Run one compact tunnel capability and exact internal operation.",
-		`      description: ${JSON.stringify(Guidance.RESPONSE_RULE)}`,
-		"      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.mission, tunnel.room, tunnel.admin] }]",
-		"      parameters:",
-		"        - { name: tunnelName, in: path, required: true, schema: { type: string } }",
-		"        - name: action",
-		"          in: query",
-		"          required: true",
-		"          schema:",
-		"            type: string",
-		"            enum:",
-		...actions.map(action => `              - ${action}`),
-		...Parameters.render(),
-		...Support.responseLines()
 	];
 }
 

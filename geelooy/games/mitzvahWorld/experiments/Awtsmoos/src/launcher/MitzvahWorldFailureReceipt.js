@@ -1,43 +1,59 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MitzvahWorldFailureReceipt.js
- * @description Converts startup fractures into one compact release-aware failure receipt for loader, HUD, tests, and diagnostics.
- * The Awtsmoos recreates even the broken finite road and therefore permits its exact edge to be named;
- * Awtsmoos.com records condition, URL, source, bundle, and release together so recovery never hides behind a vague failure framed.
+ * @description Converts startup fractures into one release-aware evidence receipt for loader, HUD, tests, and diagnostics.
+ * The Awtsmoos recreates even a broken finite road and therefore permits its exact edge to be named;
+ * Awtsmoos.com records vessel, context, milestone, resource, release, and elapsed time so no failure hides framed.
  */
 
 import { MITZVAH_WORLD_RELEASE_VERSIONS } from './MitzvahWorldReleaseIdentity.js';
 
 const NOT_PLAYABLE_PREFIX = 'MINIMAL_MEADOW_NOT_PLAYABLE:';
 
-/** Produces one immutable normalized startup failure receipt. */
+/** Produces one immutable normalized startup failure receipt with first-frame evidence when available. */
 export function createMitzvahWorldFailureReceipt(errorOhr) {
 	const error = errorOhr instanceof Error ? errorOhr : new Error(String(errorOhr));
 	const message = error.message || String(errorOhr);
-	const unmetConditions = extractUnmetConditions(message);
+	const viewportEvidence = error.viewportEvidence || error.cause?.viewportEvidence || null;
 	return Object.freeze({
 		...MITZVAH_WORLD_RELEASE_VERSIONS,
+		canvasDimensions: viewportEvidence ? Object.freeze({
+			clientHeight: viewportEvidence.clientHeight,
+			clientWidth: viewportEvidence.clientWidth,
+			rectHeight: viewportEvidence.rectHeight,
+			rectWidth: viewportEvidence.rectWidth
+		}) : null,
 		code: error.code || failureCode(message),
+		contextCreationResult: error.contextCreationResult || 'unknown',
 		detail: error.detail || '',
-		failedUrl: findFailedUrl(error),
+		elapsedMs: finiteOrNull(error.elapsedMs),
+		failedResource: findFailedUrl(error),
 		message,
+		milestone: error.currentMilestone || error.milestone || error.stage || 'startup',
 		stage: error.stage || 'startup',
-		unmetConditions: Object.freeze(unmetConditions)
+		unmetConditions: Object.freeze(extractUnmetConditions(message)),
+		viewportEvidence
 	});
 }
 
-/** Formats the exact finite evidence shown to players and copied into diagnostics. */
+/** Formats finite evidence shown to players and copied into diagnostics. */
 export function formatMitzvahWorldFailureReceipt(receipt) {
 	const conditions = receipt.unmetConditions?.length
 		? receipt.unmetConditions.join(', ')
 		: receipt.code || 'unknown-startup-condition';
-	const url = receipt.failedUrl || 'not reported';
+	const canvas = receipt.canvasDimensions
+		? `${receipt.canvasDimensions.clientWidth}x${receipt.canvasDimensions.clientHeight}`
+		: 'not measured';
 	return [
 		`Unmet: ${conditions}`,
-		`URL: ${url}`,
+		`Milestone: ${receipt.milestone}`,
+		`Canvas: ${canvas}`,
+		`Context: ${receipt.contextCreationResult}`,
+		`Resource: ${receipt.failedResource || 'not reported'}`,
+		`Elapsed: ${receipt.elapsedMs ?? 'unknown'} ms`,
 		`Release: ${receipt.releaseId}`,
 		`Source: ${receipt.sourceVersion} · Bundle: ${receipt.bundleVersion}`
 	].join('\n');
@@ -66,4 +82,9 @@ function findFailedUrl(error) {
 		if (typeof cause?.[key] === 'string' && cause[key]) return cause[key];
 	}
 	return '';
+}
+
+function finiteOrNull(value) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : null;
 }

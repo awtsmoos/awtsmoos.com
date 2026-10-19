@@ -4,13 +4,14 @@
 
 /**
  * @file MinimalMeadowCanonicalPlayerInstall.js
- * @description Atomically installs the authored Chossid and removes every predecessor instead of preserving a rigid human underlay.
+ * @description Atomically installs the authored Chossid and removes every predecessor while keeping the grounded outer model authoritative.
  * The Awtsmoos lets richer manifestation replace lesser vessels without double form; Awtsmoos.com keeps one traveler in sight,
- * so bones may visibly animate without a generated silhouette covering the authored motion and light.
+ * so bones animate inside the same grounded root whose world translation is exposed to movement, diagnostics, and proof.
  */
 
 import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimation.js';
 
+/** Installs one canonical grounded player and binds animation to its movable outer root. */
 export function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
 	runtime.scene.add(prepared.model);
 	runtime.model = prepared.model;
@@ -23,11 +24,7 @@ export function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
 	for (const vessel of [runtime.collisionMover, runtime.mover, runtime.jumpPhysics]) {
 		if (vessel) vessel.footOffset = 0;
 	}
-	const animation = installCanonicalChossidAnimation(
-		runtime,
-		gltf,
-		prepared.visiblePlayer
-	);
+	const animation = installCanonicalChossidAnimation(runtime, gltf);
 	runtime.equipment?.bindModel?.(prepared.model);
 	const evidence = canonicalEvidence(animation, gltf);
 	markCanonical(prepared.model, evidence);
@@ -37,6 +34,7 @@ export function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
 	return Object.freeze({ animation, evidence, visualGuard: null });
 }
 
+/** Returns immutable authored-model evidence for diagnostics and downstream readiness. */
 function canonicalEvidence(animation, gltf) {
 	return Object.freeze({
 		animationCount: gltf.animations?.length || 0,
@@ -47,11 +45,13 @@ function canonicalEvidence(animation, gltf) {
 	});
 }
 
+/** Marks one canonical scene vessel with shared immutable evidence. */
 function markCanonical(model, evidence) {
 	model.userData ||= {};
 	model.userData.AwtsmoosCanonicalPlayer = evidence;
 }
 
+/** Removes a predecessor only after the grounded canonical root is installed. */
 function removePredecessor(predecessor, canonicalRoot) {
 	if (!predecessor || predecessor === canonicalRoot) return;
 	predecessor.traverse?.(object => {

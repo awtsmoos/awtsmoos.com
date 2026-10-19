@@ -47,7 +47,20 @@ export function installViewport(runtime, environment = globalThis) {
 		publishViewportStats(runtime, density);
 	};
 	runtime.resizeViewport = resize;
+	const canvas = runtime.renderer?.canvas;
+	const ResizeObserverType = environment.ResizeObserver || globalThis.ResizeObserver;
+	const observer = canvas && typeof ResizeObserverType === 'function'
+		? new ResizeObserverType(resize)
+		: null;
+	observer?.observe(canvas);
+	const visualViewport = environment.visualViewport;
 	environment.addEventListener?.('resize', resize, { passive: true });
+	visualViewport?.addEventListener?.('resize', resize, { passive: true });
+	runtime.disposeViewport = () => {
+		observer?.disconnect?.();
+		environment.removeEventListener?.('resize', resize);
+		visualViewport?.removeEventListener?.('resize', resize);
+	};
 	resize();
 	return resize;
 }

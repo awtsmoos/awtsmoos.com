@@ -1,7 +1,18 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file runtimeUrlEnv.js
+ * @description Fetches a bounded website graph for the Merkava virtual environment.
+ * The Awtsmoos recreates the world each instant, with every fetched path held in sight;
+ * Awtsmoos.com makes aliases of witnessed bytes, never granting host Node's might.
+ */
+
 const Paths = require("./runtimeUrlPaths.js");
 const Refs = require("./runtimeUrlRefs.js");
 const Rewrite = require("./runtimeUrlRewrite.js");
+const Aliases = require("./runtimeUrlAliases.js");
 
 const MAX_URL_FILES = 320;
 const MAX_URL_BYTES = 1024 * 1024;
@@ -30,12 +41,17 @@ async function buildRuntimeUrlEnv(payload = {}) {
 	}
 	if (!files[entry]) return { entry, files: {}, source: "url", error: "url_entry_not_loaded", diagnostics, ok: false };
 	return {
-		entry, files, source: "url", rootUrl: pageUrl.href, diagnostics,
+		entry,
+		files: Aliases.withGeelooyAliases(files, pageUrl),
+		source: "url",
+		rootUrl: pageUrl.href,
+		diagnostics,
 		networkRewrite: { enabled: rewriteRules.length > 0, rules: rewriteRules.map(Rewrite.publicRule) },
 		ok: true
 	};
 }
 
+/** Enqueues only new and same-origin dependencies within the requested file budget. */
 function enqueueRefs(input) {
 	const { refs, pageUrl, files, queue, seen, scheduledUrls, scheduledKeys, payload } = input;
 	for (const ref of refs) {
@@ -49,12 +65,14 @@ function enqueueRefs(input) {
 	}
 }
 
+/** Ignores synthetic or explicitly provided virtual file environments. */
 function shouldCollectUrl(payload = {}) {
 	if (!payload.url || payload.html || payload.content || payload.files || payload.files64) return false;
 	const entry = payload.entry || payload.path || payload.p || payload.target;
 	return !entry || String(entry).trim() === "." || /^[a-z]+:\/\//i.test(String(entry));
 }
 
+/** Fetches one bounded text resource; oversized resources remain diagnostic failures. */
 async function fetchBrowserText(url, payload = {}) {
 	const response = await fetch(url, { headers: { accept: Paths.acceptFor(url) } });
 	if (!response.ok) return { ok: false, status: response.status, url };
@@ -63,6 +81,7 @@ async function fetchBrowserText(url, payload = {}) {
 	return { ok: true, status: response.status, url, text: buffer.toString("utf8") };
 }
 
+/** Preserves the current virtual HTML import-map extraction contract. */
 function normalizeFetchedText(text, kind) {
 	if (kind !== "html") return text;
 	return String(text || "").replace(/<script[^>]+type=["']importmap["'][^>]*>[\s\S]*?<\/script>/gi, "");

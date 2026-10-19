@@ -54408,12 +54408,12 @@ const __awtsmoosModule_2873 = __awtsmoosSharedModules[2873];
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_tb3ovh = {
+	const __awtsmoosDefault_1ep8c8g = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_tb3ovh;
+	__exports.default = __awtsmoosDefault_1ep8c8g;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js ----

@@ -1,10 +1,10 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file minimalSharedMeadowReadinessFlow.test.mjs
- * @description Proves the loader-owned blocking veil is dismissed and verified before the runtime may publish playable state.
+ * @description Proves loader dismissal and playable publication from the same world-loading predecessor production uses.
  * The Awtsmoos lets Awtsmoos.com open one truthful gate: painted world, grounded traveler, live collision,
  * camera and control first; then the veil departs; only afterward may the public playable word unfold.
  */
@@ -18,10 +18,13 @@ import {
 	readyRuntime,
 	webGlRenderer
 } from '../app/RendererReadinessTestHarness.mjs';
+import { prepareMitzvahWorldWorldLoading } from './MitzvahWorldBootStateTestHarness.mjs';
 
 test('loader dismissal is verified before playable publication', async () => {
 	const order = [];
 	const documentValue = fakeDocument();
+	const environment = immediatePaintEnvironment(order);
+	prepareMitzvahWorldWorldLoading(environment, documentValue);
 	const optionalPromise = new Promise(() => {});
 	const rendererPromise = new Promise(() => {});
 	const runtime = readyRuntime(webGlRenderer());
@@ -36,7 +39,7 @@ test('loader dismissal is verified before playable publication', async () => {
 	const receipt = await runMinimalSharedMeadowReadiness({
 		diagnostics,
 		documentValue,
-		environment: immediatePaintEnvironment(order),
+		environment,
 		loading: loadingLedger(order, documentValue)
 	});
 	assert.deepEqual(order.slice(0, 4), [
@@ -53,6 +56,8 @@ test('loader dismissal is verified before playable publication', async () => {
 test('structural failure never dismisses the loader', async () => {
 	const order = [];
 	const documentValue = fakeDocument();
+	const environment = immediatePaintEnvironment(order);
+	prepareMitzvahWorldWorldLoading(environment, documentValue);
 	const runtime = readyRuntime(webGlRenderer());
 	runtime.model = null;
 	const diagnostics = {
@@ -64,7 +69,7 @@ test('structural failure never dismisses the loader', async () => {
 		runMinimalSharedMeadowReadiness({
 			diagnostics,
 			documentValue,
-			environment: immediatePaintEnvironment(order),
+			environment,
 			loading: loadingLedger(order, documentValue)
 		}),
 		/MINIMAL_MEADOW_NOT_PLAYABLE:bootstrap-player/

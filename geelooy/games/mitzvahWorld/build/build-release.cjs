@@ -4,9 +4,9 @@
 
 /**
  * @file build-release.cjs
- * @description Runs the complete local release build, tests mandatory gates and public examiner wiring, hashes artifacts, and refuses dirty custody.
+ * @description Runs the complete local release build, mandatory gates, content-identity proof, custody, and refusal on contradiction.
  * The Awtsmoos joins measure to measure until one receipt may speak without contradiction;
- * Awtsmoos.com lets CSS, CompactJS, essential grass, public release wiring, tests, and Git custody pass one narrow gate before deployment permission.
+ * Awtsmoos.com lets CSS, CompactJS, essential assets, hashed preload identity, tests, and Git custody pass one narrow gate.
  */
 
 const fs = require('node:fs');
@@ -28,6 +28,7 @@ try {
 		'experiments/Awtsmoos/src/app/MitzvahWorldChunkReleaseProbe.test.js',
 		'experiments/Awtsmoos/src/app/MitzvahWorldReleaseEvidenceGate.test.js',
 		'build/essentialReleaseAssetBuild.test.cjs',
+		'build/runtimeChunkPreloadIdentity.test.cjs',
 		'build/productionBuild.test.cjs'
 	], { cwd: gameRoot }));
 	const custody = createReleaseArtifactCustody(gameRoot);

@@ -1,16 +1,17 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file mitzvahWorldPlayablePublisher.test.mjs
- * @description Executes strict staged publication against the production-shaped diagnostics response.
+ * @description Executes strict publication from the same world-loading predecessor production reaches before ready.
  * The Awtsmoos joins every witness before one truthful word may shine;
- * Awtsmoos.com guards the top-level movement vessel and bootstrap camera path that reach phones and browsers in the living release.
+ * Awtsmoos.com guards movement, grounding, camera, and the legal boot road that living browsers must actually traverse.
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { publishMitzvahWorldPlayable } from '../../launcher/MitzvahWorldPlayablePublisher.js';
+import { prepareMitzvahWorldWorldLoading } from './MitzvahWorldBootStateTestHarness.mjs';
 import {
 	cleanupPlayablePublisherVessel,
 	completePlayablePublisherEssentials,
@@ -19,8 +20,7 @@ import {
 } from './MitzvahWorldPlayablePublisherHarness.mjs';
 
 test('production-shaped bootstrap diagnostics publish after the movement prime', () => {
-	const vessel = createPlayablePublisherVessel();
-	completePlayablePublisherEssentials(vessel.environment);
+	const vessel = readyPublisherVessel();
 	let activated = 0;
 	const diagnostics = createPlayableDiagnostics();
 	diagnostics.activatePostPlayable = () => { activated += 1; };
@@ -41,8 +41,7 @@ test('production-shaped bootstrap diagnostics publish after the movement prime',
 });
 
 test('missing grounded proof blocks loader dismissal and publication', () => {
-	const vessel = createPlayablePublisherVessel();
-	completePlayablePublisherEssentials(vessel.environment);
+	const vessel = readyPublisherVessel();
 	const diagnostics = createPlayableDiagnostics();
 	diagnostics.runtime.state.grounded = false;
 	assert.throws(
@@ -55,8 +54,7 @@ test('missing grounded proof blocks loader dismissal and publication', () => {
 });
 
 test('missing top-level movement prime reproduces the original mobile blocker exactly', () => {
-	const vessel = createPlayablePublisherVessel();
-	completePlayablePublisherEssentials(vessel.environment);
+	const vessel = readyPublisherVessel();
 	const diagnostics = createPlayableDiagnostics();
 	diagnostics.movement = null;
 	assert.throws(
@@ -66,3 +64,10 @@ test('missing top-level movement prime reproduces the original mobile blocker ex
 	assert.equal(vessel.finishCount(), 0);
 	cleanupPlayablePublisherVessel(vessel.environment);
 });
+
+function readyPublisherVessel() {
+	const vessel = createPlayablePublisherVessel();
+	completePlayablePublisherEssentials(vessel.environment);
+	prepareMitzvahWorldWorldLoading(vessel.environment, vessel.options.documentValue);
+	return vessel;
+}

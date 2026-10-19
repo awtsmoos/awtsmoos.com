@@ -1,27 +1,19 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MeadowLoadingScreen.js
- * @description Coordinates the blocking boot veil, measured resources, authored Chossid progress, essential proof, and structured failure truth.
- * The Awtsmoos lets Awtsmoos.com raise one truthful curtain before network work and lower it only after witnessed first play;
- * measured bytes remain measured, failures remain exact, and neither may impersonate readiness along the way.
+ * @description Keeps the blocking veil visible until essential proof and boot state agree.
+ * The Awtsmoos lowers no curtain while one witness is hidden; Awtsmoos.com reveals play only through one truthful gate.
  */
-
 import { markMitzvahWorldStartupMilestone } from '../app/MitzvahWorldStartupMilestones.js';
-import {
-	ensureMitzvahWorldBootVeil,
-	transitionMitzvahWorldBootState
-} from '../app/MitzvahWorldBootStateMachine.js';
+import { ensureMitzvahWorldBootVeil, transitionMitzvahWorldBootState } from '../app/MitzvahWorldBootStateMachine.js';
 import { MitzvahWorldBootExperience } from '../ui/boot/MitzvahWorldBootExperience.js';
 import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
+import { assertCertifiedEssential, failureHeadline } from './MeadowLoadingEvidence.js';
 import { createMitzvahWorldFailureReceipt } from './MitzvahWorldFailureReceipt.js';
-import {
-	formatMalchusBytes,
-	normalizeTiferesProgress,
-	presentYesodMeasuredBar
-} from './MeadowLoadingProgress.js';
+import { formatMalchusBytes, normalizeTiferesProgress, presentYesodMeasuredBar } from './MeadowLoadingProgress.js';
 
 const MODEL_PHASE_LABELS_BINAH = Object.freeze({
 	'canonical-unavailable': 'Authored Chossid unavailable · gameplay held',
@@ -55,7 +47,6 @@ export class MeadowLoadingScreen {
 		delete this.root.dataset.loadingComplete;
 		delete this.root.dataset.loadingFailure;
 		delete this.root.dataset.failureReceipt;
-		// The single boot state machine owns veil visibility; re-publish without transitioning.
 		ensureMitzvahWorldBootVeil(this.environment, this.document);
 		this.root.hidden = false;
 		this.root.setAttribute('aria-hidden', 'false');
@@ -66,33 +57,34 @@ export class MeadowLoadingScreen {
 
 	world(updateChesed = {}) {
 		if (updateChesed.blocking === true) this.block();
-		const progressTiferes = normalizeTiferesProgress(updateChesed.progress ?? 0);
-		presentYesodMeasuredBar(this.worldBar, this.worldValue, progressTiferes);
+		const progress = normalizeTiferesProgress(updateChesed.progress ?? 0);
+		presentYesodMeasuredBar(this.worldBar, this.worldValue, progress);
 		if (updateChesed.message) this.message.textContent = updateChesed.message;
 	}
 
 	model(updateChesed = {}) {
-		const phaseBinah = updateChesed.phase || 'waiting';
-		const progressTiferes = Number.isFinite(updateChesed.progress)
+		const phase = updateChesed.phase || 'waiting';
+		const progress = Number.isFinite(updateChesed.progress)
 			? normalizeTiferesProgress(updateChesed.progress)
 			: null;
-		presentYesodMeasuredBar(this.modelBar, this.modelValue, progressTiferes);
-		if (phaseBinah === 'download') {
+		presentYesodMeasuredBar(this.modelBar, this.modelValue, progress);
+		if (phase === 'download') {
 			this.modelDetail.textContent = updateChesed.total > 0
 				? `${formatMalchusBytes(updateChesed.loaded)} of ${formatMalchusBytes(updateChesed.total)}`
 				: `${formatMalchusBytes(updateChesed.loaded)} received · total unavailable`;
 			return;
 		}
-		this.modelDetail.textContent = phaseBinah === 'parsing'
+		this.modelDetail.textContent = phase === 'parsing'
 			? `Parsing ${formatMalchusBytes(updateChesed.loaded || updateChesed.total || 0)} locally…`
-			: MODEL_PHASE_LABELS_BINAH[phaseBinah] || phaseBinah;
+			: MODEL_PHASE_LABELS_BINAH[phase] || phase;
 	}
 
-	finish() {
+	finish(essential) {
+		assertCertifiedEssential(essential);
+		const state = transitionMitzvahWorldBootState(this.environment, this.document, 'ready', { code: 'LOADER_FINISH' });
+		if (state !== 'ready') throw new Error(`Mitzvah World loader cannot finish from boot state: ${state}.`);
 		this.world({ message: 'Essential world ready.', progress: 1 });
 		this.experience.complete();
-		// The machine refuses ready unless boot truly left starting, and hides the veil itself.
-		transitionMitzvahWorldBootState(this.environment, this.document, 'ready', { code: 'LOADER_FINISH' });
 		this.rootStateMalchus.setFlag('menuReady', true);
 		this.root.dataset.loadingComplete = 'true';
 		this.root.hidden = true;
@@ -104,17 +96,16 @@ export class MeadowLoadingScreen {
 
 	fail(errorOhr) {
 		const receipt = createMitzvahWorldFailureReceipt(errorOhr);
+		const headline = failureHeadline(receipt);
 		this.block();
 		transitionMitzvahWorldBootState(this.environment, this.document, 'failed', {
-			code: receipt.code || 'LOADER_FAILED',
-			message: failureHeadline(receipt),
-			stage: receipt.stage || null,
-			url: receipt.url || null
+			code: receipt.code || 'LOADER_FAILED', message: headline,
+			stage: receipt.stage || null, url: receipt.url || null
 		});
 		this.rootStateMalchus.setBootStage('failed');
 		this.root.dataset.loadingFailure = 'true';
 		this.root.dataset.failureReceipt = JSON.stringify(receipt);
-		this.message.textContent = failureHeadline(receipt);
+		this.message.textContent = headline;
 		this.experience.fail(errorOhr);
 		return receipt;
 	}
@@ -125,9 +116,5 @@ export class MeadowLoadingScreen {
 	}
 }
 
-function failureHeadline(receipt) {
-	const unmet = receipt.unmetConditions?.[0] || receipt.code;
-	return `Playable meadow blocked · ${unmet}`;
-}
-
+export { assertCertifiedEssential } from './MeadowLoadingEvidence.js';
 export default MeadowLoadingScreen;

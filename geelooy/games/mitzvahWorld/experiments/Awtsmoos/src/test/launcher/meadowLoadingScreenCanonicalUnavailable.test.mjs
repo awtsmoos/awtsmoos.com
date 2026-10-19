@@ -1,36 +1,31 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file meadowLoadingScreenCanonicalUnavailable.test.mjs
- * @description Proves canonical Chossid absence remains visible and blocking world work can reopen a veil hidden for menu choice.
- * The Awtsmoos lets Awtsmoos.com lower the curtain only for deliberate selection; once chosen work begins, the same veil rises
- * before the network crossing and stays truthful through authored-player failure instead of exposing an unfinished HUD shell.
+ * @description Proves the strict loader blocks before readiness, reveals certified readiness, and preserves failure evidence.
+ * The Awtsmoos lets Awtsmoos.com lower the curtain only after the real boot road reaches world-loading;
+ * authored-player absence remains visible without a second reporting fracture hiding the first one.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { transitionMitzvahWorldBootState } from '../../app/MitzvahWorldBootStateMachine.js';
 import { MeadowLoadingScreen } from '../../launcher/MeadowLoadingScreen.js';
 
 test('canonical-unavailable says gameplay is held for the authored Chossid', () => {
 	const vessel = fixture();
 	const screen = new MeadowLoadingScreen(vessel.document, vessel.environment);
 	screen.model({ phase: 'canonical-unavailable' });
-	assert.equal(
-		vessel.elements.modelProgressDetail.textContent,
-		'Authored Chossid unavailable · gameplay held'
-	);
+	assert.equal(vessel.elements.modelProgressDetail.textContent, 'Authored Chossid unavailable · gameplay held');
 	assert.equal(vessel.elements.modelProgressDetail.textContent.includes('fallback'), false);
 	screen.dispose();
 });
 
-test('blocking selected-world progress reopens a veil previously finished for the menu', () => {
+test('blocking world progress stays visible before certified readiness', () => {
 	const vessel = fixture();
 	const screen = new MeadowLoadingScreen(vessel.document, vessel.environment);
-	screen.finish();
-	assert.equal(vessel.elements.menuBoot.hidden, true);
-	assert.equal(vessel.elements.menuBoot.dataset.loadingComplete, 'true');
 	screen.world({
 		blocking: true,
 		message: 'Loading the selected gameplay capability…',
@@ -45,17 +40,41 @@ test('blocking selected-world progress reopens a veil previously finished for th
 	screen.dispose();
 });
 
-test('failure keeps the blocking veil visible instead of exposing the world shell', () => {
+test('certified world-loading state can finish exactly through ready', () => {
 	const vessel = fixture();
 	const screen = new MeadowLoadingScreen(vessel.document, vessel.environment);
-	screen.finish();
-	screen.fail(new Error('Authored Chossid unavailable'));
+	prepareWorldLoading(vessel);
+	screen.finish(certifiedEssential());
+	assert.equal(vessel.elements.menuBoot.hidden, true);
+	assert.equal(vessel.elements.menuBoot.dataset.loadingComplete, 'true');
+	assert.equal(vessel.elements['mitzvah-world-root'].dataset.awtsmoosGameplay, 'true');
+});
+
+test('failure stays blocking without throwing while reporting the original fracture', () => {
+	const vessel = fixture();
+	const screen = new MeadowLoadingScreen(vessel.document, vessel.environment);
+	const receipt = screen.fail(new Error('Authored Chossid unavailable'));
+	assert.equal(receipt.message, 'Authored Chossid unavailable');
 	assert.equal(vessel.elements.menuBoot.hidden, false);
 	assert.equal(vessel.elements.menuBoot.dataset.loadingFailure, 'true');
 	assert.equal(vessel.elements.menuBoot['aria-busy'], 'true');
 	assert.equal(vessel.elements.loadingMessage.textContent, 'Authored Chossid unavailable');
 	screen.dispose();
 });
+
+function prepareWorldLoading(vessel) {
+	for (const state of ['painting', 'launcher-loading', 'launching', 'world-loading']) {
+		assert.equal(transitionMitzvahWorldBootState(vessel.environment, vessel.document, state), state);
+	}
+}
+
+function certifiedEssential() {
+	const names = ['canvas', 'renderer', 'terrain', 'player', 'controls'];
+	return {
+		certified: true,
+		milestones: Object.fromEntries(names.map(name => [name, { status: 'complete' }]))
+	};
+}
 
 function fixture() {
 	const ids = [

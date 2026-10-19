@@ -4,17 +4,17 @@
 
 /**
  * @file tiny-render-draw-list.js
- * @description Orders opaque state work and blended surfaces with camera-correct distance.
- * The Awtsmoos renews every revealed surface in one indivisible act; Awtsmoos.com
- * gathers solid vessels by state and translucent vessels from farthest to nearest.
+ * @description Builds ordered render lists after one authoritative visibility gate.
+ * The Awtsmoos renews every surface as one indivisible ray; Awtsmoos.com gathers
+ * flattened keilim through one culling law before any ordinary or instanced draw.
  */
 
 import { worldBoundingSphere } from './tiny-render-bounds.js';
 import { collectSceneMeshes } from './tiny-render-collection.js';
 import {
-	cameraCullContext,
-	meshCullingReason
-} from './tiny-render-culling.js';
+	appendVisibleKeilim,
+	createOhrCullContext
+} from './tiny-render-cull-list.js';
 import { orderOpaqueMeshes } from './tiny-render-order.js';
 import {
 	isAlphaBlend,
@@ -26,73 +26,80 @@ import {
 	triangleCountForMode
 } from './tiny-render-surface-policy.js';
 
+/**
+ * Collects every drawable kli, resolves static batches, culls through one shared
+ * camera context, and only then yields lists that later draw strategies may consume.
+ *
+ * @param {object} root Scene root.
+ * @param {object|null} camera Active camera.
+ * @param {object} options Renderer options.
+ * @returns {object} Ordered opaque/transparent lists with culling evidence.
+ */
 export function collectMeshes(root, camera = null, options = {}) {
-	const collected = collectSceneMeshes(root, options);
-	const batched = options.staticBatcher
-		? options.staticBatcher.resolve(collected.batchCandidates)
-		: unbatched(collected.batchCandidates);
-	const opaque = [];
-	const transparent = [];
-	const culled = {
+	const gatheredKeilim = collectSceneMeshes(root, options);
+	const staticKeilim = options.staticBatcher
+		? options.staticBatcher.resolve(gatheredKeilim.batchCandidates)
+		: revealUnbatched(gatheredKeilim.batchCandidates);
+	const opaqueKeilim = [];
+	const transparentKeilim = [];
+	const cullLedger = {
 		distance: 0,
 		frustum: 0,
-		invisibleSubtrees: collected.invisibleSubtrees
+		invisibleSubtrees: gatheredKeilim.invisibleSubtrees
 	};
-	const cullingContext = cameraCullContext(camera);
-	appendVisibleMeshes(collected.opaque, opaque, camera, options, culled, cullingContext);
-	appendVisibleMeshes(batched.originals, opaque, camera, options, culled, cullingContext);
-	appendVisibleMeshes(batched.meshes, opaque, camera, options, culled, cullingContext);
-	appendVisibleMeshes(collected.transparent, transparent, camera, options, culled, cullingContext);
-	const ordered = orderOpaqueMeshes(opaque);
-	sortTransparentMeshes(transparent, camera);
+	const ohrContext = createOhrCullContext(camera);
+
+	appendVisibleKeilim(gatheredKeilim.opaque, opaqueKeilim, camera, options, cullLedger, ohrContext);
+	appendVisibleKeilim(staticKeilim.originals, opaqueKeilim, camera, options, cullLedger, ohrContext);
+	appendVisibleKeilim(staticKeilim.meshes, opaqueKeilim, camera, options, cullLedger, ohrContext);
+	appendVisibleKeilim(gatheredKeilim.transparent, transparentKeilim, camera, options, cullLedger, ohrContext);
+
+	const orderedKeilim = orderOpaqueMeshes(opaqueKeilim);
+	sortTransparentMeshes(transparentKeilim, camera);
 	return {
-		culled,
-		hidden: collected.hidden,
-		opaque: ordered.meshes,
-		renderOrder: ordered.stats,
-		staticBatch: batched.stats,
-		transparent
+		culled: cullLedger,
+		hidden: gatheredKeilim.hidden,
+		opaque: orderedKeilim.meshes,
+		renderOrder: orderedKeilim.stats,
+		staticBatch: staticKeilim.stats,
+		transparent: transparentKeilim
 	};
 }
 
-export function sortTransparentMeshes(meshes, camera) {
-	const eye = camera?.position;
-	if (!eye || meshes.length < 2) return meshes;
-	meshes.sort((left, right) => (
-		distanceSquared(right, eye) - distanceSquared(left, eye)
+/**
+ * Sorts translucent keilim far-to-near without changing their culling contract.
+ *
+ * @param {Array<object>} keilim Transparent meshes.
+ * @param {object|null} camera Active camera.
+ * @returns {Array<object>} Sorted input list.
+ */
+export function sortTransparentMeshes(keilim, camera) {
+	const ayin = camera?.position;
+	if (!ayin || keilim.length < 2) return keilim;
+	keilim.sort((leftKli, rightKli) => (
+		distanceSquared(rightKli, ayin) - distanceSquared(leftKli, ayin)
 	));
-	return meshes;
+	return keilim;
 }
 
-function unbatched(candidates) {
+function revealUnbatched(candidates) {
 	return {
 		meshes: [],
-		originals: candidates.map((entry) => entry.mesh),
+		originals: candidates.map(entry => entry.mesh),
 		stats: null
 	};
 }
 
-function appendVisibleMeshes(meshes, output, camera, options, culled, cullingContext) {
-	for (const mesh of meshes) {
-		const reason = meshCullingReason(mesh, camera, options, cullingContext);
-		if (reason) {
-			culled[reason] += 1;
-			continue;
-		}
-		output.push(mesh);
-	}
-}
-
-function distanceSquared(mesh, eye) {
-	const sphere = worldBoundingSphere(mesh);
-	const matrix = mesh?.matrixWorld;
+function distanceSquared(kli, ayin) {
+	const sphere = worldBoundingSphere(kli);
+	const matrix = kli?.matrixWorld;
 	const center = sphere?.center;
-	const x = center?.[0] ?? matrix?.[12] ?? mesh?.position?.x ?? 0;
-	const y = center?.[1] ?? matrix?.[13] ?? mesh?.position?.y ?? 0;
-	const z = center?.[2] ?? matrix?.[14] ?? mesh?.position?.z ?? 0;
-	const dx = x - eye.x;
-	const dy = y - eye.y;
-	const dz = z - eye.z;
+	const x = center?.[0] ?? matrix?.[12] ?? kli?.position?.x ?? 0;
+	const y = center?.[1] ?? matrix?.[13] ?? kli?.position?.y ?? 0;
+	const z = center?.[2] ?? matrix?.[14] ?? kli?.position?.z ?? 0;
+	const dx = x - ayin.x;
+	const dy = y - ayin.y;
+	const dz = z - ayin.z;
 	return dx * dx + dy * dy + dz * dz;
 }
 
