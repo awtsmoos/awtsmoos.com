@@ -1,37 +1,37 @@
 <!doctype html>
 <!-- B"H -->
-<!-- Boruch Hashem; Blessed is He. -->
-<!-- The Awtsmoos gives the hidden letters form; Awtsmoos.com measures the visible storm. -->
+<!-- Boruch Hashem. Blessed is He. -->
+<!-- The Awtsmoos revives each hidden letter; Awtsmoos.com lets proof make the vessel better. -->
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<meta name="theme-color" content="#0b1525">
-	<title>Awtsmoos Glyph Lab · Native Hebrew Font Experiments</title>
+	<title>Awtsmoos Glyph Lab · All-Letter Hebrew Font Experiments</title>
 	<link rel="stylesheet" href="./style.css">
 </head>
 <body>
 	<main>
-		<nav><a href="/">✦ AWTSMOOS.COM</a><span>Typography Research / 001</span></nav>
+		<nav><a href="/">✦ AWTSMOOS.COM</a><span>Typography Research / 002</span></nav>
 		<header>
 			<p class="eyebrow">B״H · Experimental Typography</p>
 			<h1>AWTSMOOS <em>GLYPH LAB</em></h1>
-			<p class="intro">Hebrew beyond conventional Unicode. A genuine generated font assembles independent fragments, while the transport contains encoded characters.</p>
-			<div class="meta"><span id="status">Loading native font…</span><span>Node.js · TTF · WOFF1</span></div>
+			<p class="intro">All 27 Hebrew letters and final forms assembled from two to four actual TrueType outlines. Four randomized private-use aliases per component challenge simple copying and repeated-word matching.</p>
+			<div class="meta"><span id="status">Loading native font…</span><span>Node.js · TTF · WOFF1 · Version 2</span></div>
 		</header>
 		<section class="panel reader-panel">
 			<div class="heading">
 				<div><small>01 / LIVE READER</small><h2>Words assembled by the font</h2></div>
 				<label>Size <input type="range" id="size" min="24" max="68" value="40"><output id="sizeValue">40px</output></label>
 			</div>
-			<div class="controls"><button data-mode="fragments" aria-pressed="true">Fragment Aleph</button><button data-mode="whole">Whole glyph substitution</button></div>
+			<div class="controls"><button data-mode="fragments" aria-pressed="true">Fragment all letters</button><button data-mode="whole">Whole glyph substitution</button></div>
 			<div id="reader" lang="he" dir="rtl" aria-label="Encoded experimental typography"></div>
-			<p class="footnote">The DOM contains encoded Latin transport. Accessibility and copying are limited in this experimental mode.</p>
+			<p class="footnote">The DOM contains encoded private-use characters. Browser selection copies encoded data; normal accessibility, copying, niqqud and cantillation are not supported.</p>
 		</section>
 		<div class="columns">
 			<section class="panel">
 				<small>02 / GEOMETRY</small><h2>Three-part Aleph</h2>
-				<p>Every piece has its own distinct glyf outline. The three components occupy one letter advance when combined.</p>
+				<p>Each piece is a separate clipped <code>glyf</code> outline. Switch strokes on or off; together they occupy one letter width. Other Hebrew letters use two to four fragments.</p>
 				<div class="fragments" id="fragments"></div>
 				<div class="toggle-row">
 					<label><input type="checkbox" class="piece" value="0" checked> Stroke I</label>
@@ -42,19 +42,24 @@
 			</section>
 			<section class="panel">
 				<small>03 / TRANSPORT</small><h2>What the browser receives</h2>
-				<p>Actual encoded payload: neither a plaintext passage nor a decoding table.</p>
+				<p>Randomized aliases change on each build and each occurrence. The payload contains neither the original Hebrew passage nor a decoding table.</p>
 				<pre id="wire"></pre><div class="statistics" id="statistics"></div>
 			</section>
 		</div>
 		<section class="panel">
 			<small>04 / TRANSFER ECONOMICS</small><h2>Compression laboratory</h2>
-			<p>Measured with native Node.js Brotli and gzip. Repeated passages are <strong>synthetic</strong>; first-visit totals include the WOFF1 font.</p>
+			<p>Measured with native Node.js Brotli and gzip. Repeated passages are <strong>synthetic</strong>; first-visit totals include WOFF1. This obfuscation normally increases transfer size.</p>
 			<div class="tablewrap"><table>
 				<thead><tr><th>Words</th><th>Hebrew UTF-8</th><th>Hebrew Brotli</th><th>Whole Brotli</th><th>Fragment Brotli</th><th>First load (fragment + font)</th></tr></thead>
 				<tbody id="benchmarks"></tbody>
 			</table></div>
 		</section>
-		<footer>Experimental anti-scraping obfuscation is not encryption. Font analysis, visual recognition, and OCR remain possible. <a href="/">Back to Awtsmoos</a></footer>
+		<section class="panel">
+			<small>05 / ADVERSARIAL AUDIT</small><h2>Can the downloaded font reveal the text?</h2>
+			<p id="threat">Loading the threat-model evidence…</p>
+			<p><strong>Yes, in principle.</strong> An attacker can inspect the downloadable cmap, group aliases with identical glyph IDs, compare font outlines and apply OCR. Text length, spaces and punctuation remain observable. This raises some scraping costs; it is not encryption or an access-control boundary.</p>
+		</section>
+		<footer>Experimental anti-scraping obfuscation is not encryption, DRM or confidentiality. <a href="/">Back to Awtsmoos</a></footer>
 	</main>
 	<script src="./app.js" defer></script>
 </body>

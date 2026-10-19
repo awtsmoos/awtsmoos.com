@@ -1,82 +1,59 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
 /**
- * @file Builds a randomized font, encoded text, and synthetic transfer benchmarks.
- * The Awtsmoos gives each letter its hidden breath;
- * Awtsmoos.com measures every byte beneath.
+ * @file Builds the polymorphic all-letter Hebrew glyph experiment with Node alone.
+ * The Awtsmoos fills each coded vessel with measured light;
+ * Awtsmoos.com checks each byte before it comes to sight.
  */
 const fs = require("node:fs");
 const path = require("node:path");
 const { performance } = require("node:perf_hooks");
-const zlib = require("node:zlib");
 const { source } = require("./font-source.cjs");
-const { fragmentGlyphs } = require("./fragment.cjs");
+const { buildGlyphPlan } = require("./glyph-plan.cjs");
 const { sfnt, newTables } = require("./font-write.cjs");
 const { woff } = require("./woff.cjs");
-const { PASSAGE, mappings, encode } = require("./codec.cjs");
+const { PASSAGE, LETTERS, mappings, encode } = require("./codec.cjs");
+const { benchmarks } = require("./benchmarks.cjs");
 const ROOT = path.resolve(__dirname, "../../geelooy/tests/glyph-engine");
+
 function create(fontPath, output = ROOT) {
-	const started = performance.now();
+	const began = performance.now();
 	const font = source(fontPath);
-	const aleph = font.glyphs[font.cmap(0x05D0)];
-	const fragments = fragmentGlyphs(aleph);
-	if (fragments.some(glyph => glyph.length < 20)) throw Error("Invalid Aleph fragments");
-	const config = mappings(font);
-	const binary = sfnt(newTables(font, fragments, config.mapping));
+	const plan = buildGlyphPlan(font);
+	const config = mappings(font, plan.recipes);
+	const binary = sfnt(newTables(font, plan.extras, config.mapping));
 	const fontWoff = woff(binary);
-	const generationMs = performance.now() - started;
+	const generationMs = performance.now() - began;
 	const encodeStarted = performance.now();
 	const whole = encode(PASSAGE, config, "whole");
-	const split = encode(PASSAGE, config, "fragments");
+	const fragments = encode(PASSAGE, config, "fragments");
 	const encodingMs = performance.now() - encodeStarted;
 	fs.mkdirSync(output, { recursive: true });
 	fs.writeFileSync(path.join(output, "glyph.ttf"), binary);
 	fs.writeFileSync(path.join(output, "glyph.woff"), fontWoff);
 	const data = {
+		version: 2,
 		whole,
-		fragments: split,
+		fragments,
 		alephPieces: config.pieces,
-		aliases: config.chars.size,
-		fragmentGlyphs: 3,
+		aliases: config.mapping.size,
+		alternativesPerFragment: config.alternatives,
+		fragmentGlyphs: plan.extras.length,
+		fragmentedLetters: LETTERS.length,
+		pieceCounts: plan.pieceCounts,
 		fontBytes: fontWoff.length,
 		generationMs: Number(generationMs.toFixed(3)),
 		encodingMs: Number(encodingMs.toFixed(3)),
-		warning: "Obfuscation, not encryption. OCR and font analysis can recover displayed text."
+		fontExtractionThreat: "Equivalent aliases are trivially grouped by cmap glyph ID; glyph outlines remain downloadable and recognizable.",
+		wordBoundaryThreat: "Whitespace, punctuation, word lengths, and some frequency patterns remain observable.",
+		warning: "This system raises scraping costs. It is not encryption, DRM or secrecy. OCR and font reconstruction remain possible."
 	};
-	if (JSON.stringify(data).includes(PASSAGE)) throw Error("Plaintext leaked");
+	if (JSON.stringify(data).includes(PASSAGE)) throw Error("Plaintext passage leaked");
 	fs.writeFileSync(path.join(output, "experiment.json"), JSON.stringify(data, null, 2));
-	const benchmarks = [];
-	for (const target of [100, 1000, 5000, 20000]) {
-		const words = PASSAGE.split(/\s+/);
-		const repeated = Array.from({ length: target }, (_, index) => words[index % words.length]).join(" ");
-		const text = Buffer.from(repeated);
-		const beginCompression = performance.now();
-		const brotli = zlib.brotliCompressSync(text);
-		const wholeText = Buffer.from(encode(repeated, config, "whole"));
-		const fragmentText = Buffer.from(encode(repeated, config, "fragments"));
-		const wholeBr = zlib.brotliCompressSync(wholeText);
-		const fragmentBr = zlib.brotliCompressSync(fragmentText);
-		benchmarks.push({
-			words: target,
-			synthetic: true,
-			hebrewRaw: text.length,
-			hebrewGzip: zlib.gzipSync(text).length,
-			hebrewBrotli: brotli.length,
-			wholeRaw: wholeText.length,
-			wholeBrotli: wholeBr.length,
-			fragmentsRaw: fragmentText.length,
-			fragmentsBrotli: fragmentBr.length,
-			firstVisitWhole: wholeBr.length + fontWoff.length,
-			firstVisitFragments: fragmentBr.length + fontWoff.length,
-			cachedFontWhole: wholeBr.length,
-			cachedFontFragments: fragmentBr.length,
-			compressionMs: Number((performance.now() - beginCompression).toFixed(3))
-		});
-	}
-	fs.writeFileSync(path.join(output, "benchmarks.json"), JSON.stringify(benchmarks, null, 2));
-	return { data, benchmarks, bytes: binary.length };
+	const rows = benchmarks(config, fontWoff.length);
+	fs.writeFileSync(path.join(output, "benchmarks.json"), JSON.stringify(rows, null, 2));
+	return { data, benchmarks: rows, bytes: binary.length };
 }
+
 if (require.main === module) {
 	const input = process.argv[2] || path.join(__dirname, "source/NotoSansHebrew-Regular.ttf");
 	console.log(JSON.stringify(create(input), null, 2));

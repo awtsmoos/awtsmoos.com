@@ -1,52 +1,66 @@
 // B"H
-// Boruch Hashem
-// Blessed is He
 /**
- * @file Keeps Hebrew plaintext in the native build and alias mapping off the web.
- * From the Awtsmoos a hidden alphabet takes flight;
- * Awtsmoos.com lets the font, not JavaScript, supply the sight.
+ * @file Randomized private-use aliases disguise repeated Hebrew text patterns.
+ * The Awtsmoos renews each code from a multitude of veils;
+ * Awtsmoos.com never confuses veiling with secrecy that never fails.
  */
 const crypto = require("node:crypto");
 const LETTERS = Array.from("אבגדהוזחטיכלמנסעפצקרשתךםןףץ");
 const PUNCTUATION = Array.from("־׳״");
-const ALPHABET = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 const PASSAGE = "ברוך הבא לעולם של אותיות הנראות לעין ונעלמות מן הקוד. האור נמשך בכל רגע מחדש, והאות אלף מתחלקת לשלושה חלקים.";
-function shuffled(values) {
-	const result = Array.from(values);
-	for (let index = result.length - 1; index > 0; index--) {
-		const target = crypto.randomInt(index + 1);
-		[result[index], result[target]] = [result[target], result[index]];
+const ALTERNATIVES = 4;
+
+/** Non-BMP characters are deliberately excluded from this format-4 font. */
+function shuffledCodes() {
+	const codes = Array.from({ length: 0x1900 }, (_, index) => 0xE000 + index);
+	for (let index = codes.length - 1; index > 0; index--) {
+		const other = crypto.randomInt(index + 1);
+		[codes[index], codes[other]] = [codes[other], codes[index]];
 	}
-	return result;
+	return codes;
 }
-function mappings(font) {
-	const random = shuffled(ALPHABET);
+
+/** Every visible fragment has four cipher alternatives mapped to its own glyf. */
+function mappings(font, recipes) {
+	const codes = shuffledCodes();
+	let next = 0;
 	const mapping = new Map();
-	const chars = new Map();
-	const symbols = [...LETTERS, ...PUNCTUATION];
-	symbols.forEach((character, index) => {
-		const code = random[index].codePointAt(0);
+	const whole = new Map();
+	const fragments = new Map();
+	const assign = glyphId => Array.from({ length: ALTERNATIVES }, () => {
+		const code = codes[next++];
+		mapping.set(code, glyphId);
+		return String.fromCodePoint(code);
+	});
+	for (const character of [...LETTERS, ...PUNCTUATION]) {
 		const glyph = font.cmap(character.codePointAt(0));
 		if (!glyph) throw Error("Missing source glyph " + character.codePointAt(0).toString(16));
-		mapping.set(code, glyph);
-		chars.set(character, random[index]);
-	});
-	const pieces = random.slice(symbols.length, symbols.length + 3);
-	pieces.forEach((character, index) => mapping.set(character.codePointAt(0), font.num + index));
-	return { mapping, chars, pieces };
+		whole.set(character, assign(glyph));
+		fragments.set(character,
+			recipes.has(character) ? recipes.get(character).map(assign) : [whole.get(character)]
+		);
+	}
+	return {
+		mapping,
+		whole,
+		fragments,
+		pieces: fragments.get("א").map(group => group[0]),
+		alternatives: ALTERNATIVES
+	};
 }
+
+/** Each occurrence independently samples aliases; spaces remain explicitly visible. */
 function encode(text, config, mode = "fragments") {
 	return text.split(/(\s+)/).map(word => {
 		if (/^\s+$/.test(word)) return word;
-		const letters = Array.from(word).reverse();
-		return letters.map(character => {
-			if (mode === "fragments" && character === "א") return config.pieces.join("");
-			if (!config.chars.has(character)) {
-				if (/[.,:;!?]/.test(character)) return character;
-				throw Error("Unsupported codepoint " + character.codePointAt(0).toString(16));
-			}
-			return config.chars.get(character);
+		return Array.from(word).reverse().map(character => {
+			if (/[.,:;!?]/.test(character)) return character;
+			const candidates = mode === "whole"
+				? [config.whole.get(character)] : config.fragments.get(character);
+			if (!candidates) throw Error("Unsupported character " + character.codePointAt(0).toString(16));
+			return candidates.map(group => group[crypto.randomInt(group.length)]).join("");
 		}).join("");
 	}).join("");
 }
-module.exports = { LETTERS, PUNCTUATION, PASSAGE, ALPHABET, mappings, encode };
+
+module.exports = { LETTERS, PUNCTUATION, PASSAGE, ALTERNATIVES, mappings, encode };
