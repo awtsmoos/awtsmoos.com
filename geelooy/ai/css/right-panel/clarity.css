@@ -14,18 +14,6 @@
   --rp-strong:rgba(94,234,212,.40);
   --rp-text:#edf8ff;
   --rp-muted:#9fb6c9;
-<<<<<<< ours
-  background:var(--rp-bg);
-  color:var(--rp-text);
-}
-#automation-panel *,
-#automation-panel *::before,
-#automation-panel *::after{
-  box-sizing:border-box;
-}
-#automation-panel .automation-panel-content,
-#automation-panel .right-panel-body{
-=======
   --rp-label:#bff8ff;
   --rp-input-bg:rgba(2,8,18,.72);
   --rp-input-border:rgba(184,222,255,.18);
@@ -67,16 +55,11 @@ html #automation-panel *::after{
 }
 html #automation-panel .automation-panel-content,
 html #automation-panel .right-panel-body{
->>>>>>> theirs
   min-width:0;
   min-height:0;
   width:100%;
 }
-<<<<<<< ours
-#automation-panel .right-panel-body{
-=======
 html #automation-panel .right-panel-body{
->>>>>>> theirs
   display:flex;
   flex-direction:column;
   align-items:stretch;
@@ -84,15 +67,9 @@ html #automation-panel .right-panel-body{
   padding:14px 16px 26px;
   overflow-y:auto;
   overflow-x:hidden;
-<<<<<<< ours
-  scrollbar-color:rgba(94,234,212,.38) transparent;
-}
-#automation-panel .right-panel-body>*{
-=======
   scrollbar-color:var(--rp-scroll) transparent;
 }
 html #automation-panel .right-panel-body>*{
->>>>>>> theirs
   position:static;
   flex:0 0 auto;
   width:100%;
@@ -104,45 +81,25 @@ html #automation-panel .right-panel-body>*{
   margin:0;
   transform:none;
 }
-<<<<<<< ours
-#automation-panel .right-panel-body::-webkit-scrollbar{width:9px}
-#automation-panel .right-panel-body::-webkit-scrollbar-thumb{
-  background:rgba(94,234,212,.30);
-=======
 html #automation-panel .right-panel-body::-webkit-scrollbar{width:9px}
 html #automation-panel .right-panel-body::-webkit-scrollbar-thumb{
   background:var(--rp-scroll-thumb);
->>>>>>> theirs
   border:3px solid transparent;
   border-radius:999px;
   background-clip:padding-box;
 }
-<<<<<<< ours
-#automation-panel .panel-section-label{
-  display:block;
-  margin:0;
-  padding:0;
-  color:#bff8ff;
-=======
 html #automation-panel .panel-section-label{
   display:block;
   margin:0;
   padding:0;
   color:var(--rp-label);
->>>>>>> theirs
   font-size:.72rem;
   letter-spacing:.20em;
   line-height:1.25;
 }
-<<<<<<< ours
-#automation-panel .panel-note,
-#automation-panel small,
-#automation-panel p{
-=======
 html #automation-panel .panel-note,
 html #automation-panel small,
 html #automation-panel p{
->>>>>>> theirs
   display:block;
   margin:0;
   color:var(--rp-muted);
@@ -150,21 +107,12 @@ html #automation-panel p{
   line-height:1.45;
   white-space:normal;
 }
-<<<<<<< ours
-#automation-panel .automation-card,
-#automation-panel .automation-archive-panel,
-#automation-panel .graph-node,
-#automation-panel .graph-canvas,
-#automation-panel .chat-scope-pill,
-#automation-panel .automation-status{
-=======
 html #automation-panel .automation-card,
 html #automation-panel .automation-archive-panel,
 html #automation-panel .graph-node,
 html #automation-panel .graph-canvas,
 html #automation-panel .chat-scope-pill,
 html #automation-panel .automation-status{
->>>>>>> theirs
   position:static;
   display:flex;
   flex-direction:column;
@@ -182,18 +130,6 @@ html #automation-panel .automation-status{
   box-shadow:none;
   transform:none;
 }
-<<<<<<< ours
-#automation-panel .automation-card::before,
-#automation-panel .automation-card::after,
-#automation-panel .graph-node::before,
-#automation-panel .graph-node::after{
-  content:none;
-  display:none;
-}
-#automation-panel h3,
-#automation-panel h4,
-#automation-panel b{
-=======
 html #automation-panel .automation-card::before,
 html #automation-panel .automation-card::after,
 html #automation-panel .graph-node::before,
@@ -204,7 +140,6 @@ html #automation-panel .graph-node::after{
 html #automation-panel h3,
 html #automation-panel h4,
 html #automation-panel b{
->>>>>>> theirs
   margin:0;
   color:var(--rp-text);
   line-height:1.3;
