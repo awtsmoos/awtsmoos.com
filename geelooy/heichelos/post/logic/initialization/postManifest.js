@@ -13,7 +13,7 @@
  * reader still sees the teaching instead of a blank page.
  */
 
-import { appendHTML, makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-001';
+import { appendHTML, makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-002';
 import { interpretPostDayuh } from '/heichelos/post/logic/scribe.js';
 import { prepareStructuredPost } from '/heichelos/post/logic/scribe/PostSectionSource.js';
 import { renderUnitsPost } from '/heichelos/post/logic/initialization/UnitsManifest.js?v=units-001';

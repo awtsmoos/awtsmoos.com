@@ -7,7 +7,7 @@
  */
 import { makeInfoHTML as importedMakeInfoHTML } from "./ui/info.js";
 import { showCustomContextMenu as importedContextMenu } from "./ui/contextMenu.js";
-import { makeNavBars as importedMakeNavBars } from "./ui/nav.js?v=canonical-post-links-001";
+import { makeNavBars as importedMakeNavBars } from "./ui/nav.js?v=canonical-post-links-002";
 
 export const makeInfoHTML = importedMakeInfoHTML;
 export const showCustomContextMenu = importedContextMenu;

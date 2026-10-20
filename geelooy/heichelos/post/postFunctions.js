@@ -29,7 +29,7 @@ export {
 	showCustomContextMenu,
 	makeNavBars,
 	makeToast
-} from "./functions/ui.js?v=canonical-post-links-001";
+} from "./functions/ui.js?v=canonical-post-links-002";
 
 export {
 	interpretPostDayuh,
@@ -56,7 +56,7 @@ document.addEventListener("contextmenu", event => {
 	if (!context) return;
 	event.preventDefault();
 	closeAwtsmoosMenus();
-	import("./functions/ui.js?v=canonical-post-links-001")
+	import("./functions/ui.js?v=canonical-post-links-002")
 		.then(module => module.showCustomContextMenu(event.clientX, event.clientY, event));
 });
 

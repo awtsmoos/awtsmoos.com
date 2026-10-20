@@ -114,8 +114,13 @@ function statusChildren(series, currentIndex, length) {
 
 export function makeNavBars(post, series, indexInSeries) {
 	if (!series || !Array.isArray(series.posts)) return document.createTextNode('');
-	const currentIndex = resolveCurrentIndex(post, series, indexInSeries);
 	const length = series.posts.length;
+	// B"H — a series whose post list is unavailable (e.g. a packed-only
+	// series whose details route cannot enumerate its posts yet) has no
+	// truthful chapter count: render no nav rather than a false
+	// "Chapter 1 of 0" status.
+	if (!length) return document.createTextNode('');
+	const currentIndex = resolveCurrentIndex(post, series, indexInSeries);
 	const copy = navigationCopy(series, currentIndex);
 	const plan = {
 		tag: 'nav',
