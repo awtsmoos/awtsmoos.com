@@ -253,10 +253,22 @@ function footnoteMarkerHtml(fnNum) {
  */
 export function renderEnglishWithFootnotes(enText) {
 	const placeholders = [];
+	const illegible = [];
 	const SUP_LITERAL_RE = /<sup\b[^>]*\bdata-fn="(\d+)"[^>]*>\s*(\d+)\s*<\/sup\s*>/gi;
 	let text = String(enText || '').replace(SUP_LITERAL_RE, (m, fnNum) => {
 		placeholders.push(fnNum);
 		return `\u0000FN${placeholders.length - 1}\u0000`;
+	});
+	// B"H — a footnote whose number is illegible in the source carries
+	// data-fn="?" (with an explanatory title). It can never match the
+	// numeric pattern above, so without this pass it fell through to the
+	// escaping step and printed as raw markup on the page. Give it an
+	// honest, non-interactive "?" marker instead: the footnote exists,
+	// only its number cannot be read.
+	const SUP_ILLEGIBLE_RE = /<sup\b[^>]*\bdata-fn="[^"\d][^"]*"[^>]*>\s*[^<]*?\s*<\/sup\s*>|<sup\b[^>]*\bdata-fn="[^"\d][^"]*"[^>]*>/gi;
+	text = text.replace(SUP_ILLEGIBLE_RE, () => {
+		illegible.push(true);
+		return `\u0000FX${illegible.length - 1}\u0000`;
 	});
 	// Bare trailing digits: preceded by a non-digit (or start of phrase),
 	// 1-3 digits, then only closing punctuation/whitespace to phrase end.
@@ -268,7 +280,9 @@ export function renderEnglishWithFootnotes(enText) {
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
 		.replace(/>/g, '&gt;');
-	return escaped.replace(/\u0000FN(\d+)\u0000/g, (m, idx) => footnoteMarkerHtml(placeholders[Number(idx)]));
+	return escaped
+		.replace(/\u0000FN(\d+)\u0000/g, (m, idx) => footnoteMarkerHtml(placeholders[Number(idx)]))
+		.replace(/\u0000FX(\d+)\u0000/g, () => '<sup class="meluket-fn-illegible" data-fn="?" title="Footnote number illegible in source">?</sup>');
 }
 
 /**
