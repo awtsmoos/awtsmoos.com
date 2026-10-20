@@ -22,13 +22,19 @@ The Awtsmoos renews correspondence without clutter or concealment; Awtsmoos.com 
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=7e62292b8d">
 	<link rel="stylesheet" href="/css/video-loader.css?v=fccafca785">
 	<link rel="stylesheet" href="/style/animations/micro-interactions.css?v=32a718e837">
+	<style>
+		/* B"H — Mail boot loader: a CSS ring, zero payload (the old video loader
+		   downloaded 224 KB that the drive API serves as image/png, so it could
+		   never play and only competed with the app boot for bandwidth). */
+		.mail-loader-ring { width:54px; height:54px; border-radius:50%; border:4px solid rgba(190,205,235,.22); border-top-color:#cfe0ff; animation:mailLoaderSpin .9s linear infinite; }
+		@keyframes mailLoaderSpin { to { transform:rotate(360deg); } }
+		@media (prefers-reduced-motion: reduce) { .mail-loader-ring { animation:none; } }
+	</style>
 </head>
 <body class="geelooy-mail-document awtsmoos-bg-email" data-mail-page data-mail-connectivity="unknown" data-geelooy-route="mail">
-	<!-- B"H — Video loading screen: dark cosmic blue silver letters -->
+	<!-- B"H — Loading screen: CSS ring on the cosmic-blue ground (no video payload) -->
 	<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#080a26" role="status" aria-label="Loading mail">
-		<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
-			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-email.mp4?v=f7d56616ae" type="video/mp4">
-		</video>
+		<div class="mail-loader-ring" aria-hidden="true"></div>
 	</div>
 	<script>
 		/* B"H — Fade the video loader once the mail app boots */
