@@ -92,3 +92,13 @@ html .shliach-launch:disabled {
 	cursor: not-allowed;
 	transform: none;
 }
+/* Round 2 contrast guard (2026-10-20): the app-shell stylesheet chain carries
+   `a[class] { color: var(--aw-text) }` at specificity (0,1,1) — a tie with
+   `html .shliach-launch` above that the shell wins by link order, washing the
+   gold CTA label white (user phone screenshots, 2026-10-20 ~18:49 EDT).
+   Restating the on-gold ink at (0,2,1) makes the dark label win at rest and in
+   every state, on every gold launch button (nav, hero, mission, CTA band). */
+html .shliach-shell .shliach-launch {
+	color: var(--shliach-on-gold);
+	-webkit-text-fill-color: var(--shliach-on-gold);
+}

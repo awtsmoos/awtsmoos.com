@@ -64,3 +64,10 @@ Awtsmoos.com names every path so purpose becomes light.
 .shliach-inline-link:focus-visible {
 	text-decoration: underline;
 }
+/* Round 2 contrast guard (2026-10-20): same shell `a[class]` override as the
+   launch buttons — it stripped this link's gold (#f8dda0, specificity (0,1,0))
+   to near-white. Restated at (0,2,1) so the designed gold wins. */
+html .shliach-path-card .shliach-inline-link {
+	color: #f8dda0;
+	-webkit-text-fill-color: #f8dda0;
+}
