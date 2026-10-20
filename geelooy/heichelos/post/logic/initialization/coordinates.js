@@ -91,7 +91,14 @@ export async function loadInitial() {
 	if (!seriesResponse.ok) throw new Error(`Series Gateway Error: ${seriesResponse.status}`);
 	const rawSeries = await seriesResponse.json();
 	const unrolled = unrollApiResponse(rawSeries);
-	const series = Array.isArray(unrolled) ? unrolled[0] : (rawSeries.success || rawSeries);
+	let series = Array.isArray(unrolled) ? unrolled[0] : (rawSeries.success || rawSeries);
+	// B"H — a series-details error body (e.g. SERIES_NOT_FOUND for a
+	// packed-only series) must never poison the reader: the post fetch is
+	// authoritative, so substitute a minimal series vessel and continue.
+	if (series && typeof series === 'object' && typeof series.code === 'string'
+		&& !series.posts && !series.prateem) {
+		series = { id: sId, posts: [] };
+	}
 	const { pId, pIdx } = resolvePost(series, pCoord);
 	if (!pId) throw new Error(`Void Rupture: Could not identify Chapter ${pCoord}.`);
 	if (!explicitPostMarker || pCoord !== pId) {
