@@ -29,6 +29,15 @@
 	box-shadow: var(--sefer-shadow, 0 2px 18px rgba(0, 0, 0, 0.45));
 	color: var(--sefer-ink-soft, #c9b992);
 }
+/* B"H - third state: the Sanctuary dream repaints text pale for its dark chamber,
+ * but this card takes its background from the sefer tokens, which stay light unless
+ * data-theme is dark - pale status text on a cream card. Pair the card dark too. */
+:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-toolbar {
+	border-color: #4a3a22;
+	background: #201a10;
+	box-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+	color: #c9b992;
+}
 
 .post-reader-localized-context .awtsmoos-translation-status {
 	font-size: .92rem;
@@ -51,6 +60,10 @@
 :root[data-theme="dark"] .post-reader-localized-context .awtsmoos-translation-toggle {
 	border-color: var(--sefer-accent, #d4a94e);
 	color: var(--sefer-ink, #f0e7d3);
+}
+:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-toggle {
+	border-color: #d4a94e;
+	color: #f0e7d3;
 }
 .post-reader-localized-context .awtsmoos-translation-toggle:hover {
 	filter: brightness(1.08);
@@ -88,6 +101,21 @@
 	background: rgba(15, 23, 42, .72);
 	color: var(--sefer-ink, #f0e7d3);
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+/* B"H - Sanctuary pairing for the block: dream text rules repaint inner spans
+ * pale; on the light paper-deep card they vanish. Dark card + light paragraph
+ * (the paragraph rule outranks the dream repaint, so it needs its own flip). */
+:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block {
+	border-inline-start-color: #d4a94e;
+	background: rgba(15, 23, 42, .72);
+	color: #f0e7d3;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block p {
+	color: #f0e7d3;
+}
+:root[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-translation-kicker {
+	color: #d4a94e;
 }
 
 .post-reader-localized-context .awtsmoos-translation-focus {
