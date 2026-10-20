@@ -16,6 +16,7 @@ const ROUTE_CASES = [
 	["/shliach/", false],
 	["/os/", false],
 	["/desktop/", false],
+	["/docs/", false],
 	["/email/", true],
 	["/profile/", true],
 	["/social-hub/", true],

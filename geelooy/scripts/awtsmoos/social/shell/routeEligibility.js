@@ -12,7 +12,8 @@ const EXCLUDED_PREFIXES = [
 	"/apps/shliach",
 	"/shliach",
 	"/os",
-	"/desktop"
+	"/desktop",
+	"/docs"
 ];
 
 /**
