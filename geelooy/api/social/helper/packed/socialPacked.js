@@ -14,6 +14,7 @@ const { noteWrite, findIndexed, findIndexedBySuffix, listIndexed } = require('./
 const { RECORD_TYPES, makeEnvelope } = require('./recordEnvelope.js');
 const { makeEntityManifest, entityManifestKey } = require('./entityManifest.js');
 const store = require('../awtsmoosDb/shardStore.js');
+const { perfEvent } = require('./perfLog.js');
 
 function fileRoot($i) { return $i?.db?.directory || ''; }
 function fileFor(root, shard) { return SHARDS[shard] ? shardFile(root, shard) : ''; }
@@ -506,8 +507,10 @@ function readPacked({ $i, shard = 'core', key }) {
   if (engineFor($i, shard) === 'JSONL') {
     const root = effectiveRoot($i, shard);
     // Append-only JSONL: the LAST record for a key wins — full scan, O(1) memory.
+    const scanStart = Date.now();
     let found = null;
     forEachFileRecord(root, shard, (record) => { if (record.key === key) found = record; });
+    perfEvent('read-scan', Date.now() - scanStart, { shard });
     return found;
   }
   try { return store.get({ shard, parts: ['records', key] })?.value || null; } catch { return null; }
@@ -543,6 +546,7 @@ function readPackedLatest({ $i, shard = 'core', key }) {
   listPackedRecords({ $i, shard }); // ensures the latest-per-key cache is fresh
   const cached = listRecordsCache.get(file);
   if (cached && cached.latest) return cached.latest.get(key) || null;
+  perfEvent('latest-fallback', 0, { shard });
   return readPacked({ $i, shard, key }); // cache unavailable: exact scan fallback
 }
 //B"H 2026-10-19 (series-api-perf): listPackedRecords() re-parsed the ENTIRE
@@ -590,8 +594,10 @@ function listPackedRecords({ $i, shard = 'core' } = {}) {
   // only when the file was replaced or compacted (new inode or shrink).
   if (cached && cached.id === id && cached.latest && st.size > cached.size) {
     try {
+      const mergeStart = Date.now();
       const mergedTo = mergeShardTail(cached.latest, file, cached.size, st.size);
       cached.data = [...cached.latest.values()];
+      perfEvent('list-merge', Date.now() - mergeStart, { shard, bytes: mergedTo - cached.size, tailBytes: st.size - cached.size });
       cached.mtimeMs = st.mtimeMs;
       cached.size = mergedTo;
       return cached.data;
@@ -605,8 +611,10 @@ function listPackedRecords({ $i, shard = 'core' } = {}) {
       if (typeof console !== 'undefined') console.warn('B"H packed full-scan: shard=' + shard + ' size=' + (st.size / 1048576).toFixed(1) + 'MB');
     }
   }
+  const buildStart = Date.now();
   const latest = latestFileRecordsMap(root, shard);
   const data = [...latest.values()];
+  perfEvent('list-build', Date.now() - buildStart, { shard, bytes: st.size });
   listRecordsCache.set(file, { id, mtimeMs: st.mtimeMs, size: st.size, data, latest });
   return data;
 }

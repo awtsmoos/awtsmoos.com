@@ -14,6 +14,7 @@ const { writePacked, readPackedLatest, listPackedRecords, excerptOf, effectiveRo
  * journaled and counted for the pulse endpoint. Never removed quietly.
  */
 const { noteFullScan } = require('../safeguards/fullscanWatch.js');
+const { perfEvent } = require('./perfLog.js');
 
 function allPostKey({ heichelId, postId }) { return logicalKey(['allPosts', heichelId, postId]); }
 function postIdOf(post) { return post?.postId || post?.id || ''; }
@@ -92,7 +93,9 @@ function groupedCacheFile(file) { return file + '.grouped.json'; }
  */
 function loadGroupedSnapshot(file) {
   try {
+    const loadStart = Date.now();
     const raw = fs.readFileSync(groupedCacheFile(file), 'utf8');
+    perfEvent('grouped-snapload', Date.now() - loadStart, { bytes: raw.length });
     if (raw.length > 128 * 1024 * 1024) return null;
     const parsed = JSON.parse(raw);
     if (!parsed || parsed.v !== GROUPED_CACHE_VERSION) return null;
@@ -104,7 +107,9 @@ function loadGroupedSnapshot(file) {
 }
 function loadGroupedFromDisk(file, st) {
   try {
+    const loadStart = Date.now();
     const raw = fs.readFileSync(groupedCacheFile(file), 'utf8');
+    perfEvent('grouped-snapload', Date.now() - loadStart, { bytes: raw.length });
     if (raw.length > 128 * 1024 * 1024) return null;
     const parsed = JSON.parse(raw);
     if (!parsed || parsed.v !== GROUPED_CACHE_VERSION) return null;
@@ -116,9 +121,12 @@ function loadGroupedFromDisk(file, st) {
 }
 function saveGroupedToDisk(file, st, entry) {
   try {
+    const saveStart = Date.now();
     const obj = { v: GROUPED_CACHE_VERSION, mtimeMs: st.mtimeMs, size: st.size, groups: {}, all: entry.all || [] };
     for (const [sid, arr] of entry.groups) obj.groups[sid] = arr;
-    fs.writeFileSync(groupedCacheFile(file), JSON.stringify(obj));
+    const text = JSON.stringify(obj);
+    fs.writeFileSync(groupedCacheFile(file), text);
+    perfEvent('grouped-save', Date.now() - saveStart, { bytes: text.length });
   } catch { /* best-effort */ }
 }
 //B"H 2026-10-19: incremental tail merge — when the shard only GREW (the
@@ -248,7 +256,9 @@ function getGroupedEntry($i, heichelId) {
     if (hit && hit.mtimeMs === st.mtimeMs && hit.size === st.size) return normalizeEntry(hit);
     if (hit && st.size >= hit.size && hit.mtimeMs <= st.mtimeMs) {
       // append-only growth: merge just the tail
+      const mergeStart = Date.now();
       mergeTailRecords(hit, file, hit.size, st.size);
+      perfEvent('grouped-merge', Date.now() - mergeStart, { tailBytes: st.size - hit.size });
       hit.mtimeMs = st.mtimeMs;
       hit.size = st.size;
       saveGroupedToDisk(file, st, hit);
@@ -272,7 +282,9 @@ function getGroupedEntry($i, heichelId) {
       try {
         const entry = { mtimeMs: snap.mtimeMs, size: snap.size, groups: snap.groups, all: snap.all || deriveAll(snap.groups), byKey: rebuildByKey(snap.groups) };
         entry.byAlias = rebuildByAlias(entry.all);
+        const mergeStart = Date.now();
         mergeTailRecords(entry, file, snap.size, st.size);
+        perfEvent('grouped-merge', Date.now() - mergeStart, { tailBytes: st.size - snap.size });
         entry.mtimeMs = st.mtimeMs;
         entry.size = st.size;
         groupedCache.set(cacheKey, entry);
@@ -320,6 +332,7 @@ function allPostsGrouped({ $i, heichelId = '', seriesIds = [] } = {}) {
 }
 function buildAllPostsGrouped({ $i, heichelId = '', wanted = new Set() } = {}) {
   noteFullScan('allPostsGrouped-rebuild'); // SAFEGUARDS 2026-10-20: incident
+  const buildStart = Date.now();
   const groups = new Map();
   const byAlias = new Map();
   const all = [];
@@ -347,6 +360,7 @@ function buildAllPostsGrouped({ $i, heichelId = '', wanted = new Set() } = {}) {
       groups.get(sid).push(compact);
     }
   }
+  perfEvent('grouped-build', Date.now() - buildStart, { bytes: all.length });
   return { groups, byAlias, all };
 }
 function allPosts({ $i, aliasId = '', heichelId = '', seriesId = '', limit = 500 } = {}) {
