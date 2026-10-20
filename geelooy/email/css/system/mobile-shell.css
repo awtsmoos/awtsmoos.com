@@ -208,3 +208,14 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 		margin: 0.35rem 0.75rem;
 	}
 }
+
+/* B"H — Account-surfaces E-CROWD-2: keyboard-shortcut chips mean nothing on a
+   touch device; on the compose button the "C" chip read as a stray cut-off
+   element in the user's screenshot. Desktop keeps its hints. */
+@media (pointer: coarse) {
+	.geelooy-mail-document .mail-compose-key,
+	.geelooy-mail-document .mail-search-shortcut,
+	.geelooy-mail-document .compose-shortcut {
+		display: none;
+	}
+}
