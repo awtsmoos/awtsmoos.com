@@ -70,6 +70,16 @@ body {
   overscroll-behavior: none;
 }
 
+#brick-blast-root {
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+}
+
 #app-container {
   width: 100%;
   height: 100vh;
