@@ -689,3 +689,32 @@ body.heichel-os-page[data-heichel-page]::after {
 		transition: none;
 	}
 }
+
+/* =====================================================================
+   14. Card overflow hardening (REOPEN B)
+   The title row could not wrap: when the row ran out of room the badge
+   was shoved past the card edge and clipped there (overflow: clip on
+   the card), and the overflowing row painted over the arrow. The row
+   now wraps inside the card, the badge and the arrow hold their own
+   flex size, the title may shrink and wrap, and the body row may
+   contract to the card - the failure is impossible by construction.
+   ===================================================================== */
+.heichelos-discovery-page .space-title-row {
+	flex-wrap: wrap;
+}
+
+.heichelos-discovery-page .space-title-row h2 {
+	min-inline-size: 0;
+}
+
+.heichelos-discovery-page .p-badge {
+	flex: 0 0 auto;
+}
+
+.heichelos-discovery-page .space-card-arrow {
+	flex: 0 0 auto;
+}
+
+.heichelos-discovery-page .space-body {
+	min-inline-size: 0;
+}
