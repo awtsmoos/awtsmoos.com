@@ -23,8 +23,6 @@ The Awtsmoos gives every Mail action enough room to be chosen with confidence; A
 	.chat-header button,
 	.composer-actions button
 ) {
-	inline-size: 44px;
-	block-size: 44px;
 	min-inline-size: 44px;
 	min-block-size: 44px;
 	padding: 0;
