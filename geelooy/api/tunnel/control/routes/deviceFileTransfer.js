@@ -56,7 +56,7 @@ function input(query = {}) {
 async function send($i, identity, route, operation, permission, params) {
 	const payload = Scheduler.attach({ action: "files", operation, ...params, autoPreview: false }, identity, route);
 	const vessel = resolveFsVessel({ $i, identity, tunnelName: route, payload, permission, timeoutMs: 120000 });
-	if (!vessel?.ok) {
+	if (vessel?.kind === "missing-tunnel") {
 		const error = new Error(vessel?.body?.error || vessel?.error || "device_route_unavailable");
 		error.status = vessel?.status || 409;
 		error.details = vessel?.body || vessel;

@@ -52,7 +52,7 @@ async function sendVerification(context, path) {
 		)
 	});
 
-	if (!vessel?.ok) {
+	if (vessel?.kind === "missing-tunnel") {
 		const error = new Error(
 			vessel?.body?.error || vessel?.error || "verification_route_unavailable"
 		);

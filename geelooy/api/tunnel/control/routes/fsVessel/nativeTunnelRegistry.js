@@ -106,7 +106,7 @@ async function sendNativeTunnel(
 		timeoutMs
 	);
 	const relayDurationMs = Date.now() - startedAt;
-	if (relayDurationMs >= 500 || process.env.AWTSMOOS_TUNNEL_TIMING === "1") {
+	if (relayDurationMs >= 5000 || process.env.AWTSMOOS_TUNNEL_TIMING === "1") {
 		console.log("B\"H TUNNEL_RELAY_TIMING", JSON.stringify({
 			action: String(payload?.action || ""),
 			relayDurationMs,

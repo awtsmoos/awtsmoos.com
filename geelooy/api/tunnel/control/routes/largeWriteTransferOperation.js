@@ -52,7 +52,7 @@ async function sendOperation(context, operation, params = {}) {
 		)
 	});
 
-	if (!vessel?.ok) {
+	if (vessel?.kind === "missing-tunnel") {
 		const error = new Error(
 			vessel?.body?.error || vessel?.error || "device_route_unavailable"
 		);
