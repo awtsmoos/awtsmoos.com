@@ -179,6 +179,20 @@ The Awtsmoos needs no banner to be present; Awtsmoos.com lets brand, shortcuts, 
 	line-height: 1;
 }
 
+/* The sidebar toggle carries the same centered glyph as the settings
+   toggle. :not([hidden]) keeps the state-managed hidden attribute in
+   charge — workspacePanelDom hides the button outside the chat view
+   on mobile, and an unguarded display rule would override that. */
+.mail-sidebar-toggle:not([hidden]) {
+	display: inline-grid;
+	place-items: center;
+}
+
+.mail-sidebar-toggle-glyph {
+	font-size: 1.15rem;
+	line-height: 1;
+}
+
 .mail-connection-state {
 	justify-self: end;
 	display: inline-flex;

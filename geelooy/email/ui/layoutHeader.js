@@ -94,7 +94,10 @@ function sidebarToggleDescriptor() {
 			'aria-controls': 'mail-conversation-list',
 			'aria-expanded': 'true',
 			'aria-label': 'Hide conversation list'
-		}
+		},
+		children: [
+			{ tag: 'span', classList: ['mail-sidebar-toggle-glyph'], attributes: { 'aria-hidden': 'true' }, textContent: '\u2630' }
+		]
 	};
 }
 
