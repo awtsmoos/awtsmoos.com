@@ -46,3 +46,27 @@
   background: rgba(0,0,0,.30);
   color: var(--awt-gold);
 }
+
+/* B"H — gate scroll covenant (tunnel-control fix, 2026-10-20).
+   viewport/shell.css seals html/body (height:100%, overflow:hidden) for the
+   app shell's inner panes. The login gate has no inner pane: on a small
+   viewport its card is taller than the screen, grid centering pushed the
+   heading above the visible area, and nothing could scroll it back.
+   In the gated/preboot states the gate itself is the scroll vessel, and
+   the card centers through auto margins, which collapse to zero when the
+   card is taller than the vessel — the top is always reachable. */
+body.awt-gated .awt-login-gate,
+body.awt-preboot .awt-login-gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+body.awt-gated .awt-login-card,
+body.awt-preboot .awt-login-card {
+  flex: none;
+  margin-block: auto;
+}
