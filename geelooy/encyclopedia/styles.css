@@ -137,8 +137,12 @@ a:focus-visible{outline:3px solid var(--ency-focus);outline-offset:2px;border-ra
 	align-items: center;
 	justify-content: center;
 	min-width: 2.6rem;
-	height: 2.6rem;
+	inline-size: max-content;
+	max-inline-size: 100%;
+	min-height: 2.6rem;
+	padding-block: 0.3rem;
 	padding-inline: 0.6rem;
+	line-height: 1.25;
 	white-space: nowrap;
 	border-radius: 0.8rem;
 	background: var(--ency-gold-soft);
