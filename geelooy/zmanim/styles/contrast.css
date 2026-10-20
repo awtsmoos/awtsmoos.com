@@ -17,14 +17,14 @@
 	border-color: var(--line-strong);
 }
 
-.control-deck,
-.key-times-panel,
-.methodology-panel {
+html:not([data-zmanim-theme="light"]) .control-deck,
+html:not([data-zmanim-theme="light"]) .key-times-panel,
+html:not([data-zmanim-theme="light"]) .methodology-panel {
 	background: linear-gradient(145deg, rgba(18, 35, 29, 0.92), rgba(8, 19, 15, 0.9));
 	box-shadow: var(--shadow-soft), var(--glow-soft);
 }
 
-.sticky-context {
+html:not([data-zmanim-theme="light"]) .sticky-context {
 	background: rgba(7, 18, 14, 0.9);
 	backdrop-filter: blur(18px) saturate(1.18);
 	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
@@ -57,7 +57,7 @@
 	color: var(--ink);
 }
 
-.zman-card {
+html:not([data-zmanim-theme="light"]) .zman-card {
 	background:
 		linear-gradient(150deg, rgba(17, 33, 28, 0.94), rgba(8, 17, 14, 0.94));
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
@@ -126,4 +126,28 @@
 
 .shaah-stat strong {
 	color: var(--accent-strong);
+}
+
+/* B"H - light presentations (explicit light, or system under a light OS scheme)
+ * must not inherit the dark panel paint above: their ink tokens go dark, so dark
+ * panels would strand dark text on dark glass. Panels take light token surfaces. */
+html[data-zmanim-theme="light"] .control-deck,
+html[data-zmanim-theme="light"] .key-times-panel,
+html[data-zmanim-theme="light"] .methodology-panel,
+html[data-zmanim-theme="light"] .zman-card {
+	background: var(--paper-raised);
+}
+html[data-zmanim-theme="light"] .sticky-context {
+	background: var(--surface-glass);
+}
+@media (prefers-color-scheme: light) {
+	html[data-zmanim-theme="system"] .control-deck,
+	html[data-zmanim-theme="system"] .key-times-panel,
+	html[data-zmanim-theme="system"] .methodology-panel,
+	html[data-zmanim-theme="system"] .zman-card {
+		background: var(--paper-raised);
+	}
+	html[data-zmanim-theme="system"] .sticky-context {
+		background: var(--surface-glass);
+	}
 }
