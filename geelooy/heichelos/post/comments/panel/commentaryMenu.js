@@ -13,7 +13,7 @@
  * fetchRelevantComments, tab system). Mobile-first.
  */
 
-import { fetchRashiComments, availableCommentaryAliases, hasCommentaryAvailable } from '../commentaryProvider.js?v=commentary-001';
+import { fetchRashiComments, availableCommentaryAliases, hasCommentaryAvailable } from '../commentaryProvider.js?v=commentary-002';
 import { fetchRelevantComments } from './fetching.js?v=community-panel-003';
 import { nextFrame } from './performance/SmoothScheduler.js';
 

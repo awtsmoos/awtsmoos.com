@@ -10,8 +10,8 @@
  */
 
 import { malchusBootstrapFailurePresenter } from '/heichelos/post/logic/initialization/BootstrapFailurePresenter.js?v=reader-runtime-004';
-import { loadInitial } from '/heichelos/post/logic/initialization/coordinates.js?v=reader-runtime-005';
-import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-007';
+import { loadInitial } from '/heichelos/post/logic/initialization/coordinates.js?v=reader-runtime-006';
+import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-008';
 import { createReaderPanels } from '/heichelos/post/logic/initialization/readerPanels.js?v=reader-runtime-004';
 import { hydrateReaderIdentity } from '/heichelos/post/logic/initialization/ReaderIdentityHydrator.js?v=reader-runtime-004';
 import {

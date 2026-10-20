@@ -14,7 +14,7 @@
 
 // The commentary provider is imported by the comment system directly.
 // This loader ensures Rashi data is pre-fetched for faster comment section rendering.
-import { fetchRashiComments, hasCommentaryAvailable } from "../comments/commentaryProvider.js?v=commentary-001";
+import { fetchRashiComments, hasCommentaryAvailable } from "../comments/commentaryProvider.js?v=commentary-002";
 
 // Pre-fetch on Bavli pages so the comment section loads instantly
 if (hasCommentaryAvailable()) {

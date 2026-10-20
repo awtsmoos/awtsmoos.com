@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-009';
+import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-010';
 import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-004';
 import { armReaderFeatureStyles } from './logic/initialization/ReaderFeatureStyles.js?v=reader-features-002';
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005';
