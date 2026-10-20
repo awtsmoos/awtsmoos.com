@@ -15,6 +15,7 @@ import { performLargeBatch, shouldPromoteLargeBatch } from "./largeBatchTranspor
 import { performLargeWrite, shouldPromoteLargeWrite } from "./largeWriteTransport.js";
 import { log } from "../logger.js";
 import { attachRequestGuard, validateResponseGuard } from "./requestGuard.js";
+import { observePendingReceipt } from "./observeReceipt.js";
 import { buildFsUrl, resolveTargetTunnelName } from "./tunnelUrlBuilder.js";
 import { missingCredentialResponse, sessionMayCall } from "./sessionActionPolicy.js";
 
@@ -49,10 +50,36 @@ export async function callFs(tunnelNameOrOptions, maybeOptions) {
 			credentials: "include"
 		});
 	}
-	return validateResponseGuard(await getJson(url, {
+	const first = await getJson(url, {
 		headers,
 		credentials: "include"
-	}), options);
+	});
+	const settled = await observePendingReceipt(first, {
+		action,
+		postObserve: body => postObserveRequest(targetName, headers, body)
+	});
+	return validateResponseGuard(settled, options);
+}
+
+/**
+ * @description Sends one retryAction observation for a pending receipt.
+ * The relay accepts observation as a POST carrying the receipt's own
+ * observation payload; the terminal envelope answers on the same vessel.
+ */
+async function postObserveRequest(targetName, headers, body) {
+	const url = new URL(
+		`/api/tunnel/control/fs/${encodeURIComponent(targetName)}`,
+		location.origin
+	);
+	return getJson(url, {
+		method: "POST",
+		credentials: "include",
+		headers: {
+			"content-type": "application/json",
+			...(headers || {})
+		},
+		body: JSON.stringify(body)
+	});
 }
 
 export async function buildCurl(tunnelName, options = {}) {

@@ -73,7 +73,12 @@ async function browse(path) {
   $("rootPickerNice").textContent = "Loading " + target + "...";
   $("rootPickerList").replaceChildren(h("div", { className: "empty-state", text: "Loading..." }));
 
-  const got = await callFs({ action: "rootBrowse", absolutePath: target });
+  let got;
+  try {
+    got = await callFs({ action: "rootBrowse", absolutePath: target });
+  } catch (failure) {
+    got = { ok: false, error: "Could not reach the tunnel (" + (failure && failure.message || failure) + "). Check that the tunnel is running, then try again." };
+  }
   show("rootPickerOut", got);
 
   const current = cleanSpecial(got.current || target);
