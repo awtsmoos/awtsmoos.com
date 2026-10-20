@@ -2,7 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
-import { consumeFileIntent } from "/geelooy/shared/file-intent/schema.js";
+import { consumeFileIntent } from "/shared/file-intent/schema.js";
 import {
 	attachEmbeddedSource,
 	createEmbeddedFileRequest

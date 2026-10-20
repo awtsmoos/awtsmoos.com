@@ -6,7 +6,7 @@ import {
 	EMBED_KINDS,
 	createEmbedEnvelope,
 	validateEmbedEnvelope
-} from "/geelooy/shared/embed/protocol.js";
+} from "/shared/embed/protocol.js";
 
 /**
  * @file Carries exact-origin, exact-channel events between Awtsmoos Docs and Geelooy OS.

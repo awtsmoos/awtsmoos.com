@@ -2,7 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
-import { publishFileIntent } from "/geelooy/shared/file-intent/schema.js";
+import { publishFileIntent } from "/shared/file-intent/schema.js";
 import { HtmlDocumentCodec } from "../formats/HtmlDocumentCodec.js";
 import { MarkdownCodec } from "../formats/MarkdownCodec.js";
 import { DocumentSerializer } from "../model/DocumentSerializer.js";
