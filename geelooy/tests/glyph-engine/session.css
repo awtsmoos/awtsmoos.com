@@ -1,0 +1,46 @@
+/* B"H — The Awtsmoos unites scattered curves in natural Hebrew order. */
+/* Session mode preserves RTL word order without bidi reversing each word. */
+.glyph-rtl-reader {
+	direction: rtl;
+	unicode-bidi: normal;
+	text-align: right;
+	white-space: pre-wrap;
+	word-break: normal;
+	user-select: text;
+	-webkit-user-select: text;
+	touch-action: pan-y;
+}
+.glyph-rtl-word {
+	display: inline-block;
+	direction: rtl;
+	unicode-bidi: isolate;
+	white-space: nowrap;
+	vertical-align: baseline;
+}
+.glyph-atomic-letter {
+	display: inline-block;
+	direction: ltr;
+	unicode-bidi: isolate;
+	white-space: nowrap;
+	letter-spacing: 0;
+	font-kerning: none;
+	font-feature-settings: "kern" 0, "liga" 0;
+	user-select: all;
+	-webkit-user-select: all;
+	vertical-align: baseline;
+}
+.glyph-atomic-letter::selection,
+.glyph-rtl-word::selection { background: #4b9bef; color: #f9e1a5; }
+.glyph-session-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 18px 0; }
+.glyph-session-row button { border: 1px solid #dcb775; }
+.glyph-proof { display: grid; gap: 8px; }
+.glyph-proof .sample { padding: 20px; background: #091527; border-radius: 14px; font-size: 52px; }
+.glyph-proof output { display: block; color: #dab989; font-size: 13px; overflow-wrap: anywhere; }
+.glyph-session-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 12px; }
+.glyph-session-grid span { display: block; border: 1px solid #33455a; padding: 14px; border-radius: 12px; }
+.glyph-muted { color: #a0b0c6; font-size: 14px; line-height: 1.7; }
+@media (max-width: 640px) {
+	.glyph-rtl-reader { overflow-wrap: break-word; }
+	.glyph-proof .sample { font-size: 35px; }
+	.glyph-session-grid { grid-template-columns: 1fr 1fr; }
+}
