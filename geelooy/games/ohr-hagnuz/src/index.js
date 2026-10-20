@@ -21,7 +21,8 @@ const yesodJourney = new OptionalJourney();
 const soloRuntime = new SoloJourneyRuntime();
 const keserCoordinator = new KeserJourneyCoordinator({
 	optionalJourney: yesodJourney,
-	soloRuntime
+	soloRuntime,
+	onChoosing: () => tiferesBoot.revealChoosing()
 });
 
 /** Chooses one journey, starts only its runtime, and returns the resulting application snapshot. */

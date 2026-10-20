@@ -11,9 +11,10 @@
 
 export class KeserJourneyCoordinator {
 	/** Receives explicit journey dependencies rather than importing hidden global owners. */
-	constructor({ optionalJourney, soloRuntime }) {
+	constructor({ optionalJourney, soloRuntime, onChoosing }) {
 		this.optionalJourney = optionalJourney;
 		this.soloRuntime = soloRuntime;
+		this.onChoosing = onChoosing;
 		this.mode = 'choosing';
 		this.journey = null;
 	}
@@ -23,7 +24,9 @@ export class KeserJourneyCoordinator {
 	 * @returns {Promise<object>} Immutable application selection result.
 	 */
 	async start() {
-		const selection = await this.optionalJourney.choose();
+		const selection = await this.optionalJourney.choose(() => {
+			if (typeof this.onChoosing === 'function') this.onChoosing();
+		});
 		this.mode = selection.mode;
 		this.journey = selection.journey;
 		if (this.mode === 'solo') {

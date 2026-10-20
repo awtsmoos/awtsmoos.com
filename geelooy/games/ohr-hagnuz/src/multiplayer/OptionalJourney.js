@@ -14,12 +14,15 @@ const JOURNEY_GATE_URL = './ui/JourneyModeGate.js?v=ohr-lifecycle-003';
 export class OptionalJourney {
 	/**
 	 * Presents the optional mode gate and waits for one committed Solo or authenticated Shared decision.
+	 * @param {(function(): void)=} onPresented Optional notice fired once the gate is mounted and the
+	 * choice is the user's to make, so boot witnesses stop treating an open choice as a stalled boot.
 	 * @returns {Promise<{mode:'solo'|'shared',journey:object|null,degraded:boolean}>} Selection contract.
 	 */
-	async choose() {
+	async choose(onPresented) {
 		try {
 			const journeyModule = await import(JOURNEY_GATE_URL);
 			const journey = journeyModule.mountJourneyModeGate();
+			if (typeof onPresented === 'function') onPresented();
 			const mode = await journey.whenChosen();
 			globalThis.__OHR_HAGNUZ_JOURNEY_ERROR__ = null;
 			return Object.freeze({ mode, journey, degraded: false });
