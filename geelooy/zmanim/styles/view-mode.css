@@ -126,3 +126,21 @@ awtsmoos-view-mode-control {
 .view-mode-control button[data-selected="true"]:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+
+/* B"H - light presentations: the segmented track is hardcoded near-black, but
+ * the unselected label follows the theme ink (dark in light mode) - dark on
+ * dark. Light themes get a light track and the soft ink instead. */
+html[data-zmanim-theme="light"] .view-mode-control {
+	background: var(--surface-soft);
+}
+html[data-zmanim-theme="light"] .view-mode-control button {
+	color: var(--ink-soft);
+}
+@media (prefers-color-scheme: light) {
+	html[data-zmanim-theme="system"] .view-mode-control {
+		background: var(--surface-soft);
+	}
+	html[data-zmanim-theme="system"] .view-mode-control button {
+		color: var(--ink-soft);
+	}
+}
