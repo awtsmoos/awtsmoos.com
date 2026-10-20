@@ -29,7 +29,7 @@
 }
 
 .primary-opinion:disabled {
-	opacity: .36;
+	opacity: .65;
 	cursor: default;
 }
 
