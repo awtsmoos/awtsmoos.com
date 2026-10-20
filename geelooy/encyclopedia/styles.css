@@ -136,8 +136,10 @@ a:focus-visible{outline:3px solid var(--ency-focus);outline-offset:2px;border-ra
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 2.6rem;
+	min-width: 2.6rem;
 	height: 2.6rem;
+	padding-inline: 0.6rem;
+	white-space: nowrap;
 	border-radius: 0.8rem;
 	background: var(--ency-gold-soft);
 	color: var(--ency-gold-deep);
