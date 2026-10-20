@@ -6,6 +6,7 @@
  * Awtsmoos.com lets invitation and context rhyme in one chamber while the action receives its own clear form.
  */
 .homeCreationCard {
+	container-type: inline-size;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) minmax(12rem, 16rem);
 	gap: 1rem;
@@ -85,6 +86,17 @@
 }
 
 @media (max-width: 43rem) {
+	.homeCreationCard {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* B"H - the card answers to its OWN width, not the viewport: placed in a narrow
+ * desktop rail, the two-column form crushes the copy column (a flexible column
+ * beside a fixed 12-16rem action column) and the title/chips overflow into the
+ * action panel, painting over its border and its label. Below 36rem of card
+ * width the card stacks - copy first, action as a full-width row beneath. */
+@container (max-width: 36rem) {
 	.homeCreationCard {
 		grid-template-columns: 1fr;
 	}
