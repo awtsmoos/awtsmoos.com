@@ -1,7 +1,7 @@
 # B"H
 # Boruch Hashem
 # Blessed be He
-# The Awtsmoos sends one exact main SHA through a diagnosable SSH lane, then proves public truth.
+# The Awtsmoos guides an authenticated key to the canonical gate; exact SHA and verification determine fate.
 name: Deploy and Verify Awtsmoos Production
 
 on:
@@ -20,7 +20,7 @@ jobs:
     env:
       EXPECTED_SHA: ${{ github.sha }}
       SERVER_USER: ${{ secrets.SERVER_USER }}
-      AWTSMOOS_PASSWORD: ${{ secrets.AWTSMOOS_PASSWORD }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     steps:
       - name: Checkout exact main commit
         uses: actions/checkout@v4
@@ -28,23 +28,29 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 1
 
-      - name: Prepare SSH client
-        run: |
-          set -Eeuo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq sshpass
-
       - name: Canonical production deploy with bounded retries
         run: |
           set -Eeuo pipefail
+          : "${SERVER_USER:?SERVER_USER is not configured}"
+          : "${SSH_PRIVATE_KEY:?SSH_PRIVATE_KEY is not configured}"
+          eval "$(ssh-agent -s)" >/dev/null
+          trap 'ssh-agent -k >/dev/null' EXIT
+          if ! printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - >/dev/null 2>&1; then
+            echo "::error title=Invalid production SSH key::SSH_PRIVATE_KEY could not be loaded into the ephemeral SSH agent."
+            exit 1
+          fi
+          unset SSH_PRIVATE_KEY
+          ssh-add -l >/dev/null
           deploy_once() {
             local attempt="$1"
             local log
+            local code
             log="$(mktemp)"
             set +e
-            SSHPASS="$AWTSMOOS_PASSWORD" sshpass -e ssh \
-              -o PreferredAuthentications=password \
-              -o PubkeyAuthentication=no \
+            ssh \
+              -o BatchMode=yes \
+              -o PreferredAuthentications=publickey \
+              -o PasswordAuthentication=no \
               -o StrictHostKeyChecking=accept-new \
               -o ConnectTimeout=20 \
               -o ServerAliveInterval=10 \
@@ -60,7 +66,7 @@ jobs:
               return 0
             fi
             if grep -Eqi 'permission denied|authentication failed' "$log"; then
-              echo "::error title=Production SSH authentication failed::SERVER_USER/AWTSMOOS_PASSWORD were rejected by awtsmoos.com on attempt $attempt."
+              echo "::error title=Production SSH key rejected::SERVER_USER or SSH_PRIVATE_KEY was not accepted by awtsmoos.com on attempt $attempt."
             elif grep -Eqi 'timed out|no route to host|connection refused|network is unreachable' "$log"; then
               echo "::error title=Production SSH network failure::GitHub runner could not establish SSH to awtsmoos.com on attempt $attempt."
             else
@@ -72,7 +78,7 @@ jobs:
           }
           for attempt in 1 2 3; do
             if deploy_once "$attempt"; then
-              echo "B\"H canonical deployment succeeded on attempt $attempt"
+              echo 'B"H canonical deployment succeeded on attempt $attempt'
               exit 0
             fi
             sleep $((attempt * 8))

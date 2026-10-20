@@ -8,40 +8,58 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 /**
- * @file deployWorkflowContract.test.mjs
- * @description Guards the present immutable production deployment covenant instead of freezing obsolete workflow labels.
- * The Awtsmoos binds the pushed SHA to the canonical shore; Awtsmoos.com retries with measure, then proves the public door.
- * Names may turn as branches grow, but exact identity, bounded transport, canonical activation, and live verification must always show.
+ * @file Verifies SSH key deployment, bounded retries and immutable releases.
+ * The Awtsmoos sends a single key through the guarded gate;
+ * Awtsmoos.com keeps each secret sealed and proves the exact SHA's fate.
+ * Never permit the deployment lane to fall back to passwords.
  */
-const here = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(here, "../..");
-const workflow = fs.readFileSync(path.join(root, ".github/workflows/main.yml"), "utf8");
+const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
+const repositoryRoot = path.resolve(currentDirectory, "../..");
+const deploymentWorkflow = fs.readFileSync(
+	path.join(repositoryRoot, ".github/workflows/main.yml"),
+	"utf8"
+);
 
-assert.match(workflow, /concurrency:/);
-assert.match(workflow, /cancel-in-progress: false/);
-assert.match(workflow, /EXPECTED_SHA: \$\{\{ github\.sha \}\}/);
-assert.match(workflow, /Checkout exact main commit/);
-assert.match(workflow, /Canonical production deploy with bounded retries/);
-assert.match(workflow, /for attempt in 1 2 3/);
-assert.match(workflow, /remote-deploy-entry\.sh '\$EXPECTED_SHA'/);
-assert.match(workflow, /PreferredAuthentications=password/);
-assert.match(workflow, /PubkeyAuthentication=no/);
-assert.match(workflow, /Verify public production contract/);
-assert.match(workflow, /api\/tunnel\/control\/bootstrap/);
-assert.match(workflow, /api\/tunnel\/control\/agent-manifest/);
-assert.match(workflow, /verifyTunnelPublicRelease\.mjs/);
-assert.match(workflow, /PRODUCTION_RELEASE_VERIFIED sha=\$EXPECTED_SHA/);
-assert.doesNotMatch(workflow, /appleboy\/ssh-action@master/);
-assert.doesNotMatch(workflow, /script_stop:/);
-assert.doesNotMatch(workflow, /\.\/shlep\.sh/);
-assert.doesNotMatch(workflow, /clean -fdx/);
+assert.match(deploymentWorkflow, /concurrency:/);
+assert.match(deploymentWorkflow, /cancel-in-progress: false/);
+assert.match(deploymentWorkflow, /EXPECTED_SHA: \$\{\{ github\.sha \}\}/);
+assert.match(deploymentWorkflow, /Checkout exact main commit/);
+assert.match(deploymentWorkflow, /Canonical production deploy with bounded retries/);
+assert.match(deploymentWorkflow, /SSH_PRIVATE_KEY: \$\{\{ secrets\.SSH_PRIVATE_KEY \}\}/);
+assert.match(deploymentWorkflow, /ssh-agent -s/);
+assert.match(deploymentWorkflow, /ssh-agent -k/);
+assert.match(deploymentWorkflow, /ssh-add -/);
+assert.match(deploymentWorkflow, /BatchMode=yes/);
+assert.match(deploymentWorkflow, /PreferredAuthentications=publickey/);
+assert.match(deploymentWorkflow, /PasswordAuthentication=no/);
+assert.match(deploymentWorkflow, /for attempt in 1 2 3/);
+assert.match(deploymentWorkflow, /remote-deploy-entry\.sh '\$EXPECTED_SHA'/);
+assert.match(deploymentWorkflow, /Verify public production contract/);
+assert.match(deploymentWorkflow, /api\/tunnel\/control\/bootstrap/);
+assert.match(deploymentWorkflow, /api\/tunnel\/control\/agent-manifest/);
+assert.match(deploymentWorkflow, /verifyTunnelPublicRelease\.mjs/);
+assert.match(deploymentWorkflow, /PRODUCTION_RELEASE_VERIFIED sha=\$EXPECTED_SHA/);
+
+for (const forbiddenPattern of [
+	/sshpass/,
+	/AWTSMOOS_PASSWORD/,
+	/PreferredAuthentications=password/,
+	/PubkeyAuthentication=no/,
+	/appleboy\/ssh-action@master/,
+	/script_stop:/,
+	/\.\/shlep\.sh/,
+	/clean -fdx/
+]) {
+	assert.doesNotMatch(deploymentWorkflow, forbiddenPattern);
+}
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "deploy-workflow-contract",
 	exactSha: true,
+	sshPublicKeyOnly: true,
+	ephemeralKeyAgent: true,
 	boundedRetries: true,
 	canonicalRemoteEntry: true,
-	publicVerification: true,
-	ignoredProductionDataPreserved: true
+	publicVerification: true
 }, null, 2));
