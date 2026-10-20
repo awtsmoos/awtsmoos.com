@@ -8,8 +8,8 @@
  * gap, exactly as the mobile block below assumes. Without these base rules the
  * desktop summary renders its spans inline and the title runs into the alias. */
 .social-hub-document .homeDisclosureSummary { display: flex; align-items: center; justify-content: space-between; gap: .55rem; }
-.social-hub-document .homeDisclosureSummary span { display: flex; gap: .35rem; align-items: baseline; min-inline-size: 0; }
-.social-hub-document .homeDisclosureSummary small { overflow: hidden; max-inline-size: 8rem; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
+.social-hub-document .homeDisclosureSummary span { display: flex; gap: .6rem; align-items: baseline; min-inline-size: 0; }
+.social-hub-document .homeDisclosureSummary small { overflow: hidden; max-inline-size: 8rem; padding: .12rem .55rem; border: 1px solid rgb(126 239 255 / 18%); border-radius: 999px; background: rgb(126 239 255 / 8%); color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 62.4375rem) {
 	.social-hub-document .homePanel { display: flex; flex-direction: column; gap: .5rem; }
 	.social-hub-document .homeCreationCard {
@@ -49,9 +49,9 @@
 		background: transparent;
 		font-size: .8rem;
 	}
-	.social-hub-document .homeDisclosureSummary span { display: flex; gap: .35rem; align-items: baseline; min-inline-size: 0; 
+	.social-hub-document .homeDisclosureSummary span { display: flex; gap: .6rem; align-items: baseline; min-inline-size: 0; 
 	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-	.social-hub-document .homeDisclosureSummary small { overflow: hidden; max-inline-size: 8rem; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
+	.social-hub-document .homeDisclosureSummary small { overflow: hidden; max-inline-size: 8rem; padding: .12rem .55rem; border: 1px solid rgb(126 239 255 / 18%); border-radius: 999px; background: rgb(126 239 255 / 8%); color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
 	.social-hub-document :where(.homePulseDisclosure, .homeActionsDisclosure) > :not(summary) { margin-inline: .5rem; }
 	.social-hub-document .homePulseDisclosure .heroRift { display: block; padding: .5rem; text-align: start; }
 	.social-hub-document .homePulseDisclosure .pulseOrb,
