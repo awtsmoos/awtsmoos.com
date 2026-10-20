@@ -1,0 +1,79 @@
+//B"H
+//Blessed is He
+//Boruch Hashem
+/**
+ * @module CommentMigrationCopy
+ * @description Migration copy pipeline (split from commentMigration.js, verbatim).
+ */
+
+const { getParentCommentsBasePath, getAliasCommentFilePath } = require("./commentPaths.js");
+const { indexCommentSearchRecord } = require("./commentAwtsmoosDbBridge.js");
+
+	const { stableMigratedId, migrationPacket, progress, listAliases, listVerseSections, readLegacyComments } = require("./commentMigrationHelpers.js");
+
+	const { makeReport, compactReport } = require("./commentMigrationReport.js");
+
+async function migrateParentCommentsToAwtsmoosDb(params) {
+    const { $i, heichelId, seriesId, parentId, parentType = "post", dryRun = false } = params;
+    const postId = params.postId || (parentType === "post" ? parentId : undefined);
+    const fastMode = params.fastMode !== false;
+    const indexSearch = params.indexSearch !== false;
+    if (!$i?.db || !heichelId || !seriesId || !parentId) return { error: true, message: "Missing $i.db, heichelId, seriesId, or parentId" };
+    const parentBasePath = getParentCommentsBasePath({ heichelId, seriesId, parentId, parentType, postId });
+    const report = makeReport({ dryRun, parentBasePath, fastMode, indexSearch });
+    progress(params, "parent:start", { heichelId, seriesId, parentType, parentId, parentBasePath, fastMode, indexSearch });
+    const aliases = await listAliases({ $i, parentBasePath });
+    report.aliasesSeen = aliases.length;
+    progress(params, "parent:aliases", { parentId, aliasesSeen: aliases.length });
+    for (const aliasId of aliases) await copyAliasComments({ ...params, postId, aliasId, report, fastMode, indexSearch });
+    report.migrated = report.copied;
+    progress(params, "parent:done", { parentId, report: compactReport(report) });
+    return report;
+}
+
+async function copyAliasComments(params) {
+    const { heichelId, seriesId, parentId, parentType, postId, aliasId, report } = params;
+    const aliasPath = getAliasCommentFilePath({ heichelId, seriesId, parentId, aliasId, parentType, postId });
+    const verseSections = await listVerseSections({ $i: params.$i, aliasPath });
+    report.versesSeen += verseSections.length;
+    progress(params, "alias:start", { parentId, aliasId, aliasPath, verseCount: verseSections.length });
+    for (const verseSection of verseSections) await copyVerseComments({ ...params, aliasPath, verseSection, report });
+}
+
+async function copyVerseComments(params) {
+    const { $i, aliasPath, aliasId, verseSection, report } = params;
+    const comments = await readLegacyComments({ $i, aliasPath, verseSection });
+    progress(params, "verse:start", { aliasId, verseSection, commentCount: comments.length });
+    for (let index = 0; index < comments.length; index++) {
+        const comment = comments[index];
+        if (!comment || typeof comment !== "object") { report.skipped++; continue; }
+        const id = stableMigratedId({ comment, aliasId, verseSection, index });
+        await copyOneComment({ ...params, comment, id, index });
+    }
+    progress(params, "verse:done", { aliasId, verseSection, totals: compactReport(report) });
+}
+
+async function copyOneComment(params) {
+    const { comment, id, aliasId, verseSection, aliasPath, index, report, dryRun, indexSearch } = params;
+    const copied = { ...comment, id, author: comment.author || aliasId, aliasId, verseSection: comment.verseSection ?? comment.dayuh?.verseSection ?? verseSection };
+    const migration = migrationPacket({ sourcePath: aliasPath, aliasId, verseSection, index });
+    if (dryRun) {
+        report.copied++;
+        if (indexSearch) report.indexed++;
+        return;
+    }
+    const context = { heichelId: params.heichelId, seriesId: params.seriesId, parentType: params.parentType, parentId: params.parentId, postId: params.postId, aliasId, verseSection };
+    if (indexSearch) await maybeIndexComment({ ...params, copied, context, migration, id, report });
+    report.copied++;
+}
+
+async function maybeIndexComment(params) {
+    const indexed = await indexCommentSearchRecord({ $i: params.$i, comment: params.copied, ...params.context, status: "migrated", migration: params.migration });
+    if (indexed?.success) params.report.indexed++; else params.report.errors.push({ id: params.id, indexed });
+    if (indexed?.vector?.success && !indexed.vector.skipped) params.report.vectors++;
+    if (indexed?.vector?.skipped) params.report.vectorSkipped++;
+}
+
+module.exports = {
+	migrateParentCommentsToAwtsmoosDb,
+};
