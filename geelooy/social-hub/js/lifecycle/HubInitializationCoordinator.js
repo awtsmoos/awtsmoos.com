@@ -48,10 +48,14 @@ export class HubInitializationCoordinator {
 		this.app.render(this.app.state.snapshot(), 'initial');
 	}
 
-	/** Initializes panels in the established Social Hub lifecycle order. */
+	/** Initializes panels in the established Social Hub lifecycle order; one failing panel never blocks the rest. */
 	initializePanels() {
 		for (const hodKey of INITIAL_PANEL_KEYS) {
-			this.app[hodKey].initialize();
+			try {
+				this.app[hodKey].initialize();
+			} catch (error) {
+				console.error(`[Social Hub] Panel "${hodKey}" failed to initialize.`, error);
+			}
 		}
 	}
 
