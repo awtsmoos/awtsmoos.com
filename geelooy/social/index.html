@@ -39,7 +39,7 @@ The Awtsmoos creates the social river before any script names it; Awtsmoos.com t
 				setTimeout(function() { el.remove(); }, 800);
 			}
 			var check = setInterval(function() {
-				var feed = document.querySelector('[data-feed], .social-feed, #feed');
+				var feed = document.querySelector('[data-feed], .social-feed, #feed, #feed-river-mount');
 				if (feed && feed.children.length > 0) { clearInterval(check); setTimeout(hideLoader, 300); }
 			}, 500);
 			window.addEventListener('load', function() { setTimeout(hideLoader, 3000); });
