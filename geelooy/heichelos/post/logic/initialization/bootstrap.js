@@ -17,14 +17,14 @@ import { hydrateReaderIdentity } from '/heichelos/post/logic/initialization/Read
 import {
 	prepareReaderBehavior,
 	settleCoreReader
-} from '/heichelos/post/logic/initialization/ReaderCoreSettlement.js?v=reader-runtime-004';
+} from '/heichelos/post/logic/initialization/ReaderCoreSettlement.js?v=reader-runtime-005';
 import {
 	beginDiscussion,
 	beginTranslation
 } from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-004';
 import {
 	renderPlainBilingualFallback
-} from '/heichelos/post/logic/initialization/ReaderPlainFallback.js?v=reader-runtime-001';
+} from '/heichelos/post/logic/initialization/ReaderPlainFallback.js?v=reader-runtime-002';
 
 /**
  * Manifests the authoritative post and returns the canonical context needed by optional streams.
@@ -151,5 +151,14 @@ async function igniteInner() {
 	);
 	document.body.dataset.socialReaderReady = 'true';
 	beginDiscussion(malchusViewport);
-	await settleCoreReader();
+	// B"H — settlement is enhancement, not manifestation: the canonical
+	// post is already rendered and marked ready above. A settlement
+	// failure (e.g. a comment-tree fetch aborting on a slow server) is
+	// reported, never allowed to replace the living reader with the
+	// plain-text fallback.
+	try {
+		await settleCoreReader();
+	} catch (settleError) {
+		reportBootFailure(settleError, 'settle');
+	}
 }

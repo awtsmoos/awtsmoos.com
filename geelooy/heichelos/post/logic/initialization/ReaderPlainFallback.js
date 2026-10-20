@@ -150,7 +150,16 @@ function renderUnits(units) {
 			continue;
 		}
 		const he = toPlainText(unit.he != null ? unit.he : unit.hebrew);
-		const en = toPlainText(unit.en != null ? unit.en : unit.english);
+		let en = toPlainText(unit.en != null ? unit.en : unit.english);
+		if (!en && Array.isArray(unit.phrases)) {
+			// B"H — phrases-shaped units (Toras Chaim) carry their English
+			// per phrase, not at unit level; the plain fallback joins it,
+			// never hides it.
+			en = toPlainText(unit.phrases
+				.map((phrase) => (phrase && phrase.en) || '')
+				.filter(Boolean)
+				.join(' '));
+		}
 		if (!he && !en) {
 			continue;
 		}
