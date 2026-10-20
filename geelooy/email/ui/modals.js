@@ -36,7 +36,8 @@ export function renderLoginOverlay(ui, root) {
 					shaym: 'authWrapper',
 					classList: ['identity-summary-mount', 'identity-gateway-account'],
 					ready: createIdentityMountHandler()
-				}
+				},
+				gatewayHomeLink()
 			]
 		}]
 	});
@@ -91,6 +92,16 @@ function gatewayFeature(title, copy) {
 			{ tag: 'strong', textContent: title },
 			{ tag: 'span', textContent: copy }
 		]
+	};
+}
+
+/** Returns the gateway's escape hatch back to the Awtsmoos home page. */
+function gatewayHomeLink() {
+	return {
+		tag: 'a',
+		classList: ['identity-gateway-home-link'],
+		attributes: { href: '/' },
+		textContent: 'Back to Awtsmoos home'
 	};
 }
 
