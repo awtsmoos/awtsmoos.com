@@ -107,6 +107,10 @@ export async function fetchRashiUnits(masechta, daf) {
 export function unitsForDaf(units, daf) {
   if (!daf) return units;
   const d = String(daf).toLowerCase();
-  const prefix = d + ':';
-  return units.filter((u) => u.ref.toLowerCase().startsWith(prefix));
+  // Numeric dafs (e.g. "46") match both amudim: "46a:" and "46b:".
+  const prefixes = /^\d+$/.test(d) ? [d + 'a:', d + 'b:'] : [d + ':'];
+  return units.filter((u) => {
+    const ref = u.ref.toLowerCase();
+    return prefixes.some((p) => ref.startsWith(p));
+  });
 }
