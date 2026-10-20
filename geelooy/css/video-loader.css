@@ -40,3 +40,32 @@
     display: none;
   }
 }
+
+/* B"H - a visible loading affordance. While the loader video is still
+ * travelling, the ring says "loading" - the flat brand color alone read
+ * as a blank broken screen (the /social/ orange first paint). The ring
+ * sits beneath the video; under reduced motion the video is
+ * display:none, so the ring simply stands still as the only signal. */
+.awtsmoos-video-loader::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 9%;
+  margin-inline: auto;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: 50%;
+  border: 3px solid rgb(255 255 255 / 35%);
+  border-top-color: #fff;
+  animation: awtsmoos-video-loader-spin 0.9s linear infinite;
+}
+
+@keyframes awtsmoos-video-loader-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .awtsmoos-video-loader::after {
+    animation: none;
+  }
+}
