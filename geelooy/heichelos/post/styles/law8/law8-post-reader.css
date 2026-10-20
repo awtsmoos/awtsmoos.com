@@ -569,3 +569,20 @@
 		transition: none;
 	}
 }
+
+/* B"H - Bavli units headings + note titles carry explicit ink: the units
+ * renderer emits .bavli-amud-heading / .bavli-amud-heading-en /
+ * .bavli-unit-note-title with no rules of their own anywhere, so they took
+ * whatever ambient color the surrounding state offered. Theme-aware tokens
+ * keep them legible in light and dark; dream-state rules still outrank these
+ * (the dream sheets load later at equal-or-higher specificity). */
+.post-reader-localized-context .bavli-amud-heading {
+	color: var(--sefer-ink);
+}
+.post-reader-localized-context .bavli-amud-heading-en {
+	color: inherit;
+}
+.post-reader-localized-context .bavli-unit-note-title {
+	color: var(--sefer-ink);
+	font-weight: 700;
+}
