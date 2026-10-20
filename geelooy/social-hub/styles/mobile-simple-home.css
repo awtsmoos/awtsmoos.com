@@ -3,6 +3,13 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /** The Awtsmoos lets one deed appear before many measurements; Awtsmoos.com folds pulse and secondary actions until the user asks them to shine. */
+/* B"H - base (all widths): the disclosure summary is a header row - the title pair
+ * sits apart from the privacy span, and the pair itself is a flex row with a real
+ * gap, exactly as the mobile block below assumes. Without these base rules the
+ * desktop summary renders its spans inline and the title runs into the alias. */
+.social-hub-document .homeDisclosureSummary { display: flex; align-items: center; justify-content: space-between; gap: .55rem; }
+.social-hub-document .homeDisclosureSummary span { display: flex; gap: .35rem; align-items: baseline; min-inline-size: 0; }
+.social-hub-document .homeDisclosureSummary small { overflow: hidden; max-inline-size: 8rem; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 62.4375rem) {
 	.social-hub-document .homePanel { display: flex; flex-direction: column; gap: .5rem; }
 	.social-hub-document .homeCreationCard {
