@@ -34,7 +34,12 @@ export class LivingCityStage {
 		this.assets = new SemanticAssetFactory();
 		this.stage = new WebglStage(this.host, { background: 0x07111e });
 		this.stage.mount();
-		this.stage.renderer.shadowMap.enabled = window.innerWidth >= 700;
+		// The native renderer has no THREE-style shadowMap toggle; its shadow
+		// budget governs shade per object. Only apply the width gate when a
+		// renderer actually exposes the toggle, never assume it exists.
+		if (this.stage.renderer.shadowMap) {
+			this.stage.renderer.shadowMap.enabled = window.innerWidth >= 700;
+		}
 		addArena(this.stage, 202, OPEN_WORLD_ARENA_CONFIG);
 		this.world = new LivingCityWorldManifestation(this.stage, this.assets, {
 			definitions: this.definitions,
