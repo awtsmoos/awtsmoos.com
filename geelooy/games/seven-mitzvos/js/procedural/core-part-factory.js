@@ -38,7 +38,7 @@ export class CorePartFactory {
 		const materialPolicy = corePartMaterialOptions(options, fallbackTint);
 		const material = sevenMaterial(materialPolicy.role, materialPolicy.options);
 		const renderData = this.geometryCache.renderData(profile);
-		const geometry = createNativeGeometryFromArtifact(renderData);
+		const geometry = createNativeGeometryFromArtifact(artifactFromRenderData(renderData));
 		const mesh = new Mesh(geometry, material);
 		mesh.name = options.name || profile.primitive;
 		applyCorePartTransform(mesh, options);
@@ -74,6 +74,35 @@ export class CorePartFactory {
 	color(hue, lightness = 0.55) {
 		return corePartColorValue(hue, lightness);
 	}
+}
+
+/**
+ * Translates the geometry core's flat render data (raw typed channels) into the
+ * native artifact contract ({ attributes: { name: { componentType, array,
+ * itemSize } }, indices: { componentType, array } }) that
+ * createNativeGeometryFromArtifact consumes. Without this translation the
+ * factory reads componentType off raw typed arrays and throws on every part.
+ */
+function artifactFromRenderData(renderData) {
+	const attributes = {};
+	const channel = (name, values, itemSize) => {
+		if (values && values.length) {
+			attributes[name] = { componentType: 'float32', array: values, itemSize };
+		}
+	};
+	channel('position', renderData.positions, 3);
+	channel('normal', renderData.normals, 3);
+	channel('color', renderData.colors, 4);
+	return {
+		id: renderData.id,
+		attributes,
+		indices: renderData.indices && renderData.indices.length
+			? {
+				componentType: renderData.indices instanceof Uint32Array ? 'uint32' : 'uint16',
+				array: renderData.indices
+			}
+			: null
+	};
 }
 
 function semanticPartData(options, profile, material, materialPolicy) {
