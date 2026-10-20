@@ -12,7 +12,7 @@
  */
 
 const { requireMethod, requestValue } = require('./requestValues.js');
-const { heapTooHigh, yieldTick } = require('./serverHealth.js');
+const { heapTooHigh, yieldTick, admissionHealthy } = require('./serverHealth.js');
 const { validatePost, contentHash } = require('./postValidate.js');
 const { runningJobsForHeichel, setJob } = require('./jobStore.js');
 const { saveJobState } = require('./jobState.js');
@@ -36,11 +36,16 @@ module.exports = {
 		if (auth) return auth;
 		// AGENT IDENTITY 2026-10-19
 		try{const _h=(this.$i&&this.$i.headers)||{};console.log("[AGENT-OP] id="+(_h["x-agent-identity"]||"UNIDENTIFIED")+" kind="+(_h["x-agent-kind"]||"UNKNOWN"));}catch(_){}
-		if (heapTooHigh()) {
-			return { success: false, error: 'SERVER_MEMORY_HIGH', message: 'Server heap is above the safe threshold for new import jobs. Retry shortly.' };
-		}
 		const body = this.$i?.body || {};
 		const heichelId = body.heichelId || requestValue(this.$i, 'heichelId') || 'ikar';
+		// B"H 2026-10-20 (crash-guard): fail-fast admission - one job at a
+		// time, heap + system-RAM headroom, event-loop circuit breaker.
+		// A refused job returns NOW with retryAfterMs: the server sheds
+		// load instead of queueing into a hang (2026-10-20 00:01 EDT).
+		const admission = admissionHealthy(heichelId);
+		if (!admission.ok) {
+			return { success: false, error: admission.code, retryAfterMs: admission.retryAfterMs, message: admission.message };
+		}
 		// dryRun may arrive as boolean true (JSON body) or string 'true' ($_POST/$_GET).
 		const dryRunRaw = body.dryRun ?? requestValue(this.$i, 'dryRun');
 		const dryRun = dryRunRaw === true || dryRunRaw === 'true';
@@ -72,12 +77,12 @@ module.exports = {
 			return { success: false, error: 'NO_VALID_POSTS', message: 'No post in the batch carries a postId.' };
 		}
 		const busy = runningJobsForHeichel(heichelId);
-		// B"H 2026-10-13 (import-speed): allow up to MAX_CONCURRENT_PER_HEICHEL
-		// concurrent jobs per heichel (was 1). Series-index flushes are
+		// B"H 2026-10-20 (crash-guard): MAX_CONCURRENT_PER_HEICHEL is 1
+		// again - backstop behind admissionHealthy(). Series flushes are
 		// mutex-guarded; native writes are per-post keys (no races).
 		if (busy.length >= MAX_CONCURRENT_PER_HEICHEL) {
 			return {
-				success: false, error: 'JOB_ALREADY_RUNNING',
+				success: false, error: 'JOB_ALREADY_RUNNING', retryAfterMs: 30000,
 				jobId: busy[0].id, scope: 'heichel', heichelId,
 				running: busy.length, maxConcurrent: MAX_CONCURRENT_PER_HEICHEL,
 			};
