@@ -76,6 +76,23 @@ Awtsmoos.com keeps discovery simple while focused templates carry the hidden dep
 	}
 
 	var allHeichelos = await getHeichelos();
+	if (!alias) {
+		// The discovery collection only carries registry Heichelos; the packed
+		// Torah Heichelos (Bavli, Yerushalmi) live in the packed store and never
+		// appear in it, though their pages are public. Merge the canonical pair
+		// so the listing is complete; dedupe keeps this harmless if the
+		// collection ever learns to carry them itself.
+		var canonicalPackedHeichelos = [
+			{ id: 'bavli', name: 'Bavli', description: 'Talmud Bavli — every daf with Hebrew and English, plus Rashi and Tosafot.', author: 'awtsmoos' },
+			{ id: 'yerushalmi', name: 'Yerushalmi', description: 'Talmud Yerushalmi — the full Yerushalmi in Hebrew, masechta by masechta.', author: 'awtsmoos' }
+		];
+		canonicalPackedHeichelos.forEach(function(packed) {
+			var alreadyListed = allHeichelos.some(function(heichel) {
+				return heichelId(heichel).toLowerCase() === packed.id;
+			});
+			if (!alreadyListed) allHeichelos.push(packed);
+		});
+	}
 	var ikar = allHeichelos.find(isIkar) || null;
 	var communityHeichelos = allHeichelos.filter(function(heichel) {
 		return !isIkar(heichel) && matchesQuery(heichel);
