@@ -54,11 +54,11 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 	.geelooy-mail-document .mail-folder-list {
 		display: flex;
 		flex: 0 0 auto;
+		flex-wrap: wrap;
 		gap: 8px;
-		overflow-x: auto;
-		overflow-y: hidden;
+		overflow-x: visible;
+		overflow-y: visible;
 		padding: 0 0 9px;
-		scroll-snap-type: x proximity;
 		scrollbar-width: none;
 	}
 	.geelooy-mail-document :is(.mail-sender-category-grid, .mail-folder-list)::-webkit-scrollbar {
@@ -66,11 +66,10 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 	}
 	.geelooy-mail-document.geelooy-mail-document .mail-sender-category,
 	.geelooy-mail-document .mail-folder-tab {
-		flex: 0 0 min(9rem, 42vw);
+		flex: 1 1 9rem;
 		inline-size: auto;
 		min-block-size: 44px;
 		grid-template-columns: 30px minmax(0, 1fr) auto;
-		scroll-snap-align: start;
 	}
 	.geelooy-mail-document.geelooy-mail-document .thread-list {
 		flex: 1 0 min(260px, 42dvh);
