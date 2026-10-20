@@ -13,3 +13,30 @@ The Awtsmoos reveals composition through focused vessels without division in the
 @import url("./system/composer-modals.css?v=mail-revelation-018");
 @import url("./system/composer-motion.css?v=mail-revelation-018");
 @import url("./system/mobile.css?v=mail-revelation-018");
+
+/* Composer view-state geometry (Expand / Minimize).
+ * The state rules below live canonically in
+ * css/quantum/composer/shell/frame.css, but no sheet in this manifest
+ * chain imports frame.css — so actions.js toggled .fullscreen /
+ * .minimized on .composer-area with no visual effect. They are
+ * reproduced verbatim here, at the end of the live manifest, so the
+ * toggles work without disturbing the quantum sibling chain. */
+
+.composer-area.minimized .composer-content {
+	display: none;
+}
+
+.composer-area.minimized .composer-box {
+	inline-size: min(100%, 28rem);
+	margin-inline-start: auto;
+}
+
+.composer-area.fullscreen {
+	position: fixed;
+	z-index: 9000;
+	inset: max(5.5rem, env(safe-area-inset-top)) .75rem .75rem;
+}
+
+.composer-area.fullscreen .composer-box {
+	block-size: 100%;
+}
