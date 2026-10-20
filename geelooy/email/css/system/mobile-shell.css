@@ -219,3 +219,16 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 		display: none;
 	}
 }
+
+/* B"H — Account-surfaces E-CROWD-3: on small screens the search command panel
+   shrinks to a single compact row of purpose: tighter padding, and the
+   heading hint (which repeats the input's own placeholder) is hidden. */
+@media (max-width: 850px) {
+	.geelooy-mail-document .mail-command-panel {
+		gap: .4rem;
+		padding: .55rem;
+	}
+	.geelooy-mail-document .mail-search-copy small {
+		display: none;
+	}
+}
