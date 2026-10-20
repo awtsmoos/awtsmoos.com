@@ -277,7 +277,7 @@ input[type="range"]::-webkit-slider-runnable-track {
     margin-bottom: 16px;
 }
 
-.hidden.hidden { display: none; }
+#loading-overlay.hidden { display: none; }
 
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
