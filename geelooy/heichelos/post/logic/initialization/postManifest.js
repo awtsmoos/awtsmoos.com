@@ -16,7 +16,7 @@
 import { appendHTML, makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-002';
 import { interpretPostDayuh } from '/heichelos/post/logic/scribe.js';
 import { prepareStructuredPost } from '/heichelos/post/logic/scribe/PostSectionSource.js';
-import { renderUnitsPost } from '/heichelos/post/logic/initialization/UnitsManifest.js?v=units-001';
+import { renderUnitsPost } from '/heichelos/post/logic/initialization/UnitsManifest.js?v=units-002';
 import { renderRootDocument } from '/heichelos/post/ui/RichRootDocument.js?v=rich-social-document-001';
 import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-006';
 

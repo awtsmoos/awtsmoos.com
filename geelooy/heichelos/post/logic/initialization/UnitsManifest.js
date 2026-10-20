@@ -16,6 +16,8 @@
  * can be unit-tested in Node; the mounter is deliberately dependency-free.
  */
 
+import { buildUnitPhrasesHtml } from './UnitsPhrases.js?v=units-002';
+
 /**
  * Escapes HTML special characters in plain-text values.
  * @param {unknown} value Raw value.
@@ -109,7 +111,14 @@ export function buildUnitsHtml(post) {
 		}
 		const hebrew = unitHebrewHtml(unit);
 		const english = stripNoteMarkers(unit.en);
-		if (!hebrew && !String(english || '').trim()) return;
+		// B"H — phrases-shaped units (Toras Chaim) carry their English in
+		// phrases[] rather than a unit-level en; when present, the phrases
+		// ARE the unit's bilingual text and render interleaved instead of
+		// the Hebrew-only block.
+		const phrasesHtml = String(english || '').trim()
+			? ''
+			: buildUnitPhrasesHtml(unit);
+		if (!hebrew && !String(english || '').trim() && !phrasesHtml) return;
 		const type = typeof unit.type === 'string' ? unit.type : '';
 		blocks.push(
 			'<section class="bavli-unit" data-unit-index="' + index + '"'
@@ -117,8 +126,10 @@ export function buildUnitsHtml(post) {
 			+ (type ? ' data-unit-type="' + escapeHtml(type) + '"' : '')
 			+ ' style="margin:1.1em 0;">'
 			+ (type ? '<div class="bavli-unit-type" style="font-size:0.8em;letter-spacing:0.08em;text-transform:uppercase;opacity:0.65;">' + escapeHtml(type) + '</div>' : '')
-			+ (hebrew ? '<div class="bavli-unit-he" dir="rtl" lang="he" style="line-height:1.9;">' + hebrew + '</div>' : '')
-			+ (String(english || '').trim() ? '<div class="bavli-unit-en" dir="ltr" lang="en" style="line-height:1.75;margin-top:0.35em;">' + english + '</div>' : '')
+			+ (phrasesHtml
+				? phrasesHtml
+				: (hebrew ? '<div class="bavli-unit-he" dir="rtl" lang="he" style="line-height:1.9;">' + hebrew + '</div>' : '')
+					+ (String(english || '').trim() ? '<div class="bavli-unit-en" dir="ltr" lang="en" style="line-height:1.75;margin-top:0.35em;">' + english + '</div>' : ''))
 			+ unitNotesHtml(unit)
 			+ '</section>'
 		);
