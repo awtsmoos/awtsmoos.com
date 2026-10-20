@@ -34,6 +34,15 @@ function isTorahFirstHeichel() {
 
 function handlePopState() {
 	if (!popstateNavigator) return;
+	// B"H 2026-10-19 (heichel-spa): a stale navigator never fights SPA history.
+	// After a cross-heichel fragment swap the URL's heichel no longer matches
+	// this navigator's heichel, so the SPA layer owns the popstate.
+	try {
+		const segs = window.location.pathname.split('/').filter(Boolean);
+		const hIdx = segs.indexOf('heichelos');
+		const urlHeichel = hIdx >= 0 ? decodeURIComponent(segs[hIdx + 1] || '') : null;
+		if (urlHeichel && appState.heichelId && urlHeichel !== appState.heichelId) return;
+	} catch (_) {}
 	const params = new URLSearchParams(window.location.search);
 	popstateNavigator.currentView = params.get('view') || 'posts';
 	popstateNavigator.loadContent(params.get('series') || seriesFromPath() || 'root');
