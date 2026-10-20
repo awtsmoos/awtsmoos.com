@@ -57,8 +57,20 @@ export class SocialIdentityTransitionCoordinator {
 		return true;
 	}
 
-	/** Writes legacy profile-target context required by creator/profile fields. */
+	/**
+	 * Writes legacy profile-target context required by creator/profile fields.
+	 * An explicit profile target (deep link ?profile=<alias> or a lookup choice)
+	 * outranks identity context: when the visible target names a different alias
+	 * than the acting one, identity synchronization must not stomp it, or the
+	 * profile panel would render the viewer's alias where the requested one belongs.
+	 */
 	manifestAliasContext(yesodAliasId) {
+		const tiferesTarget = String(
+			this.app.state.snapshot().profileAliasId || ''
+		);
+		if (tiferesTarget && tiferesTarget !== yesodAliasId) {
+			return;
+		}
 		function manifestMalchusAlias(malchusState) {
 			malchusState.profileAliasId = yesodAliasId;
 		}
