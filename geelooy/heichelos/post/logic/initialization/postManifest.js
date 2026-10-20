@@ -16,6 +16,7 @@
 import { appendHTML, makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-001';
 import { interpretPostDayuh } from '/heichelos/post/logic/scribe.js';
 import { prepareStructuredPost } from '/heichelos/post/logic/scribe/PostSectionSource.js';
+import { renderUnitsPost } from '/heichelos/post/logic/initialization/UnitsManifest.js?v=units-001';
 import { renderRootDocument } from '/heichelos/post/ui/RichRootDocument.js?v=rich-social-document-001';
 import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-006';
 
@@ -135,12 +136,15 @@ function viewportHasVisibleText(viewport) {
 	return text.length > 40;
 }
 
-function renderMode({ richRoot, structured }) {
+function renderMode({ richRoot, structured, units }) {
 	if (richRoot && structured) {
 		return 'rich-root+structured-sections';
 	}
 	if (richRoot) {
 		return 'rich-root-document';
+	}
+	if (units) {
+		return 'units-manifest';
 	}
 	return structured ? 'structured-sections' : 'plain-fallback';
 }
@@ -156,8 +160,16 @@ export async function manifestPost(viewport, post, series, postIndex) {
 	appendRootAssets(viewport, post);
 	const richRoot = renderRootDocument(viewport, post?.rootDocument);
 	const structuredPost = prepareStructuredPost(post);
+	let unitsRendered = false;
 	if (structuredPost) {
 		await interpretPostDayuh(structuredPost);
+	} else if (!richRoot && Array.isArray(post?.units) && post.units.length) {
+		// B"H — units-shaped posts (Bavli dafim) carry their teaching in
+		// `units`, not `sections`; manifest them canonically (UnitsManifest).
+		unitsRendered = renderUnitsPost(viewport, post);
+		if (!unitsRendered && post?.content) {
+			appendPlainFallback(viewport, post.content);
+		}
 	} else if (!richRoot && post?.content) {
 		appendPlainFallback(viewport, post.content);
 	}
@@ -165,5 +177,5 @@ export async function manifestPost(viewport, post, series, postIndex) {
 		appendHebrewTextFallback(viewport, post);
 	}
 	viewport.append(makeNavBars(post, series, postIndex));
-	return renderMode({ richRoot, structured: Boolean(structuredPost) });
+	return renderMode({ richRoot, structured: Boolean(structuredPost), units: unitsRendered });
 }
