@@ -87,9 +87,18 @@ async function renderAliasPage($i, aliasId) {
 			statusCode: 404,
 			mimeType: 'text/html; charset=utf-8',
 			response: [
-				'<!DOCTYPE html><html><head><title>Alias unavailable | Awtsmoos</title>',
-				'<meta name="robots" content="noindex,follow"></head>',
-				'<body><main><h1>Alias unavailable</h1></main></body></html>'
+				'<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">',
+				'<meta name="viewport" content="width=device-width, initial-scale=1">',
+				'<title>Alias unavailable | Awtsmoos</title>',
+				'<meta name="robots" content="noindex,follow">',
+				'<link rel="stylesheet" href="/style/social/profile/index.css">',
+				'<link rel="stylesheet" href="/style/social/profile/public-sites.css"></head>',
+				'<body><main class="profile-not-found">',
+				'<h1>Alias unavailable</h1>',
+				`<p>@${escapeHtml(aliasId)} could not be found. The alias may not exist yet.</p>`,
+				'<p class="profile-not-found-links"><a href="/heichelos/">Browse Heichelos</a>',
+				'<a href="/">Back to Awtsmoos home</a></p>',
+				'</main></body></html>'
 			].join('')
 		};
 	}

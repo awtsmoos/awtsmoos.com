@@ -17,6 +17,13 @@ export async function hydrateProfile({ aliasId, container }) {
         document.title = `@${profile.alias.id}`;
         render(container);
     } catch (error) {
-        container.replaceChildren(el("p", { className: "profile-error", text: error.message || `Could not load @${aliasId}.` }));
+        container.replaceChildren(el("div", { className: "profile-not-found" }, [
+            el("h1", { text: "Profile unavailable" }),
+            el("p", { text: error.message || `Could not load @${aliasId}.` }),
+            el("p", { className: "profile-not-found-links" }, [
+                el("a", { attrs: { href: "/heichelos/" }, text: "Browse Heichelos" }),
+                el("a", { attrs: { href: "/" }, text: "Back to Awtsmoos home" })
+            ])
+        ]));
     }
 }
