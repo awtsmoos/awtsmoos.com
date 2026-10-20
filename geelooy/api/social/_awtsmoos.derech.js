@@ -43,6 +43,7 @@ const reading = require('./_awtsmoos.reading.js');
 const views = require('./_awtsmoos.views.js');
 const search = require('./_awtsmoos.search.js');
 const series = require('./_awtsmoos.series.js');
+const health = require('./_awtsmoos.health.js');
 const socialKernel = require('./_awtsmoos.socialKernel.js');
 const socialSummary = require('./_awtsmoos.socialSummary.js');
 const thoughts = require('./_awtsmoos.thoughts.js');
@@ -99,6 +100,7 @@ module.exports = async $i => {
 		...views(vessel),
 		...comments(vessel),
 		...series(vessel),
-		...books(vessel)
+		...books(vessel),
+		...health(vessel)
 	});
 };

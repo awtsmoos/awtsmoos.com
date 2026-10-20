@@ -20,6 +20,7 @@ const PackedPostImportRoutes = class PackedPostImportRoutes {
 		// (idempotent, unref'd 1s probe). It feeds the shed circuit
 		// breaker that protects imports from starving web traffic.
 		require('./eventLoopMonitor.js').startEventLoopMonitor();
+		require('../../safeguards/resourceAlarm.js').startResourceAlarm();
 	}
 
 
