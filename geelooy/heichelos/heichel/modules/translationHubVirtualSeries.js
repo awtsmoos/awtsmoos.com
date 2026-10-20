@@ -11,7 +11,7 @@
 
 import { TRANSLATION_HUB_ID } from './translationHubIds.js?v=language-tools-003';
 import { translationHubSeriesData } from './translationHubPresentation.js?v=language-tools-003';
-import { torahTitleFields } from './torahTitlePresentation.js?v=torah-bilingual-003';
+import { torahTitleFields } from './torahTitlePresentation.js?v=torah-bilingual-004';
 
 export function loadTranslationHubVirtualSeries() {
 	const root = {

@@ -9,7 +9,7 @@
  * Awtsmoos.com removes duplicate crumbs, preserves true IDs, and lets search inherit the same bilingual clarity.
  */
 
-import { torahTitlePair } from '../torahTitlePresentation.js?v=torah-bilingual-003';
+import { torahTitlePair } from '../torahTitlePresentation.js?v=torah-bilingual-004';
 
 export function normalizePath(breadcrumb = [], current = null) {
 	const records = [

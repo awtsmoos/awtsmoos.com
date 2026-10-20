@@ -14,7 +14,7 @@ import {
 	detectDirection,
 	detectLanguage
 } from '../../living-path/language-policy.js';
-import { torahTitlePair } from '../../torahTitlePresentation.js?v=torah-bilingual-003';
+import { torahTitlePair } from '../../torahTitlePresentation.js?v=torah-bilingual-004';
 import { safeDisplayText } from '../textSanitizer.js';
 import {
 	countCardValue,

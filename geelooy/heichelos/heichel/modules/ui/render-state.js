@@ -11,7 +11,7 @@
 
 import { DOMElements } from '../dom.js';
 import { detectDirection } from '../living-path/language-policy.js';
-import { torahTitlePair } from '../torahTitlePresentation.js?v=torah-bilingual-002';
+import { torahTitlePair } from '../torahTitlePresentation.js?v=torah-bilingual-004';
 import { renderExactSource } from './source-description-renderer.js?v=heichel-mobile-010';
 import { safeDisplayText } from './textSanitizer.js';
 import { renderTranslationHub } from './translation-hub-renderer.js?v=language-tools-003';

@@ -23,6 +23,10 @@ import {
 	hasHebrewLetters,
 	transliterateTorahTitle
 } from './torahTitleTransliteration.js?v=torah-bilingual-002';
+import {
+	compositeEnglishHead,
+	compositeHebrewSegment
+} from './torahCompositeTitle.js?v=torah-bilingual-004';
 
 const RTL_OPEN = '\u2067';
 const LTR_OPEN = '\u2066';
@@ -44,7 +48,7 @@ export function torahTitlePair(source = {}) {
 		record.titleHe
 		|| record.nameHe
 		|| registered?.he
-		|| (hasHebrewLetters(stripIdPrefix(raw)) ? stripIdPrefix(raw) : '')
+		|| compositeHebrewSegment(raw)
 	).trim();
 	const explicitEnglish = String(
 		record.titleEn
@@ -54,14 +58,19 @@ export function torahTitlePair(source = {}) {
 	).trim();
 	const curatedEnglish = he ? englishTitleForHebrew(he) : '';
 	const fallbackEnglish = he ? '' : humanizeTorahId(stripIdPrefix(raw) || key);
+	// B"H — a composite record name ("English | Transliteration / Hebrew")
+	// carries its own English head; it outranks a machine transliteration
+	// of the Hebrew, which is only a last resort.
+	const compositeEnglish = compositeEnglishHead(raw);
 	const en = explicitEnglish
 		|| curatedEnglish
+		|| compositeEnglish
 		|| (he ? parshaEnglishForHebrew(he) || transliterateTorahTitle(he) : fallbackEnglish || 'Torah');
 	return {
 		he,
 		en,
 		display: bilingualDisplay(he, en),
-		englishKind: englishKind(explicitEnglish, curatedEnglish, registered, he)
+		englishKind: englishKind(explicitEnglish, curatedEnglish || compositeEnglish, registered, he)
 	};
 }
 

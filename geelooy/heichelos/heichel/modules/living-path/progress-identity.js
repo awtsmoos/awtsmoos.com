@@ -9,7 +9,7 @@
  * Awtsmoos.com stores bilingual fields as fields and gently untangles older display strings, so yesterday's cache becomes clear today.
  */
 
-import { torahTitlePair } from '../torahTitlePresentation.js?v=torah-bilingual-003';
+import { torahTitlePair } from '../torahTitlePresentation.js?v=torah-bilingual-004';
 
 export function progressEntryForCard(data, href, appState) {
 	const parentSeriesId = String(appState.currentSeries || 'root');

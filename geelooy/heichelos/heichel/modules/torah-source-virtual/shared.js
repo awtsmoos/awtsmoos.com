@@ -14,7 +14,7 @@ import {
 	workSeriesId
 } from '../torahLibraryIds.js?v=torah-tree-006';
 import { sourceHostBreadcrumb } from '../torahSourceHierarchy.js?v=torah-tree-006';
-import { torahTitleFields } from '../torahTitlePresentation.js?v=torah-bilingual-002';
+import { torahTitleFields } from '../torahTitlePresentation.js?v=torah-bilingual-004';
 
 export function domainBreadcrumb(definition) {
 	return [

@@ -11,7 +11,7 @@
  * stored series remains exactly where its real parentage and data already live.
  */
 
-import { torahTitleFields } from './torahTitlePresentation.js?v=torah-bilingual-002';
+import { torahTitleFields } from './torahTitlePresentation.js?v=torah-bilingual-004';
 
 export const TORAH_ROOT_ID = 'root';
 export const CHASSIDUS_ROOT_ID = 'chassidus';

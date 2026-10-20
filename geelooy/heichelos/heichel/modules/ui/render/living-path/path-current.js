@@ -9,7 +9,7 @@
  * Awtsmoos.com keeps raw route identity below the surface, so search, breadcrumb, and sticky path share one truthful name.
  */
 
-import { torahTitlePair } from '../../../torahTitlePresentation.js?v=torah-bilingual-003';
+import { torahTitlePair } from '../../../torahTitlePresentation.js?v=torah-bilingual-004';
 
 /** Reveals the current navigation crumb from active application state. */
 export function currentPathCrumb(appState) {
