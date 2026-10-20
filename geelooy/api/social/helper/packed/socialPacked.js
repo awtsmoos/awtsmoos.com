@@ -521,6 +521,30 @@ async function readPackedAsync({ $i, shard = 'core', key }) {
   }
   try { return store.get({ shard, parts: ['records', key] })?.value || null; } catch { return null; }
 }
+/**
+ * B"H 2026-10-20 (allPosts-list fix): point read of the LATEST envelope
+ * for one key, without re-scanning the shard. The AwtsmoosDB branch is a
+ * store point read (identical to readPacked). The JSONL branch rides
+ * the stat-validated latest-per-key cache that listPackedRecords
+ * already maintains: the first call may pay that cache's amortized
+ * build (tail-merged on later appends), after which every read is one
+ * stat() plus one Map lookup. Returns the envelope or null, exactly
+ * like readPacked — tombstone envelopes are returned as stored, so
+ * callers keep their own op handling.
+ */
+function readPackedLatest({ $i, shard = 'core', key }) {
+  if (engineFor($i, shard) !== 'JSONL') {
+    try { return store.get({ shard, parts: ['records', key] })?.value || null; } catch { return null; }
+  }
+  const root = effectiveRoot($i, shard);
+  const file = fileFor(root, shard);
+  if (!file) return null;
+  try { fs.statSync(file); } catch { return null; }
+  listPackedRecords({ $i, shard }); // ensures the latest-per-key cache is fresh
+  const cached = listRecordsCache.get(file);
+  if (cached && cached.latest) return cached.latest.get(key) || null;
+  return readPacked({ $i, shard, key }); // cache unavailable: exact scan fallback
+}
 //B"H 2026-10-19 (series-api-perf): listPackedRecords() re-parsed the ENTIRE
 //shard file on every call — 168MB for allPosts, 475MB for search — which made
 //GET /api/social/heichelos/ikar/series take 5+ seconds for a 1.3KB response.
@@ -852,4 +876,4 @@ async function getPostsByParent({ $i, parentPostId, limit = 200 } = {}) {
   }
   return out;
 }
-module.exports = { resolveDbRoot, fileRoot, engineFor, effectiveRoot, shardWriteGeneration, writePacked, readPacked, readPackedAsync, listPackedRecords, clearListRecordsCache, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats, excerptOf, allPostValue, getPostsByParent };
+module.exports = { resolveDbRoot, fileRoot, engineFor, effectiveRoot, shardWriteGeneration, writePacked, readPacked, readPackedAsync, readPackedLatest, listPackedRecords, clearListRecordsCache, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats, excerptOf, allPostValue, getPostsByParent };

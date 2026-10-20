@@ -7,7 +7,7 @@
  */
 const fs = require('fs');
 const { logicalKey, shardFile, SHARDS } = require('./shardPaths.js');
-const { writePacked, readPacked, listPackedRecords, excerptOf, effectiveRoot, shardWriteGeneration } = require('./socialPacked.js');
+const { writePacked, readPackedLatest, listPackedRecords, excerptOf, effectiveRoot, shardWriteGeneration } = require('./socialPacked.js');
 /**
  * B"H 2026-10-20 (safeguards): full-scan incident counter. A whole-shard
  * scan on the request path is an INCIDENT by definition — every run is
@@ -30,7 +30,10 @@ function writeAllPost({ $i, post }) {
   return writePacked({ $i, shard: 'allPosts', key: allPostKey({ heichelId: value.heichelId, postId: value.postId }), value, meta: { kind: 'post', storage: 'allPosts', heichelId: value.heichelId, seriesId: value.seriesId, aliasId: value.aliasId || value.author || '' } });
 }
 function readAllPost({ $i, heichelId, postId }) {
-  return readPacked({ $i, shard: 'allPosts', key: allPostKey({ heichelId, postId }) });
+  // B"H 2026-10-20 (allPosts-list fix): latest-envelope point read via
+  // the facade's stat-validated latest-per-key cache (readPackedLatest)
+  // instead of readPacked's per-call full shard scan.
+  return readPackedLatest({ $i, shard: 'allPosts', key: allPostKey({ heichelId, postId }) });
 }
 /**
  * B"H 2026-10-12 (api-hardening): single-scan partition of packed posts by
@@ -63,7 +66,12 @@ const groupedCache = new Map();
  */
 let groupedWriteBursts = 0;
 function clearGroupedCache() { groupedWriteBursts++; return groupedCache.size; }
-const GROUPED_CACHE_VERSION = 1;
+// B"H 2026-10-20 (allPosts-list fix): snapshot format v2 — persists the
+// heichel-ordered `all` list alongside the series groups so the alias
+// dimension and ordered list survive restarts without a rebuild. v1
+// snapshots fail the version check below and are rebuilt once, exactly
+// like any other stale snapshot.
+const GROUPED_CACHE_VERSION = 2;
 function allPostsShardFile($i) {
   try {
     // B"H 2026-10-20 (json-migration M0): the root follows facade routing —
@@ -91,7 +99,7 @@ function loadGroupedSnapshot(file) {
     if (typeof parsed.size !== 'number' || typeof parsed.mtimeMs !== 'number') return null;
     const groups = new Map();
     for (const [sid, arr] of Object.entries(parsed.groups || {})) groups.set(sid, arr);
-    return { mtimeMs: parsed.mtimeMs, size: parsed.size, groups };
+    return { mtimeMs: parsed.mtimeMs, size: parsed.size, groups, all: Array.isArray(parsed.all) ? parsed.all : null };
   } catch { return null; }
 }
 function loadGroupedFromDisk(file, st) {
@@ -103,13 +111,13 @@ function loadGroupedFromDisk(file, st) {
     if (parsed.mtimeMs !== st.mtimeMs || parsed.size !== st.size) return null;
     const groups = new Map();
     for (const [sid, arr] of Object.entries(parsed.groups || {})) groups.set(sid, arr);
-    return groups;
+    return { groups, all: Array.isArray(parsed.all) ? parsed.all : null };
   } catch { return null; }
 }
-function saveGroupedToDisk(file, st, groups) {
+function saveGroupedToDisk(file, st, entry) {
   try {
-    const obj = { v: GROUPED_CACHE_VERSION, mtimeMs: st.mtimeMs, size: st.size, groups: {} };
-    for (const [sid, arr] of groups) obj.groups[sid] = arr;
+    const obj = { v: GROUPED_CACHE_VERSION, mtimeMs: st.mtimeMs, size: st.size, groups: {}, all: entry.all || [] };
+    for (const [sid, arr] of entry.groups) obj.groups[sid] = arr;
     fs.writeFileSync(groupedCacheFile(file), JSON.stringify(obj));
   } catch { /* best-effort */ }
 }
@@ -117,6 +125,10 @@ function saveGroupedToDisk(file, st, groups) {
 //common case: imports appending), parse just the new bytes and merge them
 //into the cached groups instead of re-scanning 175MB. Full rebuild only when
 //the file shrank or was replaced.
+//B"H 2026-10-20 (allPosts-list fix): the merge now maintains the entry's
+//alias dimension (byAlias) and heichel-ordered list (all) alongside the
+//series groups, with the same remove-then-unshift discipline, so all
+//three views stay consistent under append-only growth.
 function mergeTailRecords(entry, file, from, to) {
   const fd = fs.openSync(file, 'r');
   try {
@@ -124,6 +136,11 @@ function mergeTailRecords(entry, file, from, to) {
     const buf = Buffer.allocUnsafe(CHUNK);
     let pos = from;
     let leftover = '';
+    const removeCompact = (arr, compact) => {
+      if (!arr) return;
+      const ix = arr.findIndex(p => p.postId === compact.postId && p.heichelId === compact.heichelId);
+      if (ix >= 0) arr.splice(ix, 1);
+    };
     const applyLine = (line) => {
       if (!line) return;
       let rec;
@@ -136,12 +153,10 @@ function mergeTailRecords(entry, file, from, to) {
       const prev = entry.byKey.get(k);
       if (prev) {
         for (const sid of prev.seriesIds) {
-          const arr = entry.groups.get(sid);
-          if (arr) {
-            const ix = arr.findIndex(p => p.postId === prev.compact.postId && p.heichelId === prev.compact.heichelId);
-            if (ix >= 0) arr.splice(ix, 1);
-          }
+          removeCompact(entry.groups.get(sid), prev.compact);
         }
+        if (entry.byAlias) removeCompact(entry.byAlias.get(prev.compact.aliasId || ''), prev.compact);
+        if (entry.all) removeCompact(entry.all, prev.compact);
         entry.byKey.delete(k);
       }
       if (rec.op === 'del') return;
@@ -156,6 +171,12 @@ function mergeTailRecords(entry, file, from, to) {
         if (!entry.groups.has(sid)) entry.groups.set(sid, []);
         entry.groups.get(sid).unshift(compact);
       }
+      if (entry.byAlias) {
+        const a = compact.aliasId || '';
+        if (!entry.byAlias.has(a)) entry.byAlias.set(a, []);
+        entry.byAlias.get(a).unshift(compact);
+      }
+      if (entry.all) entry.all.unshift(compact);
     };
     while (pos < to) {
       const n = fs.readSync(fd, buf, 0, Math.min(CHUNK, to - pos), pos);
@@ -171,7 +192,37 @@ function mergeTailRecords(entry, file, from, to) {
     fs.closeSync(fd);
   }
 }
-function getFullGrouping($i, heichelId) {
+/** Derives the heichel-ordered list from grouped data (fallback only). */
+function deriveAll(groups) {
+  const seen = new Set();
+  const all = [];
+  for (const arr of groups.values()) {
+    for (const compact of arr) {
+      const k = allPostKey({ heichelId: compact.heichelId, postId: compact.postId });
+      if (!k || seen.has(k)) continue;
+      seen.add(k);
+      all.push(compact);
+    }
+  }
+  return all;
+}
+/** Builds the alias dimension (aliasId -> compact posts, newest first). */
+function rebuildByAlias(all) {
+  const byAlias = new Map();
+  for (const compact of all || []) {
+    const a = compact.aliasId || '';
+    if (!byAlias.has(a)) byAlias.set(a, []);
+    byAlias.get(a).push(compact);
+  }
+  return byAlias;
+}
+/** Fills any missing derived views on a cached entry, in place. */
+function normalizeEntry(entry) {
+  if (!entry.all) entry.all = deriveAll(entry.groups);
+  if (!entry.byAlias) entry.byAlias = rebuildByAlias(entry.all);
+  return entry;
+}
+function getGroupedEntry($i, heichelId) {
   const cacheKey = 'allPosts|' + heichelId;
   const file = allPostsShardFile($i);
   let st = null;
@@ -186,27 +237,29 @@ function getFullGrouping($i, heichelId) {
     const dbKey = 'allPostsDb|' + heichelId;
     const generation = shardWriteGeneration('allPosts');
     const hit = groupedCache.get(dbKey);
-    if (hit && hit.generation === generation) return hit.groups;
-    const groups = buildAllPostsGrouped({ $i, heichelId, wanted: new Set() });
-    groupedCache.set(dbKey, { generation, groups, byKey: rebuildByKey(groups) });
-    return groups;
+    if (hit && hit.generation === generation) return normalizeEntry(hit);
+    const built = buildAllPostsGrouped({ $i, heichelId, wanted: new Set() });
+    const entry = { generation, groups: built.groups, byAlias: built.byAlias, all: built.all, byKey: rebuildByKey(built.groups) };
+    groupedCache.set(dbKey, entry);
+    return entry;
   }
   if (st) {
     const hit = groupedCache.get(cacheKey);
-    if (hit && hit.mtimeMs === st.mtimeMs && hit.size === st.size) return hit.groups;
+    if (hit && hit.mtimeMs === st.mtimeMs && hit.size === st.size) return normalizeEntry(hit);
     if (hit && st.size >= hit.size && hit.mtimeMs <= st.mtimeMs) {
       // append-only growth: merge just the tail
       mergeTailRecords(hit, file, hit.size, st.size);
       hit.mtimeMs = st.mtimeMs;
       hit.size = st.size;
-      saveGroupedToDisk(file, st, hit.groups);
-      return hit.groups;
+      saveGroupedToDisk(file, st, hit);
+      return normalizeEntry(hit);
     }
-    const diskGroups = loadGroupedFromDisk(file, st);
-    if (diskGroups) {
-      const entry = { mtimeMs: st.mtimeMs, size: st.size, groups: diskGroups, byKey: rebuildByKey(diskGroups) };
+    const disk = loadGroupedFromDisk(file, st);
+    if (disk) {
+      const entry = { mtimeMs: st.mtimeMs, size: st.size, groups: disk.groups, all: disk.all || deriveAll(disk.groups), byKey: rebuildByKey(disk.groups) };
+      entry.byAlias = rebuildByAlias(entry.all);
       groupedCache.set(cacheKey, entry);
-      return diskGroups;
+      return entry;
     }
     // B"H 2026-10-20 (flap-fix): a STALE snapshot still beats a full
     // rebuild when the shard only GREW since it was saved (the import
@@ -217,23 +270,29 @@ function getFullGrouping($i, heichelId) {
     const snap = loadGroupedSnapshot(file);
     if (snap && st.size > snap.size) {
       try {
-        const entry = { mtimeMs: snap.mtimeMs, size: snap.size, groups: snap.groups, byKey: rebuildByKey(snap.groups) };
+        const entry = { mtimeMs: snap.mtimeMs, size: snap.size, groups: snap.groups, all: snap.all || deriveAll(snap.groups), byKey: rebuildByKey(snap.groups) };
+        entry.byAlias = rebuildByAlias(entry.all);
         mergeTailRecords(entry, file, snap.size, st.size);
         entry.mtimeMs = st.mtimeMs;
         entry.size = st.size;
         groupedCache.set(cacheKey, entry);
-        saveGroupedToDisk(file, st, entry.groups);
-        return entry.groups;
+        saveGroupedToDisk(file, st, entry);
+        return entry;
       } catch { /* snapshot merge failed: fall through to the full build */ }
     }
   }
-  const groups = buildAllPostsGrouped({ $i, heichelId, wanted: new Set() });
+  const built = buildAllPostsGrouped({ $i, heichelId, wanted: new Set() });
+  const entry = { groups: built.groups, byAlias: built.byAlias, all: built.all, byKey: rebuildByKey(built.groups) };
   if (st) {
-    const entry = { mtimeMs: st.mtimeMs, size: st.size, groups, byKey: rebuildByKey(groups) };
+    entry.mtimeMs = st.mtimeMs;
+    entry.size = st.size;
     groupedCache.set(cacheKey, entry);
-    saveGroupedToDisk(file, st, groups);
+    saveGroupedToDisk(file, st, entry);
   }
-  return groups;
+  return entry;
+}
+function getFullGrouping($i, heichelId) {
+  return getGroupedEntry($i, heichelId).groups;
 }
 /** Rebuilds the postKey -> {seriesIds, compact} index from grouped data. */
 function rebuildByKey(groups) {
@@ -262,6 +321,8 @@ function allPostsGrouped({ $i, heichelId = '', seriesIds = [] } = {}) {
 function buildAllPostsGrouped({ $i, heichelId = '', wanted = new Set() } = {}) {
   noteFullScan('allPostsGrouped-rebuild'); // SAFEGUARDS 2026-10-20: incident
   const groups = new Map();
+  const byAlias = new Map();
+  const all = [];
   const seen = new Set();
   const records = listPackedRecords({ $i, shard: 'allPosts' }).slice().reverse();
   for (const record of records) {
@@ -271,6 +332,11 @@ function buildAllPostsGrouped({ $i, heichelId = '', wanted = new Set() } = {}) {
     if (!k || seen.has(k)) continue;
     if (heichelId && value.heichelId !== heichelId) continue;
     seen.add(k);
+    const compact = compactPost(value);
+    all.push(compact);
+    const aliasKey = compact.aliasId || '';
+    if (!byAlias.has(aliasKey)) byAlias.set(aliasKey, []);
+    byAlias.get(aliasKey).push(compact);
     const claimed = new Set(
       [value.seriesId, value.parentSeriesId].map(v => String(v || '')).filter(Boolean)
     );
@@ -278,20 +344,39 @@ function buildAllPostsGrouped({ $i, heichelId = '', wanted = new Set() } = {}) {
     for (const sid of claimed) {
       if (wanted.size && !wanted.has(sid)) continue;
       if (!groups.has(sid)) groups.set(sid, []);
-      groups.get(sid).push(compactPost(value));
+      groups.get(sid).push(compact);
     }
   }
-  return groups;
+  return { groups, byAlias, all };
 }
 function allPosts({ $i, aliasId = '', heichelId = '', seriesId = '', limit = 500 } = {}) {
-  noteFullScan('allPosts-list'); // SAFEGUARDS 2026-10-20: incident
+  // B"H 2026-10-20 (allPosts-list fix): this used to run an UNCACHED
+  // full scan of the whole allPosts shard on EVERY call — journaled as
+  // the 'allPosts-list' incident, ~11 calls/min in production, seconds
+  // of event-loop block each — because listPackedRecords was re-walked
+  // and re-filtered per request. It now selects compact candidates
+  // from the grouped build's indexes (series map, alias dimension, or
+  // the heichel-ordered list — all produced by the same single pass
+  // and stat/generation validated) and point-reads each candidate's
+  // latest envelope via readPackedLatest. The value filters below are
+  // the original ones, applied to the same latest values in the same
+  // newest-first order, so every filtered call pattern (both production
+  // callers always pass at least one filter) returns identical results.
+  // Only the never-used unfiltered mode differs: a tombstone's empty
+  // value no longer surfaces as a stray {} row.
+  const entry = getGroupedEntry($i, heichelId);
+  let candidates;
+  if (seriesId) candidates = entry.groups.get(String(seriesId)) || [];
+  else if (aliasId) candidates = entry.byAlias.get(aliasId) || [];
+  else candidates = entry.all;
   const seen = new Set();
   const output = [];
-  const records = listPackedRecords({ $i, shard: 'allPosts' }).slice().reverse();
-  for (const record of records) {
-    const value = record.value || {};
+  for (const compact of candidates) {
+    const envelope = readAllPost({ $i, heichelId: compact.heichelId, postId: compact.postId });
+    const value = envelope && envelope.op !== 'del' ? envelope.value : null;
+    if (!value) continue;
     const k = allPostKey({ heichelId: value.heichelId, postId: postIdOf(value) });
-    if (seen.has(k)) continue;
+    if (!k || seen.has(k)) continue;
     if (aliasId && (value.aliasId || value.author || '') !== aliasId) continue;
     if (heichelId && value.heichelId !== heichelId) continue;
     if (seriesId && value.seriesId !== seriesId && value.parentSeriesId !== seriesId) continue;
