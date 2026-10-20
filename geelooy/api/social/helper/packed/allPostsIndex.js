@@ -95,9 +95,12 @@ function loadGroupedSnapshot(file) {
   try {
     const loadStart = Date.now();
     const raw = fs.readFileSync(groupedCacheFile(file), 'utf8');
-    perfEvent('grouped-snapload', Date.now() - loadStart, { bytes: raw.length });
     if (raw.length > 128 * 1024 * 1024) return null;
     const parsed = JSON.parse(raw);
+    // B"H 2026-10-20 (churn fix): the snapload timing now covers the
+    // JSON.parse too — it previously stopped at the file read and
+    // under-measured loading a 17MB snapshot.
+    perfEvent('grouped-snapload', Date.now() - loadStart, { bytes: raw.length });
     if (!parsed || parsed.v !== GROUPED_CACHE_VERSION) return null;
     if (typeof parsed.size !== 'number' || typeof parsed.mtimeMs !== 'number') return null;
     const groups = new Map();
@@ -109,9 +112,9 @@ function loadGroupedFromDisk(file, st) {
   try {
     const loadStart = Date.now();
     const raw = fs.readFileSync(groupedCacheFile(file), 'utf8');
-    perfEvent('grouped-snapload', Date.now() - loadStart, { bytes: raw.length });
     if (raw.length > 128 * 1024 * 1024) return null;
     const parsed = JSON.parse(raw);
+    perfEvent('grouped-snapload', Date.now() - loadStart, { bytes: raw.length });
     if (!parsed || parsed.v !== GROUPED_CACHE_VERSION) return null;
     if (parsed.mtimeMs !== st.mtimeMs || parsed.size !== st.size) return null;
     const groups = new Map();
@@ -125,9 +128,76 @@ function saveGroupedToDisk(file, st, entry) {
     const obj = { v: GROUPED_CACHE_VERSION, mtimeMs: st.mtimeMs, size: st.size, groups: {}, all: entry.all || [] };
     for (const [sid, arr] of entry.groups) obj.groups[sid] = arr;
     const text = JSON.stringify(obj);
-    fs.writeFileSync(groupedCacheFile(file), text);
+    // B"H 2026-10-20 (churn fix): persist via a sibling temp file +
+    // rename, so a crash mid-save can never leave a torn snapshot
+    // behind — the last good snapshot stays loadable and tail-merges
+    // forward on the next start. Same path, same format, same bytes.
+    const target = groupedCacheFile(file);
+    const tmp = target + '.tmp';
+    fs.writeFileSync(tmp, text);
+    fs.renameSync(tmp, target);
     perfEvent('grouped-save', Date.now() - saveStart, { bytes: text.length });
   } catch { /* best-effort */ }
+}
+/**
+ * B"H 2026-10-20 (churn fix): grouped snapshot saves are WRITE-BEHIND.
+ * The [PERF] journal under live import load (22:13–22:20 UTC, MainPID
+ * 1264872) apportioned the residual feed stall: tail merges cost
+ * 8–44ms, but the synchronous save each merge triggered cost
+ * 187–306ms (17MB stringify + write) ON THE REQUEST PATH, once per
+ * import batch — the first reader after every append paid it, and the
+ * loop blocked ~1.6s/min for everyone else. Saves now never run
+ * inside getGroupedEntry: merges mark their entry pending and an
+ * unref'd timer persists it, coalescing bursts and rate-limiting
+ * actual writes to one per GROUPED_SAVE_MIN_GAP_MS per snapshot file.
+ * The stringify happens at fire time from the live entry, so the
+ * persisted snapshot is at least as fresh as today's. The snapshot is
+ * only an accelerator (watermark-validated, tail-merged forward on
+ * load), so a save lost to a process exit costs at most one tail
+ * merge from an older watermark — never correctness.
+ */
+const GROUPED_SAVE_DELAY_MS = 5000;
+const GROUPED_SAVE_MIN_GAP_MS = 20000;
+const groupedSaveState = new Map(); // cacheFile -> {timer, pending, lastSaveAt}
+function scheduleGroupedSave(file, st, entry) {
+  const target = groupedCacheFile(file);
+  let state = groupedSaveState.get(target);
+  if (!state) { state = { timer: null, pending: null, lastSaveAt: 0 }; groupedSaveState.set(target, state); }
+  state.pending = { file, st, entry };
+  if (state.timer) return;
+  const sinceLast = Date.now() - state.lastSaveAt;
+  const wait = Math.max(GROUPED_SAVE_DELAY_MS, GROUPED_SAVE_MIN_GAP_MS - sinceLast);
+  state.timer = setTimeout(() => {
+    state.timer = null;
+    const pending = state.pending;
+    state.pending = null;
+    if (!pending) return;
+    state.lastSaveAt = Date.now();
+    saveGroupedToDisk(pending.file, pending.st, pending.entry);
+  }, wait);
+  if (state.timer && typeof state.timer.unref === 'function') state.timer.unref();
+}
+/** Persists every pending grouped snapshot now (tests, shutdown). */
+function flushGroupedSaves() {
+  for (const state of groupedSaveState.values()) {
+    if (state.timer) { clearTimeout(state.timer); state.timer = null; }
+    const pending = state.pending;
+    state.pending = null;
+    if (pending) { state.lastSaveAt = Date.now(); saveGroupedToDisk(pending.file, pending.st, pending.entry); }
+  }
+}
+/**
+ * A synchronous save (the full-build path) supersedes any pending
+ * write-behind save for the same snapshot file: the pending record
+ * holds an older entry/watermark and must never overwrite the fresher
+ * snapshot the build is about to write.
+ */
+function supersedeGroupedSave(file) {
+  const state = groupedSaveState.get(groupedCacheFile(file));
+  if (!state) return;
+  if (state.timer) { clearTimeout(state.timer); state.timer = null; }
+  state.pending = null;
+  state.lastSaveAt = Date.now();
 }
 //B"H 2026-10-19: incremental tail merge — when the shard only GREW (the
 //common case: imports appending), parse just the new bytes and merge them
@@ -261,13 +331,18 @@ function getGroupedEntry($i, heichelId) {
       perfEvent('grouped-merge', Date.now() - mergeStart, { tailBytes: st.size - hit.size });
       hit.mtimeMs = st.mtimeMs;
       hit.size = st.size;
-      saveGroupedToDisk(file, st, hit);
+      // B"H 2026-10-20 (churn fix): write-behind — the request returns
+      // after the 8–44ms merge; the 187–306ms snapshot save runs on a
+      // coalesced timer instead of inside this call.
+      scheduleGroupedSave(file, st, hit);
       return normalizeEntry(hit);
     }
     const disk = loadGroupedFromDisk(file, st);
     if (disk) {
+      const reindexStart = Date.now();
       const entry = { mtimeMs: st.mtimeMs, size: st.size, groups: disk.groups, all: disk.all || deriveAll(disk.groups), byKey: rebuildByKey(disk.groups) };
       entry.byAlias = rebuildByAlias(entry.all);
+      perfEvent('grouped-reindex', Date.now() - reindexStart, {});
       groupedCache.set(cacheKey, entry);
       return entry;
     }
@@ -280,15 +355,17 @@ function getGroupedEntry($i, heichelId) {
     const snap = loadGroupedSnapshot(file);
     if (snap && st.size > snap.size) {
       try {
+        const reindexStart = Date.now();
         const entry = { mtimeMs: snap.mtimeMs, size: snap.size, groups: snap.groups, all: snap.all || deriveAll(snap.groups), byKey: rebuildByKey(snap.groups) };
         entry.byAlias = rebuildByAlias(entry.all);
+        perfEvent('grouped-reindex', Date.now() - reindexStart, {});
         const mergeStart = Date.now();
         mergeTailRecords(entry, file, snap.size, st.size);
         perfEvent('grouped-merge', Date.now() - mergeStart, { tailBytes: st.size - snap.size });
         entry.mtimeMs = st.mtimeMs;
         entry.size = st.size;
         groupedCache.set(cacheKey, entry);
-        saveGroupedToDisk(file, st, entry);
+        scheduleGroupedSave(file, st, entry);
         return entry;
       } catch { /* snapshot merge failed: fall through to the full build */ }
     }
@@ -299,6 +376,10 @@ function getGroupedEntry($i, heichelId) {
     entry.mtimeMs = st.mtimeMs;
     entry.size = st.size;
     groupedCache.set(cacheKey, entry);
+    // B"H 2026-10-20 (churn fix): a genuine rebuild keeps its ONE
+    // synchronous save (at most once per rebuild) — and supersedes any
+    // pending write-behind record, which holds an older entry.
+    supersedeGroupedSave(file);
     saveGroupedToDisk(file, st, entry);
   }
   return entry;
@@ -401,4 +482,4 @@ function allPosts({ $i, aliasId = '', heichelId = '', seriesId = '', limit = 500
   return output;
 }
 module.exports = {
-  clearGroupedCache, allPostKey, postIdOf, compactPost, fullAllPost, writeAllPost, readAllPost, allPosts, allPostsGrouped };
+  clearGroupedCache, flushGroupedSaves, allPostKey, postIdOf, compactPost, fullAllPost, writeAllPost, readAllPost, allPosts, allPostsGrouped };

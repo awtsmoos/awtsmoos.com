@@ -17,6 +17,7 @@
  *   grouped-merge    tail merge into the grouped map (tail bytes)
  *   grouped-save     grouped snapshot stringify + write (bytes)
  *   grouped-snapload grouped snapshot read + parse from disk (bytes)
+ *   grouped-reindex  rebuildByKey + rebuildByAlias over a loaded snapshot
  *   list-build       listPackedRecords full latest-per-key build
  *   list-merge       listPackedRecords tail merge (tail bytes)
  *   read-scan        readPacked JSONL full-file scan for one key
