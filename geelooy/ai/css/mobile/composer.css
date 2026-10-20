@@ -9,11 +9,7 @@
   --mcomp-text: #f5fbff;
 }
 @media (max-width: 680px) {
-<<<<<<< ours
-  .input-area {
-=======
   html .input-area {
->>>>>>> theirs
     min-height: 112px;
     padding: 8px;
     display: grid;
@@ -22,44 +18,26 @@
     gap: 8px;
     border-radius: 18px;
   }
-<<<<<<< ours
-  #message-input {
-=======
   html #message-input {
->>>>>>> theirs
     min-width: 0;
     width: 100%;
     min-height: 54px;
     font-size: 16px;
     line-height: 1.35;
     resize: none;
-<<<<<<< ours
-  }
-  #send-button,
-  .attachment-tools button {
-=======
     color: var(--mcomp-text);
   }
   html #send-button,
   html .attachment-tools button {
->>>>>>> theirs
     min-width: 44px;
     min-height: 44px;
     font-size: 16px;
     border-radius: 16px;
-<<<<<<< ours
-  
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-  #send-button { width: 100%; }
-  .attachment-tools { position: static; display: flex; flex-wrap: wrap; gap: 8px; }
-  .live-follow-button { right: 12px; bottom: 132px; }
-=======
     color: var(--mcomp-text);
   }
   html #send-button { width: 100%; }
   html .attachment-tools { position: static; display: flex; flex-wrap: wrap; gap: 8px; }
   html .live-follow-button { right: 12px; bottom: 132px; }
->>>>>>> theirs
 }
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
