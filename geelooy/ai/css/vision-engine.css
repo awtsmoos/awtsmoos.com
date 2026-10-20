@@ -158,11 +158,7 @@ html body::after{
   background:radial-gradient(ellipse at 50% 50%,rgba(88,28,135,.16),transparent 58%);
   opacity:.62;
 }
-<<<<<<< ours
-.container>.sidebar,.container>#automation-panel,.container>.main,.service-selector,.provider-key-panel,.transport-status,.mobile-control-center,.ai-empty-state,.input-area,.conversation-list li,.right-panel-card,.automation-panel .card,.desktop-shell-card,.desktop-shell-tunnel{
-=======
 html .container>.sidebar,html .container>#automation-panel,html .container>.main,html .service-selector,html .provider-key-panel,html .transport-status,html .mobile-control-center,html .ai-empty-state,html .input-area,html .conversation-list li,html .right-panel-card,html .automation-panel .card,html .desktop-shell-card,html .desktop-shell-tunnel{
->>>>>>> theirs
   border-color:var(--vision-line);
   box-shadow:var(--vision-shadow-soft),var(--vision-inset);
 
@@ -171,70 +167,6 @@ html body.awts-fx-high .container>.sidebar,html body.awts-fx-high .container>#au
   backdrop-filter:blur(12px) saturate(1.1);
   -webkit-backdrop-filter:blur(12px) saturate(1.1);
 }
-<<<<<<< ours
-.container>.main,body:not(.is-awtsmoos-embedded-ai) .main,body.is-awtsmoos-embedded-ai .main{
-  background:radial-gradient(circle at 50% 12%,rgba(139,92,246,.10),transparent 34%),linear-gradient(180deg,rgba(4,10,22,.90),rgba(2,6,17,.96));
-}
-.container>.sidebar,.container>#automation-panel,body:not(.is-awtsmoos-embedded-ai) #sidebar,body:not(.is-awtsmoos-embedded-ai) #automation-panel{
-  background:linear-gradient(180deg,rgba(8,18,34,.88),rgba(3,8,17,.96));
-}
-.refresh-button.new-chat,#send-button,body.is-awtsmoos-embedded-ai #send-button,body[data-mobile-scene] #send-button{
-  background:linear-gradient(135deg,#22d3c5,#3b82f6 46%,#7c3aed 88%);
-  border-color:rgba(196,181,253,.30);
-  box-shadow:0 10px 22px rgba(124,58,237,.22);
-}
-.transport-status,.mobile-control-center{
-  background:linear-gradient(135deg,rgba(9,24,32,.84),rgba(7,14,28,.94));
-  border-color:rgba(74,222,128,.22);
-}
-.transport-status strong,.mobile-control-dot[data-state="ready"] + span strong{color:var(--vision-green)}
-.chat-box{
-  background:radial-gradient(circle at 50% 20%,rgba(124,58,237,.08),transparent 34%),linear-gradient(180deg,rgba(3,8,17,.26),rgba(3,8,17,.44));
-}
-.message,.bubble,.assistant-message,.user-message{
-  border:1px solid var(--vision-line);
-  border-radius:24px;
-  box-shadow:0 10px 24px rgba(0,0,0,.24),var(--vision-inset);
-}
-.assistant-message,.message.assistant,.bubble.assistant{background:linear-gradient(180deg,rgba(13,24,42,.88),rgba(5,12,25,.95))}
-.user-message,.message.user,.bubble.user{
-  background:linear-gradient(135deg,rgba(64,33,128,.90),rgba(29,21,56,.96));
-  border-color:var(--vision-line-purple);
-}
-.input-area,body:not(.is-awtsmoos-embedded-ai) .input-area,body.is-awtsmoos-embedded-ai .input-area,body[data-mobile-scene] .input-area{
-  background:linear-gradient(180deg,rgba(10,20,36,.88),rgba(4,9,20,.97));
-  border-color:rgba(34,211,197,.22);
-  box-shadow:0 12px 30px rgba(0,0,0,.34),var(--vision-inset);
-}
-#message-input{background:rgba(5,14,28,.88);border-color:rgba(148,163,184,.18);color:var(--vision-text)}
-#message-input::placeholder{color:#8da0b8}
-.mobile-suggestion-rail button,.ai-empty-prompts button,body.is-awtsmoos-embedded-ai .mobile-suggestion-rail button{
-  background:rgba(21,13,43,.78);
-  border-color:rgba(192,132,252,.28);
-  color:#e9d5ff;
-  box-shadow:0 8px 18px rgba(88,28,135,.16),var(--vision-inset);
-}
-.ai-empty-state{
-  background:radial-gradient(circle at 50% 0,rgba(192,132,252,.18),transparent 44%),linear-gradient(180deg,rgba(12,22,40,.82),rgba(5,11,22,.94));
-  border-color:rgba(192,132,252,.22);
-  box-shadow:0 16px 42px rgba(0,0,0,.34),var(--vision-inset);
-}
-.ai-empty-orb{
-  background:linear-gradient(135deg,rgba(34,211,197,.16),rgba(124,58,237,.28));
-  color:#e9d5ff;
-  border-color:rgba(192,132,252,.32);
-  box-shadow:0 0 22px rgba(124,58,237,.18);
-}
-.provider-key-panel,.service-selector{background:linear-gradient(180deg,rgba(12,22,40,.76),rgba(5,11,22,.90))}
-.provider-key-row button,.provider-key-row a,.service-selector select{background:rgba(5,14,28,.82);border-color:rgba(148,163,184,.18)
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-body.is-awtsmoos-embedded-ai .mobile-control-center{max-width:min(980px,calc(100vw - 24px))}
-body.is-awtsmoos-embedded-ai .input-area,body.is-awtsmoos-embedded-ai .mobile-suggestion-rail{max-width:min(980px,calc(100vw - 28px));margin-inline:auto}
-body.awts-fx-off *,body.awts-fx-low *{animation:none;transition:none}
-body.awts-fx-off::before,body.awts-fx-off::after{display:none}
-@media(min-width:901px){body:not(.is-awtsmoos-embedded-ai) .container{background:linear-gradient(180deg,#050b18,#020611)}}
-@media(max-width:900px){.mobile-app-crown,.mobile-bottom-dock{background:linear-gradient(180deg,rgba(10,20,36,.92),rgba(4,9,20,.97));border-color:rgba(148,163,184,.16);box-shadow:0 10px 24px rgba(0,0,0,.30),var(--vision-inset)}}
-=======
 html .container>.main,html body:not(.is-awtsmoos-embedded-ai) .main,html body.is-awtsmoos-embedded-ai .main{
   background:radial-gradient(circle at 50% 12%,rgba(139,92,246,.10),transparent 34%),linear-gradient(180deg,var(--vision-main-bg-1),var(--vision-main-bg-2));
 }
@@ -300,7 +232,6 @@ html body.awts-fx-off *,html body.awts-fx-low *{animation:none;transition:none}
 html body.awts-fx-off::before,html body.awts-fx-off::after{display:none}
 @media(min-width:901px){html body:not(.is-awtsmoos-embedded-ai) .container{background:linear-gradient(180deg,var(--vision-bg-2),var(--vision-bg))}}
 @media(max-width:900px){html .mobile-app-crown,html .mobile-bottom-dock{background:linear-gradient(180deg,var(--vision-dock-bg-1),var(--vision-dock-bg-2));border-color:var(--vision-line);box-shadow:0 10px 24px var(--vision-dock-shadow),var(--vision-inset);color:var(--vision-text)}}
->>>>>>> theirs
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 .refresh-button.new-chat:hover {
