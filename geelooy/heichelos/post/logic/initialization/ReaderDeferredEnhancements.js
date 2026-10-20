@@ -58,7 +58,7 @@ async function awakenReadingTelemetry() {
 
 async function awakenRelatedPosts() {
 	if (relatedPromise) return relatedPromise;
-	relatedPromise = import('/feed/js/relatedPosts.js?v=related-001')
+	relatedPromise = import('/feed/js/relatedPosts.js?v=related-002')
 		.then(({ mountRelatedPostsForReader }) => mountRelatedPostsForReader());
 	return relatedPromise;
 }

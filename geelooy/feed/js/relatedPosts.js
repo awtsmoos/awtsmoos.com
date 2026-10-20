@@ -29,7 +29,7 @@
  */
 
 import { escapeHtml, escapeAttr } from './icons.js';
-import { t } from './i18n.js';
+import { initI18n, i18nReady, t } from './i18n.js';
 
 /* ------------------------------------------------------------------ */
 /* Scoring                                                              */
@@ -563,6 +563,13 @@ export function renderRelatedCard(entry) {
  */
 export async function mountRelatedPosts({ container, post, candidates = null, limit = RELATED_LIMIT, title = 'Related posts' } = {}) {
 	if (!container || !post) return [];
+	// B"H — this shelf also mounts on the post-reader page, where the
+	// feed's i18n boot never runs: with an empty locale state every t()
+	// key (related.sub, related.empty, …) would render as the raw key.
+	// Initialize i18n on first use so the shelf speaks words, not keys.
+	if (!i18nReady()) {
+		try { await initI18n(); } catch (_) { /* best effort: shelf still renders */ }
+	}
 	ensureStyles();
 	const section = document.createElement('section');
 	section.className = 'related-posts';
