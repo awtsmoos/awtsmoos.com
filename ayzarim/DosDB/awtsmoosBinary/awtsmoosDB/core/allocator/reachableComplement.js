@@ -20,6 +20,7 @@ const { markTrusted } = require('./verifiedReuseGate.js');
 function refreshVerifiedComplement(allocator) {
 	if (!shouldRefresh(allocator)) return { refreshed: false, skipped: true };
 	const report = allocator.db.verify();
+	if (!report?.ok && report?.degraded === true) return degradeVerification(allocator, report);
 	if (!report?.ok) return rejectVerification(allocator, report);
 	const previousSignature = rangeSignature(allocator.freeList);
 	const previousCursor = allocator.cursor;
@@ -54,6 +55,30 @@ function shouldRefresh(allocator) {
 		&& database._insideWaitForIdle === true
 		&& database.pager?.isBatching !== true
 		&& allocator._needsComplementRefresh === true;
+}
+
+/**
+ * Records a degraded verify (torn records only) WITHOUT adopting the
+ * complement: a torn record's unvisited children hide inside it, so the
+ * complement cannot be trusted wholesale. Per-range reuse continues
+ * through the gate's degraded branch (degradedAdoption.js); the state is
+ * surfaced so the pulse reads 'verified-degraded-exclusions', not a
+ * failure. Never throws, even under reuseVerificationFailure:'throw' —
+ * degraded is an adoptable state, not a rejection.
+ * @param {object} allocator - AllocatorChesed instance.
+ * @param {object} report - db.verify() report with degraded === true.
+ * @returns {object} { refreshed: false, degraded: true, exclusions }.
+ */
+function degradeVerification(allocator, report) {
+	allocator.reuseVerification = {
+		state: 'verified-degraded-exclusions',
+		ok: true,
+		degraded: true,
+		exclusions: (report.exclusions || []).length,
+		errors: report.errors || [],
+		checkedAt: Date.now()
+	};
+	return { refreshed: false, degraded: true, exclusions: report.exclusions || [] };
 }
 
 function rejectVerification(allocator, report) {

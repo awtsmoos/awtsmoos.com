@@ -15,6 +15,7 @@ const { visitAnchor, visitDictionary } = require('./anchorDictionaryVisitors.js'
 const visitMap = require('./mapVisitor.js');
 const { visitSequence, visitFlatArray } = require('./sequenceVisitors.js');
 const visitCustomPointer = require('./customPointerVisitor.js');
+const { summarizeExclusions } = require('./exclusions.js');
 
 const TYPE = constants.VAL_TYPE;
 
@@ -34,8 +35,16 @@ class DbVerifier {
 		this.visitSparseArrays();
 		const reachable = this.ledger.finalize();
 		const free = this.ledger.complement(reachable, 64);
+		// B"H 2026-10-20 (dead-space fix): when every error is a torn
+		// single record with an exact, already-occupied range, the report
+		// is degraded rather than failed — the allocator may still judge
+		// individual free ranges against it (see exclusions.js). `ok`
+		// keeps its strict meaning for every existing consumer.
+		const exclusionSummary = summarizeExclusions(this.bad);
 		return {
 			ok: this.bad.length === 0,
+			degraded: exclusionSummary.degraded,
+			exclusions: exclusionSummary.exclusions,
 			errors: this.bad,
 			reachableRanges: reachable.length,
 			reachableBytes: reachable.reduce((sum, range) => sum + range.length, 0),

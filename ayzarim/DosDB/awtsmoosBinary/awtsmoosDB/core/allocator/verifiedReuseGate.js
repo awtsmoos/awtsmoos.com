@@ -16,10 +16,14 @@
  * are quarantined. The old code quarantined the ENTIRE list, so one stale
  * range silently disabled all reuse forever (production series shard ended
  * with 62,684 dead ranges and 0 tracked). Total quarantine now happens only
- * when verify() itself fails, when nothing can be trusted.
+ * when verify() fails beyond torn records: a degraded verify (every error
+ * an excluded torn record) adopts its per-range survivors instead, via
+ * degradedAdoption.js (state 'verified-degraded-exclusions').
  */
 
 const validateFreeRanges = require('./freeRangeValidation.js');
+const pendingFreeList = require('./pendingFreeList.js');
+const { adoptDegraded } = require('./degradedAdoption.js');
 
 /**
  * Compact identity of a free list, used to detect re-validation needs.
@@ -36,7 +40,6 @@ function signature(ranges) {
  * Marks the allocator's current free list as trusted for reuse.
  * @param {object} allocator - AllocatorChesed instance.
  * @param {string} [state] - verification state label.
- * @returns {void}
  */
 function markTrusted(allocator, state = 'trusted-local') {
 	allocator._trustedFreeListSignature = signature(allocator.freeList);
@@ -59,7 +62,8 @@ function markTrusted(allocator, state = 'trusted-local') {
 function ensureVerified(allocator) {
 	const currentSignature = signature(allocator.freeList);
 	if (allocator._trustedFreeListSignature === currentSignature) return true;
-	if (allocator.freeList.length === 0) {
+	if (allocator.freeList.length === 0
+		&& pendingFreeList.load(allocator).length === 0) {
 		markTrusted(allocator, 'verified-empty');
 		return true;
 	}
@@ -68,6 +72,8 @@ function ensureVerified(allocator) {
 	const result = validateFreeRanges(allocator.freeList, allocator.cursor, report);
 	if (result.ok) {
 		allocator.freeList = result.ranges;
+		// Db-hardening 2026-10-20: adopt pending frees (pendingFreeList.js).
+		pendingFreeList.promote(allocator, report);
 		markTrusted(allocator, 'verified-reachable-complement');
 		return true;
 	}
@@ -80,8 +86,13 @@ function ensureVerified(allocator) {
 			.filter(range => !accepted.has(`${range.offset}:${range.length}`))
 			.map(range => ({ ...range }));
 		allocator.freeList = result.validRanges || [];
+		pendingFreeList.promote(allocator, report);
 		markTrusted(allocator, 'verified-partial-complement');
 		return true;
+	}
+
+	if (report && report.degraded === true) {
+		return adoptDegraded(allocator, report, result, markTrusted);
 	}
 
 	allocator.rejectedFreeList = allocator.freeList.map(range => ({ ...range }));

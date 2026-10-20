@@ -16,6 +16,12 @@
  * ranges are returned in `validRanges` and only the bad ones are quarantined.
  * The safety property is unchanged: a range that intersects reachable data is
  * never adopted for reuse.
+ *
+ * B"H 2026-10-20 (verify-with-exclusions): a DEGRADED report — verify failed
+ * only on torn single records with exact, already-occupied ranges (see
+ * core/verifier/exclusions.js) — also judges ranges individually: contained
+ * in the complement AND clear of every excluded range. Any other failed
+ * report still judges zero ranges; `ok` is never true when degraded.
  */
 
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
@@ -34,6 +40,36 @@ function containedByVerifiedFree(range, verifiedFree) {
 }
 
 /**
+ * True when a verify report is degraded: not ok, but every error was an
+ * excluded torn record and the complement is present to judge against.
+ * @param {object} report - db.verify() report.
+ * @returns {boolean} True when per-range judging may proceed.
+ */
+function isDegradedReport(report) {
+	return Boolean(report)
+		&& report.ok !== true
+		&& report.degraded === true
+		&& Array.isArray(report.exclusions)
+		&& report.exclusions.length > 0
+		&& Array.isArray(report.free);
+}
+
+/**
+ * Checks overlap between a candidate range and any excluded range.
+ * Excluded ranges are already counted reachable, so a contained candidate
+ * can never touch one; this guard keeps the invariant explicit regardless.
+ * @param {object} range - { offset, length } candidate.
+ * @param {Array<object>} exclusions - excluded { offset, length } ranges.
+ * @returns {boolean} True when the candidate intersects an exclusion.
+ */
+function intersectsExclusion(range, exclusions) {
+	return exclusions.some(excluded => {
+		return range.offset < excluded.offset + excluded.length
+			&& excluded.offset < range.offset + range.length;
+	});
+}
+
+/**
  * Validates persisted free ranges against a verification report.
  * @param {Array<object>} ranges - persisted free list.
  * @param {number} cursor - allocator cursor (upper bound).
@@ -46,8 +82,9 @@ function validateFreeRanges(ranges, cursor, verificationReport) {
 	const errors = [];
 	const validRanges = [];
 	let normalized = [];
+	const degraded = isDegradedReport(verificationReport);
 
-	if (!verificationReport || verificationReport.ok !== true) {
+	if (!verificationReport || (verificationReport.ok !== true && !degraded)) {
 		errors.push({ reason: 'reachable-verification-failed', errors: verificationReport && verificationReport.errors });
 		return { ok: false, errors, ranges: [], validRanges };
 	}
@@ -60,18 +97,22 @@ function validateFreeRanges(ranges, cursor, verificationReport) {
 	}
 
 	const verifiedFree = Array.isArray(verificationReport.free) ? verificationReport.free : [];
+	const exclusions = degraded ? verificationReport.exclusions : [];
 	for (const range of normalized) {
 		if (!containedByVerifiedFree(range, verifiedFree)) {
 			errors.push({ reason: 'free-range-intersects-reachable-data', range });
+		} else if (degraded && intersectsExclusion(range, exclusions)) {
+			errors.push({ reason: 'free-range-intersects-excluded-range', range });
 		} else {
 			validRanges.push(range);
 		}
 	}
 
 	return {
-		ok: errors.length === 0,
+		ok: !degraded && errors.length === 0,
+		degraded,
 		errors,
-		ranges: errors.length === 0 ? normalized : [],
+		ranges: !degraded && errors.length === 0 ? normalized : [],
 		validRanges
 	};
 }
