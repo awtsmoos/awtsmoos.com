@@ -42,7 +42,7 @@ const ESSENTIAL_KEYS = [
 	"advisoryOvertime", "retryAfterMs", "retryable", "pollImmediately",
 	"progressSequence", "heartbeatAgeMs", "jobStatus", "outputRevision",
 	"snapshotConsistent", "writeSnapshotSettled", "writesPending",
-	"writeSnapshotWaitedMs", "settleBudgetMs", "receipts", "receipt",
+	"writeSnapshotWaitedMs", "settleBudgetMs", "receipts", "receipt", "transferId",
 	"worker", "workers", "mission", "cost", "recovery", "cleanup",
 	"cancelled", "alreadyTerminal", "detachedRecovered", "reaperClaimed",
 	"reaperTimedOut", "processIdentity", "processComparison", "osLinks",
