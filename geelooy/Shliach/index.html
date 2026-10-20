@@ -110,7 +110,16 @@
 			<div class="shliach-connect-shell">
 				<p class="shliach-kicker">External AI connection</p>
 				<h2>Authorize the AI. Rediscover the live machine.</h2>
-				<p>Authentication answers who may act. <code>my-device</code> answers which tunnel is alive now. The live connection guide loads here.</p>
+				<p>Authentication answers who may act. <code>my-device</code> answers which tunnel is alive now. Keeping them separate makes reconnects resilient: authorize once, then rediscover the live route every session.</p>
+				<div class="shliach-topology" aria-label="External AI connection flow">
+					<div class="shliach-topology-node"><strong>Your AI</strong><span>Muse, Claude, Gemini or another agent</span></div>
+					<div class="shliach-topology-node"><strong>OAuth</strong><span>Consent + scoped authorization</span></div>
+					<div class="shliach-topology-node"><strong>Account</strong><span>Stable identity above sessions</span></div>
+					<div class="shliach-topology-node"><strong>my-device</strong><span>Rediscover what is live now</span></div>
+					<div class="shliach-topology-node"><strong>Tunnel</strong><span>Files, commands, browser, runtime</span></div>
+					<div class="shliach-topology-node"><strong>Project</strong><span>Real work with agent coordination</span></div>
+				</div>
+				<p>Secrets stay out of conversation: tokens, cookies and Agent Link secrets belong in secure storage, and the connection prompt generated here never asks you to paste them into chat. With JavaScript enabled, this section becomes the interactive guide with live OAuth status and a copy-ready prompt for your AI.</p>
 			</div>
 		</section>
 		<section id="mission-control" class="shliach-section shliach-shell" data-reveal>
