@@ -200,3 +200,25 @@ post.aliasId = deriveAliasId(post.commentator, h, v.aliasId);
 - `../../packed/shardPaths.js` — `logicalKey`, shard layout
 - `scripts/vmImportStaged.mjs` — the standard client
 - `~/workspace/bulk-import-fix/vmVerifySigned.mjs`, `vmVerifyFull.mjs`, `vmDryRunVerify.mjs`, `pollJob.mjs`, `retryStart.mjs` — independent verify tooling
+
+## Crash guards (2026-10-20)
+
+The box is 2 GB. The 2026-10-20 hangs were event-loop starvation (no
+OOM kills — Node was alive but wedged by sync disk flush + deflate
+across up to 4 concurrent jobs x 4 workers), plus one bad shard swap.
+
+- `eventLoopMonitor.js` — 1s loop-lag probe; p95/mean thresholds feed
+  `shedNow()`/`circuitOpen()`. Started from `postImportRoutes.js`.
+- `serverHealth.js` — `admissionHealthy()`: fail-fast /start gate
+  (one job, heap <800 MB, OS free >200 MB, circuit closed). Refusals
+  return instantly with `error` code + `retryAfterMs` — never a hang.
+  New error codes: `IMPORT_BUSY`, `IMPORT_MEMORY_HIGH`,
+  `IMPORT_CIRCUIT_OPEN`.
+- `importBounds.js` — `MAX_CONCURRENT_PER_HEICHEL = 1` (was 4).
+- `runJobWorkers.js` — workers pause 2s while `shedNow()` (circuit
+  breaker); a job's `shedPauses` counter records how often.
+- Health watchdog (systemd drop-in): restarts after 6 consecutive
+  failed probes (~6 min), was 40 (~40 min).
+- `shardSwapSafety/` — a shard file may only be replaced after its
+  candidate copy passes `canaryCheck.js` (opens with production
+  options, lists the root, reads a probe record). See its README.
