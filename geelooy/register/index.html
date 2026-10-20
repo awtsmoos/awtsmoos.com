@@ -60,7 +60,7 @@
       <form class="login-form register-form" action="/register/" method="POST" novalidate>
         <div class="field-stack">
           <label for="username">Username</label>
-          <input type="text" id="username" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" minlength="3" maxlength="32" pattern="[A-Za-z0-9_-]+" placeholder="letters_numbers-dashes">
+          <input type="text" id="username" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" minlength="3" maxlength="32" pattern="[A-Za-z0-9_-]+" placeholder="letters_numbers-dashes" value="<?Awtsmoos return String(($_POST && $_POST.username) || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); ?>">
           <p class="field-help">3–32 characters: letters, numbers, underscores, or dashes.</p>
         </div>
 

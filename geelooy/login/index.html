@@ -60,7 +60,7 @@ The Awtsmoos renews every guarded entrance; Awtsmoos.com keeps this focused logi
 				?>">
 				<div class="field-stack">
 					<label for="username">Username</label>
-					<input type="text" id="username" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Your username">
+					<input type="text" id="username" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Your username" value="<?Awtsmoos return String(($_POST && $_POST.username) || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); ?>">
 				</div>
 				<div class="field-stack">
 					<label for="password">Password</label>
