@@ -1,6 +1,7 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Blessed is He
+//Boruch Hashem
+
 
 /**
  * @module PackedImportSign
@@ -27,107 +28,9 @@
  * guard mirror the deploy signer.
  */
 
-const crypto = require('crypto');
-
-// ---------------------------------------------------------------------------
-// Authorized import-signing public keys (SPKI PEM). Array form allows future
-// rotation: verification tries each key in order. Private halves live ONLY on
-// the VM and are never committed, transmitted, or logged.
-// ---------------------------------------------------------------------------
-const IMPORT_SIGN_PUBLIC_KEYS = [
-`-----BEGIN PUBLIC KEY-----
-MCowBQYDK2VwAyEAchC9MGIH7eLYvUPee0eNtL0ff7pL6SVcvKAPDw0UBlk=
------END PUBLIC KEY-----`,
-];
-
-const SIGN_VERSION = 1;
-const TIMESTAMP_WINDOW_SEC = 300; // 5 minutes
-
-// Short-lived replay guard: signature -> expiry epoch seconds.
-const seenSignatures = new Map();
-
-/** Recursively sort object keys for deterministic JSON. */
-function sortKeys(value) {
-	if (Array.isArray(value)) return value.map(sortKeys);
-	if (value && typeof value === 'object' && !(value instanceof Buffer)) {
-		const out = {};
-		for (const k of Object.keys(value).sort()) out[k] = sortKeys(value[k]);
-		return out;
-	}
-	return value;
-}
-
-/**
- * Canonical bytes the signature covers. Both sides MUST call this on the
- * same logical object: { v, ts, op, heichelId, payloadHash }.
- */
-function canonicalBytes({ ts, op, heichelId, payloadHash }) {
-	const obj = sortKeys({
-		v: SIGN_VERSION,
-		ts: Number(ts),
-		op: String(op || ''),
-		heichelId: String(heichelId || ''),
-		payloadHash: String(payloadHash || ''),
-	});
-	return Buffer.from(JSON.stringify(obj), 'utf8');
-}
-
-/** Sign a payload with a PEM private key. Returns base64 signature. */
-function signPayload(privateKeyPem, { ts, op, heichelId, payloadHash }) {
-	const priv = crypto.createPrivateKey(String(privateKeyPem));
-	const sig = crypto.sign(null, canonicalBytes({ ts, op, heichelId, payloadHash }), priv);
-	return sig.toString('base64');
-}
-
-/**
- * Verify a base64 signature against the authorized public keys.
- * Returns { ok:true } or { ok:false, error }.
- */
-function verifySignature({ ts, op, heichelId, payloadHash }, sigB64) {
-	if (typeof sigB64 !== 'string' || !sigB64) {
-		return { ok: false, error: 'MISSING_SIGNATURE' };
-	}
-	let sig;
-	try {
-		sig = Buffer.from(sigB64, 'base64');
-	} catch {
-		return { ok: false, error: 'BAD_SIGNATURE_ENCODING' };
-	}
-	if (sig.length !== 64) return { ok: false, error: 'BAD_SIGNATURE' };
-	const data = canonicalBytes({ ts, op, heichelId, payloadHash });
-	for (const pem of IMPORT_SIGN_PUBLIC_KEYS) {
-		try {
-			const pub = crypto.createPublicKey(pem);
-			if (crypto.verify(null, data, pub, sig)) return { ok: true };
-		} catch {}
-	}
-	return { ok: false, error: 'BAD_SIGNATURE' };
-}
-
-/** Check the timestamp is a number inside the acceptance window. */
-function checkTimestamp(ts) {
-	const t = Number(ts);
-	if (!Number.isFinite(t)) return { ok: false, error: 'BAD_TIMESTAMP' };
-	const now = Math.floor(Date.now() / 1000);
-	if (Math.abs(now - t) > TIMESTAMP_WINDOW_SEC) return { ok: false, error: 'STALE_TIMESTAMP' };
-	return { ok: true };
-}
-
-/** Reject exact replays inside the window; prune expired entries. */
-function checkReplay(sigB64, ts) {
-	const now = Math.floor(Date.now() / 1000);
-	for (const [s, exp] of seenSignatures) {
-		if (exp < now) seenSignatures.delete(s);
-	}
-	if (seenSignatures.has(sigB64)) return { ok: false, error: 'REPLAYED_SIGNATURE' };
-	seenSignatures.set(sigB64, Number(ts) + TIMESTAMP_WINDOW_SEC);
-	return { ok: true };
-}
-
-/** sha256 hex of a string. */
-function sha256hex(s) {
-	return crypto.createHash('sha256').update(String(s), 'utf8').digest('hex');
-}
+const { IMPORT_SIGN_PUBLIC_KEYS, SIGN_VERSION, TIMESTAMP_WINDOW_SEC } = require('./importSignKeys.js');
+const { canonicalBytes } = require('./importSignCanonical.js');
+const { signPayload, verifySignature, checkTimestamp, checkReplay, sha256hex } = require('./importSignVerify.js');
 
 module.exports = {
 	IMPORT_SIGN_PUBLIC_KEYS,
