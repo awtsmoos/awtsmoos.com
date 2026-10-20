@@ -24,15 +24,6 @@
 
 /* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 @media (max-width: 680px) {
-<<<<<<< ours
-  html,
-  body,
-  .container,
-  .main,
-  #chat-box { overflow-x: hidden; }
-
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .container {
-=======
   html:root,
   html body,
   html .container,
@@ -40,25 +31,16 @@
   html #chat-box { overflow-x: hidden; }
 
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .container {
->>>>>>> theirs
     grid-template-rows: minmax(0, 1fr);
     grid-template-areas: "main";
     padding-left: 54px;
   }
 
-<<<<<<< ours
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(#left-resizer, #right-resizer) {
-    display: none;
-  }
-
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(.sidebar, .automation-panel) {
-=======
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(#left-resizer, #right-resizer) {
     display: none;
   }
 
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(.sidebar, .automation-panel) {
->>>>>>> theirs
     position: fixed;
     top: max(6px, env(safe-area-inset-top));
     bottom: max(6px, env(safe-area-inset-bottom));
@@ -66,96 +48,50 @@
     max-height: none;
     z-index: 40;
     transition: width .18s ease, transform .18s ease, box-shadow .18s ease;
-<<<<<<< ours
-    box-shadow: 0 20px 58px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08);
-  }
-
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .sidebar {
-=======
     box-shadow: 0 20px 58px var(--drawer-panel-shadow), inset 0 1px 0 var(--drawer-panel-hi);
   }
 
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .sidebar {
->>>>>>> theirs
     left: 6px;
     width: min(86vw, 360px);
   }
 
-<<<<<<< ours
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .automation-panel {
-=======
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .automation-panel {
->>>>>>> theirs
     right: 6px;
     width: min(92vw, 420px);
   }
 
-<<<<<<< ours
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-sidebar-collapsed="true"] .sidebar,
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] .automation-panel {
-=======
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-sidebar-collapsed="true"] .sidebar,
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] .automation-panel {
->>>>>>> theirs
     width: 46px;
     min-width: 46px;
     max-width: 46px;
   }
 
-<<<<<<< ours
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] .automation-panel {
-    transform: translateX(calc(100% - 46px));
-  }
-
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) .sidebar,
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) .automation-panel {
-=======
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] .automation-panel {
     transform: translateX(calc(100% - 46px));
   }
 
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) .sidebar,
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) .automation-panel {
->>>>>>> theirs
     transform: translateX(0);
     z-index: 60;
   }
 
-<<<<<<< ours
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(.panel-topbar, .sidebar-header) {
-=======
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(.panel-topbar, .sidebar-header) {
->>>>>>> theirs
     min-height: 46px;
     height: 46px;
     padding: 6px;
     gap: 6px;
   }
 
-<<<<<<< ours
-  .panel-title { font-size: .78rem; line-height: 1.1; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .panel-actions button { width: 34px; height: 34px; min-width: 34px; border-radius: 12px; font-size: 0; 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-  .panel-actions [data-panel-action="toggle"]::before { content: "☰"; font-size: 1.08rem; line-height: 1; }
-=======
   html .panel-title { font-size: .78rem; line-height: 1.1; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--drawer-title); }
   html .panel-actions button { width: 34px; height: 34px; min-width: 34px; border-radius: 12px; font-size: 0; color: var(--drawer-glyph); }
   html .panel-actions [data-panel-action="toggle"]::before { content: "☰"; font-size: 1.08rem; line-height: 1; color: var(--drawer-glyph); }
->>>>>>> theirs
 
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) #sidebar .panel-actions [data-panel-action="toggle"]::before,
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) #automation-panel .panel-actions [data-panel-action="toggle"]::before { content: "×"; }
 
-<<<<<<< ours
-  body[data-sidebar-collapsed="true"] #sidebar :is(.panel-title, .panel-actions [data-panel-action="fullscreen"]),
-  body[data-automation-collapsed="true"] #automation-panel :is(.panel-title, .panel-actions [data-panel-action="fullscreen"]) { display: none; }
-
-  body[data-sidebar-collapsed="true"] #sidebar .panel-topbar,
-  body[data-automation-collapsed="true"] #automation-panel .panel-topbar { justify-content: center; }
-
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-sidebar-collapsed="true"] #sidebar > :not(.panel-topbar),
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] #automation-panel > :not(.panel-topbar) { display: none; }
-=======
   html body[data-sidebar-collapsed="true"] #sidebar :is(.panel-title, .panel-actions [data-panel-action="fullscreen"]),
   html body[data-automation-collapsed="true"] #automation-panel :is(.panel-title, .panel-actions [data-panel-action="fullscreen"]) { display: none; }
 
@@ -164,7 +100,6 @@
 
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-sidebar-collapsed="true"] #sidebar > :not(.panel-topbar),
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] #automation-panel > :not(.panel-topbar) { display: none; }
->>>>>>> theirs
 
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"])::before,
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"])::after {
@@ -178,34 +113,6 @@
     -webkit-backdrop-filter: none;
   }
 
-<<<<<<< ours
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) #sidebar,
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) #automation-panel { backdrop-filter: none; -webkit-backdrop-filter: none; }
-
-  .conversation-list,
-  .automation-panel > :not(.panel-topbar) { overflow-x: hidden; }
-
-  .message,
-  .bubble,
-  .event-region,
-  .event-lanes,
-  .transport-details,
-  .thought-envelope-card,
-  .event-text,
-  .event-markdown-rendered,
-  .md-code,
-  .right-tabs,
-  .automation-field,
-  .graph-node { max-width: 100%; min-width: 0; overflow-x: hidden; word-break: break-word; overflow-wrap: anywhere; }
-
-  pre,
-  code,
-  .md-code code { white-space: pre-wrap; }
-
-  .right-tabs { flex-wrap: wrap; }
-  .right-tabs button { min-width: 0; flex: 1 1 120px; 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-=======
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) #sidebar,
   html body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) #automation-panel { backdrop-filter: none; -webkit-backdrop-filter: none; }
 
@@ -231,7 +138,6 @@
 
   html .right-tabs { flex-wrap: wrap; }
   html .right-tabs button { min-width: 0; flex: 1 1 120px; color: var(--drawer-tab-text); }
->>>>>>> theirs
 }
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
