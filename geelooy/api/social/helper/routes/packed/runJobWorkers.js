@@ -75,7 +75,14 @@ async function runWorkers(ctx) {
 		await Promise.all(Array.from({ length: WORKERS }, () => worker()));
 			// Final flush: any packed records still queued, then series index.
 			if (!job.dryRun) flushPackedBatch(routes, $i, job);
-			if (!job.dryRun) await routes.flushSeriesAdds($i, job);
+			// B"H 2026-10-20: flushSeriesAdds DISABLED — the $i.db read-modify-write on
+			// /social/heichelos/<h>/series/<s>/posts hangs the event loop 3+ min on NEW
+			// series (every Rishonim job since 01:09 EDT), starving the API until SIGKILL.
+			// The legacy series-posts index is redundant: series pages merge it with the
+			// packed allPosts shard (readMergedSeriesPosts in seriesPostMerge.js) and the
+			// packed record wins on conflict. Posts are fully readable/listable without it.
+			// Re-enable ONLY after the $i.db synchronous traversal is fixed.
+			// if (!job.dryRun) await routes.flushSeriesAdds($i, job);
 			if (job.status === 'running') job.status = 'done';
 		} catch (e) {
 			job.status = 'failed';
