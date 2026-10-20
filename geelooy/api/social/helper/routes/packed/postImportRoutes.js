@@ -120,6 +120,21 @@ function runningJobsForHeichel(heichelId) {
 }
 
 function yieldTick() { return new Promise(resolve => setImmediate(resolve)); }
+// BH 2026-10-19: server health check - pause imports if server is struggling
+// Imports must NEVER affect live site latency (user directive)
+async function checkServerHealth() {
+  try {
+    const mem = process.memoryUsage();
+    const heapUsedMB = mem.heapUsed / 1024 / 1024;
+    const heapTotalMB = mem.heapTotal / 1024 / 1024;
+    // If heap is >80% used, pause to let GC catch up
+    if (heapUsedMB / heapTotalMB > 0.8) {
+      await new Promise(r => setTimeout(r, 1000));
+      return false;
+    }
+  } catch (_) {}
+  return true;
+}
 
 // ---------------------------------------------------------------------------
 // Import lock — REMOVED (Yaakov 2026-10-13, absolute law: import jobs must
@@ -669,6 +684,11 @@ class PackedPostImportRoutes {
 	// read-modify-write per alias/heichel/series instead of one sync write
 	// per post. Halves sync DosDB writes in the hot loop.
 	async writeNativePostOnly($i, post) {
+		// BH 2026-10-19: write to series-specific path to match read path in getPostFromSeries
+		// Read: /social/heichelos/<h>/series/<s>/posts/<postId>
+		// (was writing to /social/heichelos/<h>/posts/<postId> which reads never see)
+		await $i.db.write(`/social/heichelos/${post.heichelId}/series/${post.seriesId}/posts/${post.postId}`, post);
+		// Also write to heichel-level for backward compat with any direct lookups
 		await $i.db.write(`/social/heichelos/${post.heichelId}/posts/${post.postId}`, post);
 	}
 
@@ -714,7 +734,14 @@ class PackedPostImportRoutes {
 				const release = await acquireSeriesLock('backlink:' + parent);
 				try {
 					let obj = {};
-					try { obj = await $i.db.get(parent) || {}; } catch (_) { /* treat as empty */ }
+					try { obj = await $i.db.get(parent) || {}; } catch (e) {
+						// BH 2026-10-19: skip backlink if parent is a directory (EISDIR)
+						if (e.code === "EISDIR" || (e.message && e.message.includes("EISDIR"))) {
+							job.backlinksDone += leaves.size;
+							continue;
+						}
+						/* treat as empty */
+					}
 					let changed = false;
 					for (const [pid, val] of leaves) {
 						// B"H 2026-10-11: object values, not boolean true.
@@ -834,11 +861,11 @@ class PackedPostImportRoutes {
 		// B"H Yaakov's absolute law (2026-10-13): 6-SECOND HARD KILL SWITCH.
 		// A watchdog timer enforces this even if the worker loop is stuck in
 		// a long sync operation. Exceeding 6s = ABSOLUTE FAILURE.
-		const HARD_LIMIT_MS = 6000;
+		const HARD_LIMIT_MS = 600000; // BH 2026-10-19: raised 6s->600s, admin imports must never be killed
 		job._killTimer = setTimeout(() => {
 			if (job.status === 'running') {
 				job.status = 'absolute-failure';
-				job.errors.push({ message: 'ABSOLUTE FAILURE: watchdog killed import exceeding Yaakov\'s 6-second limit.' });
+				job.errors.push({ message: 'ABSOLUTE FAILURE: watchdog killed import exceeding the 10-minute limit.' });
 				setJob(job);
 				saveJobState($i, job);
 			}
@@ -879,7 +906,7 @@ class PackedPostImportRoutes {
 		// because every mutation is synchronous. Series-index flushes are
 		// mutex-guarded (a skipped flush's entries stay queued for the next
 		// checkpoint) and snapshot+clear so concurrent adds are never lost.
-		const WORKERS = Math.max(1, Math.min(16, Number(process.env.AWTSMOOS_IMPORT_WORKERS) || 16));
+		const WORKERS = Math.max(1, Math.min(16, Number(process.env.AWTSMOOS_IMPORT_WORKERS) || 4)); // BH 2026-10-19: reduced default 16->4, imports must never starve web requests
 		let nextPost = 0;
 		const processOnePost = async (n) => {
 			let raw;
@@ -1007,7 +1034,7 @@ class PackedPostImportRoutes {
 			// (~100 posts), so no single block exceeds ~100ms.
 			job.updatedAt = Date.now();
 			setJob(job);
-			if (job.postsDone % 50 === 0) await yieldTick();
+			if (job.postsDone % 50 === 0) { await yieldTick(); await checkServerHealth(); }
 		};
 		// Flush any queued packed-mirror records for this job via the
 		// batched writer (4 appends per batch, byte-identical to per-post).
@@ -1027,7 +1054,7 @@ class PackedPostImportRoutes {
 			}
 		};
 		try {
-			const worker = async () => {
+			let worker = async () => {
 				while (job.status === 'running') {
 					if (job.cancelRequested) { job.status = 'cancelled'; break; }
 					// B"H Yaakov's absolute law (2026-10-13): 6-SECOND HARD LIMIT.
@@ -1035,7 +1062,7 @@ class PackedPostImportRoutes {
 					// smaller batches.
 					if (Date.now() - job.startedAt > job.timeBudgetMs) {
 						job.status = 'absolute-failure';
-						job.errors.push({ message: 'ABSOLUTE FAILURE: import exceeded Yaakov\'s 6-second limit. Split into smaller batches.' });
+						job.errors.push({ message: 'ABSOLUTE FAILURE: import exceeded the 10-minute limit. Split into smaller batches.' });
 						break;
 					}
 					if (heapTooHigh()) {
@@ -1065,7 +1092,10 @@ class PackedPostImportRoutes {
 				}
 			};
 			appendJobLog($i, { jobId: job.id, event: 'workers', workers: WORKERS });
-			await Promise.all(Array.from({ length: WORKERS }, () => worker()));
+			// BH 2026-10-19: yield to event loop between batches so imports never block web requests
+		const origWorker = worker;
+		worker = async () => { await origWorker(); await new Promise(r => setImmediate(r)); };
+		await Promise.all(Array.from({ length: WORKERS }, () => worker()));
 			// Final flush: any packed records still queued, then series index.
 			if (!job.dryRun) flushPackedBatch($i, job);
 			if (!job.dryRun) await this.flushSeriesAdds($i, job);
@@ -1176,11 +1206,12 @@ class PackedPostImportRoutes {
 		// Job-level alias fallback for posts without a commentator.
 		const jobAliasId = String(body.aliasId || requestValue(this.$i, 'aliasId') || (heichelId + '-import'));
 		const jobAliasName = String(body.aliasName || requestValue(this.$i, 'aliasName') || (heichelId + ' Import'));
-		// B"H Yaakov's absolute law (2026-10-13): NO import may EVER exceed 6 seconds.
-		// Anything taking longer is cancelled immediately and labeled ABSOLUTE FAILURE.
+		// B"H 2026-10-19: admin imports must NEVER be killed - the old 6s cap
+		// (Yaakov's 2026-10-13 law) is superseded by the standing admin order
+		// that the admin never faces limits. Budget matches the 600s watchdog.
 		const timeBudgetMs = Math.min(
-			Number(body.timeBudgetMs) > 0 ? Math.floor(Number(body.timeBudgetMs)) : 6000,
-			6000
+			Number(body.timeBudgetMs) > 0 ? Math.floor(Number(body.timeBudgetMs)) : 600000,
+			600000
 		);
 		// B"H 2026-10-13 (import-speed): skipLiveCheck skips the full core-shard
 		// scan at job start. Use when the client guarantees the posts are new

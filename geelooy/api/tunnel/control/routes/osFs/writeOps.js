@@ -6,15 +6,9 @@ const { sp } = require("../../../../social/helper/_awtsmoos.constants.js");
 const { cleanPath, dbPath } = require("./path.js");
 const { syntaxAfterWrite } = require("./syntaxAfterWrite.js");
 const { assertWritable } = require("./writeAccess.js");
-const {
-	inspectExpectedHash,
-	sha256
-} = require("./writeHashGuard.js");
-const {
-	broadcast,
-	changedPacket,
-	routeTestimony
-} = require("./writeReceipts.js");
+const { inspectExpectedHash, sha256 } = require("./writeHashGuard.js");
+const { broadcast, changedPacket, routeTestimony } = require("./writeReceipts.js");
+const { checkLineLimit } = require("./lineLimitGuard.js");
 
 /**
  * @module VirtualOsWriteOperations
@@ -28,6 +22,14 @@ async function writeFile($i, userId, payload) {
 	const got = await assertWritable($i, userId, payload);
 	if (got.error) {
 		return got.error;
+	}
+
+	// B"H 2026-10-19: tunnel-level 120-line law - NON-NEGOTIABLE.
+	// Every write action (write, writeIfHash, replaceRange, applyPatch)
+	// funnels through here; over-limit content is BLOCKED.
+	const blocked = checkLineLimit(payload.path || payload.p, payload.content ?? "");
+	if (blocked) {
+		return blocked;
 	}
 
 	const path = cleanPath(payload.path || payload.p || ".");
