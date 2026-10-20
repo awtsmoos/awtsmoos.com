@@ -50,11 +50,18 @@ The Awtsmoos renews every guarded entrance; Awtsmoos.com keeps this focused logi
 				<input type="hidden" name="next" value="<?Awtsmoos
 					var rawNext = String(($_GET && $_GET.next) || ($_POST && $_POST.next) || "/").trim();
 					var nextValue = "/";
-					try {
-						var nextUrl = new URL(rawNext, "https://awtsmoos.com");
-						if (nextUrl.hostname === "awtsmoos.com") nextValue = nextUrl.pathname + nextUrl.search + nextUrl.hash;
-					} catch (error) {
-						if (rawNext.startsWith("/") && !rawNext.startsWith("//")) nextValue = rawNext;
+					// The template sandbox cannot construct URL (the try/catch
+					// reduction that stood here never produced more than "/"),
+					// so the same-host reduction is spelled out by hand:
+					// an absolute or protocol-relative Awtsmoos URL becomes
+					// its path, a plain path passes through, and every other
+					// value stays "/" — OAuth authorize sends an absolute
+					// next, and dropping it stranded the consent flow.
+					var hostMatch = rawNext.match(/^(?:https?:)?\/\/awtsmoos\.com(\/.*)?$/i);
+					if (hostMatch && hostMatch[1] && !hostMatch[1].startsWith("//")) {
+						nextValue = hostMatch[1];
+					} else if (!hostMatch && rawNext.startsWith("/") && !rawNext.startsWith("//")) {
+						nextValue = rawNext;
 					}
 					return nextValue.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 				?>">
