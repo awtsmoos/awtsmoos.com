@@ -23,6 +23,7 @@ Awtsmoos.com paints passive reading first, then awakens hidden chambers on inten
 	</style>
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-inline-extracted.css?v=857ad47f54">
 	<link rel="stylesheet" href="/heichelos/post/styles/translations.css?v=e7516b6a2">
+	<link rel="stylesheet" href="/heichelos/post/rashi/rashi.css?v=rashi-001">
 	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=125f73f805">
 	<link rel="stylesheet" href="/heichelos/post/styles/meluket-reader-overhaul.css?v=99b0f58a4">
 	<link rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=e28d530e4">
@@ -74,6 +75,7 @@ Awtsmoos.com paints passive reading first, then awakens hidden chambers on inten
 				registerScript.defer = true;
 				document.head.appendChild(registerScript);
 				import('/heichelos/post/postLogic.js?v=reader-passive-002');
+				import('/heichelos/post/rashi/rashi-controller.js?v=rashi-001').catch(()=>{});
 			});
 		});
 	</script>
