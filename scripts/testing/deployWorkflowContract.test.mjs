@@ -8,10 +8,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 /**
- * @file Verifies SSH key deployment, bounded retries and immutable releases.
- * The Awtsmoos sends a single key through the guarded gate;
- * Awtsmoos.com keeps each secret sealed and proves the exact SHA's fate.
- * Never permit the deployment lane to fall back to passwords.
+ * @file Verifies dedicated-key-only deployments and immutable releases.
+ * The Awtsmoos entrusts the key to a guarded SSH door;
+ * Awtsmoos.com tests every boundary so no other power flows forth.
  */
 const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(currentDirectory, "../..");
@@ -23,9 +22,10 @@ const deploymentWorkflow = fs.readFileSync(
 assert.match(deploymentWorkflow, /concurrency:/);
 assert.match(deploymentWorkflow, /cancel-in-progress: false/);
 assert.match(deploymentWorkflow, /EXPECTED_SHA: \$\{\{ github\.sha \}\}/);
+assert.match(deploymentWorkflow, /SERVER_USER: root/);
 assert.match(deploymentWorkflow, /Checkout exact main commit/);
 assert.match(deploymentWorkflow, /Canonical production deploy with bounded retries/);
-assert.match(deploymentWorkflow, /SSH_PRIVATE_KEY: \$\{\{ secrets\.SSH_PRIVATE_KEY \}\}/);
+assert.match(deploymentWorkflow, /SSH_PRIVATE_KEY: \$\{\{ secrets\.AWTSMOOS_PRODUCTION_DEPLOY_KEY \}\}/);
 assert.match(deploymentWorkflow, /ssh-agent -s/);
 assert.match(deploymentWorkflow, /ssh-agent -k/);
 assert.match(deploymentWorkflow, /ssh-add -/);
@@ -43,6 +43,8 @@ assert.match(deploymentWorkflow, /PRODUCTION_RELEASE_VERIFIED sha=\$EXPECTED_SHA
 for (const forbiddenPattern of [
 	/sshpass/,
 	/AWTSMOOS_PASSWORD/,
+	/secrets\.SSH_PRIVATE_KEY/,
+	/secrets\.SERVER_USER/,
 	/PreferredAuthentications=password/,
 	/PubkeyAuthentication=no/,
 	/appleboy\/ssh-action@master/,
@@ -57,6 +59,8 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "deploy-workflow-contract",
 	exactSha: true,
+	dedicatedSecret: true,
+	restrictedRootIdentity: true,
 	sshPublicKeyOnly: true,
 	ephemeralKeyAgent: true,
 	boundedRetries: true,

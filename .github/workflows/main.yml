@@ -1,7 +1,7 @@
 # B"H
 # Boruch Hashem
 # Blessed be He
-# The Awtsmoos guides an authenticated key to the canonical gate; exact SHA and verification determine fate.
+# The Awtsmoos guides a dedicated key to a forced command; exact SHA and public proof alone may stand.
 name: Deploy and Verify Awtsmoos Production
 
 on:
@@ -19,8 +19,8 @@ jobs:
     timeout-minutes: 35
     env:
       EXPECTED_SHA: ${{ github.sha }}
-      SERVER_USER: ${{ secrets.SERVER_USER }}
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      SERVER_USER: root
+      SSH_PRIVATE_KEY: ${{ secrets.AWTSMOOS_PRODUCTION_DEPLOY_KEY }}
     steps:
       - name: Checkout exact main commit
         uses: actions/checkout@v4
@@ -32,11 +32,11 @@ jobs:
         run: |
           set -Eeuo pipefail
           : "${SERVER_USER:?SERVER_USER is not configured}"
-          : "${SSH_PRIVATE_KEY:?SSH_PRIVATE_KEY is not configured}"
+          : "${SSH_PRIVATE_KEY:?AWTSMOOS_PRODUCTION_DEPLOY_KEY is not configured}"
           eval "$(ssh-agent -s)" >/dev/null
           trap 'ssh-agent -k >/dev/null' EXIT
           if ! printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - >/dev/null 2>&1; then
-            echo "::error title=Invalid production SSH key::SSH_PRIVATE_KEY could not be loaded into the ephemeral SSH agent."
+            echo "::error title=Invalid production SSH key::The dedicated GitHub Actions SSH key could not be loaded."
             exit 1
           fi
           unset SSH_PRIVATE_KEY
@@ -65,12 +65,12 @@ jobs:
               rm -f "$log"
               return 0
             fi
-            if grep -Eqi 'permission denied|authentication failed' "$log"; then
-              echo "::error title=Production SSH key rejected::SERVER_USER or SSH_PRIVATE_KEY was not accepted by awtsmoos.com on attempt $attempt."
+            if grep -Eqi 'permission denied|authentication failed|COMMAND_REJECTED|SHA_MISMATCH' "$log"; then
+              echo "::error title=Production SSH authorization rejected::The dedicated deployment identity or SHA gate failed on attempt $attempt."
             elif grep -Eqi 'timed out|no route to host|connection refused|network is unreachable' "$log"; then
               echo "::error title=Production SSH network failure::GitHub runner could not establish SSH to awtsmoos.com on attempt $attempt."
             else
-              echo "::error title=Production activation failed::SSH connected or began negotiation, but canonical activation failed on attempt $attempt."
+              echo "::error title=Production activation failed::Authenticated deploy entered the server but activation failed on attempt $attempt."
               sed -E 's/[^[:print:]\t]//g' "$log" | tail -n 80
             fi
             rm -f "$log"
