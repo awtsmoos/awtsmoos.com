@@ -28,6 +28,18 @@ export function createDemoPe(mode) {
   view.setUint32(SECTION + 16, 0x200, true);
   view.setUint32(SECTION + 20, 0x200, true);
   view.setUint32(SECTION + 36, 0xE0000060, true);
+  // A demo must contain a program: write a minimal instruction sequence
+  // from the emulator's supported x64 subset at the .text raw offset
+  // (PointerToRawData = 0x200, the entry point's file position).
+  // ret on the initially empty stack is the subset's halt.
+  const CODE = 0x200;
+  const program = mode === 'gui'
+    ? [0x31, 0xC9,                   // xor ecx, ecx
+       0xB8, 0x07, 0x00, 0x00, 0x00, // mov eax, 7
+       0xC3]                         // ret (halt)
+    : [0xB8, 0x2A, 0x00, 0x00, 0x00, // mov eax, 42
+       0xC3];                        // ret (halt)
+  program.forEach((b, i) => { bytes[CODE + i] = b; });
   return bytes.buffer;
 }
 
