@@ -16,6 +16,14 @@ const { mergePostObjects } = require('./seriesPostMerge.js');
 
 const MAX_PARALLEL_SUMMARIES = 6;
 
+// BH 2026-10-19: cache sub-series summaries (series metadata rarely changes)
+// 30-second TTL keeps navigation instant while staying fresh
+const summariesCache = new Map();
+const SUMMARIES_TTL_MS = 30000;
+function summariesCacheKey(heichelId, parentSeriesId) {
+  return heichelId + "|" + parentSeriesId;
+}
+
 /** Returns ordered identities for legacy arrays or keyed collection maps. */
 function identities(value) {
 	if (Array.isArray(value)) return value;
@@ -82,6 +90,10 @@ async function readSummaries({ $i, heichelId, ids, packedPostsBySeries }) {
 
 /** Resolves child IDs once and returns summary-ready records in one HTTP vessel. */
 async function readSubSeriesSummaries({ $i, heichelId, parentSeriesId }) {
+	// BH 2026-10-19: check cache first for instant navigation
+	const ck = summariesCacheKey(heichelId, parentSeriesId);
+	const cached = summariesCache.get(ck);
+	if (cached && (Date.now() - cached.at) < SUMMARIES_TTL_MS) return cached.data;
 	const ids = await getSubSeries({
 		$i,
 		heichelId,
@@ -97,7 +109,9 @@ async function readSubSeriesSummaries({ $i, heichelId, parentSeriesId }) {
 	} catch (_error) {
 		packedPostsBySeries = null;
 	}
-	return readSummaries({ $i, heichelId, ids, packedPostsBySeries });
+	const result = await readSummaries({ $i, heichelId, ids, packedPostsBySeries });
+	summariesCache.set(ck, { at: Date.now(), data: result });
+	return result;
 }
 
 module.exports = {

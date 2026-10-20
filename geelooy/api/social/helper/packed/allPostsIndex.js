@@ -41,7 +41,9 @@ function readAllPost({ $i, heichelId, postId }) {
 //cost one stat() call on repeat reads — even across service restarts. Both
 //layers validate the shard file's mtimeMs+size, so any append/rewrite
 //invalidates automatically. This is the permanent fix for the 5s series-list.
-const groupedCache = new Map(); // 'allPosts|<heichelId>' -> { mtimeMs, size, groups }
+const groupedCache = new Map();
+/** BH 2026-10-19: clears grouped cache after bulk writes. */
+function clearGroupedCache() { groupedCache.clear(); } // 'allPosts|<heichelId>' -> { mtimeMs, size, groups }
 const GROUPED_CACHE_VERSION = 1;
 function allPostsShardFile($i) {
   try {
@@ -223,4 +225,5 @@ function allPosts({ $i, aliasId = '', heichelId = '', seriesId = '', limit = 500
   }
   return output;
 }
-module.exports = { allPostKey, postIdOf, compactPost, fullAllPost, writeAllPost, readAllPost, allPosts, allPostsGrouped };
+module.exports = {
+  clearGroupedCache, allPostKey, postIdOf, compactPost, fullAllPost, writeAllPost, readAllPost, allPosts, allPostsGrouped };

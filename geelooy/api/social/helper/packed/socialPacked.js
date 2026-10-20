@@ -536,10 +536,27 @@ function mirrorPostRecords({ $i, post }) {
 }
 function mirrorPostBulk({ $i, post }) {
   let first = null;
+  const touchedFiles = new Set();
   for (const r of mirrorPostRecords({ $i, post })) {
     const w = writePacked({ $i, shard: r.shard, key: r.key, value: r.value, meta: r.meta });
     if (!first) first = w;
+    // BH 2026-10-19: track touched shards for cache invalidation
+    try {
+      const root = fileRoot($i);
+      if (root) {
+        const f = fileFor(root, r.shard);
+        if (f) touchedFiles.add(f);
+      }
+    } catch (_) {}
   }
+  // BH 2026-10-19: invalidate read cache for written shards so updates are visible immediately
+  for (const f of touchedFiles) listRecordsCache.delete(f);
+  // BH 2026-10-19: also clear the grouped posts cache (allPostsIndex.js)
+  try {
+    const allPostsIndex = require("./allPostsIndex.js");
+    if (allPostsIndex.clearGroupedCache) allPostsIndex.clearGroupedCache();
+  } catch (_) {}
+  // BH 2026-10-19: do NOT delete grouped.json - mergeTailRecords handles append-only growth efficiently
   return first;
 }
 /**
@@ -571,6 +588,17 @@ function mirrorPostsBulk({ $i, posts }) {
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.appendFileSync(file, lines.join(''));
   }
+  // BH 2026-10-19: invalidate read caches after batched writes so updates are visible immediately
+  for (const [shard] of byShard) {
+    try {
+      const file = fileFor(root, shard);
+      if (file) listRecordsCache.delete(file);
+    } catch (_) {}
+  }
+  try {
+    const allPostsIndex = require('./allPostsIndex.js');
+    if (allPostsIndex.clearGroupedCache) allPostsIndex.clearGroupedCache();
+  } catch (_) {}
   return list.length;
 }
 function indexGraph({ $i, reference }) {

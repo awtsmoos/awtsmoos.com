@@ -8,7 +8,7 @@
  * Modern rich comments are family-routed without touching any legacy comment sea.
  */
 const fs = require('fs');
-const { AwtsmoosDbFsBridge } = require('./awtsmoosDbFsBridge.js');
+const { AwtsmoosDbFsBridge, getSharedBridge } = require('./awtsmoosDbFsBridge.js');
 const {
 	familyDbFiles,
 	familyForPath,
@@ -27,7 +27,7 @@ class AwtsmoosDbDosBridge {
 		const files = dbFiles || (packedDir ? familyDbFiles({ packedDir, heichelId }) : { series: dbFile });
 		this.bridges = {};
 		for (const [family, file] of Object.entries(files)) {
-			if (file && fs.existsSync(file)) this.bridges[family] = new AwtsmoosDbFsBridge({ dbFile: file });
+			if (file && fs.existsSync(file)) this.bridges[family] = getSharedBridge(file);
 		}
 	}
 
