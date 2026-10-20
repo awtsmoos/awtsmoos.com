@@ -6,6 +6,14 @@
  * Deferred alias backlinks. The hot import loop only queues backlinks;
  * one background pass after the job flushes them parent-merged (one
  * read-modify-write per alias/heichel/series, not per post).
+ *
+ * B"H 2026-10-20 (flap-fix): some alias series parents are REAL
+ * directories left by the old on-disk layout (e.g. .../inSeries/
+ * torasChaim-בראשית1), so $i.db.get(parent) throws EISDIR and the
+ * merged object write could never land there. The old code silently
+ * DROPPED every backlink for such a parent. Now the EISDIR branch
+ * lands each leaf as its own record under the directory instead —
+ * readers list directory children, so the backlinks become visible.
  */
 
 const { acquireSeriesLock } = require('./importBounds.js');
@@ -13,6 +21,7 @@ const { appendJobLog } = require('./jobLog.js');
 const { setJob } = require('./jobStore.js');
 const { saveJobState } = require('./jobState.js');
 const { yieldTick } = require('./serverHealth.js');
+const { yieldEvery } = require('../../safeguards/yieldEvery.js');
 
 module.exports = {
 
@@ -47,7 +56,11 @@ module.exports = {
 		try {
 			const groups = new Map(); // parentPath -> Map(pid -> value)
 			const now = Date.now();
+			// B"H 2026-10-20 (safeguards phase 3): grouping a huge queue
+			// is a long loop — it breathes on a time budget (yieldEvery).
+			const groupTick = yieldEvery(8);
 			for (const b of queue.values()) {
+				await groupTick();
 				const parent = `/social/aliases/${b.aliasId}/postsSubmitted/inHeichel/${b.h}/inSeries/${b.s}`;
 				if (!groups.has(parent)) groups.set(parent, new Map());
 				groups.get(parent).set(b.pid, {
@@ -59,20 +72,26 @@ module.exports = {
 				const release = await acquireSeriesLock('backlink:' + parent);
 				try {
 					let obj = {};
+					let parentIsDir = false;
 					try { obj = await $i.db.get(parent) || {}; } catch (e) {
-						// BH 2026-10-19: skip backlink if parent is a directory (EISDIR)
-						if (e.code === "EISDIR" || (e.message && e.message.includes("EISDIR"))) {
-							job.backlinksDone += leaves.size;
-							continue;
+						if (e && (e.code === "EISDIR" || (e.message && e.message.includes("EISDIR")))) {
+							parentIsDir = true;
 						}
-						/* treat as empty */
+						/* any other read error: treat the parent as empty */
 					}
-					let changed = false;
-					for (const [pid, val] of leaves) {
-						// B"H 2026-10-11: object values, not boolean true.
-						if (!obj[pid]) { obj[pid] = val; changed = true; }
+					if (parentIsDir) {
+						for (const [pid, val] of leaves) {
+							try { await $i.db.write(parent + '/' + pid, val); }
+							catch (_) { job.backlinkErrors = (job.backlinkErrors || 0) + 1; }
+						}
+					} else {
+						let changed = false;
+						for (const [pid, val] of leaves) {
+							// B"H 2026-10-11: object values, not boolean true.
+							if (!obj[pid]) { obj[pid] = val; changed = true; }
+						}
+						if (changed) await $i.db.write(parent, obj);
 					}
-					if (changed) await $i.db.write(parent, obj);
 				} catch (e) {
 					job.backlinkErrors = (job.backlinkErrors || 0) + 1;
 					job.errors.push({ message: 'BACKLINK_FLUSH_FAILED: ' + parent + ': ' + (e.message || e) });

@@ -25,6 +25,8 @@ const {
 	readPostsRoute
 } = require('./readers.js');
 const { bulkPublishRoute } = require('./bulkPublish.js');
+const { readShed } = require('../../safeguards/readShed.js');
+const { unavailable } = require('../apiHttp.js');
 
 function deletionAlias($i) {
 	const current = $i.$_DELETE || {};
@@ -37,6 +39,12 @@ function createSeriesPostRoutes({ $i, userid }) {
 	return {
 		'/heichelos/:heichel/series/:series/posts': async vars => {
 			if (isMethod($i, 'GET')) {
+				// B"H 2026-10-20 (safeguards phase 3): heavy post listings
+				// fail fast with 503 when the box is melting (circuit open,
+				// heap hot, OS free RAM low) instead of piling a scan on a
+				// frozen loop.
+				const shed = readShed();
+				if (shed) return unavailable('READ_SHED_OVERLOAD', shed.message);
 				return readPostsRoute({ $i, heichelId: vars.heichel, seriesId: vars.series });
 			}
 			if (!isMethod($i, 'POST')) return er({ code: 'METHOD_NOT_ALLOWED' });
@@ -45,6 +53,8 @@ function createSeriesPostRoutes({ $i, userid }) {
 		},
 		'/heichelos/:heichel/series/:series/posts/details': async vars => {
 			if (!isMethod($i, 'GET')) return er({ code: 'METHOD_NOT_ALLOWED' });
+			const shed = readShed();
+			if (shed) return unavailable('READ_SHED_OVERLOAD', shed.message);
 			return readPostsRoute({ $i, heichelId: vars.heichel, seriesId: vars.series, withDetails: true });
 		},
 		'/heichelos/:heichel/series/:series/posts/bulk': async vars => {

@@ -69,6 +69,37 @@ function checkMinified(filePath, text) {
 	}
 	return null;
 }
+/** Sync fs calls banned in NEW code under geelooy/api (see checkSyncIo). */
+const SYNC_IO_PATTERN = /\b(readFileSync|writeFileSync|readdirSync|statSync|existsSync|openSync|readSync|writeSync|closeSync|appendFileSync|mkdirSync|lstatSync|realpathSync|copyFileSync)\s*\(/;
+/** True when a written path lives under geelooy/api (relative or absolute). */
+function isApiPath(filePath) {
+	const p = String(filePath || '').replace(/\\/g, '/');
+	return /(^|\/)geelooy\/api\//.test(p);
+}
+/** The guard's own source names the banned calls; it is exempt by name. */
+function isGuardSelf(filePath) {
+	return /lineLimitGuard\.js$/.test(String(filePath || ''));
+}
+/** Test files legitimately read fixtures synchronously; exempt by name. */
+function isTestPath(filePath) {
+	return /\.(test|spec)\./.test(String(filePath || '')) || /\/test\//.test(String(filePath || ''));
+}
+/**
+ * BLOCKS new synchronous I/O under geelooy/api (safeguards phase 3,
+ * 2026-10-20): one sync fs call freezes the single event loop for
+ * EVERY request — the flap's root mechanism. Existing offenders are
+ * warn-listed in SYNC_IO_WARNLIST.md (same folder), not grandfathered
+ * for new writes. FIX: use fs.promises / async fs APIs.
+ */
+function checkSyncIo(filePath, text) {
+	if (!isApiPath(filePath) || isGuardSelf(filePath) || isTestPath(filePath)) return null;
+	const m = SYNC_IO_PATTERN.exec(text);
+	if (!m) return null;
+	return { ok: false, error: 'SYNC_IO_BLOCKED', path: filePath,
+		message: 'BLOCKED: synchronous I/O (' + m[1] + ') is banned in new code under geelooy/api - ' +
+			'it freezes the single event loop for every request. ' +
+			'FIX: use fs.promises or another async fs API instead.' };
+}
 /** Line-count check, kept for backwards compatibility with callers. */
 function checkLineLimit(filePath, content) {
 	if (typeof content !== 'string') return null;
@@ -80,6 +111,6 @@ function checkFileStandards(filePath, content) {
 	const over = checkLineCount(filePath, content);
 	if (over) return over;
 	if (!/\.js$/i.test(String(filePath || ''))) return null;
-	return checkHeader(filePath, content) || checkIndentation(filePath, content) || checkMinified(filePath, content) || null;
+	return checkHeader(filePath, content) || checkIndentation(filePath, content) || checkMinified(filePath, content) || checkSyncIo(filePath, content) || null;
 }
-module.exports = { MAX_LINES: MAX_LINES, countLines: countLines, checkLineLimit: checkLineLimit, checkFileStandards: checkFileStandards };
+module.exports = { MAX_LINES: MAX_LINES, countLines: countLines, checkLineLimit: checkLineLimit, checkFileStandards: checkFileStandards, checkSyncIo: checkSyncIo };

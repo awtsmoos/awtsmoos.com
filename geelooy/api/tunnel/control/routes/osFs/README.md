@@ -39,6 +39,17 @@ Yaakov's law, enforced on EVERY structured write by `checkFileStandards()`:
 Binary (non-string) payloads are exempt from every check. Raw shell writes
 do not pass through this guard; only structured tunnel actions do.
 
+5. **No synchronous I/O in new `geelooy/api` code** - a write under
+   `geelooy/api/**` whose content calls `readFileSync`, `writeFileSync`,
+   `readdirSync`, `statSync`, `existsSync`, `openSync`/`readSync`/
+   `writeSync`/`closeSync`, `appendFileSync`, `mkdirSync`, `lstatSync`,
+   `realpathSync`, or `copyFileSync` is BLOCKED (`SYNC_IO_BLOCKED`).
+   Sync I/O freezes the single event loop for every request — the
+   2026-10-20 flap mechanism. Use `fs.promises` instead. 167 files
+   predate the ban; they are warn-listed in `SYNC_IO_WARNLIST.md`
+   (same folder), not grandfathered for new writes. Test files and
+   the guard itself are exempt.
+
 ## AI safeguards
 
 - Do NOT weaken, bypass, or special-case this guard without the user's
