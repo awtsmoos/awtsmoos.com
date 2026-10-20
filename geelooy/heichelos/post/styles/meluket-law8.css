@@ -248,14 +248,14 @@
 	font-size: clamp(2.4rem, 6.2vw, 3.4rem);
 	font-size-adjust: 0.5;
 	line-height: 1.6;
-	color: var(--law8-walnut-ink);
+	color: var(--law8-ink);
 }
 :root .awtsmoos-initial-unit-en,
 :root .awtsmoos-initial-unit-en p {
 	font-size: clamp(2.4rem, 6.2vw, 3.4rem);
 	font-size-adjust: 0.5;
 	line-height: 1.6;
-	color: var(--law8-walnut-ink);
+	color: var(--law8-ink);
 }
 :root .meluket-phrase--he,
 :root .meluket-phrase--he p,
@@ -264,14 +264,14 @@
 	font-size: var(--sefer-phrase-size, 1.25rem);
 	font-size-adjust: 0.5;
 	line-height: 1.6;
-	color: var(--law8-walnut-ink);
+	color: var(--law8-ink);
 }
 :root .meluket-phrase--en,
 :root .meluket-phrase--en p {
 	font-size: var(--sefer-phrase-size, 1.25rem);
 	font-size-adjust: 0.5;
 	line-height: 1.6;
-	color: var(--law8-walnut-ink);
+	color: var(--law8-ink);
 }
 
 /* B"H — Yaakov reader UX fixes 2026-10-13.
@@ -353,7 +353,7 @@ section[data-awtsmoos-unit].is-reading,
 	hyphens: none;
 	max-inline-size: 100%;
 	min-inline-size: 0;
-	color: var(--law8-walnut-ink);
+	color: var(--law8-ink);
 }
 
 /* Yaakov 2026-10-13: headings NEVER break mid-word. A title like
@@ -369,7 +369,7 @@ section[data-awtsmoos-unit].is-reading,
 	hyphens: none;
 	overflow-wrap: normal;
 	word-break: normal;
-	color: var(--law8-walnut-ink);
+	color: var(--law8-ink);
 }
 :root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
 	block-size: auto;
@@ -385,5 +385,5 @@ section[data-awtsmoos-unit].is-reading,
 :root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en,
 :root .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en p {
 	font-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem));
-	color: var(--law8-walnut-ink);
+	color: var(--law8-ink);
 }
