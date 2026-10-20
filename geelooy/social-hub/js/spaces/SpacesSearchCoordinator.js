@@ -38,7 +38,15 @@ export class SpacesSearchCoordinator {
 		const yesodAliasId = this.currentAliasId();
 		const chochmahNormalized = String(chochmahQuery || '').trim();
 		if (!yesodAliasId) {
-			this.view.message('spacesResults', 'Choose an alias above to discover communities.');
+			// Public mode: the Heichelos panel must still lead somewhere real.
+			// Community channel trees need an alias, but the public Heichelos
+			// (Ikar, Bavli, Yerushalmi) are open pages — render them as a
+			// directory instead of a dead-end instruction.
+			this.view.publicDirectory();
+			this.view.message(
+				'spaceDetail',
+				'Choose an alias above to open community channels here.'
+			);
 			return [];
 		}
 

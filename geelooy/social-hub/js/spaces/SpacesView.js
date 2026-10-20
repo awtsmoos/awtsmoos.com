@@ -81,6 +81,57 @@ export class SpacesView {
 		region?.replaceChildren(...destinations.map(space => this.destinationCard(space, onOpen)));
 	}
 
+	/**
+	 * Renders the public Heichel directory for visitors without an alias.
+	 * These cards are real links to the canonical Heichel pages, so the
+	 * Heichelos view works before sign-in instead of ending at a message.
+	 */
+	publicDirectory() {
+		const region = this.root.getElementById('spacesResults');
+		if (!region) return;
+		const entries = [
+			{
+				name: 'Ikar — Torah Library',
+				description: 'Torah posts, series, translations, and sefarim in one library.',
+				href: '/heichelos/ikar/'
+			},
+			{
+				name: 'Bavli',
+				description: 'Talmud Bavli — every daf with Hebrew and English, Rashi and Tosafot.',
+				href: '/heichelos/bavli/'
+			},
+			{
+				name: 'Yerushalmi',
+				description: 'Talmud Yerushalmi — the full Yerushalmi in Hebrew.',
+				href: '/heichelos/yerushalmi/'
+			},
+			{
+				name: 'All Heichelos',
+				description: 'Browse every Heichel — the Torah Library and all community spaces.',
+				href: '/heichelos/'
+			}
+		];
+		region.replaceChildren(...entries.map(entry => this.publicCard(entry)));
+	}
+
+	publicCard(entry) {
+		const card = this.root.createElement('article');
+		card.className = 'spaceCard spaceCard--compact';
+		const emblem = this.text('span', '◫', 'spaceCard__emblem');
+		const copy = this.root.createElement('div');
+		copy.className = 'spaceCard__copy';
+		copy.append(this.text('strong', entry.name));
+		if (entry.description) copy.append(this.text('p', entry.description));
+		const link = this.root.createElement('a');
+		link.className = 'spaceOpen spaceOpen--icon';
+		link.href = entry.href;
+		link.setAttribute('aria-label', `Open ${entry.name}`);
+		link.title = `Open ${entry.name}`;
+		link.textContent = '→';
+		card.append(emblem, copy, link);
+		return card;
+	}
+
 	destinationCard(space, onOpen) {
 		const card = this.root.createElement('article');
 		card.className = 'spaceCard spaceCard--compact';
