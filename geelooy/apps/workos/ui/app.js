@@ -5,18 +5,11 @@
 (function () {
   "use strict";
 
-  var bootError = document.getElementById("boot-error");
-  var app = document.getElementById("app");
-
-  if (typeof WorkOS === "undefined") {
-    if (bootError) bootError.hidden = false;
-    return;
-  }
-
-  // Seed a fresh graph on first run.
-  try {
-    if (WorkOS.missions.list().length === 0 && typeof WorkOS.seed === "function") WorkOS.seed();
-  } catch (e) { /* core will surface errors at render time */ }
+  // This script is loaded from <head>, before <body> is parsed: the mount
+  // elements do not exist yet at parse time. All DOM lookups and the first
+  // render are deferred to boot(), which runs once the DOM exists.
+  var bootError = null;
+  var app = null;
 
   var current = { view: "home" };
 
@@ -148,5 +141,26 @@
 
   window.addEventListener("hashchange", render);
 
-  render();
+  function boot() {
+    bootError = document.getElementById("boot-error");
+    app = document.getElementById("app");
+
+    if (typeof WorkOS === "undefined") {
+      if (bootError) bootError.hidden = false;
+      return;
+    }
+
+    // Seed a fresh graph on first run.
+    try {
+      if (WorkOS.missions.list().length === 0 && typeof WorkOS.seed === "function") WorkOS.seed();
+    } catch (e) { /* core will surface errors at render time */ }
+
+    render();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
 })();
