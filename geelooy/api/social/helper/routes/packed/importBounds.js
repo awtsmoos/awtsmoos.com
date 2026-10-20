@@ -4,7 +4,8 @@
 
 /** @module ImportBounds
  * Hard bounds for the post importer (OOM guards) and the per-series
- * mutex that serializes series-index flushes across concurrent jobs.
+ * mutex that serializes series-index flushes. One job at a time since
+ * 2026-10-20 (crash-guard): the box cannot survive concurrent jobs.
  * AI SAFEGUARD: these caps protect a 2 GB production server. Do not
  * raise them without the user explicit order.
  */
@@ -13,7 +14,11 @@ const INLINE_POSTS_MAX_COUNT = 500;
 const INLINE_POSTS_MAX_BYTES = 20 * 1024 * 1024; // ~20 MB wire estimate
 const PER_POST_MAX_BYTES = 5 * 1024 * 1024; // 5 MB per post document
 const UPLOAD_ID_RE = /^[A-Za-z0-9_-]{8,64}$/;
-const MAX_CONCURRENT_PER_HEICHEL = 4;
+// B"H 2026-10-20 (crash-guard): ONE job at a time. The 2026-10-13
+// "import-speed" raise to 4 caused the 2026-10-20 00:01 EDT hang: three
+// publishers started three jobs at once and Node's event loop starved
+// for 10+ minutes on a 2 GB box. Speed never outruns stability.
+const MAX_CONCURRENT_PER_HEICHEL = 1;
 const seriesLocks = new Map();
 
 
