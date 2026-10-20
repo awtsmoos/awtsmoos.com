@@ -13,6 +13,7 @@
  */
 
 import { fetchRashiUnits, unitsForDaf, rashiSlugFor } from "../rashi/rashi-api.js?v=rashi-001";
+import { embeddedCommentaryComments, hasEmbeddedCommentary } from "./embeddedCommentary.js?v=commentary-002";
 
 /**
  * Detects Bavli daf context from the current page.
@@ -76,28 +77,51 @@ function rashiUnitToComment(unit, index) {
  */
 export async function fetchRashiComments() {
   const ctx = detectBavliContext();
-  if (!ctx) return [];
-  try {
-    const units = await fetchRashiUnits(ctx.slug, ctx.daf);
-    const filtered = ctx.daf ? unitsForDaf(units, ctx.daf) : units;
-    return filtered.map((u, i) => rashiUnitToComment(u, i));
-  } catch (e) {
-    console.warn("BH commentary provider: Rashi fetch failed", e);
-    return [];
+  if (ctx) {
+    try {
+      const units = await fetchRashiUnits(ctx.slug, ctx.daf);
+      const filtered = ctx.daf ? unitsForDaf(units, ctx.daf) : units;
+      const comments = filtered.map((u, i) => rashiUnitToComment(u, i));
+      if (comments.length) return comments;
+    } catch (e) {
+      console.warn("BH commentary provider: Rashi fetch failed", e);
+    }
   }
+  // B"H — the daf post itself carries Rashi on its units; when the separate
+  // corpus yields nothing for this daf, the attached commentary speaks.
+  return embeddedCommentaryComments(window.post || {}, 'rashi');
+}
+
+/**
+ * Fetches Tosafot commentary as comments for the current Bavli page.
+ * Tosafot rides embedded on the daf post's own units.
+ * @returns {Promise<Array>} comments in Awtsmoos format
+ */
+export async function fetchTosafotComments() {
+  return embeddedCommentaryComments(window.post || {}, 'tosafot');
 }
 
 /**
  * Returns true if the current page has commentary available.
  */
 export function hasCommentaryAvailable() {
-  return detectBavliContext() !== null;
+  if (detectBavliContext() !== null) return true;
+  const post = window.post || {};
+  return hasEmbeddedCommentary(post, 'rashi') || hasEmbeddedCommentary(post, 'tosafot');
 }
 
 /**
  * The list of commentary aliases available on this page.
- * Currently: ["rashi"]. Future: ["rashi", "tosafot", "ramban", ...]
+ * Rashi (separate corpus or embedded on the daf) and Tosafot (embedded).
  */
 export function availableCommentaryAliases() {
-  return hasCommentaryAvailable() ? ["rashi"] : [];
+  const aliases = [];
+  const post = window.post || {};
+  if (detectBavliContext() !== null || hasEmbeddedCommentary(post, 'rashi')) {
+    aliases.push("rashi");
+  }
+  if (hasEmbeddedCommentary(post, 'tosafot')) {
+    aliases.push("tosafot");
+  }
+  return aliases;
 }

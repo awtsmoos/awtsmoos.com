@@ -9,7 +9,7 @@
  */
 
 import { data, getInlineAliases } from '../state.js';
-import { fetchRashiComments } from '../commentaryProvider.js?v=commentary-001';
+import { fetchRashiComments, fetchTosafotComments } from '../commentaryProvider.js?v=commentary-002';
 import {
 	aliasOf,
 	matchesSub,
@@ -42,7 +42,7 @@ export async function getAndSaveAliases(
 	// BH 2026-10-19: include commentary aliases (Rashi, etc.) in the commentator list
 	let commentaryAliases = [];
 	try {
-		const { availableCommentaryAliases } = await import('../commentaryProvider.js?v=commentary-001');
+		const { availableCommentaryAliases } = await import('../commentaryProvider.js?v=commentary-002');
 		commentaryAliases = availableCommentaryAliases();
 	} catch (_) {}
 	const aliases = unique([
@@ -77,6 +77,13 @@ export async function fetchRelevantComments(
 		if (!data.commentCache) data.commentCache = {};
 		data.commentCache[key] = rashiComments;
 		return rashiComments;
+	}
+	// BH 2026-10-20: Tosafot rides embedded on the daf post's units
+	if (aliasStr === 'tosafot') {
+		const tosafotComments = await fetchTosafotComments();
+		if (!data.commentCache) data.commentCache = {};
+		data.commentCache[key] = tosafotComments;
+		return tosafotComments;
 	}
 	const rows = await readTree(verse);
 	const filtered = rows.filter(row => (
