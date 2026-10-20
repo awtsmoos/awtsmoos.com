@@ -4,7 +4,7 @@
  * Each import is a gate; the repaired AI Chat gate now enters with its own
  * vessel so the sidebar no longer borrows cramped inline garments.
  */
-@import url('layout.css.css');
+@import url('layout.css');
 @import url('resizer.css');
 @import url('tabs.css');
 @import url('chat.css');
