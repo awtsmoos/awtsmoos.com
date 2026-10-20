@@ -2313,6 +2313,9 @@ tools/fs/awdb/paths.js
 tools/fs/binaryArtifactHttpClient.js
 tools/fs/binaryArtifactOrigin.js
 tools/fs/binaryArtifactUploader.js
+tools/fs/binaryArtifactDownloadWriter.js
+tools/fs/binaryArtifactRangeHttpClient.js
+tools/fs/binaryArtifactDownloader.js
 tools/fs/bulkPage.js
 tools/fs/bulkRead.js
 tools/fs/chromeRuntime.js

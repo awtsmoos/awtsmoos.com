@@ -1,62 +1,83 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
-const assert = require("node:assert/strict");
-const crypto = require("node:crypto");
+"use strict";
 const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
+const crypto = require("node:crypto");
+const { Readable } = require("node:stream");
 const Bridge = require("../deviceFileTransferCore.js");
+const { BinaryArtifactVault } = require("../../core/binaryArtifactVault.js");
+const { ingestBinaryChunk } = require("../../core/binaryArtifactIngest.js");
+const { readPrivateArtifactRange } = require("../../core/binaryArtifactPrivateRange.js");
+const { writeVerifiedBinary } = require("../../../../../apps/tunnel/agent/tools/fs/binaryArtifactDownloadWriter.js");
 
 /**
- * @file Proves cross-device transfer resumes from destination truth without whole-file buffering.
- * @description The Awtsmoos joins two simulated devices by small witnessed fragments; Awtsmoos.com
- * lets the destination manifest, not server memory, decide the next byte after every interruption.
+ * The Awtsmoos carries authentic bytes through the proven custody stream;
+ * Awtsmoos.com rejects all disguised Base64 and all false success dreams.
+ * Real vault and real guarded writer; network HTTP remains a separate gate.
  */
-test("bridge creates, pauses, resumes, and commits across devices", async () => {
-	const bytes = crypto.randomBytes(2500000);
-	const hash = sha(bytes);
-	const calls = [];
-	const destination = { transferId: "awtx_testtesttesttesttesttest", nextOffset: 0, totalBytes: bytes.length, chunkBytes: 1024 * 1024, complete: false };
-	async function send(route, action, permission, params) {
-		calls.push({ route, action, permission, params });
-		if (action === "fileTransferSourceProof") return { totalBytes: bytes.length, sha256: hash };
-		if (action === "fileTransferCreate") return { ...destination };
-		if (action === "fileTransferStatus") return { ...destination };
-		if (action === "fileTransferReadChunk") {
-			const chunk = bytes.subarray(params.offset, Math.min(bytes.length, params.offset + params.maxBytes));
-			return { offset: params.offset, content64: chunk.toString("base64"), sha256: sha(chunk) };
+test("controller binary pump uses only scoped raw actions and commits identical bytes", async t => {
+	const root = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-bridge-"));
+	t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+	const dest = path.join(root, "destination");
+	fs.mkdirSync(dest);
+	const source = crypto.randomBytes(1048576 + 41);
+	const sha = bytes => crypto.createHash("sha256").update(bytes).digest("hex");
+	const expectedHash = sha(source);
+	const vault = new BinaryArtifactVault(path.join(root, "vault"));
+	const seen = [];
+	let uploadCapability;
+	const send = async (route, action, scope, params) => {
+		seen.push(action);
+		if (action === "fileTransferSourceProof") {
+			assert.equal(route, "source");
+			assert.equal(scope, "tunnel.read");
+			return { totalBytes: source.length, sha256: expectedHash };
 		}
-		if (action === "fileTransferWriteChunk") {
-			const chunk = Buffer.from(params.content64, "base64");
-			destination.nextOffset = params.offset + chunk.length;
-			destination.complete = destination.nextOffset >= destination.totalBytes;
-			return { ...destination, receivedBytes: destination.nextOffset };
+		if (action === "fileTransferUploadBinary") {
+			assert.equal(scope, "tunnel.read");
+			uploadCapability = params.uploadCapability;
+			for (let offset = 0; offset < source.length; offset += 1048576) {
+				const chunk = source.subarray(offset, offset + 1048576);
+				await ingestBinaryChunk(vault, { id: params.transferId,
+					owner: "owner-A", capability: params.uploadCapability, offset,
+					sha256: sha(chunk), stream: Readable.from([chunk]) });
+			}
+			return { ok: true, bytes: source.length, sha256: expectedHash };
 		}
-		if (action === "fileTransferCommit") return { bytes: bytes.length, sha256: hash, state: "committed" };
-		throw new Error(`unexpected:${action}`);
-	}
-	const first = await Bridge.pump({
-		source: "route-source", destination: "route-destination",
-		sourcePath: "movie.mp4", destinationPath: "copied.mp4", maxChunks: 1
-	}, send);
-	assert.equal(first.done, false);
-	assert.equal(first.nextOffset, 1024 * 1024);
-	assert.equal(first.continuation.transferId, destination.transferId);
-	const second = await Bridge.pump({
-		source: "route-source", destination: "route-destination",
-		sourcePath: "movie.mp4", transferId: first.transferId, maxChunks: 8
-	}, send);
-	assert.equal(second.done, true);
-	assert.equal(second.sha256, hash);
-	assert.ok(calls.some(call => call.action === "fileTransferSourceProof" && call.permission === "tunnel.read"));
-	assert.ok(calls.some(call => call.action === "fileTransferWriteChunk" && call.permission === "tunnel.write"));
-	assert.equal(calls.filter(call => call.action === "fileTransferSourceProof").length, 1);
+		if (action === "fileTransferDownloadBinary") {
+			assert.equal(route, "destination");
+			assert.equal(scope, "tunnel.write");
+			assert.notEqual(params.downloadCapability, uploadCapability);
+			return writeVerifiedBinary({ root: dest, allowWrite: true,
+				tools: { fsWrite: true } }, { path: params.path,
+				expectedBytes: params.expectedBytes,
+				expectedSha256: params.expectedSha256,
+				overwrite: params.overwrite }, (offset, bytes) =>
+				readPrivateArtifactRange(vault, { id: params.transferId,
+					downloadCapability: params.downloadCapability, offset, bytes }));
+		}
+		throw Error(`unexpected_action:${action}`);
+	};
+	const input = { source: "source", destination: "destination",
+		sourcePath: "source.bin", destinationPath: "copied.bin" };
+	const result = await Bridge.pump(input, send, { owner: "owner-A", vault });
+	assert.equal(result.done, true);
+	assert.equal(result.transport, "raw-https-chunks");
+	assert.deepEqual(seen, ["fileTransferSourceProof",
+		"fileTransferUploadBinary", "fileTransferDownloadBinary"]);
+	assert.deepEqual(fs.readFileSync(path.join(dest, "copied.bin")), source);
+	await assert.rejects(Bridge.pump({ ...input, transferId: "old" }, send,
+		{ owner: "owner-A", vault }), /legacy_transfer_resume_not_supported/);
+	await assert.rejects(Bridge.pump(input, send, { vault }), /binary_transfer_owner_required/);
 });
 
-test("bridge bounds chunks per GET call", () => {
+test("legacy chunk parameters are not a binary-data fallback", () => {
+	assert.equal(Bridge.boundedChunks(1000), Bridge.MAX_CHUNKS);
 	assert.equal(Bridge.boundedChunks(0), Bridge.DEFAULT_MAX_CHUNKS);
-	assert.equal(Bridge.boundedChunks(999), Bridge.MAX_CHUNKS);
-	assert.equal(Bridge.boundedChunks(3), 3);
 });
-
-function sha(buffer) { return crypto.createHash("sha256").update(buffer).digest("hex"); }
