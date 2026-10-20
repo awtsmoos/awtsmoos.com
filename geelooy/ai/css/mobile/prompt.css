@@ -14,38 +14,19 @@
 
 /* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 @media (max-width: 680px) {
-<<<<<<< ours
-  .awtsmoos-local-prompt-overlay {
-=======
   html .awtsmoos-local-prompt-overlay {
->>>>>>> theirs
     align-items: stretch;
     justify-items: stretch;
     padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
     overflow: auto;
   }
-<<<<<<< ours
-  .awtsmoos-local-prompt-card {
-=======
   html .awtsmoos-local-prompt-card {
->>>>>>> theirs
     width: 100%;
     max-width: none;
     max-height: calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     overflow: auto;
     border-radius: 18px;
     padding: 16px;
-<<<<<<< ours
-  }
-  .awtsmoos-local-prompt-card h2 { font-size: 1.1rem; line-height: 1.25; 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-  .awtsmoos-local-prompt-body { font-size: 16px; }
-  .awtsmoos-local-prompt-input { font-size: 16px; min-height: 44px; }
-  .awtsmoos-local-prompt-actions { display: grid; grid-template-columns: 1fr; }
-  .awtsmoos-local-prompt-actions button,
-  .awtsmoos-local-prompt-actions a { min-height: 44px; text-align: center; 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
-=======
     color: var(--prompt-text);
   }
   html .awtsmoos-local-prompt-card h2 { font-size: 1.1rem; line-height: 1.25; color: var(--prompt-text); margin: 0 0 .5rem; }
@@ -56,7 +37,6 @@
   html .awtsmoos-local-prompt-actions { display: grid; grid-template-columns: 1fr; }
   html .awtsmoos-local-prompt-actions button,
   html .awtsmoos-local-prompt-actions a { min-height: 44px; text-align: center; color: var(--prompt-text); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; border: 1px solid rgba(148, 163, 184, .24); background: rgba(21, 13, 43, .78); text-decoration: none; }
->>>>>>> theirs
 }
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
