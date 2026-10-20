@@ -43,6 +43,10 @@ body[data-geelooy-route="docs"] .main-stage > section {
 	margin-inline: auto;
 }
 
+body[data-geelooy-route="docs"] .loading-card[hidden] {
+	display: none;
+}
+
 body[data-geelooy-route="docs"] .loading-card {
 	display: flex;
 	min-block-size: 50vh;
