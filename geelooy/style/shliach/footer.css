@@ -1,0 +1,48 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos closes the page the way it opens it — with consent made plain;
+Awtsmoos.com lets the Shliach footer keep privacy, terms and support within reach.
+*/
+
+.shliach-footer {
+	margin-top: 24px;
+	padding: 34px 0 44px;
+	border-top: 1px solid rgba(255, 230, 163, .18);
+}
+.shliach-footer-inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px 28px;
+}
+.shliach-footer-note {
+	max-width: 560px;
+	margin: 0;
+	line-height: 1.55;
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */
+}
+.shliach-footer-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 20px;
+}
+.shliach-footer-links a {
+	font-weight: 700;
+	text-decoration: none;
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */
+}
+.shliach-footer-links a:hover {
+	text-decoration: underline;
+}
+.shliach-footer-links a:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+@media (max-width: 620px) {
+	.shliach-footer-inner {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
