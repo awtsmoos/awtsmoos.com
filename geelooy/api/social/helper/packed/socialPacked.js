@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { StringDecoder } = require('string_decoder');
 const { SHARDS, logicalKey, shardFile, packedRoot } = require('./shardPaths.js');
+const { engineOverride } = require('./shardRouting.js');
 const { noteWrite, findIndexed, findIndexedBySuffix, listIndexed } = require('./keyIndex.js');
 const { RECORD_TYPES, makeEnvelope } = require('./recordEnvelope.js');
 const { makeEntityManifest, entityManifestKey } = require('./entityManifest.js');
@@ -17,6 +18,36 @@ const store = require('../awtsmoosDb/shardStore.js');
 function fileRoot($i) { return $i?.db?.directory || ''; }
 function fileFor(root, shard) { return SHARDS[shard] ? shardFile(root, shard) : ''; }
 function resolveDbRoot($i) { return fileRoot($i) || store.info().path; }
+/**
+ * B"H 2026-10-20 (json-migration M0): per-shard engine routing. The
+ * shardRouting override wins when set; otherwise the historical rule
+ * applies — a request-local file root means JSONL, anything else means
+ * AwtsmoosDB. All overrides ship null (shardRouting.js), so production
+ * behavior is unchanged until a shard is flipped at its migration swap.
+ */
+function engineFor($i, shard = 'core') {
+  const override = engineOverride(shard);
+  if (override === 'db') return 'AwtsmoosDB';
+  if (override === 'file') return 'JSONL';
+  return fileRoot($i) ? 'JSONL' : 'AwtsmoosDB';
+}
+/**
+ * The file root a JSONL-routed shard reads/writes under: the request's
+ * own root when present, else the shard store's directory (only reached
+ * when an override forces JSONL for a rootless caller — a test-only
+ * configuration today; production requests always carry a root).
+ */
+function effectiveRoot($i, shard = 'core') {
+  const root = fileRoot($i);
+  if (root) return root;
+  return engineFor($i, shard) === 'JSONL' ? path.dirname(store.info().path) : '';
+}
+//B"H 2026-10-20 (M0): per-shard packed-write generation for this process.
+//Every writePacked bumps it; AwtsmoosDB-mode consumers that cannot stat
+//a shard file (the allPosts grouped cache) validate against it instead.
+const writeGenerations = new Map(); // shard -> write count
+function notePackedWrite(shard) { writeGenerations.set(shard, (writeGenerations.get(shard) || 0) + 1); }
+function shardWriteGeneration(shard = 'core') { return writeGenerations.get(shard) || 0; }
 function envelope({ op = 'put', key, value, meta = {}, type }) { return makeEnvelope({ op, key, value, meta, type }); }
 function readLines(file) {
   if (!file || !fs.existsSync(file)) return [];
@@ -232,22 +263,31 @@ function fastKeyType(line) {
  * correctly omitted. O(limit) memory — never loads the shard.
  */
 async function listKeysReverseAsync({ $i, shard = 'core', prefix = '', limit = 200 } = {}) {
-  const root = fileRoot($i);
   const keys = [];
   const seen = new Set();
-  if (!root) {
+  if (engineFor($i, shard) !== 'JSONL') {
+    // B"H 2026-10-20 (json-migration M0 parity): mirror the JSONL index
+    // semantics — tombstoned keys are omitted and results come back
+    // newest-first (store records carry their put stamp `updatedAt`).
     try {
+      const candidates = [];
       for (const record of store.list({ shard, predicate: r => r.parts?.[0] === 'records' })) {
         const key = record.value?.key;
         if (!key || seen.has(key)) continue;
         seen.add(key);
+        if (record.value?.op === 'del') continue;
         if (prefix && !key.startsWith(prefix)) continue;
-        keys.push(key);
+        candidates.push({ key, firstSeen: firstSeenOf(record) });
+      }
+      candidates.sort((a, b) => b.firstSeen - a.firstSeen);
+      for (const candidate of candidates) {
+        keys.push(candidate.key);
         if (keys.length >= limit) break;
       }
     } catch (_) { /* ignore */ }
     return keys;
   }
+  const root = effectiveRoot($i, shard);
   // B"H 2026-10-12 (api-hardening): serve listings from the key index —
   // newest-first, latest-wins exact, without scanning the shard.
   try {
@@ -281,10 +321,15 @@ async function listKeysReverseAsync({ $i, shard = 'core', prefix = '', limit = 2
 }
 /** Single-key read via the key-offset index (exact, no full scan). */
 async function findKeyReverseAsync({ $i, shard = 'core', key }) {
-  const root = fileRoot($i);
-  if (!root) {
-    try { return store.get({ shard, parts: ['records', key] })?.value || null; } catch { return null; }
+  if (engineFor($i, shard) !== 'JSONL') {
+    try {
+      const value = store.get({ shard, parts: ['records', key] })?.value || null;
+      // B"H 2026-10-20 (M0 parity): the JSONL index honors tombstones —
+      // a latest record with op 'del' reads as not-found (keyIndex.js).
+      return value && value.op !== 'del' ? value : null;
+    } catch { return null; }
   }
+  const root = effectiveRoot($i, shard);
   // B"H 2026-10-12 (api-hardening): the index answers hits AND misses
   // exactly — a missing key no longer reverse-scans multi-GB shards.
   try {
@@ -302,8 +347,32 @@ async function findKeyReverseAsync({ $i, shard = 'core', key }) {
  * semantics (a tombstoned key is skipped, older same-suffix keys still win).
  */
 async function findKeySuffixReverseAsync({ $i, shard = 'core', postId }) {
-  const root = fileRoot($i);
-  if (!root || !postId || postId.includes('/')) return null;
+  if (!postId || postId.includes('/')) return null;
+  if (engineFor($i, shard) !== 'JSONL') {
+    // B"H 2026-10-20 (json-migration M0): the AwtsmoosDB branch had NO
+    // suffix lookup at all — it returned null unconditionally, so every
+    // bare-postId read missed on this engine. Mirror the key index
+    // exactly: among keys whose final segment equals postId, the newest
+    // record wins and a tombstoned newest falls through to older
+    // same-suffix keys. The store keeps one record per key, stamped
+    // with the envelope's preserved first-seen stamp supplying the
+    // index's first-append ordering (see firstSeenOf).
+    try {
+      const candidates = [];
+      for (const record of store.list({ shard, predicate: r => r.parts?.[0] === 'records' })) {
+        const value = record.value;
+        if (!value?.key || !value.key.endsWith('/' + postId)) continue;
+        candidates.push(record);
+      }
+      candidates.sort((a, b) => firstSeenOf(b) - firstSeenOf(a));
+      for (const record of candidates) {
+        if (record.value.op !== 'del') return record.value;
+      }
+      return null;
+    } catch { return null; }
+  }
+  const root = effectiveRoot($i, shard);
+  if (!root) return null;
   // B"H 2026-10-12 (api-hardening): suffix reads ride the same key index —
   // a missing postId no longer scans the shard to prove its absence.
   try {
@@ -329,6 +398,53 @@ function latestFileRecords(root, shard) {
   const latest = new Map();
   forEachFileRecord(root, shard, (record) => latest.set(record.key, record));
   return [...latest.values()];
+}
+/**
+ * B"H 2026-10-20 (flap-fix): builds the latest-per-key Map directly so the
+ * records cache can retain it and merge appends incrementally (see
+ * listPackedRecords) instead of re-parsing the whole shard per change.
+ */
+function latestFileRecordsMap(root, shard) {
+  const latest = new Map();
+  forEachFileRecord(root, shard, (record) => latest.set(record.key, record));
+  return latest;
+}
+/**
+ * B"H 2026-10-20 (flap-fix): merges ONLY the appended tail bytes [from, to)
+ * of an append-only JSONL shard into an existing latest-per-key Map.
+ * Splitting on the raw 0x0A byte is UTF-8 safe (0x0A never appears inside
+ * a multi-byte sequence). Returns the offset just past the last complete
+ * newline merged, so a partial line caught mid-append is re-read on the
+ * next merge instead of being consumed half-parsed.
+ */
+function mergeShardTail(latest, file, from, to) {
+  const fd = fs.openSync(file, 'r');
+  try {
+    const CHUNK = 4 * 1024 * 1024;
+    let pos = from;
+    let pending = Buffer.alloc(0);
+    while (pos < to) {
+      const want = Math.min(CHUNK, to - pos);
+      const buf = Buffer.allocUnsafe(want);
+      const n = fs.readSync(fd, buf, 0, want, pos);
+      if (n <= 0) break;
+      pos += n;
+      pending = pending.length ? Buffer.concat([pending, buf.subarray(0, n)]) : buf.subarray(0, n);
+      const cut = pending.lastIndexOf(0x0a);
+      if (cut < 0) continue;
+      const complete = pending.subarray(0, cut + 1).toString('utf8');
+      pending = pending.subarray(cut + 1);
+      for (const line of complete.split('\n')) {
+        if (!line) continue;
+        let rec;
+        try { rec = JSON.parse(line); } catch { continue; }
+        if (rec && rec.key) latest.set(rec.key, rec);
+      }
+    }
+    return pos - pending.length;
+  } finally {
+    fs.closeSync(fd);
+  }
 }
 async function latestFileRecordsAsync(root, shard) {
   const latest = new Map();
@@ -357,17 +473,38 @@ function forEachFileRecordAsync(root, shard, onRecord) {
     rl.on('error', () => resolve());
   });
 }
+/**
+ * B"H 2026-10-20 (M0 parity): the JSONL key index orders keys by FIRST
+ * append (noteRecord never reorders), so listings are newest-first by
+ * first-seen and suffix reads pick the latest first-seen key. The store
+ * keeps one record per key and stamps only the last write — so the DB
+ * branch preserves a first-seen stamp (`fts`) on the envelope across
+ * rewrites, and DB consumers order by it. Falls back to the envelope's
+ * own ts, then the store's updatedAt, for records written before fts.
+ */
+function firstSeenOf(record) {
+  const value = record?.value || {};
+  if (typeof value.fts === 'number') return value.fts;
+  if (typeof value.ts === 'number') return value.ts;
+  return record?.updatedAt || 0;
+}
 function writePacked({ $i, shard = 'core', key, value, op = 'put', meta = {}, type }) {
   const record = envelope({ op, key, value, meta, type });
-  const root = fileRoot($i);
-  if (root) return writeFileRecord(root, shard, record) || record;
-  try { store.put({ shard, parts: ['records', key], value: record, meta: { ...meta, compat: 'awtsmoosdb-shard' } }); }
+  notePackedWrite(shard);
+  if (engineFor($i, shard) === 'JSONL') return writeFileRecord(effectiveRoot($i, shard), shard, record) || record;
+  try {
+    const prior = store.get({ shard, parts: ['records', key] })?.value;
+    record.fts = prior && typeof prior.fts === 'number' ? prior.fts
+      : prior && typeof prior.ts === 'number' ? prior.ts
+      : record.ts;
+    store.put({ shard, parts: ['records', key], value: record, meta: { ...meta, compat: 'awtsmoosdb-shard' } });
+  }
   catch (error) { record.mirrorError = String(error.message || error); }
   return record;
 }
 function readPacked({ $i, shard = 'core', key }) {
-  const root = fileRoot($i);
-  if (root) {
+  if (engineFor($i, shard) === 'JSONL') {
+    const root = effectiveRoot($i, shard);
     // Append-only JSONL: the LAST record for a key wins — full scan, O(1) memory.
     let found = null;
     forEachFileRecord(root, shard, (record) => { if (record.key === key) found = record; });
@@ -376,8 +513,8 @@ function readPacked({ $i, shard = 'core', key }) {
   try { return store.get({ shard, parts: ['records', key] })?.value || null; } catch { return null; }
 }
 async function readPackedAsync({ $i, shard = 'core', key }) {
-  const root = fileRoot($i);
-  if (root) {
+  if (engineFor($i, shard) === 'JSONL') {
+    const root = effectiveRoot($i, shard);
     let found = null;
     await forEachFileRecordAsync(root, shard, (record) => { if (record.key === key) found = record; });
     return found;
@@ -395,17 +532,23 @@ async function readPackedAsync({ $i, shard = 'core', key }) {
 //Callers must treat the returned array as read-only.
 const SCAN_WARN_BYTES = 1 * 1024 * 1024;
 const SCAN_WARN_MIN_INTERVAL_MS = 60 * 1000;
-const listRecordsCache = new Map(); // file -> { id, mtimeMs, size, data }
+const listRecordsCache = new Map(); // file -> { id, mtimeMs, size, data, latest }
 const scanWarnedAt = new Map(); // shard -> timestampMs
 function listPackedRecords({ $i, shard = 'core' } = {}) {
-  const root = fileRoot($i);
-  if (!root) {
-    const latest = new Map();
+  if (engineFor($i, shard) !== 'JSONL') {
+    // B"H 2026-10-20 (M0 parity): the JSONL scan yields records in
+    // first-append (Map insertion) order; grouped builders reverse()
+    // that, so the store branch sorts by the first-seen stamp to match.
     try {
-      for (const record of store.list({ shard, predicate: r => r.parts?.[0] === 'records' })) if (record.value?.key) latest.set(record.value.key, record.value);
+      const records = store.list({ shard, predicate: r => r.parts?.[0] === 'records' })
+        .filter(record => record.value?.key);
+      records.sort((a, b) => firstSeenOf(a) - firstSeenOf(b));
+      const latest = new Map();
+      for (const record of records) latest.set(record.value.key, record.value);
+      return [...latest.values()];
     } catch { return []; }
-    return [...latest.values()];
   }
+  const root = effectiveRoot($i, shard);
   const file = fileFor(root, shard);
   if (!file) return [];
   let st = null;
@@ -415,6 +558,21 @@ function listPackedRecords({ $i, shard = 'core' } = {}) {
   if (cached && cached.id === id && cached.mtimeMs === st.mtimeMs && cached.size === st.size) {
     return cached.data;
   }
+  // B"H 2026-10-20 (flap-fix): append-only growth (the import case) merges
+  // just the new tail bytes into the cached Map. Previously ANY size or
+  // mtime change fell through to a full synchronous re-parse of the whole
+  // shard - 197MB for allPosts - freezing the event loop for seconds after
+  // every import batch and flapping the API. A full rebuild now happens
+  // only when the file was replaced or compacted (new inode or shrink).
+  if (cached && cached.id === id && cached.latest && st.size > cached.size) {
+    try {
+      const mergedTo = mergeShardTail(cached.latest, file, cached.size, st.size);
+      cached.data = [...cached.latest.values()];
+      cached.mtimeMs = st.mtimeMs;
+      cached.size = mergedTo;
+      return cached.data;
+    } catch { /* tail merge failed: fall through to the full rebuild */ }
+  }
   if (st.size > SCAN_WARN_BYTES) {
     const now = Date.now();
     const last = scanWarnedAt.get(shard) || 0;
@@ -423,15 +581,15 @@ function listPackedRecords({ $i, shard = 'core' } = {}) {
       if (typeof console !== 'undefined') console.warn('B"H packed full-scan: shard=' + shard + ' size=' + (st.size / 1048576).toFixed(1) + 'MB');
     }
   }
-  const data = latestFileRecords(root, shard);
-  listRecordsCache.set(file, { id, mtimeMs: st.mtimeMs, size: st.size, data });
+  const latest = latestFileRecordsMap(root, shard);
+  const data = [...latest.values()];
+  listRecordsCache.set(file, { id, mtimeMs: st.mtimeMs, size: st.size, data, latest });
   return data;
 }
 /** Drops the listPackedRecords cache (tests / graceful shutdown). */
 function clearListRecordsCache() { listRecordsCache.clear(); scanWarnedAt.clear(); }
 async function listPackedRecordsAsync({ $i, shard = 'core' } = {}) {
-  const root = fileRoot($i);
-  if (root) return latestFileRecordsAsync(root, shard);
+  if (engineFor($i, shard) === 'JSONL') return latestFileRecordsAsync(effectiveRoot($i, shard), shard);
   return listPackedRecords({ $i, shard });
 }
 function writeManifest({ $i, manifest }) { return writePacked({ $i, shard: 'meta', key: entityManifestKey(manifest), value: manifest, meta: { kind: 'entityManifest', entityKind: manifest.kind } }); }
@@ -495,7 +653,7 @@ function mirrorPost({ $i, post }) {
   const coreKey = logicalKey(['posts', post.heichelId, postId]);
   const write = writePacked({ $i, shard: 'core', key: coreKey, value: post, meta: { kind: 'post', type: contentType } });
   const allPost = mirrorAllPost({ $i, post }).value;
-  writeManifest({ $i, manifest: makeEntityManifest({ kind: 'post', id: postId, paths: { core: coreKey, allPosts: logicalKey(['allPosts', post.heichelId, postId]) }, indexes: { byHeichel: logicalKey(['indexes', 'postsByHeichel', post.heichelId, postId]) }, binaryRefs: { engine: fileRoot($i) ? 'JSONL' : 'AwtsmoosDB' }, stats: { sections: Array.isArray(post.sections) ? post.sections.length : 0 } }) });
+  writeManifest({ $i, manifest: makeEntityManifest({ kind: 'post', id: postId, paths: { core: coreKey, allPosts: logicalKey(['allPosts', post.heichelId, postId]) }, indexes: { byHeichel: logicalKey(['indexes', 'postsByHeichel', post.heichelId, postId]) }, binaryRefs: { engine: engineFor($i, 'core') }, stats: { sections: Array.isArray(post.sections) ? post.sections.length : 0 } }) });
   indexPost({ $i, value: allPost });
   appendEvent({ $i, type: 'post.mirrored', actor: allPost.aliasId, entity: { kind: 'post', id: postId }, data: { heichelId: post.heichelId, contentType } });
   return write;
@@ -521,7 +679,7 @@ function mirrorPostRecords({ $i, post }) {
   const contentType = post.contentType || post.postType || 'post';
   const coreKey = logicalKey(['posts', post.heichelId, postId]);
   const allPost = allPostValue(post);
-  const manifest = makeEntityManifest({ kind: 'post', id: postId, paths: { core: coreKey, allPosts: logicalKey(['allPosts', post.heichelId, postId]) }, indexes: { byHeichel: logicalKey(['indexes', 'postsByHeichel', post.heichelId, postId]) }, binaryRefs: { engine: fileRoot($i) ? 'JSONL' : 'AwtsmoosDB' }, stats: { sections: Array.isArray(post.sections) ? post.sections.length : 0 } });
+  const manifest = makeEntityManifest({ kind: 'post', id: postId, paths: { core: coreKey, allPosts: logicalKey(['allPosts', post.heichelId, postId]) }, indexes: { byHeichel: logicalKey(['indexes', 'postsByHeichel', post.heichelId, postId]) }, binaryRefs: { engine: engineFor($i, 'core') }, stats: { sections: Array.isArray(post.sections) ? post.sections.length : 0 } });
   const records = [
     { shard: 'core', key: coreKey, value: post, meta: { kind: 'post', type: contentType } },
     { shard: 'allPosts', key: logicalKey(['allPosts', allPost.heichelId, postId]), value: allPost, meta: { kind: 'allPost', aliasId: allPost.aliasId, heichelId: allPost.heichelId, seriesId: allPost.seriesId } },
@@ -549,8 +707,11 @@ function mirrorPostBulk({ $i, post }) {
       }
     } catch (_) {}
   }
-  // BH 2026-10-19: invalidate read cache for written shards so updates are visible immediately
-  for (const f of touchedFiles) listRecordsCache.delete(f);
+  // B"H 2026-10-20 (flap-fix): the read cache is NO LONGER deleted here.
+  // listPackedRecords validates by stat (dev:ino + mtimeMs + size) on
+  // every call and tail-merges appends, so written records stay visible
+  // immediately WITHOUT forcing the next reader into a full shard
+  // re-parse. Deleting the entry per write was the flap trigger.
   // BH 2026-10-19: also clear the grouped posts cache (allPostsIndex.js)
   try {
     const allPostsIndex = require("./allPostsIndex.js");
@@ -575,8 +736,13 @@ function mirrorPostsBulk({ $i, posts }) {
     return list.length;
   }
   const byShard = new Map();
+  const dbRecords = [];
   for (const post of list) {
     for (const r of mirrorPostRecords({ $i, post })) {
+      // B"H 2026-10-20 (json-migration M0): a shard flipped to AwtsmoosDB
+      // bypasses the batched file append and writes through writePacked,
+      // so a mixed-engine batch can never land DB records in a JSONL file.
+      if (engineFor($i, r.shard) !== 'JSONL') { dbRecords.push(r); continue; }
       let lines = byShard.get(r.shard);
       if (!lines) { lines = []; byShard.set(r.shard, lines); }
       lines.push(JSON.stringify(envelope({ op: 'put', key: r.key, value: r.value, meta: r.meta })) + '\n');
@@ -588,13 +754,10 @@ function mirrorPostsBulk({ $i, posts }) {
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.appendFileSync(file, lines.join(''));
   }
-  // BH 2026-10-19: invalidate read caches after batched writes so updates are visible immediately
-  for (const [shard] of byShard) {
-    try {
-      const file = fileFor(root, shard);
-      if (file) listRecordsCache.delete(file);
-    } catch (_) {}
-  }
+  for (const r of dbRecords) writePacked({ $i, shard: r.shard, key: r.key, value: r.value, meta: r.meta });
+  // B"H 2026-10-20 (flap-fix): read caches are NOT deleted here either -
+  // stat validation + tail merge in listPackedRecords keeps reads fresh
+  // without a full re-parse after every batched write (see mirrorPostBulk).
   try {
     const allPostsIndex = require('./allPostsIndex.js');
     if (allPostsIndex.clearGroupedCache) allPostsIndex.clearGroupedCache();
@@ -618,17 +781,17 @@ function mirrorNotification({ $i, notification }) {
   return write;
 }
 function shardFileStats({ $i, shard }) {
-  const root = fileRoot($i);
-  const file = root ? fileFor(root, shard) : resolveDbRoot($i);
+  const engine = engineFor($i, shard);
+  const file = engine === 'JSONL' ? fileFor(effectiveRoot($i, shard), shard) : resolveDbRoot($i);
   const exists = Boolean(file && fs.existsSync(file));
   const stat = exists ? fs.statSync(file) : null;
-  return { files: [{ file, exists, bytes: stat?.size || 0, mtimeMs: stat?.mtimeMs || 0, engine: root ? 'JSONL' : 'AwtsmoosDB', shard }], bytes: stat?.size || 0 };
+  return { files: [{ file, exists, bytes: stat?.size || 0, mtimeMs: stat?.mtimeMs || 0, engine, shard }], bytes: stat?.size || 0 };
 }
 function shardStats({ $i, shard = 'core' }) {
   const records = listPackedRecords({ $i, shard });
   const byType = {};
   for (const r of records) byType[r.recordType || r.meta?.kind || 'unknown'] = (byType[r.recordType || r.meta?.kind || 'unknown'] || 0) + 1;
-  return { shard, records: records.length, logicalKeys: new Set(records.map(r => r.key).filter(Boolean)).size, byType, approximate: false, engine: fileRoot($i) ? 'JSONL' : 'AwtsmoosDB', bytes: shardFileStats({ $i, shard }).bytes, files: shardFileStats({ $i, shard }).files };
+  return { shard, records: records.length, logicalKeys: new Set(records.map(r => r.key).filter(Boolean)).size, byType, approximate: false, engine: engineFor($i, shard), bytes: shardFileStats({ $i, shard }).bytes, files: shardFileStats({ $i, shard }).files };
 }
 function allShardStats({ $i } = {}) { return ['core', 'allPosts', 'meta', 'graph', 'notify', 'audit', 'search', 'feed'].map(shard => shardStats({ $i, shard })); }
 async function shardStatsAsync({ $i, shard = 'core' }) {
@@ -642,8 +805,8 @@ async function shardStatsAsync({ $i, shard = 'core' }) {
     if (op === 'del') { types.delete(key); return; }
     types.set(key, type || 'unknown');
   };
-  const root = fileRoot($i);
-  if (root) {
+  if (engineFor($i, shard) === 'JSONL') {
+    const root = effectiveRoot($i, shard);
     // Forward raw-line scan with fast key/type extraction (no JSON.parse):
     // chunked ~4 MB reads with event-loop yields — the 3.9 GB core shard
     // finishes inside nginx's timeout instead of 504ing.
@@ -665,7 +828,7 @@ async function shardStatsAsync({ $i, shard = 'core' }) {
   }
   const byType = {};
   for (const t of types.values()) byType[t] = (byType[t] || 0) + 1;
-  return { shard, records: types.size, logicalKeys: types.size, byType, approximate: false, engine: fileRoot($i) ? 'JSONL' : 'AwtsmoosDB', bytes: shardFileStats({ $i, shard }).bytes, files: shardFileStats({ $i, shard }).files };
+  return { shard, records: types.size, logicalKeys: types.size, byType, approximate: false, engine: engineFor($i, shard), bytes: shardFileStats({ $i, shard }).bytes, files: shardFileStats({ $i, shard }).files };
 }
 async function allShardStatsAsync({ $i } = {}) {
   const out = [];
@@ -689,4 +852,4 @@ async function getPostsByParent({ $i, parentPostId, limit = 200 } = {}) {
   }
   return out;
 }
-module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, clearListRecordsCache, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats, excerptOf, allPostValue, getPostsByParent };
+module.exports = { resolveDbRoot, fileRoot, engineFor, effectiveRoot, shardWriteGeneration, writePacked, readPacked, readPackedAsync, listPackedRecords, clearListRecordsCache, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats, excerptOf, allPostValue, getPostsByParent };

@@ -4,7 +4,7 @@
  * @description Chapter 646: logical-key reads now keep the caller's `$i`
  * vessel, so tests and requests see their own JSONL or AwtsmoosDB shard root.
  */
-const { readPacked, readPackedAsync, listPackedRecords, listPackedRecordsAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync } = require('./socialPacked.js');
+const { readPacked, readPackedAsync, listPackedRecords, listPackedRecordsAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, engineFor, effectiveRoot } = require('./socialPacked.js');
 function readPackedKey({ $i, shard = 'core', key }) {
   if (!key) return { error: { code: 'MISSING_KEY', message: 'key is required.' } };
   const record = readPacked({ $i, shard, key });
@@ -39,16 +39,18 @@ function listPackedKeys({ $i, shard = 'core', prefix = '', limit = 200 }) {
     keys.push(record.key);
     if (keys.length >= safeLimit) break;
   }
-  return { success: keys, count: keys.length, bounded: true, limit: safeLimit, engine: $i?.db?.directory ? 'JSONL' : 'AwtsmoosDB' };
+  return { success: keys, count: keys.length, bounded: true, limit: safeLimit, engine: engineFor($i, shard) };
 }
 async function listPackedKeysAsync({ $i, shard = 'core', prefix = '', limit = 200 }) {
   const safeLimit = safePositive(limit, 200, 2000);
   // B"H 2026-10-11: reverse scan — exact latest-wins keys from the tail of
   // the shard; O(limit) memory instead of loading all records (OOM).
   const keys = await listKeysReverseAsync({ $i, shard, prefix, limit: safeLimit });
-  return { success: keys, count: keys.length, bounded: true, limit: safeLimit, engine: $i?.db?.directory ? 'JSONL' : 'AwtsmoosDB' };
+  return { success: keys, count: keys.length, bounded: true, limit: safeLimit, engine: engineFor($i, shard) };
 }
 function scanFileForKeys({ $i } = {}) {
-  return { exists: Boolean($i?.db?.directory), engine: $i?.db?.directory ? 'JSONL' : 'AwtsmoosDB', note: 'Logical records are read through socialPacked hybrid shards.' };
+  // B"H 2026-10-20 (json-migration M0): existence/engine follow facade
+  // routing for the core shard, not the raw request-root heuristic.
+  return { exists: engineFor($i, 'core') === 'JSONL' && Boolean(effectiveRoot($i, 'core')), engine: engineFor($i, 'core'), note: 'Logical records are read through socialPacked hybrid shards.' };
 }
 module.exports = { readPackedKey, readPackedKeyAsync, listPackedKeys, listPackedKeysAsync, scanFileForKeys };

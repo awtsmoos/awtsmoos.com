@@ -7,7 +7,7 @@
  */
 const fs = require('fs');
 const { logicalKey, shardFile, SHARDS } = require('./shardPaths.js');
-const { writePacked, readPacked, listPackedRecords, excerptOf, fileRoot } = require('./socialPacked.js');
+const { writePacked, readPacked, listPackedRecords, excerptOf, effectiveRoot, shardWriteGeneration } = require('./socialPacked.js');
 /**
  * B"H 2026-10-20 (safeguards): full-scan incident counter. A whole-shard
  * scan on the request path is an INCIDENT by definition — every run is
@@ -66,7 +66,11 @@ function clearGroupedCache() { groupedWriteBursts++; return groupedCache.size; }
 const GROUPED_CACHE_VERSION = 1;
 function allPostsShardFile($i) {
   try {
-    const root = fileRoot($i);
+    // B"H 2026-10-20 (json-migration M0): the root follows facade routing —
+    // empty whenever allPosts is AwtsmoosDB-routed, so getFullGrouping
+    // takes its generation-validated in-memory path instead of stat-ing
+    // a JSONL file that no longer receives the writes.
+    const root = effectiveRoot($i, 'allPosts');
     if (!root || !SHARDS || !SHARDS['allPosts']) return '';
     return shardFile(root, 'allPosts') || '';
   } catch { return ''; }
@@ -172,6 +176,21 @@ function getFullGrouping($i, heichelId) {
   const file = allPostsShardFile($i);
   let st = null;
   if (file) { try { st = fs.statSync(file); } catch { st = null; } }
+  if (!file) {
+    // B"H 2026-10-20 (json-migration M0 parity): AwtsmoosDB mode has no
+    // shard file to stat, so the grouped map used to rebuild in full on
+    // EVERY call — and journal a full-scan incident each time. Cache it
+    // in memory, validated by the facade's allPosts write generation:
+    // every packed write bumps the generation, so a cached grouping is
+    // served only while no allPosts write has landed since it was built.
+    const dbKey = 'allPostsDb|' + heichelId;
+    const generation = shardWriteGeneration('allPosts');
+    const hit = groupedCache.get(dbKey);
+    if (hit && hit.generation === generation) return hit.groups;
+    const groups = buildAllPostsGrouped({ $i, heichelId, wanted: new Set() });
+    groupedCache.set(dbKey, { generation, groups, byKey: rebuildByKey(groups) });
+    return groups;
+  }
   if (st) {
     const hit = groupedCache.get(cacheKey);
     if (hit && hit.mtimeMs === st.mtimeMs && hit.size === st.size) return hit.groups;
