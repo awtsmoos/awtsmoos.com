@@ -45,10 +45,8 @@
 }
 
 .opinion-copy small {
-	overflow: hidden;
 	color: var(--ink-soft);
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	overflow-wrap: anywhere;
 }
 
 .opinion-choice[data-selected="true"] {

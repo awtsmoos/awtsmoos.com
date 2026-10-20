@@ -36,10 +36,8 @@ awtsmoos-location-search {
 }
 
 .current-place {
-	overflow: hidden;
 	font-size: 0.9rem;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	overflow-wrap: anywhere;
 }
 
 .current-zone {
