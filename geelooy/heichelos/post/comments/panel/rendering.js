@@ -15,6 +15,7 @@ import { buildCommentTree } from "../logic/treeBuilder.js";
 import { renderTreeItem } from "../render/tree.js";
 import { makeHTMLFromComment } from "../render/core.js";
 import { createKeeperRow } from "./rendering/KeeperRowFactory.js";
+import { mountCommentaryMenu } from "./commentaryMenu.js?v=commentary-menu-001";
 import { nextFrame, renderChunked } from "./performance/SmoothScheduler.js";
 
 function manifest(blueprint) { return BlueprintManifestor.manifest(blueprint); }
@@ -80,6 +81,8 @@ export async function makeCommentatorList(actualTab, forceFresh = false) {
     actualTab.innerHTML = "";
     actualTab.appendChild(page);
     bindSearch(page);
+    // BH 2026-10-19: commentary menu (Rashi, Rambam, etc.) at top of sidebar
+    try { await mountCommentaryMenu(); } catch (e) { console.warn("BH commentary menu mount failed", e); }
     if (!aliases?.length) {
         keepersWrap.appendChild(placeholder("The chambers are currently silent."));
         return;
