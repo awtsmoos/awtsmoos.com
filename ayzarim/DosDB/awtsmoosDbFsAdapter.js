@@ -26,6 +26,7 @@ const path = require("path");
 const AwtsmoosDB = require("./awtsmoosBinary/awtsmoosDB/index.js");
 const awtsmoosJSON = require("./awtsmoosBinary/awtsmoosBinaryJSON/index.js");
 const { maintainFreeSpaceThrottled } = require("./awtsmoosDbMaintenance.js");
+const { requestDurableFlush } = require("./durableFlush.js");
 
 function globalMap(name) {
   if (!globalThis[name]) globalThis[name] = new Map();
@@ -124,18 +125,6 @@ function scheduleSharedFlush(db, file, delayMs = 300000) {
   if (typeof timer.unref === "function") timer.unref();
   timers.set(file, timer);
   return { scheduled: true, delayMs };
-}
-
-// B"H 2026-10-20 ROOT FIX (stale reads on existing-record updates): reads
-// resolve through sealed READ-ONLY handles over the on-disk file. A write
-// that only schedules a flush 5 minutes later stays invisible to every
-// reader until then - and is lost entirely if the process restarts first
-// (wal: false). Flush dirty pages SYNCHRONOUSLY so a completed write is
-// durable and immediately visible to read-only handles.
-function flushNow(db) {
-  try { if (db && db.fs && typeof db.fs.flush === "function") db.fs.flush(); } catch (error) {
-    console.error("B\"H AwtsmoosDB synchronous fs flush failed", error && error.stack || error);
-  }
 }
 
 function normalizePath(input) {
@@ -417,7 +406,7 @@ class AwtsmoosDbFamilyFs {
     const file = this.dbPathForFamily(family, vpath, true);
     const buffer = serializeValue(value, vpath);
     db.fs.write(vpath, buffer);
-    flushNow(db);
+    requestDurableFlush(db, file);
     clearReadCachesForFile(file);
     closeReadOnlyHandlesForFile(file);
     const flush = scheduleSharedFlush(db, file);
@@ -459,8 +448,8 @@ class AwtsmoosDbFamilyFs {
     if (!found) return undefined;
     if (found.dir && !recursive) return false;
     const result = found.db.fs.rm(found.path, { recursive: Boolean(recursive) });
-    flushNow(found.db);
     const file = this.dbPathForFamily(found.family, found.path, false);
+    requestDurableFlush(found.db, file);
     clearReadCachesForFile(file);
     closeReadOnlyHandlesForFile(file);
     scheduleSharedFlush(found.db, file);
@@ -470,8 +459,8 @@ class AwtsmoosDbFamilyFs {
     const found = this.find(from, "write");
     if (!found) return undefined;
     const result = found.db.fs.mv(found.path, writePath(to));
-    flushNow(found.db);
     const file = this.dbPathForFamily(found.family, found.path, false);
+    requestDurableFlush(found.db, file);
     clearReadCachesForFile(file);
     closeReadOnlyHandlesForFile(file);
     scheduleSharedFlush(found.db, file);

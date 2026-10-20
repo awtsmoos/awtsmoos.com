@@ -78,6 +78,11 @@ async function processOneWrite(ctx, vd) {
 					return;
 				}
 			}
+			// B"H 2026-10-20 (stability): breathe EVERY post, not every
+			// 50 - one setImmediate round-trip lets pending shed decisions
+			// and web requests land between posts. Affordable now that
+			// durability fsyncs are batched (ayzarim/DosDB/durableFlush.js).
+			await new Promise(r => setImmediate(r));
 			job.doneHashes[post.postId] = hash;
 			liveHashes.set(post.postId, hash);
 			job.postsDone++;
