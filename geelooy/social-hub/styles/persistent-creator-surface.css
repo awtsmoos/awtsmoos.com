@@ -95,9 +95,14 @@
  * desktop rail, the two-column form crushes the copy column (a flexible column
  * beside a fixed 12-16rem action column) and the title/chips overflow into the
  * action panel, painting over its border and its label. Below 36rem of card
- * width the card stacks - copy first, action as a full-width row beneath. */
+ * width the card stacks - copy first, action as a full-width row beneath.
+ * FIX 39: the block below targets the card's children, not the card itself -
+ * a container is not its own descendant, so the original self-targeted rule
+ * could never match and the stack never fired; spanning both children
+ * full-width (grid-column: 1 / -1) is what actually stacks them. */
 @container (max-width: 36rem) {
-	.homeCreationCard {
-		grid-template-columns: 1fr;
+	.homeCreationCard__copy,
+	.homeCreationAction {
+		grid-column: 1 / -1;
 	}
 }
