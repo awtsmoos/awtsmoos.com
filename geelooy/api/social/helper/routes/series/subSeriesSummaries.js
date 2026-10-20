@@ -1,28 +1,24 @@
 //B"H
-//Boruch Hashem
 //Blessed is He
+//Boruch Hashem
 
 /**
  * @module SubSeriesSummaries
- * @description
- * The Awtsmoos gathers each child branch without letting transfer bytes pose as Torah metadata;
- * Awtsmoos.com keeps order, counts, and proven identity while unknown corruption stays bounded.
+ * @description Ordered child-branch summaries; the cache vessel
+ * lives in ./summariesCache.js. B"H 2026-10-20 (safeguards ph.2):
+ * freshness by TTL check, never a writer clear. Under a read shed
+ * a cold caller gets stale data or a 503 — never a scan stampede.
  */
 
 const { getSeries, getSubSeries } = require('../../index.js');
 const { recoverSeriesPrateem } = require('../../series/seriesPrateemRecovery.js');
 const { allPostsGrouped } = require('../../packed/allPostsIndex.js');
 const { mergePostObjects } = require('./seriesPostMerge.js');
+const { summariesCacheKey, freshData, staleData, runShared } = require('./summariesCache.js');
+const { readShed } = require('../../safeguards/readShed.js');
+const { unavailable } = require('../apiHttp.js');
 
 const MAX_PARALLEL_SUMMARIES = 6;
-
-// BH 2026-10-19: cache sub-series summaries (series metadata rarely changes)
-// 30-second TTL keeps navigation instant while staying fresh
-const summariesCache = new Map();
-const SUMMARIES_TTL_MS = 30000;
-function summariesCacheKey(heichelId, parentSeriesId) {
-  return heichelId + "|" + parentSeriesId;
-}
 
 /** Returns ordered identities for legacy arrays or keyed collection maps. */
 function identities(value) {
@@ -70,9 +66,6 @@ async function readSummaries({ $i, heichelId, ids, packedPostsBySeries }) {
 					seriesId,
 					withDetails: true
 				});
-				// B"H 2026-10-12 (api-hardening): merge packed-shard posts into
-				// the legacy listing before summarizing, so import-lane posts
-				// count on child cards. summarize() stays a pure sync vessel.
 				const packed = packedPostsBySeries ? packedPostsBySeries.get(String(seriesId)) : null;
 				const merged = packed && packed.length
 					? { ...detail, posts: mergePostObjects(detail && detail.posts, packed) }
@@ -90,28 +83,31 @@ async function readSummaries({ $i, heichelId, ids, packedPostsBySeries }) {
 
 /** Resolves child IDs once and returns summary-ready records in one HTTP vessel. */
 async function readSubSeriesSummaries({ $i, heichelId, parentSeriesId }) {
-	// BH 2026-10-19: check cache first for instant navigation
-	const ck = summariesCacheKey(heichelId, parentSeriesId);
-	const cached = summariesCache.get(ck);
-	if (cached && (Date.now() - cached.at) < SUMMARIES_TTL_MS) return cached.data;
-	const ids = await getSubSeries({
-		$i,
-		heichelId,
-		parentSeriesId,
-		withDetails: false
-	});
-	if (!Array.isArray(ids) || !ids.length) return [];
-	// B"H 2026-10-12 (api-hardening): ONE packed scan for the whole page,
-	// partitioned by series — never one scan per child.
-	let packedPostsBySeries = null;
-	try {
-		packedPostsBySeries = allPostsGrouped({ $i, heichelId, seriesIds: ids.map(String) });
-	} catch (_error) {
-		packedPostsBySeries = null;
+	const key = summariesCacheKey(heichelId, parentSeriesId);
+	const fresh = freshData(key);
+	if (fresh) return fresh;
+	const shed = readShed();
+	if (shed) {
+		const stale = staleData(key);
+		if (stale) return stale;
+		return unavailable('READ_SHED_OVERLOAD', shed.message);
 	}
-	const result = await readSummaries({ $i, heichelId, ids, packedPostsBySeries });
-	summariesCache.set(ck, { at: Date.now(), data: result });
-	return result;
+	return runShared(key, async () => {
+		const ids = await getSubSeries({
+			$i,
+			heichelId,
+			parentSeriesId,
+			withDetails: false
+		});
+		if (!Array.isArray(ids) || !ids.length) return [];
+		let packedPostsBySeries = null;
+		try {
+			packedPostsBySeries = allPostsGrouped({ $i, heichelId, seriesIds: ids.map(String) });
+		} catch (_error) {
+			packedPostsBySeries = null;
+		}
+		return await readSummaries({ $i, heichelId, ids, packedPostsBySeries });
+	});
 }
 
 module.exports = {

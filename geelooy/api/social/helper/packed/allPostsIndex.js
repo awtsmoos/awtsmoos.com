@@ -8,6 +8,12 @@
 const fs = require('fs');
 const { logicalKey, shardFile, SHARDS } = require('./shardPaths.js');
 const { writePacked, readPacked, listPackedRecords, excerptOf, fileRoot } = require('./socialPacked.js');
+/**
+ * B"H 2026-10-20 (safeguards): full-scan incident counter. A whole-shard
+ * scan on the request path is an INCIDENT by definition — every run is
+ * journaled and counted for the pulse endpoint. Never removed quietly.
+ */
+const { noteFullScan } = require('../safeguards/fullscanWatch.js');
 
 function allPostKey({ heichelId, postId }) { return logicalKey(['allPosts', heichelId, postId]); }
 function postIdOf(post) { return post?.postId || post?.id || ''; }
@@ -42,8 +48,21 @@ function readAllPost({ $i, heichelId, postId }) {
 //layers validate the shard file's mtimeMs+size, so any append/rewrite
 //invalidates automatically. This is the permanent fix for the 5s series-list.
 const groupedCache = new Map();
-/** BH 2026-10-19: clears grouped cache after bulk writes. */
-function clearGroupedCache() { groupedCache.clear(); } // 'allPosts|<heichelId>' -> { mtimeMs, size, groups }
+/**
+ * B"H 2026-10-20 (safeguards phase 2 - cache discipline): bulk-write
+ * hook called by the mirror writers after every post and batch. This
+ * used to WIPE the whole grouped map (groupedCache.clear()), so the
+ * next series read missed memory, missed the persisted snapshot
+ * (stale watermark) and fell into a full ~200 MB shard rebuild -
+ * one of the two flap triggers. The map is now KEPT on purpose:
+ * every entry self-validates against the shard stat (mtimeMs+size)
+ * on read, append-only growth is tail-merged in place, and only a
+ * replaced/compacted shard pays one rebuild (journaled as a
+ * full-scan incident). Surgical invalidation beats deletion.
+ * @returns {number} Grouped entries retained (never dropped here).
+ */
+let groupedWriteBursts = 0;
+function clearGroupedCache() { groupedWriteBursts++; return groupedCache.size; }
 const GROUPED_CACHE_VERSION = 1;
 function allPostsShardFile($i) {
   try {
@@ -53,6 +72,24 @@ function allPostsShardFile($i) {
   } catch { return ''; }
 }
 function groupedCacheFile(file) { return file + '.grouped.json'; }
+/**
+ * B"H 2026-10-20 (flap-fix): loads the persisted grouped snapshot WITHOUT
+ * demanding an exact mtime/size match, returning its saved watermark so
+ * getFullGrouping can tail-merge a stale snapshot forward when the shard
+ * only grew. Returns null when no usable snapshot exists.
+ */
+function loadGroupedSnapshot(file) {
+  try {
+    const raw = fs.readFileSync(groupedCacheFile(file), 'utf8');
+    if (raw.length > 128 * 1024 * 1024) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || parsed.v !== GROUPED_CACHE_VERSION) return null;
+    if (typeof parsed.size !== 'number' || typeof parsed.mtimeMs !== 'number') return null;
+    const groups = new Map();
+    for (const [sid, arr] of Object.entries(parsed.groups || {})) groups.set(sid, arr);
+    return { mtimeMs: parsed.mtimeMs, size: parsed.size, groups };
+  } catch { return null; }
+}
 function loadGroupedFromDisk(file, st) {
   try {
     const raw = fs.readFileSync(groupedCacheFile(file), 'utf8');
@@ -152,6 +189,24 @@ function getFullGrouping($i, heichelId) {
       groupedCache.set(cacheKey, entry);
       return diskGroups;
     }
+    // B"H 2026-10-20 (flap-fix): a STALE snapshot still beats a full
+    // rebuild when the shard only GREW since it was saved (the import
+    // case): rebuild the key index from the snapshot and merge just the
+    // appended tail. Previously any mtime/size mismatch discarded the
+    // snapshot and buildAllPostsGrouped re-scanned the whole shard
+    // synchronously - the freeze behind the API flap.
+    const snap = loadGroupedSnapshot(file);
+    if (snap && st.size > snap.size) {
+      try {
+        const entry = { mtimeMs: snap.mtimeMs, size: snap.size, groups: snap.groups, byKey: rebuildByKey(snap.groups) };
+        mergeTailRecords(entry, file, snap.size, st.size);
+        entry.mtimeMs = st.mtimeMs;
+        entry.size = st.size;
+        groupedCache.set(cacheKey, entry);
+        saveGroupedToDisk(file, st, entry.groups);
+        return entry.groups;
+      } catch { /* snapshot merge failed: fall through to the full build */ }
+    }
   }
   const groups = buildAllPostsGrouped({ $i, heichelId, wanted: new Set() });
   if (st) {
@@ -186,6 +241,7 @@ function allPostsGrouped({ $i, heichelId = '', seriesIds = [] } = {}) {
   return out;
 }
 function buildAllPostsGrouped({ $i, heichelId = '', wanted = new Set() } = {}) {
+  noteFullScan('allPostsGrouped-rebuild'); // SAFEGUARDS 2026-10-20: incident
   const groups = new Map();
   const seen = new Set();
   const records = listPackedRecords({ $i, shard: 'allPosts' }).slice().reverse();
@@ -209,6 +265,7 @@ function buildAllPostsGrouped({ $i, heichelId = '', wanted = new Set() } = {}) {
   return groups;
 }
 function allPosts({ $i, aliasId = '', heichelId = '', seriesId = '', limit = 500 } = {}) {
+  noteFullScan('allPosts-list'); // SAFEGUARDS 2026-10-20: incident
   const seen = new Set();
   const output = [];
   const records = listPackedRecords({ $i, shard: 'allPosts' }).slice().reverse();
