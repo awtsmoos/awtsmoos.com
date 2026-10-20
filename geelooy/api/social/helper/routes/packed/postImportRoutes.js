@@ -16,6 +16,10 @@ const postValidate = require('./postValidate.js');
 const PackedPostImportRoutes = class PackedPostImportRoutes {
 	constructor($i) {
 		this.$i = $i;
+		// B"H 2026-10-20 (crash-guard): start the event-loop lag monitor
+		// (idempotent, unref'd 1s probe). It feeds the shed circuit
+		// breaker that protects imports from starving web traffic.
+		require('./eventLoopMonitor.js').startEventLoopMonitor();
 	}
 
 

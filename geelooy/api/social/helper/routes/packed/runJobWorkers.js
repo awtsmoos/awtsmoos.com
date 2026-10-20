@@ -18,6 +18,7 @@ const { appendJobLog } = require('./jobLog.js');
 const { heapTooHigh } = require('./serverHealth.js');
 const { saveJobState } = require('./jobState.js');
 const { setJob } = require('./jobStore.js');
+const { shedNow } = require('./eventLoopMonitor.js');
 
 async function runWorkers(ctx) {
 	const routes = ctx.routes, $i = ctx.$i, job = ctx.job, spec = ctx.spec, WORKERS = ctx.WORKERS;
@@ -37,6 +38,14 @@ async function runWorkers(ctx) {
 						job.errors.push({ message: 'PAUSED_MEMORY: heap exceeded safe threshold; resume to continue.' });
 						job.status = 'paused';
 						break;
+					}
+					// B"H 2026-10-20 (crash-guard): latency circuit breaker.
+					// If the event loop is drowning, pause this worker 2s so
+					// web traffic breathes; the job resumes on its own.
+					if (shedNow()) {
+						job.shedPauses = (job.shedPauses || 0) + 1;
+						await new Promise(r => setTimeout(r, 2000));
+						continue;
 					}
 					const n = ctx.nextPost++;
 					if (n >= spec.posts.length) break;
