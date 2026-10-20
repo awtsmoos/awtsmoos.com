@@ -26,18 +26,32 @@ export class MinimaxProxyClient {
 		return this.request('/task', { method: 'POST', body: JSON.stringify({ taskId }) });
 	}
 
-	/** @param {string} path Proxy path. @param {Object} options Fetch options. @returns {Promise<Object>} Parsed response. */
+	/** @param {string} path Proxy path. @param {Object} options Fetch options; timeoutMs bounds the wait (default 10s) so a stalled proxy can never hang boot or polling forever. @returns {Promise<Object>} Parsed response. */
 	async request(path, options = {}) {
+		const { timeoutMs = 10_000, signal: callerSignal, ...fetchOptions } = options;
+		const controller = new AbortController();
+		const timer = setTimeout(() => controller.abort(), timeoutMs);
+		const onCallerAbort = () => controller.abort();
+		if (callerSignal) {
+			if (callerSignal.aborted) controller.abort();
+			else callerSignal.addEventListener('abort', onCallerAbort, { once: true });
+		}
 		let response;
 		try {
 			response = await fetch(`${this.base}${path}`, {
-				...options,
-				headers: { 'Content-Type': 'application/json', ...(options.headers || {}) }
+				...fetchOptions,
+				signal: controller.signal,
+				headers: { 'Content-Type': 'application/json', ...(fetchOptions.headers || {}) }
 			});
 		} catch (cause) {
-			throw new Error(navigator.onLine === false
-				? 'You are offline. Reconnect and Olam H3 will resume tracked jobs.'
-				: `The Olam H3 server proxy is unavailable: ${cause.message}`);
+			throw new Error(controller.signal.aborted && !callerSignal?.aborted
+				? `The Olam H3 server proxy did not answer within ${Math.round(timeoutMs / 1000)}s.`
+				: navigator.onLine === false
+					? 'You are offline. Reconnect and Olam H3 will resume tracked jobs.'
+					: `The Olam H3 server proxy is unavailable: ${cause.message}`);
+		} finally {
+			clearTimeout(timer);
+			callerSignal?.removeEventListener('abort', onCallerAbort);
 		}
 		const data = await response.json().catch(() => null);
 		if (!data) throw new Error(`The Olam H3 proxy returned an unreadable response (${response.status}).`);
