@@ -79,17 +79,23 @@ function mailRoute(recipient) {
 }
 
 export async function refreshSnippets() {
-    if (!state.alias) return [];
+    if (!state.alias) {
+        state.isLoadingHistory = false;
+        return [];
+    }
+    state.isLoadingHistory = true;
     try {
         const url = `${API_BASE}/get?aliasId=${encodeURIComponent(state.alias)}&view=threads&_t=${Date.now()}`;
         const list = listFrom(await jsonFetch(url));
         state.snippets = list.sort((a, b) => (b.timeSent || 0) - (a.timeSent || 0));
         state.mailLoadError = null;
+        state.isLoadingHistory = false;
         notify('snippets', state.snippets);
         return state.snippets;
     } catch (error) {
         console.error('Mail thread fetch failed:', error);
         state.mailLoadError = errorMessage(error?.payload, error?.status) || 'Could not load conversations.';
+        state.isLoadingHistory = false;
         notify('mailError', error);
         notify('snippets', state.snippets);
         return [];

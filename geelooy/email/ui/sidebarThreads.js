@@ -41,6 +41,10 @@ export function renderThreadList(ui, onOpen) {
 		return;
 	}
 	const threads = filteredThreads();
+	if (state.isLoadingHistory && !state.snippets.length) {
+		renderLoadingState(ui, list);
+		return;
+	}
 	renderResultSummary(ui, list, threads.length);
 	if (!threads.length) {
 		renderEmptyState(ui, list);
@@ -65,6 +69,21 @@ function renderLoadError(ui, list) {
 				attributes: { type: 'button' },
 				events: { click: () => refreshSnippets() }
 			}
+		]
+	});
+}
+
+/** Loading frame for a fetch in flight — the list is never "empty" while mail is still on its way. */
+function renderLoadingState(ui, list) {
+	ui.html({
+		parent: list,
+		tag: 'div',
+		classList: ['thread-empty-state', 'thread-loading-state'],
+		attributes: { role: 'status' },
+		children: [
+			{ tag: 'span', classList: ['thread-empty-icon'], attributes: { 'aria-hidden': 'true' }, children: [giconMark('mail')] },
+			{ tag: 'strong', textContent: 'Loading conversations' },
+			{ tag: 'span', textContent: 'Gathering your mail\u2026' }
 		]
 	});
 }
