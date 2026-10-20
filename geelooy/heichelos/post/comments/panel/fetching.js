@@ -9,6 +9,7 @@
  */
 
 import { data, getInlineAliases } from '../state.js';
+import { fetchRashiComments } from '../commentaryProvider.js?v=commentary-001';
 import {
 	aliasOf,
 	matchesSub,
@@ -38,9 +39,16 @@ export async function getAndSaveAliases(
 		return data.aliases[key].aliases;
 	}
 	const rows = await readTree(verse);
+	// BH 2026-10-19: include commentary aliases (Rashi, etc.) in the commentator list
+	let commentaryAliases = [];
+	try {
+		const { availableCommentaryAliases } = await import('../commentaryProvider.js?v=commentary-001');
+		commentaryAliases = availableCommentaryAliases();
+	} catch (_) {}
 	const aliases = unique([
 		...rows.filter(row => matchesSub(row, sub)).map(aliasOf),
-		...getInlineAliases()
+		...getInlineAliases(),
+		...commentaryAliases
 	]);
 	if (!data.aliases) {
 		data.aliases = {};
@@ -61,6 +69,14 @@ export async function fetchRelevantComments(
 	const key = `${alias}:${cacheKey(verse)}:${sub ?? 'all'}`;
 	if (!fresh && data.commentCache?.[key]) {
 		return data.commentCache[key];
+	}
+	// BH 2026-10-19: commentary aliases (Rashi, etc.) fetch from commentary provider
+	const aliasStr = String(alias).toLowerCase().replace(/^@/, '');
+	if (aliasStr === 'rashi') {
+		const rashiComments = await fetchRashiComments();
+		if (!data.commentCache) data.commentCache = {};
+		data.commentCache[key] = rashiComments;
+		return rashiComments;
 	}
 	const rows = await readTree(verse);
 	const filtered = rows.filter(row => (
