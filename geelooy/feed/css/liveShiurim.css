@@ -33,7 +33,6 @@
 	align-items: center;
 	gap: 8px;
 	color: var(--aw-text);
-}
 	font: 700 16px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 .live-panel-ic {
