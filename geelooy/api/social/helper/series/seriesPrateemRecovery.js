@@ -58,7 +58,16 @@ function isSeriesPrateem(value) {
  */
 function recoverSeriesPrateem(value, seriesId) {
 	if (isSeriesPrateem(value)) {
-		return { ...value, id: value.id || seriesId };
+		// B"H 2026-10-20 (impl phase 3, warts i/ii): a write-time spread of
+		// the whitespace placeholder Buffer into real metadata leaves
+		// numeric index keys ({"0": 32}) riding inside an otherwise
+		// healthy prateem. Numeric keys are never metadata — strip them.
+		const clean = {};
+		for (const [key, entry] of Object.entries(value)) {
+			if (/^\d+$/.test(key)) continue;
+			clean[key] = entry;
+		}
+		return { ...clean, id: value.id || seriesId };
 	}
 	if (isTransferPlaceholder(value)) return { id: seriesId };
 	return null;

@@ -16,6 +16,7 @@ const { readMergedSeriesPosts } = require('./seriesPostMerge.js');
 const {
 	readSubSeriesSummaries
 } = require('./subSeriesSummaries.js');
+const { normalizeSeriesResult } = require('../../series/seriesPrateemRecovery.js');
 
 /**
  * Reads one series and overlays restored mapped post identities.
@@ -42,7 +43,11 @@ async function compatibilitySeriesDetails($i, heichelId, seriesId = 'root') {
 	if (mappedIds.length && result && !result.error) {
 		result.posts = mappedIds;
 	}
-	return result;
+	// B"H 2026-10-20 (impl phase 3, wart i): the canonical details route
+	// normalizes a corrupt prateem via normalizeSeriesResult; this
+	// compatibility path returned the raw getSeries result, leaking a
+	// stored placeholder Buffer as {"type":"Buffer","data":[32]}.
+	return normalizeSeriesResult(result, seriesId);
 }
 
 /**
