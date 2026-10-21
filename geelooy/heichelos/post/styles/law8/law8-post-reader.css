@@ -586,3 +586,24 @@
 	color: var(--sefer-ink);
 	font-weight: 700;
 }
+
+/* B"H - FIX 52 (CSS lane, 2026-10-20): sanctuary dream state re-ink.
+ * The dream chamber (reader-beauty/dream/sanctuary.css) paints this
+ * context near-black and re-inks it by INHERITANCE — color:
+ * var(--dream-ink) declared on .post-reader-localized-context itself.
+ * The explicit-ink rules above (and the post-title + unit-note rules)
+ * are DIRECT declarations, and a direct declaration always outranks
+ * an inherited value, so in the sanctuary state the post title, the
+ * English amud line (via color:inherit from the heading), the unit
+ * notes and their titles kept the light-theme --sefer-ink on the
+ * near-black chamber and vanished (measured live: title, EN heading,
+ * notes and note titles all rgb(38-43,33,24) on a rgb(3,5,9) body).
+ * These scoped rules (specificity (0,3,0) over the (0,2,0) base
+ * rules) restore the chamber's own ink exactly where direct rules
+ * had pinned the light one. Dawn (a light dream) is untouched. */
+[data-dream="sanctuary"] .post-reader-localized-context .awtsmoos-post-title,
+[data-dream="sanctuary"] .post-reader-localized-context .bavli-amud-heading,
+[data-dream="sanctuary"] .post-reader-localized-context .bavli-unit-note,
+[data-dream="sanctuary"] .post-reader-localized-context .bavli-unit-note-title {
+	color: var(--dream-ink);
+}
