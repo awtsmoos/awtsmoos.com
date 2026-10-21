@@ -8,7 +8,7 @@
  * Prototype-mixin sibling of VerseCommentRoutes: byAnchor method, relocated verbatim.
  */
 
-const { badMethod, fail, getQuery, ok } = require('../profile/values.js');
+const { badMethod, fail, getQuery, isMethod, ok } = require('../profile/values.js');
 const { getReader } = require('./verseCommentRoutesHelpers.js');
 
 module.exports = {

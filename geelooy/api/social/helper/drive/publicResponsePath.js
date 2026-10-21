@@ -11,6 +11,7 @@
 
 const { normalizeDrivePath } = require('./pathPolicy.js');
 const { readDriveState } = require('./stateRepository.js');
+const { notFoundResponse } = require('./publicResponseHeaders.js');
 
 const { buildDirectoryListing } = require('./publicResponseListing.js');
 const { buildEntryResponse, isPublicFile } = require('./publicResponseEntry.js');

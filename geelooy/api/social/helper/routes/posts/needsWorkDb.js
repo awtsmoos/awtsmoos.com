@@ -9,6 +9,7 @@
  */
 
 const { sp, NO_LOGIN } = require("../../_awtsmoos.constants.js");
+const { myOpts } = require("../../general.js");
 
 /** Best-effort native read; null on any failure (never throws the scan). */
 async function safeGet($i, path, opts) {

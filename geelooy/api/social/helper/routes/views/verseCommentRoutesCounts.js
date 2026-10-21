@@ -8,7 +8,7 @@
  * Prototype-mixin sibling of VerseCommentRoutes: verseCounts method, relocated verbatim.
  */
 
-const { badMethod, fail, ok } = require('../profile/values.js');
+const { badMethod, fail, isMethod, ok } = require('../profile/values.js');
 const { readBody, getReader, getPaths } = require('./verseCommentRoutesHelpers.js');
 
 module.exports = {

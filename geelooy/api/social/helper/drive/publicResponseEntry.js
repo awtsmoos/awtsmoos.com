@@ -10,6 +10,7 @@
  */
 
 const { readObject } = require('./objectRepository.js');
+const { readDriveState } = require('./stateRepository.js');
 const {
 	beginDriveRequest,
 	finishDriveRequest,

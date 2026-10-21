@@ -9,7 +9,7 @@
  */
 
 const readingStore = require('../../reading/readingStore.js');
-const { badMethod, getQuery, isMethod, ok } = require('../profile/values.js');
+const { badMethod, fail, getQuery, isMethod, ok } = require('../profile/values.js');
 
 module.exports = {
 	/**
