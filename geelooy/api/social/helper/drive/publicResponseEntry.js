@@ -26,6 +26,7 @@ const {
 	notFoundResponse,
 	selectBody
 } = require('./publicResponseHeaders.js');
+const { effectiveMime } = require('./contentSniff.js');
 
 async function buildPublicHashResponse(options) {
 	const state = await readDriveState(options.aliasId, options.$i);
@@ -62,12 +63,16 @@ async function buildEntryResponse(options) {
 async function buildMeteredResponse(options, method, leaseId) {
 	const entry = options.entry;
 	const etag = etagForHash(entry.objectHash);
-	const headers = commonHeaders(entry, etag);
+	const fullBody = await readObject(options.aliasId, entry.objectHash, options.$i);
+	// The bytes are the only honest witness of type: when their magic
+	// disproves the stored mime, the truthful mime builds every header, so
+	// 200, 206 and 304 responses alike speak the true type under nosniff.
+	const truthfulEntry = { ...entry, mime: effectiveMime(fullBody, entry.mime) };
+	const headers = commonHeaders(truthfulEntry, etag);
 	if (isNotModified(options.headers, etag, entry.updatedAt)) {
 		await finishDriveRequest(options.aliasId, leaseId, 0, options.$i);
 		return { statusCode: 304, headers, response: Buffer.alloc(0) };
 	}
-	const fullBody = await readObject(options.aliasId, entry.objectHash, options.$i);
 	const selected = selectBody(fullBody, options.headers, headers);
 	const responseBytes = method === 'HEAD' ? 0 : selected.body.length;
 	await finishDriveRequest(options.aliasId, leaseId, responseBytes, options.$i);
@@ -75,7 +80,7 @@ async function buildMeteredResponse(options, method, leaseId) {
 	return {
 		statusCode: selected.statusCode,
 		headers,
-		mimeType: entry.mime,
+		mimeType: truthfulEntry.mime,
 		response: method === 'HEAD' ? Buffer.alloc(0) : selected.body
 	};
 }
