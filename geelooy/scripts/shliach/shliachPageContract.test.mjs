@@ -13,10 +13,17 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-	SHLIACH_GPT_URL,
-	buildShliachPromptUrl
-} from "./ShliachPaths.js";
+// B"H 2026-10-20 (impl phase 3, wart vi): ShliachPaths.js is authored as
+// ESM but ships with a .js extension inside a CommonJS-scoped tree (the
+// Shliach pages load it as a browser module), so Node's ESM loader treats
+// it as CommonJS and rejects its named exports before any test can run.
+// Load the exact shipped bytes through a data: URL to exercise them under
+// ESM semantics without touching the production module.
+const pathsModule = await import(
+	"data:text/javascript;base64," +
+	Buffer.from(fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "ShliachPaths.js"), "utf8")).toString("base64")
+);
+const { SHLIACH_GPT_URL, buildShliachPromptUrl } = pathsModule;
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
