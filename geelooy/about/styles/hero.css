@@ -29,7 +29,7 @@ Awtsmoos.com keeps hero scale and action behavior in this vessel so the foundati
 	color: var(--about-muted);
 	line-height: 1.7;
 }
-.about-page__primary {
+.about-page .about-page__primary {
 	display: inline-flex;
 	min-height: 3rem;
 	align-items: center;
