@@ -28,8 +28,8 @@
 	.portal-navigation a {
 		width: 100%;
 		justify-content: flex-start;
-	
-	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+
+	color: var(--aw-ui-text); /* FIX 49: this element pairs with the --aw-ui-* surface family (layout.css base rule); the auto-stamped var(--aw-text) is near-white on this page and made the labels invisible on the white tray at mobile widths */}
 
 	.portal-view-toolbar {
 		justify-content: stretch;
@@ -58,8 +58,8 @@
 	.portal-value-object dd,
 	.portal-facts dd {
 		margin-block-end: .75rem;
-	
-	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+
+	color: var(--aw-ui-muted); /* FIX 49: pairs with the --aw-ui-* card surfaces (values.css base rule); the auto-stamped var(--aw-text) is near-white on this page and made fact values invisible on the white cards at mobile widths */}
 
 	.portal-link-row {
 		display: grid;
