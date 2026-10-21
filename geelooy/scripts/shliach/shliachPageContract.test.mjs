@@ -58,7 +58,7 @@ test("every Shliach route carries SEO, navigation, runtime, and the real GPT", (
 	for (const [relativePath, canonical] of ROUTES) {
 		const html = source(relativePath);
 		assert.match(html, /<title>[^<]*Awtsmoos[^<]*Shliach[^<]*<\/title>/i);
-		assert.match(html, new RegExp(`canonical[^>]+${canonical.replaceAll("/", "\\/")}`));
+		assert.match(html, new RegExp(`canonical[^>]+${literalUrl(canonical).source}`));
 		assert.match(html, /name="description" content="[^"]{40,}"/);
 		assert.match(html, /name="robots" content="index,follow,max-image-preview:large"/);
 		// cc63e0f27 (perf lane): the main page loads bundle.css — the

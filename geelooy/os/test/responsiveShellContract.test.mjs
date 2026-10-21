@@ -25,7 +25,7 @@ test("OS index loads simple launcher and responsive layers", async () => {
 		"responsive-mobile.css",
 		"skip-link.css"
 	]) {
-		assert.match(html, new RegExp(stylesheet.replace(".", "\\.")));
+		assert.match(html, new RegExp(stylesheet.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 	}
 	assert.match(html, /Geelooy OS · Files · Media · Sites · Code/);
 });

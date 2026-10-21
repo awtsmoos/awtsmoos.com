@@ -26,7 +26,7 @@ const styleFiles = [
 const combinedStyles = styleFiles.map(file => source(`${styleRoot}surfaces/${file}`)).join('\n');
 
 for (const file of styleFiles) {
-	assert.match(surfaceIndex, new RegExp(file.replace('.', '\\.')));
+	assert.match(surfaceIndex, new RegExp(file.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 	const content = source(`${styleRoot}surfaces/${file}`);
 	assert.match(content.split('\n')[0], /B"H/);
 	assert.ok(content.split('\n').length - 1 <= 120, `${file} exceeds 120 lines`);

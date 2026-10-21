@@ -69,7 +69,7 @@ test("advanced models use cached native isolated loading and immutable public re
 	assert.doesNotMatch(loader, forbiddenRenderer);
 	assert.match(manifest, /sites\/awtsmoos-release-assets\/models/);
 	for (const model of ["Sheep.glb", "Cow.glb", "NormalTree_5.glb", "Rock_2.glb"]) {
-		assert.match(manifest, new RegExp(model.replace(".", "\\.")));
+		assert.match(manifest, new RegExp(model.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 	}
 });
 

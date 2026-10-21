@@ -277,12 +277,14 @@
   "METHOD_NOT_ALLOWED",
   "MISSING_WORD",
   "MISSING_CORPUS",
+  "MISSING_PARAM",
   "EXACT_SEARCH_DISABLED_FOR_CORPUS",
   "EXACT_SERIES_WARMING",
   "READ_FAILED",
   "KEYS_FAILED",
   "AUTH_NEEDED",
-  "PUBLIC_SITES_FAILED"
+  "PUBLIC_SITES_FAILED",
+  "CONNECTIONS_FAILED"
  ],
  "forAgents": {
   "auth": "none — every read endpoint is an unauthenticated GET",

@@ -46,7 +46,7 @@ test("executable formats remain associated with generic host", async () => {
 		".apk",
 		".wasm"
 	]) {
-		const escaped = extension.replace(".", "\\.");
+		const escaped = extension.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 		assert.match(
 			source,
 			new RegExp(`"${escaped}"[^\\n]+awtsmoosExecutable`),

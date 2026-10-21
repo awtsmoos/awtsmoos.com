@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import { HOME_HTML, HOME_COMPONENTS, assertCurrentHomeInteraction } from './helpers/currentHomeContract.mjs';
 assertCurrentHomeInteraction();
 for (const part of ['hero-layout.css', 'search-responsive.css', 'featured-worlds-responsive.css', 'mobile-dock.css']) {
-	assert.match(HOME_COMPONENTS, new RegExp(part.replace('.', '\\.')));
+	assert.match(HOME_COMPONENTS, new RegExp(part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 }
 assert.match(HOME_HTML, /class="hero"/);
 assert.match(HOME_HTML, /class="action-panel"/);

@@ -74,7 +74,7 @@ test('cinematic stylesheet targets real Blank Meadow gameplay surfaces', () => {
 		'.Awtsmoos-region-banner',
 		'.Awtsmoos-core-mechanics'
 	]) {
-		assert.match(css, new RegExp(selector.replace('.', '\\.')));
+		assert.match(css, new RegExp(selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 	}
 	assert.match(css, /data-awtsmoos-cinematic="true"/);
 	assert.match(css, /safe-area-inset-bottom/);

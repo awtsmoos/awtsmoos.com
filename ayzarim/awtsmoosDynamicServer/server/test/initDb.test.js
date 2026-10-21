@@ -78,7 +78,7 @@ test("malformed local configuration fails with a named diagnostic", () => {
 		fs.writeFileSync(path.join(root, LOCAL_CONFIG_FILE), "{");
 		assert.throws(
 			() => resolveDbPath(makeDependencies(), root, {}),
-			new RegExp(`Invalid ${LOCAL_CONFIG_FILE.replaceAll(".", "\\.")}`)
+			new RegExp(`Invalid ${LOCAL_CONFIG_FILE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`)
 		);
 	} finally {
 		fs.rmSync(root, { recursive: true, force: true });

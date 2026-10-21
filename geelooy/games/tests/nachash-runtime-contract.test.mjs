@@ -46,7 +46,7 @@ test('Nachash worker doorway routes pause, resume, settings, and focused runtime
 const worker = await text('worker.js');
 const messages = await text('worker-runtime/messages.js');
 for (const module of ['state.js', 'render.js', 'collisions.js', 'update.js', 'lifecycle.js', 'messages.js']) {
-	assert.match(worker, new RegExp(`worker-runtime/${module.replace('.', '\\.')}`));
+	assert.match(worker, new RegExp(`worker-runtime/${module.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
 }
 for (const command of ["case 'pause'", "case 'resume'", "case 'settings'"]) assert.match(messages, new RegExp(command));
 });

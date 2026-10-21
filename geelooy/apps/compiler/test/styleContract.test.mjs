@@ -47,6 +47,6 @@ test("mobile controls retain full-width layout", async () => {
 test("compiler page loads each local style vessel", async () => {
 	const html = await readFile(new URL("index.html", ROOT), "utf8");
 	for (const file of STYLE_FILES) {
-		assert.match(html, new RegExp(`href=[\"']${file}[\"']`));
+		assert.match(html, new RegExp(`href=[\"']${file.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[\"']`));
 	}
 });

@@ -20,7 +20,7 @@ const requiredIds = [
 for (const source of [primary, local]) {
 	assert.match(source, /<details[^>]*>[\s\S]*<summary[^>]*>[^<]*Advanced/i);
 	for (const id of requiredIds) assert.match(source, new RegExp(`id="${id}"`), `missing ${id}`);
-	for (const partial of partialNames) assert.match(source, new RegExp(`partials/${partial.replace('.', '\\.')}"`));
+	for (const partial of partialNames) assert.match(source, new RegExp(`partials/${partial.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
 	assert.doesNotMatch(source, /<template id="sectionTemplate"/);
 	assert.ok(Math.max(...source.split(/\r?\n/).map(line => line.length)) < 500, 'template contains a compressed giant line');
 }

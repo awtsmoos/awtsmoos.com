@@ -35,7 +35,7 @@ for (const command of commands) {
 	assert.match(capture, new RegExp(command));
 }
 for (const script of scripts) {
-	assert.match(components, new RegExp(script.replace(".", "\\.")));
+	assert.match(components, new RegExp(script.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 }
 assert.match(capture, /\$RECOVERY_ROOT\/bin/);
 assert.match(sources, /unix-late-readiness\.sh/);

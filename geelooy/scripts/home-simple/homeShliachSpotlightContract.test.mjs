@@ -37,7 +37,7 @@ test("Home boots the real Awtsmoos Shliach spotlight", () => {
 
 test("Home keeps public, local, and text branding fallbacks", () => {
 	const content = source("ShliachSpotlightContent.js");
-	assert.match(content, new RegExp(PUBLIC_LOGO.replace(".", "\\.")));
+	assert.match(content, new RegExp(PUBLIC_LOGO.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 	assert.match(content, new RegExp(LOCAL_FALLBACK.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 	assert.match(content, /usingFallback = true/);
 	assert.match(content, /mediaState = "missing"/);
