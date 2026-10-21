@@ -16,6 +16,8 @@ const {
 	readSeriesPost
 } = require('./seriesRecordReader.js');
 const { getCachedSeriesIds, setCachedSeriesIds } = require('./seriesReadCache.js');
+const { allPostsGrouped } = require('../packed/allPostsIndex.js');
+const { safeRecordRead } = require('../safeguards/safeRecordRead.js');
 
 /** Reads one mapped Meluket post through the narrow record pipeline. */
 async function readMappedPost(context) {
@@ -53,9 +55,24 @@ async function readLegacyIds(context) {
 	return ids;
 }
 
+/** Reads packed-shard post ids for one series; a poison packed read degrades to legacy-only. */
+async function readPackedIds(context) {
+	const sid = String(context.seriesId);
+	const groups = await safeRecordRead(
+		'packed:allPostsGrouped:' + context.heichelId + ':' + sid,
+		() => allPostsGrouped({ $i: context.$i, heichelId: context.heichelId, seriesIds: [sid] }),
+		{ fallback: new Map(), tag: 'seriesReadCompatibility' });
+	return (groups.get(sid) || [])
+		.map(compact => String(compact?.postId || ''))
+		.filter(Boolean);
+}
+
 /** Resolves ordinary series details through one identity enumeration and bounded child reads. */
 async function readUnmappedPosts(context) {
-	const postIds = await readLegacyIds(context);
+	const legacyIds = await readLegacyIds(context);
+	const packedIds = await readPackedIds(context);
+	const seen = new Set(legacyIds.map(String));
+	const postIds = [...legacyIds, ...packedIds.filter(id => !seen.has(id))];
 	const page = applyPagination(postIds, context.pagination);
 	if (!context.withDetails) return page;
 	return readRecordsByIds(context, page);
