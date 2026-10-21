@@ -28,6 +28,10 @@ const { SHLIACH_GPT_URL, buildShliachPromptUrl } = pathsModule;
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
 const LOGO = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png?v=c9428e4217";
+// The main Shliach page carries the same canonical logo file with the
+// cache-bust of e3e2899d5 (drive mime repair); gallery and Home keep the
+// original ?v= token for the identical file.
+const LOGO_MAIN = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png?v=jpegfix20261020";
 const BRIDGE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/12_awtsmoos_hat_logo_pilgrim_golden_bridge.png?v=882a15c8f9";
 const CODER = "https://awtsmoos.com/api/social/drive/public/awtsmoos/20_jewish_coder_aleph_gateway_portal_city.png?v=e0b9f9934d";
 const ROUTES = new Map([
@@ -36,6 +40,15 @@ const ROUTES = new Map([
 	["Shliach/poems/index.html", "https://awtsmoos.com/Shliach/poems/"],
 	["Shliach/gallery/index.html", "https://awtsmoos.com/Shliach/gallery/"]
 ]);
+
+// B"H 2026-10-20 (contract reconciliation): a URL is a literal string, not a
+// pattern. The artwork URLs carry a "?v=" cache-bust, and an unescaped "?"
+// is a regex quantifier, so escaping only "/" could never match them — the
+// artwork assertions failed even where the shipped bytes were exactly the
+// expected string. Escape URLs the same full way the GPT assertions do.
+function literalUrl(url) {
+	return new RegExp(url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+}
 
 function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");
@@ -48,7 +61,10 @@ test("every Shliach route carries SEO, navigation, runtime, and the real GPT", (
 		assert.match(html, new RegExp(`canonical[^>]+${canonical.replaceAll("/", "\\/")}`));
 		assert.match(html, /name="description" content="[^"]{40,}"/);
 		assert.match(html, /name="robots" content="index,follow,max-image-preview:large"/);
-		assert.match(html, /\/style\/shliach\/index\.css/);
+		// cc63e0f27 (perf lane): the main page loads bundle.css — the
+		// index.css @import chain flattened into one file; subpages
+		// still load index.css itself.
+		assert.match(html, relativePath === "Shliach/index.html" ? /\/style\/shliach\/bundle\.css/ : /\/style\/shliach\/index\.css/);
 		assert.match(html, /\/scripts\/shliach\/index\.js/);
 		assert.match(html, new RegExp(SHLIACH_GPT_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 		assert.equal((html.match(/<h1[ >]/g) ?? []).length, 1);
@@ -56,21 +72,21 @@ test("every Shliach route carries SEO, navigation, runtime, and the real GPT", (
 });
 
 test("campaign uses all supplied artwork with deliberate page roles", () => {
-	assert.match(source("Shliach/index.html"), new RegExp(LOGO.replaceAll("/", "\\/")));
-	assert.match(source("Shliach/prompts/index.html"), new RegExp(CODER.replaceAll("/", "\\/")));
+	assert.match(source("Shliach/index.html"), literalUrl(LOGO_MAIN));
+	assert.match(source("Shliach/prompts/index.html"), literalUrl(CODER));
 	const poems = source("Shliach/poems/index.html");
-	assert.match(poems, new RegExp(BRIDGE.replaceAll("/", "\\/")));
-	assert.match(poems, new RegExp(CODER.replaceAll("/", "\\/")));
+	assert.match(poems, literalUrl(BRIDGE));
+	assert.match(poems, literalUrl(CODER));
 	assert.match(poems, /whisper became a prompt/i);
 	const gallery = source("Shliach/gallery/index.html");
 	for (const image of [LOGO, BRIDGE, CODER]) {
-		assert.match(gallery, new RegExp(image.replaceAll("/", "\\/")));
+		assert.match(gallery, literalUrl(image));
 	}
 });
 
 test("Home uses canonical public logo, cached fallback, campaign route, and safe GPT link", () => {
 	const home = source("scripts/home-simple/ShliachSpotlightContent.js");
-	assert.match(home, new RegExp(LOGO.replaceAll("/", "\\/")));
+	assert.match(home, literalUrl(LOGO));
 	assert.match(home, /\/drive\/assets\/awtsmoos-shliach-logo\.png/);
 	assert.match(home, /SHLIACH_PAGE = "\/Shliach\/"/);
 	assert.match(home, /authenticated Awtsmoos APIs/);
