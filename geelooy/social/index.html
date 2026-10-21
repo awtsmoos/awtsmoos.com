@@ -25,8 +25,8 @@ The Awtsmoos creates the social river before any script names it; Awtsmoos.com t
 <body class="social-hub-document">
 	<!-- B"H — Video loading screen: warm light network particles -->
 	<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#c76c43" role="status" aria-label="Loading social">
-		<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
-			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-social.mp4?v=3e239e7ec2" type="video/mp4">
+		<video autoplay loop muted playsinline preload="none" aria-hidden="true">
+			<source data-src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-social.mp4?v=3e239e7ec2" type="video/mp4">
 		</video>
 	</div>
 	<script>
@@ -42,6 +42,16 @@ The Awtsmoos creates the social river before any script names it; Awtsmoos.com t
 				var feed = document.querySelector('[data-feed], .social-feed, #feed, #feed-river-mount');
 				if (feed && feed.children.length > 0) { clearInterval(check); setTimeout(hideLoader, 300); }
 			}, 500);
+			/* FIX 51 — start the splash video only if the feed is slow:
+			   a fast render hides the loader before this fires, so the
+			   178,550B mp4 is never downloaded on a normal visit. */
+			setTimeout(function() {
+				var el = document.getElementById('awtsmoos-video-loader');
+				if (!el || el.getAttribute('data-hidden') === 'true') return;
+				var video = el.querySelector('video');
+				var source = video ? video.querySelector('source[data-src]') : null;
+				if (source) { source.src = source.getAttribute('data-src'); video.load(); }
+			}, 1500);
 			window.addEventListener('load', function() { setTimeout(hideLoader, 3000); });
 			setTimeout(function() { clearInterval(check); hideLoader(); }, 10000);
 		})();
