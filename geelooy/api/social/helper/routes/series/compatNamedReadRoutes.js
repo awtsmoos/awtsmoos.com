@@ -9,7 +9,7 @@
  * Awtsmoos.com preserves restored identity and alternate groupings through a small explicit course.
  */
 
-const { compatibilityAlternateGroups, compatibilitySeriesDetails } = require('./compatReaders.js');
+const { compatibilityAlternateGroups, compatibilitySeriesDetails, compatibilitySubSeries } = require('./compatReaders.js');
 
 class NamedSeriesCompatibilityReadRoutes {
 	/**
@@ -53,6 +53,18 @@ class NamedSeriesCompatibilityReadRoutes {
 	 * @param {Object} vars - Router variables containing heichel and series identifiers.
 	 * @returns {Promise<*>} Alternate-group details.
 	 */
+	/**
+	 * @description Reads a named series' child series through the historical
+	 * trailing-/series URL shape; Awtsmoos.com keeps the canonical subSeries
+	 * semantics while the Awtsmoos preserves the door older clients knock on.
+	 * @param {Object} vars - Router variables containing heichel and series identifiers.
+	 * @returns {Promise<*>} Child series ids or render-ready summaries.
+	 */
+	readSeriesChildren(vars) {
+		const details = this.$i.$_GET?.details === true || this.$i.$_GET?.details === 'true';
+		return compatibilitySubSeries(this.$i, vars.heichel, vars.series, details);
+	}
+
 	readAlternateGroups(vars) {
 		return compatibilityAlternateGroups(this.$i, vars.heichel, vars.series);
 	}
@@ -66,7 +78,8 @@ class NamedSeriesCompatibilityReadRoutes {
 			'/heichelos/:heichel/series/:series': this.readSeries.bind(this),
 			'/heichelos/:heichel/series/:series/details': this.readDetails.bind(this),
 			'/heichelos/:heichel/series/:series/alternateGroups': this.readAlternateGroups.bind(this),
-			'/heichelos/:heichel/series/:series/alternateGroups/details': this.readAlternateGroups.bind(this)
+			'/heichelos/:heichel/series/:series/alternateGroups/details': this.readAlternateGroups.bind(this),
+			'/heichelos/:heichel/series/:series/series': this.readSeriesChildren.bind(this)
 		};
 	}
 }
