@@ -31,31 +31,23 @@ function openDb() {
 }
 
 function key(parts = []) {
-	return parts
-		.map(value => String(value ?? '').replace(/[\u0000/\\]/g, '_'))
-		.join('/');
+	return parts.map(v => String(v ?? '').replace(/[\u0000/\\]/g, '_')).join('/');
 }
-
 function encode(value) {
 	return encodeURIComponent(String(value || 'root')).replace(/%/g, '~');
 }
-
 function decode(value) {
 	return decodeURIComponent(String(value || '').replace(/~/g, '%'));
 }
-
 function pathFor(shard, parts = []) {
 	return `${encode(shard)}/${encode(key(parts))}`;
 }
-
 function shardPath(shard) {
 	return encode(shard);
 }
-
 function clone(value) {
 	return value == null ? value : JSON.parse(JSON.stringify(value));
 }
-
 function dos() {
 	return openDb().DosDB;
 }
@@ -68,14 +60,11 @@ function put({ shard: shardName = 'core', parts = [], value, meta = {} }) {
 		meta: clone(meta),
 		updatedAt: Date.now()
 	};
-	// Engine-fix 2026-10-20 (blob representation): the record is stored
-	// as ONE serialized string body instead of a dictionary subtree.
-	// A subtree costs ~45 allocator nodes per record — the churn that
-	// exploded the free list (136,066 ranges after 3,000 puts) and made
-	// every get assemble dozens of nodes (list at 6.85 ms/record).
-	// Envelopes are JSON-safe by construction (they arrive via
-	// JSON.parse of JSONL lines / request bodies), so the round trip
-	// is exact; readRecord below also reads legacy subtree records.
+	// Engine-fix (blob representation): the record is stored as ONE
+	// serialized string body instead of a dictionary subtree (~45
+	// allocator nodes per record — the churn behind the 136,066-range
+	// free list and 6.85 ms/record lists). Envelopes are JSON-safe by
+	// construction; parseRaw also reads legacy subtree records.
 	dos().write(pathFor(shardName, parts), JSON.stringify(record), { rootKey: ROOT_KEY });
 	return record;
 }
@@ -100,9 +89,7 @@ function get({ shard: shardName = 'core', parts = [] }) {
 
 function list({ shard: shardName = 'core', predicate = null } = {}) {
 	const output = [];
-	// One sequential entries pass over the shard dictionary: per-key
-	// get() calls re-scan the dictionary per record (~1.2-2 ms each),
-	// the entries iterator measures ~0.55 ms/record and stays flat.
+	// One sequential entries pass (per-key get re-scans the dictionary).
 	for (const [, raw] of dos().entries(shardPath(shardName), { rootKey: ROOT_KEY })) {
 		const record = parseRaw(raw);
 		if (record && (!predicate || predicate(record))) output.push(record);
@@ -119,23 +106,10 @@ function info() {
 }
 
 function close() {
-	try {
-		database?.close();
-	} catch {}
+	try { database?.close(); } catch {}
 	database = null;
 }
 
 process.once('exit', close);
 
-module.exports = {
-	close,
-	decode,
-	get,
-	info,
-	key,
-	list,
-	openDb,
-	put,
-	remove,
-	resolveEngine
-};
+module.exports = { close, decode, get, info, key, list, openDb, put, remove, resolveEngine };
