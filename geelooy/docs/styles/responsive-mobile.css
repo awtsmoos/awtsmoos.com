@@ -11,6 +11,12 @@
 		grid-template-columns: minmax(0, 1fr) auto;
 		gap: 10px;
 		padding-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right));
+		/* FIX 48: backdrop-filter makes the topbar the containing block for
+		   fixed descendants, trapping the bottom-anchored .search-launch
+		   inside the 72px bar (it overlapped brand + actions). Dropping the
+		   blur on mobile frees the launch bar to the viewport bottom; the
+		   topbar's 88% background mix still reads as a solid bar. */
+		backdrop-filter: none;
 	}
 
 	body[data-geelooy-route="docs"] .search-launch {
