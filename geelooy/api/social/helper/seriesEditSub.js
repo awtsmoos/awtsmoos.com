@@ -11,10 +11,10 @@ const { seriesPrateemPath, seriesSubSeriesPath } = require("./seriesPaths.js");
 /**
  * @description Replaces the entire list of sub-series for a given series.
  * Useful for reordering or bulk setting.
- * @requires $_POST: { aliasId, subSeriesIDs (array, the new complete list) }
+ * @requires $_PUT: { aliasId, subSeriesIDs (array, the new complete list) }
  */
 async function editSubSeriesInSeries({ $i, heichelId, seriesId }) {
-    const { aliasId, subSeriesIDs } = $i.$_POST;
+    const { aliasId, subSeriesIDs } = $i.$_PUT;
 
     if (!aliasId || !Array.isArray(subSeriesIDs)) {
         return er({ code: "MISSING_PARAMS", details: "Requires aliasId and subSeriesIDs (array)" });
