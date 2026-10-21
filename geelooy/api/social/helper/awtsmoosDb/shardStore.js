@@ -68,22 +68,44 @@ function put({ shard: shardName = 'core', parts = [], value, meta = {} }) {
 		meta: clone(meta),
 		updatedAt: Date.now()
 	};
-	dos().write(pathFor(shardName, parts), record, { rootKey: ROOT_KEY });
+	// Engine-fix 2026-10-20 (blob representation): the record is stored
+	// as ONE serialized string body instead of a dictionary subtree.
+	// A subtree costs ~45 allocator nodes per record — the churn that
+	// exploded the free list (136,066 ranges after 3,000 puts) and made
+	// every get assemble dozens of nodes (list at 6.85 ms/record).
+	// Envelopes are JSON-safe by construction (they arrive via
+	// JSON.parse of JSONL lines / request bodies), so the round trip
+	// is exact; readRecord below also reads legacy subtree records.
+	dos().write(pathFor(shardName, parts), JSON.stringify(record), { rootKey: ROOT_KEY });
 	return record;
 }
 
+function parseRaw(raw) {
+	if (raw == null) return null;
+	if (typeof raw !== 'string') return clone(raw);
+	try {
+		return JSON.parse(raw);
+	} catch {
+		return null;
+	}
+}
+
+function readRecord(fullPath) {
+	return parseRaw(dos().get(fullPath, { rootKey: ROOT_KEY }));
+}
+
 function get({ shard: shardName = 'core', parts = [] }) {
-	return clone(dos().get(pathFor(shardName, parts), { rootKey: ROOT_KEY }));
+	return readRecord(pathFor(shardName, parts));
 }
 
 function list({ shard: shardName = 'core', predicate = null } = {}) {
 	const output = [];
-	for (const encodedKey of dos().list(shardPath(shardName), { rootKey: ROOT_KEY })) {
-		const record = dos().get(
-			`${shardPath(shardName)}/${encodedKey}`,
-			{ rootKey: ROOT_KEY }
-		);
-		if (record && (!predicate || predicate(record))) output.push(clone(record));
+	// One sequential entries pass over the shard dictionary: per-key
+	// get() calls re-scan the dictionary per record (~1.2-2 ms each),
+	// the entries iterator measures ~0.55 ms/record and stays flat.
+	for (const [, raw] of dos().entries(shardPath(shardName), { rootKey: ROOT_KEY })) {
+		const record = parseRaw(raw);
+		if (record && (!predicate || predicate(record))) output.push(record);
 	}
 	return output;
 }
