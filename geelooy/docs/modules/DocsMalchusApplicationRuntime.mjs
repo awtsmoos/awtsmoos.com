@@ -53,6 +53,7 @@ export class DocsMalchusApplicationRuntime {
 			this.State.subscribe(this.renderState);
 			this.revealView();
 			await this.renderState(this.State.getState());
+			if (this.dataset.deferred) void this.dataset.ready.then(() => this.renderState(this.State.getState()));
 		} catch (orError) {
 			this.revealView();
 			this.renderError(this.elements.view, orError);

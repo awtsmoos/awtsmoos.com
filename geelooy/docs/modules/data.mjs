@@ -32,17 +32,18 @@ async function hydratePage(page) {
 
 export async function loadDataset() {
 	const manifest = await json("manifest.json");
-	const [search, categories, projects, systems, tutorials, tutorialFamilies] = await Promise.all([
+	const [search, categories, projects, systems, tutorialFamilies] = await Promise.all([
 		loadArrayShards(manifest.searchIndexes),
 		json(manifest.categories),
 		loadArrayShards(manifest.projectIndexes),
 		loadArrayShards(manifest.systemIndexes),
-		loadArrayShards(manifest.tutorialIndexes),
 		json(manifest.tutorialFamilies)
 	]);
 	const byId = new Map(search.map(record => [record.id, record]));
 	const sourceToId = new Map(search.map(record => [record.sourcePath, record.id]));
-	return {
+	const tutorials = [];
+	const tutorialById = new Map();
+	const dataset = {
 		manifest,
 		search,
 		categories,
@@ -52,10 +53,27 @@ export async function loadDataset() {
 		tutorialFamilies,
 		byId,
 		sourceToId,
-		tutorialById: new Map(tutorials.map(record => [record.id, record])),
+		tutorialById,
 		projectById: new Map(projects.map(record => [record.projectId, record])),
-		systemById: new Map(systems.map(record => [record.systemId, record]))
+		systemById: new Map(systems.map(record => [record.systemId, record])),
+		deferred: true,
+		ready: null
 	};
+	// The tutorial index (134 shards, ~2.1 MB) is only read at use time — the
+	// API explorer and Ask retrieval — never during boot render, navigation,
+	// or search. Stream it in after the dataset resolves and fill the shared
+	// array and map in place, so every existing reference sees the records.
+	dataset.ready = loadArrayShards(manifest.tutorialIndexes)
+		.then(records => {
+			tutorials.push(...records);
+			for (const record of records) tutorialById.set(record.id, record);
+			return dataset;
+		})
+		.catch(tutorialError => {
+			console.warn("B\"H Docs tutorial index deferred load failed.", tutorialError);
+			return dataset;
+		});
+	return dataset;
 }
 
 export async function loadPage(record) {
