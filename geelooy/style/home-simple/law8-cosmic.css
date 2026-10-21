@@ -324,3 +324,15 @@ body[data-geelooy-route="home"] .hero-shliach {
 		0 18px 46px var(--law8-card-shadow),
 		inset 0 1px 0 var(--law8-glass-hi);
 }
+
+/* FIX 50 (CSS lane, 2026-10-20): the identity trigger is a fixed-dark
+   component (navy pill in every context), but its label rule
+   (.awtsmoosDrop .profile-trigger-copy strong) consumes
+   var(--text-primary) — which the homepage defines as its dark ink
+   #2b2118 — so "Sign in" rendered dark-on-navy and unreadable on the
+   homepage only. Pin the label to the light value the shell pages
+   already compute via that rule's own fallback. Homepage-gated:
+   zero effect on any other page. */
+body[data-geelooy-route="home"] .awtsmoosDrop .profile-trigger-copy strong {
+	color: #f4f1e8;
+}
