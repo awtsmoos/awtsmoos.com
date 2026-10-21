@@ -49,19 +49,6 @@ export class YesodShellStyleGateway {
 	 * @returns {HTMLLinkElement} Harmonized link for diagnostics and tests.
 	 */
 	harmonizeExistingCovenant(yesodExistingLink) {
-		// A page arriving with server-compact delivery (compact=true)
-		// already carries this same tree, compacted by the Dynamic
-		// Server. Adopt it untouched: rewriting its href to the plain
-		// tree would download every member sheet a second time
-		// (~120 sheets / ~275 KB on /heichelos/) for zero new rules.
-		const yesodExistingUrl = new URL(
-			yesodExistingLink.href,
-			this.malchusDocument.baseURI
-		);
-		if (yesodExistingUrl.searchParams.get('compact') === 'true') {
-			yesodExistingLink.dataset.geelooyAppStyle = 'true';
-			return yesodExistingLink;
-		}
 		const keterExpectedHref = new URL(
 			STYLE_HREF,
 			this.malchusDocument.baseURI
