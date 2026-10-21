@@ -25,6 +25,7 @@
  */
 
 const pendingFreeList = require('./pendingFreeList.js');
+const { bumpFreeListVersion } = require('./freeListVersion.js');
 
 /**
  * Adopts the individually-validated survivors of a degraded verify.
@@ -44,6 +45,7 @@ function adoptDegraded(allocator, report, validation, markTrusted) {
 		.filter(range => !accepted.has(`${range.offset}:${range.length}`))
 		.map(range => ({ ...range }));
 	allocator.freeList = validRanges;
+	bumpFreeListVersion(allocator);
 	pendingFreeList.promote(allocator, report);
 	markTrusted(allocator, 'verified-degraded-exclusions');
 	allocator.reuseVerification.degraded = true;

@@ -9,6 +9,7 @@
  */
 
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
+const { bumpFreeListVersion } = require('./freeListVersion.js');
 const cursorState = require('./cursorState.js');
 const persistence = require('./freeListPersistence.js');
 const { ensureVerified, markTrusted } = require('./verifiedReuseGate.js');
@@ -18,6 +19,7 @@ function retireRange(allocator, offset, length) {
 	if (allocator.db.options?.reuseFreedSpace === 'verified') ensureVerified(allocator);
 	const combined = unionRange(allocator.freeList, { offset, length });
 	allocator.freeList = coalesceFreeRanges(combined, allocator.cursor);
+	bumpFreeListVersion(allocator);
 	cursorState.absorbTrailingGaps(allocator);
 	cursorState.flush(allocator);
 	if (allocator.db.options?.reuseFreedSpace === 'verified') {

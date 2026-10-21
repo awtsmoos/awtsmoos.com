@@ -9,6 +9,7 @@
  */
 
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
+const { bumpFreeListVersion } = require('./freeListVersion.js');
 
 function initialize(allocator) {
 	const physicalSize = getPhysicalSize(allocator);
@@ -48,6 +49,7 @@ function flush(allocator) {
 
 function merge(allocator) {
 	allocator.freeList = coalesceFreeRanges(allocator.freeList, allocator.cursor);
+	bumpFreeListVersion(allocator);
 }
 
 function absorbTrailingGaps(allocator) {

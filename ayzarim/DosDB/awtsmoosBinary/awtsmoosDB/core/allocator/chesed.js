@@ -29,7 +29,13 @@ class AllocatorChesed {
 		this._savingFreeList = false;
 		this._freeListDirty = false;
 		this._needsComplementRefresh = false;
-		this._trustedFreeListSignature = null;
+		// Engine-fix 2026-10-20 (E3/E4): trust is a mutation version
+		// counter, not an O(n) string signature of the whole free list.
+		// _lastRefreshCursor throttles complement refreshes (null until
+		// the first idle sets it to the then-current cursor).
+		this._freeListVersion = 0;
+		this._trustedFreeListVersion = -1;
+		this._lastRefreshCursor = null;
 		this._pendingRetiredRanges = [];
 		this._allocationLeases = new Map();
 		this.rejectedRetiredRanges = [];

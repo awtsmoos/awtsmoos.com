@@ -55,4 +55,48 @@ function coalesceFreeRanges(ranges, cursor) {
 	return output;
 }
 
+/**
+ * Inserts one range into an already sorted + coalesced list, merging
+ * any overlapping or adjacent neighbors, in O(log n + splice) time.
+ * Engine-fix 2026-10-20 (E2): allocate/free hot paths keep the free
+ * list normalized incrementally with this insert instead of paying a
+ * full sort + copy of ~100k ranges on every operation. The list is
+ * mutated in place and returned. Invariant required on entry (and
+ * preserved on exit): sorted by offset, no overlaps, no adjacencies.
+ * @param {Array<object>} ranges - Sorted coalesced free ranges.
+ * @param {object} range - The range to insert.
+ * @param {number} cursor - Logical cursor bounding every range.
+ * @returns {Array<object>} The same list, normalized.
+ */
+function insertFreeRange(ranges, range, cursor) {
+	const list = Array.isArray(ranges) ? ranges : [];
+	const fresh = normalize(range, cursor);
+	let lo = 0;
+	let hi = list.length;
+	while (lo < hi) {
+		const mid = (lo + hi) >> 1;
+		if (list[mid].offset < fresh.offset) lo = mid + 1;
+		else hi = mid;
+	}
+	let from = lo;
+	let offset = fresh.offset;
+	let end = fresh.offset + fresh.length;
+	if (from > 0) {
+		const previous = list[from - 1];
+		if (previous.offset + previous.length >= offset) {
+			from -= 1;
+			offset = previous.offset;
+			end = Math.max(end, previous.offset + previous.length);
+		}
+	}
+	let to = from;
+	while (to < list.length && list[to].offset <= end) {
+		end = Math.max(end, list[to].offset + list[to].length);
+		to++;
+	}
+	list.splice(from, to - from, { offset, length: end - offset });
+	return list;
+}
+
+coalesceFreeRanges.insertFreeRange = insertFreeRange;
 module.exports = coalesceFreeRanges;

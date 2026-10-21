@@ -26,15 +26,12 @@ const pendingFreeList = require('./pendingFreeList.js');
 const { adoptDegraded } = require('./degradedAdoption.js');
 
 /**
- * Compact identity of a free list, used to detect re-validation needs.
- * @param {Array<object>} ranges - free ranges.
- * @returns {string} Signature string of offset:length pairs.
+ * Engine-fix 2026-10-20 (E3): trust identity is the free-list mutation
+ * version (freeListVersion.js), not the old O(n) string signature that
+ * cost ~40 ms per allocate/free at ~100k ranges. Mutation sites bump;
+ * markTrusted stamps.
  */
-function signature(ranges) {
-	return (Array.isArray(ranges) ? ranges : [])
-		.map(range => `${range.offset}:${range.length}`)
-		.join('|');
-}
+const { bumpFreeListVersion } = require('./freeListVersion.js');
 
 /**
  * Marks the allocator's current free list as trusted for reuse.
@@ -42,7 +39,7 @@ function signature(ranges) {
  * @param {string} [state] - verification state label.
  */
 function markTrusted(allocator, state = 'trusted-local') {
-	allocator._trustedFreeListSignature = signature(allocator.freeList);
+	allocator._trustedFreeListVersion = allocator._freeListVersion || 0;
 	allocator.reuseVerification = {
 		state,
 		ok: true,
@@ -60,8 +57,8 @@ function markTrusted(allocator, state = 'trusted-local') {
  * @throws When options.reuseVerificationFailure === 'throw' and verify fails.
  */
 function ensureVerified(allocator) {
-	const currentSignature = signature(allocator.freeList);
-	if (allocator._trustedFreeListSignature === currentSignature) return true;
+	if ((allocator._trustedFreeListVersion ?? -1)
+		=== (allocator._freeListVersion || 0)) return true;
 	if (allocator.freeList.length === 0
 		&& pendingFreeList.load(allocator).length === 0) {
 		markTrusted(allocator, 'verified-empty');
@@ -72,6 +69,7 @@ function ensureVerified(allocator) {
 	const result = validateFreeRanges(allocator.freeList, allocator.cursor, report);
 	if (result.ok) {
 		allocator.freeList = result.ranges;
+		bumpFreeListVersion(allocator);
 		// Db-hardening 2026-10-20: adopt pending frees (pendingFreeList.js).
 		pendingFreeList.promote(allocator, report);
 		markTrusted(allocator, 'verified-reachable-complement');
@@ -86,6 +84,7 @@ function ensureVerified(allocator) {
 			.filter(range => !accepted.has(`${range.offset}:${range.length}`))
 			.map(range => ({ ...range }));
 		allocator.freeList = result.validRanges || [];
+		bumpFreeListVersion(allocator);
 		pendingFreeList.promote(allocator, report);
 		markTrusted(allocator, 'verified-partial-complement');
 		return true;
@@ -97,7 +96,8 @@ function ensureVerified(allocator) {
 
 	allocator.rejectedFreeList = allocator.freeList.map(range => ({ ...range }));
 	allocator.freeList = [];
-	allocator._trustedFreeListSignature = signature([]);
+	bumpFreeListVersion(allocator);
+	allocator._trustedFreeListVersion = allocator._freeListVersion;
 	allocator.reuseVerification = {
 		state: 'rejected-persisted-free-list',
 		ok: false,

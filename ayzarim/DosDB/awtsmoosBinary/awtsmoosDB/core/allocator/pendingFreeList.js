@@ -7,21 +7,20 @@
  * @chapter No Freed Chamber Is Ever Forgotten Again
  * @description
  * Records free ranges that could not be verified at free() time.
- * Before this module, `free()` in verified mode returned false when
- * `ensureVerified()` failed and the range was SILENTLY DROPPED —
- * dead space was not even recorded (db-investigation 04; the series
- * shard sat at 0 tracked ranges while 359 MB died inside it).
- * Now the range is appended to a durable ledger next to the shard
+ * Before this module, `free()` in verified mode returned false when `ensureVerified()` failed and the range was SILENTLY DROPPED — dead
+ * space was not even recorded (db-investigation 04; the series shard
+ * sat at 0 tracked ranges while 359 MB died inside it). Now the range
+ * is appended to a durable ledger next to the shard
  * (`<shard>.pending-free.log`, one `offset:length` per line) and
  * held in `allocator.pendingFreeList`. When a later verification
  * succeeds, `promote()` validates each pending range against the
- * verified complement and moves the survivors into the real free
- * list. A pending range is NEVER handed out by allocate() before
- * validation, and a range verification still calls reachable stays
- * pending (never dropped) so the discrepancy stays visible.
+ * verified complement and moves the survivors into the real free list.
+ * A pending range is NEVER handed out by allocate() before validation,
+ * and a range verification still calls reachable stays pending (never dropped) so the discrepancy stays visible.
  */
 const fs = require('fs');
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
+const { bumpFreeListVersion } = require('./freeListVersion.js');
 const validateFreeRanges = require('./freeRangeValidation.js');
 
 /**
@@ -105,6 +104,7 @@ function persist(allocator) {
 	if (survivors.length) {
 		allocator.freeList = coalesceFreeRanges(
 			[...allocator.freeList, ...survivors], allocator.cursor);
+		bumpFreeListVersion(allocator);
 		const adopted = new Set(survivors.map(r => `${r.offset}:${r.length}`));
 		allocator.pendingFreeList = pending.filter(
 			range => !adopted.has(`${range.offset}:${range.length}`));

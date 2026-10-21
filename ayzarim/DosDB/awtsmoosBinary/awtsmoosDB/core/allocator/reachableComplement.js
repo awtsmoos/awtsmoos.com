@@ -6,85 +6,104 @@
  * @file core/allocator/reachableComplement.js
  * @chapter The Verified Void Excludes Every Leased Body
  * @description
- * Adopts the complete reachable complement only at outer rest, then subtracts
- * unlinked external-body leases before any range can be reused. The Awtsmoos
- * guards a living chamber whether its ownership is persisted or temporarily
- * carried by an application token awaiting inscription.
+ * Adopts the complete reachable complement only at outer rest, then subtracts unlinked external-body leases before any range can be reused. The Awtsmoos guards a living chamber whether its ownership is persisted or carried by an application token awaiting inscription.
  */
 
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
+const { bumpFreeListVersion } = require('./freeListVersion.js');
 const cursorState = require('./cursorState.js');
 const allocationLeases = require('./allocationLeases.js');
 const { markTrusted } = require('./verifiedReuseGate.js');
 
+// Engine-fix 2026-10-20 (E4/E7): a refresh is a full graph verify —
+// cheap on small graphs, seconds-to-minutes at scale (growth-gated).
+const REFRESH_MIN_GROWTH = 4 * 1024 * 1024;
+const SMALL_GRAPH_BYTES = 16 * 1024 * 1024;
+const MIN_REUSE_RANGE = 64;
+const MAX_ADOPTED_RANGES = 65536;
 function refreshVerifiedComplement(allocator) {
 	if (!shouldRefresh(allocator)) return { refreshed: false, skipped: true };
+	allocator._lastRefreshCursor = allocator.cursor;
 	const report = allocator.db.verify();
 	if (!report?.ok && report?.degraded === true) return degradeVerification(allocator, report);
 	if (!report?.ok) return rejectVerification(allocator, report);
-	const previousSignature = rangeSignature(allocator.freeList);
+	const previousVersion = allocator._freeListVersion || 0;
 	const previousCursor = allocator.cursor;
-	const available = allocationLeases.subtract(
-		report.free || [],
-		allocator._allocationLeases
-	);
-	allocator.freeList = coalesceFreeRanges(available, allocator.cursor);
+	const available = allocationLeases.subtract(report.free || [], allocator._allocationLeases);
+	allocator.freeList = adoptComplement(coalesceFreeRanges(available, allocator.cursor), allocator.cursor);
+	bumpFreeListVersion(allocator);
 	cursorState.absorbTrailingGaps(allocator);
 	cursorState.flush(allocator);
 	markTrusted(allocator, 'verified-complete-complement');
 	allocator._needsComplementRefresh = false;
-	const changed = previousCursor !== allocator.cursor
-		|| previousSignature !== rangeSignature(allocator.freeList);
+	const changed = previousCursor !== allocator.cursor || previousVersion !== (allocator._freeListVersion || 0);
 	if (changed) allocator._freeListDirty = true;
 	return {
-		refreshed: true,
-		changed,
-		cursor: allocator.cursor,
+		refreshed: true, changed, cursor: allocator.cursor,
 		leases: allocator._allocationLeases.size,
 		freeRanges: allocator.freeList.length,
 		freeBytes: allocator.freeList.reduce((sum, range) => sum + range.length, 0)
 	};
 }
-
+/**
+ * Shapes a coalesced complement for adoption (E7): sub-64 B dust is
+ * dropped (below the minimum useful fragment), the cursor-touching
+ * range is always kept (tail truncation), and beyond
+ * MAX_ADOPTED_RANGES the smallest ranges are dropped — the largest
+ * hold nearly all free bytes and the cap bounds selection scans.
+ * @param {Array<object>} coalesced - Sorted coalesced complement.
+ * @param {number} cursor - Allocator cursor at adoption time.
+ * @returns {Array<object>} Sorted ranges ready to become the free list.
+ */
+function adoptComplement(coalesced, cursor) {
+	const usable = coalesced.filter(range => range.length >= MIN_REUSE_RANGE
+		|| range.offset + range.length === cursor);
+	if (usable.length <= MAX_ADOPTED_RANGES) return usable;
+	const bySize = [...usable].sort((a, b) => b.length - a.length);
+	const keep = new Set(bySize.slice(0, MAX_ADOPTED_RANGES - 1).map(range => range.offset));
+	if (usable.length) keep.add(usable[usable.length - 1].offset);
+	return usable.filter(range => keep.has(range.offset));
+}
 function shouldRefresh(allocator) {
 	const database = allocator.db;
-	return database.options?.reuseFreedSpace === 'verified'
+	const base = database.options?.reuseFreedSpace === 'verified'
 		&& !database.options?.readOnly
 		&& !allocator.legacySuperblockless
 		&& !allocator._savingFreeList
 		&& database._insideWaitForIdle === true
 		&& database.pager?.isBatching !== true
 		&& allocator._needsComplementRefresh === true;
+	if (!base) return false;
+	// Small graphs verify in milliseconds: refresh at any flagged idle.
+	if (allocator.cursor <= SMALL_GRAPH_BYTES) return true;
+	// First idle: anchor the growth baseline; empty list forces discovery.
+	if (allocator._lastRefreshCursor == null) {
+		allocator._lastRefreshCursor = allocator.cursor;
+		return allocator.freeList.length === 0;
+	}
+	return allocator.cursor - allocator._lastRefreshCursor >= REFRESH_MIN_GROWTH
+		|| allocator.freeList.length === 0;
 }
-
 /**
  * Records a degraded verify (torn records only) WITHOUT adopting the
- * complement: a torn record's unvisited children hide inside it, so the
- * complement cannot be trusted wholesale. Per-range reuse continues
- * through the gate's degraded branch (degradedAdoption.js); the state is
- * surfaced so the pulse reads 'verified-degraded-exclusions', not a
- * failure. Never throws, even under reuseVerificationFailure:'throw' —
- * degraded is an adoptable state, not a rejection.
+ * complement (a torn record's unvisited children hide inside it).
+ * Per-range reuse continues via degradedAdoption.js. Never throws.
  * @param {object} allocator - AllocatorChesed instance.
  * @param {object} report - db.verify() report with degraded === true.
  * @returns {object} { refreshed: false, degraded: true, exclusions }.
  */
 function degradeVerification(allocator, report) {
 	allocator.reuseVerification = {
-		state: 'verified-degraded-exclusions',
-		ok: true,
-		degraded: true,
+		state: 'verified-degraded-exclusions', ok: true, degraded: true,
 		exclusions: (report.exclusions || []).length,
-		errors: report.errors || [],
-		checkedAt: Date.now()
+		errors: report.errors || [], checkedAt: Date.now()
 	};
 	return { refreshed: false, degraded: true, exclusions: report.exclusions || [] };
 }
 
 function rejectVerification(allocator, report) {
 	allocator.reuseVerification = {
-		state: 'reachable-complement-verification-failed',
-		ok: false,
+		state: 'reachable-complement-verification-failed', ok: false,
 		errors: report?.errors || [{ reason: 'missing-verification-report' }],
 		checkedAt: Date.now()
 	};
@@ -97,8 +116,5 @@ function rejectVerification(allocator, report) {
 	return { refreshed: false, rejected: true, report };
 }
 
-function rangeSignature(ranges) {
-	return (ranges || []).map(range => `${range.offset}:${range.length}`).join('|');
-}
-
+refreshVerifiedComplement.adoptComplement = adoptComplement;
 module.exports = refreshVerifiedComplement;
