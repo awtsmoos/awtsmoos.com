@@ -6,9 +6,8 @@
  * @file core/allocator/reachableComplement.js
  * @chapter The Verified Void Excludes Every Leased Body
  * @description
- * Adopts the complete reachable complement only at outer rest, then subtracts unlinked external-body leases before any range can be reused. The Awtsmoos guards a living chamber whether its ownership is persisted or carried by an application token awaiting inscription.
+ * Adopts the complete reachable complement only at outer rest, then subtracts unlinked external-body leases before any range can be reused.
  */
-
 const coalesceFreeRanges = require('./freeRangeCoalescing.js');
 const { bumpFreeListVersion } = require('./freeListVersion.js');
 const cursorState = require('./cursorState.js');
@@ -16,9 +15,10 @@ const allocationLeases = require('./allocationLeases.js');
 const { markTrusted } = require('./verifiedReuseGate.js');
 
 // Engine-fix 2026-10-20 (E4/E7): a refresh is a full graph verify —
-// cheap on small graphs, seconds-to-minutes at scale (growth-gated).
+// cheap on small graphs, seconds-to-minutes at scale (gated below).
 const REFRESH_MIN_GROWTH = 4 * 1024 * 1024;
 const SMALL_GRAPH_BYTES = 16 * 1024 * 1024;
+const MIN_POOL_PRESSURE_BYTES = 8 * 1024 * 1024;
 const MIN_REUSE_RANGE = 64;
 const MAX_ADOPTED_RANGES = 65536;
 function refreshVerifiedComplement(allocator) {
@@ -47,10 +47,8 @@ function refreshVerifiedComplement(allocator) {
 }
 /**
  * Shapes a coalesced complement for adoption (E7): sub-64 B dust is
- * dropped (below the minimum useful fragment), the cursor-touching
- * range is always kept (tail truncation), and beyond
- * MAX_ADOPTED_RANGES the smallest ranges are dropped — the largest
- * hold nearly all free bytes and the cap bounds selection scans.
+ * dropped, the cursor-touching range is always kept (tail truncation),
+ * and beyond MAX_ADOPTED_RANGES the smallest ranges are dropped.
  * @param {Array<object>} coalesced - Sorted coalesced complement.
  * @param {number} cursor - Allocator cursor at adoption time.
  * @returns {Array<object>} Sorted ranges ready to become the free list.
@@ -81,16 +79,18 @@ function shouldRefresh(allocator) {
 		allocator._lastRefreshCursor = allocator.cursor;
 		return allocator.freeList.length === 0;
 	}
-	return allocator.cursor - allocator._lastRefreshCursor >= REFRESH_MIN_GROWTH
-		|| allocator.freeList.length === 0;
+	if (allocator.freeList.length === 0) return true;
+	if (allocator.cursor - allocator._lastRefreshCursor < REFRESH_MIN_GROWTH) return false;
+	// Plentiful tracked pool: recovery can wait. A verify is O(graph);
+	// firing one per batch while the pool already holds ample verified
+	// space makes bulk conversions quadratic (measured: 175 s batches
+	// at 132k records). Refresh resumes when the pool drains.
+	const freeBytes = allocator.freeList.reduce((sum, range) => sum + range.length, 0);
+	return freeBytes < Math.max(MIN_POOL_PRESSURE_BYTES, allocator.cursor * 0.02);
 }
 /**
  * Records a degraded verify (torn records only) WITHOUT adopting the
- * complement (a torn record's unvisited children hide inside it).
- * Per-range reuse continues via degradedAdoption.js. Never throws.
- * @param {object} allocator - AllocatorChesed instance.
- * @param {object} report - db.verify() report with degraded === true.
- * @returns {object} { refreshed: false, degraded: true, exclusions }.
+ * complement. Per-range reuse continues via degradedAdoption.js.
  */
 function degradeVerification(allocator, report) {
 	allocator.reuseVerification = {
