@@ -42,6 +42,14 @@ export async function renderApplicationView(keliOptions) {
 		return;
 	}
 
+	// A deep-linked document may be named before the deferred search index
+	// has filled byId. Wait for the fill rather than mis-routing to home;
+	// links into an already-filled index never pay this wait.
+	if (tiferesState.doc && binahDataset.deferred && !binahDataset.byId.has(tiferesState.doc)) {
+		await binahDataset.ready;
+		if (yesodGeneration !== currentGeneration()) return;
+	}
+
 	if (!tiferesState.doc || !binahDataset.byId.has(tiferesState.doc)) {
 		renderHome(malchusElements.view, binahDataset, netzachActions);
 		clearContext(malchusElements.context);

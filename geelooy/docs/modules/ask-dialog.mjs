@@ -40,6 +40,10 @@ export function createAskDialog(elements, dataset, onOpenDocument) {
 	async function retrieve() {
 		currentQuestion = elements.input.value.trim();
 		if (!currentQuestion) return;
+		// Retrieval reads the deferred search index; if a question arrives
+		// before the fill lands, wait for it instead of answering from an
+		// empty index.
+		if (dataset.deferred) await dataset.ready;
 		elements.status.textContent = "Finding grounded passages…";
 		const records = retrieveRecords(dataset.search, currentQuestion, 5);
 		const pages = await loadPages(records);

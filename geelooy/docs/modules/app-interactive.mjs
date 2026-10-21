@@ -56,6 +56,21 @@ export function initializeInteractiveLayers(
 		netzachAdapters.controls
 	);
 
+	// The deferred indexes (search, tutorials) fill their shared arrays in
+	// place after first paint. When they land, refresh the two surfaces
+	// that read the search array at build time — the navigation counts
+	// and any already-open search results.
+	if (binahDataset.deferred) {
+		void binahDataset.ready.then(() => {
+			renderNavigation(
+				malchusElements.navigation,
+				binahDataset,
+				netzachAdapters.navigation
+			);
+			chochmahSearchDialog.render();
+		});
+	}
+
 	return {
 		searchDialog: chochmahSearchDialog,
 		askDialog: binahAskDialog
