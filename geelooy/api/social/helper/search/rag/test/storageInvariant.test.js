@@ -1,5 +1,6 @@
-// B"H
-
+//B"H
+//Blessed is He
+//Boruch Hashem
 /**
  * @file storageInvariant.test.js
  * @description The Awtsmoos proves reviewed shards and the configured exact index remain immutable.
@@ -15,32 +16,7 @@ const {
 	assertStorageUnchanged,
 	captureCanonicalStorage
 } = require('../storageInvariant.js');
-
-function productionFixture() {
-	const root = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-rag-storage-'));
-	const rag = path.join(root, 'ai', 'comment-rag');
-	fs.mkdirSync(rag, { recursive: true });
-	for (const name of CANONICAL_NAMES) {
-		fs.writeFileSync(path.join(rag, name), `B"H ${name}`);
-	}
-	return { $i: { db: { directory: root } }, rag, root };
-}
-
-function withTanachIndex(value, action) {
-	const previous = process.env.AWTSMOOS_TANACH_INDEX;
-	if (value == null) delete process.env.AWTSMOOS_TANACH_INDEX;
-	else process.env.AWTSMOOS_TANACH_INDEX = value;
-	try {
-		return action();
-	} finally {
-		if (previous == null) delete process.env.AWTSMOOS_TANACH_INDEX;
-		else process.env.AWTSMOOS_TANACH_INDEX = previous;
-	}
-}
-
-function cleanup(fixture) {
-	fs.rmSync(fixture.root, { recursive: true, force: true });
-}
+const { productionFixture, withTanachIndex, cleanup } = require('./storageInvariantFixture.js');
 
 test('captures every reviewed immutable database', () => {
 	const fixture = productionFixture();

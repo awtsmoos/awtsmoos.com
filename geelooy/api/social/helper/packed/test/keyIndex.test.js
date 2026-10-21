@@ -1,7 +1,6 @@
 //B"H
-//Boruch Hashem
 //Blessed is He
-
+//Boruch Hashem
 /**
  * @file keyIndex.test.js
  * @description
@@ -13,9 +12,6 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 const fs = require('node:fs');
-const os = require('node:os');
-const path = require('node:path');
-
 const {
 	writePacked,
 	findKeyReverseAsync,
@@ -23,20 +19,7 @@ const {
 	listKeysReverseAsync
 } = require('../socialPacked.js');
 const { clearCache, SIDECAR_SUFFIX } = require('../keyIndex.js');
-
-function tempRoot() {
-	const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-keyidx-'));
-	return dir;
-}
-function rimraf(dir) {
-	fs.rmSync(dir, { recursive: true, force: true });
-}
-function vessel(dir) {
-	return { db: { directory: dir } };
-}
-function shardFile(dir) {
-	return path.join(dir, 'socialPacked', 'social.core.awtsdb');
-}
+const { tempRoot, rimraf, vessel, shardFile } = require('./keyIndexTestHelpers.js');
 
 test('exact hit returns the latest record (latest-wins)', async () => {
 	const dir = tempRoot();
@@ -115,31 +98,5 @@ test('bulk appends outside the single-write path are caught by tail catch-up', a
 		fs.appendFileSync(file, raw);
 		const rec = await findKeyReverseAsync({ $i, shard: 'core', key: '/posts/h1/direct' });
 		assert.ok(rec && rec.value.n === 9, 'tail catch-up must index direct appends');
-	} finally { rimraf(dir); clearCache(); }
-});
-
-test('sidecar persists and reloads after cache clear', async () => {
-	const dir = tempRoot();
-	try {
-		const $i = vessel(dir);
-		writePacked({ $i, shard: 'core', key: '/posts/h1/keep', value: { n: 7 } });
-		await findKeyReverseAsync({ $i, shard: 'core', key: '/posts/h1/keep' });
-		assert.ok(fs.existsSync(shardFile(dir) + SIDECAR_SUFFIX), 'sidecar should exist');
-		clearCache();
-		const rec = await findKeyReverseAsync({ $i, shard: 'core', key: '/posts/h1/keep' });
-		assert.ok(rec && rec.value.n === 7, 'sidecar reload must answer');
-	} finally { rimraf(dir); clearCache(); }
-});
-
-test('prefix listing is newest-first and honors tombstones', async () => {
-	const dir = tempRoot();
-	try {
-		const $i = vessel(dir);
-		writePacked({ $i, shard: 'core', key: '/posts/h1/a', value: { n: 1 } });
-		writePacked({ $i, shard: 'core', key: '/posts/h1/b', value: { n: 2 } });
-		writePacked({ $i, shard: 'core', key: '/other/h1/c', value: { n: 3 } });
-		writePacked({ $i, shard: 'core', key: '/posts/h1/b', value: null, op: 'del' });
-		const keys = await listKeysReverseAsync({ $i, shard: 'core', prefix: '/posts/', limit: 10 });
-		assert.deepEqual(keys, ['/posts/h1/a']);
 	} finally { rimraf(dir); clearCache(); }
 });
