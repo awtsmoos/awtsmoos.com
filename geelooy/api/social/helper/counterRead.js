@@ -8,7 +8,7 @@
  * Split sibling of counter.js (verbatim relocation).
  */
 
-var { counterPath, er } = require("./counterCore.js");
+var { counterPath, er, loggedIn } = require("./counterCore.js");
 
 async function deleteCounter({
     $i,

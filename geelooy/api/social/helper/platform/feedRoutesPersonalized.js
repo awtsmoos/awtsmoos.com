@@ -11,6 +11,7 @@
 const { TEST_ID_RE, cacheGet, cacheSet, postsFromIndex } = require('./feedRoutesCache.js');
 const { followedAliasSet, baseScore, paginate } = require('./feedRoutesScore.js');
 const { seriesFamily, buildAffinity } = require('./feedRoutesAffinity.js');
+const { feedHome } = require('./feedRoutesBasic.js');
 
 /* ============================================================
  * B"H — Personalized feed ("For You").

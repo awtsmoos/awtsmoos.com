@@ -21,7 +21,7 @@ const {
 	getVirtualPostsInSeries
 } = require('../../series/virtualSeries.js');
 
-const { paginationRequested, selectedProperties } = require('./readersQuery.js');
+const { detailsRequested, paginationRequested, selectedProperties } = require('./readersQuery.js');
 
 // B"H — Yaakov 2026-10-15: Strip unused payload to make post API lightning fast.
 // `source.sections` (111KB, 42% of payload) is never used by the frontend

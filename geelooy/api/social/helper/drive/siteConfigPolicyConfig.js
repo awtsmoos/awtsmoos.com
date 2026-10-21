@@ -9,7 +9,7 @@
  * Default site config and whole-config normalization.
  */
 
-const { ruleList, normalizeHeaderRule, objectOrEmpty } = require('./siteConfigPolicyRules.js');
+const { ruleList, normalizeHeaderRule, objectOrEmpty, configError, normalizePattern, safeDestination } = require('./siteConfigPolicyRules.js');
 
 function defaultSiteConfig() {
 	return {

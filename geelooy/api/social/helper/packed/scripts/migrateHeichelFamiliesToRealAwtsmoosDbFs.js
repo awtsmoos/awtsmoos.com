@@ -25,7 +25,7 @@ const path = require('path');
 
 const {
 	FAMILIES, arg, writeJson, acquireLock, walkFiles, familyFor,
-	streamFileIntoBlob, virtualPath, setTreeBlob, openDbs, sealDbs
+	streamFileIntoBlob, virtualPath, setTreeBlob, openDbs, sealDbs, outFileFor
 } = require('./migrateHeichelFamiliesFsHelpers.js');
 
 async function main() {

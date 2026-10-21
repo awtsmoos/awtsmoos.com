@@ -9,7 +9,7 @@
  * Effective quota resolution, storage assertions and quota warnings.
  */
 
-const { SOFT_WARNING_RATIO } = require('./quotaPolicyCore.js');
+const { SOFT_WARNING_RATIO, quotaError } = require('./quotaPolicyCore.js');
 const { TALMUDIC_TIERS, TIER_ORDER } = require('./quotaPolicyTiers.js');
 const { unlimitedQuota, isUnlimitedQuota, mergedQuota } = require('./quotaPolicyAccess.js');
 const { purseFor, currentMonthKey } = require('./quotaPolicyPurse.js');
