@@ -607,3 +607,13 @@
 [data-dream="sanctuary"] .post-reader-localized-context .bavli-unit-note-title {
 	color: var(--dream-ink);
 }
+
+/* B"H - FIX 52b: the English amud line (.bavli-amud-heading-en) needs
+ * its own rule: reader-inline-extracted.css pins every [class*=
+ * "heading"] element to var(--law8-ink) at specificity (0,3,0),
+ * which beat the color:inherit the FIX 30 block relied on. The
+ * doubled context class lifts this rule to (0,4,0) — outright, no
+ * load-order dependence. */
+[data-dream="sanctuary"] .post-reader-localized-context.post-reader-localized-context .bavli-amud-heading-en {
+	color: var(--dream-ink);
+}
