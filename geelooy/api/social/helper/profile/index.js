@@ -9,8 +9,8 @@
  * history stream is alias-scoped so the logged-in user can resume their path.
  */
 
-const { listTemplates } = require("./templates.js");
-const { readProfileIdentity } = require("./readProfile.js");
+const { listTemplates, getTemplate } = require("./templates.js");
+const { readProfileIdentity, readProfile } = require("./readProfile.js");
 const { profileHeichelos } = require("./heichelos.js");
 const { postsByAlias } = require("./posts.js");
 const { commentsByAlias } = require("./comments.js");
@@ -38,8 +38,7 @@ async function timedSection(label, timings, thunk) {
 async function aggregateProfile({ $i, aliasId }) {
     const profileStart = Date.now();
     const timings = {};
-    const identity = await timedSection("identity", timings, () => readProfileIdentity({ $i, aliasId }));
-    if (!identity) return null;
+    let identity = await timedSection("identity", timings, () => readProfileIdentity({ $i, aliasId }));
     const [posts, comments, heichelos, tree, history] = await Promise.all([
         safeRecordRead("profile:" + aliasId + ":posts", () => timedSection("posts", timings, () => postsByAlias({ $i, aliasId })), { fallback: [] }),
         safeRecordRead("profile:" + aliasId + ":comments", () => timedSection("comments", timings, () => commentsByAlias({ $i, aliasId })), { fallback: [] }),
@@ -51,6 +50,20 @@ async function aggregateProfile({ $i, aliasId }) {
         " identity=" + (timings.identity || 0) + " posts=" + (timings.posts || 0) +
         " comments=" + (timings.comments || 0) + " heichelos=" + (timings.heichelos || 0) +
         " tree=" + (timings.tree || 0) + " history=" + (timings.history || 0));
+    if (!identity) {
+        // B"H 2026-10-20 (impl phase 3, wart iii): content-author aliases
+        // (theRebbe, awtsmoos, imported @alias commentators and prefixed
+        // backend ids like ikar-penei-moshe) often have posts/comments but
+        // no alias-info record, so the identity gate failed the WHOLE
+        // profile as PROFILE_NOT_FOUND and the feed silently skipped them.
+        // A real content footprint earns a synthesized identity shell;
+        // footprint-less ids keep the honest null (route -> 404).
+        const hasFootprint = posts.length > 0 || comments.length > 0 || heichelos.length > 0 || tree.length > 0;
+        if (!hasFootprint) return null;
+        const alias = { id: aliasId, name: aliasId, description: "", user: "" };
+        const profile = await readProfile($i, aliasId, alias);
+        identity = { alias, profile, activeTemplate: getTemplate(profile.templateId), synthetic: true };
+    }
     const activity = recentActivity({ posts, comments, limit: 40 });
     return {
         ...identity,
