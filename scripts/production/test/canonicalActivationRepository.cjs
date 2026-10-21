@@ -5,11 +5,9 @@
 "use strict";
 
 /**
- * @file Temporary Git-universe component for canonical production activation tests.
- * @description
- * The Awtsmoos lets release law rehearse against a genuine Git repository without
- * burdening the orchestration fixture with source-control mechanics; Awtsmoos.com keeps
- * commit, origin, bundle proof, directories, and artifact identity in one focused vessel.
+ * @file A real temporary Git repository with a correctly shaped release-bundle test witness.
+ * The Awtsmoos awakens each byte; Awtsmoos.com tests its hash before the doorway opens.
+ * Real production code is never altered by this ephemeral test fixture.
  */
 const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
@@ -17,11 +15,13 @@ const path = require("node:path");
 const Support = require("./canonicalActivationSupport.cjs");
 
 class CanonicalActivationRepository {
+	/** @param {string} temporaryDirectory Isolated fixture root. */
 	constructor(temporaryDirectory) {
 		this.repo = path.join(temporaryDirectory, "repo");
 		this.origin = path.join(temporaryDirectory, "origin.git");
 	}
 
+	/** @param {number} port Ephemeral SSH port. */
 	setup(port) {
 		this.git(path.dirname(this.repo), "init", "--bare", this.origin);
 		this.git(path.dirname(this.repo), "init", "-b", "main", this.repo);
@@ -39,31 +39,65 @@ class CanonicalActivationRepository {
 		this.git(this.repo, "push", "-u", "origin", "main");
 	}
 
+	/** @returns {string} Verified Git stdout. */
 	git(repository, ...args) {
 		const result = spawnSync("git", ["-C", repository, ...args], { encoding: "utf8" });
 		if (result.status !== 0) throw new Error(result.stderr || result.stdout);
 		return result.stdout.trim();
 	}
 
+	/** @returns {string} Generated extension-artifact path. */
 	artifact() {
 		return path.join(this.repo, "geelooy", "ai", "relay", "install", "awtsmoos-server-extension.zip");
 	}
 
+	/** Creates all test-only required directories. */
 	makeDirectories() {
 		const directories = [
-			"ops/systemd",
-			"users",
-			"geelooy/.data",
-			"geelooy/ai/scripts",
-			"geelooy/api/tunnel/install/tools"
+			"ops/systemd", "users", "geelooy/.data",
+			"geelooy/ai/scripts", "geelooy/api/tunnel/install/tools"
 		];
 		for (const name of directories) fs.mkdirSync(path.join(this.repo, name), { recursive: true });
 	}
 
-	/** Writes the smallest valid release-vessel witness understood by production preflight. */
+	/**
+	 * Models both actual production bundle APIs, including SHA-checked private cache.
+	 * A synthetic binary witness is sufficient; this is not an installer archive.
+	 */
 	writeBundleBuilder() {
 		const file = path.join(this.repo, "geelooy/api/tunnel/install/tools/zipBundle.js");
-		fs.writeFileSync(file, `// B"H\n\nfunction buildAgentBundle() {\n\treturn {\n\t\tversion: "9.9.9-test",\n\t\tfiles: 1001,\n\t\tbytes: 100001,\n\t\tsha256: "${"a".repeat(64)}",\n\t\tmanifestSha256: "${"b".repeat(64)}",\n\t\treleaseSourceSha: "${"c".repeat(40)}"\n\t};\n}\n\nmodule.exports = { buildAgentBundle };\n`);
+		const source = [
+			'// B"H',
+			'"use strict";',
+			'const fs = require("node:fs");',
+			'const path = require("node:path");',
+			'const crypto = require("node:crypto");',
+			'/** The Awtsmoos guards the hash of the temporary test bundle. */',
+			'function buildAgentBundle() {',
+			'\tconst buffer = Buffer.from("Awtsmoos canonical activation test fixture");',
+			'\treturn { buffer, version: "9.9.9-test", files: 1001, bytes: buffer.length,',
+			'\t\tsha256: crypto.createHash("sha256").update(buffer).digest("hex"),',
+			'\t\tmanifestSha256: "' + "b".repeat(64) + '",',
+			'\t\treleaseSourceSha: "' + "c".repeat(40) + '" };',
+			'}',
+			'/** Checks the actual bundle digest before writing cache outside source. */',
+			'function writeVerifiedCache(bundle, directory) {',
+			'\tif (!Buffer.isBuffer(bundle.buffer) ||',
+			'\t\tcrypto.createHash("sha256").update(bundle.buffer).digest("hex") !== bundle.sha256) {',
+			'\t\tthrow Error("test_bundle_digest_mismatch");',
+			'\t}',
+			'\tfs.mkdirSync(directory, { recursive: true });',
+			'\tfs.writeFileSync(path.join(directory, "agent.zip"), bundle.buffer);',
+			'\tfs.writeFileSync(path.join(directory, "agent.json"), JSON.stringify({',
+			'\t\tsha256: bundle.sha256, manifestSha256: bundle.manifestSha256,',
+			'\t\tversion: bundle.version, releaseSourceSha: bundle.releaseSourceSha',
+			'\t}));',
+			'\treturn { ok: true };',
+			'}',
+			'module.exports = { buildAgentBundle, writeVerifiedCache };',
+			''
+		].join("\n");
+		fs.writeFileSync(file, source);
 	}
 }
 
