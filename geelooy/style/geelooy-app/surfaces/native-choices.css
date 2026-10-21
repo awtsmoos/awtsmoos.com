@@ -133,14 +133,14 @@
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.g-ui-scope) (input[type="checkbox"]:hover) {
+:where(.g-ui-scope) input[type="checkbox"]:hover {
 	filter: brightness(1.08);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.g-ui-scope) (input[type="checkbox"]:active) {
+:where(.g-ui-scope) input[type="checkbox"]:active {
 	transform: scale(0.98);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.g-ui-scope) (input[type="checkbox"]:focus-visible) {
+:where(.g-ui-scope) input[type="checkbox"]:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }

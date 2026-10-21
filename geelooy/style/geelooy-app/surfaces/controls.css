@@ -107,13 +107,13 @@
 .awtsmoosDrop:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-.geelooy-app-shell) ( button:hover {
+.geelooy-app-shell button:hover {
 	filter: brightness(1.08);
 }
-.geelooy-app-shell) ( button:active {
+.geelooy-app-shell button:active {
 	transform: scale(0.98);
 }
-.geelooy-app-shell) ( button:focus-visible {
+.geelooy-app-shell button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
 input[type="button"]:hover {
@@ -173,13 +173,13 @@ input[type="reset"]:focus-visible {
 :where(.g-button[aria-disabled="true"]:focus-visible) {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-.geelooy-app-shell) (button:hover {
+.geelooy-app-shell button:hover {
 	filter: brightness(1.08);
 }
-.geelooy-app-shell) (button:active {
+.geelooy-app-shell button:active {
 	transform: scale(0.98);
 }
-.geelooy-app-shell) (button:focus-visible {
+.geelooy-app-shell button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
