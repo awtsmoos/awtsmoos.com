@@ -8,6 +8,7 @@ const fsp = require("node:fs/promises");
 const path = require("node:path");
 const Paths = require("./durablePaths.js");
 const Record = require("./durableRecord.js");
+const Verification = require("./durableVerification.js");
 
 /**
  * @file Atomically claims and commits canonical relay state with readback proof.
@@ -22,7 +23,7 @@ async function read(context, key) {
 		const record = JSON.parse(bytes.toString("utf8"));
 		return Record.valid(record, key) ? record : null;
 	} catch (error) {
-		if (error.code === "ENOENT") return null;
+		if (error.code === "ENOENT" || error instanceof SyntaxError) return null;
 		throw error;
 	}
 }
@@ -42,7 +43,7 @@ async function claim(context, key, id, expected) {
 		await syncDirectory(path.dirname(target));
 		return {
 			created: true,
-			record: await verifiedRead(context, key, bytes)
+			record: await Verification.verifiedRead(context, key, bytes)
 		};
 	} catch (error) {
 		if (handle) await handle.close().catch(() => {});
@@ -69,24 +70,11 @@ async function replace(context, key, record) {
 		handle = null;
 		await fsp.rename(temporary, target);
 		await syncDirectory(folder);
-		return await verifiedRead(context, key, bytes);
+		return await Verification.verifiedRead(context, key, bytes);
 	} finally {
 		if (handle) await handle.close().catch(() => {});
 		await fsp.rm(temporary, { force: true }).catch(() => {});
 	}
-}
-
-async function verifiedRead(context, key, intended) {
-	const target = Paths.recordPath(context, key);
-	const observed = await fsp.readFile(target);
-	if (sha256(observed) !== sha256(intended)) {
-		throw new Error("durable_relay_record_verification_failed");
-	}
-	const record = JSON.parse(observed.toString("utf8"));
-	if (!Record.valid(record, key)) {
-		throw new Error("durable_relay_record_invalid");
-	}
-	return record;
 }
 
 function serialize(record) {
@@ -115,5 +103,5 @@ module.exports = {
 	serialize,
 	sha256,
 	syncDirectory,
-	verifiedRead
+	verifiedRead: Verification.verifiedRead
 };
