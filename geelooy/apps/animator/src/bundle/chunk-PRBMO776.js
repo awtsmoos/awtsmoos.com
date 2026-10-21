@@ -1,0 +1,21 @@
+var AutoPlayCovenant=class{static ensure(app,options={}){if(!app?.state||!app?.director)return!1;let sequence=app.state.get("activeSequence");if(!sequence||!Array.isArray(sequence.events))return!1;let force=options.force===!0;return app.state.get("userPausedPlayback")&&!force?(app.state.set("isPlaying",!1,!0),!1):(app.director.isPlaying||app.director.play(sequence,0),app.director.isPlaying=!0,app.state.set("isPlaying",!0,!0),!0)}static resume(app){return app?.state?(app.state.set("userPausedPlayback",!1,!0),this.ensure(app,{force:!0})):!1}static pauseByUser(app){!app?.state||!app?.director||(app.director.isPlaying=!1,app.state.set("userPausedPlayback",!0,!0),app.state.set("isPlaying",!1,!0))}static toggle(app){return app?.director?.isPlaying?(this.pauseByUser(app),!1):this.resume(app)}};var CHROME_ACTIONS=[{id:"stage",label:"Stage",icon:"\u{1F3A8}",panel:"stage",title:"Show the creative stage"},{id:"editor",label:"Edit",icon:"\u270F\uFE0F",panel:"editor",title:"Open or close editing tools"},{id:"time",label:"Timeline",icon:"\u{1F5D3}\uFE0F",panel:"time",title:"Open or close the timeline"},{id:"props",label:"Properties",icon:"\u2699\uFE0F",panel:"props",title:"Open or close properties"},{id:"play",label:"Play",icon:"\u25B6\uFE0F",panel:"play",title:"Play or pause the scene"},{id:"hide",label:"Hide",icon:"\u{1F648}",panel:"hide",title:"Retract creative interface panels"}];var ChromeTemplate=class{static html(){let buttons=CHROME_ACTIONS.map(item=>this.button(item)).join("");return`
+			<div id="awtsmoos-chrome" class="awtsmoos-chrome" data-open-panel="stage">
+				<div class="awtsmoos-chrome-rail" aria-label="Desktop creative controls">
+					${buttons}
+				</div>
+				<div class="awtsmoos-mobile-dock" aria-label="Mobile creative controls">
+					${buttons}
+				</div>
+			</div>
+		`}static button(item){return`
+			<button
+				class="awtsmoos-chrome-btn"
+				data-chrome-action="${item.panel}"
+				title="${item.title}"
+				aria-label="${item.title}"
+				type="button"
+			>
+				<span class="awtsmoos-chrome-icon" aria-hidden="true">${item.icon}</span>
+				<span class="awtsmoos-chrome-label">${item.label}</span>
+			</button>
+		`}};var ResponsiveChrome=class{static install(app){!document.body||document.getElementById("awtsmoos-chrome")||(document.body.insertAdjacentHTML("beforeend",ChromeTemplate.html()),document.body.dataset.awtsmoosPanel="stage",document.body.classList.add("awtsmoos-ui-ready"),this.bind(app),this.syncPlayback(app))}static bind(app){document.querySelectorAll("[data-chrome-action]").forEach(button=>{button.addEventListener("click",()=>{let action=button.dataset.chromeAction;this.handle(app,action)})}),window.addEventListener("keydown",event=>{event.target&&/input|textarea|select/i.test(event.target.tagName)||(event.code==="Space"&&(event.preventDefault(),AutoPlayCovenant.toggle(app),this.syncPlayback(app)),event.key==="Escape"&&this.setPanel("hide"))})}static handle(app,action){let actions={stage:()=>this.setPanel("stage"),editor:()=>this.togglePanel("editor"),time:()=>this.togglePanel("time"),props:()=>this.togglePanel("props"),hide:()=>this.setPanel("hide"),play:()=>{AutoPlayCovenant.toggle(app),this.syncPlayback(app)}};(actions[action]||actions.stage)()}static togglePanel(panel){let current=document.body.dataset.awtsmoosPanel||"stage";this.setPanel(current===panel?"stage":panel)}static setPanel(panel){let chosen=new Set(["stage","editor","time","props","hide"]).has(panel)?panel:"stage";document.body.dataset.awtsmoosPanel=chosen,document.body.classList.toggle("sidebar-mobile-active",chosen==="editor"),document.body.classList.toggle("timeline-mobile-active",chosen==="time"),document.body.classList.toggle("props-mobile-active",chosen==="props"),document.querySelectorAll("[data-chrome-action]").forEach(button=>{let action=button.dataset.chromeAction;button.classList.toggle("active",action===chosen)})}static syncPlayback(app){let playing=app?.director?.isPlaying===!0||app?.state?.get("isPlaying")===!0;document.querySelectorAll('[data-chrome-action="play"]').forEach(button=>{let icon=button.querySelector(".awtsmoos-chrome-icon"),label=button.querySelector(".awtsmoos-chrome-label");icon&&(icon.textContent=playing?"\u23F8":"\u25B6"),label&&(label.textContent=playing?"Pause":"Play"),button.classList.toggle("playing",playing)})}};export{AutoPlayCovenant,ResponsiveChrome};

@@ -1,0 +1,1 @@
+var ScreenWorldMapper=class{static toCanvas(event,canvas){let rect=canvas.getBoundingClientRect(),dprX=canvas.width/Math.max(1,rect.width),dprY=canvas.height/Math.max(1,rect.height),clientX=Number(event.clientX),clientY=Number(event.clientY),cssX=clientX-rect.left,cssY=clientY-rect.top;return{x:cssX*dprX,y:cssY*dprY,cssX,cssY,dprX,dprY}}};export{ScreenWorldMapper};
