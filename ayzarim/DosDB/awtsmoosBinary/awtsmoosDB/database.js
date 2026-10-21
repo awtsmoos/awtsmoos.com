@@ -49,6 +49,8 @@ const ReplicationManager = require('./api/replication/index.js');
 const ProcessLock = require('./core/processLock.js');
 const VirtualFs = require('./api/fs/index.js');
 const FreeListCodec = require('./core/freeListCodec.js');
+const { bumpFreeListVersion } = require('./core/allocator/freeListVersion.js');
+const adoptComplement = require('./core/allocator/reachableComplement.js').adoptComplement;
 
 /**
  * @class AwtsmoosDB
@@ -233,10 +235,12 @@ class AwtsmoosDB {
 
     this.freeListPtrRaw = Buffer.from(sb.subarray(41, 41 + len));
 
+    let sealToken = null;
     try {
       const dec = Pointer.decode(this.freeListPtrRaw);
       const raw = this.pager.readExact(dec.offset, dec.length) || Buffer.alloc(0);
       const packed = FreeListCodec.decode(raw);
+      sealToken = packed && packed.token ? packed.token : null;
       const ranges = packed === null
         ? JSON.parse(raw.toString('utf8'))
         : packed;
@@ -247,6 +251,82 @@ class AwtsmoosDB {
       this.freeListPtrRaw = null;
       this.allocator.freeList = [];
     }
+    // Engine-fix 2026-10-20 (E3): the loaded list is a free-list
+    // mutation; it starts untrusted (the gate validates at first use).
+    bumpFreeListVersion(this.allocator);
+    // Engine-fix 2026-10-20 (E8): a version-2 seal whose trust token
+    // matches the CURRENT anchor fingerprint + cursor + free bytes was
+    // written by this engine against exactly this graph state (the
+    // anchor body changes on every mutation), so the loaded list is
+    // trusted without a full verify. Any mismatch falls through to
+    // the gate's classic validation at first use.
+    if (sealToken && this._sealTokenMatches(sealToken, sb)) {
+      this.allocator._trustedFreeListVersion = this.allocator._freeListVersion;
+      this.allocator.reuseVerification = {
+        state: 'verified-seal-token',
+        ok: true,
+        ranges: this.allocator.freeList.length,
+        checkedAt: Date.now()
+      };
+    }
+  }
+
+  /**
+   * @method _anchorFingerprint
+   * @description FNV-1a-64 over the root anchor BODY bytes. The anchor
+   * vessel is fixed, but its payload (the current root-dictionary
+   * pointer) is rewritten on every graph mutation, so the fingerprint
+   * identifies the exact reachable-graph state.
+   * @param {Buffer} rootSealBytes - Encoded root pointer (superblock form).
+   * @returns {Buffer|null} Eight fingerprint bytes, or null.
+   */
+  _anchorFingerprint(rootSealBytes) {
+    if (!rootSealBytes || !rootSealBytes.length) return null;
+    try {
+      const dec = Pointer.decode(Buffer.from(rootSealBytes));
+      const raw = this.pager.readExact(dec.offset, dec.length) || Buffer.alloc(0);
+      if (!raw.length) return null;
+      return FreeListCodec.fnv1a64(raw);
+    } catch (_err) {
+      return null;
+    }
+  }
+
+  /**
+   * @method _sealTokenMatches
+   * @description Full E8 token check at load: anchor fingerprint of the
+   * superblock's root seal, allocator cursor, and summed free bytes.
+   * @param {object} token - Token decoded from the seal trailer.
+   * @param {Buffer} sb - Superblock bytes read at open.
+   * @returns {boolean} True when the persisted list may be trusted.
+   */
+  _sealTokenMatches(token, sb) {
+    const rootLen = sb && sb.length > 8 ? sb.readUInt8(8) : 0;
+    if (!rootLen || !token.anchor) return false;
+    const anchor = this._anchorFingerprint(sb.subarray(9, 9 + rootLen));
+    if (!anchor || anchor.compare(token.anchor) !== 0) return false;
+    if (token.cursor !== this.allocator.cursor) return false;
+    const freeBytes = (this.allocator.freeList || [])
+      .reduce((sum, r) => sum + r.length, 0);
+    return token.freeBytes === freeBytes;
+  }
+
+  /**
+   * @method _sealToken
+   * @description Builds the E8 trust token for the seal being written:
+   * current anchor fingerprint, settled cursor, and the summed bytes
+   * of the ranges about to be persisted.
+   * @param {Array<object>} ranges - Ranges about to be persisted.
+   * @returns {object|null} Token, or null when no anchor exists.
+   */
+  _sealToken(ranges) {
+    const anchor = this._anchorFingerprint(this.rootPtrRaw);
+    if (!anchor) return null;
+    return {
+      anchor,
+      cursor: this.allocator.cursor,
+      freeBytes: (ranges || []).reduce((sum, r) => sum + r.length, 0)
+    };
   }
 
   /**
@@ -263,6 +343,13 @@ class AwtsmoosDB {
   _saveFreeListSeal() {
     if (this.options.readOnly) return;
 
+    // Engine-fix 2026-10-20 (E3): the seal normalizes the allocator's
+    // list in place (sorted copy, seal-gap carve-out, prev-seal reclaim).
+    // Those are engine-internal rewrites of the SAME logical list, so a
+    // list that was trusted before the seal stays trusted after it.
+    const versionBeforeSeal = this.allocator._freeListVersion || 0;
+    const trustedBeforeSeal = this.allocator._trustedFreeListVersion;
+
     let ranges = (this.allocator.freeList || [])
       .filter(r => r && r.offset >= 64 && r.length > 0)
       .map(r => ({ offset: r.offset, length: r.length }))
@@ -278,12 +365,16 @@ class AwtsmoosDB {
     this.options.reuseFreedSpace = false;
 
     try {
-      let raw = FreeListCodec.encode(ranges);
+      const sizingToken = { anchor: Buffer.alloc(8), cursor: 0, freeBytes: 0 };
       const prevSeal = this._decodePreviousFreeListSeal();
       // When the previous seal pins the tail of the file, move the seal into
       // reclaimed space so trailing gaps can be absorbed and truncated.
       const prevAtTail = prevSeal
         && (prevSeal.offset + prevSeal.length >= this.allocator.cursor);
+      // Engine-fix 2026-10-20 (E8): size the seal WITH its fixed-size
+      // trust trailer so the location choice uses the final byte count;
+      // the token itself is computed over the settled state below.
+      let raw = FreeListCodec.encode(ranges, sizingToken);
       let loc = null;
       if (!prevAtTail) loc = this._reusePreviousFreeListSeal(raw.length);
 
@@ -292,7 +383,6 @@ class AwtsmoosDB {
         if (chosen) {
           loc = chosen.loc;
           ranges = chosen.ranges;
-          raw = FreeListCodec.encode(ranges);
         }
       }
 
@@ -300,7 +390,7 @@ class AwtsmoosDB {
       if (!loc) loc = this.allocator.allocate(raw.length);
 
       this.allocator.freeList = ranges;
-      if (raw.length) this.pager.writeExact(loc.offset, raw);
+      bumpFreeListVersion(this.allocator);
       this.freeListPtrRaw = Pointer.encode(constants.VAL_TYPE.BUFFER, loc.offset, raw.length);
       if (prevSeal && loc.offset !== prevSeal.offset) {
         // The previous seal bytes are now unreachable: reclaim them in memory
@@ -311,10 +401,17 @@ class AwtsmoosDB {
           [...this.allocator.freeList, { offset: prevSeal.offset, length: prevSeal.length }],
           this.allocator.cursor
         );
+        bumpFreeListVersion(this.allocator);
         this.allocator._absorbTrailingGaps();
         this.allocator.flushCursor();
         this.allocator._freeListDirty = true;
         this.allocator._needsComplementRefresh = true;
+      }
+      const token = this._sealToken(ranges);
+      raw = token ? FreeListCodec.encode(ranges, token) : FreeListCodec.encode(ranges);
+      if (raw.length) this.pager.writeExact(loc.offset, raw);
+      if (trustedBeforeSeal === versionBeforeSeal) {
+        this.allocator._trustedFreeListVersion = this.allocator._freeListVersion;
       }
       this._flushSuperblock();
     } finally {
@@ -855,7 +952,14 @@ class AwtsmoosDB {
     if (this.options.readOnly) return { ok: false, readOnly: true, errors: ['readOnly gc refused'] };
     const report = this.verify();
     if (report.ok) {
-      this.allocator.freeList = report.free;
+      // Engine-fix 2026-10-20 (E7): gc adopts the SHAPED complement
+      // (same shaping as the idle refresh). Adopting the raw complement
+      // here made the free-list seal outgrow its vessel and append,
+      // growing the physical file inside gc().
+      this.allocator.freeList = adoptComplement(
+        coalesceFreeRanges(report.free || [], this.allocator.cursor),
+        this.allocator.cursor
+      );
       this.allocator._mergeFreeList();
       this.allocator._absorbTrailingGaps();
       this.allocator.flushCursor();
