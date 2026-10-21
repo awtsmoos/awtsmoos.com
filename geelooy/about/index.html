@@ -15,8 +15,6 @@ Awtsmoos.com keeps this chapter simple at first glance, while subtle light and d
 	<title>About — Geelooy</title>
 	<link rel="stylesheet" href="/style/future-system/index.css?v=bc327633a7">
 	<link rel="stylesheet" href="/about/about.css?v=fbd0a1e9e8">
-	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=27fe7b4829">
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
 </head>
 <body class="about-page" data-future-page="about" data-future-particles>
 	<main class="about-page__shell" aria-labelledby="about-title">
@@ -68,5 +66,26 @@ Awtsmoos.com keeps this chapter simple at first glance, while subtle light and d
 		</section>
 	</main>
 	<script type="module" src="/scripts/future-system/index.js?v=8049a33b13"></script>
+	<script type="module">
+		// B"H — Lazy shell: this page's content is complete in its own
+		// document, so the shared shell (global search and navigation
+		// chrome) is requested only once the page itself has loaded.
+		// The chrome manifests right after first paint instead of
+		// blocking it behind ~250 shell requests.
+		const bootShell = () => import("/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1");
+		const manifestShell = () => {
+			const shellCss = document.createElement("link");
+			shellCss.rel = "stylesheet";
+			shellCss.href = "/style/geelooy-app/index.css?v=27fe7b4829";
+			// Boot once the shell stylesheet tree is in place, so the
+			// chrome is styled the moment it manifests; the fallback
+			// timer keeps a missed load event from stranding the shell.
+			shellCss.addEventListener("load", bootShell, { once: true });
+			document.head.appendChild(shellCss);
+			setTimeout(bootShell, 3000);
+		};
+		if (document.readyState === "complete") manifestShell();
+		else addEventListener("load", manifestShell, { once: true });
+	</script>
 </body>
 </html>
