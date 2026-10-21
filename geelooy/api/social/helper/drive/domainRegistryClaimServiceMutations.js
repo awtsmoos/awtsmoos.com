@@ -1,0 +1,106 @@
+//B"H
+//Blessed is He
+//Boruch Hashem
+
+
+/**
+ * @module domainRegistryClaimServiceMutations
+ * @description
+ * Domain claim creation, deletion and one-time challenge presentation.
+ */
+
+const {
+	createDomainChallenge,
+	domainChallengeInstruction,
+	hashDomainChallenge
+} = require('./domainChallenge.js');
+const {
+	assertOwnedClaim,
+	assertReplayOrConflict,
+	normalizeClaimIdentity
+} = require('./domainClaimAccess.js');
+const {
+	createDomainClaimRecord,
+	presentDomainClaim,
+	sealStoredChallenge
+} = require('./domainClaimRecord.js');
+const {
+	normalizeDnsMode,
+	normalizeDomainHostname,
+	normalizeNameservers
+} = require('./domainPolicy.js');
+const {
+	findDomainClaim,
+	listDomainClaimsForSite,
+	mutateDomainRegistry
+} = require('./domainRepository.js');
+const { requireClaimableDomainSite } = require('./domainSiteBinding.js');
+const { normalizeSiteId } = require('./siteMappingPolicy.js');
+
+async function createDomainClaim(options) {
+	const site = await requireClaimableDomainSite(
+		options.aliasId,
+		options.siteId,
+		options.$i
+	);
+	const hostname = normalizeDomainHostname(options.input?.hostname);
+	const dnsMode = normalizeDnsMode(options.input?.dnsMode);
+	const nameservers = normalizeNameservers(options.input?.nameservers, dnsMode);
+	const creation = await mutateDomainRegistry(options.$i, claims => {
+		const existing = claims[hostname];
+		if (existing) {
+			assertReplayOrConflict(existing, {
+				aliasId: options.aliasId,
+				siteId: site.id,
+				dnsMode,
+				nameservers
+			});
+			sealStoredChallenge(existing);
+			return { claim: existing, token: null };
+		}
+		const token = createDomainChallenge();
+		const claim = createDomainClaimRecord({
+			hostname,
+			aliasId: options.aliasId,
+			siteId: site.id,
+			dnsMode,
+			requestedNameservers: nameservers,
+			challengeHash: hashDomainChallenge(token),
+			now: options.now
+		});
+		claims[hostname] = claim;
+		return { claim, token };
+	});
+	return presentCreation(creation);
+}
+
+async function deleteDomainClaim(options) {
+	const identity = normalizeClaimIdentity(options);
+	return mutateDomainRegistry(options.$i, claims => {
+		assertOwnedClaim(
+			claims[identity.hostname],
+			options.aliasId,
+			identity.siteId
+		);
+		delete claims[identity.hostname];
+		return { deleted: true, hostname: identity.hostname };
+	});
+}
+
+function presentCreation(creation) {
+	const presented = presentDomainClaim(creation.claim);
+	if (!creation.token) return presented;
+	return {
+		...presented,
+		ownershipInstruction: domainChallengeInstruction(
+			creation.claim.hostname,
+			creation.token
+		)
+	};
+}
+
+module.exports = {
+	createDomainClaim,
+	deleteDomainClaim,
+	presentCreation
+};
