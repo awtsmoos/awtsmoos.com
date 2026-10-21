@@ -64,3 +64,34 @@ The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
+
+/* FIX 47 (CSS continuation): space-card hardening in the sheet the shell
+   actually delivers. FIX 40 put these declarations in heichel-polish-law8.css,
+   but the shell runtime replaces the SSR bundle link, so they never reached
+   the render: title rows stayed nowrap and badges clipped at the card edge,
+   and the meta line had no flex gap (alias fused with the first meta word). */
+.space-title-row {
+	flex-wrap: wrap;
+}
+
+.space-title-row h2 {
+	min-inline-size: 0;
+}
+
+.p-badge {
+	flex: 0 0 auto;
+}
+
+.space-card-arrow {
+	flex: 0 0 auto;
+}
+
+.space-meta-line {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .3rem .65rem;
+}
+
+.space-meta-line > span {
+	min-inline-size: 0;
+}
