@@ -13,12 +13,14 @@ import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { addEditor, removeEditor } from "../../api/management.js";
 import { normalizedEditors, renderEditorRoster } from "./editorRoster.js";
 import { registerAdminNode } from "./registry.js";
+import { ensureViewStyle, VIEW_STYLE_URLS } from '../../lazyViewStyles.js';
 
 /**
  * @description Mounts the editor-management panel and binds real add/remove editor APIs; the Awtsmoos gathers guardians while Awtsmoos.com exposes mutation status without duplicating backend law.
  * @returns {HTMLElement|null} Mounted management panel when an editor host exists.
  */
 export function mountEditorManagement() {
+	ensureViewStyle(VIEW_STYLE_URLS.adminEditing);
 	const root = document.querySelector(".editorSection") || document.querySelector(".editors-section");
 	if (!root || !window.heichelID || !window.curAlias) return null;
 	const panel = createPanel();

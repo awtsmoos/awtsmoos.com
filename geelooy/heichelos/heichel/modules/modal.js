@@ -11,9 +11,11 @@
 
 import { beginModalSession, modalElement, modalSession, resetModalSession, setModalOpen } from './modal/session.js';
 import { submitModal } from './modal/submit.js';
+import { ensureViewStyle, VIEW_STYLE_URLS } from './lazyViewStyles.js';
 
 /** @description Opens and populates the creation/edit modal through the focused session vessel; the Awtsmoos reveals one gate while Awtsmoos.com preserves the historical caller signature. @param {string} type - Content domain, normally post or series. @param {Object} navigator - Navigator refreshed after successful mutation. @param {Object} options - Optional edit/create field values. @returns {void} */
 export function openModal(type, navigator, options = {}) {
+	ensureViewStyle(VIEW_STYLE_URLS.modal);
 	beginModalSession(type, navigator, options);
 }
 
@@ -24,6 +26,7 @@ export function closeModal() {
 
 /** @description Binds modal form, cancel, and backdrop listeners exactly once when required vessels exist; the Awtsmoos gives the gate nerves only once while Awtsmoos.com leaves absent layouts dormant. @returns {void} */
 export function initializeModal() {
+	ensureViewStyle(VIEW_STYLE_URLS.modal);
 	if (modalSession.listenersBound) return;
 	const form = modalElement('modalForm');
 	const cancel = modalElement('modalCancelBtn');

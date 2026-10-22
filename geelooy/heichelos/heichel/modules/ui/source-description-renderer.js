@@ -11,6 +11,7 @@
 
 import { detectDirection } from '../living-path/language-policy.js';
 import { attachLexiconLookup } from './lexicon/controller.js';
+import { ensureViewStyle, VIEW_STYLE_URLS } from '../lazyViewStyles.js';
 
 /** Builds a same-origin source button and refuses external/provider destinations. */
 function sourceButton(href) {
@@ -46,6 +47,7 @@ function lookupButton() {
 
 /** Renders canonical source, provenance, and optional controls without merging their text. */
 export function renderExactSource(area, presentation) {
+	ensureViewStyle(VIEW_STYLE_URLS.lexiconReader);
 	const source = document.createElement('div');
 	source.className = 'torah-source-text';
 	source.lang = 'he';

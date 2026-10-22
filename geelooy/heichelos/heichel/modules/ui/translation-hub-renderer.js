@@ -12,6 +12,7 @@
 import { createDictionaryBrowseSurface } from './translation-hub-browse.js';
 import { createDictionarySearchSurface } from './translation-hub-search.js';
 import { element } from './translation-hub-shared.js';
+import { ensureViewStyle, VIEW_STYLE_URLS } from '../lazyViewStyles.js';
 
 /** Creates compact bilingual context above the immediately useful lookup form. */
 function createWorkspaceIntro() {
@@ -34,6 +35,7 @@ function createWorkspaceIntro() {
 
 /** Replaces the route description vessel with one search-first language workspace. */
 export function renderTranslationHub(area) {
+	ensureViewStyle(VIEW_STYLE_URLS.lexiconHub);
 	const workspace = element('section', 'translation-hub-workspace');
 	workspace.append(
 		createWorkspaceIntro(),

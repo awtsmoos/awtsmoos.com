@@ -10,6 +10,7 @@
  */
 
 import { lexiconResultCard, stateMessage } from './result-card.js';
+import { ensureViewStyle, VIEW_STYLE_URLS } from '../../lazyViewStyles.js';
 
 let activeDialog = null;
 
@@ -29,6 +30,7 @@ function closeDialog(dialog, returnFocus) {
 
 /** Opens one accessible dictionary result dialog with source-aware content. */
 export function showDictionaryDialog(word, payload = {}, returnFocus) {
+	ensureViewStyle(VIEW_STYLE_URLS.lexiconDialog);
 	activeDialog?.remove();
 	const dialog = element('dialog', 'lexicon-dialog');
 	dialog.setAttribute('aria-labelledby', 'lexicon-dialog-title');

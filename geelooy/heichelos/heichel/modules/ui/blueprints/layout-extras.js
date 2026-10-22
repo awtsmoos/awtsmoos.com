@@ -12,8 +12,10 @@ import {
 	box,
 	button
 } from './layout-primitives.js';
+import { ensureViewStyle, VIEW_STYLE_URLS } from '../../lazyViewStyles.js';
 
 export function miniMail(actions) {
+	ensureViewStyle(VIEW_STYLE_URLS.miniMail);
 	return {
 		tag: 'aside',
 		attr: {
@@ -60,6 +62,7 @@ export function toastContainer() {
 }
 
 export function bulkBar() {
+	ensureViewStyle(VIEW_STYLE_URLS.bulkActions);
 	return box(
 		'hidden-void',
 		[

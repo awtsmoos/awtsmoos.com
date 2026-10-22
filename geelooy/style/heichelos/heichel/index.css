@@ -14,6 +14,11 @@
 @import "./series-list.css";
 @import "./search.css";
 @import "./bottom-nav.css";
+/* B"H — load-speed Lever 3: bulk-actions, mini-mail, admin-editing, modal, and the
+   lexicon trio are view-lazy: each owning module self-injects its cluster via
+   modules/lazyViewStyles.js (ensureViewStyle) on first use (~24,932 B off first paint).
+   tree-collapsible.css stays bundled: its series-children-well/nav-card classes have no
+   confirmed JS self-load hook (series-navigation critical, held per tranche-2 spec). */
 @import "./future/layout.css";
 @import "./future/topbar.css";
 @import "./future/drawer.css";
@@ -25,10 +30,6 @@
 @import "./future/card-media.css";
 @import "./future/card-menu.css";
 @import "./future/tree-collapsible.css";
-@import "./future/bulk-actions.css";
-@import "./future/mini-mail.css";
-@import "./future/admin-editing.css";
-@import "./modal/index.css";
 @import "./future/legacy-dialog.css";
 @import "./future/responsive.css";
 @import "./future/living-navigation-interactions.css";
@@ -41,8 +42,5 @@
 @import "/style/geelooy-app/performance.css?v=unified-ui-001";
 @import "./future/mobile-contrast.css";
 @import "./future/mobile-ergonomics.css";
-@import "./future/lexicon-reader.css";
-@import "./future/lexicon-dialog.css";
-@import "./future/lexicon-hub.css";
 @import "./premium/index.css?v=ikar-vision-001";
 @import "./future/accessibility.css";
