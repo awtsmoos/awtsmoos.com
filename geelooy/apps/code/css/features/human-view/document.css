@@ -1,0 +1,113 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets a human read the tree without losing the root below;
+ * Awtsmoos.com keeps every semantic fact clickable back into the source we know.
+ */
+.human-view-document {
+	display: grid;
+	gap: 16px;
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.human-view-card {
+	border: 1px solid var(--color-border, #2d4055);
+	border-radius: var(--radius-md, 14px);
+	padding: 18px;
+	background: var(--color-bg-secondary, #0d1926);
+}
+
+.human-view-card h2,
+.human-view-card h3,
+.human-view-card p {
+	margin-top: 0;
+}
+
+.human-view-purpose h2 {
+	margin: 10px 0 8px;
+	font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.human-view-purpose p,
+.human-view-purpose small,
+.human-view-fact-detail,
+.human-view-empty-copy {
+	color: var(--color-text-secondary, #9aabba);
+}
+
+.human-view-badge {
+	display: inline-flex;
+	border: 1px solid color-mix(in srgb, var(--neon-magenta, #ff66d9) 45%, transparent);
+	border-radius: 999px;
+	padding: 5px 9px;
+	color: var(--neon-magenta, #ff66d9);
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.human-view-summary {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 8px;
+}
+
+.human-view-summary span {
+	border: 1px solid var(--color-border, #2d4055);
+	border-radius: var(--radius-sm, 8px);
+	padding: 10px 12px;
+	background: var(--color-bg-tertiary, #142334);
+	color: var(--color-text-secondary, #9aabba);
+	font-size: 0.78rem;
+}
+
+.human-view-facts {
+	display: grid;
+	gap: 8px;
+}
+
+.human-view-fact {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 14px;
+	width: 100%;
+	border: 1px solid var(--color-border, #2d4055);
+	border-radius: var(--radius-sm, 8px);
+	padding: 11px 12px;
+	background: var(--color-bg-primary, #08121d);
+	color: var(--color-text-primary, #eef4ff);
+	text-align: left;
+	cursor: pointer;
+}
+
+.human-view-fact:hover {
+	border-color: var(--neon-cyan, #60e6ff);
+	background: var(--color-bg-tertiary, #142334);
+}
+
+.human-view-fact-name {
+	overflow: hidden;
+	font-family: var(--font-code, monospace);
+	font-weight: 700;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.human-view-fact-detail {
+	font-size: 0.75rem;
+	white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+	.human-view-fact {
+		grid-template-columns: 1fr;
+	}
+
+	.human-view-fact-detail {
+		white-space: normal;
+	}
+}

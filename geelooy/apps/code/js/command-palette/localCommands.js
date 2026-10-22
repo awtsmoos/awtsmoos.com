@@ -6,7 +6,7 @@
  * @file localCommands.js
  * @description
  * The Awtsmoos renews the nearby tool without confusing it with a global decree;
- * Awtsmoos.com keeps search, tabs, Vibe, and graph actions in one local family.
+ * Awtsmoos.com keeps search, tabs, Vibe, Human View, and graph actions in one local family.
  * This module owns palette-only commands that do not belong in the action registry.
  */
 
@@ -102,6 +102,8 @@ export async function executeLocalPaletteCommand(actionId) {
 			return { handled: true, result: await openVibeContext() };
 		case "apply-external-ai-context":
 			return { handled: true, result: await openAIManifestation() };
+		case "show-human-view":
+			return { handled: true, result: await (await import("../features/human-view/loader.js")).openHumanView() };
 		case "show-graph-nav":
 			return { handled: true, result: VisualEngine.triggerGraphNav() };
 		case "open-browser-tab":

@@ -1,0 +1,97 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the broad view a quiet vessel above the editor's sea;
+ * Awtsmoos.com keeps Human View contained, responsive, and ready before it can be seen.
+ */
+.human-view-root {
+	position: fixed;
+	inset: 0;
+	z-index: 12000;
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	font-family: var(--font-ui, system-ui, sans-serif);
+	color: var(--color-text-primary, #eef4ff);
+}
+
+.human-view-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(3, 8, 16, 0.78);
+	backdrop-filter: blur(12px);
+}
+
+.human-view-panel {
+	position: relative;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	width: min(1120px, 96vw);
+	height: min(820px, 92vh);
+	overflow: hidden;
+	border: 1px solid var(--color-border, #2d4055);
+	border-radius: var(--radius-md, 16px);
+	background: var(--color-bg-primary, #08121d);
+	box-shadow: 0 28px 90px rgba(0, 0, 0, 0.48);
+}
+
+.human-view-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 18px 22px;
+	border-bottom: 1px solid var(--color-border, #2d4055);
+	background: var(--color-bg-secondary, #0d1926);
+}
+
+.human-view-header h1 {
+	margin: 2px 0 0;
+	font-size: 1.3rem;
+}
+
+.human-view-kicker {
+	color: var(--neon-cyan, #60e6ff);
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.human-view-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.human-view-actions button {
+	border: 1px solid var(--color-border, #2d4055);
+	border-radius: var(--radius-sm, 8px);
+	padding: 8px 12px;
+	background: var(--color-bg-tertiary, #142334);
+	color: inherit;
+	cursor: pointer;
+}
+
+.human-view-body {
+	overflow: auto;
+	padding: clamp(18px, 3vw, 34px);
+}
+
+@media (max-width: 700px) {
+	.human-view-root {
+		padding: 0;
+	}
+
+	.human-view-panel {
+		width: 100vw;
+		height: 100vh;
+		border: 0;
+		border-radius: 0;
+	}
+
+	.human-view-header {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}
