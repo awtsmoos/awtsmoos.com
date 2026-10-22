@@ -51,9 +51,50 @@ function dayuhSectionTexts(dayuh) {
 		.filter(Boolean);
 }
 
+/**
+ * Packed posts carry their teaching in content.sections (paragraphs) and
+ * content.units (phrase pairs). Flattens them to preview paragraphs:
+ * section Hebrew first, then English, so the server embed holds real
+ * teaching even when no string content/dayuh/sections key exists.
+ */
+function packedContentTexts(content) {
+	if (!content || typeof content !== 'object' || Array.isArray(content)) return [];
+	const texts = [];
+	const push = value => {
+		const clean = htmlToText(value).trim();
+		if (clean) texts.push(clean);
+	};
+	const sections = Array.isArray(content.sections) ? content.sections : [];
+	for (const section of sections) {
+		if (section && typeof section === 'object') {
+			push(section.hebrew);
+			push(section.english);
+		} else {
+			push(section);
+		}
+	}
+	if (!texts.length && Array.isArray(content.units)) {
+		const hebrew = [];
+		const english = [];
+		for (const unit of content.units) {
+			const h = typeof unit?.hebrew === 'string' ? unit.hebrew.trim() : '';
+			const e = typeof unit?.english === 'string' ? unit.english.trim() : '';
+			if (h) hebrew.push(h);
+			if (e) english.push(e);
+		}
+		if (hebrew.length) texts.push(hebrew.join(' '));
+		if (english.length) texts.push(english.join(' '));
+	}
+	return texts;
+}
+
 function firstText(envelope, post) {
 	for (const value of [post.content, post.body, post.text, envelope.rootContent]) {
 		if (typeof value === 'string' && value.trim()) return htmlToText(value).trim();
+	}
+	for (const value of [post.content, envelope.content]) {
+		const texts = packedContentTexts(value);
+		if (texts.length) return texts.join('\n\n');
 	}
 	const dayuhTexts = dayuhSectionTexts(post.dayuh).length ? dayuhSectionTexts(post.dayuh) : dayuhSectionTexts(envelope.dayuh);
 	if (dayuhTexts.length) return dayuhTexts.join('\n\n');
