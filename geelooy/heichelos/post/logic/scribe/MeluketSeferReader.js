@@ -21,6 +21,39 @@
 import { refreshTranslationStatus } from '../../translations/render.js';
 import { loadFontSize } from '../../functions/ui/Dimensionality.js';
 
+/**
+ * B"H - Lever 1 (load-speed): the meluket CSS trio is consumed only by this
+ * reader, so it self-injects on awakening instead of loading on every post.
+ * Idempotent ensureStyle pattern (modeled on ReaderFeatureStyles.js):
+ * stable element ids, dataset load state, existing element on repeat calls.
+ */
+const SEFER_STYLE_TRIO = [
+	['awtsmoos-sefer-style-overhaul', '/heichelos/post/styles/meluket-reader-overhaul.css?v=99b0f58a4'],
+	['awtsmoos-sefer-style-sefer', '/heichelos/post/styles/meluket-sefer.css?v=e28d530e4'],
+	['awtsmoos-sefer-style-law8', '/heichelos/post/styles/meluket-law8.css?v=99b0f58a4'],
+];
+
+function ensureSeferStyle(id, href) {
+	if (!document?.head) return null;
+	const existing = document.getElementById(id);
+	if (existing) return existing;
+	const link = document.createElement('link');
+	link.id = id;
+	link.rel = 'stylesheet';
+	link.href = href;
+	link.dataset.seferStyles = 'loading';
+	link.addEventListener('load', () => {
+		link.dataset.seferStyles = 'ready';
+	}, { once: true });
+	document.head.appendChild(link);
+	return link;
+}
+
+/** Injects the meluket CSS trio into document.head (idempotent). */
+export function ensureMeluketSeferStyles() {
+	for (const [id, href] of SEFER_STYLE_TRIO) ensureSeferStyle(id, href);
+}
+
 /** Natural sort for phraseIds like segment_0_0, segment_0_10, segment_1_2. */
 function phraseIdKey(phraseId) {
 	const match = String(phraseId || '').match(/segment_(\d+)_(\d+)/);
@@ -1291,6 +1324,8 @@ export function awakenMeluketSeferReader(post) {
 	}
 	console.log("B\"H sefer reader activating:", hebrewSections.length, "sections");
 
+	ensureMeluketSeferStyles();
+
 	const langMode = readSavedLangMode();
 
 	// Build the sefer container.
@@ -1705,6 +1740,8 @@ export function awakenPhraseTranslationReader(post) {
 		return false;
 	}
 	console.log("B\"H phrase reader activating:", grouped.length, "sections,", phrases.length, "phrases");
+
+	ensureMeluketSeferStyles();
 
 	const readableRaw = (post.translation && post.translation.readable) || {};
 	// B"H — normalize readable to {sectionId: englishText}.
