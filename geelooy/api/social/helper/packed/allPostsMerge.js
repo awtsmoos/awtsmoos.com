@@ -35,7 +35,14 @@ function mergeTailRecords(entry, file, from, to) {
       try { rec = JSON.parse(line); } catch { return; }
       if (!rec || !rec.key) return;
       const value = rec.value || {};
-      const k = allPostKey({ heichelId: value.heichelId, postId: postIdOf(value) });
+      // B"H 2026-10-22 (header-fix crew): tombstone records carry value=null -
+      // their identity lives in rec.key (which IS the allPostKey). Deriving
+      // identity from value alone made every op:'del' invisible to this
+      // merge, so deleted posts stayed in the grouped index forever.
+      const pidFromValue = postIdOf(value);
+      const k = pidFromValue
+        ? allPostKey({ heichelId: value.heichelId, postId: pidFromValue })
+        : (rec.key || '');
       if (!k) return;
       // remove old entry everywhere
       const prev = entry.byKey.get(k);
