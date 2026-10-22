@@ -143,7 +143,7 @@ The hash is sha256 over stable-key-order JSON **excluding only `importedAt` and 
 
 ## 6. The alias model
 
-- **One alias per commentator:** `deriveAliasId` = `<heichelId>-<slug(commentator)>` (slug = lowercase, `[^a-z0-9]+` → `-`). No commentator → job-level fallback alias.
+- **One alias per commentator:** `deriveAliasId` = bare `<slug(commentator)>` — ALIAS NAMING LAW (2026-10-21): an aliasId NEVER contains the heichel name; `the-rebbe` maps to the canonical `theRebbe` (slug = lowercase, `[^a-z0-9]+` → `-`). No commentator → job-level fallback alias.
 - `ensureAlias` creates `/social/aliases/<aliasId>/info` (`{aliasId, name, kind:'commentator', createdAt, createdBy}`), `/profile`, and the alias→heichel link `/social/aliases/<aliasId>/heichelosContributedTo/<heichelId>` as an **object** `{aliasId, heichelId, linkedAt, by}` — never boolean `true` (booleans don't roundtrip through `$i.db.get`, which caused `ALIAS_LINK_MISSING`).
 - `writeNativePost` writes the first-class records:
   - `/social/heichelos/<h>/posts/<pid>` = the post
