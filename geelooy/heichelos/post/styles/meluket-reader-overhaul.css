@@ -81,8 +81,11 @@
 	padding: 0.7rem 1rem;
 	margin-inline: -1rem;
 	margin-block-end: 1.6em;
-	opacity: 0;
-	translate: 0 16px;
+	/* B"H 2026-10-22 (frontend-fixes): pairs render VISIBLE by default. The
+	   scroll-reveal trigger (.is-visible) was never wired to any JS, so every
+	   pair stayed at opacity 0 forever (visual proofs 2026-10-22 attempt 2:
+	   laid out + styled + never painted). Hidden start-state removed; the
+	   .is-visible end-state below remains for any future trigger. */
 	transition:
 		opacity 0.55s ease,
 		translate 0.55s cubic-bezier(0.22, 0.9, 0.3, 1),
