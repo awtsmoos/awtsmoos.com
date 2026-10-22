@@ -1,75 +1,94 @@
-
-// B"H
-// FILE: js/app/listeners/editor.js
-
-import { State, DOM } from '../../state.js';
-import { UI } from '../../ui.js';
-import { Effects } from '../../effects.js';
-import { VisualEngine } from '../../visuals/index.js';
-import { ASTEngine } from '../../tools/ast-engine.js';
-import { App } from '../../app.js';
-import { Editor } from '../../editor.js';
-import { StatusBar } from '../../statusbar.js';
-import { FindReplace } from '../../find-replace.js';
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * @function setupEditorListeners
- * @description This vessel contains the sacred bindings for the Editor itself.
- * It listens for the very breath of creation (input), the shifting of perspective (scroll),
- * and the specific incantations (keydown) uttered within its holy bounds.
+ * @fileoverview Keeps core editing immediate and awakens visual/AI enhancements on first use.
+ * The Awtsmoos gives every keystroke reality before ornament joins the scene;
+ * Awtsmoos.com preserves dirty state and session truth without preloading every enhancement engine.
  */
+
+import { Editor } from "../../editor.js";
+import { DOM, State } from "../../state.js";
+import { StatusBar } from "../../statusbar.js";
+import { UI } from "../../ui.js";
+import { loadEditorEnhancements } from "./editor-enhancements.js";
+
+function activeTab() {
+	return State.tabs.find(tab => tab.id === State.activeTabId);
+}
+
+function saveSessionLater() {
+	void import("../../session.js").then(({ Session }) => Session.saveDebounced());
+}
+
+function updateEnhancements(callback) {
+	void loadEditorEnhancements()
+		.then(runtime => callback(runtime))
+		.catch(error => console.warn("B\"H - Editor enhancement unavailable.", error));
+}
+
+function handleInput(event) {
+	const tab = activeTab();
+	if (tab && !State.isRestoring) {
+		if (!tab.isDirty) {
+			tab.isDirty = true;
+			void import("../../tabs/index.js").then(({ Tabs }) => Tabs.render());
+		}
+		tab.content = DOM.editor.value;
+		saveSessionLater();
+	}
+	UI.updateLineNumbers();
+	updateEnhancements(({ Effects, VisualEngine }) => {
+		Effects.spawnParticles();
+		Effects.resetEntropy();
+		VisualEngine.onInput(DOM.editor.value, event.inputType === "deleteContentBackward");
+	});
+}
+
+function handleScroll() {
+	UI.syncScroll();
+	const tab = activeTab();
+	if (tab && !State.isRestoring && !DOM.editorWrapper.classList.contains("hidden")) {
+		tab.scrollPos = DOM.editor.scrollTop;
+		saveSessionLater();
+	}
+	updateEnhancements(({ VisualEngine }) => VisualEngine.onScroll());
+}
+
+function handleCaretMove() {
+	StatusBar.update();
+	updateEnhancements(({ VisualEngine }) => VisualEngine.onCaretMove());
+}
+
+function handleTabInInput(event) {
+	if (event.key !== "Tab") return;
+	event.preventDefault();
+	const indentation = State.useTabs ? "\t" : "    ";
+	event.target.setRangeText(indentation, event.target.selectionStart, event.target.selectionEnd, "end");
+}
+
+function handleKeyboardHelper(event) {
+	const button = event.target.closest("button.kh-btn");
+	if (!button) return;
+	const pair = button.dataset.pair;
+	if (!pair) return;
+	const start = DOM.editor.selectionStart;
+	const end = DOM.editor.selectionEnd;
+	const [prefix, suffix] = pair;
+	DOM.editor.setRangeText(prefix + DOM.editor.value.substring(start, end) + suffix, start, end, "select");
+}
+
+/** Binds the editor's core state listeners without pulling optional engines into startup. */
 export function setupEditorListeners() {
-    DOM.editor.addEventListener('input', (e) => {
-        Effects.spawnParticles();
-        Effects.resetEntropy();
-        VisualEngine.onInput(DOM.editor.value, e.inputType === 'deleteContentBackward');
-        
-        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (activeTab && !State.isRestoring) {
-            if (!activeTab.isDirty) {
-                activeTab.isDirty = true;
-                import('../../tabs/index.js').then(m => m.Tabs.render());
-            }
-            activeTab.content = DOM.editor.value;
-            App.saveSessionDebounced();
-        }
-        UI.updateLineNumbers();
-    });
-
-    DOM.editor.addEventListener('scroll', () => {
-        UI.syncScroll();
-        VisualEngine.onScroll();
-        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (activeTab && !State.isRestoring && !DOM.editorWrapper.classList.contains('hidden')) {
-            activeTab.scrollPos = DOM.editor.scrollTop;
-            App.saveSessionDebounced();
-        }
-    });
-
-    DOM.editor.addEventListener('keyup', () => { StatusBar.update(); VisualEngine.onCaretMove(); });
-    DOM.editor.addEventListener('click', () => { StatusBar.update(); VisualEngine.onCaretMove(); });
-
-    new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
-
-    const handleTabInInputs = (e) => {
-        if (e.key === 'Tab') {
-            e.preventDefault();
-            e.target.setRangeText(App.getTabString(), e.target.selectionStart, e.target.selectionEnd, 'end');
-        }
-    };
-    if (DOM.findInput) DOM.findInput.addEventListener('keydown', handleTabInInputs);
-    if (DOM.replaceInput) DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
-
-    if(DOM.keyboardHelper) {
-        DOM.keyboardHelper.addEventListener('click', (e) => {
-            const btn = e.target.closest('button.kh-btn');
-            if (!btn) return;
-            const pair = btn.dataset.pair;
-            const start = DOM.editor.selectionStart, end = DOM.editor.selectionEnd;
-            if (pair) {
-                const [pStart, pEnd] = pair;
-                DOM.editor.setRangeText(pStart + DOM.editor.value.substring(start, end) + pEnd, start, end, 'select');
-            }
-        });
-    }
+	if (!DOM.editor) return;
+	DOM.editor.addEventListener("input", handleInput);
+	DOM.editor.addEventListener("scroll", handleScroll);
+	DOM.editor.addEventListener("keyup", handleCaretMove);
+	DOM.editor.addEventListener("click", handleCaretMove);
+	new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
+	DOM.findInput?.addEventListener("keydown", handleTabInInput);
+	DOM.replaceInput?.addEventListener("keydown", handleTabInInput);
+	DOM.keyboardHelper?.addEventListener("click", handleKeyboardHelper);
+	Editor.focus();
 }

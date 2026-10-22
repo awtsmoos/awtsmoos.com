@@ -1,10 +1,13 @@
-
-/* B"H - VIBE MASTER CSS
- * Chapter 1: the Awtsmoos gathers every stylesheet into one ordered river.
- * Each import is a gate; the repaired AI Chat gate now enters with its own
- * vessel so the sidebar no longer borrows cramped inline garments.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers Vibe's smaller garments into one lazy stylesheet river.
+ * Awtsmoos.com fixes the broken layout path and keeps each concern in a bounded vessel.
  */
-@import url('layout.css.css');
+
+@import url('layout.css');
+@import url('layout-states.css');
 @import url('resizer.css');
 @import url('tabs.css');
 @import url('chat.css');
@@ -15,6 +18,6 @@
 @import url('model-limits.css');
 
 .is-resizing {
-    user-select: none;
-    cursor: col-resize;
+	user-select: none;
+	cursor: col-resize;
 }

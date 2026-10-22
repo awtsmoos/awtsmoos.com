@@ -1,134 +1,100 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-// B"H
 /**
- * @file core.js
- * @brief The nervous system of the application.
+ * @fileoverview Binds only lightweight shell controls; feature code awakens on interaction.
+ * The Awtsmoos gives every doorway its consequence without loading the room behind every door;
+ * Awtsmoos.com keeps sidebar motion immediate while menus, tools, AI, and commanders remain dormant.
  */
 
-import { State, DOM } from '../../state.js';
-import { Menus } from '../../menus/index.js';
-import { WorkspaceAddition } from '../../features/workspace-addition.js';
-import { FileCommander } from '../../file-commander.js';
-import { Actions } from '../../actions/index.js';
+import { ensureFeatureStyles } from "../../assets/feature-styles.js";
+import { DOM, State } from "../../state.js";
+
+async function handleAction(actionId, context) {
+	const { Actions } = await import("../../actions/index.js");
+	return Actions.handle(actionId, context);
+}
+
+async function openFileCommander() {
+	await ensureFeatureStyles("file-commander");
+	const { FileCommander } = await import("../../file-commander.js");
+	return FileCommander.open();
+}
+
+function makeMenuButton(id, title, icon, hidden = false) {
+	const button = document.createElement("button");
+	button.id = id;
+	button.className = `icon-button${hidden ? " hidden" : ""}`;
+	button.title = title;
+	button.innerHTML = `<svg class="svg-icon"><use href="#${icon}"></use></svg>`;
+	return button;
+}
+
+function bindGlobalButtons() {
+	const menuBar = document.querySelector(".menu-bar");
+	if (!menuBar) return;
+	const consoleButton = document.getElementById("global-console-btn") || makeMenuButton("global-console-btn", "Open JavaScript Console", "icon-laptop", true);
+	const aiButton = document.getElementById("global-ai-chat-btn") || makeMenuButton("global-ai-chat-btn", "Open AI Chat", "icon-brain-circuit");
+	const refreshButton = document.getElementById("global-refresh-preview-btn") || makeMenuButton("global-refresh-preview-btn", "Refresh Preview", "icon-refresh", true);
+	for (const button of [consoleButton, aiButton, refreshButton]) if (!button.isConnected) menuBar.appendChild(button);
+	consoleButton.onclick = event => {
+		event.stopPropagation();
+		const tab = State.tabs.find(item => item.id === State.activeTabId);
+		if (tab) void handleAction("open-devtools", tab);
+	};
+	aiButton.onclick = event => {
+		event.stopPropagation();
+		void ensureFeatureStyles("ai").then(() => handleAction("open-generic-ai-chat"));
+	};
+	refreshButton.onclick = event => {
+		event.stopPropagation();
+		const tab = State.tabs.find(item => item.id === State.activeTabId);
+		if (!tab || (!tab.isPreview && tab.fileType !== "html-preview")) return;
+		void import("../../editor/preview-manager.js").then(module => module.PreviewManager.show(tab.id, tab.item, tab.content, true));
+	};
+	const update = () => {
+		const tab = State.tabs.find(item => item.id === State.activeTabId);
+		const inspectable = Boolean(tab && (tab.isPreview || tab.fileType === "html-preview" || tab.item.type === "browser"));
+		consoleButton.classList.toggle("hidden", !inspectable);
+		refreshButton.classList.toggle("hidden", !inspectable);
+	};
+	window.addEventListener("awtsmoos-tab-activated", update);
+	update();
+}
+
+function bindSidebarResizer(container) {
+	const resizer = document.getElementById("sidebar-resizer");
+	if (!resizer) return;
+	const move = event => {
+		const clientX = event.touches?.[0]?.clientX ?? event.clientX;
+		if (clientX === undefined) return;
+		container.style.gridTemplateColumns = `${Math.max(50, Math.min(clientX, innerWidth * 0.8))}px 1fr`;
+	};
+	const end = () => {
+		document.body.classList.remove("is-resizing");
+		for (const type of ["mousemove", "mouseup", "touchmove", "touchend"]) document.removeEventListener(type, type.includes("move") ? move : end);
+	};
+	const start = () => {
+		document.body.classList.add("is-resizing");
+		document.addEventListener("mousemove", move);
+		document.addEventListener("mouseup", end);
+		document.addEventListener("touchmove", move, { passive: false });
+		document.addEventListener("touchend", end);
+	};
+	resizer.addEventListener("mousedown", start);
+	resizer.addEventListener("touchstart", start, { passive: false });
+}
 
 export function setupCoreListeners() {
-    const appContainer = document.querySelector('.app-container');
-
-    const toggleSidebar = (e) => {
-        if (e) e.stopPropagation();
-        appContainer.classList.toggle('sidebar-collapsed');
-    };
-
-    if (DOM.mobileSidebarToggle) DOM.mobileSidebarToggle.onclick = toggleSidebar;
-    if (DOM.sidebarCollapseBtn) DOM.sidebarCollapseBtn.onclick = toggleSidebar;
-
-    if (DOM.hamburgerMenuBtn) {
-        DOM.hamburgerMenuBtn.onclick = (e) => Menus.showMainMenu(e);
-    }
-
-    if (DOM.addWorkspaceBtn) {
-        DOM.addWorkspaceBtn.onclick = () => WorkspaceAddition.showDialog();
-    }
-
-    if(DOM.fileCommanderBtn) {
-        DOM.fileCommanderBtn.onclick = () => FileCommander.open();
-    }
-
-    // --- B"H - THE GLOBAL CONSOLE & REFRESH GATEWAYS ---
-    const menuBar = document.querySelector('.menu-bar');
-    if (menuBar) {
-        // Console Button
-        let consoleBtn = document.getElementById('global-console-btn');
-        if (!consoleBtn) {
-            consoleBtn = document.createElement('button');
-            consoleBtn.id = 'global-console-btn';
-            consoleBtn.className = 'icon-button hidden';
-            consoleBtn.title = 'Open JavaScript Console';
-            consoleBtn.style.color = 'var(--neon-cyan)';
-            consoleBtn.innerHTML = '<svg class="svg-icon"><use href="#icon-laptop"></use></svg>';
-            menuBar.appendChild(consoleBtn);
-        }
-        
-        consoleBtn.onclick = (e) => {
-            e.stopPropagation();
-            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-            if (activeTab) {
-                Actions.handle('open-devtools', activeTab);
-            }
-        };
-
-        let aiChatBtn = document.getElementById('global-ai-chat-btn');
-        if (!aiChatBtn) {
-            aiChatBtn = document.createElement('button');
-            aiChatBtn.id = 'global-ai-chat-btn';
-            aiChatBtn.className = 'icon-button';
-            aiChatBtn.title = 'Open AI Chat';
-            aiChatBtn.style.color = 'var(--neon-magenta)';
-            aiChatBtn.innerHTML = '<svg class="svg-icon"><use href="#icon-brain-circuit"></use></svg>';
-            menuBar.appendChild(aiChatBtn);
-        }
-
-        aiChatBtn.onclick = (e) => {
-            e.stopPropagation();
-            Actions.handle('open-generic-ai-chat');
-        };
-
-        // B"H - Refresh Preview Button
-        let refreshBtn = document.getElementById('global-refresh-preview-btn');
-        if (!refreshBtn) {
-            refreshBtn = document.createElement('button');
-            refreshBtn.id = 'global-refresh-preview-btn';
-            refreshBtn.className = 'icon-button hidden';
-            refreshBtn.title = 'Refresh Preview';
-            refreshBtn.style.color = 'var(--neon-lime)';
-            refreshBtn.innerHTML = '<svg class="svg-icon"><use href="#icon-refresh"></use></svg>';
-            menuBar.appendChild(refreshBtn);
-        }
-
-        refreshBtn.onclick = (e) => {
-            e.stopPropagation();
-            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-            if (activeTab && (activeTab.isPreview || activeTab.fileType === 'html-preview')) {
-                import('../../editor/preview-manager.js').then(m => {
-                    m.PreviewManager.show(activeTab.id, activeTab.item, activeTab.content, true);
-                });
-            }
-        };
-
-        const updateBtnVisibility = () => {
-            const tab = State.tabs.find(t => t.id === State.activeTabId);
-            const isInspectable = tab && (tab.isPreview || tab.fileType === 'html-preview' || tab.item.type === 'browser');
-            consoleBtn.classList.toggle('hidden', !isInspectable);
-            refreshBtn.classList.toggle('hidden', !isInspectable);
-        };
-
-        window.addEventListener('awtsmoos-tab-activated', updateBtnVisibility);
-        setTimeout(updateBtnVisibility, 500);
-    }
-
-    const resizer = document.getElementById('sidebar-resizer');
-    if (resizer) {
-        const handleMove = (e) => {
-            const clientX = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
-            if (clientX === undefined) return;
-            const newWidth = Math.max(50, Math.min(clientX, window.innerWidth * 0.8));
-            appContainer.style.gridTemplateColumns = `${newWidth}px 1fr`;
-        };
-        const handleEnd = () => {
-            document.body.classList.remove('is-resizing');
-            document.removeEventListener('mousemove', handleMove);
-            document.removeEventListener('mouseup', handleEnd);
-            document.removeEventListener('touchmove', handleMove);
-            document.removeEventListener('touchend', handleEnd);
-        };
-        const handleStart = (e) => {
-            document.body.classList.add('is-resizing');
-            document.addEventListener('mousemove', handleMove);
-            document.addEventListener('mouseup', handleEnd);
-            document.addEventListener('touchmove', handleMove, { passive: false });
-            document.addEventListener('touchend', handleEnd);
-        };
-        resizer.addEventListener('mousedown', handleStart);
-        resizer.addEventListener('touchstart', handleStart, { passive: false });
-    }
+	const container = document.querySelector(".app-container");
+	if (!container) return;
+	const toggleSidebar = event => { event?.stopPropagation(); container.classList.toggle("sidebar-collapsed"); };
+	if (DOM.mobileSidebarToggle) DOM.mobileSidebarToggle.onclick = toggleSidebar;
+	if (DOM.sidebarCollapseBtn) DOM.sidebarCollapseBtn.onclick = toggleSidebar;
+	if (DOM.hamburgerMenuBtn) DOM.hamburgerMenuBtn.onclick = event => import("../../menus/index.js").then(({ Menus }) => Menus.showMainMenu(event));
+	if (DOM.addWorkspaceBtn) DOM.addWorkspaceBtn.onclick = () => import("../../features/workspace-addition.js").then(({ WorkspaceAddition }) => WorkspaceAddition.showDialog());
+	if (DOM.fileCommanderBtn) DOM.fileCommanderBtn.onclick = () => void openFileCommander();
+	bindGlobalButtons();
+	bindSidebarResizer(container);
 }

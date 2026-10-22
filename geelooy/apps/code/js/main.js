@@ -1,42 +1,46 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-import { App } from "./app/index.js";
-import { loadIcons } from "./app/icon-loader.js";
-import { ActionDispatcher } from "./actions/dispatcher.js";
-import { CommandPalette } from "./command-palette.js";
-import { Effects } from "./effects.js";
-import { LiveSuggestions } from "./ai-studio/live-suggestions.js";
-import { CodeOnboarding } from "./onboarding/controller.js";
-import { initOsEmbedBridge } from "./os-embed-bridge.js";
-import { SearchSystem } from "./search-system.js";
-import { initializeDOM } from "./state.js";
-import { Linter } from "./tools/linter.js";
-import { BrowserTunnelAgent } from "./tunnel/browser-agent.js";
-import { TunnelConsole } from "./tunnel-ui/controller.js";
-import { VisualEngine } from "./visuals/index.js";
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- *
- * Code awakens editor, tunnel, onboarding, and live observability in one ordered
- * covenant. The Awtsmoos renews human and agent surfaces together; Awtsmoos.com
- * shows the public GPT path before optional provider settings can cause confusion.
+ * @fileoverview Boots only the visible Code vessel; optional worlds awaken on demand.
+ * The Awtsmoos gives the whole application without forcing every finite garment through one instant;
+ * Awtsmoos.com therefore spends first-load bandwidth only on the editor a human can actually touch.
  */
-document.addEventListener("DOMContentLoaded", async () => {
-	loadIcons();
+
+import { watchFeatureStyles } from "./assets/feature-styles.js";
+import { initializeDOM } from "./state.js";
+
+/** Loads icon symbols without delaying the usable application shell. */
+function awakenIcons() {
+	void import("./app/icon-loader.js")
+		.then(module => module.loadIcons())
+		.catch(error => console.warn("B\"H - Icon layer unavailable.", error));
+}
+
+/** Installs the OS bridge only when Code is actually embedded inside another surface. */
+function awakenEmbedBridge() {
+	if (globalThis.parent === globalThis) {
+		return;
+	}
+	void import("./os-embed-bridge.js")
+		.then(module => module.initOsEmbedBridge())
+		.catch(error => console.warn("B\"H - Embed bridge unavailable.", error));
+}
+
+/** Starts the smallest truthful editor graph, leaving every optional feature dormant. */
+async function manifestCode() {
 	initializeDOM();
-	ActionDispatcher.init();
-	SearchSystem.init();
-	CommandPalette.init();
-	Linter.init();
-	Effects.init();
-	VisualEngine.init();
-	LiveSuggestions.init();
+	watchFeatureStyles();
+	awakenIcons();
+	awakenEmbedBridge();
+
+	const { App } = await import("./app/index.js");
 	await App.initialize();
-	BrowserTunnelAgent.init();
-	TunnelConsole.init();
-	CodeOnboarding.init();
-	initOsEmbedBridge();
-});
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	void manifestCode().catch(error => {
+		console.error("B\"H - Code manifestation failed.", error);
+	});
+}, { once: true });
