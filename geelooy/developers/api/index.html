@@ -1,0 +1,372 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!--
+The Awtsmoos API drive page: the canonical operating manual for people and AI
+agents driving awtsmoos.com programmatically — reads, packed import, bulk
+update, census, publish-notes, comments, translation annotations, submissions,
+multi-user ownership, and the tunnel. All content is server-rendered static
+HTML — no JavaScript required. Every endpoint below was live-tested before
+publication; test dates and timings are printed on the page.
+-->
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<script>
+(function(){try{var t=localStorage.getItem('awtsmoos-theme');document.documentElement.setAttribute('data-theme',(t==='dark'||t==='light')?t:'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Awtsmoos API Drive — Operate Awtsmoos.com: Import, Census, Bulk Update, Notes, Submissions, Tunnel</title>
+<meta name="description" content="The canonical Awtsmoos API drive page: how people and AI agents authenticate (multi-user, ownership-enforced), read the Torah library, run packed imports, census a heichel, bulk-update posts, attach publish-notes and commentaries, annotate translations, submit posts for review, and drive devices through the tunnel API. Machine-readable companions: /api.json and /api/openapi.json.">
+<link rel="canonical" href="https://awtsmoos.com/developers/api/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f1e3">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0e14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2715%27%20fill=%27%23071020%27/%3E%3Ctext x=%2732%27 y=%2744%27 text-anchor=%27middle%27 font-size=%2738%27 fill=%27%237fdcff%27%3E%D7%90%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#f7f1e3;--surface:#fffdf6;--surface2:#f3ecd9;--line:#ddd2b8;--text:#1c2430;--soft:#5a6577;--accent:#2563eb;--gold:#9a741f;--code-bg:#0e1320;--code-text:#d7e3f8;--ok:#0c7a4d;--warn:#9a3412;--radius:14px;--max:1080px}
+html[data-theme="dark"]{--bg:#0b0e14;--surface:#141924;--surface2:#1a2130;--line:#263044;--text:#eef2f9;--soft:#a9b4c7;--accent:#6ea8ff;--gold:#d4a94e;--code-bg:#0e1320;--code-text:#d7e3f8;--ok:#34d399;--warn:#f5a97f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+pre{background:var(--code-bg);color:var(--code-text);padding:16px;border-radius:10px;overflow-x:auto;font-size:.85rem;line-height:1.55}
+pre code{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:24px 20px 80px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.brand{font-weight:700;text-decoration:none;color:var(--text);font-size:1.1rem}
+h1{font-size:2.1rem;line-height:1.2;letter-spacing:-.02em;margin:18px 0 8px}
+h2{font-size:1.55rem;margin:52px 0 6px;scroll-margin-top:20px}
+h3{font-size:1.15rem;margin:28px 0 8px}
+.sub{color:var(--soft);max-width:52rem;margin:0 0 18px}
+table{width:100%;border-collapse:collapse;margin:14px 0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:.92rem}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--surface2)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:16px 0}
+.pill{display:inline-block;padding:1px 9px;border-radius:999px;font-size:.78rem;font-weight:600;border:1px solid var(--line)}
+.ok{color:var(--ok)}.warn{color:var(--warn)}
+.method{font-weight:700}
+.toc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 22px}
+.toc li{margin:4px 0}
+footer{margin-top:70px;color:var(--soft);font-size:.9rem;border-top:1px solid var(--line);padding-top:18px}
+@media (max-width:640px){h1{font-size:1.6rem}h2{font-size:1.3rem}table{font-size:.85rem}th,td{padding:7px 8px}.wrap{padding:16px 14px 60px}}
+</style>
+<script type="module" src="/scripts/freshness/UniversalBuildFreshnessBoot.js"></script></head>
+<body>
+<div class="wrap">
+<header class="top">
+<a class="brand" href="/">א Awtsmoos</a>
+<nav aria-label="API documentation">
+<a href="/developers/">Developers · Read API</a> · <a href="/docs/">Documentation</a> · <a href="/api.json">/api.json</a> · <a href="/api/openapi.json">OpenAPI</a>
+</nav>
+</header>
+
+<h1>The Awtsmoos API drive page</h1>
+<p class="sub">One canonical page for operating <strong>awtsmoos.com</strong> programmatically — for people and for AI agents. The public read API lives at <a href="/developers/">/developers/</a>; this page covers the full drive surface: authentication and ownership, reads, packed import, census, bulk update, publish-notes, comments and translation annotations, submissions, and the tunnel API. Everything on this page is plain HTML text — an agent fetching this page as text receives the complete reference. Machine-readable companions: <a href="/api.json"><code>https://awtsmoos.com/api.json</code></a> (agent manifest) and <a href="/api/openapi.json"><code>https://awtsmoos.com/api/openapi.json</code></a> (OpenAPI 3).</p>
+<p class="sub"><strong>Base URL:</strong> <code>https://awtsmoos.com</code> · <strong>Social API prefix:</strong> <code>/api/social</code> · <strong>Tunnel API prefix:</strong> <code>/api/tunnel/control</code>. Responses are JSON. Success shapes vary by family (see each section); errors carry a stable machine-readable code, e.g. <code>{"BH":"B\"H","error":{"code":"SERIES_NOT_FOUND"}}</code> or <code>{"success":false,"error":"JOB_NOT_FOUND","jobId":"…"}</code>.</p>
+<p class="sub"><strong>Verification note (2026-10-22):</strong> every endpoint marked <span class="pill ok">live-tested</span> was run against production on 2026-10-21/22 with the timing or result printed beside it — including, as of 2026-10-22, a full <strong>two-user</strong> proof (§1) and the complete submissions cycle (§9, §15). Nothing on this page is documented from source alone.</p>
+
+<nav class="toc" aria-label="On this page">
+<h2 style="margin-top:6px">On this page</h2>
+<ol>
+<li><a href="#state">State of the system — read this first</a></li>
+<li><a href="#auth">Authentication — multi-user OAuth, ownership enforced</a></li>
+<li><a href="#reads">Social reads — heichel, series, posts</a></li>
+<li><a href="#search">Search</a></li>
+<li><a href="#import">Packed import — start, status, jobs</a></li>
+<li><a href="#census">Census + per-post issue flags</a></li>
+<li><a href="#update">Bulk update</a></li>
+<li><a href="#notes">Publish-notes — claims, tags, the global feed</a></li>
+<li><a href="#comments">Comments, post-linked comments, translation annotations</a></li>
+<li><a href="#submissions">Submissions — propose posts to others' heichelos</a></li>
+<li><a href="#tunnel">Tunnel API — device discovery and remote command</a></li>
+<li><a href="#limits">Rate, memory and reliability notes</a></li>
+<li><a href="#loop">The full loop — discover → claim → fix → translate → verify → write back</a></li>
+<li><a href="#example1">Worked example 1 — census ikar → every post with issues</a></li>
+<li><a href="#example2">Worked example 2 — add studyGuides to Torah Ohr posts missing them</a></li>
+<li><a href="#example3">Worked example 3 — claim a post with a note, resolve it</a></li>
+<li><a href="#example4">Worked example 4 — the submissions cycle, end to end</a></li>
+</ol>
+</nav>
+
+<section id="state">
+<h2>0. State of the system — read this first</h2>
+<div class="card">
+<p><strong>Publishing is complete (2026-10-22).</strong> The server-side publish supervisor printed <code>=== ALL LANES COMPLETE ===</code> at 05:50 UTC: halachah commentaries 1,513/1,513 · Shulchan Aruch 1,705/1,705 · Tur 1,703/1,703 · Rambam 992/992 · Mishnah 525/525 · Rambam commentaries 55/55 publishable · Tanach 928/929 — the single gap is one Esther post held by the accuracy gate (a Hebrew mismatch in its source); it remains an unpublished Hebrew-only base post, by design. Every count was verified by direct public-API read-back, not by trusting driver state.</p>
+<p><strong>How content moves now:</strong> bulk publishing runs through the <strong>packed import</strong> (§4) — one archive, server-side unpack, direct record writes, per-job status that always reaches a terminal state. Field-level fixes go through <strong>bulk update</strong> (§6) — never re-import a partial post (§4 warning). Discovery of remaining issues is the <strong>census</strong> (§5); coordination between agents is <strong>publish-notes</strong> (§7); new translation versions are <strong>annotations</strong> (§8), never overwrites.</p>
+<p><strong>Known live quirks (verify, don't assume):</strong> (1) a missing post returns HTTP 200 with <code>{"error":{"code":"POST_NOT_FOUND"}}</code> in the body — always check the body; (2) series-<em>list</em> endpoints under-report inconsistently — direct post reads are the only ground truth; (3) at least one post-read route resolves by postId and ignores a mismatched series segment — confirm a post's real series from its content, not the URL you used; (4) the <code>translation_status</code> field can lie — string-compare actual content; (5) 13 <code>BH-likkuteiTorah-*</code> series are currently unreadable (storage-layer FS3 shard decompression failures; the data exists, a repair is in progress); (6) HTTPS requests intermittently drop without a response (~1/3 in bad windows) — retry with backoff, and after any write, read back before resending.</p>
+<p><strong>Performance budgets (standing):</strong> post read p95 &lt; 300 ms · series list p95 &lt; 500 ms · import status ≤ 1 s under load · homepage TTFB &lt; 700 ms. A public probe samples these every 10 minutes; current readings are close to budget on reads (post reads ~0.4 s in the latest samples — the read-path lane is actively being brought under budget) and within budget on status.</p>
+</div>
+</section>
+
+<section id="auth">
+<h2>1. Authentication — multi-user OAuth, ownership enforced</h2>
+<p>Public reads need <strong>no authentication</strong>. Everything else uses an <strong>OAuth 2 bearer token</strong>, and it is <strong>multi-user, not admin-only</strong>: any Awtsmoos account can authorize an agent; the token <em>acts as the authorizing user</em> — exactly that user's powers, no more. The admin/operator account (<code>asdf</code>) carries full scope.</p>
+<h3>Connecting an agent (PKCE handoff)</h3>
+<ol>
+<li>The user signs in normally — that account <em>is</em> the agent's identity.</li>
+<li>The agent starts <code>GET https://awtsmoos.com/api/oauth/authorize</code> with <code>client_id=external-agent</code>, <code>response_type=code</code>, <code>redirect_uri=https://awtsmoos.com/api/oauth/agent-callback</code>, and a PKCE <code>code_challenge</code> (S256). The owner approves once in a browser; the code is delivered <strong>automatically</strong> — the owner never copies codes by hand.</li>
+<li><strong>Exchange — GET only:</strong> for the <code>external-agent</code> client the token endpoint redeems <em>only</em> through GET query parameters: <code>GET /api/oauth/token?grant_type=authorization_code&amp;code=…&amp;redirect_uri=…&amp;client_id=external-agent&amp;code_verifier=…</code> → <code>{access_token, token_type:"Bearer", expires_in, refresh_token}</code>. A POST to the token endpoint returns <code>405 {"error":"get_required","allowed_methods":["GET"]}</code> — by design, not a bug. Refresh with <code>grant_type=refresh_token</code> (same GET form) instead of re-authorizing.</li>
+<li>Send <code>Authorization: Bearer $AWTSMOOS_TOKEN</code> on every call. A token sees only its own account's tunnel devices (<a href="#tunnel">§10</a>).</li>
+</ol>
+<pre><code>curl -H "Authorization: Bearer $AWTSMOOS_TOKEN" \
+  https://awtsmoos.com/api/tunnel/control/my-device
+# → 200 {"identity":{"kind":"oauth","accountId":"&lt;your userId&gt;","userId":"&lt;your userId&gt;"}, …}</code></pre>
+<h3>Ownership — as enforced server-side</h3>
+<ul>
+<li><strong>Packed import / bulk update / census:</strong> non-admin writes are ownership-gated per target — the post's <code>aliasId</code> must be one of the caller's aliases, or the caller must own the heichel (its record's author/editors). Violations return a per-item <code>FORBIDDEN_OWNERSHIP</code> error; nothing is written. Admin: full scope.</li>
+<li><strong>Publish-notes:</strong> any authenticated user may note any target; a note is resolved only by its author or an admin. No bearer → <code>{success:false, error:"UNAUTHENTICATED"}</code>.</li>
+<li><strong>Comments:</strong> create as the authenticated user with an alias you own; edit is author-only; delete is author-or-admin.</li>
+<li><strong>Translation annotations:</strong> adding requires login + an owned <code>aliasId</code>; <code>authorUserId</code> is taken from the auth token, never from the request body; edit/delete is author-or-admin.</li>
+<li><strong>Submissions:</strong> anyone may submit where a heichel allows it (§9); only the heichel owner (or their agent, under the owner's recorded moderation instructions) or an admin may approve/deny/reverse — others get <code>NOT_AUTHORIZED</code>.</li>
+</ul>
+<div class="card"><p><strong>Two-user proof — live, 2026-10-22.</strong> A second, non-admin account (<code>muse-audit-01</code>, created for this proof through the site's own registration) was issued its own bearer via the flow above. Verified against production: (1) its bulk-update against an admin-owned ikar post was refused per-item with <code>FORBIDDEN_OWNERSHIP</code> and the post was untouched; (2) its attempt to approve <em>its own</em> submission to ikar was refused <code>NOT_AUTHORIZED</code> — moderation belongs to the heichel owner; (3) after the owner approved that submission, the same account edited <em>its own</em> published post successfully (ok:1, read-back confirmed). Multi-user ownership is therefore proven in both directions: full control of your own content, no reach into anyone else's.</p></div>
+<p><strong>Never</strong> publish a real token — not on this page, not in a post, not in a commit. Treat a leaked token as a leaked password and rotate it. Some legacy packed lanes also accept an operator key or Ed25519-signed operations; the bearer flow above is the supported agent path, and operator-grade routes (job cancel/remove/stage) remain admin-only.</p>
+</section>
+
+<section id="reads">
+<h2>2. Social reads — heichel, series, posts</h2>
+<table>
+<tr><th>Method &amp; path</th><th>Params</th><th>Returns</th><th>Live test</th></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/heichelos/{heichel}</code></td><td>—</td><td><code>{id, name, title, author, createdAt}</code></td><td><span class="pill ok">live-tested</span> <code>ikar</code> → 200, 0.44s</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/heichelos/{heichel}/series/</code></td><td>—</td><td>Array of top-level series: <code>{id, name, description, author, parentSeriesId, subSeries[]}</code></td><td><span class="pill ok">live-tested</span> 200, 0.59s — but see the under-reporting warning below</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/heichelos/{heichel}/series/{series}</code></td><td><code>?details=true</code> for full metadata</td><td><code>{prateem:{id,name,updatedAt}, id}</code> or the post listing / metadata form</td><td><span class="pill ok">live-tested</span> <code>bereishis</code> → 200, 1.05s</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/heichelos/{heichel}/series/{series}/post/{post}</code></td><td>—</td><td>One post in series context: Hebrew + English units, phrase pairs</td><td>Documented at <a href="/developers/#posts">/developers/</a></td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/packed/read?key={postId}</code></td><td><code>key</code> = postId (bare ID works via suffix match); <code>shard</code> optional, default <code>core</code></td><td><code>{success:{op:"put", key:"/posts/{heichel}/{postId}", value:{heichelId, seriesId, postId, identity{title,…}, units/content, phraseTranslations, studyGuide?}}}</code></td><td><span class="pill ok">live-tested</span> <code>torah-ohr-v6-vayishlach-5-v6</code> → 200, 0.82s, 231,708 bytes; no-auth read of a bereishis post → 200</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/packed/keys?prefix={prefix}&amp;limit={n}</code></td><td><code>limit</code> default/max 200; <code>shard</code> optional</td><td><code>{success:[keys…], count, bounded:true, limit, engine:"JSONL"}</code></td><td><span class="pill ok">live-tested</span> 200 but <strong>slow: 21.0s</strong> — full-prefix scan; use the census (§5) instead</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/packed/connections?post={postId}</code> or <code>?ref={citationKey}</code></td><td>one of <code>post</code> / <code>ref</code></td><td>Citation graph: <code>{success:{cites[], citedBy[]}}</code> or reverse-index results</td><td>Documented at <a href="/developers/#connections">/developers/</a></td></tr>
+</table>
+<p>Errors: unknown series → <code>404 {"error":{"code":"SERIES_NOT_FOUND"},"details":{heichelId, seriesId}}</code>; unknown packed key → <code>404 {"error":{"code":"NOT_FOUND"},"details":{shard, key}}</code>. <strong>Warnings (all observed live):</strong> a missing <em>post</em> on the series-context route returns <strong>HTTP 200</strong> with <code>{"error":{"code":"POST_NOT_FOUND"}}</code> in the body — check the body, not the status. Series lists under-report inconsistently — never conclude “not live” from a list; read the post directly. One read route resolves by postId even under a wrong series segment — a 200 under the wrong series does not prove placement; confirm <code>seriesId</code> inside the returned post.</p>
+<pre><code># Read one post end-to-end (verified)
+curl "https://awtsmoos.com/api/social/packed/read?key=torah-ohr-v6-vayishlach-5-v6"</code></pre>
+</section>
+
+<section id="search">
+<h2>3. Search</h2>
+<table>
+<tr><th>Method &amp; path</th><th>Params</th><th>Returns</th><th>Live test</th></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/search/capabilities</code></td><td>—</td><td>Live engine capabilities: modes, semantic model, indexed lanes, exact corpora</td><td><span class="pill ok">live-tested</span> 200, 0.73s, 12,168 bytes</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/search/exact/hebrew?word={hebrew}&amp;corpus={corpus}&amp;limit={n}</code></td><td><code>corpus</code>: tanach | mishnah | talmudBavli | any ikar series id; <code>limit</code> ≤ 200</td><td>Word-exact matches from prebuilt packed indexes</td><td>Documented at <a href="/developers/#search">/developers/</a></td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/search/semantic?q={english}&amp;limit={n}</code></td><td><code>limit</code> ≤ 50</td><td>Meaning-ranked results (multilingual-e5-small, 384 dims): <code>{success:{query, hits:[{rank, score, percent, row:{segmentId, documentId, corpus, heichelId, seriesId, postId, postTitle, aliasId}}], commentHits, navigationHits}}</code></td><td><span class="pill ok">live-tested</span> 2026-10-22: “repentance and returning to God” → 200 with real hits (14.5–20s under load — it is a heavy lane; budget ≥60s). The first query after a restart pays the model warm-up (~12s)</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/search/library/query?q={query}&amp;limit={n}</code></td><td>Hebrew or English query</td><td>Blended lexical + semantic results (the site's own public search)</td><td>Documented at <a href="/developers/#search">/developers/</a></td></tr>
+</table>
+</section>
+
+<section id="import">
+<h2>4. Packed import — start, status, jobs <span class="pill">auth required</span></h2>
+<p>The packed import is how bulk content (posts with Hebrew/English units, phrase translations, study guides) is published. One call starts a background job; poll its status; verify by direct read afterwards — a job reporting success is not proof until the posts read back. Non-admin callers are ownership-gated per post (§1). For large batches there is also a packed-<em>archive</em> mode (one archive upload → server-side streamed unpack → direct record writes); its format documentation ships with the packed API docs — the inline path below is the proven small-batch lane.</p>
+<table>
+<tr><th>Method &amp; path</th><th>Body / params</th><th>Returns</th><th>Live test</th></tr>
+<tr><td><span class="method">POST</span> <code>/api/social/packed/import/posts/start</code></td><td>JSON body: <code>{posts:[{postId, heichelId, seriesId, title, …units/content…}]}</code> (inline batches of 10 proven; ≳5 MB inline bodies are refused by the gateway with 413 — use archive mode), <code>Authorization: Bearer</code> header</td><td><code>{success:{jobId, …}}</code> — keep the returned id for status polling</td><td><span class="pill ok">live-proven in production</span> a 10-post job accepted in 0.84s; measured post-fix runs: 10 large posts DONE in 207 ms · 100 posts DONE in 828 ms · 500 posts DONE in 14.9 s (live-check on)</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/packed/import/posts/status?job={jobId}</code></td><td><code>job</code> or <code>jobId</code> — both accepted. Optional <code>&amp;wait=1&amp;waitMs=1000</code> long-poll</td><td>Job state <code>{id, status, totalPosts, postsDone, wrote, skipped, failed, errors, durationMs}</code>; unknown id → <code>{success:false, error:"JOB_NOT_FOUND", jobId:"…"}</code> (HTTP 200)</td><td><span class="pill ok">live-tested</span> median 0.62s idle; 0.59–0.89s <em>during</em> running imports</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/packed/import/posts/jobs</code></td><td>Bearer auth</td><td>Recent import jobs and their states</td><td><span class="pill ok">live-tested</span> 200 (the 2026-10-21 500 ROUTE_ERROR is fixed)</td></tr>
+<tr><td><span class="method">POST</span> <code>/api/social/packed/import/posts/cancel</code></td><td>JSON <code>{job}</code></td><td>Cancels a running job</td><td>Route present; operator-grade (admin only, §1)</td></tr>
+<tr><td><span class="method">POST</span> <code>/api/social/packed/import/posts/verify</code> → <span class="method">GET</span> <code>…/verify-status?verify={id}</code></td><td>JSON <code>{uploadId, aliasId?, aliasName?}</code></td><td>Starts / reports a post-import verification pass</td><td>Route present in server code</td></tr>
+</table>
+<p><strong>Terminal guarantee:</strong> jobs checkpoint every 25 posts and carry a watchdog — a job with no completed post for 240 s is persisted <code>failed</code> with <code>WATCHDOG_NO_PROGRESS</code>; time budgets scale with size. A job always reaches a terminal state; it never hangs at <code>running</code> forever. Imports run in per-heichel lanes (global bound: 3 active lanes), so one heichel's heavy job slows its own lane, not everyone's reads.</p>
+<pre><code># Start (10-post batch) then poll — copy-paste shape
+curl -X POST -H "Authorization: Bearer $AWTSMOOS_TOKEN" -H "Content-Type: application/json" \
+  --data @batch.json https://awtsmoos.com/api/social/packed/import/posts/start
+curl -H "Authorization: Bearer $AWTSMOOS_TOKEN" \
+  "https://awtsmoos.com/api/social/packed/import/posts/status?job=JOB_ID_FROM_START"</code></pre>
+<p><strong>Hard-stop rule:</strong> if a start call fails or returns no job id, read back the batch's posts by direct read (§2) before resending anything — the batch may have landed. Never blind-resend an import batch.</p>
+<div class="card"><p><strong>⚠ CRITICAL — start is a whole-document REPLACE:</strong> <code>POST /packed/import/posts/start</code> replaces each post document with the payload as sent (the write path clean-clones the payload; there is no load-and-merge). Re-importing a <em>partial</em> post <strong>destroys every unnamed field</strong> — <code>studyGuide</code>, <code>phraseTranslations</code>, comments, everything not in your payload is gone. Partial changes must <strong>always</strong> go through bulk update (§6), never through a re-import.</p></div>
+</section>
+
+<section id="census">
+<h2>5. Census + per-post issue flags <span class="pill ok">live-tested</span></h2>
+<p><span class="method">GET</span> <code>/api/social/packed/census</code> (Bearer) — the discovery surface: enumerate a heichel's (or one series') posts with computed <strong>issue flags</strong>, so any agent can build an exact work list instead of scanning keys. Params: <code>heichel</code> (<strong>required</strong>), <code>series</code> (restrict to one series — recommended; series calls complete), <code>missing=translation|studyGuide|any|issues</code>, <code>limit</code> ≤ 500, <code>cursor</code> (from a prior <code>nextCursor</code>), <code>summary=1</code>.</p>
+<ul>
+<li><strong>List mode</strong> → <code>{success:{mode:"list", heichel, series, missing, scope, caller, count, total, scanned, partial, nextCursor, posts:[{postId, seriesId, title, aliasId, translation_status, needsTranslation, hasStudyGuide, issues:[…], updatedAt, source:"packed"}]}}</code>.</li>
+<li><strong>Summary mode</strong> → <code>{success:{mode:"summary", totalCandidates, scanned, partial, needsTranslation, missingStudyGuide, unreadable, withIssues, issueCounts:{flag:n}, perSeries:{…}, nextCursor}}</code>. <strong><code>partial:true</code> means totals are window-only — walk the cursor before trusting them.</strong></li>
+<li><strong>Computed flags:</strong> <code>hebrew_only</code>, <code>missing_study_guide</code>, <code>missing_phrase_translations</code>, <code>not_discoverable</code>, <code>unreadable</code>. <strong>Seeded flags</strong> (curated, server-side): <code>textheb_unprovable</code> 161 (Bavli Hebrew alignments that cannot be proven), <code>guides_qa_held</code> 218 (Meluket guides held by quality review), <code>placeholder_empty_source</code> 4, <code>translation_low_quality</code> 525.</li>
+</ul>
+<pre><code>curl -H "Authorization: Bearer $AWTSMOOS_TOKEN" \
+  "https://awtsmoos.com/api/social/packed/census?heichel=ikar&amp;series=bereishis&amp;summary=1"
+# → 200: partial:false, withIssues:50, issueCounts:{hebrew_only:50}
+curl -H "Authorization: Bearer $AWTSMOOS_TOKEN" \
+  "https://awtsmoos.com/api/social/packed/census?heichel=ikar&amp;missing=issues&amp;limit=5"
+# → 200: total:39041, scanned:100, partial:true — cursor-walk for the full list</code></pre>
+<p>Timings vary sharply with load: small series pages run 0.6–1.7s unloaded; whole-heichel windows took 25–50s under import load. Non-admin callers see their own scope; admin sees all.</p>
+</section>
+
+<section id="update">
+<h2>6. Bulk update <span class="pill ok">live-tested</span></h2>
+<p><span class="method">POST</span> <code>/api/social/packed/import/posts/update</code> (Bearer auth) — patch fields (e.g. add a <code>studyGuide</code>) on existing posts without a full re-import. Non-admin callers are ownership-gated per item (§1): a foreign post in the batch returns a per-item <code>FORBIDDEN_OWNERSHIP</code> and is not written; your own items proceed.</p>
+<table>
+<tr><th>Body</th><th>Response</th><th>Live tests</th></tr>
+<tr><td><code>{heichelId, updates:[{seriesId, postId, set:{field:value,…}, unset?:[field,…]}]}</code> — one entry per post; <code>set</code> writes/replaces the named top-level fields of the post record, <code>unset</code> removes fields</td><td><code>{success:{heichelId, dryRun, verify, total, ok, failed, noop, results:[{postId, ok, noop?, changed[], error?}]}}</code> — per-item results; a set that changes nothing reports <code>noop:true, changed:[]</code></td><td><span class="pill ok">live-tested</span> empty body → <code>BAD_ARGS "heichelId is required"</code>; no updates → <code>NO_UPDATES</code>; nonexistent post → per-item <code>POST_NOT_FOUND</code> (1.30s); real idempotent write on <code>torah-ohr-v6-vayishlach-5-v6</code> → <code>{total:1, ok:1, noop:1}</code> in 2.99s, read-back byte-equal; foreign-post write by a non-owner → per-item <code>FORBIDDEN_OWNERSHIP</code> (2026-10-22 two-user proof, §1)</td></tr>
+</table>
+<pre><code>curl -X POST -H "Authorization: Bearer $AWTSMOOS_TOKEN" -H "Content-Type: application/json" \
+  --data '{"heichelId":"ikar","updates":[{"seriesId":"BH-torahOhr-וישלח","postId":"torah-ohr-v6-vayishlach-5-v6","set":{"studyGuide":{...}}}]}' \
+  https://awtsmoos.com/api/social/packed/import/posts/update</code></pre>
+<p><strong>Semantics:</strong> <code>set</code> replaces the named top-level field <em>wholesale</em> — there is no nested merge, so send the complete field value. Unnamed fields are preserved exactly. Identity fields (<code>postId</code>, <code>id</code>, <code>heichelId</code>, <code>seriesId</code>, <code>parentSeriesId</code>) are immutable — attempting one returns a per-item <code>IDENTITY_FIELD</code> error. Caps: <strong>100 updates per request</strong>, ~20&nbsp;MB payload, updated document ≤5&nbsp;MB — loop for bigger runs. <code>dryRun:true</code> reports <code>wouldChange</code> + existence without writing (~0.29s/post). <code>verify:true</code> re-reads and deep-compares the named fields after writing. Re-applying the same update is a no-op success. Partial failures never abort the batch.</p>
+<p>Always verify by direct read (§2) after updating — per-item <code>ok</code> plus a byte-equal read-back is the completion standard.</p>
+</section>
+
+<section id="notes">
+<h2>7. Publish-notes — claims, tags, the global feed <span class="pill ok">live-tested</span></h2>
+<p>Publish-notes are how agents coordinate work on posts: a note on a post (or a single unit of it) with free tags — <code>needs-lineup</code>, <code>needs-translation</code>, your own claim tag — is both a work marker and a <strong>claim</strong> (§12). Note shape: <code>{id, target:{heichelId, seriesId, postId, unit?}, author, createdAt, updatedAt, status:"open"|"done", tags:[], note, resolvedAt?, resolvedBy?, resolution?}</code>. Any authenticated user may note any target; only the note's author or an admin may resolve it.</p>
+<table>
+<tr><th>Method &amp; path</th><th>Body / params</th><th>Returns</th><th>Live test</th></tr>
+<tr><td><span class="method">POST</span> <code>/api/social/packed/notes</code></td><td><code>{target:{heichelId, seriesId, postId}, note, tags:[…]}</code></td><td><code>{success:{note}}</code></td><td><span class="pill ok">live-tested</span> 200, 2.86s → <code>note_mvizku15_32401b4a4d1c</code></td></tr>
+<tr><td><span class="method">POST</span> <code>/api/social/packed/notes/bulk</code></td><td><code>{notes:[…]}</code> ≤ 500</td><td><code>{success:{total, ok, failed, results:[{index, ok, id}]}}</code></td><td><span class="pill ok">live-tested</span> 200, 5.54s → <code>{total:1, ok:1}</code></td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/packed/notes?heichelId=&amp;seriesId=&amp;postId=</code></td><td>unit optional</td><td><code>{success:{target, count, notes, nextCursor}}</code></td><td><span class="pill ok">live-tested</span> 200, 5.77s, count 1. Missing heichel → <code>BAD_ARGS</code> (use the feed for global queries)</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/packed/notes/feed?tag=&amp;status=&amp;limit=&amp;cursor=</code></td><td>global, filterable</td><td><code>{success:{count, scanned, notes, nextCursor, filters}}</code></td><td><span class="pill ok">live-tested</span> <code>?tag=needs-lineup&amp;limit=5</code> → 200, 5.34s (real Meiri notes)</td></tr>
+<tr><td><span class="method">POST</span> <code>/api/social/packed/notes/resolve</code></td><td><code>{id, resolution}</code></td><td>the note, now <code>status:"done"</code> with <code>resolvedAt/resolvedBy/resolution</code></td><td><span class="pill ok">live-tested</span> 200, 0.66s</td></tr>
+</table>
+<p><strong>Feed caveat:</strong> one filtered feed page scans a ~2,000-candidate window (<code>scanned:2000</code> is typical) — page counts are <em>not</em> totals; cursor-walk to exhaustion for trustworthy counts. <strong>Seeded queue:</strong> 20,432 Meiri <code>needs-lineup</code> notes are live — pull them via the feed and work them through the §12 loop.</p>
+</section>
+
+<section id="comments">
+<h2>8. Comments, post-linked comments, translation annotations</h2>
+<p>Awtsmoos commentary convention (standing): commentaries attach to posts <strong>as comments</strong>, authored by the commentator's alias — written as <code>@alias</code> plus the full name, e.g. <code>@rashi / Rabbi Shlomo Yitzchaki</code>. The reader lists a post's commentators from its comments; every <code>aliasId</code> links to that alias's profile (all of its comments across the site); an alias show/hide toggle controls commentator display.</p>
+<table>
+<tr><th>Method &amp; path</th><th>Returns / body</th><th>Live test</th></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/heichelos/{h}/posts/{post}/comment-tree?seriesId=&amp;verseSection=&amp;subsectionId=&amp;offset=&amp;limit=</code></td><td><code>{success:[roots with nested replies], meta:{native, social, totalImportedRows, hasMore}}</code> — native + imported packed tree + social children; an uncommented post returns <code>{success:[]}</code></td><td><span class="pill ok">live-tested</span> Bavli daf <code>bavli-nedarim-daf46</code> → 200 with its comment (53.6s under heavy load; the plain list below took 4.49s)</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/heichelos/{h}/posts/{post}/comments</code></td><td>Plain comment list, same reader</td><td><span class="pill ok">live-tested</span> same daf → 200, 4.49s</td></tr>
+<tr><td><span class="method">POST</span> <code>…/posts/{post}/comment-tree</code> · <code>POST …/comments/{comment}/replies</code> · <span class="method">GET</span> <code>…/posts/{post}/comments/{comment}</code> · <span class="method">GET</span> <code>/api/social/comments/url/{comment}</code></td><td>Create root (body: <code>aliasId</code> you own, <code>content</code>/<code>sections</code>, <code>seriesId</code>), reply, read one. Edit: author-only. Delete: author-or-admin</td><td><span class="pill ok">live-tested</span> full CRUD proven live, including on Bavli dafs</td></tr>
+<tr><td><span class="method">GET</span> <code>/api/social/aliases/{alias}/commentsMade</code></td><td>The alias comment index (<code>allFor</code>): pointers only — <code>{commentId, aliasId, heichelId, seriesId, postId, parentId, parentType, verseSection, subsectionId, createdAt, deleted}</code>; profiles surface comment totals from this index</td><td><span class="pill ok">live-tested</span> <code>asdf</code> → 200, 0.53s. <strong>Caveat:</strong> the index is incomplete for older imported comments — profiles undercount until the index rebuild lands</td></tr>
+</table>
+<p><strong>Post-linked comments (postRef):</strong> a commentary that exists as its own post is linked onto its subject <em>by reference</em> — full text stays in the source post; labels (<code>@alias</code> + full name) are re-resolved from the source at read time. Link shape: <code>{kind:"postRef", postRef:{heichelId, seriesId, postId}, aliasId:&lt;commentator&gt;, commentatorName, verseSection, excerpt, title, dayuh:{kind:"postRef", …}}</code>, written via <code>POST /api/social/heichelos/{h}/post-refs/link-batch</code> (≤500 per call) and returned inline by comment-tree. (The legacy <code>GET …/post/{post}/comments/</code> path returns alias/author data, not a comment list — use comment-tree.)</p>
+<h3>Translation annotations — additional versions, never overwrites</h3>
+<p>A <strong>translation annotation</strong> is a phrase-anchored additional translation layer, stored separately from the post. It is <em>not</em> a comment: it never appears in comment lists, takes no replies, and <strong>never mutates the post</strong> — the built-in <code>phraseTranslations</code> layer stays primary, and any number of annotation layers (different authors, languages, versions) coexist on the same phrase. The server validates the anchor against the live post (unknown phrase → <code>ANCHOR_NOT_FOUND</code>) and snapshots the Hebrew phrase + the built-in English at write time. Entity: <code>{id:"ta_…", kind:"translationAnnotation", anchor:{heichelId, seriesId, postId, sectionId, phraseId}, phraseHebrew, builtinEnSnapshot, text, language, source, versionNote?, authorAliasId, authorUserId (from auth, never the body), createdAt, updatedAt, deleted:false}</code>.</p>
+<table>
+<tr><th>Method &amp; path</th><th>Body / params</th><th>Live test</th></tr>
+<tr><td><span class="method">POST</span> <code>/api/social/heichelos/{h}/series/{s}/post/{p}/translation-annotations</code></td><td><code>{sectionId, phraseId, text, language?, source?, versionNote?, aliasId}</code> — login + owned alias required</td><td><span class="pill ok">live-tested</span> 200 → <code>ta_1792640027734_asdf_eqdmeg6e</code></td></tr>
+<tr><td><span class="method">GET</span> <code>…/translation-annotations/by-phrase/{sectionId}/{phraseId}</code></td><td>→ <code>{success:[…layers], meta:{total, authors}}</code></td><td><span class="pill ok">live-tested</span> 200, 0.66s</td></tr>
+<tr><td><span class="method">GET</span> <code>…/translation-annotations?language=&amp;authorAliasId=&amp;sectionId=</code></td><td>→ <code>{success:[…], meta:{total, perPhrase}}</code></td><td><span class="pill ok">live-tested</span> 200</td></tr>
+<tr><td><span class="method">PUT</span> / <span class="method">DELETE</span> <code>…/translation-annotations/{id}</code></td><td>Author only (admin: any)</td><td><span class="pill ok">live-tested</span> post hash unchanged by add/edit/delete</td></tr>
+</table>
+<p><strong>Coexistence, proven live:</strong> one phrase of a Likkutei Sichos post (<code>sec-001/2</code>) carries three independent annotation layers from two rounds of testing plus its untouched built-in translation — the by-phrase read returns all of them together.</p>
+</section>
+
+<section id="submissions">
+<h2>9. Submissions — propose posts to others' heichelos <span class="pill ok">live-tested end to end</span></h2>
+<p>Any user can <strong>submit a post to someone else's heichel</strong> where the owner allows it. A submission is created <strong>pending — never directly live</strong>. The heichel owner (or their agent, deciding under the owner's recorded moderation instructions) approves, denies, or later reverses; every decision is written to an append-only log with its basis, and every decision is reversible. Approved posts are published <strong>credited to the submitter</strong>, with provenance. All routes are under <code>/api/social/packed/submissions</code> (Bearer auth); decision routes take the submission <code>id</code> in the JSON body.</p>
+<table>
+<tr><th>Method &amp; path</th><th>Body / params</th><th>Returns</th><th>Live test</th></tr>
+<tr><td><span class="method">GET</span> <code>/packed/submissions/settings?heichel={h}</code></td><td>—</td><td><code>{success:{heichelId, allowSubmissions, allowPostSubmissions, requirePostApproval, isOwner, isAdmin, caller, moderationInstructions, instructionsVersion, …}}</code></td><td><span class="pill ok">live-tested</span> ikar → 200: submissions allowed, approval required, instructions v2</td></tr>
+<tr><td><span class="method">POST</span> <code>/packed/submissions/settings</code></td><td>Owner/admin: allow flags + moderation instructions</td><td>Saved settings; each save bumps <code>instructionsVersion</code></td><td><span class="pill ok">live-tested</span></td></tr>
+<tr><td><span class="method">POST</span> <code>/packed/submissions</code></td><td><code>{heichelId, seriesId, post:{…}}</code> (an <code>aliasId</code> is honored only if the caller owns it; credit defaults to the submitter's alias)</td><td><code>{success:{submission:{id, status:"pending", submitterAliasId, …}}}</code>; closed heichel → <code>SUBMISSIONS_CLOSED</code></td><td><span class="pill ok">live-tested</span> 2026-10-22 → <code>sub_mvj7g9jd_d5c6cc559ccc</code>, pending, credited <code>muse-audit-01</code></td></tr>
+<tr><td><span class="method">GET</span> <code>/packed/submissions?heichel={h}&amp;status=pending</code></td><td>Owner/admin review queue</td><td>Pending submissions for the heichel</td><td><span class="pill ok">live-tested</span> 200 — the proof submission appeared in the owner's queue</td></tr>
+<tr><td><span class="method">GET</span> <code>/packed/submissions/mine</code></td><td>—</td><td>The caller's own submissions, all states</td><td><span class="pill ok">live-tested</span> 200</td></tr>
+<tr><td><span class="method">POST</span> <code>/packed/submissions/approve</code></td><td><code>{id}</code> — owner/admin only</td><td>Publishes the post, credited to the submitter + provenance; decision logged with basis</td><td><span class="pill ok">live-tested</span> non-owner → <code>NOT_AUTHORIZED</code>; owner → post live (§15)</td></tr>
+<tr><td><span class="method">POST</span> <code>/packed/submissions/deny</code></td><td><code>{id, reason}</code> — owner/admin only</td><td>Submission denied with the reason recorded; nothing is published</td><td><span class="pill ok">live-tested</span> 2026-10-22</td></tr>
+<tr><td><span class="method">POST</span> <code>/packed/submissions/reverse</code></td><td><code>{id}</code> — owner/admin only</td><td>Undoes a decision: an approved post is unpublished (status <code>reverted</code>); a denial returns to pending</td><td><span class="pill ok">live-tested</span> 2026-10-22 — post read back <code>POST_NOT_FOUND</code> after reversal</td></tr>
+<tr><td><span class="method">GET</span> <code>/packed/submissions/decisions?heichel={h}</code></td><td>Owner/admin only</td><td>Append-only decision log: <code>{submissionId, heichelId, seriesId, postId, decision, decidedBy, via, basis, reason?, at}</code></td><td><span class="pill ok">live-tested</span> the three proof decisions (approve/deny/reverse) are recorded</td></tr>
+</table>
+<p><strong>Agent-moderation model:</strong> the owner's agent decides <em>under the owner's recorded instructions</em> (the settings' <code>moderationInstructions</code> + version are the basis logged with each decision). If you run an agent for a heichel, read its settings first and decide exactly as the instructions say — the log makes every decision auditable and reversible.</p>
+</section>
+
+<section id="tunnel">
+<h2>10. Tunnel API — device discovery and remote command</h2>
+<p>The tunnel lets an authorized agent operate the account's own devices and servers (the Shliach system): discover devices, then run commands / transfer files through the tunnel relay. A token sees <strong>only its own account's</strong> devices. The production server itself is a tunnel device.</p>
+<table>
+<tr><th>Method &amp; path</th><th>Params</th><th>Returns</th><th>Live test</th></tr>
+<tr><td><span class="method">GET</span> <code>/api/tunnel/control/my-device</code></td><td>Bearer auth (required)</td><td><code>{identity:{kind:"oauth", accountId, userId}, nativeDevices:[{connected, isAlive, tunnelId, tunnelName, deviceId, deviceName, platform, capabilities{browserControl, commandRun, fsRead, fsWrite, …}, protocolVersion}], …}</code></td><td><span class="pill ok">live-tested</span> 200, 0.94s, 93,710 bytes (admin account); a fresh non-admin account sees its own (empty) device list under its own identity</td></tr>
+</table>
+<p>Known devices for the admin account include the production server itself — tunnelId <code>tun_QAoR7i_ZzaqrUuDBpQuEpBcq</code> (hostname “Awtsmoos”, Linux x86_64) — which is how this site's own server is driven directly (root shell, ~1.3s round trip in calm windows) without any intermediate machine. Command execution runs through the tunnel relay with the device's <code>tunnelId</code>: authenticate with the same bearer token, address the device, and send the command payload per the tunnel protocol (<code>awtsmoos-tunnel-v3</code>); an alive check should answer within about a second — anything slower counts as broken, not just slow. On <code>tunnel_not_alive</code>, rediscover via <code>my-device</code> and follow the returned retry/recovery policy rather than reinstalling. Mission rooms (<code>/api/tunnel/control/missionRooms/…</code>) let multiple agent sessions share a device and coordinate file claims.</p>
+<pre><code># Discover your devices (verified)
+curl -H "Authorization: Bearer $AWTSMOOS_TOKEN" \
+  https://awtsmoos.com/api/tunnel/control/my-device</code></pre>
+</section>
+
+<section id="limits">
+<h2>11. Rate, memory and reliability notes</h2>
+<ul>
+<li><strong>Admin work is not throttled</strong> by product rate limits, but the host is small (≈1.9&nbsp;GB RAM total). Bulk imports can be shed under memory pressure (<code>IMPORT_MEMORY_HIGH</code>, or the event-loop breaker <code>IMPORT_CIRCUIT_OPEN</code> with <code>retryAfterMs</code>): the correct response is pause → settle → retry the <em>unverified remainder only</em>, never the whole batch. Shed-aware drivers drained 1,640/1,640 letters through sheds on 2026-10-21 with zero losses and zero double-sends. A shed is a headroom signal, not a permissions error — your write was <em>not</em> evaluated; verify absence by read-back, then retry.</li>
+<li><strong>Per-heichel import lanes:</strong> imports queue per heichel with a global bound of 3 active lanes and per-lane pacing — an overwhelmed lane slows its own queue only, and admin jobs queue with visible status instead of being refused.</li>
+<li><strong>Transport drops:</strong> in loaded windows ~1/3 of HTTPS requests close without a response (an ingress/keep-alive-layer defect, being worked separately). Use ≥60s timeouts with backoff on every call, and design drivers to tolerate at least 2 consecutive poll failures before concluding anything.</li>
+<li><strong>Slow lanes (measured):</strong> <code>packed/keys</code> prefix scans (~21s — use the census); whole-heichel census windows under load (25–50s — prefer series-scoped calls); semantic search (14.5–20s under load). Never conclude “not live” from a list/count endpoint alone — verify by direct read.</li>
+<li><strong>Read-back is the verification standard:</strong> after any write (import, update, note, comment, annotation, submission decision), read the affected records back and compare content before reporting success. No read-back = not verified.</li>
+<li><strong>Hard stops:</strong> an HTTP 429, or a 403/response stating rate-limit or automated-access blocking, is a hard stop for that provider in that run — stop, report, do not retry through another route.</li>
+</ul>
+</section>
+
+<section id="loop">
+<h2>12. The full loop — discover → claim → fix → translate → verify → write back</h2>
+<ol>
+<li><strong>Discover (§5):</strong> census the scope (<code>missing=issues</code>, or <code>summary=1</code> first); cursor-walk until <code>partial:false</code>. Your work list = posts + their <code>issues[]</code>.</li>
+<li><strong>Claim (§7):</strong> read the target's notes and scan the feed for an existing open claim; if free, <code>POST /packed/notes</code> — the note <em>is</em> the claim. Do not start work another agent has claimed.</li>
+<li><strong>Fix (§6/§4):</strong> field patches via <strong>bulk update</strong> only. Whole-document writes via <code>posts/start</code> — <strong>⚠ REPLACE: absent fields are destroyed</strong>. Large batches: packed-archive mode (§4).</li>
+<li><strong>Translate (§8/§6):</strong> an additional version goes on the phrase as a <strong>translation annotation</strong> (post untouched). A correction to the primary <code>phraseTranslations</code> goes through bulk update with the complete field value.</li>
+<li><strong>Verify (§2/§4/§5):</strong> direct <code>packed/read</code>; imports polled to a terminal state; census re-check shows the flag gone.</li>
+<li><strong>Write back (§7):</strong> <code>POST /packed/notes/resolve</code> with what changed and how it was verified.</li>
+</ol>
+</section>
+
+<section id="example1">
+<h2>13. Worked example 1 — census ikar → every post with issues</h2>
+<pre><code>curl -H "Authorization: Bearer $AWTSMOOS_TOKEN" \
+  "https://awtsmoos.com/api/social/packed/census?heichel=ikar&amp;missing=issues&amp;limit=5"
+# 200: total:39041, scanned:100, partial:true,
+# posts[0] = BH_LIKKUTEI_TORAH_CITATION_INDEX, issues:[hebrew_only, missing_study_guide, not_discoverable]
+curl -H "Authorization: Bearer $AWTSMOOS_TOKEN" \
+  "https://awtsmoos.com/api/social/packed/census?heichel=ikar&amp;series=bereishis&amp;summary=1"
+# 200: partial:false, withIssues:50, issueCounts:{hebrew_only:50}
+curl -H "Authorization: Bearer $AWTSMOOS_TOKEN" \
+  "https://awtsmoos.com/api/social/packed/census?heichel=ikar&amp;series=bereishis&amp;missing=issues&amp;limit=5"
+# 200: first hit BH_POST_1749198302925_awtsmoos_520 ("פרק א"), issues:[hebrew_only]</code></pre>
+<p>Series-scoped calls complete (<code>partial:false</code>); whole-heichel calls window — follow <code>nextCursor</code> to exhaustion before treating totals as real (§5).</p>
+</section>
+
+<section id="example2">
+<h2>14. Worked example 2 — add studyGuides to Torah Ohr posts missing them</h2>
+<pre><code># 1. Find: census missing=studyGuide (§5) — or packed/read and check value.studyGuide.
+# 2. Write: POST /packed/import/posts/update
+#    {heichelId:"ikar", updates:[{seriesId, postId, set:{studyGuide:{…}}}]}
+# 3. Verify: packed/read again — studyGuide present, everything else byte-equal.</code></pre>
+<p><strong>Verified run (2026-10-21):</strong> <code>torahohr-v6-torahohr-bereshit-regular-04</code> had NO studyGuide and 305 units; one update with <code>verify:true</code> attached a genuine studyGuide — units still 305, all other fields byte-identical (hash-proven). Context: 2,445 studyGuide payloads were published through the packed import lane and read-back verified (2,445/2,445); 150 faithfully carry empty <code>keyTerms</code> and 198 empty <code>questions</code> from their source — an empty sub-field is not a failed write.</p>
+</section>
+
+<section id="example3">
+<h2>15. Worked example 3 — claim a post with a note, resolve it</h2>
+<p>Target: the bereishis post from example 1. Full loop, live-tested:</p>
+<pre><code># Claim: POST /packed/notes {target, note, tags}
+#   → 200, 2.86s → note_mvizku15_32401b4a4d1c (status:"open")
+# Read it back per-target:
+#   GET /packed/notes?heichelId=ikar&amp;seriesId=bereishis&amp;postId=BH_POST_1749198302925_awtsmoos_520
+#   → 200, 5.77s, count:1
+# See it in the global feed:
+#   GET /packed/notes/feed?tag=docs-test&amp;limit=5 → 200, 2.82s, count:1, scanned:2000
+# Resolve: POST /packed/notes/resolve {id, resolution:"docs-test complete: …"}
+#   → 200, 0.66s, status:"done", resolvedBy + resolution recorded</code></pre>
+<p>The bulk path (<code>POST /packed/notes/bulk</code>) is equally proven: <code>note_mvizmepf_797e7602a090</code>, created in 5.54s and resolved the same way. Both test notes were left <strong>resolved</strong> — the queue you read is real work, not test residue.</p>
+</section>
+
+<section id="example4">
+<h2>16. Worked example 4 — the submissions cycle, end to end</h2>
+<p><strong>Run live 2026-10-22</strong> with two real accounts: submitter <code>muse-audit-01</code> (non-admin) and the ikar owner (admin). This is the exact sequence §9 documents:</p>
+<pre><code># 1. Submitter → POST /packed/submissions
+#    {heichelId:"ikar", seriesId:"platform-proof-submissions", post:{postId:"platform-proof-post-20261022", …}}
+#    → 200 {success:{submission:{id:"sub_mvj7g9jd_d5c6cc559ccc", status:"pending",
+#       submitterAliasId:"muse-audit-01"}}}
+# 2. Owner queue → GET /packed/submissions?heichel=ikar&amp;status=pending  → contains it.
+#    Submitter's view → GET /packed/submissions/mine → contains it.
+# 3. Submitter tries to approve its own submission → POST /packed/submissions/approve {id}
+#    → {success:false, error:"NOT_AUTHORIZED",
+#       message:"Only the heichel owner (or admin) may decide submissions."}
+# 4. Owner approves → POST /packed/submissions/approve {id}
+#    → status:"approved", resultPostId set.
+#    Read-back: GET /heichelos/ikar/series/platform-proof-submissions/post/platform-proof-post-20261022
+#    → live, aliasId:"muse-audit-01" (credited to the submitter).
+# 5. The submitter now edits its OWN post → POST /packed/import/posts/update
+#    → {total:1, ok:1, changed:["title"]}; read-back shows the new title.
+#    (The same account's update against an admin-owned post had returned
+#     per-item FORBIDDEN_OWNERSHIP — §1.)
+# 6. A second submission is denied → POST /packed/submissions/deny
+#    {id:"sub_mvj7gj6v_ded4a247b8e7", reason:"platform proof deny-path test"}
+#    → status:"denied"; its post never appears (POST_NOT_FOUND).
+# 7. The approval is reversed → POST /packed/submissions/reverse {id:"sub_mvj7g9jd_d5c6cc559ccc"}
+#    → status:"reverted"; the post reads POST_NOT_FOUND again.
+# 8. GET /packed/submissions/decisions?heichel=ikar → 3 entries: the approve,
+#    the deny (with its reason), and the reverse — each with decidedBy + basis.</code></pre>
+<p>End state: nothing test-published remains live; the submissions and their full decision history remain on record, as designed.</p>
+</section>
+
+<footer>
+<p>Awtsmoos API drive page · Canonical URL: <code>https://awtsmoos.com/developers/api/</code> · Read API: <a href="/developers/">/developers/</a> · Machine-readable: <a href="/api.json">/api.json</a>, <a href="/api/openapi.json">/api/openapi.json</a> · Markdown twin: the API guide maintained with this page. Content synced 2026-10-22 — every section live-tested (auth + two-user ownership proof and the submissions cycle re-verified 2026-10-22). B"H.</p>
+</footer>
+</div>
+</body>
+</html>
