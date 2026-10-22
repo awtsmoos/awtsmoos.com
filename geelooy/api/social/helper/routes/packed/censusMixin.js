@@ -475,8 +475,12 @@ module.exports = {
 					}
 				}
 				// Series-record flags (filtered-series calls; the probe
-				// ran once per request before the scan).
-				if (seriesFilter && sid === seriesFilter && seriesPrateem !== undefined) {
+				// ran once per request before the scan). Applies to every
+				// record of the filtered census: membership in the
+				// candidate set IS membership in that series (grouped
+				// index key / native union), even when a post's stored
+				// seriesId names a parent or sibling.
+				if (seriesFilter && seriesPrateem !== undefined) {
 					if (seriesPrateem === null) issues.add('series_missing_prateem');
 					else if (String(seriesPrateem.description || '').trim() === 'undefined') issues.add('undefined_description');
 				}
