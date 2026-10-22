@@ -12,6 +12,7 @@ const { publicReaderCache } = require('./readerDataCache.js');
 const { orderTorahPosts } = require('./torahSemanticPolicy.js');
 const { prepareTorahSeriesItems } = require('./torahSemanticPresentation.js');
 const { getSeriesCover } = require('./seriesCovers.js');
+const { allHeichelDiscoveryIds } = require('../../../api/social/helper/profile/heichelDiscoveryIds.js');
 
 function encodeSegment(value) {
 	return encodeURIComponent(String(value ?? ''));
@@ -56,6 +57,43 @@ function createDiscovery($i) {
 		}
 	}
 
+	/**
+	 * A window series carries the post index but not the post records:
+	 * its own details list comes back empty while the plain index sings
+	 * (e.g. ikar's bavli-daf window onto the Bavli heichel). Find the
+	 * heichel that actually serves a sample post and borrow its details,
+	 * so the window lists real titles with links that open. Normal
+	 * series never reach this path — their details are non-empty.
+	 */
+	async function resolveWindowPosts(heichelId, activeSeries, base, properties) {
+		const indexResponse = await safeFetch(base + '/posts');
+		const ids = normalizeList(indexResponse, ['posts'])
+			.map(item => typeof item === 'string' ? item : item?.id || item?.postId)
+			.filter(Boolean);
+		if (!ids.length) return null;
+		let candidates = [];
+		try {
+			candidates = await allHeichelDiscoveryIds();
+		} catch {
+			candidates = [];
+		}
+		for (const candidate of candidates) {
+			if (!candidate || candidate === heichelId) continue;
+			const canonBase = '/api/social/heichelos/' + encodeSegment(candidate) + '/series/' + encodeSegment(activeSeries);
+			const probe = await safeFetch(canonBase + '/post/' + encodeSegment(ids[0]));
+			if (!probe) continue;
+			const details = normalizeList(await safeFetch(canonBase + '/posts/details?properties=' + properties), ['posts']);
+			if (details.length) {
+				return { heichelId: candidate, posts: orderTorahPosts(candidate, details) };
+			}
+			return {
+				heichelId: candidate,
+				posts: ids.map(id => ({ id, title: /^BH_POST_/.test(id) ? '' : id }))
+			};
+		}
+		return null;
+	}
+
 	async function getDiscovery(heichelId, seriesId = '') {
 		const activeSeries = seriesId || 'root';
 		const base = `/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(activeSeries)}`;
@@ -71,7 +109,15 @@ function createDiscovery($i) {
 		]);
 		const rawSubSeries = normalizeList(subSeriesResponse, ['series', 'subSeries']);
 		const subSeries = await prepareTorahSeriesItems(heichelId, activeSeries, rawSubSeries);
-		const posts = orderTorahPosts(heichelId, normalizeList(postsResponse, ['posts']));
+		let posts = orderTorahPosts(heichelId, normalizeList(postsResponse, ['posts']));
+		let linkHeichelId = heichelId;
+		if (!posts.length) {
+			const resolved = await resolveWindowPosts(heichelId, activeSeries, base, properties);
+			if (resolved) {
+				posts = resolved.posts;
+				linkHeichelId = resolved.heichelId;
+			}
+		}
 		const seriesLinks = subSeries.map(item => makeLink(
 			'series',
 			item.title || item.name || item.id,
@@ -85,7 +131,7 @@ function createDiscovery($i) {
 			return makeLink(
 				'post',
 				postTitle(item, position),
-				`/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(activeSeries)}/post/${encodeSegment(id)}`
+				`/heichelos/${encodeSegment(linkHeichelId)}/series/${encodeSegment(activeSeries)}/post/${encodeSegment(id)}`
 			);
 		}).filter(Boolean);
 		return { links: [...seriesLinks, ...postLinks] };
