@@ -316,6 +316,7 @@ const instrumentedDb = new Proxy(self.db, {
         
         require,
         request,
+        headers: (request && request.headers) || {},
         setHeader: (nm, vl) => {
             response.setHeader(nm, vl);
         //    console.log("Header",nm,vl)
