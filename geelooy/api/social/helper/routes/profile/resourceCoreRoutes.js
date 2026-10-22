@@ -7,11 +7,20 @@
  * @description
  * The Awtsmoos reveals living cards, aggregate profiles, and activity as three clear vessels of identity;
  * Awtsmoos.com keeps each modern resource spacious, named, and separate from analytics complexity.
+ *
+ * B"H 2026-10-21 (Worker N — pagination): /profiles/:alias honors the shared
+ * ProfilePagination spec (postsLimit/postsCursor, commentsLimit/commentsCursor,
+ * additive `pagination` report); the assembly fetch deepens past the legacy
+ * caps (posts 240 / comments 160) when a deeper page is requested.
  */
 
 const { aggregateProfile } = require('../../profile/index.js');
 const { livingCardOrError } = require('./operations.js');
 const { badMethod, fail, getQuery, isMethod, ok, paged } = require('./values.js');
+const { pageOptsFrom, fetchLimitFor, applyProfilePagination } = require('../../profileHub/ProfilePagination.js');
+
+const LEGACY_POSTS_FETCH = 240;
+const LEGACY_COMMENTS_FETCH = 160;
 
 class ProfileResourceCoreRoutes {
 	/**
@@ -50,14 +59,19 @@ class ProfileResourceCoreRoutes {
 		if (!isMethod(this.$i, 'GET')) {
 			return badMethod('Use GET.');
 		}
+		const opts = pageOptsFrom(getQuery(this.$i) || {});
+		const postsFetchLimit = fetchLimitFor(opts.postsLimit, opts.postsCursor, LEGACY_POSTS_FETCH);
+		const commentsFetchLimit = fetchLimitFor(opts.commentsLimit, opts.commentsCursor, LEGACY_COMMENTS_FETCH);
 		const data = await aggregateProfile({
 			$i: this.$i,
-			aliasId: vars.alias
+			aliasId: vars.alias,
+			postsFetchLimit,
+			commentsFetchLimit
 		});
 		if (!data) {
 			return fail('PROFILE_NOT_FOUND', `@${vars.alias} was not found.`);
 		}
-		return ok(data, { query: getQuery(this.$i) });
+		return ok(applyProfilePagination(data, opts, { postsFetchLimit, commentsFetchLimit }), { query: getQuery(this.$i) });
 	}
 
 	/**

@@ -1,19 +1,35 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module PostCollector
  * @description
  * The Awtsmoos distinguishes a claimed coordinate from a truly authored record; Awtsmoos.com reads canonical post data,
  * verifies the alias, resolves Heichel naming, and adds one deduplicated truthful projection to the collection's river.
+ *
+ * B"H 2026-10-21 (Worker N — latency): heichelName() was awaited once PER POST —
+ * a serial heichel-info store read for every item in a profile's post list
+ * (~240 reads for @rashi, nearly all for the same heichel). Names are now
+ * memoized in-process for 120s (bounded, 256 entries); heichel renames become
+ * visible within the TTL, the house cache pattern (cf. aliasData 60s TTL).
  */
 const { paths, read } = require('../paths.js');
 const { cleanText } = require('../sanitize.js');
 const { authorOf, publicPost } = require('./PostProjection.js');
 
+const NAME_TTL_MS = 120000, NAME_MAX = 256;
+const nameCache = new Map(); // heichelId -> { name, exp }
+
 async function heichelName($i, heichelId) {
+	const hit = nameCache.get(heichelId);
+	if (hit && hit.exp > Date.now()) return hit.name;
 	const info = await read($i, paths.heichelInfo(heichelId), {});
-	return cleanText(info.name || heichelId, 100);
+	const name = cleanText(info.name || heichelId, 100);
+	if (nameCache.size >= NAME_MAX && !nameCache.has(heichelId)) {
+		nameCache.delete(nameCache.keys().next().value);
+	}
+	nameCache.set(heichelId, { name, exp: Date.now() + NAME_TTL_MS });
+	return name;
 }
 
 async function addPostIfAuthored({

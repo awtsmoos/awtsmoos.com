@@ -35,13 +35,13 @@ async function timedSection(label, timings, thunk) {
     finally { timings[label] = Date.now() - start; }
 }
 
-async function aggregateProfile({ $i, aliasId }) {
+async function aggregateProfile({ $i, aliasId, postsFetchLimit, commentsFetchLimit }) {
     const profileStart = Date.now();
     const timings = {};
     let identity = await timedSection("identity", timings, () => readProfileIdentity({ $i, aliasId }));
     const [posts, comments, heichelos, tree, history] = await Promise.all([
-        safeRecordRead("profile:" + aliasId + ":posts", () => timedSection("posts", timings, () => postsByAlias({ $i, aliasId })), { fallback: [] }),
-        safeRecordRead("profile:" + aliasId + ":comments", () => timedSection("comments", timings, () => commentsByAlias({ $i, aliasId })), { fallback: [] }),
+        safeRecordRead("profile:" + aliasId + ":posts", () => timedSection("posts", timings, () => postsByAlias({ $i, aliasId, ...(postsFetchLimit != null ? { limit: postsFetchLimit } : {}) })), { fallback: [] }),
+        safeRecordRead("profile:" + aliasId + ":comments", () => timedSection("comments", timings, () => commentsByAlias({ $i, aliasId, ...(commentsFetchLimit != null ? { limit: commentsFetchLimit } : {}) })), { fallback: [] }),
         safeRecordRead("profile:" + aliasId + ":heichelos", () => timedSection("heichelos", timings, () => profileHeichelos($i, aliasId)), { fallback: [] }),
         safeRecordRead("profile:" + aliasId + ":tree", () => timedSection("tree", timings, () => treeByAlias({ $i, aliasId })), { fallback: [] }),
         safeRecordRead("profile:" + aliasId + ":history", () => timedSection("history", timings, () => getHistory({ $i, aliasId, limit: 40 })), { fallback: [] })
