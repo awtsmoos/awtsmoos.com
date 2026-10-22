@@ -80,6 +80,16 @@ module.exports = {
 			writePacked({ $i: this.$i, shard: 'core', key: logicalKey(['posts', heichelId, postId]), value: null, op: 'del', meta: { kind: 'postTombstone' } });
 			removed.push('packed-tombstone');
 		} catch (_) { /* non-fatal */ }
+		// B"H 2026-10-22 (header-fix crew): the import also mirrors every post
+		// into the allPosts shard, and the grouped index / census fold THAT
+		// shard - a core-only tombstone left removed posts listed as census
+		// ghosts forever. Tombstone the mirror with its own key so a delete
+		// is end-to-end, as this route's contract states.
+		try {
+			const { writePacked } = require('../../packed/socialPacked.js');
+			writePacked({ $i: this.$i, shard: 'allPosts', key: logicalKey(['allPosts', heichelId, postId]), value: null, op: 'del', meta: { kind: 'postTombstone' } });
+			removed.push('allposts-tombstone');
+		} catch (_) { /* non-fatal */ }
 		return { success: { heichelId, postId, removed, existed: !!post } };
 	}
 };
