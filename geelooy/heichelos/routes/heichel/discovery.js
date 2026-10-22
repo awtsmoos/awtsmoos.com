@@ -73,7 +73,7 @@ function createDiscovery($i) {
 		if (!ids.length) return null;
 		let candidates = [];
 		try {
-			candidates = await allHeichelDiscoveryIds();
+			candidates = await allHeichelDiscoveryIds($i);
 		} catch {
 			candidates = [];
 		}
