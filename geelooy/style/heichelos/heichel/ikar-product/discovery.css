@@ -25,6 +25,11 @@
 	color: var(--ikar-product-ink);
 	min-height: 3rem;
 	padding: .65rem .75rem;
+	/* 2026-10-22 (frontend-fixes): the redesign search icon (part-02,
+	   background-image at 1rem) still paints on this input - only its
+	   padding was stripped, so the placeholder slid under the glyph.
+	   Restore the design 3rem icon clearance. */
+	padding-left: 3rem;
 }
 
 :root.heichel-os-document .heichel-semantic-discovery {

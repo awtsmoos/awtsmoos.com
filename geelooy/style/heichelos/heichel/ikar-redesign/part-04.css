@@ -51,7 +51,7 @@
 	font-family: var(--dream-sans-font, "Inter", system-ui, sans-serif);
 	font-size: 1.02rem;
 	font-weight: 600;
-	color: var(--ikar-ink);
+	color: var(--dream-heichel-ink, var(--ikar-ink));
 	line-height: 1.4;
 }
 :root.heichel-os-document .dream-heichel-chevron {

@@ -92,7 +92,7 @@
 	font-weight: 700;
 	font-size: clamp(1.5rem, 4vw, 2.2rem);
 	letter-spacing: -0.01em;
-	color: var(--sefer-title-ink);
+	color: var(--g-text, var(--sefer-title-ink));
 	margin: 0 0 1rem;
 }
 /* Discovery list: real grid, list reset, rendering containment for
