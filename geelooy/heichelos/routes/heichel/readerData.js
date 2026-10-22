@@ -27,8 +27,47 @@ function seriesIndexFields() {
 	});
 }
 
+/**
+ * The embedded creation millisecond in a post id (BH_POST_<ms>_...),
+ * the publish/import sequence. Packed series carry the canonical
+ * sequence in that order (bereishis: perakim 1-50); NaN when absent.
+ */
+function postSequenceMillis(entry, fallbackKey) {
+	const id = typeof entry === 'string' ? entry : entry?.id || entry?.postId || fallbackKey || '';
+	const match = /_(\d{10,})_/.exec(String(id));
+	return match ? Number(match[1]) : Number.NaN;
+}
+
+/**
+ * Series posts in canonical order. Legacy arrays already arrive in
+ * publish sequence and pass through untouched. Packed series arrive as
+ * a MAP keyed by postId; the wire insertion order (currently chapter
+ * 50->1 for bereishis) is a writer artifact and must NOT define
+ * user-visible indexing, so the map is ordered explicitly by
+ * ascending creation millisecond (documented decision, 2026-10-22:
+ * matches the legacy /posts id-list order, entry 0 = first teaching).
+ */
+function postsInCanonicalOrder(posts) {
+	if (Array.isArray(posts)) return posts;
+	if (posts && typeof posts === 'object') {
+		const ranked = Object.entries(posts).map(([key, entry]) => ({
+			key,
+			entry,
+			ms: postSequenceMillis(entry, key)
+		}));
+		ranked.sort((a, b) => {
+			if (Number.isNaN(a.ms) && Number.isNaN(b.ms)) return 0;
+			if (Number.isNaN(a.ms)) return 1;
+			if (Number.isNaN(b.ms)) return -1;
+			return a.ms - b.ms || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0);
+		});
+		return ranked.map(item => item.entry);
+	}
+	return [];
+}
+
 function pickSeriesPostId(series, index) {
-	const posts = Array.isArray(series?.posts) ? series.posts : [];
+	const posts = postsInCanonicalOrder(series?.posts);
 	const numericIndex = Number.parseInt(String(index), 10);
 	if (!Number.isInteger(numericIndex) || numericIndex < 0 || numericIndex >= posts.length) return null;
 	const entry = posts[numericIndex];
