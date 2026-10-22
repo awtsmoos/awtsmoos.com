@@ -38,10 +38,25 @@ function resolvePayload(data = {}) {
 	return { envelope, post };
 }
 
+/** Flattens dayuh sections (verse lists) into paragraph texts for the preview. */
+function dayuhSectionTexts(dayuh) {
+	const sections = Array.isArray(dayuh?.sections) ? dayuh.sections : [];
+	return sections
+		.map(section => {
+			if (Array.isArray(section)) return section.map(verse => typeof verse === 'string' ? verse : (verse?.text || verse?.content || '')).join(' ');
+			if (typeof section === 'string') return section;
+			return section?.content || section?.text || '';
+		})
+		.map(value => String(value || '').trim())
+		.filter(Boolean);
+}
+
 function firstText(envelope, post) {
 	for (const value of [post.content, post.body, post.text, envelope.rootContent]) {
 		if (typeof value === 'string' && value.trim()) return htmlToText(value).trim();
 	}
+	const dayuhTexts = dayuhSectionTexts(post.dayuh).length ? dayuhSectionTexts(post.dayuh) : dayuhSectionTexts(envelope.dayuh);
+	if (dayuhTexts.length) return dayuhTexts.join('\n\n');
 	const sections = Array.isArray(envelope.sections) ? envelope.sections : [];
 	return sections
 		.map(section => section?.content || section?.text || section?.title || '')
