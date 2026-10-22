@@ -138,7 +138,7 @@
 .post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block p {
 	margin: .45rem 0 0;
 	/* B"H — Yaakov 2026-10-12: English rides BIG beneath the original. */
-	font-size: clamp(1.15rem, 4.8vw, 1.45rem);
+	font-size: calc(clamp(1.15rem, 4.8vw, 1.45rem) * var(--post-scale-ratio, 1));
 	line-height: 1.58;
 	color: var(--sefer-ink, #2b2118);
 	text-align: left;

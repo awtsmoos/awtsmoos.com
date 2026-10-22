@@ -35,11 +35,11 @@ body {
 
 .all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
 	font-family: "Frank Ruhl Libre", Cardo, Georgia, serif;
-	font-size: clamp(1.08rem, 1.2vw + .75rem, 1.34rem);
+	font-size: calc(clamp(1.08rem, 1.2vw + .75rem, 1.34rem) * var(--post-scale-ratio, 1));
 	line-height: 1.7;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]) {
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]):not(.meluket-phrase):not(.meluket-hebrew) {
 	font-family: "Frank Ruhl Libre", Cardo, Georgia, serif;
 	font-size: 1.08em;
 	line-height: 1.78;
@@ -86,7 +86,7 @@ body {
 @media (max-width: 48rem) {
 	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
 		padding-inline: clamp(.82rem, 4vw, 1.15rem);
-		font-size: clamp(1.15rem, 4.7vw, 1.34rem);
+		font-size: calc(clamp(1.15rem, 4.7vw, 1.34rem) * var(--post-scale-ratio, 1));
 	}
 
 	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .section,

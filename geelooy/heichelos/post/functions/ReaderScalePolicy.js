@@ -79,6 +79,7 @@ export class GevurahReaderScalePolicy {
 
 		return {
 			'--post-text-size': this.toPixels(mainSize),
+			'--post-scale-ratio': String(Math.round((mainSize / this.defaultSize) * 10000) / 10000),
 			'--post-inline-body-size': this.derive(mainSize, 0.86, 30, NO_CAP),
 			'--post-sidebar-comment-size': this.derive(mainSize, 0.62, 22, NO_CAP),
 			'--post-inline-summary-size': this.derive(mainSize, 0.18, 13, NO_CAP),

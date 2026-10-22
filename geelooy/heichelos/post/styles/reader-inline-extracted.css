@@ -1229,7 +1229,7 @@
 		:root .post-reader-localized-context .meluket-phrase--he {
 			font-family: var(--dream-hebrew-font);
 			font-weight: 700;
-			font-size: clamp(3.2rem, 9vw, 5.2rem);
+			font-size: calc(var(--sefer-phrase-size, var(--post-text-size, 3rem)) * var(--hebrew-optical, 1.3));
 			line-height: 1.85;
 			letter-spacing: 0.005em;
 			color: var(--sefer-title-ink);
@@ -1240,7 +1240,7 @@
 		:root .post-reader-localized-context .meluket-hebrew {
 			font-family: var(--dream-hebrew-font);
 			font-weight: 700;
-			font-size: clamp(3.2rem, 9vw, 5.2rem);
+			font-size: calc(var(--sefer-phrase-size, var(--post-text-size, 3rem)) * var(--hebrew-optical, 1.3));
 			line-height: 1.85;
 			letter-spacing: 0.005em;
 			color: var(--sefer-title-ink);
@@ -1258,7 +1258,7 @@
 		:root .post-reader-localized-context .meluket-phrase--en {
 			font-family: var(--dream-sans-font);
 			font-weight: 400;
-			font-size: clamp(2rem, 5.2vw, 2.8rem);
+			font-size: var(--sefer-phrase-size, var(--post-text-size, 3rem));
 			line-height: 1.75;
 			color: var(--sefer-ink-soft);
 			border-top: 2px dashed var(--sefer-rule);
@@ -1270,7 +1270,7 @@
 		:root .post-reader-localized-context .meluket-english {
 			font-family: var(--dream-sans-font);
 			font-weight: 400;
-			font-size: clamp(2rem, 5.2vw, 2.8rem);
+			font-size: var(--sefer-phrase-size, var(--post-text-size, 3rem));
 			line-height: 1.75;
 			color: var(--sefer-ink-soft);
 			margin: 0;
