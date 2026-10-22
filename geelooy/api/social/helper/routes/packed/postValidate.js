@@ -101,15 +101,31 @@ function validPreHash(obj) {
 
 
 /**
- * Derive the aliasId for a post: one alias per commentator
- * (<heichelId>-<slug>), falling back to the job-level alias when the post
- * carries no commentator. Exported so the VM client computes identical
- * expectations during verification.
+ * Derive the aliasId for a post: one alias per commentator (the bare
+ * slug of the commentator name), falling back to the job-level alias
+ * when the post carries no commentator. Exported so the VM client
+ * computes identical expectations during verification.
+ *
+ * ALIAS NAMING LAW (user order 2026-10-21, absolute): an aliasId must
+ * NEVER contain the heichel name — aliases are global identities, not
+ * per-heichel names. The Rebbe's alias is `theRebbe`, NOT
+ * `ikar-the-rebbe`. So: no heichel prefix is ever prepended, a leading
+ * heichel-name segment inside the commentator's own name is stripped,
+ * and the slug `the-rebbe` maps to the canonical `theRebbe`.
  */
 function deriveAliasId(commentator, heichelId, fallbackAliasId) {
 	if (commentator && typeof commentator === 'string' && commentator.trim()) {
 		const slug = commentator.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-		if (slug) return heichelId + '-' + slug;
+		if (slug) {
+			if (slug === 'the-rebbe') return 'theRebbe';
+			const h = String(heichelId || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+			if (h && slug !== h && slug.startsWith(h + '-')) {
+				const rest = slug.slice(h.length + 1);
+				if (rest === 'the-rebbe') return 'theRebbe';
+				if (rest) return rest;
+			}
+			return slug;
+		}
 	}
 	return fallbackAliasId;
 }
