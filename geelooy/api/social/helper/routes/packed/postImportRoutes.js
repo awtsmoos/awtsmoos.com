@@ -39,6 +39,20 @@ const PackedPostImportRoutes = class PackedPostImportRoutes {
 			// deferred-backlink queue (crash recovery for the post-job flush).
 			'/packed/import/posts/flush-backlinks': this.flushBacklinks.bind(this),
 			'/packed/import/posts/remove': this.remove.bind(this),
+			'/packed/import/posts/update': this.update.bind(this),
+			'/packed/notes': this.notesRoute.bind(this),
+			'/packed/notes/feed': this.notesFeed.bind(this),
+			'/packed/notes/bulk': this.notesBulk.bind(this),
+			'/packed/notes/resolve': this.notesResolve.bind(this),
+			'/packed/notes/rebuild-index': this.notesRebuildIndex.bind(this),
+			'/packed/census': this.census.bind(this),
+			'/packed/submissions': this.submissionsRoot.bind(this),
+			'/packed/submissions/mine': this.listMySubmissions.bind(this),
+			'/packed/submissions/settings': this.submissionsSettingsRoute.bind(this),
+			'/packed/submissions/approve': this.approveSubmission.bind(this),
+			'/packed/submissions/deny': this.denySubmission.bind(this),
+			'/packed/submissions/reverse': this.reverseSubmission.bind(this),
+			'/packed/submissions/decisions': this.listSubmissionDecisions.bind(this),
 		};
 	}
 };
@@ -61,7 +75,11 @@ Object.assign(PackedPostImportRoutes.prototype,
 	require('./runVerifyMixin.js'),
 	require('./ensureBacklinksMixin.js'),
 	require('./backlinksRepairMixin.js'),
-	require('./backlinksStatusMixin.js'));
+	require('./backlinksStatusMixin.js'),
+	require('./updateMixin.js'),
+	require('./censusMixin.js'),
+	require('./notesMixin.js'),
+	require('./submissionsMixin.js'));
 
 module.exports = { PackedPostImportRoutes,
 	contentHash: postValidate.contentHash,
