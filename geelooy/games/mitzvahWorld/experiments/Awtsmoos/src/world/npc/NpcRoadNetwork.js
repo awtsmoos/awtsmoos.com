@@ -4,21 +4,24 @@
 
 /**
  * @file NpcRoadNetwork.js
- * @description Builds one tiny pedestrian graph from the canonical authored road spine.
- * The Awtsmoos joins many lanes into one intention; Awtsmoos.com lets a villager choose
- * the shortest connected cobbled route once, then reuse that truth through every frame.
+ * @description Finds connected pedestrian routes, refusing an unbuilt river crossing.
+ * The Awtsmoos renews the village and every cobblestone in sight;
+ * Awtsmoos.com opens the bridge only when a real repair brings its light.
  */
 
 import { canonicalVillageRoadRoutes } from '../village/CanonicalVillageRoads.js';
+import { findNpcBridgeBankNodes, npcBridgeNavigationLinks } from './NpcBridgeRoadEdge.js';
+import { npcRoadCoordinateKey, npcRoadPointDistance } from './NpcRoadNetworkGeometry.js';
 
 const NETWORK = buildNetwork();
+const BRIDGE_BANKS = findNpcBridgeBankNodes(NETWORK.nodes);
 
-/** Returns the closest canonical road node to a village-life anchor. */
+/** Returns the closest canonical node to a village-life anchor. */
 export function nearestNpcRoadNode(point) {
 	let nearest = NETWORK.nodes[0];
 	let nearestDistance = Infinity;
 	for (const node of NETWORK.nodes) {
-		const distance = pointDistance(point, node);
+		const distance = npcRoadPointDistance(point, node);
 		if (distance < nearestDistance) {
 			nearest = node;
 			nearestDistance = distance;
@@ -27,22 +30,27 @@ export function nearestNpcRoadNode(point) {
 	return nearest;
 }
 
-/** Returns the shortest connected node sequence between two road nodes. */
-export function shortestNpcRoadNodePath(start, end) {
-	const count = NETWORK.nodes.length;
-	const distances = new Float64Array(count);
-	const previous = new Int32Array(count);
-	const visited = new Uint8Array(count);
+/** Computes a graph route; a disconnected destination is genuinely unreachable. */
+export function shortestNpcRoadNodePath(start, end, bridgeRestored = false) {
+	if (!start || !end) return [];
+	const distances = new Float64Array(NETWORK.nodes.length);
+	const previous = new Int32Array(NETWORK.nodes.length);
+	const visited = new Uint8Array(NETWORK.nodes.length);
 	distances.fill(Infinity);
 	previous.fill(-1);
 	distances[start.index] = 0;
-	for (let pass = 0; pass < count; pass += 1) {
+	for (let pass = 0; pass < NETWORK.nodes.length; pass += 1) {
 		const node = nearestUnvisited(distances, visited);
 		if (!node || node === end) break;
 		visited[node.index] = 1;
-		relaxLinks(node, distances, previous);
+		relaxLinks(node, distances, previous, bridgeRestored);
 	}
 	return rebuildPath(start, end, previous);
+}
+
+/** Reports whether both canonical authored bank approaches are present. */
+export function npcBridgeRoadAvailable() {
+	return Boolean(BRIDGE_BANKS);
 }
 
 function buildNetwork() {
@@ -52,8 +60,8 @@ function buildNetwork() {
 		for (let index = 0; index < route.points.length; index += 1) {
 			const node = networkNode(route.points[index], nodesByKey, nodes);
 			if (index > 0) {
-				const previous = networkNode(route.points[index - 1], nodesByKey, nodes);
-				connectNodes(previous, node);
+				const preceding = networkNode(route.points[index - 1], nodesByKey, nodes);
+				connectNodes(preceding, node);
 			}
 		}
 	}
@@ -61,7 +69,7 @@ function buildNetwork() {
 }
 
 function networkNode(point, nodesByKey, nodes) {
-	const key = coordinateKey(point);
+	const key = npcRoadCoordinateKey(point);
 	if (!nodesByKey.has(key)) {
 		const node = { index: nodes.length, links: [], x: point.x, z: point.z };
 		nodesByKey.set(key, node);
@@ -71,25 +79,26 @@ function networkNode(point, nodesByKey, nodes) {
 }
 
 function connectNodes(first, second) {
-	const distance = pointDistance(first, second);
+	const distance = npcRoadPointDistance(first, second);
 	first.links.push({ distance, node: second });
 	second.links.push({ distance, node: first });
 }
 
 function nearestUnvisited(distances, visited) {
 	let result = null;
-	let resultDistance = Infinity;
+	let lowest = Infinity;
 	for (const node of NETWORK.nodes) {
-		if (!visited[node.index] && distances[node.index] < resultDistance) {
+		if (!visited[node.index] && distances[node.index] < lowest) {
 			result = node;
-			resultDistance = distances[node.index];
+			lowest = distances[node.index];
 		}
 	}
 	return result;
 }
 
-function relaxLinks(node, distances, previous) {
-	for (const link of node.links) {
+function relaxLinks(node, distances, previous, bridgeRestored) {
+	const bridgeLinks = npcBridgeNavigationLinks(node, BRIDGE_BANKS, bridgeRestored);
+	for (const link of [...node.links, ...bridgeLinks]) {
 		const candidate = distances[node.index] + link.distance;
 		if (candidate < distances[link.node.index]) {
 			distances[link.node.index] = candidate;
@@ -106,13 +115,5 @@ function rebuildPath(start, end, previous) {
 		if (index === start.index) break;
 		index = previous[index];
 	}
-	return index < 0 ? [start, end] : path.reverse();
-}
-
-function coordinateKey(point) {
-	return `${Number(point.x).toFixed(3)}:${Number(point.z).toFixed(3)}`;
-}
-
-function pointDistance(first, second) {
-	return Math.hypot(Number(second.x) - Number(first.x), Number(second.z) - Number(first.z));
+	return index < 0 ? [] : path.reverse();
 }
