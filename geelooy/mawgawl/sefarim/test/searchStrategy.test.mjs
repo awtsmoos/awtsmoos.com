@@ -40,3 +40,11 @@ test('semantic predicate is normalized rather than permissive', () => {
 	assert.equal(isSemanticStrategy('text'), false);
 	assert.equal(isSemanticStrategy('other'), false);
 });
+
+test('URL values default by query language when no strategy is explicit', () => {
+	assert.equal(strategyFromValues(new URLSearchParams('q=splitting+of+the+sea')), 'vector');
+	assert.equal(strategyFromValues(new URLSearchParams('q=קריעת+ים+סוף')), 'text');
+	assert.equal(strategyFromValues(new URLSearchParams('q=12345')), 'text');
+	assert.equal(strategyFromValues(new URLSearchParams('q=splitting&strategy=text')), 'text');
+	assert.equal(strategyFromValues(new URLSearchParams('q=תורה&strategy=vector')), 'vector');
+});
