@@ -224,7 +224,69 @@ async function fetchFragment(href) {
 	const doc = new DOMParser().parseFromString(html, 'text/html');
 	const node = doc.querySelector(FRAGMENT_SELECTOR);
 	if (!node) throw new Error('no heichel fragment in response');
-	return { title: doc.title || '', html: node.outerHTML };
+	const styles = Array.from(doc.querySelectorAll('link[rel="stylesheet"]'))
+		.map(link => link.getAttribute('href'))
+		.filter(Boolean);
+	return { title: doc.title || '', html: node.outerHTML, styles };
+}
+
+/* ---------- stylesheet adoption (load-speed Lever 2) ---------- */
+
+/** Every stylesheet URL the live document already covers, incl. bundle members. */
+function coveredStylesheetUrls() {
+	const covered = new Set();
+	document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+		try {
+			covered.add(new URL(link.href, location.href).href);
+		} catch (_) {}
+		const raw = link.getAttribute('href') || '';
+		const q = raw.indexOf('bundle=');
+		if (q !== -1) {
+			try {
+				const members = JSON.parse(decodeURIComponent(raw.slice(q + 7)));
+				members.forEach(m => {
+					try {
+						covered.add(new URL(m, location.href).href);
+					} catch (_) {}
+				});
+			} catch (_) {}
+		}
+	});
+	return covered;
+}
+
+/**
+ * Appends any destination stylesheets the live page lacks (idempotent by
+ * absolute href incl. bundle membership; never removes existing links).
+ * Resolves once every newly added sheet has loaded, or after a bounded
+ * wait so slow CSS can never block navigation for long.
+ */
+function adoptStylesheets(hrefs) {
+	if (!Array.isArray(hrefs) || !hrefs.length) return Promise.resolve();
+	const covered = coveredStylesheetUrls();
+	const added = [];
+	hrefs.forEach(href => {
+		let abs;
+		try {
+			abs = new URL(href, location.href).href;
+		} catch (_) {
+			return;
+		}
+		if (covered.has(abs)) return;
+		covered.add(abs);
+		const link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.href = abs;
+		link.dataset.awtsmoosAdoptedStyle = 'true';
+		document.head.appendChild(link);
+		added.push(new Promise(resolve => {
+			link.addEventListener('load', resolve, { once: true });
+			link.addEventListener('error', resolve, { once: true });
+		}));
+	});
+	if (!added.length) return Promise.resolve();
+	const bounded = new Promise(resolve => setTimeout(resolve, 600));
+	return Promise.race([Promise.all(added), bounded]);
 }
 
 /* ---------- navigation ---------- */
@@ -259,6 +321,10 @@ async function spaGo(href, { push }) {
 		location.assign(href);
 		return;
 	}
+	try {
+		await adoptStylesheets(rec.styles);
+	} catch (_) {}
+	if (token !== navToken) return; // superseded while styles loaded
 	target.replaceWith(node);
 	if (rec.title) document.title = rec.title;
 	if (push) {

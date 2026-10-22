@@ -85,6 +85,8 @@ function createShellRenderer($i) {
 				series,
 				semantic,
 				discovery,
+				isIkarRoot: isFastIkarRoot(heichelId, seriesId),
+				isSeriesPage: Boolean(seriesId && seriesId !== 'root'),
 				...fragments
 			}), context);
 		}, context);

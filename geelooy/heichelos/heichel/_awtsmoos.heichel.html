@@ -42,6 +42,14 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 			var part = String(index + 1).padStart(2, "0");
 			return '<link rel="stylesheet" href="/style/heichelos/heichel/premium/ikar-first-parts/part-' + part + '.css?v=ikar-live-003">';
 		});
+		// B"H — load-speed Lever 2: series pages drop the ikar-home/dream/Tanach-reader
+		// view clusters (~51,077 B raw). Every semantic-fallback class those files define is
+		// duplicated in the kept bundles (selector audit 2026-10-21), and heichel-spa.js adopts
+		// destination stylesheets before swapping fragments, so in-SPA travel re-acquires them.
+		var viewClusters = (typeof isSeriesPage === "boolean" && isSeriesPage) ? [] : ikarParts.concat([
+			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/dream-heichel.css?v=1715d8ed2e">',
+			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/law8/ikar-tanach-reader.css?v=9d9fff3a6b">'
+		]);
 		return [
 			'<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=125f73f805">',
 			'<link rel="stylesheet" href="/style/heichelos/heichel/index.css?v=2ff57771de">',
@@ -54,9 +62,7 @@ Awtsmoos.com lets Ikar arrive polished without waiting for client rendering.
 			'<link rel="stylesheet" href="/style/civilization/heichel-responsive.css?v=f44bfd7909">',
 			'<link rel="stylesheet" href="/style/heichelos/heichel/cosmic-profile/index.css?v=2c6c29fc56">',
 			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/authority.css?v=a584131a84">'
-		]).concat(ikarParts, [
-			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/dream-heichel.css?v=1715d8ed2e">',
-			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/law8/ikar-tanach-reader.css?v=9d9fff3a6b">',
+		]).concat(viewClusters, [
 			'<link rel="stylesheet" href="/style/universal-ui.css?v=4ae04360fe" data-awtsmoos-ui-foundation="style">'
 		]).join("\n");
 	</script>?>
