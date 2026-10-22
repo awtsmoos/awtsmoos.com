@@ -100,3 +100,20 @@
 	color: var(--profile-ink);
 	text-decoration: none;
 }
+
+/* B"H 2026-10-22 (frontend-fixes): at desktop widths the main column is
+   capped at 42rem (../mobile.css, min-width:860px) while the identity
+   stacking rules key on max-width:760px viewports that never occur there —
+   so the name copy was crushed between the avatar and the action cards
+   (~9rem) and the display name shattered mid-word. Stack the capped
+   column the same way the small-screen rules do. */
+@media (min-width: 861px) {
+	.profile-app .profile-identity {
+		grid-template-columns: auto minmax(0, 1fr);
+	}
+	.profile-app .profile-hero-actions {
+		grid-column: 1 / -1;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		width: 100%;
+	}
+}
