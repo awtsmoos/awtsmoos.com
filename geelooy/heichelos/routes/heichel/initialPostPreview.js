@@ -95,7 +95,7 @@ function renderInitialPostPreview(data = {}) {
 	if (!paragraphs.length) return '';
 	const body = paragraphs.map(renderParagraph).join('');
 	const title = escapeHtml(post.title || post.name || envelope.title || 'Torah teaching');
-	return `<article class="awtsmoos-initial-post" data-awtsmoos-server-preview><header class="awtsmoos-initial-post-header"><h1 class="awtsmoos-initial-post-title">${title}</h1></header><div class="awtsmoos-initial-post-body" data-awtsmoos-client-render>${body}</div></article>`;
+	return `<article class="awtsmoos-initial-post" data-awtsmoos-initial-post data-awtsmoos-server-preview><header class="awtsmoos-initial-post-header"><h1 class="awtsmoos-initial-post-title">${title}</h1></header><div class="awtsmoos-initial-post-body" data-awtsmoos-client-render>${body}</div></article>`;
 }
 
 module.exports = {
