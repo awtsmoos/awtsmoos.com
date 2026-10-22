@@ -22,7 +22,7 @@ const data = {
 		profile: { displayName: 'Living Alias', bio: 'Public light', website: 'https://example.com/path' }
 	}
 };
-const canonical = 'https://awtsmoos.com/@/living';
+const canonical = 'https://awtsmoos.com/@living';
 const schema = aliasStructuredData(data, canonical, 'Public light', 'Living Alias');
 assert.equal(schema['@type'], 'ProfilePage');
 assert.equal(schema.mainEntity['@type'], 'Person');

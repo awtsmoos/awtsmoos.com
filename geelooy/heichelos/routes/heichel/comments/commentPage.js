@@ -39,7 +39,7 @@ function commentSchema(comment, canonical, parentCanonical, title, description) 
 		'@id': `${canonical}#comment`,
 		about: { '@id': `${parentCanonical}#webpage`, '@type': 'WebPage', url: parentCanonical },
 		author: aliasId
-			? { '@type': 'Person', name: `@${aliasId}`, url: `${SITE_ORIGIN}/@/${encodeURIComponent(aliasId)}` }
+			? { '@type': 'Person', name: `@${aliasId}`, url: `${SITE_ORIGIN}/@${encodeURIComponent(aliasId)}` }
 			: { '@type': 'Person', name: 'Public contributor' },
 		description,
 		name: title,

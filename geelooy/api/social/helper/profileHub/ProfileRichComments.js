@@ -39,7 +39,10 @@ function publicComment(comment) {
 async function richCommentsByAlias({ $i, aliasId, limit = 120 }) {
 	const pointers = allFor($i, aliasId)
 		.sort((left, right) => (right.createdAt || 0) - (left.createdAt || 0))
-		.slice(0, Math.min(Number(limit || 120), 240));
+		// B"H 2026-10-21 (alias profiles): no hidden 240 ceiling — the profile
+		// must be able to show ALL of an alias's comments; the caller's limit
+		// is the only bound (sanity-guarded at 5000).
+		.slice(0, Math.min(Number(limit || 120), 5000));
 	const output = [];
 	for (const pointer of pointers) {
 		const got = await getCommentByUnique({ $i, commentId: pointer.commentId });

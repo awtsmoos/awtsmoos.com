@@ -32,7 +32,7 @@ function articleAuthor(data) {
 	const authorName = cleanText(data?.alias?.name || data?.alias?.title || authorId);
 	if (!authorName) return null;
 	const author = { '@type': 'Person', name: authorName };
-	if (authorId) author.url = `https://awtsmoos.com/@/${encodeURIComponent(authorId)}`;
+	if (authorId) author.url = `https://awtsmoos.com/@${encodeURIComponent(authorId)}`;
 	return author;
 }
 

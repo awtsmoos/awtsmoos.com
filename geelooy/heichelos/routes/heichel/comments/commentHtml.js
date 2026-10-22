@@ -45,7 +45,7 @@ function renderSourceHtml(comment, annotation, headingLevel, text, replyHtml) {
 function renderCommunityHtml(comment, headingLevel, text, replyHtml) {
 	const author = comment.aliasId ? `@${comment.aliasId}` : 'Public contributor';
 	const authorHtml = comment.aliasId
-		? `<a href="/@/${encodeSegment(comment.aliasId)}">${escapeHtml(author)}</a>`
+		? `<a href="/@${encodeSegment(comment.aliasId)}">${escapeHtml(author)}</a>`
 		: escapeHtml(author);
 	return `<article id="comment-${escapeHtml(comment.id || '')}" data-awtsmoos-indexed-comment><h${headingLevel}>Comment by ${authorHtml}</h${headingLevel}><p>${escapeHtml(text || 'Public comment')}</p><p><a href="${commentUrl(comment)}">Canonical comment</a> · <a href="${parentPostUrl(comment)}">Parent teaching</a></p>${replyHtml}</article>`;
 }

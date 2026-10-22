@@ -20,7 +20,7 @@ function pageNumber(value) {
 }
 
 function navigation(aliasId, page, pageCount) {
-	const base = `/@/${encodeSegment(aliasId)}/comments/`;
+	const base = `/@${encodeSegment(aliasId)}/comments/`;
 	const previous = page > 1 ? `<a rel="prev" href="${base}${page - 1}">Previous comments</a>` : '';
 	const next = page < pageCount ? `<a rel="next" href="${base}${page + 1}">Next comments</a>` : '';
 	return `<nav aria-label="Comment pages">${previous} ${next}</nav>`;
@@ -40,8 +40,8 @@ async function renderAliasCommentsPage($i, aliasId, rawPage) {
 	const selected = data.commentUrls.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 	const items = selected.map((url, index) => `<li><a href="${url}">Public comment ${(page - 1) * PAGE_SIZE + index + 1}</a></li>`).join('');
 	const display = data.identity.profile?.displayName || data.identity.alias?.name || aliasId;
-	const canonical = `https://awtsmoos.com/@/${encodeSegment(aliasId)}/comments/${page}`;
-	const response = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>${escapeHtml(display)} public comments — page ${page} | Awtsmoos</title><meta name="description" content="Public comments by ${escapeHtml(display)} on Awtsmoos."><meta name="robots" content="index,follow"><link rel="canonical" href="${canonical}"></head><body><main><p><a href="/@/${encodeSegment(aliasId)}">Back to @${escapeHtml(aliasId)}</a></p><h1>${escapeHtml(display)} public comments</h1><ol>${items}</ol>${navigation(aliasId, page, pageCount)}</main></body></html>`;
+	const canonical = `https://awtsmoos.com/@${encodeSegment(aliasId)}/comments/${page}`;
+	const response = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>${escapeHtml(display)} public comments — page ${page} | Awtsmoos</title><meta name="description" content="Public comments by ${escapeHtml(display)} on Awtsmoos."><meta name="robots" content="index,follow"><link rel="canonical" href="${canonical}"></head><body><main><p><a href="/@${encodeSegment(aliasId)}">Back to @${escapeHtml(aliasId)}</a></p><h1>${escapeHtml(display)} public comments</h1><ol>${items}</ol>${navigation(aliasId, page, pageCount)}</main></body></html>`;
 	return { mimeType: 'text/html; charset=utf-8', response };
 }
 

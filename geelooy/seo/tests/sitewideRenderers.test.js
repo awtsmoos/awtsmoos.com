@@ -56,7 +56,7 @@ function testCommentRendering() {
 	const text = commentPlainText(comment);
 	assert.ok(text.includes('Main words') && text.includes('spoken transcript') && text.includes('section words'));
 	const html = renderCommentHtml(comment);
-	assert.ok(html.includes('/@/author') && html.includes('/heichelos/ikar/posts/p1/comments/c1'));
+	assert.ok(html.includes('href="/@author"') && html.includes('/heichelos/ikar/posts/p1/comments/c1'));
 	assert.ok(!html.includes('<script>'));
 }
 

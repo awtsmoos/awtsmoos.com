@@ -46,7 +46,7 @@ function renderCommentLink(aliasId, commentUrls) {
 	const count = commentUrls.length;
 	const noun = count === 1 ? 'comment' : 'comments';
 	return [
-		`<a href="/@/${encodeSegment(aliasId)}/comments/1">`,
+		`<a href="/@${encodeSegment(aliasId)}/comments/1">`,
 		`Browse ${count} public ${noun}</a>`
 	].join('');
 }
@@ -58,7 +58,7 @@ function documentFor(data, publicSites = []) {
 		identity.profile?.bio || identity.alias?.description || `Public Awtsmoos alias @${aliasId}.`,
 		220
 	);
-	const canonical = `https://awtsmoos.com/@/${encodeSegment(aliasId)}`;
+	const canonical = `https://awtsmoos.com/@${encodeSegment(aliasId)}`;
 	const structured = renderAliasStructuredData(data, canonical, description, display);
 	const storefront = renderPublicAliasSites(publicSites);
 	return [

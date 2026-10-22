@@ -24,7 +24,7 @@ function safePage(value) {
 async function renderAliasSitemapIndex($i) {
 	const count = await publicAliasCount($i);
 	const pages = Math.max(1, Math.ceil(count / PAGE_SIZE));
-	const paths = Array.from({ length: pages }, (_, index) => `/@/sitemap/${index + 1}`);
+	const paths = Array.from({ length: pages }, (_, index) => `/@sitemap/${index + 1}`);
 	return xmlResponse(renderSitemapIndex(paths));
 }
 
@@ -32,7 +32,7 @@ async function renderAliasSitemapPage($i, rawPage) {
 	const page = safePage(rawPage);
 	const candidates = await publicAliasIds({ $i, page, pageSize: PAGE_SIZE });
 	const ids = await validatedAliasIds($i, candidates);
-	const paths = ids.map(aliasId => `/@/${encodeSegment(aliasId)}`);
+	const paths = ids.map(aliasId => `/@${encodeSegment(aliasId)}`);
 	return xmlResponse(renderUrlSet(paths));
 }
 

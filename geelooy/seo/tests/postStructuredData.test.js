@@ -27,7 +27,7 @@ assert.equal(schema['@type'], 'Article');
 assert.equal(schema.headline, '<Light> & Torah');
 assert.equal(schema.url, 'https://awtsmoos.com/heichelos/ikar/series/series%20one/post/post%201');
 assert.equal(schema.author.name, 'Author One');
-assert.equal(schema.author.url, 'https://awtsmoos.com/@/author-1');
+assert.equal(schema.author.url, 'https://awtsmoos.com/@author-1');
 assert.equal(schema.datePublished, '2023-11-14T22:13:20.000Z');
 assert.equal(validDate('not-a-date'), '');
 const tag = postStructuredDataTag(data);

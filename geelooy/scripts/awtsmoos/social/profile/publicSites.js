@@ -16,11 +16,15 @@ if (root && aliasId) {
 	revealPublishedCreations(root, aliasId);
 }
 
-/** @returns {string} Alias segment from the canonical /@/alias public-profile path. */
+/** @returns {string} Alias segment from the canonical /@alias public-profile path. */
 function aliasFromPath() {
-	const parts = location.pathname.split('/').filter(Boolean);
-	const marker = parts.indexOf('@');
-	return marker >= 0 ? decodeURIComponent(parts[marker + 1] || '') : '';
+	// B"H 2026-10-21 (alias profiles): the old segment hunt looked for a bare
+	// '@' path segment, which the canonical /@<alias> URL never contains, so
+	// the storefront silently never loaded on the browser profile shell
+	// (which, unlike the SSR document, carries no data-alias-id). Parse the
+	// same way the profile entry (index.js) does.
+	const match = location.pathname.match(/^\/@\/?([^/]+)/);
+	return match ? decodeURIComponent(match[1]) : '';
 }
 
 /**
