@@ -88,7 +88,12 @@ function pageInfo({ assembled, fetchLimit, slice }) {
 		offset: slice.offset,
 		limit: slice.limit,
 		hasMore,
-		nextCursor: slice.end < assembled ? cursorFor(slice.end) : null,
+		// At the assembly boundary with a capped fetch there is still a next
+		// page: the cursor points past everything assembled, and the next
+		// request deepens the assembly fetch to serve it.
+		nextCursor: slice.end < assembled
+			? cursorFor(slice.end)
+			: (!complete && slice.end > 0 ? cursorFor(slice.end) : null),
 		upstreamFetchLimit: fetchLimit
 	};
 }
