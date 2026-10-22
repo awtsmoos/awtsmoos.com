@@ -38,6 +38,9 @@ const {
 } = require("./ayzarim/awtsmoosDynamicServer/server/richCommentWarmup.js");
 const richCommentPackedStore = require("./geelooy/api/social/helper/comments/richDb/PackedStore.js");
 const {
+	beginSemanticWarmup
+} = require("./geelooy/api/social/helper/search/rag/ragStartupWarmup.js");
+const {
 	startConfiguredVirtualSsh
 } = require("./geelooy/api/ssh/virtual/boot.js");
 const {
@@ -87,6 +90,20 @@ async function revealAwtsmoosRuntime() {
 	binahDynamicServer.ws = yesodSocketServer;
 	await binahDynamicServer.init();
 	warmRequestAuthorities(binahDynamicServer);
+	// B"H - Semantic search warmup: the e5 query worker takes ~12s to load its
+	// model; without a boot-time warmup every process start leaves the first
+	// semantic query to die on the 5s ready deadline (MULTILINGUAL_WORKER_WARMING).
+	// Fire-and-forget, delayed so boot-critical work settles first; disable with
+	// AWTSMOOS_WARM_SEMANTIC_SEARCH=0.
+	if (process.env.AWTSMOOS_WARM_SEMANTIC_SEARCH !== "0") {
+		setTimeout(() => {
+			try {
+				beginSemanticWarmup();
+			} catch (error) {
+				console.error('B"H semantic warmup start failed', error);
+			}
+		}, 15000).unref();
+	}
 	await startConfiguredVirtualSsh();
 	const tiferesHttpServer = createHttpApplicationServer({
 		dynamicServer: binahDynamicServer,
