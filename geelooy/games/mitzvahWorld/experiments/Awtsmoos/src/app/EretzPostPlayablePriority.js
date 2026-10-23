@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file EretzPostPlayablePriority.js
- * @description Starts the real canonical Chossid before rich-world priority waits, then opens only the regional systems permitted by immutable world policy.
- * The Awtsmoos gives the promised traveler a true authored vessel before the valley waits at the gate;
- * Awtsmoos.com lets Blank Meadow stay feather-light while richer worlds call the existing GLB path first, measured and straight.
+ * @description Rich environment and player promotion after control, never gating the independent bridge trial.
+ * The Awtsmoos holds the scenery and the traveler in His hand;
+ * the bridge no longer waits for an optional painter of the land.
  */
 
 import { startEretzCanonicalPlayerPromotion } from './EretzCanonicalPlayerPromotion.js';
@@ -15,27 +15,13 @@ import {
 	eretzDeferredSystemReceipt,
 	loadEretzPostPlayableLaunchers
 } from './EretzPostPlayableLaunchers.js';
-import {
-	eretzPostPlayablePriorityPolicy,
-	waitForCanonicalPlayerWindow
-} from './EretzPostPlayablePriorityClock.js';
-import {
-	disabledEretzWorldTask,
-	createEretzPostPlayableTasks
-} from './EretzPostPlayableTasks.js';
-import {
-	resolveEretzPostPlayableWorldPolicy,
-	simpleWorldPostPlayableReceipt
-} from './EretzPostPlayableWorldPolicy.js';
+import { eretzPostPlayablePriorityPolicy, waitForCanonicalPlayerWindow } from './EretzPostPlayablePriorityClock.js';
+import { disabledEretzWorldTask, createEretzPostPlayableTasks } from './EretzPostPlayableTasks.js';
+import { resolveEretzPostPlayableWorldPolicy, simpleWorldPostPlayableReceipt } from './EretzPostPlayableWorldPolicy.js';
 
 export { eretzPostPlayablePriorityPolicy, waitForCanonicalPlayerWindow };
 
-/**
- * Starts post-control work without allowing disabled optional systems to execute.
- * @param {object} context Live runtime context.
- * @param {object} dependencies Optional test/runtime substitutions.
- * @returns {Promise<Readonly<object>>} Post-play scheduling receipt.
- */
+/** Continues optional world richness without duplicating bridge startup or the player frame. */
 export async function startEretzPostPlayablePriority(context, dependencies = {}) {
 	const { core, environment, options } = context;
 	const { diagnostics, runtime } = core;
@@ -45,7 +31,6 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 	diagnostics.worldExperience = policy;
 	diagnostics.deferredSystems = eretzDeferredSystemReceipt(policy);
 	Object.assign(diagnostics, tasks.diagnostics);
-
 	if (runtime.destroyed) {
 		return destroyedEretzPostPlayableReceipt(immediatePriority('runtime-destroyed'));
 	}
@@ -74,10 +59,7 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 	const districts = policy.districtStreaming
 		? Promise.resolve(launchers.startDistrict(runtime, environment))
 		: disabledEretzWorldTask('district-streaming');
-	const enrichment = Promise.resolve(
-		launchers.startDeferred(core, options, context.boot)
-	);
-
+	const enrichment = Promise.resolve(launchers.startDeferred(core, options, context.boot));
 	diagnostics.postPlayablePriorityStage = 'launched';
 	return Object.freeze({
 		...tasks.receipts,
@@ -90,6 +72,7 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 	});
 }
 
+/** Provides a deterministic receipt for intentionally lightweight worlds. */
 function immediatePriority(reason) {
 	return Object.freeze({ reason, waitedMs: 0 });
 }
