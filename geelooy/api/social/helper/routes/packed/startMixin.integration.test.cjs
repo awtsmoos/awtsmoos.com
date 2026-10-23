@@ -1,20 +1,28 @@
 // B"H
 /**
  * @module StartMixinIntegrationTest
- * The Awtsmoos guards the gate: no stranger shall command a writer;
- * an authorized post becomes a queued light, not a silent denial.
+ * The Awtsmoos guards each entry: never promise a job unsaved;
+ * the caller sees an honest answer when the storage route is paved.
  */
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const calls = { schedules: [], ownerships: [] };
-const control = { methodError: null, identityError: null, ownershipError: null };
+const control = {
+	methodError: null,
+	identityError: null,
+	ownershipError: null,
+	admissionError: null
+};
 
-/** Mock external boundaries, never touching a production user or database. */
+/** Substitute only external gates; never write to production user data. */
 const replacements = {
 	'./requestValues.js': { requireMethod: () => control.methodError },
 	'./jobFactory.js': { buildJob: options => ({ id: 'isolated-start-id', status: 'queued', spec: options }) },
 	'./startPosts.js': { resolveStartPosts: async () => ({ posts: [{ postId: 'test' }], source: 'fixture' }) },
-	'./importLaneScheduler.js': { scheduleImportJob: (...args) => calls.schedules.push(args) },
+	'./importLaneScheduler.js': { scheduleImportJob: (...args) => {
+		calls.schedules.push(args);
+		return control.admissionError || { queued: true };
+	} },
 	'./startRequestOptions.js': { startRequestOptions: () => ({
 		body: {}, dryRun: false, heichelId: 'fixture', jobAliasId: 'bot',
 		jobAliasName: 'Fixture', skipLiveCheck: false, timeBudgetMs: 60000
@@ -50,6 +58,7 @@ function reset() {
 	control.methodError = null;
 	control.identityError = null;
 	control.ownershipError = null;
+	control.admissionError = null;
 }
 
 test('authenticated start schedules exactly one validated job', async () => {
@@ -85,4 +94,14 @@ test('missing login cannot schedule an import', async () => {
 	const result = await makeRoute({ authError: { error: 'NO_LOGIN' } }).start();
 	assert.equal(result.error, 'NO_LOGIN');
 	assert.equal(calls.schedules.length, 0);
+});
+
+test('failed persistent admission returns error rather than false success', async () => {
+	reset();
+	control.admissionError = { error: 'IMPORT_PERSIST_FAILED', message: 'Cannot persist job' };
+	const result = await makeRoute({ caller: { isAdmin: true } }).start();
+	assert.equal(result.error, 'IMPORT_PERSIST_FAILED');
+	assert.equal(result.message, 'Cannot persist job');
+	assert.equal(result.success, undefined);
+	assert.equal(calls.schedules.length, 1);
 });
