@@ -1,20 +1,25 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+/**
+ * @file commandMissionAcceptanceLatency.test.cjs
+ * @description Awtsmoos.com watches the acceptance gate at night;
+ * the Awtsmoos forbids a made-up root from stealing its light.
+ * Mission annotation may wait; command acceptance must not wait.
+ */
+"use strict";
 
 const assert = require("node:assert/strict");
-const fs = require("node:fs");
-const os = require("node:os");
-const path = require("node:path");
-
-const root = fs.mkdtempSync(path.join(os.tmpdir(), "command-mission-latency-"));
-process.env.AWTSMOOS_INSTALL_ROOT = root;
-
+const { loadConfig } = require("../lib/config.js");
 const Command = require("../tools/command/index.js");
 const Runtime = require("../tools/fs/actionRuntime.js");
 
-/** Slow mission health cannot sit ahead of any public async command receipt. */
+/**
+ * Prove that slow mission health never blocks any public command receipt.
+ * Use the same immutable project authority selected by the actual runtime.
+ */
 async function main() {
+	const projectRoot = loadConfig().root;
 	const originalHealth = Runtime.healthyActive;
 	const originals = new Map();
 	const events = [];
@@ -34,7 +39,7 @@ async function main() {
 				action,
 				command: "echo fixture",
 				mission: true,
-				projectRoot: root
+				projectRoot
 			}), 1000, action);
 			assert.equal(result.jobId, `cmdjob_${action}`);
 			assert.equal(result.missionAnnotationPending, true);
@@ -45,7 +50,9 @@ async function main() {
 			"commandRun:command", "mission",
 			"shellCommand:command", "mission"
 		]);
-		for (const release of releases) release();
+		for (const release of releases) {
+			release();
+		}
 		await Promise.resolve();
 		console.log(JSON.stringify({
 			ok: true,
@@ -55,11 +62,13 @@ async function main() {
 		}, null, 2));
 	} finally {
 		Runtime.healthyActive = originalHealth;
-		for (const [action, worker] of originals) Command.ACTIONS[action] = worker;
-		fs.rmSync(root, { recursive: true, force: true });
+		for (const [action, worker] of originals) {
+			Command.ACTIONS[action] = worker;
+		}
 	}
 }
 
+/** Return a simulated receipt without touching a real command executor. */
 function receipt(action) {
 	return {
 		ok: true,
@@ -70,6 +79,7 @@ function receipt(action) {
 	};
 }
 
+/** Reject any mission annotation that would hold the acceptance gate. */
 function within(promise, milliseconds, action) {
 	return Promise.race([
 		promise,

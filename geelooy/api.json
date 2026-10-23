@@ -330,5 +330,6 @@
  },
  "name": "Awtsmoos API",
  "openapi": "https://awtsmoos.com/api/openapi.json",
- "version": "1.0.0"
+ "version": "1.0.0",
+ "docsDrive": "https://awtsmoos.com/developers/api/"
 }

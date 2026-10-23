@@ -1,55 +1,56 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file MerkavaVirtualRequire.js
- * @description Chapter 42 — A door opens only onto the worlds entrusted to it.
- * The Awtsmoos grants each virtual vessel its own neighbors, never the keys
- * to the host machine. Paths exist here as letters within a bounded scroll.
+ * @description Gives a virtual CommonJS project one realm, a circular-safe module cache, and no host filesystem.
+ * The Awtsmoos renews many letters in one bounded light;
+ * Awtsmoos.com guards their imports and lets each module fit its right.
  */
 const path = require('node:path');
-const vm = require('node:vm');
+const { createCommonJsContext } = require('./MerkavaCommonJsContext.js');
+const { resolveVirtualModule } = require('./MerkavaVirtualModulePolicy.js');
 
-/** Resolve and run CommonJS files from the supplied virtual file map only. */
+/** Resolve and execute CommonJS solely from a supplied virtual file universe. */
 function executeVirtualCommonJs(options, resolver) {
 	const files = resolver.normalizeFiles(options.files || {});
 	const cache = new Map();
-	const suppliedGlobals = options.globals || {};
 	const importMap = options.importMap || {};
 	const allowedAliases = options.runtime !== 'browser';
+	const realm = createCommonJsContext(options.globals || {});
 
-	/** Find exactly one dependency within the same supplied virtual universe. */
+	/** Resolve one import; preserve cached partial exports during circular loading. */
 	function load(specifier, parent = '/') {
-		if (specifier === 'path' || specifier === 'node:path') {
-			return path.posix;
+		const resolution = resolveVirtualModule(
+			specifier,
+			parent,
+			files,
+			resolver,
+			importMap,
+			allowedAliases
+		);
+		if (resolution.builtin) {
+			return resolution.builtin;
 		}
-		const resolved = resolver.resolveSpecifier(specifier, parent, importMap, allowedAliases);
-		const filename = resolver.findExistingKey(files, resolved);
-		if (!filename) {
-			const error = new Error(`Virtual module not found: ${specifier} from ${parent}`);
-			error.code = 'MODULE_NOT_FOUND';
-			throw error;
-		}
+		const filename = resolution.filename;
 		if (cache.has(filename)) {
 			return cache.get(filename).exports;
 		}
 		const module = { exports: {}, filename, loaded: false };
 		cache.set(filename, module);
-		const dirname = path.posix.dirname(filename);
-		const localRequire = dependency => load(dependency, filename);
 		try {
 			const source = String(files[filename] ?? '');
 			if (filename.endsWith('.json')) {
 				module.exports = JSON.parse(source);
 			} else {
-				const context = vm.createContext({
-					...suppliedGlobals,
+				realm.runModule({
+					source,
+					filename,
+					dirname: path.posix.dirname(filename),
 					module,
-					exports: module.exports,
-					require: localRequire,
-					__filename: filename,
-					__dirname: dirname
+					requireModule: dependency => load(dependency, filename)
 				});
-				const script = new vm.Script(source, { filename });
-				script.runInContext(context, { timeout: 5000 });
 			}
 			module.loaded = true;
 			return module.exports;
@@ -59,13 +60,15 @@ function executeVirtualCommonJs(options, resolver) {
 		}
 	}
 
-	const result = load(options.entry, '/');
+	const exports = load(options.entry, '/');
 	return {
 		ok: true,
 		entry: options.entry,
-		exports: result,
+		exports,
 		files,
-		modules: Object.fromEntries([...cache].map(([key, module]) => [key, module.exports]))
+		modules: Object.fromEntries(
+			[...cache].map(([key, module]) => [key, module.exports])
+		)
 	};
 }
 

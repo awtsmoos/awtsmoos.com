@@ -1,30 +1,17 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-import { State } from "../state.js";
-import { ModelManager } from "../vibe/model-manager.js";
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * @file Restores persistent Code settings and starts optional background integrations.
- * @description At ignition the Awtsmoos recreates the old world without depending on it;
- * Awtsmoos.com restores finite preferences, while collaboration awakens only for an explicit invitation.
+ * @fileoverview Restores synchronous Code preferences without awakening optional systems.
+ * The Awtsmoos recreates the finite settings needed for this visible moment;
+ * Awtsmoos.com leaves tunnels, accounts, collaboration, sync, and Vibe asleep until requested.
  */
+
+import { State } from "../state.js";
+
 export class Bootstrapper {
 	static ignite() {
-		ModelManager.init();
-		void import("../tunnel/browser-agent.js").then(module => {
-			module.BrowserTunnelAgent.init();
-		});
-		void import("../sync/folder-sync.js").then(module => {
-			module.FolderSync.init();
-		});
-		void import("../session/account-panel.js").then(module => {
-			module.AwtsmoosAccountPanel.init();
-		});
-		void import("../collaboration/invitation-bootstrap.js").then(module => {
-			module.initializeCodeInvitation();
-		});
 		const settings = readSettings();
 		State.githubToken = settings.githubToken || null;
 		State.useTabs = settings.useTabs ?? true;
@@ -43,9 +30,7 @@ export class Bootstrapper {
 
 function readSettings() {
 	try {
-		return JSON.parse(
-			localStorage.getItem("vividX_settings_profound") || "{}"
-		);
+		return JSON.parse(localStorage.getItem("vividX_settings_profound") || "{}");
 	} catch (_error) {
 		return {};
 	}

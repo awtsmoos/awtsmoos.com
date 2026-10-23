@@ -2,54 +2,60 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file compactPrewarmActivationContract.test.cjs
- * @description Proves canonical activation treats compact prewarming as a rollback-armed pre-commit release invariant rather than an optional post-deploy convenience.
- * The Awtsmoos renews the production garment before Malchus may call the switch complete;
- * Awtsmoos.com lets Gevurah keep rollback armed until warm assets and clean source meet.
- */
-
+"use strict";
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
 
+/**
+ * @file Production activation prewarm guarantees, inspected in the real shell.
+ * The Awtsmoos bestows each byte upon the living, guarded gate;
+ * Awtsmoos.com distinguishes deferred warmth from a successfully warmed state.
+ */
 const SCRIPT = path.join(__dirname, "canonical-server-activate.sh");
 
-/** @description Reads the canonical activation source for static ordering and escape-hatch covenant checks. @returns {string} Activation shell source. */
+/** @returns {string} Exact canonical activation shell without substitutions. */
 function revealActivationSource() {
 	return fs.readFileSync(SCRIPT, "utf8");
 }
 
-/** @description Proves the mandatory prewarmer exists in the preflight contract and executes before the release is committed. @returns {void} */
-function verifyPrewarmBeforeCommit() {
+/** Enabled prewarm must be guarded, required on disk, and rollback-armed. */
+test("enabled prewarm requires its executable and fails before commit", () => {
 	const source = revealActivationSource();
-	const existence = source.indexOf('[ -f "$compact_prewarmer" ] || fail compact_prewarmer_missing');
+	const required = source.indexOf('for required in "$source_override"');
+	const prewarmerInRequiredFiles = source.indexOf('"$compact_prewarmer"', required);
+	const requiredFileCheck = source.indexOf('[ -f "$required" ] || fail', required);
 	const execution = source.indexOf('node "$compact_prewarmer"');
 	const commit = source.indexOf("committed=1");
-	assert.ok(existence >= 0);
-	assert.ok(execution > existence);
+	assert.ok(required >= 0);
+	assert.ok(prewarmerInRequiredFiles > required);
+	assert.ok(requiredFileCheck > prewarmerInRequiredFiles);
+	assert.ok(execution > requiredFileCheck);
 	assert.ok(commit > execution);
-}
-
-/** @description Proves source cleanliness is rechecked after prewarm while rollback is still armed. @returns {void} */
-function verifyPostPrewarmCleanliness() {
-	const source = revealActivationSource();
-	const execution = source.indexOf('node "$compact_prewarmer"');
-	const dirtyCheck = source.indexOf("post_prewarm_repo_dirty");
-	const commit = source.indexOf("committed=1");
-	assert.ok(dirtyCheck > execution);
-	assert.ok(commit > dirtyCheck);
+	assert.match(source, /AWTSMOOS_COMPACT_PREWARM:-0/);
 	assert.match(source, /fail compact_prewarm_failed/);
-}
+});
 
-/** @description Proves production exposes no skip-prewarm switch that could silently return first-player compilation latency. @returns {void} */
-function verifyNoSkipSwitch() {
+/** Never label deferred warmup as prewarmed in the activation status. */
+test("deferred prewarm has a truthful release status", () => {
 	const source = revealActivationSource();
+	assert.match(source, /compact prewarm deferred/);
+	assert.match(source, /compact_status=deferred/);
+	assert.match(source, /compact_status=prewarmed/);
+	assert.match(source, /compact=%s tunnelBundle=preflight-passed/);
+	assert.match(source, /"\$extension_artifact" "\$compact_status"/);
 	assert.doesNotMatch(source, /SKIP.*PREWARM|PREWARM.*SKIP/i);
-	assert.match(source, /compact=prewarmed/);
-}
+});
 
-test("canonical activation prewarms before commit", verifyPrewarmBeforeCommit);
-test("canonical activation checks cleanliness after prewarm", verifyPostPrewarmCleanliness);
-test("canonical activation has no production prewarm bypass", verifyNoSkipSwitch);
+/** Both prewarm modes must check cleanliness before clearing rollback. */
+test("post-prewarm Git cleanliness protects commit and rollback", () => {
+	const source = revealActivationSource();
+	const prewarm = source.indexOf('node "$compact_prewarmer"');
+	const cleanliness = source.indexOf("post_prewarm_repo_dirty");
+	const commit = source.indexOf("committed=1");
+	assert.ok(prewarm >= 0);
+	assert.ok(cleanliness > prewarm);
+	assert.ok(commit > cleanliness);
+	assert.match(source, /fail compact_prewarm_failed/);
+});

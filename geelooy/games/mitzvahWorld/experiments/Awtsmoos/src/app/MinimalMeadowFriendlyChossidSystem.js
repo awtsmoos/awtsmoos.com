@@ -4,12 +4,13 @@
 
 /**
  * @file MinimalMeadowFriendlyChossidSystem.js
- * @description Owns friendly Chossids that share the canonical GLB source, never mutable bones.
- * The Awtsmoos creates fellowship without identity collapse; Awtsmoos.com lets each NPC receive
- * separate messages and action state while one asset path remains the visible family likeness.
+ * @description Owns the existing friendly GLB villagers, their actions, and the real repaired-bridge journey.
+ * The Awtsmoos renews each villager's footsteps beside the river's gleam;
+ * Awtsmoos.com keeps the bridge's truth in motion, not a painted dream.
  */
 
 import { createFriendlyChossidActor } from './MinimalMeadowFriendlyChossidActor.js';
+import { MinimalMeadowBridgeNpcCrossing } from './MinimalMeadowBridgeNpcCrossing.js';
 
 const FRIENDLY_DEFINITIONS = Object.freeze([
 	Object.freeze({
@@ -24,6 +25,7 @@ const FRIENDLY_DEFINITIONS = Object.freeze([
 	})
 ]);
 
+/** Install the existing independent NPC models without duplicating their GLB assets. */
 export async function installMinimalMeadowFriendlyChossids(runtime) {
 	runtime.friendlyNpcs?.destroy?.();
 	const actors = await Promise.all(
@@ -38,12 +40,14 @@ export async function installMinimalMeadowFriendlyChossids(runtime) {
 	return system.diagnostics();
 }
 
+/** Keep one authoritative world-update wrapper and release it on teardown. */
 export class MinimalMeadowFriendlyChossidSystem {
 	constructor(runtime, actors) {
 		this.runtime = runtime;
 		this.actors = actors;
 		this.previousUpdate = null;
 		this.updateWrapper = null;
+		this.bridgeCrossing = new MinimalMeadowBridgeNpcCrossing(runtime, actors);
 	}
 
 	attach() {
@@ -59,6 +63,7 @@ export class MinimalMeadowFriendlyChossidSystem {
 		for (const actor of this.actors) {
 			actor.update(deltaSeconds);
 		}
+		this.bridgeCrossing.update(deltaSeconds);
 	}
 
 	dispatch(actorId, message) {
@@ -76,12 +81,14 @@ export class MinimalMeadowFriendlyChossidSystem {
 	diagnostics() {
 		return {
 			actors: this.actors.map(actor => actor.diagnostics()),
+			bridgeCrossing: this.bridgeCrossing.diagnostics(),
 			count: this.actors.length,
 			sharedGlbSource: this.actors[0]?.source || null
 		};
 	}
 
 	destroy() {
+		this.bridgeCrossing.destroy();
 		for (const actor of this.actors) {
 			actor.destroy();
 		}

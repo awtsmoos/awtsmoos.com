@@ -5,11 +5,9 @@
 "use strict";
 
 /**
- * @file Orchestration fixture for canonical activation across Git, TCP, and HTTP worlds.
- * @description
- * The Awtsmoos lets the top-level fixture coordinate without becoming a universe itself;
- * Awtsmoos.com delegates Git, command shims, SSH, prewarm HTTP, and watchdog installation
- * into temporary vessels, leaving this class to bind their lifecycles in readable rhyme.
+ * @file Real Git, SSH, HTTP and cache fixture for the canonical activation.
+ * The Awtsmoos reveals a private test universe without a production mutation;
+ * Awtsmoos.com binds its verified cache outside source to guard creation.
  */
 const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
@@ -21,7 +19,7 @@ const { CanonicalActivationPrewarmFixture } = require("./canonicalActivationPrew
 const { CanonicalActivationSshFixture } = require("./canonicalActivationSshFixture.cjs");
 
 class CanonicalActivationFixture {
-	/** Creates isolated repository, TCP, HTTP, command-shim, and override vessels. */
+	/** Constructs independent temporary Git and process witnesses. */
 	constructor() {
 		this.temporary = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-activate-"));
 		this.repository = new CanonicalActivationRepository(this.temporary);
@@ -34,25 +32,26 @@ class CanonicalActivationFixture {
 		this.script = path.join(__dirname, "..", "canonical-server-activate.sh");
 	}
 
-	/** @returns {string} Temporary canonical repository root. */
+	/** @returns {string} Isolated Git root. */
 	get repo() {
 		return this.repository.repo;
 	}
 
-	/** Starts the real TCP/HTTP witnesses, repository universe, and command shims. */
+	/** Starts the isolated Git, SSH, HTTP, and command shims. */
 	setup() {
 		this.prewarm.start();
 		this.ssh.start();
 		this.repository.setup(this.ssh.port);
 		Support.writeCommandShims(this.bin);
-		fs.writeFileSync(path.join(this.temporary,"mime.types"),"types { application/javascript js mjs; }\n");
+		fs.writeFileSync(path.join(this.temporary, "mime.types"),
+			"types { application/javascript js mjs; }\n");
 	}
 
 	/**
-	 * Runs canonical activation against ephemeral SSH and compact-prewarm protocol fixtures.
-	 * @param {string} sha Expected canonical commit SHA.
-	 * @param {string[]} [environment] Simulated systemd service environment.
-	 * @returns {object} Synchronous child-process result.
+	 * Runs actual activation shell with an isolated private test cache.
+	 * @param {string} sha Tested repository SHA.
+	 * @param {string[]} [environment] Required service environment.
+	 * @returns {object} Synchronous process observation.
 	 */
 	run(sha, environment) {
 		const serviceEnvironment = environment || [
@@ -67,7 +66,8 @@ class CanonicalActivationFixture {
 				TEST_REPO: this.repo,
 				TEST_SERVICE_ENVIRONMENT: serviceEnvironment.join(" "),
 				AWTSMOOS_PRODUCTION_REPO: this.repo,
-				AWTSMOOS_NGINX_MIME_TYPES: path.join(this.temporary,"mime.types"),
+				AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR: path.join(this.temporary, "bundle-cache"),
+				AWTSMOOS_NGINX_MIME_TYPES: path.join(this.temporary, "mime.types"),
 				AWTSMOOS_SYSTEMD_OVERRIDE_PATH: this.override,
 				AWTSMOOS_SYSTEMD_DIRECTORY: this.systemd,
 				AWTSMOOS_LIBEXEC_DIRECTORY: this.libexec,
@@ -78,27 +78,27 @@ class CanonicalActivationFixture {
 		});
 	}
 
-	/** @returns {string[]} Complete virtual-SSH environment for the ephemeral port. */
+	/** @returns {string[]} Complete virtual SSH environment. */
 	virtualSshEnvironment() {
 		return Support.virtualSshEnvironment(this.ssh.port);
 	}
 
-	/** @returns {string} Trimmed stdout from one required-success Git invocation. */
+	/** @returns {string} Required successful Git result. */
 	git(repository, ...args) {
 		return this.repository.git(repository, ...args);
 	}
 
-	/** @param {string} value Override sentinel or fixture content. */
+	/** Sets a rollback sentinel or fixture override. */
 	writeOverride(value) {
 		fs.writeFileSync(this.override, value);
 	}
 
-	/** @returns {string} Generated extension artifact path. */
+	/** @returns {string} Generated extension artifact. */
 	artifact() {
 		return this.repository.artifact();
 	}
 
-	/** Stops child witnesses and removes the complete temporary fixture universe. */
+	/** Stops child witnesses and destroys only the isolated temp tree. */
 	cleanup() {
 		this.prewarm.stop();
 		this.ssh.stop();

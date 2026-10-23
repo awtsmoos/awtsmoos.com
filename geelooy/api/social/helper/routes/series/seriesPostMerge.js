@@ -15,6 +15,7 @@
  */
 
 const { allPostsGrouped } = require('../../packed/allPostsIndex.js');
+const { safeRecordRead } = require('../../safeguards/safeRecordRead.js');
 
 /**
  * Normalizes one legacy series-posts index entry to the merged shape.
@@ -71,8 +72,14 @@ function mergePostObjects(legacy, packedList) {
  * @returns {Promise<object>} Posts keyed by postId (legacy shape, compact).
  */
 async function readMergedSeriesPosts({ $i, heichelId, seriesId, legacy }) {
-	const groups = allPostsGrouped({ $i, heichelId, seriesIds: [String(seriesId)] });
-	return mergePostObjects(legacy, groups.get(String(seriesId)) || []);
+	// B"H 2026-10-20 (safeguards): a poison packed read must degrade to
+	// legacy-only listings — never take the series browse page down.
+	const sid = String(seriesId);
+	const groups = await safeRecordRead(
+		'packed:allPostsGrouped:' + heichelId + ':' + sid,
+		() => allPostsGrouped({ $i, heichelId, seriesIds: [sid] }),
+		{ fallback: new Map(), tag: 'seriesPostMerge' });
+	return mergePostObjects(legacy, groups.get(sid) || []);
 }
 
 module.exports = {

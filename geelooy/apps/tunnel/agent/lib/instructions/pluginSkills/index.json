@@ -1,5 +1,5 @@
 {
-  "pluginVersion": "0.91.0",
+  "pluginVersion": "0.93.0",
   "sourcePluginId": "plugin_1e3aaae027408191ab6a75b861bd8ec4",
   "resources": [
     {
@@ -89,8 +89,8 @@
     },
     {
       "path": "skills/instructions/references/ARTIFACTS_AND_PUBLIC_LINKS.md",
-      "bytes": 6480,
-      "hash": "129c33742eb22be69d24816942f5bb000852fc4b82468f4af2f57c8be2dade85"
+      "bytes": 8062,
+      "hash": "b0ac36597a0d8a2dbd0cac395e7384967df5cfca72de6a07fdacb73a72272ca3"
     },
     {
       "path": "skills/instructions/references/CODE_AND_PROJECT_GATES.md",
@@ -264,8 +264,8 @@
     },
     {
       "path": "skills/instructions/references/PUBLIC_SUBMISSION_CHECKLIST.md",
-      "bytes": 5609,
-      "hash": "871f7a5b0b052cfdf450a753beb72c0e4dbe60db94f2269aa7997cc12244e13b"
+      "bytes": 8758,
+      "hash": "0e7d839ee31c54e10327795fbd619453aa65a77709a6f3692ce91071a9bab92b"
     },
     {
       "path": "skills/instructions/references/QUALITY_SWEEP.md",

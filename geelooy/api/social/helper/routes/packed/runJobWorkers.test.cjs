@@ -1,32 +1,45 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * @module RunJobWorkersTests
- * The Awtsmoos renews the ledger: a delayed echo may not erase
- * the honest completion of an importer's final written chapter.
+ * @file runJobWorkers.test.cjs
+ * @description
+ * The Awtsmoos seals the last truthful state after every earlier echo has flown;
+ * Awtsmoos.com proves delayed checkpoints cannot erase completion, and worker failure is known.
  */
-const test = require('node:test');
+
 const assert = require('node:assert/strict');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const test = require('node:test');
 
 /** Replace worker dependencies only inside this isolated test process. */
 function loadControlledRunner() {
 	const replacements = {
 		'./processOnePost.js': {
-			processOnePost: async (ctx) => {
-				if (ctx.forceFailure) throw new Error('synthetic post failure');
-				ctx.job.postsDone++;
+			processOnePost: async context => {
+				if (context.forceFailure) throw new Error('synthetic post failure');
+				context.job.postsDone++;
 			}
 		},
-		'./runJobBatch.js': { flushPackedBatch() {} },
+		'./runJobBatch.js': { flushPackedBatch: async () => {} },
 		'./jobLog.js': { appendJobLog() {} },
-		'./serverHealth.js': { heapTooHigh: () => false },
+		'./serverHealth.js': {
+			heapTooHigh: () => false,
+			systemMemLow: () => false
+		},
 		'./eventLoopMonitor.js': { shedNow: () => false }
 	};
 	for (const [name, exports] of Object.entries(replacements)) {
 		const fileName = require.resolve(name);
-		require.cache[fileName] = { id: fileName, filename: fileName, loaded: true, exports };
+		require.cache[fileName] = {
+			id: fileName,
+			filename: fileName,
+			loaded: true,
+			exports
+		};
 	}
 	return require('./runJobWorkers.js').runWorkers;
 }
@@ -40,15 +53,24 @@ function makeContext(directory, count = 25) {
 		id: 'postimport_test_' + Date.now(),
 		status: 'running',
 		dryRun: true,
+		isAdmin: true,
 		startedAt: Date.now(),
-		timeBudgetMs: 60000,
+		lastWorkerHeartbeatAt: Date.now(),
 		postsDone: 0,
 		errors: [],
+		doneHashes: {},
 		backlinkQueue: new Map(),
 		seriesAdds: new Map(),
 		spec
 	};
-	return { job, spec, $i: { db: { directory } }, routes: {}, WORKERS: 1, nextPost: 0 };
+	return {
+		job,
+		spec,
+		$i: { db: { directory } },
+		routes: {},
+		WORKERS: 1,
+		nextPost: 0
+	};
 }
 
 const runWorkers = loadControlledRunner();
@@ -70,18 +92,25 @@ test('delayed checkpoint cannot overwrite persisted done status', async () => {
 		return originalRename(from, to);
 	};
 	try {
-		const ctx = makeContext(directory);
-		const running = runWorkers(ctx);
+		const context = makeContext(directory);
+		const running = runWorkers(context);
 		await Promise.race([
 			enteredGate,
-			new Promise((_, reject) => setTimeout(() => reject(new Error('checkpoint did not start')), 4000))
+			new Promise((_, reject) => {
+				setTimeout(() => reject(new Error('checkpoint did not start')), 4000);
+			})
 		]);
 		await new Promise(resolve => setImmediate(resolve));
-		assert.equal(ctx.job.status, 'done');
-		assert.equal(ctx.job.finishedAt, undefined);
+		assert.equal(context.job.status, 'done');
+		assert.equal(context.job.finishedAt, undefined);
 		releaseRename();
 		await running;
-		const fileName = path.join(directory, 'socialPacked', 'post-import-jobs', ctx.job.id + '.json');
+		const fileName = path.join(
+			directory,
+			'socialPacked',
+			'post-import-jobs',
+			context.job.id + '.json'
+		);
 		const persisted = JSON.parse(fs.readFileSync(fileName, 'utf8'));
 		assert.equal(persisted.status, 'done');
 		assert.equal(persisted.postsDone, 25);
@@ -96,12 +125,17 @@ test('delayed checkpoint cannot overwrite persisted done status', async () => {
 test('worker exceptions persist failed terminal status', async () => {
 	const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'awt-checkpoint-failed-'));
 	try {
-		const ctx = makeContext(directory, 1);
-		ctx.forceFailure = true;
-		await runWorkers(ctx);
-		const fileName = path.join(directory, 'socialPacked', 'post-import-jobs', ctx.job.id + '.json');
+		const context = makeContext(directory, 1);
+		context.forceFailure = true;
+		await runWorkers(context);
+		const fileName = path.join(
+			directory,
+			'socialPacked',
+			'post-import-jobs',
+			context.job.id + '.json'
+		);
 		assert.equal(JSON.parse(fs.readFileSync(fileName, 'utf8')).status, 'failed');
-		assert.match(ctx.job.errors[0].message, /synthetic post failure/);
+		assert.match(context.job.errors[0].message, /synthetic post failure/);
 	} finally {
 		fs.rmSync(directory, { recursive: true, force: true });
 	}

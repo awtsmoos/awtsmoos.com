@@ -3,15 +3,16 @@
 // Blessed is He
 
 /**
- * @file Exact binary artifact routes must precede parameterized download routes.
- * The Awtsmoos keeps every private byte secure until its rightful gate;
- * Awtsmoos.com requires deliberate consent before exposure to fate.
+ * @file Exact private binary artifact routes precede public download routes.
+ * The Awtsmoos keeps the private byte behind the owner gate;
+ * Awtsmoos.com grants no public link to what must privately await.
  */
 const { agentManifest } = require("../agentManifest.js");
 const { artifactPublish, artifactGet, artifactRevoke } = require("../artifactPublication.js");
 const { artifactBinaryChunk } = require("../artifactBinaryChunk.js");
 const { artifactBinaryOffset } = require("../artifactBinaryOffset.js");
 const { artifactBinaryPublish } = require("../artifactBinaryPublish.js");
+const { artifactBinaryPrivateRange } = require("../artifactBinaryPrivateRange.js");
 const {
 	artifactBinaryStart,
 	artifactBinaryFinish,
@@ -54,6 +55,7 @@ const dataRoutes = Object.freeze({
 	"artifact/binary/publish": artifactBinaryPublish,
 	"artifact/binary/chunk/:id": artifactBinaryChunk,
 	"artifact/binary/offset/:id": artifactBinaryOffset,
+	"artifact/binary/private-range/:id": artifactBinaryPrivateRange,
 	"artifact/:token/:filename": artifactGet,
 	"transfer/get/:tunnelName": fileTransferGet,
 	"ephemeral/list": ephemeralList,

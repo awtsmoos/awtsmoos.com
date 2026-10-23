@@ -13,6 +13,7 @@
  * identical to processOneWrite's expectations.
  */
 
+const crypto = require('crypto');
 const { validatePost, normalizePost, canonicalBytes, contentHash, validPreHash } = require('./postValidate.js');
 const { appendJobLog } = require('./jobLog.js');
 const { PER_POST_MAX_BYTES } = require('./importBounds.js');
@@ -29,6 +30,7 @@ async function processOneValidate(ctx, n) {
 			}
 			let post;
 			let aliasName;
+			let canonHash = null;
 			try {
 				const verr = validatePost(raw, n);
 				if (verr) throw new Error(verr);
@@ -37,10 +39,17 @@ async function processOneValidate(ctx, n) {
 				// alias is part of the post's identity).
 				aliasName = (post.commentator && String(post.commentator).trim()) || spec.aliasName;
 				post.aliasId = routes.postAliasId(post, spec.heichelId, spec.aliasId);
-				const wireBytes = Buffer.byteLength(canonicalBytes(post));
+				// B"H 2026-10-21 (Worker B, import-speed): canonical bytes
+				// are computed ONCE here. canonHash is byte-identical to
+				// contentHash(post) (sha256 of the same canonical bytes),
+				// so the size check and the hash below no longer pay for
+				// two full sort+stringify passes per post.
+				const canon = canonicalBytes(post);
+				const wireBytes = canon.length;
 				if (wireBytes > PER_POST_MAX_BYTES) {
 					throw new Error('POST_TOO_LARGE: post ' + post.postId + ' is ' + wireBytes + ' bytes (cap ' + PER_POST_MAX_BYTES + ')');
 				}
+				canonHash = crypto.createHash('sha256').update(canon).digest('hex');
 			} catch (e) {
 				job.failed++;
 				job.errors.push({ postId: String((raw && (raw.postId || raw.id)) || ('#' + n)), message: e.message });
@@ -56,7 +65,7 @@ async function processOneValidate(ctx, n) {
 			hash = suppliedHash;
 			job.preHashed++;
 			if (job.preHashed % 100 === 1) {
-				const recomputed = contentHash(post);
+				const recomputed = canonHash || contentHash(post);
 				if (recomputed === hash) {
 					job.preHashVerified++;
 				} else {
@@ -70,7 +79,7 @@ async function processOneValidate(ctx, n) {
 				}
 			}
 		} else {
-			hash = contentHash(post);
+			hash = canonHash || contentHash(post);
 		}
 	return { post: post, hash: hash, aliasName: aliasName };
 }

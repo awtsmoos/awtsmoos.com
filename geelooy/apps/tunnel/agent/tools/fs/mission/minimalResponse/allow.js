@@ -60,6 +60,8 @@ const KEEP = [
 	"responseBytes",
 	"inlineLimitBytes",
 	"missionWriteToken",
+	"missionWriteTokenExpiresAt",
+	"authorizationRetry",
 	"stopAudit",
 	"minimumRunRequired",
 	"minimumUntil",

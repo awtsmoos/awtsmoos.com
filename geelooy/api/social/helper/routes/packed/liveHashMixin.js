@@ -9,6 +9,8 @@
  */
 
 const { listPackedRecords, readPacked, forEachLineFastAsync, fileRoot, fastKeyType } = require('../../packed/socialPacked.js');
+const { engineFor, effectiveRoot, fileFor } = require('../../packed/socialPackedEngine.js');
+const { findIndexed } = require('../../packed/keyIndex.js');
 const { logicalKey } = require('../../packed/shardPaths.js');
 const { contentHash } = require('./postValidate.js');
 
@@ -66,6 +68,60 @@ module.exports = {
 				}
 			} catch (_) { /* missing = not live, skip */ }
 		}
+		return cache;
+	},
+
+
+	// B"H 2026-10-21 (Worker B, import-speed): the ASYNC indexed builder the
+	// job runner actually uses. The sync builder above calls readPacked()
+	// per post; in JSONL mode readPacked() is a FULL synchronous scan of
+	// the core shard (14 GB in production) — so a 10-post job blocked the
+	// event loop for ~5 minutes at postsDone=0 and the process was killed
+	// (measured 2026-10-21: 10 posts, >=292 s, 0 done, job interrupted).
+	// This builder uses the packed key index (sidecar offsets): one O(1)
+	// seek + single-line read per post, async fs throughout, bounded
+	// concurrency, and a setImmediate breath every 25 lookups — the loop
+	// never blocks and web traffic stays live. In AwtsmoosDB mode the
+	// store reads are already O(1) point lookups, so the sync path is
+	// reused there.
+	async buildLiveHashCacheForPostsAsync($i, heichelId, postIds) {
+		const ids = [...new Set((postIds || []).filter(Boolean))];
+		if (!ids.length) return new Map();
+		if (engineFor($i, 'core') !== 'JSONL') {
+			return this.buildLiveHashCacheForPosts($i, heichelId, ids);
+		}
+		const file = fileFor(effectiveRoot($i, 'core'), 'core');
+		if (!file) return new Map();
+		const cache = new Map();
+		let cursor = 0;
+		const CONCURRENCY = 8;
+		const worker = async () => {
+			while (cursor < ids.length) {
+				const postId = ids[cursor++];
+				try {
+					const rec = await findIndexed(file, logicalKey(['posts', heichelId, postId]));
+					const live = rec && rec.value ? rec.value : rec;
+					if (live && typeof live === 'object') {
+						try { cache.set(postId, contentHash(live)); } catch (_) { /* skip */ }
+					}
+				} catch (_) { /* missing/index-miss = not live, skip */ }
+				if (cursor % 25 === 0) await new Promise(r => setImmediate(r));
+			}
+		};
+		await Promise.all(Array.from({ length: Math.min(CONCURRENCY, ids.length) }, worker));
+		// B"H 2026-10-21 (Worker B, import-speed v4): the packed key index
+		// is INCOMPLETE in production (measured: a full scan finds records
+		// findIndexed misses — 100k indexed keys over a far larger corpus),
+		// so an index miss is NOT proof of absence. v2/v3 resolved misses
+		// with one streaming pass over the 14 GB shard — correct, but the
+		// pass made the pre-worker build the fragile window (jobs died
+		// to the 600 s budget and to deploy restarts at postsDone=0).
+		// v4 therefore returns this PARTIAL cache immediately (seconds)
+		// and lets processOneWrite resolve each miss at write time with
+		// a native-record probe: the native DosDB record is the system
+		// of record, and its canonical hash decides skip-vs-write
+		// exactly as the packed hash did. No shard pass ever runs on
+		// the import path; progress is checkpointable from post #1.
 		return cache;
 	},
 

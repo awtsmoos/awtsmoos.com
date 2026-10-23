@@ -35,6 +35,9 @@ function fields(raw = {}, selectedAction = "") {
 		predecessorAgentId: raw.predecessorAgentId,
 		agentName: raw.agentName,
 		missionId: raw.missionId,
+		// One-time, device-verified mission authorization is part of the action,
+		// not an API login credential. The hosted route must relay it unchanged.
+		missionWriteToken: missionWriteToken(raw.missionWriteToken || raw.writeToken),
 		roomId: raw.roomId,
 		leaseId: raw.leaseId || raw.agentLeaseId,
 		conversationId: raw.conversationId,
@@ -60,6 +63,11 @@ function isRetry(raw = {}, selectedAction = "") {
 	return String(raw.action || selectedAction || "") === "retryAction";
 }
 
+/** Never turn arbitrary objects/oversized carrier fields into permission tokens. */
+function missionWriteToken(value) {
+	return typeof value === "string" && /^wrt_[a-f0-9]{24}$/.test(value) ? value : undefined;
+}
+
 /** Removes absent values without mutating valid numeric or boolean testimony. */
 function clean(input = {}) {
 	return Object.fromEntries(Object.entries(input).filter(([, value]) => {
@@ -74,6 +82,7 @@ function positive(value, fallback) {
 }
 
 module.exports = {
+	missionWriteToken,
 	clean,
 	fields,
 	isRetry,

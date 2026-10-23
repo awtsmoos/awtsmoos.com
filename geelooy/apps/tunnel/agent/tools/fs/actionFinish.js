@@ -6,8 +6,34 @@ const Receipts = require('./mission/toolReceipts/index.js');
 const StopAudit = require('./mission/stopAudit/index.js');
 const Final = require('./mission/finalInterceptor/index.js');
 const Envelope = require('./mission/envelope/index.js');
-function firewallBlock(action, firewallResult, active, payload) {
-  return Focus.compact({ ok:false, action, ...firewallResult, finalAnswerAllowed:false, mustContinue:true, mustCallNext:active.lastMustCallNext }, payload);
+function firewallBlock(action, firewallResult, active = {}, payload = {}) {
+  // A firewall denial has not run the requested action. The next step must
+  // authorize THAT exact action, not replay an unrelated planning checkpoint.
+  if (firewallResult.error === "mission_step_authorization_required" &&
+      firewallResult.missionWriteToken) {
+    const retry = {
+      action,
+      path: String(payload.path || payload.p || ""),
+      missionId: firewallResult.missionId || active.missionId,
+      missionWriteToken: firewallResult.missionWriteToken
+    };
+    return Focus.compact({
+      ok: false, action, ...firewallResult,
+      finalAnswerAllowed: false, mustContinue: true,
+      mustCallNext: retry, nextRequiredToolCall: retry,
+      retryPayload: retry, executionCompleted: false,
+      authorizationRetry: {
+        safeToRetry: true,
+        originalActionNotExecuted: true,
+        originalPayloadRequired: true,
+        instructions: "Resubmit the original action and content unchanged, adding missionWriteToken from retryPayload. Use a new request ID only after this terminal denial; do not repeat a pending action."
+      }
+    }, payload);
+  }
+  return Focus.compact({
+    ok:false, action, ...firewallResult, finalAnswerAllowed:false,
+    mustContinue:true, mustCallNext:active.lastMustCallNext
+  }, payload);
 }
 /**
  * B"H — Every action leaves through one friendly gate.

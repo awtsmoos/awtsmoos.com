@@ -1,0 +1,50 @@
+[
+  {
+    "words": 100,
+    "synthetic": true,
+    "hebrewRaw": 974,
+    "hebrewBrotli": 96,
+    "encodedRaw": 3759,
+    "encodedBrotli": 2102,
+    "woffBytes": 13552,
+    "firstVisitBytes": 15654,
+    "cachedFontBytes": 2102,
+    "measurementMs": 32.77
+  },
+  {
+    "words": 1000,
+    "synthetic": true,
+    "hebrewRaw": 9749,
+    "hebrewBrotli": 97,
+    "encodedRaw": 37599,
+    "encodedBrotli": 19239,
+    "woffBytes": 13552,
+    "firstVisitBytes": 32791,
+    "cachedFontBytes": 19239,
+    "measurementMs": 359.03
+  },
+  {
+    "words": 5000,
+    "synthetic": true,
+    "hebrewRaw": 48749,
+    "hebrewBrotli": 97,
+    "encodedRaw": 187999,
+    "encodedBrotli": 85046,
+    "woffBytes": 13552,
+    "firstVisitBytes": 98598,
+    "cachedFontBytes": 85046,
+    "measurementMs": 1569.62
+  },
+  {
+    "words": 20000,
+    "synthetic": true,
+    "hebrewRaw": 194999,
+    "hebrewBrotli": 98,
+    "encodedRaw": 751999,
+    "encodedBrotli": 305061,
+    "woffBytes": 13552,
+    "firstVisitBytes": 318613,
+    "cachedFontBytes": 305061,
+    "measurementMs": 6279.61
+  }
+]

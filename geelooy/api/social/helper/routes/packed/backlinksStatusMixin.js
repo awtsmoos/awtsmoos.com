@@ -18,7 +18,7 @@ module.exports = {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
-		const backlinkId = requestValue(this.$i, 'backlinks');
+		const backlinkId = requestValue(this.$i, 'backlinks') || requestValue(this.$i, 'backlinksId') || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'job') || requestValue(this.$i, 'id'); // Worker A 2026-10-21: alias parity with status
 		const found = getJobView(this.$i, backlinkId);
 		if (!found) return { success: false, error: 'BACKLINKS_NOT_FOUND', backlinkId };
 		const v = found.view;
@@ -48,7 +48,7 @@ module.exports = {
 		const auth = this.checkAuth();
 		if (auth) return auth;
 		const body = this.$i?.body || {};
-		const jobId = String(body.job || requestValue(this.$i, 'job') || '');
+		const jobId = String(body.job || body.jobId || requestValue(this.$i, 'job') || requestValue(this.$i, 'jobId') || ''); // Worker A 2026-10-21: accept jobId
 		if (!jobId) return { success: false, error: 'NO_JOB', message: 'Provide {job}.' };
 		const found = getJobView(this.$i, jobId);
 		if (!found) return { success: false, error: 'JOB_NOT_FOUND', jobId };

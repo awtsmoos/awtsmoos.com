@@ -11,11 +11,12 @@ const Status = require("../fileTransferStatus.js");
 const Store = require("../fileTransferStore.js");
 const Write = require("../fileTransferChunkWrite.js");
 const Binary = require("../binaryArtifactUploader.js");
+const Download = require("../binaryArtifactDownloader.js");
 
 /**
- * @file One registered family for verified file transfers and raw artifact upload.
- * The Awtsmoos unites precise receipts with each newly lifted byte;
- * Awtsmoos.com never calls a staged upload finished until hashes meet.
+ * Awtsmoos.com guards the native source and its verified destination;
+ * the Awtsmoos grants raw private bytes a hash-proven installation.
+ * The canonical controller bridge uses only the two binary operations.
  */
 function buildFileTransferActions({ config, payload }) {
 	return {
@@ -23,6 +24,15 @@ function buildFileTransferActions({ config, payload }) {
 		fileTransferSourceProof: async () => Read.sourceProof(config, payload),
 		fileTransferReadChunk: async () => Read.readChunk(config, payload),
 		fileTransferUploadBinary: async () => Binary.uploadBinaryArtifact(config, payload),
+		fileTransferDownloadBinary: async () => Download.downloadPrivateArtifact(config, {
+			transferId: payload.transferId,
+			downloadCapability: payload.downloadCapability
+		}, {
+			path: payload.path,
+			expectedBytes: payload.expectedBytes,
+			expectedSha256: payload.expectedSha256,
+			overwrite: payload.overwrite
+		}),
 		fileTransferCreate: async () => create(config, payload),
 		fileTransferStatus: async () => Status.status(config, payload),
 		fileTransferWriteChunk: async () => Write.writeChunk(config, payload),
@@ -32,14 +42,14 @@ function buildFileTransferActions({ config, payload }) {
 	};
 }
 
-/** Reserve a writable destination while preserving the existing identity. */
+/** Preserve legacy local transfer staging for noncanonical direct callers. */
 async function create(config, payload) {
 	assertWritable(config);
 	const manifest = await Store.create(config, payload);
 	return Status.status(config, { transferId: manifest.transferId });
 }
 
-/** Honor cancellation unless a previous atomic commit has already succeeded. */
+/** Honor cancellation unless an earlier verified commit already succeeded. */
 async function cancel(config, payload) {
 	assertWritable(config);
 	const transfer = Store.paths(config, payload.transferId);
@@ -53,11 +63,9 @@ async function cancel(config, payload) {
 	});
 }
 
-/** The Awtsmoos permits writes only when the owner enabled both gates. */
+/** All writable destinations require both operator authorization gates. */
 function assertWritable(config) {
-	if (!config.tools.fsWrite || !config.allowWrite) {
-		throw new Error("Writes disabled.");
-	}
+	if (!config.tools.fsWrite || !config.allowWrite) throw Error("Writes disabled.");
 }
 
 module.exports = { buildFileTransferActions };

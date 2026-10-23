@@ -59,9 +59,10 @@ module.exports = {
 			}
 		}
 		let added = 0;
+		const addedComments = [];
 		for (const c of comments) {
 			if (seen.has(c.id)) { job.skipped++; continue; }
-			seen.add(c.id); merged.push(c); added++;
+			seen.add(c.id); merged.push(c); added++; addedComments.push(c);
 		}
 		const postData = {
 			postId, seriesId, aliasId, heichelId,
@@ -70,6 +71,15 @@ module.exports = {
 		};
 		db.fs.write(perPostPath(aliasId, postId), awts.serializeJSON(postData));
 		if (db.fs.flush) db.fs.flush();
+		// Worker G (2026-10-21): imported comments must appear in the alias
+		// comment index (allFor) like native comments do. Guarded so it only
+		// runs with a real app db handle and can never fail the import.
+		if (addedComments.length && ($i?.db?.directory || $i?.db?.root)) {
+			try {
+				const { indexAliasCommentsBatch } = require('../../comments/aliasCommentIndex.js');
+				await indexAliasCommentsBatch({ $i, comments: addedComments });
+			} catch (_) { /* alias indexing is additive; import already succeeded */ }
+		}
 		flushVectorRows();
 		job.wrote = added;
 		return 'ok';

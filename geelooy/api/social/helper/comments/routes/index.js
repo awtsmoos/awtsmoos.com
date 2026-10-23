@@ -17,12 +17,14 @@ const search = require('./search.js');
 const rich = require('./rich.js');
 const reactions = require('./reactions.js');
 const translations = require('./translations.js');
+const translationAnnotations = require('./translationAnnotations.js');
 
 module.exports = context => Object.assign(
 	{},
 	indexing(context),
 	search(context),
 	translations(context),
+	translationAnnotations(context),
 	submitted(context),
 	moderated(context),
 	rich(context),

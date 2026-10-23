@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 (function(root, factory) {
 	if (typeof module === "object" && module.exports) {
@@ -16,6 +16,37 @@
 	]);
 	const HEAD_TAGS = new Set(["base", "link", "meta", "script", "style", "title"]);
 	const INLINE_TAGS = new Set(["a", "b", "em", "i", "label", "small", "span", "strong"]);
+
+	/**
+	 * In Awtsmoos.com the letters find their light;
+	 * first-written attributes keep their right.
+	 * Apply each attribute once, without prototype collisions or host parsing.
+	 *
+	 * @param {object} element Executor-owned DOM element or test double.
+	 * @param {ReadonlyArray<{name:string,value:string}>} attributes HTML token attributes.
+	 * @returns {void}
+	 */
+	function applyHtmlAttributes(element, attributes) {
+		if (!attributes || attributes.length === 0) {
+			return;
+		}
+		const seen = Object.create(null);
+		const deduped = [];
+		for (const attribute of attributes) {
+			if (seen[attribute.name]) {
+				continue;
+			}
+			seen[attribute.name] = true;
+			deduped.push(attribute);
+		}
+		if (typeof element.__setParsedAttributes === "function") {
+			element.__setParsedAttributes(deduped);
+			return;
+		}
+		for (const attribute of deduped) {
+			element.setAttribute(attribute.name, attribute.value);
+		}
+	}
 
 	/** Returns the canonical document element for structural HTML tags. */
 	function canonicalHtmlElement(document, tagName) {
@@ -76,6 +107,7 @@
 
 	return {
 		VOID_TAGS,
+		applyHtmlAttributes,
 		applyHtmlDefaultDisplay,
 		canonicalHtmlElement,
 		countHtmlNodes,

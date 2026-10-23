@@ -1,13 +1,11 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
-
+// B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @file Canonical Awtsmoos.com process composition root.
- * @description
- * The Awtsmoos gathers mail, realtime breath, HTTP ingress, tenant worlds, Torah authority,
- * and guarded service doors into one measured awakening. Awtsmoos.com announces a living
- * runtime only after required storage vessels have awakened beneath one truthful light.
+ * @description The Awtsmoos gathers mail, realtime breath, HTTP ingress,
+ * tenant worlds, Torah authority and guarded service doors into awakening.
+ * Awtsmoos.com announces life only when required storage vessels have risen.
  */
 const fs = require("node:fs");
 const AwtsMail = require("./ayzarim/email/email.js");
@@ -29,9 +27,7 @@ const {
 	bindRuntimeShutdown
 } = require("./ayzarim/awtsmoosDynamicServer/server/runtimeShutdown.js");
 const {
-	getNumberEnv,
-	listenRequired,
-	startMailSafely
+	getNumberEnv, listenRequired, startMailSafely
 } = require("./ayzarim/awtsmoosDynamicServer/server/listenerLifecycle.js");
 const {
 	warmRichCommentAuthority
@@ -49,17 +45,14 @@ const {
 const {
 	createCustomDomainHttpIngress
 } = require("./geelooy/sites/customDomainHttpIngress.js");
+const {
+	createGlyphSessionIngress
+} = require("./ayzarim/glyph-engine/session-ingress.cjs");
 
 const DEFAULT_HTTP_PORT = 8080;
 const DEFAULT_MAIL_PORT = 25;
 
-/**
- * Warms heavyweight request authorities only when explicitly requested.
- * The packed commentary database can be very large; eagerly materializing its
- * filesystem manifest before listen() can make production appear dead and hold
- * over a gigabyte before the first request. Normal production therefore opens
- * immediately and lets the canonical store hydrate lazily.
- */
+/** Warm heavyweight authorities only when explicitly requested. */
 function warmRequestAuthorities(dynamicServer) {
 	if (process.env.AWTSMOOS_WARM_RICH_COMMENTS !== "true") {
 		return { warmed: false, skipped: true, reason: "startup_warmup_disabled" };
@@ -74,7 +67,7 @@ function warmRequestAuthorities(dynamicServer) {
 	return result;
 }
 
-/** Starts every configured process-level vessel in dependency order. */
+/** Start every configured vessel in canonical dependency order. */
 async function revealAwtsmoosRuntime() {
 	const runtimeHealth = createRuntimeHealth();
 	const httpAdmission = createHttpAdmission();
@@ -82,8 +75,7 @@ async function revealAwtsmoosRuntime() {
 	const malchusMail = mailDisabled ? null : new AwtsMail();
 	const binahDynamicServer = new AwtsServer(__dirname, malchusMail);
 	const yesodSocketServer = new AwtsSocket();
-	// B"H — when independently guarded, native WebSockets and their canonical
-	// receipts live outside this replaceable HTTP process generation.
+	// B"H — independently guarded sockets survive replaceable HTTP generations.
 	if (process.env.AWTSMOOS_GUARDIAN_ACTIVE === "1") {
 		require("./scripts/tunnel/guardian/guardianBridge.cjs").attachBridge(yesodSocketServer);
 	}
@@ -112,6 +104,7 @@ async function revealAwtsmoosRuntime() {
 			runtimeHealth.handle,
 			httpAdmission.handle,
 			faviconIngress,
+			createGlyphSessionIngress(),
 			createCustomDomainHttpIngress({ dynamicServer: binahDynamicServer }),
 			createAutoplayReportIngress(__dirname)
 		]
@@ -130,10 +123,9 @@ async function revealAwtsmoosRuntime() {
 	await startMailSafely(malchusMail, { defaultPort: DEFAULT_MAIL_PORT });
 }
 
-/** Marks a composition-root failure as process-fatal after emitting bounded testimony. */
+/** Record process-start failure without swallowing its fatal status. */
 function reportStartupRupture(error) {
 	console.error('B"H - Startup rupture:', error);
 	process.exitCode = 1;
 }
-
 revealAwtsmoosRuntime().catch(reportStartupRupture);

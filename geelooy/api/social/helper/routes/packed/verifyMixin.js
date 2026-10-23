@@ -88,7 +88,7 @@ module.exports = {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
-		const verifyId = requestValue(this.$i, 'verify');
+		const verifyId = requestValue(this.$i, 'verify') || requestValue(this.$i, 'verifyId') || requestValue(this.$i, 'jobId') || requestValue(this.$i, 'job') || requestValue(this.$i, 'id'); // Worker A 2026-10-21: accept jobId-style aliases, same defect class as status
 		const found = getJobView(this.$i, verifyId);
 		if (!found) return { success: false, error: 'VERIFY_NOT_FOUND', verifyId };
 		const v = found.view;

@@ -2,58 +2,82 @@
 //Boruch Hashem
 //Blessed is He
 
-import { State } from "../state.js";
-import { UI } from "../ui.js";
+/**
+ * @fileoverview Reveals remembered editor reality before slower storage vessels reconnect.
+ * The Awtsmoos creates the usable world before every finite backing handle returns;
+ * Awtsmoos.com paints session, tabs, and editor first, then awakens filesystems and interactions.
+ */
+
 import { Editor } from "../editor.js";
-import { setupEventListeners } from "./event-listeners.js";
-import { TabManagerOverlay } from "../tab-manager-overlay.js";
-import { FindReplace } from "../find-replace.js";
-import { SettingsManager } from "./settings.js";
+import { State } from "../state.js";
 import { Bootstrapper } from "./bootstrapper.js";
 import { StorageOrchestrator } from "./storage-orchestrator.js";
-import { GitOrchestrator } from "./git-orchestrator.js";
-import { FullscreenManager } from "./fullscreen-manager.js";
-import { SocialInboxPanel } from "../social/inbox-panel.js";
-import { CivilizationFrontend } from "../civilization/index.js";
 
-/**
- * B"H
- *
- * Apps Code awakens as one coordinated browser vessel, not two competing tunnel
- * identities. The Awtsmoos creates editor, storage, runtime, and connection in
- * one instant; Awtsmoos.com lets Bootstrapper own that single truthful ignition.
- */
+async function showInitializationFailure(error) {
+	console.error("[INIT_FATAL]", error);
+	const { UI } = await import("../ui.js");
+	UI.hideLoading();
+	UI.showToast(`A Shevirah occurred during init: ${error.message}`, "error", 10000);
+}
+
+async function awakenInteractionLayer() {
+	try {
+		const [{ setupEventListeners }, { ActionDispatcher }] = await Promise.all([
+			import("./event-listeners.js"),
+			import("../actions/dispatcher.js")
+		]);
+		ActionDispatcher.init();
+		setupEventListeners();
+	} catch (error) {
+		console.error("B\"H - Interaction layer unavailable.", error);
+	}
+}
+
+async function awakenActiveTab() {
+	try {
+		const { Tabs } = await import("../tabs/index.js");
+		await Tabs.activate(State.activeTabId || null);
+	} catch (error) {
+		console.warn("B\"H - Active tab activation deferred.", error);
+	}
+}
+
+async function awakenPhysicalReality() {
+	try {
+		await StorageOrchestrator.activatePhysicalReality();
+	} catch (error) {
+		console.warn("B\"H - Physical workspace binding deferred.", error);
+	}
+}
+
+function awakenDeferredLayers() {
+	requestAnimationFrame(() => {
+		void awakenInteractionLayer();
+		void awakenActiveTab();
+		void awakenPhysicalReality();
+	});
+}
+
 export const App = {
 	getTabString() {
 		return State.useTabs ? "\t" : "    ";
 	},
 
 	async initialize() {
-		UI.showLoading("Manifesting Reality...");
 		try {
 			Bootstrapper.ignite();
 			await StorageOrchestrator.recallPreviousReality();
-			FindReplace.init();
 			Editor.init();
-			TabManagerOverlay.init();
-			setupEventListeners();
-			const { Tabs } = await import("../tabs/index.js");
-			await Tabs.activate(State.activeTabId || null);
-			await SocialInboxPanel.init();
-			await CivilizationFrontend.init();
+			const { UI } = await import("../ui.js");
 			UI.hideLoading();
-			UI.showToast("B\"H: Reality Stabilized.", "success");
+			awakenDeferredLayers();
 		} catch (error) {
-			console.error("[INIT_FATAL]", error);
-			UI.showToast(
-				`A Shevirah occurred during init: ${error.message}`,
-				"error",
-				10000
-			);
+			await showInitializationFailure(error);
 		}
 	},
 
-	commitAllChanges() {
+	async commitAllChanges() {
+		const { GitOrchestrator } = await import("./git-orchestrator.js");
 		return GitOrchestrator.commitCurrentFocus();
 	},
 
@@ -65,18 +89,18 @@ export const App = {
 		return Bootstrapper.ignite();
 	},
 
-	toggleFullscreen() {
+	async toggleFullscreen() {
+		const { FullscreenManager } = await import("./fullscreen-manager.js");
 		return FullscreenManager.toggleApp();
 	},
 
 	async showSettings() {
-		return await SettingsManager.show();
+		const { SettingsManager } = await import("./settings.js");
+		return SettingsManager.show();
 	},
 
 	saveSessionDebounced() {
-		return import("../session.js").then(module => (
-			module.Session.saveDebounced()
-		));
+		return import("../session.js").then(module => module.Session.saveDebounced());
 	},
 
 	saveSession() {

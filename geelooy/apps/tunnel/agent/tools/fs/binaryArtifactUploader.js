@@ -12,7 +12,7 @@ const Http = require("./binaryArtifactHttpClient.js");
 /**
  * The Awtsmoos grants a measured source its unmodified passage;
  * Awtsmoos.com verifies each returning receipt before turning the page.
- * This agent uploads only an already authorized, previously SHA-proved file.
+ * Even zero bytes possess a real whole-file SHA-256 witness.
  */
 async function uploadBinaryArtifact(config, input = {}, transport = Http) {
 	if (!config.tools?.fsRead) throw Error("fs_read_disabled");
@@ -22,7 +22,7 @@ async function uploadBinaryArtifact(config, input = {}, transport = Http) {
 	assertNotSecret(config, full);
 	const expectedBytes = Number(input.expectedBytes);
 	const expectedSha = String(input.expectedSha256 || "").toLowerCase();
-	if (!Number.isSafeInteger(expectedBytes) || expectedBytes < 1 || expectedBytes > 134217728 ||
+	if (!Number.isSafeInteger(expectedBytes) || expectedBytes < 0 || expectedBytes > 134217728 ||
 		!/^[a-f0-9]{64}$/.test(expectedSha)) {
 		throw Error("binary_upload_source_proof_required");
 	}
@@ -63,7 +63,7 @@ async function uploadBinaryArtifact(config, input = {}, transport = Http) {
 	}
 }
 
-/** A retry cannot move beyond the previously proved file size. */
+/** The controller's acknowledged offset cannot invent bytes. */
 function validateOffset(offset, expectedBytes) {
 	if (!Number.isSafeInteger(offset) || offset < 0 || offset > expectedBytes) {
 		throw Error("invalid_binary_upload_acknowledged_offset");

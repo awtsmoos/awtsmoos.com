@@ -56,7 +56,7 @@ function fakeSshSchema(name) {
 }
 
 function writeSchema() {
-	return P.objectSchema({ path: P.string("Repo-relative file path."), p: P.string("Path alias."), content: P.string("Complete full file content."), performanceDiagnostics: P.bool("Include bounded prepare, execute and provenance timings; durability stays enabled."), expectedHash: P.string("Optional hash guard."), timeoutMs: P.integer("Timeout in milliseconds.") }, ["content"]);
+	return P.objectSchema({ path: P.string("Repo-relative file path."), p: P.string("Path alias."), content: P.string("Complete full file content."), missionId: P.string("Current exact mission id."), missionWriteToken: P.string("One-use token from a terminal mission_step_authorization_required denial. Resubmit the exact original path and content."), performanceDiagnostics: P.bool("Include bounded prepare, execute and provenance timings; durability stays enabled."), expectedHash: P.string("Optional hash guard."), timeoutMs: P.integer("Timeout in milliseconds.") }, ["content"]);
 }
 
 function bulkWriteSchema() {

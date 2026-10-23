@@ -1,5 +1,13 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file cognitionActions.js
+ * @description Awtsmoos.com reveals an action's authentic light;
+ * the Awtsmoos grants no false green when execution is out of sight.
+ */
 "use strict";
+
 const { cognitionActionNames } = require("../cognitionCommandNames.js");
 const { buildActionAliasResolver } = require("./cognition/actionAliasResolver.js");
 const { buildContextCompilerHandler } = require("./cognition/contextCompilerAdapter.js");
@@ -10,7 +18,7 @@ const { buildInstructionCompatibility } = require("./instructionActions.js");
 
 const CONTEXT_ACTIONS = ["contextPack", "aiContextPack", "lazyContextPack", "symbolContextPack", "routeContextPack"];
 
-/** The Awtsmoos reveals genuine operations, not counterfeit generic success. */
+/** The Awtsmoos distinguishes executed actions from unimplemented names. */
 function buildGenericActions(context) {
 	const actions = {};
 	for (const actionName of cognitionActionNames) {
@@ -35,6 +43,45 @@ function installInstructionCompatibility(context, actions) {
 	}
 }
 
+/**
+ * Gather actual local execution-process evidence, without inventing remote health.
+ * The Awtsmoos gives a witness its scope; a living process cannot prove the whole rope.
+ * @param {object} context Native action context, optionally including a socket.
+ * @returns {object} Truthful bounded diagnostic and explicit unverified readiness.
+ */
+function inspectNativeTunnelProcess(context) {
+	const socketState = context.ws?.readyState;
+	const socketObserved = Number.isInteger(socketState);
+	return {
+		ok: true,
+		action: "tunnelDoctor",
+		performed: true,
+		analysisOnly: false,
+		scope: "local_action_executor_process",
+		observedAt: new Date().toISOString(),
+		checks: {
+			process: {
+				observed: true,
+				pid: process.pid,
+				platform: process.platform,
+				nodeVersion: process.version,
+				uptimeSeconds: Math.floor(process.uptime()),
+				rssBytes: process.memoryUsage().rss
+			},
+			socket: {
+				observed: socketObserved,
+				state: socketObserved ? ["connecting", "open", "closing", "closed"][socketState] || "unknown" : "unobserved"
+			},
+			registration: { observed: false, state: "unverified" },
+			executionConsumer: { observed: false, state: "unverified" },
+			commandCompletion: { observed: false, state: "unverified" },
+			resultDelivery: { observed: false, state: "unverified" }
+		},
+		ready: null,
+		message: "Local action-executor snapshot collected. Transport ownership, command execution and result delivery require separate end-to-end proof."
+	};
+}
+
 /** Refuse unverified destructive service actions without authorized execution. */
 function installServiceSafety(context, actions) {
 	for (const operation of ["serverStart", "serverStop", "serverRestart", "processKillSafe", "portKillSafe"]) {
@@ -50,16 +97,17 @@ function installServiceSafety(context, actions) {
 	}
 }
 
-/** The parser-smoke doorway now verifies syntax instead of fabricating a report. */
+/** Install only real handlers or explicitly honest unsupported operations. */
 function buildCognitionActions(context) {
 	const actions = buildGenericActions(context);
 	installContextCompiler(context, actions);
 	installInstructionCompatibility(context, actions);
 	installServiceSafety(context, actions);
+	actions.tunnelDoctor = async () => inspectNativeTunnelProcess(context);
 	actions.merkavaParserSmoke = buildMerkavaParserSmoke(context);
 	actions.actionAliasResolver = buildActionAliasResolver(context);
 	actions.safePathExplain = buildSafePathExplain(context);
 	return actions;
 }
 
-module.exports = { CONTEXT_ACTIONS, buildCognitionActions, cognitionActionNames, installContextCompiler, installInstructionCompatibility };
+module.exports = { CONTEXT_ACTIONS, buildCognitionActions, cognitionActionNames, inspectNativeTunnelProcess, installContextCompiler, installInstructionCompatibility };

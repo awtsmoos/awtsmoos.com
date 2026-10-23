@@ -6,73 +6,80 @@
 const P = require("./primitives.js");
 
 /**
- * @file Exact file-transfer action schemas, with owner-approved raw upload.
- * The Awtsmoos reveals a bounded stream and no unknown web address;
- * Awtsmoos.com requires its verified SHA before releasing passage.
+ * The Awtsmoos gives the source and destination independent secret signs;
+ * Awtsmoos.com lets raw bytes cross only at their appointed times.
  */
 function fileTransferSchema(name) {
-	if (name === "fileTransferSourceInfo" || name === "fileTransferSourceProof") return sourceSchema();
+	if (name === "fileTransferSourceInfo" || name === "fileTransferSourceProof") return P.pathSchema();
 	if (name === "fileTransferReadChunk") return readChunkSchema();
 	if (name === "fileTransferUploadBinary") return binaryUploadSchema();
+	if (name === "fileTransferDownloadBinary") return binaryDownloadSchema();
 	if (name === "fileTransferCreate") return createSchema();
 	if (name === "fileTransferWriteChunk") return writeChunkSchema();
 	if (/^fileTransfer(Status|Commit|Cancel)$/.test(name)) return transferIdSchema();
 	return P.commonSchema();
 }
 
-/** Do not grant a path merely because it appears in JSON. */
-function sourceSchema() {
-	return P.pathSchema();
-}
-
-/** Read-only legacy Base64 fallback remains schema-compatible. */
+/** Historical read action is not used by the canonical device bridge. */
 function readChunkSchema() {
 	return P.pathSchema({
 		offset: P.integer("Zero-based source byte offset."),
-		maxBytes: P.integer("Requested chunk bytes; 64 KiB to 2 MiB."),
-		chunkBytes: P.integer("Chunk-size alias; 64 KiB to 2 MiB.")
+		maxBytes: P.integer("Legacy maximum chunk bytes."),
+		chunkBytes: P.integer("Legacy chunk-size alias.")
 	});
 }
 
-/** Restrict network upload to a verified, short-lived session, never a URL. */
+/** Only a verified private session may initiate network upload. */
 function binaryUploadSchema() {
 	return P.objectSchema({
-		path: P.string("Explicit authorized source path confined by device file guards."),
-		transferId: P.string("Controller-issued 128-bit private transfer identifier."),
-		uploadCapability: P.string("Controller-issued one-time 256-bit capability."),
-		expectedBytes: P.integer("Exact source bytes established by source proof; max 128 MiB."),
-		expectedSha256: P.string("Exact whole-file SHA-256 established by source proof.")
+		path: P.string("Authorized source path confined by device guards."),
+		transferId: P.string("Controller-minted private transfer identifier."),
+		uploadCapability: P.string("Owner-authorized write-only 256-bit capability."),
+		expectedBytes: P.integer("Exact proved bytes; max 128 MiB."),
+		expectedSha256: P.string("Proved complete SHA-256 digest.")
 	}, ["path", "transferId", "uploadCapability", "expectedBytes", "expectedSha256"]);
 }
 
-/** Legacy destination staging stays compatible with previously saved workflows. */
+/** Read-only grant belongs exclusively to the verified target-device write. */
+function binaryDownloadSchema() {
+	return P.objectSchema({
+		path: P.string("Guarded destination path on authorized target."),
+		transferId: P.string("Controller-minted private transfer identifier."),
+		downloadCapability: P.string("Separate expiring read-only 256-bit grant."),
+		expectedBytes: P.integer("Exact SHA-proved destination bytes."),
+		expectedSha256: P.string("SHA-256 of complete verified source file."),
+		overwrite: P.bool("Explicitly permit replacing an existing safe file.")
+	}, ["path", "transferId", "downloadCapability", "expectedBytes", "expectedSha256"]);
+}
+
+/** Legacy local staging remains available only to explicit direct callers. */
 function createSchema() {
 	return P.objectSchema({
-		path: P.string("Repo-relative destination file path."),
+		path: P.string("Guarded destination file path."),
 		p: P.string("Destination path alias."),
-		totalBytes: P.integer("Exact total file size in bytes."),
-		sha256: P.string("Expected whole-file SHA-256 hex."),
+		totalBytes: P.integer("Exact total file size."),
+		sha256: P.string("Expected complete file SHA-256."),
 		expectedSha256: P.string("Whole-file SHA-256 alias."),
-		chunkBytes: P.integer("Chunk size; defaults to 1 MiB, maximum 2 MiB."),
-		overwrite: P.bool("Allow replacing an existing non-directory destination.")
+		chunkBytes: P.integer("Bounded legacy chunk size."),
+		overwrite: P.bool("Explicit overwrite authorization.")
 	}, ["totalBytes"]);
 }
 
-/** Preserve stable legacy write-chunk arguments. */
+/** Legacy Base64 staging is never called by canonical binary transfer. */
 function writeChunkSchema() {
 	return P.objectSchema({
-		transferId: P.string("Opaque transfer ID returned by fileTransferCreate."),
-		offset: P.integer("Zero-based destination byte offset."),
-		content64: P.string("Base64 inside authenticated legacy WebSocket action frames."),
-		sha256: P.string("SHA-256 hex of decoded chunk."),
+		transferId: P.string("Opaque legacy staging transfer ID."),
+		offset: P.integer("Zero-based destination offset."),
+		content64: P.string("Legacy direct WebSocket staging payload."),
+		sha256: P.string("Decoded chunk digest."),
 		chunkSha256: P.string("Chunk SHA-256 alias.")
 	}, ["transferId", "offset", "content64"]);
 }
 
-/** Known staging identifiers cannot smuggle arbitrary operation parameters. */
+/** Explicit legacy status/commit/cancel calls require a staging ID. */
 function transferIdSchema() {
 	return P.objectSchema({
-		transferId: P.string("Opaque transfer ID returned by fileTransferCreate.")
+		transferId: P.string("Opaque legacy transfer ID.")
 	}, ["transferId"]);
 }
 

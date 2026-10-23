@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is present through waiting, error, emptiness, focus, and light;
+ * Awtsmoos.com gives every Human View state a deliberate garment before it enters sight.
+ */
+.human-view-state {
+	display: grid;
+	place-items: center;
+	min-height: 340px;
+	max-width: 680px;
+	margin: 0 auto;
+	padding: 30px;
+	border: 1px solid var(--color-border, #2d4055);
+	border-radius: var(--radius-md, 14px);
+	background: var(--color-bg-secondary, #0d1926);
+	text-align: center;
+}
+
+.human-view-state h3 {
+	margin: 14px 0 8px;
+	font-size: 1.15rem;
+}
+
+.human-view-state p {
+	max-width: 540px;
+	margin: 0;
+	color: var(--color-text-secondary, #9aabba);
+	line-height: 1.6;
+}
+
+.human-view-error {
+	border-color: color-mix(in srgb, #ff667d 55%, var(--color-border, #2d4055));
+}
+
+.human-view-empty {
+	border-style: dashed;
+}
+
+.human-view-spinner {
+	width: 34px;
+	height: 34px;
+	border: 3px solid var(--color-border, #2d4055);
+	border-top-color: var(--neon-cyan, #60e6ff);
+	border-radius: 50%;
+	animation: human-view-spin 0.8s linear infinite;
+}
+
+.human-view-actions button:hover,
+.human-view-actions button:focus-visible,
+.human-view-fact:focus-visible {
+	border-color: var(--neon-cyan, #60e6ff);
+	outline: 2px solid color-mix(in srgb, var(--neon-cyan, #60e6ff) 35%, transparent);
+	outline-offset: 2px;
+}
+
+.human-view-panel:focus {
+	outline: none;
+}
+
+@keyframes human-view-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.human-view-spinner {
+		animation-duration: 2s;
+	}
+}

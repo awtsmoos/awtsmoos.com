@@ -29,7 +29,7 @@ const tools = [
 	},
 	{
 		name: "awtsmoos_tunnel_action",
-		description: "Run an existing protected tunnel action: read/write files, commands, browser, transfer, jobs, or previews. Existing scopes and device permissions apply. Discover a device first; never replay uncertain mutations.",
+		description: "Run an existing protected tunnel action: read/write files, commands, browser, transfer, jobs, or previews. Existing scopes and device permissions apply. Discover a device first. For mission_step_authorization_required, repeat the SAME action and params with the returned params.missionWriteToken exactly once; do not rerun pending or uncertain mutations.",
 		annotations: MUTATION,
 		inputSchema: {
 			type: "object",

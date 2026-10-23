@@ -14,15 +14,33 @@
 const { setJob } = require('./jobStore.js');
 const { yieldTick, checkServerHealth } = require('./serverHealth.js');
 const { flushPackedBatch } = require('./runJobBatch.js');
+const { contentHash } = require('./postValidate.js');
 
 async function processOneWrite(ctx, vd) {
 	const { routes, $i, job, spec, liveHashes } = ctx;
 	const post = vd.post, hash = vd.hash, aliasName = vd.aliasName;
-			const liveHash = liveHashes.get(post.postId);
+			let liveHash = liveHashes.get(post.postId);
 			if (job.doneHashes[post.postId] === hash) {
 				// Already processed by THIS job: skip unconditionally.
 				job.skipped++;
 				return;
+			}
+			// B"H 2026-10-21 (Worker B, import-speed v4): partial-cache
+			// resolution. The pre-job live-hash cache comes from the
+			// packed key index, which has holes — a miss there is not
+			// proof of absence. Resolve the miss against the NATIVE
+			// record (the system of record): if one exists, its
+			// canonical hash is the live hash, decided exactly as the
+			// packed hash was. No native record = genuinely new post.
+			// This replaces any whole-shard pass on the import path.
+			if (liveHash === undefined && ctx.liveHashPartial) {
+				try {
+					const nativeRec = await $i.db.get(`/social/heichelos/${post.heichelId}/posts/${post.postId}`);
+					if (nativeRec && typeof nativeRec === 'object') {
+						liveHash = contentHash(nativeRec);
+						liveHashes.set(post.postId, liveHash);
+					}
+				} catch (_) { /* unreadable = treat as missing -> write */ }
 			}
 			if (liveHash === hash) {
 				// B"H 2026-10-11: airtight idempotency. The packed mirror can

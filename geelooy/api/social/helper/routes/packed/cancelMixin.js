@@ -19,7 +19,7 @@ module.exports = {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
-		const jobId = requestValue(this.$i, 'job') || this.$i?.body?.job;
+		const jobId = requestValue(this.$i, 'job') || requestValue(this.$i, 'jobId') || this.$i?.body?.job || this.$i?.body?.jobId; // Worker A 2026-10-21: accept jobId
 		const found = getJobView(this.$i, jobId);
 		if (!found) return { success: false, error: 'JOB_NOT_FOUND', jobId };
 		if (!found.live) {

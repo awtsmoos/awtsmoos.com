@@ -10,18 +10,17 @@ const Policy = require("./binaryArtifactProtocol.js");
 const { withBinaryAdmissionLock } = require("./binaryArtifactLock.js");
 
 /**
- * The Awtsmoos binds each private vessel to one owner's measure;
- * Awtsmoos.com reserves disk and per-owner space before admitting treasure.
- * Quota admission is serialized across all cooperating server processes.
+ * The Awtsmoos divides writing and reading by their own entrusted signs;
+ * Awtsmoos.com protects each scoped capability until its expiry time.
  */
 function reserveBinaryArtifact(vault, spec) {
 	Policy.assertTransferSpec(spec);
 	return withBinaryAdmissionLock(vault, () => allocate(vault, spec));
 }
 
-/** Verify owner/global quotas and free disk under the exclusive admission lock. */
+/** Reserve owner/global quotas and free disk before minting credentials. */
 function allocate(vault, spec) {
-	const records = fs.readdirSync(vault.root()).filter((name) => /^[a-f0-9]{32}\.json$/.test(name));
+	const records = fs.readdirSync(vault.root()).filter(name => /^[a-f0-9]{32}\.json$/.test(name));
 	let active = 0;
 	let bytes = 0;
 	let globalBytes = 0;
@@ -48,12 +47,14 @@ function allocate(vault, spec) {
 	return createReservation(vault, spec);
 }
 
-/** Write a 0600 temporary part and private bearer metadata without public exposure. */
+/** Store only SHA-256 hashes of independent read/write capabilities. */
 function createReservation(vault, spec) {
 	const id = crypto.randomBytes(16).toString("hex");
-	const capability = crypto.randomBytes(32).toString("hex");
+	const uploadCapability = crypto.randomBytes(32).toString("hex");
+	const downloadCapability = crypto.randomBytes(32).toString("hex");
 	const ttl = Math.max(30, Math.min(3600, Number(spec.ttlSeconds) || 600));
 	const expiresAt = Date.now() + ttl * 1000;
+	const digest = value => crypto.createHash("sha256").update(value).digest("hex");
 	const meta = {
 		id,
 		owner: spec.owner,
@@ -61,7 +62,8 @@ function createReservation(vault, spec) {
 		sourcePath: spec.sourcePath,
 		expectedBytes: spec.expectedBytes,
 		expectedSha256: spec.expectedSha256.toLowerCase(),
-		capabilityHash: crypto.createHash("sha256").update(capability).digest("hex"),
+		capabilityHash: digest(uploadCapability),
+		readCapabilityHash: digest(downloadCapability),
 		nextOffset: 0,
 		state: "receiving",
 		expiresAt
@@ -74,7 +76,7 @@ function createReservation(vault, spec) {
 		fs.rmSync(vault.file(id, "part"), { force: true });
 		throw error;
 	}
-	return { transferId: id, uploadCapability: capability, nextOffset: 0, expiresAt };
+	return { transferId: id, uploadCapability, downloadCapability, nextOffset: 0, expiresAt };
 }
 
 module.exports = { reserveBinaryArtifact };

@@ -9,8 +9,8 @@ const { agentBehavior } = require("../bootstrap.js");
 
 /**
  * @file Proves external agents remain first-class with or without WebSockets and see mission law.
- * @description The Awtsmoos gives wide and narrow transfer roads one destination while
- * Awtsmoos.com makes visible three-pass coordination part of the same machine contract.
+ * @description The Awtsmoos joins legacy transfer roads at one destination;
+ * Awtsmoos.com keeps distinct binary artifact sessions from accidental conflation.
  */
 test("manifest keeps WebSocket optional and publishes mission planning", () => {
 	const manifest = manifestBody();
@@ -25,12 +25,13 @@ test("manifest keeps WebSocket optional and publishes mission planning", () => {
 	assert.equal(manifest.missionPlanning.directMessageAction, "missionAgentMessage");
 });
 
-test("manifest publishes exact GET transfer endpoint and conservative limits", () => {
+test("manifest publishes exact GET transfer endpoint and distinct transfer identities", () => {
 	const transfer = manifestBody().largeFileTransfer;
 	assert.match(transfer.getFallback.endpointTemplate, /transfer\/get\/\{routeReference\}$/);
 	assert.equal(transfer.getFallback.maxRawUploadBytesPerRequest, 4096);
 	assert.equal(transfer.getFallback.defaultReadBytesPerRequest, 65536);
-	assert.match(transfer.sharedReceipt, /same transferId/i);
+	assert.match(transfer.sharedReceipt, /legacy GET and WebSocket share a destination transferId/i);
+	assert.match(transfer.sharedReceipt, /binary artifact sessions are separate/i);
 	assert.equal(transfer.postAllowed, false);
 });
 
