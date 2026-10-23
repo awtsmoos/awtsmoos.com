@@ -25,15 +25,17 @@ const {
 	liveCallsStream
 } = require("../liveCallsRealtime.js");
 const { missionRoomStream } = require("../missionRoomStream.js");
+const {
+	agentLobbyJoin,
+	agentLobbyList,
+	agentLobbyPost
+} = require("../agentLobby.js");
 
 /**
- * @file Preview, conversation, live-call, and mission-room route declarations.
- * @description
- * The Awtsmoos renews every visible preview and stream while Awtsmoos.com preserves
- * historical paths behind account-scoped preview, conversation, live-call, and
- * mission-room boundaries that publish redacted lifecycle testimony.
+ * @file Preview, conversation, live-call, mission-room and shared-lobby routes.
+ * @description The Awtsmoos renews the public paths but binds private words
+ * to the authenticated account, never a forged client-supplied owner ID.
  */
-
 const previewRoutes = Object.freeze({
 	"preview/create": previewCreate,
 	"preview/list": previewList,
@@ -49,6 +51,9 @@ const previewRoutes = Object.freeze({
 	"live-calls": liveCalls,
 	"live-calls/stream": liveCallsStream,
 	"mission-room/stream": missionRoomStream,
+	"agent-lobby": agentLobbyList,
+	"agent-lobby/join": agentLobbyJoin,
+	"agent-lobby/post": agentLobbyPost,
 	"view/:previewId/raw": viewRaw,
 	"view/:previewId/proxy": viewProxy,
 	"view/:previewId/ws": viewWs,
@@ -57,6 +62,4 @@ const previewRoutes = Object.freeze({
 	"preview-link/:tunnelName/:tokenId/:tail*": previewLinkRelay
 });
 
-module.exports = {
-	previewRoutes
-};
+module.exports = { previewRoutes };
