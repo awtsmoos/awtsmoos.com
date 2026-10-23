@@ -3,68 +3,76 @@
 //Blessed is He
 
 /**
- * @fileoverview Coordinates the live editor buffer with deferred semantic analysis.
- * The Awtsmoos reveals the text a human is shaping now, not merely yesterday's file;
- * Awtsmoos.com reads the unsaved vessel first and awakens deeper machinery after style.
+ * @fileoverview Orchestrates lazy semantic analysis over the active unsaved editor buffer.
+ * The Awtsmoos recreates the present source before every interpretation of it;
+ * Awtsmoos.com therefore analyzes only the live tab, guards stale work, and refreshes after human materialization.
  */
 
-import { Editor } from "../../editor/index.js";
+import { Editor } from "../../editor.js";
 import { State } from "../../state.js";
+import { selectHumanAdapter } from "./analysis/select-adapter.js";
 import { scheduleHumanViewWork } from "./scheduler.js";
-import { HumanViewView } from "./ui/view.js";
+import { HumanView as HumanTakeoverSurface } from "./ui/view.js";
 
-const JAVASCRIPT_FILE = /\.(?:js|mjs|cjs)$/i;
 let analysisGeneration = 0;
 
-/** Returns the active tab as a parser-independent file identity. */
-function activeFile() {
-	const tab = State.tabs.find((candidate) => candidate.id === State.activeTabId);
-	if (!tab?.item) {
-		return null;
+function revisionOf(source) {
+	let hash = 2166136261;
+	for (let index = 0; index < source.length; index++) {
+		hash ^= source.charCodeAt(index);
+		hash = Math.imul(hash, 16777619);
 	}
+	return `${source.length}:${(hash >>> 0).toString(16)}`;
+}
+
+function activeContext() {
+	const tab = State.tabs.find(item => item.id === State.activeTabId);
+	if (!tab?.item) return null;
+	const source = Editor.getContent();
 	return {
-		name: tab.item.name || "Untitled",
-		path: tab.item.path || tab.item.name || "Unsaved buffer",
-		workspaceId: tab.item.workspaceId || null
+		tab,
+		source,
+		file: { ...tab.item, tabId: tab.id, workspaceId: tab.item.workspaceId || tab.workspaceId || null }
 	};
 }
 
-/** Runs Merkava only for the latest refresh after the styled shell has painted. */
-async function analyze(file, source, generation) {
-	try {
-		const { analyzeJavaScript } = await import("./analysis/merkava-adapter.js");
-		const documentModel = await analyzeJavaScript({ file, source });
-		if (generation === analysisGeneration) {
-			HumanViewView.showDocument(documentModel);
-		}
-	} catch (error) {
-		if (generation === analysisGeneration) {
-			HumanViewView.showError(error);
-		}
-	}
-}
-
-/** Opens Human View for the exact active unsaved editor buffer. */
-async function open() {
+async function analyzeActive(showLoading = true) {
 	const generation = ++analysisGeneration;
-	const file = activeFile();
-	const refresh = () => HumanView.open();
-
-	if (!file) {
-		HumanViewView.openLoading({ name: "No active file" }, refresh);
-		HumanViewView.showError(new Error("Open a file in the editor before opening Human View."));
-		return null;
+	const context = activeContext();
+	if (!context) {
+		HumanTakeoverSurface.showUnsupported("Open a JavaScript, CSS, or HTML source file first.");
+		return;
 	}
-
-	HumanViewView.openLoading(file, refresh);
-	if (!JAVASCRIPT_FILE.test(file.name)) {
-		HumanViewView.showUnsupported(file);
-		return null;
+	const adapter = await selectHumanAdapter(context.file);
+	if (!adapter) {
+		HumanTakeoverSurface.showUnsupported("This semantic workspace supports JavaScript, CSS, and HTML-family files.");
+		return;
 	}
-
-	const source = Editor.getContent();
-	return scheduleHumanViewWork(() => analyze(file, source, generation));
+	const refresh = () => analyzeActive(false);
+	if (showLoading) HumanTakeoverSurface.openLoading(context.file, refresh);
+	return scheduleHumanViewWork(async () => {
+		if (generation !== analysisGeneration || State.activeTabId !== context.tab.id) return;
+		try {
+			const documentModel = await adapter.analyze({
+				file: context.file,
+				source: context.source,
+				sourceRevision: revisionOf(context.source)
+			});
+			if (generation !== analysisGeneration || State.activeTabId !== context.tab.id) return;
+			HumanTakeoverSurface.showDocument(documentModel, refresh);
+		} catch (error) {
+			if (generation === analysisGeneration) HumanTakeoverSurface.showError(error);
+		}
+	});
 }
 
-/** Lazy feature entry exposed only after all Human View styles are ready. */
-export const HumanView = Object.freeze({ open });
+export const HumanViewFeature = {
+	open() {
+		return analyzeActive(true);
+	},
+	refresh() {
+		return analyzeActive(false);
+	}
+};
+
+export const HumanView = HumanViewFeature;

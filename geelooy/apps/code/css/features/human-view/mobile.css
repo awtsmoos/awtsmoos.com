@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the smallest screen the same semantic dignity as the widest workstation.
+ * Awtsmoos.com keeps zoom, decisions, source descent, and close controls reachable under one thumb.
+ */
+
+@media (max-width: 760px) {
+	.human-takeover-layout {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: auto minmax(0, 1fr);
+	}
+
+	.human-zoom {
+		position: sticky;
+		top: 0;
+		z-index: 6;
+		flex-direction: row;
+		gap: 0.4rem;
+		padding: 0.55rem 0.65rem;
+		border-right: 0;
+		border-bottom: 1px solid rgba(155, 193, 249, 0.1);
+		overflow-x: auto;
+		background: rgba(5, 13, 28, 0.94);
+		backdrop-filter: blur(18px);
+	}
+
+	.human-zoom::before {
+		display: none;
+	}
+
+	.human-zoom button {
+		flex: 0 0 auto;
+		min-height: 2.7rem;
+		padding: 0.55rem 0.8rem;
+		text-align: center;
+	}
+
+	.human-zoom button::before,
+	.human-zoom button span {
+		display: none;
+	}
+
+	.human-takeover-header {
+		align-items: flex-start;
+		padding: max(0.7rem, env(safe-area-inset-top)) 0.75rem 0.7rem;
+	}
+
+	.human-brand {
+		display: none;
+	}
+
+	.human-header-actions {
+		gap: 0.3rem;
+	}
+
+	.human-header-actions button {
+		min-height: 2.45rem;
+		padding: 0.45rem 0.58rem;
+		font-size: 0.72rem;
+	}
+
+	.human-takeover-document {
+		padding: 1rem 0.72rem calc(3rem + env(safe-area-inset-bottom));
+	}
+
+	.human-document-hero {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.human-metrics {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.human-node {
+		display: grid;
+	}
+
+	.human-node-evidence {
+		justify-content: flex-start;
+	}
+
+	.human-decision {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.human-decision-form {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.human-document-footer {
+		flex-direction: column;
+	}
+}

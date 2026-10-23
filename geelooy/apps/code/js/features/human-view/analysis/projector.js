@@ -3,91 +3,73 @@
 //Blessed is He
 
 /**
- * @fileoverview Projects Merkava syntax nodes into small evidence-backed human facts.
- * The Awtsmoos is not the syntax tree, yet truth can shine through each measured branch;
- * Awtsmoos.com lets exact offsets remain beneath every readable name, ready for a human glance.
+ * @fileoverview Projects Merkava top-level syntax into language-neutral semantic sections.
+ * The Awtsmoos gives syntax exact form while human understanding asks what is depended on and exposed;
+ * Awtsmoos.com preserves every observed range so readable structure can always descend back to source.
  */
 
-/** Builds a source-linked fact without inferring purpose. */
-function fact(kind, name, detail, node) {
-	return {
-		kind,
-		name: String(name || "anonymous"),
-		detail: String(detail || ""),
-		start: Number(node?.start) || 0,
-		end: Number(node?.end) || Number(node?.start) || 0,
-		line: Number(node?.loc?.start?.line) || 1
-	};
+import { semanticNode, sourceEvidence } from "../model/node.js";
+
+function nodeRange(node, source) {
+	return sourceEvidence(source, node?.start ?? node?.range?.[0] ?? 0, node?.end ?? node?.range?.[1] ?? 0);
 }
 
-/** Returns the readable identifier carried by a declaration node. */
 function declarationName(node) {
-	return node?.id?.name || node?.key?.name || "anonymous";
+	return node?.id?.name || node?.key?.name || node?.key?.value || node?.declarations?.[0]?.id?.name || "anonymous";
 }
 
-/** Adds declaration facts while preserving one fact for each variable binding. */
-function collectDeclaration(node, declarations) {
-	if (!node) {
-		return;
-	}
-	if (node.type === "FunctionDeclaration") {
-		declarations.push(fact("function", declarationName(node), "Function declaration", node));
-		return;
-	}
-	if (node.type === "ClassDeclaration") {
-		declarations.push(fact("class", declarationName(node), "Class declaration", node));
-		return;
-	}
-	if (node.type === "VariableDeclaration") {
-		for (const declaration of node.declarations || []) {
-			const name = declaration?.id?.name || "destructured binding";
-			declarations.push(fact("variable", name, `${node.kind || "variable"} declaration`, declaration));
-		}
-	}
+function declarationKind(node) {
+	if (node?.type === "FunctionDeclaration") return "Function";
+	if (node?.type === "ClassDeclaration") return "Class";
+	if (node?.type === "VariableDeclaration") return `${node.kind || "Variable"} declaration`;
+	return String(node?.type || "Declaration").replace(/Declaration$/, "");
 }
 
-/** Collects the public surface represented by one export node. */
-function collectExport(node, exports) {
-	if (node.type === "ExportAllDeclaration") {
-		exports.push(fact("export", "*", `Re-export from ${node.source?.value || "module"}`, node));
-		return;
-	}
-	if (node.type === "ExportDefaultDeclaration") {
-		const name = declarationName(node.declaration) || "default";
-		exports.push(fact("export", name === "anonymous" ? "default" : name, "Default export", node));
-		return;
+function observedNode(node, source, kind, label, detail) {
+	return semanticNode({ kind, label, detail, level: "structure", source: nodeRange(node, source) });
+}
+
+function importNode(node, source) {
+	const name = node?.source?.value || node?.source?.raw || "unknown module";
+	return observedNode(node, source, "dependency", name, "Imported module");
+}
+
+function exportNodes(node, source) {
+	const nodes = [];
+	if (node.declaration) {
+		const declaration = node.declaration;
+		nodes.push(observedNode(declaration, source, "export", declarationName(declaration), `Exported ${declarationKind(declaration)}`));
 	}
 	for (const specifier of node.specifiers || []) {
-		const name = specifier.exported?.name || specifier.local?.name || "export";
-		exports.push(fact("export", name, "Named export", specifier));
+		const label = specifier.exported?.name || specifier.exported?.value || specifier.local?.name || "export";
+		nodes.push(observedNode(specifier, source, "export", label, "Named export"));
 	}
-	if (node.declaration) {
-		exports.push(fact("export", declarationName(node.declaration), "Exported declaration", node));
-	}
+	if (node.type === "ExportDefaultDeclaration" && !node.declaration) nodes.push(observedNode(node, source, "export", "default", "Default export"));
+	return nodes;
 }
 
-/**
- * Converts a Merkava Program tree into parser-independent observed facts.
- * @param {object} ast Merkava AST root.
- * @returns {{imports:Array, exports:Array, declarations:Array}} Proven structural facts.
- */
-export function projectMerkavaAst(ast) {
-	const imports = [];
+function declarationNode(node, source) {
+	return observedNode(node, source, "declaration", declarationName(node), declarationKind(node));
+}
+
+function section(id, title, description, nodes) {
+	return nodes.length ? { id, title, description, level: "structure", nodes } : null;
+}
+
+/** Returns semantic sections from the observed Program body. */
+export function projectMerkavaAst(ast, source = "") {
+	const dependencies = [];
 	const exports = [];
 	const declarations = [];
-
 	for (const node of ast?.body || []) {
-		if (node.type === "ImportDeclaration") {
-			imports.push(fact("import", node.source?.value || "module", "Static module dependency", node));
-			continue;
-		}
-		if (node.type?.startsWith("Export")) {
-			collectExport(node, exports);
-			collectDeclaration(node.declaration, declarations);
-			continue;
-		}
-		collectDeclaration(node, declarations);
+		if (node?.type === "ImportDeclaration") dependencies.push(importNode(node, source));
+		if (node?.type === "ExportNamedDeclaration" || node?.type === "ExportDefaultDeclaration") exports.push(...exportNodes(node, source));
+		const declaration = node?.type?.startsWith("Export") ? node.declaration : node;
+		if (["FunctionDeclaration", "ClassDeclaration", "VariableDeclaration"].includes(declaration?.type)) declarations.push(declarationNode(declaration, source));
 	}
-
-	return { imports, exports, declarations };
+	return [
+		section("dependencies", "Depends on", "Modules this file explicitly imports.", dependencies),
+		section("exports", "Exposes", "Public values this file explicitly exports.", exports),
+		section("contains", "Contains", "Top-level declarations observed by Merkava.", declarations)
+	].filter(Boolean);
 }

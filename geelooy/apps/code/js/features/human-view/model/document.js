@@ -3,43 +3,40 @@
 //Blessed is He
 
 /**
- * @fileoverview Defines the parser-independent document shown to a human.
- * The Awtsmoos remains one while many syntax trees rise and fall;
- * Awtsmoos.com keeps observed truth in one vessel that future adapters can all call.
+ * @fileoverview Normalizes language-specific evidence into one human semantic document.
+ * The Awtsmoos remains one while JavaScript, CSS, and HTML wear different finite garments;
+ * Awtsmoos.com keeps their observed truths in one readable vessel without inventing purpose.
  */
 
-/**
- * Normalizes observed source facts without promoting inference into truth.
- * @param {object} options Document construction values.
- * @returns {object} Stable Human View document.
- */
-export function createHumanDocument({ file, facts, errors = [] }) {
-	const imports = Array.isArray(facts?.imports) ? facts.imports : [];
-	const exports = Array.isArray(facts?.exports) ? facts.exports : [];
-	const declarations = Array.isArray(facts?.declarations) ? facts.declarations : [];
+import { summarizeHumanCoverage } from "./coverage.js";
 
-	return {
+/** Creates one parser-independent Human Takeover document. */
+export function createHumanDocument(options = {}) {
+	const file = options.file || {};
+	const purpose = {
+		status: "unresolved",
+		text: "Purpose is not inferred from syntax alone. A human or stronger evidence can establish it later."
+	};
+	const sections = Array.isArray(options.sections) ? options.sections : [];
+	const warnings = (options.warnings || []).map(warning => String(warning?.message || warning));
+	const documentModel = {
 		identity: {
-			name: file?.name || "Untitled",
-			path: file?.path || "Unsaved buffer",
-			workspaceId: file?.workspaceId || null
+			tabId: file.tabId || null,
+			name: file.name || "Untitled",
+			path: file.path || "Unsaved buffer",
+			workspaceId: file.workspaceId || null
 		},
-		purpose: {
-			status: "unresolved",
-			text: "Purpose is not inferred from syntax alone. A human or stronger evidence can establish it later."
-		},
+		language: options.language || "Unknown",
+		purpose,
 		provenance: {
-			parser: "Merkava AST",
+			adapter: options.adapter || "Semantic adapter",
+			parser: options.parser || "Deterministic source analysis",
 			confidence: "observed"
 		},
-		imports,
-		exports,
-		declarations,
-		errors: errors.map(String),
-		metrics: {
-			imports: imports.length,
-			exports: exports.length,
-			declarations: declarations.length
-		}
+		sourceRevision: options.sourceRevision || "",
+		sections,
+		warnings
 	};
+	documentModel.metrics = summarizeHumanCoverage(documentModel);
+	return documentModel;
 }

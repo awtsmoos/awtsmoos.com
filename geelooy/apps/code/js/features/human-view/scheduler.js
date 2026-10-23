@@ -3,34 +3,55 @@
 //Blessed is He
 
 /**
- * @fileoverview Schedules semantic work only after the visible vessel has painted.
- * The Awtsmoos gives every instant its measured place, and work need not crowd the first light;
- * Awtsmoos.com lets Human View become useful before deeper analysis enters sight.
+ * @fileoverview Defers semantic work without allowing background-tab paint throttling to freeze it forever.
+ * The Awtsmoos gives paint and idle time their place, yet no finite browser scheduler may become sovereign;
+ * Awtsmoos.com prefers a painted vessel while a bounded timer guarantees Human Takeover will still awaken.
  */
 
-/**
- * Runs one task after a browser paint and preferably during idle time.
- * @template T
- * @param {() => (T|Promise<T>)} task Deferred semantic work.
- * @returns {Promise<T>} Result of the scheduled task.
- */
+const PAINT_FALLBACK_MS = 80;
+const IDLE_FALLBACK_MS = 180;
+
+function afterPaintOrFallback(callback) {
+	let settled = false;
+	const finish = () => {
+		if (settled) return;
+		settled = true;
+		callback();
+	};
+	const timer = setTimeout(finish, PAINT_FALLBACK_MS);
+	if (typeof globalThis.requestAnimationFrame !== "function") return;
+	globalThis.requestAnimationFrame(() => {
+		clearTimeout(timer);
+		finish();
+	});
+}
+
+function duringIdleOrFallback(callback) {
+	let settled = false;
+	const finish = () => {
+		if (settled) return;
+		settled = true;
+		callback();
+	};
+	const timer = setTimeout(finish, IDLE_FALLBACK_MS);
+	if (typeof globalThis.requestIdleCallback !== "function") return;
+	globalThis.requestIdleCallback(() => {
+		clearTimeout(timer);
+		finish();
+	}, { timeout: IDLE_FALLBACK_MS });
+}
+
+/** Runs one semantic task after paint when possible and always within bounded scheduler fallbacks. */
 export function scheduleHumanViewWork(task) {
 	return new Promise((resolve, reject) => {
-		requestAnimationFrame(() => {
-			const run = async () => {
+		afterPaintOrFallback(() => {
+			duringIdleOrFallback(async () => {
 				try {
 					resolve(await task());
 				} catch (error) {
 					reject(error);
 				}
-			};
-
-			if (typeof globalThis.requestIdleCallback === "function") {
-				globalThis.requestIdleCallback(run, { timeout: 250 });
-				return;
-			}
-
-			setTimeout(run, 0);
+			});
 		});
 	});
 }
