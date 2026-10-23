@@ -1,0 +1,112 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives human choice a warm finite vessel while source remains guarded beneath it.
+ * Awtsmoos.com distinguishes executable Decisions from observed facts so editing authority is always visible.
+ */
+
+.human-decision {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(200px, 0.7fr);
+	gap: 1rem;
+	padding: 1rem;
+	border: 1px solid rgba(255, 188, 82, 0.26);
+	border-radius: 1rem;
+	background: linear-gradient(135deg, rgba(89, 51, 16, 0.18), rgba(20, 22, 41, 0.82));
+	box-shadow: inset 0 0 32px rgba(255, 172, 64, 0.03);
+}
+
+.human-decision-copy h3 {
+	margin: 0.16rem 0 0.35rem;
+	font-size: 1rem;
+}
+
+.human-decision-copy p {
+	margin: 0;
+	color: #a9b6c9;
+	font-size: 0.78rem;
+	line-height: 1.5;
+}
+
+.human-decision-kicker {
+	color: #ffc66d;
+	font-size: 0.65rem;
+	font-weight: 850;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+}
+
+.human-decision-form {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: 0.65rem;
+}
+
+.human-decision-form label {
+	display: grid;
+	gap: 0.32rem;
+	color: #9eacc1;
+	font-size: 0.7rem;
+	font-weight: 700;
+}
+
+.human-value-field {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	min-height: 2.8rem;
+	padding: 0.35rem 0.65rem;
+	border: 1px solid rgba(255, 188, 82, 0.26);
+	border-radius: 0.8rem;
+	background: rgba(5, 12, 24, 0.7);
+}
+
+.human-value-field input {
+	min-width: 0;
+	width: 100%;
+	border: 0;
+	outline: 0;
+	color: #fff3df;
+	background: transparent;
+	font: inherit;
+	font-size: 1rem;
+	font-weight: 800;
+}
+
+.human-value-field > span {
+	color: #ddb576;
+	font-size: 0.76rem;
+}
+
+.human-apply-button {
+	min-height: 2.8rem;
+	padding: 0.55rem 0.82rem;
+	border: 1px solid rgba(255, 199, 109, 0.46);
+	border-radius: 0.8rem;
+	color: #211406;
+	background: linear-gradient(135deg, #ffd38b, #ffaf4b);
+	font: inherit;
+	font-size: 0.76rem;
+	font-weight: 850;
+	cursor: pointer;
+}
+
+.human-apply-button:hover {
+	filter: brightness(1.05);
+}
+
+.human-decision-feedback {
+	grid-column: 1 / -1;
+	min-height: 1em;
+	margin: 0;
+	color: #f5c77d;
+	font-size: 0.7rem;
+}
+
+.human-decision > .human-node-evidence {
+	grid-column: 1 / -1;
+	justify-content: flex-start;
+}

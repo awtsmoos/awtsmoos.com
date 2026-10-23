@@ -3,97 +3,117 @@
 //Blessed is He
 
 /**
- * @fileoverview Owns the Human View overlay and exact source-return actions.
- * The Awtsmoos lets broad meaning open without sealing the doorway to a line;
- * Awtsmoos.com keeps prose and source joined so human ownership stays precise by design.
+ * @fileoverview Owns the Human Takeover workspace, semantic zoom, source descent, and guarded decisions.
+ * The Awtsmoos is one while the human moves from meaning toward exact letters and back again;
+ * Awtsmoos.com keeps that movement instant, source-linked, keyboard-reachable, and refreshable in place.
  */
 
-import { revealHumanViewSource } from "../navigation.js";
-import {
-	renderHumanViewDocument,
-	renderHumanViewError,
-	renderHumanViewLoading,
-	renderHumanViewUnsupported
-} from "./templates.js";
+import { materializeDecision } from "../editing/materializers.js";
+import { HUMAN_LEVELS, normalizeHumanLevel } from "../model/levels.js";
+import { revealSourceRange } from "../navigation.js";
+import { humanClickAction, humanDecisionSubmission } from "./actions.js";
+import { renderHumanDocument } from "./render/document.js";
+import { errorTemplate, escapeHuman, loadingTemplate, unsupportedTemplate } from "./templates.js";
 
 let root = null;
+let currentDocument = null;
 let refreshHandler = null;
+let currentLevel = "meaning";
 
-/** Creates the singleton overlay after lazy styles are already loaded. */
+function levelButtons() {
+	return HUMAN_LEVELS.map(level => `<button type="button" data-human-level-choice="${level.id}" aria-pressed="${level.id === currentLevel}"><strong>${level.label}</strong><span>${escapeHuman(level.description)}</span></button>`).join("");
+}
+
 function ensureRoot() {
-	if (root?.isConnected) {
-		return root;
-	}
-	root = document.createElement("div");
-	root.className = "human-view-root";
+	if (root?.isConnected) return root;
+	root = document.createElement("section");
+	root.className = "human-view-root human-takeover-root";
+	root.id = "human-view-root";
 	root.innerHTML = `
-		<div class="human-view-backdrop" data-human-action="close"></div>
-		<section class="human-view-panel" role="dialog" aria-modal="true" aria-labelledby="human-view-title" tabindex="-1">
-			<header class="human-view-header">
-				<div><span class="human-view-kicker">Semantic evidence</span><h1 id="human-view-title">Human View</h1></div>
-				<div class="human-view-actions"><button type="button" data-human-action="refresh">Refresh</button><button type="button" data-human-action="close">Close</button></div>
+		<div class="human-takeover-shell" role="dialog" aria-modal="true" aria-labelledby="human-takeover-title">
+			<header class="human-takeover-header">
+				<div><p class="human-brand">Awtsmoos Code</p><h1 id="human-takeover-title">Human Takeover</h1></div>
+				<div class="human-header-actions"><button type="button" data-human-action="source-first">Source</button><button type="button" data-human-action="refresh">Refresh</button><button type="button" data-human-action="close" aria-label="Close Human Takeover">Close</button></div>
 			</header>
-			<div class="human-view-body" data-human-body></div>
-		</section>`;
-	root.addEventListener("click", handleClick);
-	root.addEventListener("keydown", handleKeydown);
+			<div class="human-takeover-layout"><nav class="human-zoom" aria-label="Semantic zoom">${levelButtons()}</nav><main class="human-canvas"><div id="human-takeover-feedback" class="human-global-feedback" aria-live="polite"></div><div id="human-view-body"></div></main></div>
+		</div>`;
+	root.addEventListener("click", onClick);
+	root.addEventListener("submit", onSubmit);
 	document.body.appendChild(root);
-	root.querySelector(".human-view-panel")?.focus();
+	applyLevel(currentLevel);
 	return root;
 }
 
-/** Routes shell and generated evidence actions through one stable listener. */
-function handleClick(event) {
-	const action = event.target.closest("[data-human-action]")?.dataset.humanAction;
-	if (action === "close") {
-		HumanViewView.close();
-		return;
-	}
-	if (action === "refresh") {
-		refreshHandler?.();
-		return;
-	}
-	const source = event.target.closest("[data-human-source]");
+function body() {
+	return ensureRoot().querySelector("#human-view-body");
+}
+
+function feedback(message, tone = "info") {
+	const element = ensureRoot().querySelector("#human-takeover-feedback");
+	element.textContent = message || "";
+	element.dataset.tone = tone;
+}
+
+function applyLevel(level) {
+	currentLevel = normalizeHumanLevel(level);
+	if (!root) return;
+	root.dataset.humanLevel = currentLevel;
+	root.querySelectorAll("[data-human-level-choice]").forEach(button => button.setAttribute("aria-pressed", String(button.getAttribute("data-human-level-choice") === currentLevel)));
+}
+
+function firstSource() {
+	return currentDocument?.sections?.flatMap(section => section.nodes || []).find(node => node.source)?.source || null;
+}
+
+function nodeById(id) {
+	return currentDocument?.sections?.flatMap(section => section.nodes || []).find(node => node.id === id) || null;
+}
+
+async function onClick(event) {
+	const action = humanClickAction(event.target);
+	if (!action) return;
+	if (action.type === "close") return HumanView.close();
+	if (action.type === "level") return applyLevel(action.level);
+	if (action.type === "refresh") return refreshHandler?.();
+	const source = action.type === "source-first" ? firstSource() : action.type === "source" ? action : null;
 	if (source) {
-		const { start, end } = source.dataset;
-		HumanViewView.close();
-		revealHumanViewSource(Number(start), Number(end));
+		HumanView.close();
+		revealSourceRange(source.start, source.end);
 	}
 }
 
-/** Lets Escape dismiss the layer without trapping the underlying editor. */
-function handleKeydown(event) {
-	if (event.key === "Escape") {
-		event.preventDefault();
-		HumanViewView.close();
-	}
+async function onSubmit(event) {
+	const submission = humanDecisionSubmission(event.target);
+	if (!submission) return;
+	event.preventDefault();
+	const result = materializeDecision(nodeById(submission.nodeId), currentDocument, submission.value);
+	if (!result.ok) return feedback(result.message, "error");
+	await refreshHandler?.();
+	feedback("Source updated. Human Takeover re-read the live buffer.", "success");
 }
 
-/** Replaces only the document projection while preserving the styled shell. */
-function setBody(html, state) {
-	const vessel = ensureRoot();
-	vessel.dataset.state = state;
-	vessel.querySelector("[data-human-body]").innerHTML = html;
+function onKeydown(event) {
+	if (event.key === "Escape" && root?.isConnected) HumanView.close();
 }
 
-/** Public visual surface shared by the lazy feature coordinator. */
-export const HumanViewView = Object.freeze({
+document.addEventListener("keydown", onKeydown);
+
+export const HumanView = {
 	openLoading(file, onRefresh) {
 		refreshHandler = onRefresh;
-		setBody(renderHumanViewLoading(file), "loading");
+		ensureRoot();
+		body().innerHTML = loadingTemplate(file);
+		feedback("");
 	},
-	showDocument(documentModel) {
-		setBody(renderHumanViewDocument(documentModel), "ready");
+	showDocument(documentModel, onRefresh) {
+		currentDocument = documentModel;
+		refreshHandler = onRefresh;
+		ensureRoot();
+		body().innerHTML = renderHumanDocument(documentModel);
+		applyLevel(currentLevel);
+		feedback("");
 	},
-	showUnsupported(file) {
-		setBody(renderHumanViewUnsupported(file), "unsupported");
-	},
-	showError(error) {
-		setBody(renderHumanViewError(error), "error");
-	},
-	close() {
-		root?.remove();
-		root = null;
-		refreshHandler = null;
-	}
-});
+	showUnsupported(message) { ensureRoot(); body().innerHTML = unsupportedTemplate(message); },
+	showError(error) { ensureRoot(); body().innerHTML = errorTemplate(error?.message || error); },
+	close() { root?.remove(); root = null; currentDocument = null; refreshHandler = null; }
+};

@@ -3,50 +3,31 @@
 //Blessed is He
 
 /**
- * @fileoverview Adapts the editor's existing Merkava/Linter authority to Human View.
- * The Awtsmoos needs no duplicate throne, and one parser truth is enough to guide the tree;
- * Awtsmoos.com reuses the established vessel so semantic sight stays light, cached, and free.
+ * @fileoverview Keeps Merkava as JavaScript syntax authority while emitting human semantic sections.
+ * The Awtsmoos creates parser and program together, yet meaning must still confess what syntax cannot know;
+ * Awtsmoos.com therefore uses Merkava for observed structure and leaves purpose unresolved without evidence.
  */
 
 import { Linter } from "../../../tools/linter.js";
 import { createHumanDocument } from "../model/document.js";
 import { projectMerkavaAst } from "./projector.js";
 
-/** Ensures the existing Linter owns a resolved Merkava parser class. */
-async function ensureMerkavaParser() {
-	await Linter.init();
-	if (!Linter.parserClass && globalThis.MerkavahParserPromise) {
-		const parserClass = await globalThis.MerkavahParserPromise;
-		Linter.parserClass ||= parserClass;
-		Linter.isReady = Boolean(Linter.parserClass);
-	}
-	if (!Linter.parserClass) {
-		throw new Error("Merkava AST parser is unavailable.");
-	}
+function parserWarnings(ast) {
+	return (ast?.errors || []).map(error => ({ message: error?.message || String(error) }));
 }
 
-/**
- * Parses JavaScript with the editor's cached parser and returns normalized evidence.
- * @param {{file: object, source: string}} input Active file identity and unsaved source.
- * @returns {Promise<object>} Parser-independent Human View document.
- */
-export async function analyzeJavaScript({ file, source }) {
-	if (!source.trim()) {
-		return createHumanDocument({
-			file,
-			facts: { imports: [], exports: [], declarations: [] }
-		});
-	}
-
-	await ensureMerkavaParser();
-	const ast = Linter.getAST(source);
-	if (!ast || ast.error) {
-		throw new Error(ast?.error || "Merkava returned no syntax tree.");
-	}
-
+/** Analyzes one live JavaScript-family buffer through the existing Merkava gateway. */
+export async function analyzeJavaScript({ file, source, sourceRevision }) {
+	await Linter.init();
+	const ast = await Linter.getAST(source);
+	if (!ast || !Array.isArray(ast.body)) throw new Error("Merkava did not return a traversable Program AST.");
 	return createHumanDocument({
 		file,
-		facts: projectMerkavaAst(ast),
-		errors: Array.isArray(ast.errors) ? ast.errors : []
+		language: "JavaScript",
+		adapter: "Merkava semantic adapter",
+		parser: "Merkava AST",
+		sourceRevision,
+		sections: projectMerkavaAst(ast, source),
+		warnings: parserWarnings(ast)
 	});
 }
