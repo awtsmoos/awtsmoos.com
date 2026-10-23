@@ -1,0 +1,86 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is one while human sight moves through meaning, structure, behavior, and source.
+ * Awtsmoos.com changes semantic depth instantly without rerunning analysis or hiding the evidence chain.
+ */
+
+.human-zoom {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 0.55rem;
+	padding: 1rem 0.85rem;
+	border-right: 1px solid rgba(155, 193, 249, 0.1);
+	background: rgba(5, 13, 28, 0.58);
+	overflow: auto;
+}
+
+.human-zoom::before {
+	position: absolute;
+	top: 1.5rem;
+	bottom: 1.5rem;
+	left: 1.08rem;
+	width: 1px;
+	background: linear-gradient(rgba(76, 219, 229, 0.65), rgba(126, 92, 255, 0.45), transparent);
+	content: "";
+}
+
+.human-zoom button {
+	position: relative;
+	display: grid;
+	gap: 0.2rem;
+	min-height: 4.3rem;
+	padding: 0.75rem 0.8rem 0.75rem 1.5rem;
+	border: 1px solid transparent;
+	border-radius: 0.9rem;
+	color: #859ab9;
+	background: transparent;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.human-zoom button::before {
+	position: absolute;
+	top: 1.05rem;
+	left: 0.42rem;
+	width: 0.52rem;
+	height: 0.52rem;
+	border: 1px solid rgba(117, 210, 229, 0.56);
+	border-radius: 50%;
+	background: #071326;
+	content: "";
+}
+
+.human-zoom button strong {
+	color: inherit;
+	font-size: 0.85rem;
+}
+
+.human-zoom button span {
+	font-size: 0.67rem;
+	line-height: 1.4;
+}
+
+.human-zoom button[aria-pressed="true"] {
+	border-color: rgba(95, 223, 237, 0.24);
+	color: #dffbff;
+	background: linear-gradient(135deg, rgba(56, 199, 215, 0.12), rgba(122, 88, 255, 0.08));
+}
+
+.human-zoom button[aria-pressed="true"]::before {
+	border-color: #6ee8ef;
+	background: #6ee8ef;
+	box-shadow: 0 0 16px rgba(110, 232, 239, 0.58);
+}
+
+.human-view-root[data-human-level="meaning"] [data-human-depth="structure"],
+.human-view-root[data-human-level="meaning"] [data-human-depth="behavior"],
+.human-view-root[data-human-level="meaning"] [data-human-depth="source"],
+.human-view-root[data-human-level="structure"] [data-human-depth="behavior"],
+.human-view-root[data-human-level="structure"] [data-human-depth="source"],
+.human-view-root[data-human-level="behavior"] [data-human-depth="source"] {
+	display: none;
+}

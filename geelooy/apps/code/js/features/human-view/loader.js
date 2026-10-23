@@ -3,35 +3,38 @@
 //Blessed is He
 
 /**
- * @fileoverview Lazily awakens Human View with release-versioned styles before any visible UI.
- * The Awtsmoos gives light only where a vessel is prepared to receive;
- * Awtsmoos.com therefore names each stylesheet by release and loads no semantic weight before choice.
+ * @fileoverview Lazily awakens the full Human Takeover surface with release-versioned styles first.
+ * The Awtsmoos contains every semantic depth before the browser asks for any finite garment;
+ * Awtsmoos.com therefore loads no takeover UI at startup and reveals it only after its CSSOM is ready.
  */
 
 import { beginAssetSpan, endAssetSpan, versionCodeAssetUrl } from "../../assets/runtime.js";
 
 const STYLE_FILES = Object.freeze([
-	["human-view-shell-style", "/apps/code/css/features/human-view/shell.css"],
-	["human-view-document-style", "/apps/code/css/features/human-view/document.css"],
-	["human-view-states-style", "/apps/code/css/features/human-view/states.css"]
+	["human-takeover-shell-style", "/apps/code/css/features/human-view/shell.css"],
+	["human-takeover-document-style", "/apps/code/css/features/human-view/document.css"],
+	["human-takeover-sections-style", "/apps/code/css/features/human-view/sections.css"],
+	["human-takeover-zoom-style", "/apps/code/css/features/human-view/zoom.css"],
+	["human-takeover-controls-style", "/apps/code/css/features/human-view/controls.css"],
+	["human-takeover-decisions-style", "/apps/code/css/features/human-view/decisions.css"],
+	["human-takeover-states-style", "/apps/code/css/features/human-view/states.css"],
+	["human-takeover-mobile-style", "/apps/code/css/features/human-view/mobile.css"]
 ]);
 
 let featurePromise = null;
 
-function loadedLink(id, href) {
-	const existing = document.getElementById(id);
-	if (!existing || existing.href !== new URL(href, location.href).href || !existing.sheet) return null;
-	return existing;
+function existingStyle(id, href) {
+	const link = document.getElementById(id);
+	if (!link || link.href !== new URL(href, location.href).href || !link.sheet) return null;
+	return link;
 }
 
-/** Resolves only after one versioned stylesheet is ready in CSSOM. */
 function loadStyle([id, path]) {
 	const href = versionCodeAssetUrl(path);
-	const existing = loadedLink(id, href);
+	const existing = existingStyle(id, href);
 	if (existing) return Promise.resolve(existing);
-	const previous = document.getElementById(id);
-	if (previous) previous.remove();
-	const span = beginAssetSpan("css", `human-view:${id}`, href);
+	document.getElementById(id)?.remove();
+	const span = beginAssetSpan("css", `human-takeover:${id}`, href);
 	return new Promise((resolve, reject) => {
 		const link = document.createElement("link");
 		link.id = id;
@@ -46,15 +49,14 @@ function loadStyle([id, path]) {
 		link.addEventListener("error", () => {
 			endAssetSpan(span, "error");
 			link.remove();
-			reject(new Error(`Human View stylesheet failed: ${href}`));
+			reject(new Error(`Human Takeover stylesheet failed: ${href}`));
 		}, { once: true });
 		document.head.appendChild(link);
 	});
 }
 
-/** Loads styles first and keeps the executable Human View module canonical and lazy. */
 async function loadFeature() {
-	const span = beginAssetSpan("feature", "human-view");
+	const span = beginAssetSpan("feature", "human-takeover");
 	try {
 		await Promise.all(STYLE_FILES.map(loadStyle));
 		const module = await import("./index.js");
@@ -66,7 +68,7 @@ async function loadFeature() {
 	}
 }
 
-/** Opens the semantic Human View while preserving zero feature cost before invocation. */
+/** Opens Human Takeover while preserving zero semantic workspace cost before invocation. */
 export async function openHumanView() {
 	featurePromise ||= loadFeature().catch(error => {
 		featurePromise = null;
