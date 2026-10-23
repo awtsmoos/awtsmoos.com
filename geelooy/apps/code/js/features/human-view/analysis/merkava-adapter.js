@@ -3,50 +3,40 @@
 //Blessed is He
 
 /**
- * @fileoverview Adapts the editor's existing Merkava/Linter authority to Human View.
- * The Awtsmoos needs no duplicate throne, and one parser truth is enough to guide the tree;
- * Awtsmoos.com reuses the established vessel so semantic sight stays light, cached, and free.
+ * @fileoverview Keeps Merkava as JavaScript syntax authority while waiting boundedly for cold lazy readiness.
+ * The Awtsmoos creates parser and program together while finite network time still unfolds;
+ * Awtsmoos.com therefore waits one measured interval for Merkava before declaring observed structure unavailable.
  */
 
 import { Linter } from "../../../tools/linter.js";
 import { createHumanDocument } from "../model/document.js";
+import { waitForMerkavaReady } from "./merkava-readiness.js";
 import { projectMerkavaAst } from "./projector.js";
 
-/** Ensures the existing Linter owns a resolved Merkava parser class. */
-async function ensureMerkavaParser() {
-	await Linter.init();
-	if (!Linter.parserClass && globalThis.MerkavahParserPromise) {
-		const parserClass = await globalThis.MerkavahParserPromise;
-		Linter.parserClass ||= parserClass;
-		Linter.isReady = Boolean(Linter.parserClass);
-	}
-	if (!Linter.parserClass) {
-		throw new Error("Merkava AST parser is unavailable.");
-	}
+function parserWarnings(ast) {
+	return (ast?.errors || []).map(error => ({ message: error?.message || String(error) }));
 }
 
-/**
- * Parses JavaScript with the editor's cached parser and returns normalized evidence.
- * @param {{file: object, source: string}} input Active file identity and unsaved source.
- * @returns {Promise<object>} Parser-independent Human View document.
- */
-export async function analyzeJavaScript({ file, source }) {
-	if (!source.trim()) {
-		return createHumanDocument({
-			file,
-			facts: { imports: [], exports: [], declarations: [] }
-		});
+/** Analyzes one live JavaScript-family buffer through the existing lazy Merkava gateway. */
+export async function analyzeJavaScript({ file, source, sourceRevision }) {
+	const ready = await waitForMerkavaReady(Linter);
+	if (!ready) {
+		throw new Error("Merkava parser did not become ready within the Human Takeover readiness window.");
 	}
-
-	await ensureMerkavaParser();
 	const ast = Linter.getAST(source);
-	if (!ast || ast.error) {
-		throw new Error(ast?.error || "Merkava returned no syntax tree.");
+	if (ast?.error) {
+		throw new Error(`Merkava parser could not analyze this source: ${ast.error}`);
 	}
-
+	if (!ast || !Array.isArray(ast.body)) {
+		throw new Error("Merkava did not return a traversable Program AST.");
+	}
 	return createHumanDocument({
 		file,
-		facts: projectMerkavaAst(ast),
-		errors: Array.isArray(ast.errors) ? ast.errors : []
+		language: "JavaScript",
+		adapter: "Merkava semantic adapter",
+		parser: "Merkava AST",
+		sourceRevision,
+		sections: projectMerkavaAst(ast, source),
+		warnings: parserWarnings(ast)
 	});
 }

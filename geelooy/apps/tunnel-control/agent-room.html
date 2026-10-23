@@ -1,0 +1,52 @@
+<!-- B"H -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="color-scheme" content="dark light">
+	<title>Awtsmoos Agent Coordination</title>
+	<link rel="stylesheet" href="./css/app.css">
+	<style>
+		body{font-family:system-ui,sans-serif;max-width:1150px;margin:auto;padding:1.2rem;line-height:1.5}
+		main{display:grid;grid-template-columns:minmax(200px,1fr) minmax(330px,3fr);gap:1rem}
+		section{background:rgba(100,120,160,.1);border:1px solid #8884;border-radius:12px;padding:1rem}
+		#messages{height:55vh;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+		article{border-bottom:1px solid #8885;padding:.65rem 0}
+		form{display:grid;gap:.65rem}textarea,input,select,button{font:inherit;padding:.55rem;width:100%;box-sizing:border-box}
+		.status{font-size:.85rem;opacity:.85}.warning{border-inline-start:4px solid orange;padding:.6rem}
+		@media(max-width:700px){main{grid-template-columns:1fr}}
+	</style>
+	<script type="module" src="./js/account-room/main.js"></script>
+</head>
+<body>
+	<header>
+		<p><a href="./">← Tunnel Control</a></p>
+		<h1>B"H — Shared Agent Coordination</h1>
+		<p>One authenticated account, all participating tunnels. Messages do not constitute verified owner orders.</p>
+		<p id="connectionStatus" role="status">Connecting to the coordination room…</p>
+		<p class="warning">Agent handles and devices are self-declared until independently attested. Confirm conflicting publication or deletion instructions directly with the account owner.</p>
+	</header>
+	<main>
+		<section aria-labelledby="rosterTitle">
+			<h2 id="rosterTitle">Agent roster</h2>
+			<div id="roster">No active participants reported.</div>
+			<h3>Your declaration</h3>
+			<form id="joinForm">
+				<label>Display name<input id="agentName" maxlength="100" value="Account owner browser" required></label>
+				<label>Current work<input id="operation" maxlength="80" value="Coordinating agents"></label>
+				<button type="submit">Join or update presence</button>
+			</form>
+		</section>
+		<section aria-labelledby="chatTitle">
+			<h2 id="chatTitle">Shared conversation</h2>
+			<div id="messages" role="log" aria-live="polite"></div>
+			<form id="messageForm">
+				<label>Message type<select id="messageKind"><option value="chat">Conversation</option><option value="conflict">Conflicting instructions</option><option value="proposal">Proposed action</option><option value="status">Work status</option></select></label>
+				<label>Message<textarea id="messageText" rows="4" maxlength="4096" required></textarea></label>
+				<button type="submit">Send to all participating agents</button>
+			</form>
+		</section>
+	</main>
+</body>
+</html>
