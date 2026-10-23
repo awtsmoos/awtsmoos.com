@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 (function(root, factory) {
 	if (typeof module === "object" && module.exports) {
@@ -11,13 +11,13 @@
 	}
 })(typeof self !== "undefined" ? self : this, function(support) {
 	/**
-	 * Builds a VirtualDocument tree exclusively from Merkava HTML tokens.
-	 * Canonical html/head/body vessels are preserved, attributes use first-wins
-	 * semantics, raw style text feeds our CSS engine, and malformed closes recover.
+	 * Awtsmoos.com reveals a tree through words and light;
+	 * each token finds its home, each attribute its right.
+	 * Build a virtual document entirely from executor-owned HTML tokens.
 	 *
 	 * @param {object} document Executor-owned VirtualDocument instance.
-	 * @param {ReadonlyArray<object>} tokens Token stream from tokenizeHtml().
-	 * @returns {{nodes:number,ok:boolean,title:string}} Tree-construction summary.
+	 * @param {ReadonlyArray<object>} tokens Lexical tokens from tokenizeHtml().
+	 * @returns {{nodes:number,ok:boolean,title:string}} Tree summary.
 	 */
 	function buildHtmlTree(document, tokens) {
 		document.head.replaceChildren();
@@ -54,7 +54,7 @@
 	function openElement(state, token) {
 		const canonical = support.canonicalHtmlElement(state.document, token.name);
 		const element = canonical || state.document.createElement(token.name);
-		applyAttributes(element, token.attributes);
+		support.applyHtmlAttributes(element, token.attributes);
 		const parent = support.htmlInsertionParent(state, token.name);
 		if (!canonical && element.parentNode !== parent) {
 			parent.appendChild(element);
@@ -64,7 +64,7 @@
 		}
 	}
 
-	/** Pops through the matching open element while tolerating unmatched closes. */
+	/** Pops through a matching open element while tolerating unmatched closes. */
 	function closeElement(state, tagName) {
 		for (let index = state.stack.length - 1; index > 0; index -= 1) {
 			if (state.stack[index].localName === tagName) {
@@ -74,7 +74,7 @@
 		}
 	}
 
-	/** Appends exact DOM text; whitespace normalization belongs to layout, not parsing. */
+	/** Appends exact text; CSS is interpreted only in the executor's style engine. */
 	function appendText(state, text) {
 		if (!text) {
 			return;
@@ -83,39 +83,6 @@
 		parent.appendChild(state.document.createTextNode(text));
 		if (parent.localName === "style") {
 			state.document.cssEngine.parseStyleSheet(text);
-		}
-	}
-
-	/**
-	 * Applies only the first occurrence of each HTML attribute name.
-	 * Uses the element's parser fast path (__setParsedAttributes) which skips
-	 * String() coercion and mutation notify; null-proto object for dedup.
-	 */
-	function applyAttributes(element, attributes) {
-		if (!attributes || attributes.length === 0) {
-			return;
-		}
-		if (typeof element.__setParsedAttributes === "function") {
-			const seen = Object.create(null);
-			const deduped = [];
-			for (const attribute of attributes) {
-				if (seen[attribute.name]) {
-					continue;
-				}
-				seen[attribute.name] = 1;
-				deduped.push(attribute);
-			}
-			element.__setParsedAttributes(deduped);
-			return;
-		}
-		// Fallback for documents without the fast path (e.g. test mocks).
-		const seen = Object.create(null);
-		for (const attribute of attributes) {
-			if (seen[attribute.name]) {
-				continue;
-			}
-			seen.add(attribute.name);
-			element.setAttribute(attribute.name, attribute.value);
 		}
 	}
 

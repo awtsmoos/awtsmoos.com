@@ -4,9 +4,9 @@
 
 /**
  * @file NpcScheduleJourney.js
- * @description Resolves daily duties into cached, road-bound travel and arrival state.
- * The Awtsmoos renews each hour with purpose; Awtsmoos.com carries a named villager
- * from prayer to labor and home without repeating pathfinding inside every frame.
+ * @description Carries NPCs on real roads and replans when a restored bridge changes access.
+ * The Awtsmoos renews the hours, the feet, the river, and the goal;
+ * Awtsmoos.com will not proclaim arrival when a broken crossing bars the soul.
  */
 
 import {
@@ -14,24 +14,17 @@ import {
 	friendlyNpcScheduleAt,
 	normalizeFriendlyNpcHour
 } from './FriendlyNpcScheduleRules.js';
+import { npcRoadJourney, sampleNpcRoadJourney } from './NpcRoadJourney.js';
 import {
-	npcRoadJourney,
-	sampleNpcRoadJourney
-} from './NpcRoadJourney.js';
+	NPC_PERIOD_START,
+	NPC_PREVIOUS_PERIOD,
+	npcScheduleTravelDuration
+} from './NpcScheduleTravelTime.js';
 
-const DEFAULT_DAY_LENGTH_SECONDS = 1440;
-const MAXIMUM_TRAVEL_HOURS = 2.4;
-const MINIMUM_TRAVEL_HOURS = 0.25;
-const PERIOD_START = Object.freeze({ day: 10, evening: 17, morning: 5, night: 21 });
-const PREVIOUS_PERIOD = Object.freeze({
-	day: 'morning',
-	evening: 'day',
-	morning: 'night',
-	night: 'evening'
-});
+export { npcScheduleTravelDuration } from './NpcScheduleTravelTime.js';
 
-/** Mutates stable actor schedule fields and returns normalized travel progress. */
-export function applyNpcScheduleJourney(actor, worldHour) {
+/** Replans an active duty if the authoritative world reports a bridge state change. */
+export function applyNpcScheduleJourney(actor, worldHour, bridgeRestored = false) {
 	const anchors = actor.profile?.dailyAnchors;
 	if (!anchors) {
 		applyFallbackPost(actor);
@@ -39,10 +32,11 @@ export function applyNpcScheduleJourney(actor, worldHour) {
 	}
 	const hour = normalizeFriendlyNpcHour(worldHour);
 	const period = friendlyNpcDailyPeriod(hour);
-	ensureScheduleLeg(actor, anchors, period);
-	const elapsed = normalizeFriendlyNpcHour(hour - PERIOD_START[period]);
+	ensureScheduleLeg(actor, anchors, period, hour, Boolean(bridgeRestored));
+	const elapsed = normalizeFriendlyNpcHour(hour - actor.scheduleTravelStartHour);
 	const duration = actor.scheduleTravelDuration;
-	const progress = duration > 0 ? Math.min(1, elapsed / duration) : 1;
+	const progress = actor.scheduleJourneyBlocked
+		? 0 : duration > 0 ? Math.min(1, elapsed / duration) : 1;
 	sampleNpcRoadJourney(
 		actor.scheduleJourney,
 		smoothStep(progress),
@@ -53,30 +47,29 @@ export function applyNpcScheduleJourney(actor, worldHour) {
 	return progress;
 }
 
-/** Converts route length and walking speed into game-world travel hours. */
-export function npcScheduleTravelDuration(
-	routeLength,
-	walkSpeed,
-	dayLengthSeconds = DEFAULT_DAY_LENGTH_SECONDS
-) {
-	const length = Math.max(0, Number(routeLength) || 0);
-	if (length <= 0.001) return 0;
-	const speed = Math.max(0.2, Number(walkSpeed) || 1);
-	const daySeconds = Math.max(1, Number(dayLengthSeconds) || DEFAULT_DAY_LENGTH_SECONDS);
-	const worldHours = length / speed * 24 / daySeconds;
-	return Math.max(MINIMUM_TRAVEL_HOURS, Math.min(MAXIMUM_TRAVEL_HOURS, worldHours));
-}
-
-function ensureScheduleLeg(actor, anchors, period) {
-	if (actor.scheduleJourney && actor.dailyPeriod === period) return;
-	const destination = friendlyNpcScheduleAt(actor.profile, PERIOD_START[period]);
-	const origin = anchors[PREVIOUS_PERIOD[period]] || destination;
-	if (actor.dailyPeriod && actor.dailyPeriod !== period) {
+function ensureScheduleLeg(actor, anchors, period, hour, bridgeRestored) {
+	const samePeriod = actor.dailyPeriod === period;
+	if (actor.scheduleJourney && samePeriod && actor.scheduleBridgeRestored === bridgeRestored) {
+		return;
+	}
+	const destination = friendlyNpcScheduleAt(actor.profile, NPC_PERIOD_START[period]);
+	const previous = anchors[NPC_PREVIOUS_PERIOD[period]] || destination;
+	const currentLocation = {
+		x: Number(actor.routeCenterX) || 0,
+		z: Number(actor.routeCenterZ) || 0
+	};
+	const replanning = Boolean(actor.scheduleJourney && samePeriod);
+	const origin = replanning ? currentLocation : previous.location;
+	if (actor.dailyPeriod && !samePeriod) {
 		actor.scheduleChanges = Number(actor.scheduleChanges || 0) + 1;
 	}
 	actor.dailyPeriod = period;
 	actor.scheduleDestination = destination;
-	actor.scheduleJourney = npcRoadJourney(origin.location, destination.location);
+	actor.scheduleBridgeRestored = bridgeRestored;
+	actor.scheduleTravelStartHour = replanning ? hour : NPC_PERIOD_START[period];
+	actor.scheduleJourney = npcRoadJourney(origin, destination.location, bridgeRestored);
+	actor.scheduleJourneyBlocked = actor.scheduleJourney.totalLength <= 0.001 &&
+		Math.hypot(origin.x - destination.location.x, origin.z - destination.location.z) > 0.5;
 	actor.scheduleTravelDuration = npcScheduleTravelDuration(
 		actor.scheduleJourney.totalLength,
 		actor.profile.walkSpeed
@@ -87,10 +80,10 @@ function ensureScheduleLeg(actor, anchors, period) {
 function applyScheduleState(actor, progress) {
 	const destination = actor.scheduleDestination;
 	actor.activeScheduleAction = destination.action;
-	actor.currentAction = progress < 1
-		? `travel-to-${destination.location.id}`
-		: destination.action;
-	actor.isTravelling = progress < 1;
+	actor.currentAction = actor.scheduleJourneyBlocked
+		? 'awaiting-crossing'
+		: progress < 1 ? `travel-to-${destination.location.id}` : destination.action;
+	actor.isTravelling = !actor.scheduleJourneyBlocked && progress < 1;
 	actor.navigationTarget = destination.location;
 	actor.scheduleProgress = progress;
 	actor.scheduleRouteLength = actor.scheduleJourney.totalLength;

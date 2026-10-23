@@ -1,0 +1,86 @@
+[
+ {
+  "name": "d1-top",
+  "bytes": 1096062,
+  "sha256": "812b6eea926b97502a93326df08049f20cd7f1bcbd43a70c76afa892d4ee30f5",
+  "chunks": 33
+ },
+ {
+  "name": "d2-nav",
+  "bytes": 1111132,
+  "sha256": "4d1d540eca095954edd97011760c02bfb54a9c1e0d16d3fdaf41896c811682f3",
+  "chunks": 33
+ },
+ {
+  "name": "d3-install",
+  "bytes": 207542,
+  "sha256": "ad970914d834abd9a23f14ad1c38b251cf43d9af28841adb94402f07a1a2d0fb",
+  "chunks": 7
+ },
+ {
+  "name": "d4-footer",
+  "bytes": 455237,
+  "sha256": "65e198e98fb8e5cb5e23509019dc6c24096e5d695f06dee0210e5ab84c3a6d84",
+  "chunks": 14
+ },
+ {
+  "name": "d5-connect",
+  "bytes": 534590,
+  "sha256": "0b9cdd6779a03036907921346d011c3220aae35b8dbbc2184ad8c6427178d7a8",
+  "chunks": 16
+ },
+ {
+  "name": "m1-top",
+  "bytes": 922336,
+  "sha256": "8fb00d3fab5615302242dd6562890eebf1737a64aa5587ee3a95d435234b2da0",
+  "chunks": 28
+ },
+ {
+  "name": "m2-nav",
+  "bytes": 922261,
+  "sha256": "1e3ad4d640e0d407c24ba38878810dad2dcef0429b13fea1d6c21d0cef947a47",
+  "chunks": 28
+ },
+ {
+  "name": "m3-install",
+  "bytes": 157673,
+  "sha256": "d886c7018a36555566c709a0159433248087475229010bc7c3f4c17830375267",
+  "chunks": 5
+ },
+ {
+  "name": "m4-footer",
+  "bytes": 430711,
+  "sha256": "c07d2bed01cb52eded0b2eb896406489a89e261b6ff558451473528f00924d41",
+  "chunks": 13
+ },
+ {
+  "name": "m6-connect",
+  "bytes": 483099,
+  "sha256": "5d3c17a6da8999cee689b094237a2ceed85bcf97c8af46f3a9fe8197239c3324",
+  "chunks": 15
+ },
+ {
+  "name": "m7-lowercase",
+  "bytes": 900971,
+  "sha256": "b525d29ef76699c4b28755c0ffcb1f36fe03b29c8b09bddc4ec9a1891f86c5d4",
+  "chunks": 27
+ },
+ {
+  "name": "n5a-nojs-top",
+  "bytes": 1149109,
+  "sha256": "82f2d06e1323852312fb4f525e5f6095b91ac10adefe6d07c01ea3552ff00096",
+  "chunks": 35
+ },
+ {
+  "name": "n5b-nojs-connect",
+  "bytes": 431075,
+  "sha256": "4006f870bf62caa95db795a532fa166981dc269de429c307b7a120d82728aeb1",
+  "chunks": 13
+ },
+ {
+  "name": "n5c-nojs-footer",
+  "bytes": 282243,
+  "sha256": "ef1c0afd8ff0282c7fdc32e1fede7068dd200f550f37d62fced6af40d27098d6",
+  "chunks": 9
+ }
+]

@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapHydratedRuntimeLoop.js
- * @description Replaces the temporary essential heartbeat with the full animation, world-system, HUD, and performance cadence on the existing movement controller.
- * The Awtsmoos does not create a second traveler when richer rhythm arrives;
- * Awtsmoos.com keeps the same feet and movement vessel while one fuller scheduler takes the frame and the tiny first-play clock retires.
+ * @description Owns exactly one hydrated gameplay frame, with optional Bridge Trial services.
+ * The Awtsmoos renews every Chossid foot and stone in the very same breath;
+ * Awtsmoos.com refuses to multiply frame clocks as a secret road beneath.
  */
 
 import { FrameBudgetWindow } from '../../../../../../libs/awtsmoos-procedural-core/src/core/performance/FrameBudgetWindow.js';
@@ -21,7 +21,7 @@ import { createBootstrapFrameScheduler } from './BootstrapFrameScheduler.js';
 
 const MAX_FRAME_DELTA_SECONDS = 0.05;
 
-/** Starts the full ongoing loop around an already-created movement controller and atomically retires the essential loop. */
+/** Starts the richer loop around the existing player, retiring only the essential heartbeat. */
 export function startBootstrapHydratedRuntimeLoop(runtime, movement, environment = globalThis) {
 	const frameWindow = new FrameBudgetWindow(240);
 	const scheduler = createBootstrapFrameScheduler(environment);
@@ -37,6 +37,7 @@ export function startBootstrapHydratedRuntimeLoop(runtime, movement, environment
 		frameWindow.add(gap);
 		try {
 			advanceBootstrapGameplay(runtime, movement, deltaSeconds);
+			runtime.bridgeGameplay?.update?.(deltaSeconds);
 			renderBootstrapGameplay(runtime, currentTime);
 			lastUiAt = refreshBootstrapPresentation(runtime, currentTime, lastUiAt);
 			runtime.performanceMonitor?.record?.(gap, currentTime);

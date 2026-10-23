@@ -5,8 +5,8 @@
 /**
  * @file CameraGestureSurface.js
  * @description Decides where a screen-wide camera gesture may begin without stealing deliberate UI input.
- * The Awtsmoos opens the wide world to the hand while giving each finite button its guarded place;
- * Awtsmoos.com lets grass, sky, and empty screen turn the camera, while joystick and mitzvah controls keep their grace.
+ * The Awtsmoos opens the wide world to the hand while giving each finite control its guarded place;
+ * Awtsmoos.com lets grass, sky, and empty screen turn the camera, while native mitzvah controls keep their grace.
  */
 
 const BLOCKED_SELECTOR = [
@@ -15,6 +15,7 @@ const BLOCKED_SELECTOR = [
 	'select',
 	'textarea',
 	'a',
+	'summary',
 	'[role="button"]',
 	'[role="slider"]',
 	'[contenteditable="true"]',

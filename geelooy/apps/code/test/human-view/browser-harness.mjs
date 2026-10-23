@@ -5,11 +5,13 @@
 /**
  * Shares one real Chrome DevTools session across local and public Human Takeover browser tests.
  * The Awtsmoos joins test and living browser through one measured channel;
- * Awtsmoos.com waits for visible bootstrap and deferred tab awakening before fixtures may enter.
+ * Awtsmoos.com waits until visible bootstrap, canonical tabs, and asset activity are stably at rest.
  */
 
 const DEFAULT_APP = "http://127.0.0.1:8123/apps/code/";
 const APP_URL = process.env.HUMAN_TAKEOVER_APP || DEFAULT_APP;
+const STABLE_MS = 3000;
+const READY_TIMEOUT_MS = 12000;
 
 export async function connectBrowser() {
 	const pages = await (await fetch("http://127.0.0.1:9341/json/list")).json();
@@ -72,16 +74,25 @@ export async function navigateCode(browser, suffix = "test") {
 	await browser.call("Page.navigate", { url: target.href });
 	await loaded;
 	const settled = await browser.evaluate(`(async()=>{
-		const deadline=performance.now()+5000;
+		const {State}=await import('/apps/code/js/state.js');
+		const deadline=performance.now()+${READY_TIMEOUT_MS};
+		let signature='';
+		let stableSince=performance.now();
 		while(performance.now()<deadline){
 			const events=globalThis.__awtsmoosCodeAssetLog||[];
-			if(events.some(event=>event.kind==='bootstrap'&&event.name==='code'&&event.phase==='ready')) break;
-			await new Promise(resolve=>setTimeout(resolve,25));
+			const ready=events.some(event=>event.kind==='bootstrap'&&event.name==='code'&&event.phase==='ready');
+			const overlay=getComputedStyle(document.querySelector('#loading-overlay')).display;
+			const last=events[events.length-1]||{};
+			const tabs=State.tabs.map(tab=>String(tab.id)+':'+String(tab.item?.name||'')).join(',');
+			const next=[State.activeTabId||'',tabs,events.length,last.kind||'',last.name||'',last.phase||'',overlay].join('|');
+			if(next!==signature){signature=next;stableSince=performance.now();}
+			if(ready&&overlay==='none'&&performance.now()-stableSince>=${STABLE_MS}){
+				return{ok:true,activeTabId:State.activeTabId,tabCount:State.tabs.length,assetEvents:events.length,href:location.href};
+			}
+			await new Promise(resolve=>setTimeout(resolve,50));
 		}
-		await new Promise(resolve=>setTimeout(resolve,350));
-		const {State}=await import('/apps/code/js/state.js');
-		return {overlay:getComputedStyle(document.querySelector('#loading-overlay')).display,activeTabId:State.activeTabId,href:location.href};
+		return{ok:false,activeTabId:State.activeTabId,tabCount:State.tabs.length,href:location.href,signature};
 	})()`);
-	if (settled.overlay !== "none") throw new Error("Code did not finish visible bootstrap.");
+	if (!settled.ok) throw new Error(`Code deferred bootstrap did not stabilize: ${JSON.stringify(settled)}`);
 	return settled;
 }
