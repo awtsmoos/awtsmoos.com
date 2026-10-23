@@ -1028,13 +1028,29 @@ const __awtsmoosModule_119 = Object.create(null);
 
 const __awtsmoosModule_73 = Object.create(null);
 
+const __awtsmoosModule_507 = Object.create(null);
+
+const __awtsmoosModule_508 = Object.create(null);
+
+const __awtsmoosModule_506 = Object.create(null);
+
+const __awtsmoosModule_509 = Object.create(null);
+
+const __awtsmoosModule_505 = Object.create(null);
+
+const __awtsmoosModule_511 = Object.create(null);
+
+const __awtsmoosModule_510 = Object.create(null);
+
+const __awtsmoosModule_504 = Object.create(null);
+
 const __awtsmoosModule_72 = Object.create(null);
 
 const __awtsmoosModule_71 = Object.create(null);
 
-const __awtsmoosModule_505 = Object.create(null);
+const __awtsmoosModule_513 = Object.create(null);
 
-const __awtsmoosModule_504 = Object.create(null);
+const __awtsmoosModule_512 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -40382,6 +40398,605 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcBridgeRoadEdge.js ----
+{
+	const __exports = __awtsmoosModule_507;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file NpcBridgeRoadEdge.js
+	 * @description Connects the canonical banks only after real village bridge restoration.
+	 * The Awtsmoos renews the water and the stone in each measured scene;
+	 * Awtsmoos.com allows a crossing only when the living world's repaired span is seen.
+	 */
+
+	const WEST_APPROACH = Object.freeze({ x: 10.4, z: 7 });
+	const EAST_APPROACH = Object.freeze({ x: 25.6, z: 7 });
+
+	/** Locates the two authored bank nodes without adding imaginary geometry. */
+	function findNpcBridgeBankNodes(nodes) {
+		const west = nodes.find(node => atApproach(node, WEST_APPROACH));
+		const east = nodes.find(node => atApproach(node, EAST_APPROACH));
+		return west && east ? Object.freeze({ west, east }) : null;
+	}
+
+
+	__exports.findNpcBridgeBankNodes = findNpcBridgeBankNodes;
+	/** Exposes one conditional navigation link; construction remains elsewhere. */
+	function npcBridgeNavigationLinks(node, bankNodes, bridgeRestored) {
+		if (!bridgeRestored || !bankNodes) return [];
+		if (node !== bankNodes.west && node !== bankNodes.east) return [];
+		const other = node === bankNodes.west ? bankNodes.east : bankNodes.west;
+		return [{
+			node: other,
+			distance: Math.hypot(other.x - node.x, other.z - node.z)
+		}];
+	}
+
+
+	__exports.npcBridgeNavigationLinks = npcBridgeNavigationLinks;
+	function atApproach(node, approach) {
+		return Math.abs(node.x - approach.x) < 0.001 &&
+			Math.abs(node.z - approach.z) < 0.001;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadNetworkGeometry.js ----
+{
+	const __exports = __awtsmoosModule_508;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file NpcRoadNetworkGeometry.js
+	 * @description Normalizes pedestrian graph coordinates and physical edge lengths.
+	 * The Awtsmoos renews each measured span of water, earth, and sky;
+	 * Awtsmoos.com names the limits of a journey, never drawing roads where none lie.
+	 */
+
+	/** Produces a stable node identity without global mutable positions. */
+	function npcRoadCoordinateKey(point) {
+		return `${Number(point.x).toFixed(3)}:${Number(point.z).toFixed(3)}`;
+	}
+
+
+	__exports.npcRoadCoordinateKey = npcRoadCoordinateKey;
+	/** Measures horizontal length between two actual authored road points. */
+	function npcRoadPointDistance(first, second) {
+		return Math.hypot(
+			Number(second.x) - Number(first.x),
+			Number(second.z) - Number(first.z)
+		);
+	}
+
+	__exports.npcRoadPointDistance = npcRoadPointDistance;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadNetwork.js ----
+{
+	const __exports = __awtsmoosModule_506;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file NpcRoadNetwork.js
+	 * @description Finds connected pedestrian routes, refusing an unbuilt river crossing.
+	 * The Awtsmoos renews the village and every cobblestone in sight;
+	 * Awtsmoos.com opens the bridge only when a real repair brings its light.
+	 */
+
+	const canonicalVillageRoadRoutes = __awtsmoosModule_458.canonicalVillageRoadRoutes;
+	const findNpcBridgeBankNodes = __awtsmoosModule_507.findNpcBridgeBankNodes;
+	const npcBridgeNavigationLinks = __awtsmoosModule_507.npcBridgeNavigationLinks;
+	const npcRoadCoordinateKey = __awtsmoosModule_508.npcRoadCoordinateKey;
+	const npcRoadPointDistance = __awtsmoosModule_508.npcRoadPointDistance;
+
+	const NETWORK = buildNetwork();
+	const BRIDGE_BANKS = findNpcBridgeBankNodes(NETWORK.nodes);
+
+	/** Returns the closest canonical node to a village-life anchor. */
+	function nearestNpcRoadNode(point) {
+		let nearest = NETWORK.nodes[0];
+		let nearestDistance = Infinity;
+		for (const node of NETWORK.nodes) {
+			const distance = npcRoadPointDistance(point, node);
+			if (distance < nearestDistance) {
+				nearest = node;
+				nearestDistance = distance;
+			}
+		}
+		return nearest;
+	}
+
+
+	__exports.nearestNpcRoadNode = nearestNpcRoadNode;
+	/** Computes a graph route; a disconnected destination is genuinely unreachable. */
+	function shortestNpcRoadNodePath(start, end, bridgeRestored = false) {
+		if (!start || !end) return [];
+		const distances = new Float64Array(NETWORK.nodes.length);
+		const previous = new Int32Array(NETWORK.nodes.length);
+		const visited = new Uint8Array(NETWORK.nodes.length);
+		distances.fill(Infinity);
+		previous.fill(-1);
+		distances[start.index] = 0;
+		for (let pass = 0; pass < NETWORK.nodes.length; pass += 1) {
+			const node = nearestUnvisited(distances, visited);
+			if (!node || node === end) break;
+			visited[node.index] = 1;
+			relaxLinks(node, distances, previous, bridgeRestored);
+		}
+		return rebuildPath(start, end, previous);
+	}
+
+
+	__exports.shortestNpcRoadNodePath = shortestNpcRoadNodePath;
+	/** Reports whether both canonical authored bank approaches are present. */
+	function npcBridgeRoadAvailable() {
+		return Boolean(BRIDGE_BANKS);
+	}
+
+
+	__exports.npcBridgeRoadAvailable = npcBridgeRoadAvailable;
+	function buildNetwork() {
+		const nodesByKey = new Map();
+		const nodes = [];
+		for (const route of canonicalVillageRoadRoutes()) {
+			for (let index = 0; index < route.points.length; index += 1) {
+				const node = networkNode(route.points[index], nodesByKey, nodes);
+				if (index > 0) {
+					const preceding = networkNode(route.points[index - 1], nodesByKey, nodes);
+					connectNodes(preceding, node);
+				}
+			}
+		}
+		return Object.freeze({ nodes: Object.freeze(nodes) });
+	}
+
+	function networkNode(point, nodesByKey, nodes) {
+		const key = npcRoadCoordinateKey(point);
+		if (!nodesByKey.has(key)) {
+			const node = { index: nodes.length, links: [], x: point.x, z: point.z };
+			nodesByKey.set(key, node);
+			nodes.push(node);
+		}
+		return nodesByKey.get(key);
+	}
+
+	function connectNodes(first, second) {
+		const distance = npcRoadPointDistance(first, second);
+		first.links.push({ distance, node: second });
+		second.links.push({ distance, node: first });
+	}
+
+	function nearestUnvisited(distances, visited) {
+		let result = null;
+		let lowest = Infinity;
+		for (const node of NETWORK.nodes) {
+			if (!visited[node.index] && distances[node.index] < lowest) {
+				result = node;
+				lowest = distances[node.index];
+			}
+		}
+		return result;
+	}
+
+	function relaxLinks(node, distances, previous, bridgeRestored) {
+		const bridgeLinks = npcBridgeNavigationLinks(node, BRIDGE_BANKS, bridgeRestored);
+		for (const link of [...node.links, ...bridgeLinks]) {
+			const candidate = distances[node.index] + link.distance;
+			if (candidate < distances[link.node.index]) {
+				distances[link.node.index] = candidate;
+				previous[link.node.index] = node.index;
+			}
+		}
+	}
+
+	function rebuildPath(start, end, previous) {
+		const path = [];
+		let index = end.index;
+		while (index >= 0) {
+			path.push(NETWORK.nodes[index]);
+			if (index === start.index) break;
+			index = previous[index];
+		}
+		return index < 0 ? [] : path.reverse();
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadJourneyGeometry.js ----
+{
+	const __exports = __awtsmoosModule_509;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file NpcRoadJourneyGeometry.js
+	 * @description Measures immutable NPC pedestrian journeys and their sampled segment.
+	 * The Awtsmoos renews every footstep in each humble corridor of day;
+	 * Awtsmoos.com counts each measured distance, forbidding a phantom way.
+	 */
+
+	/** Measures cumulative path lengths without inventing missing connections. */
+	function measureNpcJourney(points) {
+		const cumulativeLength = [0];
+		for (let index = 1; index < points.length; index += 1) {
+			cumulativeLength.push(
+				cumulativeLength[index - 1] + npcPointDistance(points[index - 1], points[index])
+			);
+		}
+		return Object.freeze({
+			cumulativeLength: Object.freeze(cumulativeLength),
+			points: Object.freeze(points.map(point => Object.freeze(point))),
+			totalLength: cumulativeLength.at(-1) || 0
+		});
+	}
+
+
+	__exports.measureNpcJourney = measureNpcJourney;
+	/** Determines which segment contains the requested traveled distance. */
+	function npcSegmentForDistance(journey, distance) {
+		for (let index = 1; index < journey.cumulativeLength.length; index += 1) {
+			if (distance <= journey.cumulativeLength[index]) return index;
+		}
+		return journey.points.length - 1;
+	}
+
+
+	__exports.npcSegmentForDistance = npcSegmentForDistance;
+	/** Removes repeated consecutive waypoints without altering their graph order. */
+	function uniqueNpcJourneyPoints(points) {
+		return points.filter((point, index) => {
+			return index === 0 || npcPointDistance(point, points[index - 1]) > 0.001;
+		});
+	}
+
+
+	__exports.uniqueNpcJourneyPoints = uniqueNpcJourneyPoints;
+	/** Creates one sanitized waypoint from existing NPC coordinates. */
+	function npcPointFrom(point) {
+		return { x: Number(point?.x) || 0, z: Number(point?.z) || 0 };
+	}
+
+
+	__exports.npcPointFrom = npcPointFrom;
+	/** Measures horizontal route distance between existing points. */
+	function npcPointDistance(first, second) {
+		return Math.hypot(
+			Number(second.x) - Number(first.x),
+			Number(second.z) - Number(first.z)
+		);
+	}
+
+	__exports.npcPointDistance = npcPointDistance;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcRoadJourney.js ----
+{
+	const __exports = __awtsmoosModule_505;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file NpcRoadJourney.js
+	 * @description Samples real, connected NPC road journeys without phantom bridge crossings.
+	 * The Awtsmoos renews a villager's steps on the road of today;
+	 * Awtsmoos.com will not move them over water where no bridge can show the way.
+	 */
+
+	const nearestNpcRoadNode = __awtsmoosModule_506.nearestNpcRoadNode;
+	const shortestNpcRoadNodePath = __awtsmoosModule_506.shortestNpcRoadNodePath;
+	const measureNpcJourney = __awtsmoosModule_509.measureNpcJourney;
+	const npcSegmentForDistance = __awtsmoosModule_509.npcSegmentForDistance;
+	const uniqueNpcJourneyPoints = __awtsmoosModule_509.uniqueNpcJourneyPoints;
+	const npcPointFrom = __awtsmoosModule_509.npcPointFrom;
+	const npcPointDistance = __awtsmoosModule_509.npcPointDistance;
+
+	const JOURNEY_CACHE = new Map();
+
+	/** Uses explicit authoritative bridge state and never caches across different bridge states. */
+	function npcRoadJourney(from, to, bridgeRestored = false) {
+		const key = `${journeyKey(from, to)}:${Boolean(bridgeRestored)}`;
+		if (JOURNEY_CACHE.has(key)) return JOURNEY_CACHE.get(key);
+		const points = npcPointDistance(from, to) <= 0.001
+			? [npcPointFrom(from)]
+			: journeyPoints(from, to, bridgeRestored);
+		const journey = measureNpcJourney(points);
+		JOURNEY_CACHE.set(key, journey);
+		return journey;
+	}
+
+
+	__exports.npcRoadJourney = npcRoadJourney;
+	/** Samples only real reachable path segments; a blocked journey stays at its origin. */
+	function sampleNpcRoadJourney(journey, progress, actor, laneOffset = 0) {
+		if (journey.points.length < 2 || journey.totalLength <= 0.001) {
+			applyStationaryJourney(journey.points[0], actor);
+			return;
+		}
+		const clamped = Math.max(0, Math.min(1, Number(progress) || 0));
+		const distance = journey.totalLength * clamped;
+		const index = npcSegmentForDistance(journey, distance);
+		const from = journey.points[index - 1];
+		const to = journey.points[index];
+		const start = journey.cumulativeLength[index - 1];
+		const length = Math.max(0.000001, journey.cumulativeLength[index] - start);
+		const local = Math.max(0, Math.min(1, (distance - start) / length));
+		const directionX = (to.x - from.x) / length;
+		const directionZ = (to.z - from.z) / length;
+		const offset = laneOffset * Math.sin(Math.PI * clamped);
+		actor.routeCenterX = from.x + (to.x - from.x) * local - directionZ * offset;
+		actor.routeCenterZ = from.z + (to.z - from.z) * local + directionX * offset;
+		actor.routeDirectionX = directionX;
+		actor.routeDirectionZ = directionZ;
+	}
+
+
+	__exports.sampleNpcRoadJourney = sampleNpcRoadJourney;
+	function journeyPoints(from, to, bridgeRestored) {
+		const nodes = shortestNpcRoadNodePath(
+			nearestNpcRoadNode(from),
+			nearestNpcRoadNode(to),
+			Boolean(bridgeRestored)
+		);
+		if (!nodes.length) return [npcPointFrom(from)];
+		return uniqueNpcJourneyPoints([
+			npcPointFrom(from),
+			...nodes.map(npcPointFrom),
+			npcPointFrom(to)
+		]);
+	}
+
+	function applyStationaryJourney(point, actor) {
+		actor.routeCenterX = Number(point?.x) || 0;
+		actor.routeCenterZ = Number(point?.z) || 0;
+		actor.routeDirectionX = 0;
+		actor.routeDirectionZ = 1;
+	}
+
+	function journeyKey(from, to) {
+		return `${coordinateKey(from)}>${coordinateKey(to)}`;
+	}
+
+	function coordinateKey(point) {
+		return `${Number(point.x).toFixed(3)}:${Number(point.z).toFixed(3)}`;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageBridgeRestorationContract.js ----
+{
+	const __exports = __awtsmoosModule_511;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file VillageBridgeRestorationContract.js
+	 * @description Defines the exact missing BRIDGE01 center span shared by native bridge geometry and Creator restoration.
+	 * The Awtsmoos makes absence and completion agree on one measure; Awtsmoos.com prevents duplicate decks,
+	 * z-fighting, collision overlap, and persistence drift by deriving every repair coordinate from canonical truth.
+	 */
+
+	const CANONICAL_VILLAGE_LANDMARKS = __awtsmoosModule_464.CANONICAL_VILLAGE_LANDMARKS;
+	const canonicalStoneBridgeDeckTopY = __awtsmoosModule_459.canonicalStoneBridgeDeckTopY;
+	const STONE_BRIDGE_DIMENSIONS = __awtsmoosModule_459.STONE_BRIDGE_DIMENSIONS;
+
+	const BRIDGE_RESTORATION_GAP = 2.8;
+
+	__exports.BRIDGE_RESTORATION_GAP = BRIDGE_RESTORATION_GAP;
+	const BRIDGE_RESTORATION_PART_ID = 'creator-bridge-restoration-BRIDGE01';
+
+	__exports.BRIDGE_RESTORATION_PART_ID = BRIDGE_RESTORATION_PART_ID;
+	const BRIDGE_RESTORATION_STORAGE_KEY = 'mitzvahWorld.bridge-restoration.world.v1';
+
+	__exports.BRIDGE_RESTORATION_STORAGE_KEY = BRIDGE_RESTORATION_STORAGE_KEY;
+	const BRIDGE_RESTORATION_ACTION_RADIUS = 5.5;
+
+
+	__exports.BRIDGE_RESTORATION_ACTION_RADIUS = BRIDGE_RESTORATION_ACTION_RADIUS;
+	/** Returns immutable canonical placement measurements for the missing center span. */
+	function villageBridgeRestorationPlacement() {
+		const bridge = CANONICAL_VILLAGE_LANDMARKS.bridge;
+		const topY = canonicalStoneBridgeDeckTopY(bridge);
+		return Object.freeze({
+			position: Object.freeze({
+				x: bridge.x,
+				y: topY - STONE_BRIDGE_DIMENSIONS.deckThickness / 2,
+				z: bridge.z
+			}),
+			size: Object.freeze({
+				x: BRIDGE_RESTORATION_GAP,
+				y: STONE_BRIDGE_DIMENSIONS.deckThickness,
+				z: STONE_BRIDGE_DIMENSIONS.width
+			}),
+			topY
+		});
+	}
+
+
+	__exports.villageBridgeRestorationPlacement = villageBridgeRestorationPlacement;
+	/** Returns the two permanent deck segments left when the center repair span is absent. */
+	function villageBridgePermanentDeckSegments(
+		bridge = CANONICAL_VILLAGE_LANDMARKS.bridge,
+		deckCenterY = villageBridgeRestorationPlacement().position.y
+	) {
+		const fullLength = STONE_BRIDGE_DIMENSIONS.halfSpan * 2;
+		const segmentLength = (fullLength - BRIDGE_RESTORATION_GAP) / 2;
+		const offset = BRIDGE_RESTORATION_GAP / 2 + segmentLength / 2;
+		return Object.freeze([-1, 1].map(side => Object.freeze({
+			position: Object.freeze({
+				x: bridge.x + side * offset,
+				y: deckCenterY,
+				z: bridge.z
+			}),
+			side: side < 0 ? 'west' : 'east',
+			size: Object.freeze({
+				x: segmentLength,
+				y: STONE_BRIDGE_DIMENSIONS.deckThickness,
+				z: STONE_BRIDGE_DIMENSIONS.width
+			})
+		})));
+	}
+
+
+	__exports.villageBridgePermanentDeckSegments = villageBridgePermanentDeckSegments;
+	/** Measures horizontal player distance to the restoration center. */
+	function distanceToVillageBridgeRestoration(position = {}) {
+		const center = villageBridgeRestorationPlacement().position;
+		return Math.hypot(Number(position.x || 0) - center.x, Number(position.z || 0) - center.z);
+	}
+
+	__exports.distanceToVillageBridgeRestoration = distanceToVillageBridgeRestoration;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBridgeNpcElevation.js ----
+{
+	const __exports = __awtsmoosModule_510;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowBridgeNpcElevation.js
+	 * @description Determines the villager's standing height within both authored bridge axes.
+	 * The Awtsmoos renews the river, stone, and footstep with the light;
+	 * Awtsmoos.com keeps the deck within its measured breadth tonight.
+	 */
+
+	const villageBridgeRestorationPlacement = __awtsmoosModule_511.villageBridgeRestorationPlacement;
+	const STONE_BRIDGE_DIMENSIONS = __awtsmoosModule_459.STONE_BRIDGE_DIMENSIONS;
+
+	/** Applies the stone deck height only inside the canonical physical footprint. */
+	function minimalMeadowBridgeNpcElevation(x, z, terrainY) {
+		const placement = villageBridgeRestorationPlacement();
+		const center = placement.position;
+		const onBridge = Number.isFinite(x) && Number.isFinite(z)
+			&& Math.abs(x - center.x) <= STONE_BRIDGE_DIMENSIONS.halfSpan
+			&& Math.abs(z - center.z) <= STONE_BRIDGE_DIMENSIONS.width / 2;
+		const ground = Number.isFinite(terrainY) ? terrainY : 0;
+		return onBridge ? Math.max(ground, placement.topY) : ground;
+	}
+
+	__exports.minimalMeadowBridgeNpcElevation = minimalMeadowBridgeNpcElevation;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBridgeNpcCrossing.js ----
+{
+	const __exports = __awtsmoosModule_504;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowBridgeNpcCrossing.js
+	 * @description Walks an existing rendered villager across the canonical repaired stone bridge.
+	 * The Awtsmoos renews the river and the footsteps with each passing ray;
+	 * Awtsmoos.com witnesses a true repaired crossing, never a phantom way.
+	 */
+
+	const npcRoadJourney = __awtsmoosModule_505.npcRoadJourney;
+	const sampleNpcRoadJourney = __awtsmoosModule_505.sampleNpcRoadJourney;
+	const minimalMeadowBridgeNpcElevation = __awtsmoosModule_510.minimalMeadowBridgeNpcElevation;
+
+	const BRIDGE_ID = 'BRIDGE01';
+	const WALK_SPEED = 1.45;
+	const EAST_GOAL = Object.freeze({ x: 25.6, z: 7 });
+
+	/** Observes a committed repair before assigning a continuous graph journey. */
+	class MinimalMeadowBridgeNpcCrossing {
+		constructor(runtime, actors) {
+			this.runtime = runtime;
+			this.actor = actors.find(actor => actor.id === 'friendly-levi') || null;
+			this.state = 'awaiting-bridge';
+			this.distance = 0;
+			this.journey = null;
+			this.crossedEmitted = false;
+			this.unsubscribe = runtime.bus?.on?.('bridge:restored', detail => {
+				if (!detail?.id || detail.id === BRIDGE_ID) this.activate();
+			});
+			if (runtime.bridgeRestoration?.built === true) this.activate();
+		}
+
+		/** Recheck the authoritative build state, never giving passage from an event alone. */
+		activate() {
+			if (!this.actor || this.state !== 'awaiting-bridge') return;
+			if (this.runtime.bridgeRestoration?.built !== true) return;
+			const position = this.actor.model.position;
+			const from = { x: Number(position.x), z: Number(position.z) };
+			const journey = npcRoadJourney(from, EAST_GOAL, true);
+			if (journey.totalLength <= 0.001) return;
+			this.journey = journey;
+			this.distance = 0;
+			this.state = 'walking';
+		}
+
+		/** Move the actual GLB along graph nodes and within the physical deck footprint. */
+		update(deltaSeconds) {
+			if (this.runtime.bridgeRestoration?.built !== true) return;
+			if (this.state === 'awaiting-bridge') this.activate();
+			if (this.state !== 'walking' || !this.journey) return;
+			const delta = Math.max(0, Math.min(0.1, Number(deltaSeconds) || 0));
+			this.distance = Math.min(this.journey.totalLength, this.distance + delta * WALK_SPEED);
+			const progress = this.distance / this.journey.totalLength;
+			const waypoint = {};
+			sampleNpcRoadJourney(this.journey, progress, waypoint);
+			const x = waypoint.routeCenterX;
+			const z = waypoint.routeCenterZ;
+			const terrainY = Number(this.runtime.terrain?.heightAt?.(x, z)) || 0;
+			const surfaceY = minimalMeadowBridgeNpcElevation(x, z, terrainY);
+			this.actor.model.position.set(x, surfaceY, z);
+			if (this.actor.model.rotation) {
+				this.actor.model.rotation.y = Math.atan2(
+					waypoint.routeDirectionX,
+					waypoint.routeDirectionZ
+				);
+			}
+			if (progress >= 1 && !this.crossedEmitted) {
+				this.crossedEmitted = true;
+				this.state = 'crossed';
+				this.runtime.bus?.emit?.('bridge:npc-crossed', {
+					bridgeId: BRIDGE_ID,
+					actorId: this.actor.id
+				});
+			}
+		}
+
+		/** Expose genuine model motion without implying quest rewards were granted. */
+		diagnostics() {
+			return {
+				actorId: this.actor?.id || null,
+				state: this.state,
+				bridgeBuilt: this.runtime.bridgeRestoration?.built === true,
+				distance: this.distance,
+				totalLength: this.journey?.totalLength || 0,
+				x: this.actor?.model.position.x ?? null,
+				z: this.actor?.model.position.z ?? null
+			};
+		}
+
+		/** Release only the subscription owned by this bridge journey. */
+		destroy() {
+			this.unsubscribe?.();
+			this.unsubscribe = null;
+		}
+	}
+
+	__exports.MinimalMeadowBridgeNpcCrossing = MinimalMeadowBridgeNpcCrossing;
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFriendlyChossidSystem.js ----
 {
 	const __exports = __awtsmoosModule_72;
@@ -40391,12 +41006,13 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MinimalMeadowFriendlyChossidSystem.js
-	 * @description Owns friendly Chossids that share the canonical GLB source, never mutable bones.
-	 * The Awtsmoos creates fellowship without identity collapse; Awtsmoos.com lets each NPC receive
-	 * separate messages and action state while one asset path remains the visible family likeness.
+	 * @description Owns the existing friendly GLB villagers, their actions, and the real repaired-bridge journey.
+	 * The Awtsmoos renews each villager's footsteps beside the river's gleam;
+	 * Awtsmoos.com keeps the bridge's truth in motion, not a painted dream.
 	 */
 
 	const createFriendlyChossidActor = __awtsmoosModule_73.createFriendlyChossidActor;
+	const MinimalMeadowBridgeNpcCrossing = __awtsmoosModule_504.MinimalMeadowBridgeNpcCrossing;
 
 	const FRIENDLY_DEFINITIONS = Object.freeze([
 		Object.freeze({
@@ -40411,6 +41027,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		})
 	]);
 
+	/** Install the existing independent NPC models without duplicating their GLB assets. */
 	async function installMinimalMeadowFriendlyChossids(runtime) {
 		runtime.friendlyNpcs?.destroy?.();
 		const actors = await Promise.all(
@@ -40427,12 +41044,14 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.installMinimalMeadowFriendlyChossids = installMinimalMeadowFriendlyChossids;
+	/** Keep one authoritative world-update wrapper and release it on teardown. */
 	class MinimalMeadowFriendlyChossidSystem {
 		constructor(runtime, actors) {
 			this.runtime = runtime;
 			this.actors = actors;
 			this.previousUpdate = null;
 			this.updateWrapper = null;
+			this.bridgeCrossing = new MinimalMeadowBridgeNpcCrossing(runtime, actors);
 		}
 
 		attach() {
@@ -40448,6 +41067,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			for (const actor of this.actors) {
 				actor.update(deltaSeconds);
 			}
+			this.bridgeCrossing.update(deltaSeconds);
 		}
 
 		dispatch(actorId, message) {
@@ -40465,12 +41085,14 @@ const __awtsmoosModule_0 = Object.create(null);
 		diagnostics() {
 			return {
 				actors: this.actors.map(actor => actor.diagnostics()),
+				bridgeCrossing: this.bridgeCrossing.diagnostics(),
 				count: this.actors.length,
 				sharedGlbSource: this.actors[0]?.source || null
 			};
 		}
 
 		destroy() {
+			this.bridgeCrossing.destroy();
 			for (const actor of this.actors) {
 				actor.destroy();
 			}
@@ -40522,7 +41144,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVisualStability.js ----
 {
-	const __exports = __awtsmoosModule_505;
+	const __exports = __awtsmoosModule_513;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -40639,13 +41261,13 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVisualReadiness.js ----
 {
-	const __exports = __awtsmoosModule_504;
+	const __exports = __awtsmoosModule_512;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/** Waits for bounded optional world work, then enforces visible-runtime invariants once. */
-	const installMinimalMeadowVisualStability = __awtsmoosModule_505.installMinimalMeadowVisualStability;
+	const installMinimalMeadowVisualStability = __awtsmoosModule_513.installMinimalMeadowVisualStability;
 
 	async function awaitMinimalMeadowVisualStability(runtime) {
 		await Promise.allSettled([
@@ -40677,7 +41299,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.hydrateMinimalMeadowPlayer = __awtsmoosModule_1.hydrateMinimalMeadowPlayer;
 	__exports.enhanceMinimalMeadowRenderer = __awtsmoosModule_69.enhanceMinimalMeadowRenderer;
 	__exports.installMinimalMeadowFriendlyNpcs = __awtsmoosModule_71.installMinimalMeadowFriendlyNpcs;
-	__exports.awaitMinimalMeadowVisualStability = __awtsmoosModule_504.awaitMinimalMeadowVisualStability;
+	__exports.awaitMinimalMeadowVisualStability = __awtsmoosModule_512.awaitMinimalMeadowVisualStability;
 
 }
 

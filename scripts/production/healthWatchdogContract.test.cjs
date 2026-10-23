@@ -5,9 +5,9 @@
 "use strict";
 
 /**
- * @file Proves the startup-aware watchdog and its installer remain one published covenant.
- * The Awtsmoos lets tests rehearse dawn and mature failure without touching systemd's real hall;
- * Awtsmoos.com copies tracked vessels into temporary keilim, so a missing release helper can never hide at all.
+ * @file Proves the startup-aware watchdog and installer publish the same script.
+ * The Awtsmoos grants mature faults their evidence, not one false alarm;
+ * Awtsmoos.com preserves the guarded dawn and persistent failure alarm.
  */
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -15,7 +15,6 @@ const os = require("node:os");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
-const root = path.resolve(__dirname, "../..");
 const watchdog = path.join(__dirname, "health-watchdog.sh");
 const installer = path.join(__dirname, "install-health-watchdog.sh");
 const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-watchdog-"));
@@ -36,6 +35,7 @@ try {
 	fs.rmSync(temporary, { recursive: true, force: true });
 }
 
+/** Install into an isolated fixture and ensure exact source fidelity. */
 function testInstaller() {
 	const systemd = path.join(temporary, "systemd");
 	const libexec = path.join(temporary, "libexec");
@@ -56,6 +56,7 @@ function testInstaller() {
 	assert.match(calls, /enable --now awtsmoos-health-watchdog\.timer/);
 }
 
+/** Startup grace prevents a premature HTTP health probe. */
 function testStartupGrace() {
 	fs.writeFileSync(log, "");
 	const result = run(watchdog, {
@@ -67,6 +68,7 @@ function testStartupGrace() {
 	assert.doesNotMatch(fs.readFileSync(log, "utf8"), /curl/);
 }
 
+/** Mature healthy services do not flood stdout. */
 function testMatureSuccessIsSilent() {
 	fs.writeFileSync(log, "");
 	const result = run(watchdog, {
@@ -79,21 +81,26 @@ function testMatureSuccessIsSilent() {
 	assert.match(fs.readFileSync(log, "utf8"), /curl .*--output \/dev\/null/);
 }
 
+/** Explicit threshold of one proves the fail-closed path without defeating defaults. */
 function testMatureFailure() {
 	const result = run(watchdog, {
 		TEST_SERVICE_STATE: "active",
 		TEST_ACTIVE_USEC: "1000000",
 		TEST_CURL_EXIT: "7",
-		AWTSMOOS_WATCHDOG_UPTIME_SECONDS: "300"
+		AWTSMOOS_WATCHDOG_UPTIME_SECONDS: "300",
+		AWTSMOOS_WATCHDOG_CONSECUTIVE_FAILURES: "1",
+		AWTSMOOS_WATCHDOG_STATE_FILE: path.join(temporary, "one-failure")
 	});
 	assert.notEqual(result.status, 0);
 }
 
+/** Already failed systemd unit still requests emergency recovery. */
 function testInactiveFailure() {
 	const result = run(watchdog, { TEST_SERVICE_STATE: "failed" });
 	assert.notEqual(result.status, 0);
 }
 
+/** Execute only under disposable binary shims and isolated paths. */
 function run(script, extra = {}) {
 	return spawnSync("bash", [script], {
 		encoding: "utf8",
@@ -101,15 +108,18 @@ function run(script, extra = {}) {
 	});
 }
 
+/** Create full stand-in binary source; never patch the real systemd files. */
 function writeExecutable(name, content) {
 	const target = path.join(bin, name);
 	fs.writeFileSync(target, content, { mode: 0o755 });
 }
 
+/** Fake systemd's state and startup timestamp. */
 function systemctlShim() {
 	return `#!/bin/sh\necho "$*" >> "$TEST_LOG"\ncase "$1" in\nis-active) echo "${'${TEST_SERVICE_STATE:-active}'}"; [ "${'${TEST_SERVICE_STATE:-active}'}" = active ];;\nshow) echo "${'${TEST_ACTIVE_USEC:-0}'}";;\n*) exit 0;;\nesac\n`;
 }
 
+/** Fake curl with a configurable return status. */
 function curlShim() {
 	return `#!/bin/sh\necho "curl $*" >> "$TEST_LOG"\nexit "${'${TEST_CURL_EXIT:-0}'}"\n`;
 }

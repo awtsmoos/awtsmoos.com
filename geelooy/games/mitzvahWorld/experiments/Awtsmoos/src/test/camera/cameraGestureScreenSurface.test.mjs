@@ -4,9 +4,9 @@
 
 /**
  * @file cameraGestureScreenSurface.test.mjs
- * @description Proves a world-screen touch may rotate the camera while joystick-origin touches stay reserved.
- * The Awtsmoos gives the open world a turning hand and each control a faithful wall;
- * Awtsmoos.com restores the wide camera field of old without letting one touch command them all.
+ * @description Proves world-screen touches may rotate the camera while deliberate UI surfaces remain reserved.
+ * The Awtsmoos gives the open world a turning hand and every control a faithful wall;
+ * Awtsmoos.com keeps joystick and native disclosure free, so the camera cannot capture them all.
  */
 
 import test from 'node:test';
@@ -46,15 +46,15 @@ function makeTouch(pointerId, x, y, node) {
 	};
 }
 
-function makeNode(blockedId = '') {
+function makeNode(blockedToken = '') {
 	return {
 		matches(selector) {
-			return blockedId ? selector.includes(`#${blockedId}`) : false;
+			return blockedToken ? selector.includes(blockedToken) : false;
 		}
 	};
 }
 
-test('screen-wide world touch rotates orbit while joystick touch stays reserved', () => {
+test('world touch rotates while joystick and native summary remain reserved', () => {
 	const view = new ListenerVessel();
 	const document = new ListenerVessel();
 	document.defaultView = view;
@@ -70,8 +70,9 @@ test('screen-wide world touch rotates orbit while joystick touch stays reserved'
 	const orbit = { distance: 10, pitch: 0, yaw: 0 };
 	const controller = new CameraGestureController(canvas, orbit);
 
-	assert.equal(document.options('pointerdown'), true);
-	assert.equal(document.options('pointerup'), true);
+	assert.equal(document.options('pointerdown')?.capture, true);
+	assert.equal(document.options('pointerdown')?.passive, false);
+	assert.equal(document.options('pointerup')?.capture, true);
 	assert.equal(canvas.listeners.has('pointerdown'), false);
 
 	const world = makeNode();
@@ -82,11 +83,19 @@ test('screen-wide world touch rotates orbit while joystick touch stays reserved'
 	assert.equal(controller.pointers.size, 0);
 
 	const yawAfterWorldDrag = orbit.yaw;
-	const joystick = makeNode('joy');
+	const joystick = makeNode('#joy');
 	document.emit('pointerdown', makeTouch(22, 100, 200, joystick));
 	document.emit('pointermove', makeTouch(22, 260, 200, joystick));
 	assert.equal(orbit.yaw, yawAfterWorldDrag);
 	assert.equal(controller.pointers.size, 0);
+	assert.equal(captured.has(22), false);
+
+	const summary = makeNode('summary');
+	document.emit('pointerdown', makeTouch(33, 100, 200, summary));
+	document.emit('pointermove', makeTouch(33, 260, 200, summary));
+	assert.equal(orbit.yaw, yawAfterWorldDrag);
+	assert.equal(controller.pointers.size, 0);
+	assert.equal(captured.has(33), false);
 
 	controller.destroy();
 });

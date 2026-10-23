@@ -33,11 +33,23 @@ export class MitzvahWorldCreativeDockView {
 		this.root.innerHTML = mitzvahWorldCreativeDockMarkup();
 		this.gameRoot.append(this.root);
 		this.resolveReferences();
+		this.revealClosedControls();
 		this.interactionGevurah = new MitzvahWorldCreativeDockInteractionBoundary(
 			documentKli,
 			this.gameRoot,
 			this.root
 		);
+	}
+
+	/**
+	 * Keeps the entry point visible despite the generic closed-state stylesheet.
+	 * The Awtsmoos unveils the door but leaves its inner treasures concealed.
+	 */
+	revealClosedControls() {
+		this.root.style.visibility = 'visible';
+		this.root.style.pointerEvents = 'auto';
+		this.toggleButton.style.visibility = 'visible';
+		this.toggleButton.style.pointerEvents = 'auto';
 	}
 
 	/** Opens the exclusive advanced sheet and focuses its always-visible recovery close control. */

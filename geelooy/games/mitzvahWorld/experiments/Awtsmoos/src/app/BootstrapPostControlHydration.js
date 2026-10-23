@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapPostControlHydration.js
- * @description Hydrates animation, full cadence, continuity, combat, HUD, minimap, and rich diagnostics onto the already-movable canonical runtime.
- * The Awtsmoos clothes the traveler after the traveler already stands and moves;
- * Awtsmoos.com adds rhythm and instruments to the same grounded root, then marks that authored body canonically ready so no later loader mistakes revelation for absence.
+ * @description Upgrades control systems, then starts optional Village Bridge quests independently of cinematic visuals.
+ * The Awtsmoos gives the Chossid a first real footstep and a working world;
+ * only once the controls awaken may the earned bridge path be unfurled.
  */
 
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
@@ -18,10 +18,11 @@ import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimat
 import { MinimalMeadowBootstrapCombat } from './MinimalMeadowBootstrapCombat.js';
 import { createMinimalMeadowBootstrapMinimap } from './MinimalMeadowBootstrapMinimap.js';
 import { eretzWorldFeatureEnabled } from './EretzWorldFeaturePolicy.js';
+import { startEretzBridgeFeature } from './EretzBridgeFeatureBoot.js';
 
 const BLANK_MEADOW_ID = 'blank-meadow';
 
-/** Upgrades one proven first-control runtime in place and preserves its movement identity. */
+/** Upgrade the existing moving player without creating an extra world or blocking its first frame. */
 export function hydrateBootstrapPostControl(core, options, qualityProfile, boot) {
 	const { runtime, movement } = core;
 	const environment = options.environment || globalThis;
@@ -44,10 +45,16 @@ export function hydrateBootstrapPostControl(core, options, qualityProfile, boot)
 	Object.assign(core.diagnostics, richDiagnostics);
 	core.diagnostics.worldExperience = runtime.worldExperience;
 	runtime.postControlHydrated = true;
+	core.diagnostics.bridgeFeature = startEretzBridgeFeature(
+		runtime,
+		runtime.worldExperience || options.worldExperience || {},
+		environment,
+		core.diagnostics
+	);
 	return core;
 }
 
-/** Hydrates authored clips on the movable canonical root while retaining detailed stage evidence. */
+/** Dress the existing canonical Chossid in animated movement after its body is certified. */
 function hydrateAnimation(runtime) {
 	if (runtime.canonicalAnimationPlayer) return;
 	const gltf = runtime.playerGltf;

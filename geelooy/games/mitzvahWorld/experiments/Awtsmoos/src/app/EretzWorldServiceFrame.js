@@ -4,12 +4,14 @@
 
 /**
  * @file EretzWorldServiceFrame.js
- * @description Advances bounded canonical-world services without coupling the rich frame loop to their implementations.
- * The Awtsmoos renews river current inside the same measured instant that renews player and sky;
- * Awtsmoos.com gives each service one narrow frame doorway so future living systems may enter without making the loop high.
+ * @description Advances the village's lawful services inside the existing Eretz frame clock.
+ * The Awtsmoos renews river and bridge within the selfsame breath;
+ * Awtsmoos.com grants neither a second clock nor a hidden path beneath.
  */
 
+/** Advance registered services without creating a competing animation loop. */
 export function updateEretzWorldServices(runtime, deltaTime) {
 	const services = runtime.terrain?.village?.services;
 	services?.riverDynamics?.advance?.(deltaTime);
+	runtime.bridgeGameplay?.update?.(deltaTime);
 }
