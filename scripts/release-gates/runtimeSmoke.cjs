@@ -1,17 +1,18 @@
 #!/usr/bin/env node
 //B"H
-//Boruch Hashem
-//Blessed be He
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file runtimeSmoke.cjs
  * @description
- * The Awtsmoos boots the canonical Awtsmoos.com composition root from a fresh
- * process and proves real server-rendered Torah over HTTP. Each bounded route
- * reports its own elapsed time so release failures name the vessel that stalled.
+ * The Awtsmoos boots the real server from the candidate source while finding data through the same configuration law;
+ * Awtsmoos.com may bloom from a linked Git worktree, yet its machine-local database vessel remains canonical and whole.
+ * Every bounded Torah route reports timing so a failed release names the exact vessel that stalled.
  */
 
 const assert = require('node:assert/strict');
+const childProcess = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
 const deps = require('../../ayzarim/awtsmoosDynamicServer/server/deps.js');
@@ -30,6 +31,33 @@ const {
 } = require('./runtimeSmokeProcess.cjs');
 
 const REPOSITORY_ROOT = path.resolve(__dirname, '../..');
+
+/** Returns the primary checkout root that owns Git's common directory. */
+function canonicalRepositoryRoot() {
+	try {
+		const commonDirectory = childProcess.execFileSync(
+			'git',
+			['-C', REPOSITORY_ROOT, 'rev-parse', '--path-format=absolute', '--git-common-dir'],
+			{ encoding: 'utf8' }
+		).trim();
+		return path.dirname(commonDirectory);
+	} catch (_error) {
+		return REPOSITORY_ROOT;
+	}
+}
+
+/** Resolves an existing database root using production server semantics. */
+function databaseRoot() {
+	const roots = [REPOSITORY_ROOT, canonicalRepositoryRoot()]
+		.filter((value, index, values) => values.indexOf(value) === index);
+	const attempted = [];
+	for (const repositoryRoot of roots) {
+		const root = resolveDbPath(deps, repositoryRoot, process.env, fs);
+		attempted.push(root);
+		if (fs.existsSync(root)) return root;
+	}
+	assert.fail(`Configured Awtsmoos database root is missing. Tried: ${attempted.join(', ')}`);
+}
 
 /** Fetches one smoke route with its explicit bounded deadline and timing witness. */
 async function fetchRoute(origin, route) {
@@ -55,13 +83,6 @@ async function fetchRoute(origin, route) {
 	};
 }
 
-/** Resolves the exact database root that the real dynamic-server initialization uses. */
-function databaseRoot() {
-	const root = resolveDbPath(deps, REPOSITORY_ROOT, process.env, fs);
-	assert(fs.existsSync(root), `Configured Awtsmoos database root is missing: ${root}`);
-	return root;
-}
-
 /** Runs the complete fresh-process HTTP/Torah acceptance ritual. */
 async function main() {
 	const dbRoot = databaseRoot();
@@ -71,9 +92,7 @@ async function main() {
 	const results = [];
 	try {
 		await waitForHttp(origin, runtime);
-		for (const route of coreRoutes()) {
-			results.push(await fetchRoute(origin, route));
-		}
+		for (const route of coreRoutes()) results.push(await fetchRoute(origin, route));
 		assert(!runtime.testimony.stderr.includes('Startup rupture:'), 'runtime logged a startup rupture');
 		console.log(JSON.stringify({
 			ok: true,
