@@ -29,7 +29,7 @@ only typography, surfaces, sheet geometry, and open-state composition while hove
 }
 
 #mitzvah-world-root .Awtsmoos-creative-dock__trigger > span:first-child {
-	color: rgba(179, 255, 206, 0.9);
+	color: var(--aw-text);
 	font-size: 15px;
 }
 

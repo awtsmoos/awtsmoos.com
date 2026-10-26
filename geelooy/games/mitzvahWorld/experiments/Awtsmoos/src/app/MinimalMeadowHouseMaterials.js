@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowHouseMaterials.js
- * @description Clothes measured houses with licensed photographic brick, stone, oak and clay pixels.
- * The Awtsmoos grants the roof its clay, the threshold its grained oak;
- * these textures are real public images, never a promise beneath the smoke.
+ * @description
+ * The Awtsmoos clothes measured homes with verified photographs whose bodies live in public Drive;
+ * Awtsmoos.com keeps only immutable coordinates in source, so Git stays light while visible texture truth survives.
  */
 
 import {
@@ -14,15 +14,7 @@ import {
 	loadPublicMaterialUrl
 } from '../assets/PublicMaterialCache.js';
 import { getProceduralTexture } from './BootstrapProceduralTerrainTextures.js';
-
-const IMAGE_FILES = Object.freeze({
-	brick: 'brick_4.jpg',
-	brickLight: 'clay_plaster.jpg',
-	floor: 'cobblestone_01.jpg',
-	mezuzah: 'oak_wood_planks.jpg',
-	roof: 'clay_roof_tiles.jpg',
-	wood: 'oak_wood_planks.jpg'
-});
+import { HOUSE_PHOTO_URL_BY_ROLE } from './MitzvahDriveImageAssets.js';
 
 const COLORS = Object.freeze({
 	brick: '#9b4b38',
@@ -42,12 +34,9 @@ const PROCEDURAL_KIND_BY_ROLE = Object.freeze({
 	wood: 'wood'
 });
 
-/** Resolve the same-origin, versioned CC0 photograph for both local testing and HTTPS production. */
-export function housePhotoUrl(role, environment = globalThis) {
-	const file = IMAGE_FILES[role];
-	if (!file) return null;
-	const origin = environment.location?.origin || 'https://awtsmoos.com';
-	return new URL(`/games/mitzvahWorld/photoreal/textures/cc0/${file}`, origin).href;
+/** Resolve the immutable public Drive photograph for one material role. */
+export function housePhotoUrl(role) {
+	return HOUSE_PHOTO_URL_BY_ROLE[role] || null;
 }
 
 /** Generated images remain diagnostic companions, never counterfeit remote-image provenance. */
@@ -56,11 +45,11 @@ export function proceduralFallbackImageForRole(role) {
 	return kind ? getProceduralTexture(kind) : null;
 }
 
-/** Load each unique actual image once; shared wood is reused for mezuzah and doors. */
-export async function loadMinimalMeadowHouseMaterials(environment = globalThis) {
-	const sources = Object.fromEntries(Object.keys(IMAGE_FILES).map(role => [
+/** Load each unique public Drive image once; shared wood is reused for mezuzah and doors. */
+export async function loadMinimalMeadowHouseMaterials() {
+	const sources = Object.fromEntries(Object.keys(HOUSE_PHOTO_URL_BY_ROLE).map(role => [
 		role,
-		housePhotoUrl(role, environment)
+		housePhotoUrl(role)
 	]));
 	const urls = [...new Set(Object.values(sources))];
 	const records = await Promise.all(urls.map(url => loadPublicMaterialUrl(url, 24000)));

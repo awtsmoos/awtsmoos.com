@@ -4,16 +4,17 @@
 
 /**
  * @file MitzvahWorldProductionPrewarm.test.mjs
- * @description Locks production to version-matched first-control modules and the release-owned immutable Chossid for the playable meadow.
- * The Awtsmoos lets Awtsmoos.com prewarm foundation, core, and the real traveler beneath one present release decree,
- * while renderer promotion and decorative hydration remain after first play so the grounded meadow may arrive swiftly and truthfully.
+ * @description Guards byte-addressed essential preloads without enlarging first control.
+ * The Awtsmoos renews the Chossid with one living ray;
+ * Awtsmoos.com keeps each critical SHA sealed along the way.
  */
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const HASH_VERSION = '[0-9a-f]{10}';
+const ENTRY_VERSION = '[0-9a-f]{10}';
+const ESSENTIAL_SHA256_VERSION = '[0-9a-f]{64}';
 const INDEX_URL = new URL('../index.html', import.meta.url);
 const FOUNDATION_FILE = './experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js';
 const PLAYER_FILE = './experiments/Awtsmoos/src/mitzvah-world-player.compact.js';
@@ -30,11 +31,12 @@ const RETIRED_RELEASE_IDS = [
 	'20260915-authored-meadow-03'
 ];
 
+/** Reads the deployed game's source shell without network-dependent assumptions. */
 async function productionShell() {
 	return readFile(INDEX_URL, 'utf8');
 }
 
-test('production shell prewarms only version-matched first-control modules', async () => {
+test('production shell prewarms only full-SHA-256 essential modules', async () => {
 	const html = await productionShell();
 	for (const file of [FOUNDATION_FILE, PLAYER_FILE, CORE_FILE]) {
 		assert.match(html, modulePreloadPattern(file), file);
@@ -44,28 +46,31 @@ test('production shell prewarms only version-matched first-control modules', asy
 	}
 });
 
-test('production shell preloads the exact release-owned authored Chossid', async () => {
+test('production shell preloads the exact release-owned authored Chossid once', async () => {
 	const html = await productionShell();
 	assert.match(html, chossidPreloadPattern());
 	assert.equal((html.match(new RegExp(escapeRegExp(CHOSSID_URL), 'g')) || []).length, 1);
 });
 
-test('entry, foundation, player, and core carry content-hash cache busters', async () => {
+test('entry and essential runtime bundles use their actual hash formats', async () => {
 	const html = await productionShell();
-	for (const file of [ENTRY_FILE, FOUNDATION_FILE, PLAYER_FILE, CORE_FILE]) {
-		assert.match(html, versionedModulePattern(file), file);
+	assert.match(html, versionedModulePattern(ENTRY_FILE, ENTRY_VERSION));
+	for (const file of [FOUNDATION_FILE, PLAYER_FILE, CORE_FILE]) {
+		assert.match(html, versionedModulePattern(file, ESSENTIAL_SHA256_VERSION), file);
 	}
 	for (const retired of RETIRED_RELEASE_IDS) {
 		assert.doesNotMatch(html, new RegExp(escapeRegExp(retired)), retired);
 	}
 });
 
-function versionedModulePattern(file) {
-	return new RegExp(`${escapeRegExp(file)}\\?v=${HASH_VERSION}`);
+/** Verifies the currently supported cache-key format for an exact filename. */
+function versionedModulePattern(file, versionPattern) {
+	return new RegExp(`${escapeRegExp(file)}\\?v=${versionPattern}`);
 }
 
+/** Locks essential preload tags to the complete digest rather than a prefix. */
 function modulePreloadPattern(file) {
-	return new RegExp(`<link\\s+rel=["']modulepreload["']\\s+href=["']${escapeRegExp(file)}\\?v=${HASH_VERSION}["']`);
+	return new RegExp(`<link\\s+rel=["']modulepreload["']\\s+href=["']${escapeRegExp(file)}\\?v=${ESSENTIAL_SHA256_VERSION}["']`);
 }
 
 function modulePreloadPatternContaining(fileName) {

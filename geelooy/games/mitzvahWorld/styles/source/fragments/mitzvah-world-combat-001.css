@@ -102,8 +102,8 @@ and mobile-safe inside one lawful HUD layer where hover, focus, press, cooldown,
 }
 
 #mitzvah-world-root .Awtsmoos-combat-bar button:focus-visible {
-	outline: 2px solid #ffe4a2;
-	outline-offset: 3px;
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
 }
 
 #mitzvah-world-root .Awtsmoos-combat-bar button:disabled {

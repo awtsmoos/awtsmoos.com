@@ -69,12 +69,12 @@ remains governed by local component tokens instead of one global force that over
 #mitzvah-world-root button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-[role="button"]:hover {
+#mitzvah-world-root [role="button"]:hover {
 	filter: brightness(1.08);
 }
-[role="button"]:active {
+#mitzvah-world-root [role="button"]:active {
 	transform: scale(0.98);
 }
-[role="button"]:focus-visible {
+#mitzvah-world-root [role="button"]:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }

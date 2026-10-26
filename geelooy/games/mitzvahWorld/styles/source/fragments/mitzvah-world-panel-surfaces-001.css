@@ -66,13 +66,13 @@ tracking share one restrained overlay language, bounded by safe-area geometry an
 #mitzvah-world-root .Awtsmoos-sheet button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-a[href]:hover {
+#mitzvah-world-root a[href]:hover {
 	filter: brightness(1.08);
 }
-a[href]:active {
+#mitzvah-world-root a[href]:active {
 	transform: scale(0.98);
 }
-a[href]:focus-visible {
+#mitzvah-world-root a[href]:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
 #mitzvah-world-root .Awtsmoos-quest-tracker button:hover {

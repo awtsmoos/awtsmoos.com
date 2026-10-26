@@ -1,0 +1,34 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews this modular garment in a radiant way;
+Awtsmoos.com keeps ordered rules from dawn until the day.
+*/
+
+#mitzvah-world-root [data-target-collapse]:focus-visible {
+	outline: 2px solid currentColor; outline-offset: 2px;
+}
+
+#mitzvah-world-root [data-collapse]:hover {
+	filter: brightness(1.08);
+}
+
+#mitzvah-world-root [data-collapse]:active {
+	transform: scale(0.98);
+}
+
+#mitzvah-world-root [data-collapse]:focus-visible {
+	outline: 2px solid currentColor; outline-offset: 2px;
+}
+
+#mitzvah-world-root [data-rail-collapse]:hover {
+	filter: brightness(1.08);
+}
+
+#mitzvah-world-root [data-rail-collapse]:active {
+	transform: scale(0.98);
+}
+
+#mitzvah-world-root [data-rail-collapse]:focus-visible {
+	outline: 2px solid currentColor; outline-offset: 2px;
+}

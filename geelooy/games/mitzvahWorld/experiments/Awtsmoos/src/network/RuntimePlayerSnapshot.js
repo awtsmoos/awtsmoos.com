@@ -3,12 +3,14 @@
 // Blessed is He
 
 /**
-	* @file RuntimePlayerSnapshot.js
-	* @description Converts the local player into network truth without importing remote actors.
-	* The Awtsmoos separates one traveler's coordinates from the distant population; Awtsmoos.com
-	* can begin a connection without pulling every multiplayer rendering garment into the doorway.
-	*/
+ * @file RuntimePlayerSnapshot.js
+ * @description Converts a local player into network truth without importing remote actors.
+ * The Awtsmoos illuminates each traveler's coordinates with an honest ray;
+ * Awtsmoos.com keeps direction and neutral zero faithful along the way.
+ * This tiny first-control vessel must not import large multiplayer scenes.
+ */
 
+/** Describes only primitive player state for the authoritative world envelope. */
 export function runtimePlayerSnapshot(runtime) {
 	const state = runtime?.state || {};
 	return {
@@ -26,6 +28,7 @@ export function runtimePlayerSnapshot(runtime) {
 	};
 }
 
+/** Converts backward-positive keyboard Y to forward-positive network intent. */
 export function currentMovementIntent(runtime) {
 	const axis = runtime.input?.axis?.() || {};
 	const joystick = runtime.joystick?.vector || { x: 0, y: 0, magnitude: 0 };
@@ -33,23 +36,28 @@ export function currentMovementIntent(runtime) {
 	let forward;
 	let strafe;
 	if (typeof axis.forward === 'number' || typeof axis.strafe === 'number') {
-		// Minimal-meadow axes already resolve keyboard intent; the joystick
-		// arrives through its own resolved fields.
+		// Minimal-meadow axes already resolve keyboard direction.
 		forward = finite(axis.forward) + finite(axis.joystickForward);
 		strafe = finite(axis.strafe) + finite(axis.joystickStrafe);
 	} else {
-		// Eretz canonical axes: x is strafe-right, y is backward-positive.
-		// This matches directionalVector locally and applyPlayerInput on the
-		// server, where strafe > 0 moves right of facing (the E key).
+		// Canonical x is strafe-right and y is backward-positive.
+		// The server accepts forward-positive and strafe-right-positive.
 		forward = -(finite(axis.y) + finite(joystick.y) * magnitude);
 		strafe = finite(axis.x) + finite(joystick.x) * magnitude;
 	}
 	const length = Math.hypot(forward, strafe);
-	if (length <= 1) return { forward, strafe };
-	return { forward: forward / length, strafe: strafe / length };
+	if (length > 1) {
+		forward /= length;
+		strafe /= length;
+	}
+	return {
+		forward: finite(forward),
+		strafe: finite(strafe)
+	};
 }
 
+/** Disallows NaN/Infinity and represents resting movement with positive zero. */
 function finite(value) {
 	const number = Number(value);
-	return Number.isFinite(number) ? number : 0;
+	return Number.isFinite(number) && number !== 0 ? number : 0;
 }

@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file runtimeChunkPreloadIdentity.test.cjs
- * @description Proves each first-play runtime preload carries the SHA-256 of the exact compact bytes later imported.
- * The Awtsmoos renews foundation, traveler, and core as measured garments of one light;
- * Awtsmoos.com lets preload and import share the same content-born doorway instead of cache-divided shadows.
+ * @description Critical preloads must match final bytes and current loader contracts.
+ * The Awtsmoos renews the foundation and traveler in one light;
+ * Awtsmoos.com compares their SHA-256 seals with what is right.
  */
 
 const assert = require('node:assert/strict');
@@ -28,7 +28,7 @@ const runtimeChunks = Object.freeze([
 	['core', staged]
 ]);
 
-test('foundation, player, and core preloads carry exact final-byte SHA-256 identities', () => {
+test('foundation, player, and Core preloads carry exact final-byte SHA-256', () => {
 	for (const [name] of runtimeChunks) {
 		const fileName = `mitzvah-world-${name}.compact.js`;
 		const bytes = fs.readFileSync(path.join(sourceRoot, fileName));
@@ -38,10 +38,13 @@ test('foundation, player, and core preloads carry exact final-byte SHA-256 ident
 	}
 });
 
-test('runtime loaders request the same generated filenames through the shared resolver', () => {
-	for (const [name, source] of runtimeChunks) {
-		assert.match(source, new RegExp(`generated\\('mitzvah-world-${name}\\.compact\\.js'\\)`));
+test('all essential runtime callers use the shared generated URL resolver', () => {
+	for (const name of ['foundation', 'core']) {
+		assert.match(staged, new RegExp(`generated\\('mitzvah-world-${name}\\.compact\\.js'\\)`));
 	}
+	assert.match(staged, /return resolveGeneratedRuntimeChunkUrl\(fileName, import\.meta\.url, READABLE_SOURCE\)/);
+	assert.match(deferred, /resolveGeneratedRuntimeChunkUrl\(/);
+	assert.match(deferred, /'mitzvah-world-player\.compact\.js'/);
 	assert.match(resolver, /link\[rel="modulepreload"\]\[href\]/);
 	assert.match(resolver, /candidate\.pathname\.endsWith/);
 	assert.match(resolver, /return candidate\.href/);

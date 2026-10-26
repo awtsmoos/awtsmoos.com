@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves content-hashed first control, deferred post-control hydration, release-owned assets, and complete deferred reachability.
- * The Awtsmoos gives Awtsmoos.com one truthful road from first step to later abundance;
- * the critical core must move the Chossid, while richer garments wait in their own generated vessel.
+ * @description Verifies launch, pinned assets, byte-identical bundles and cinema.
+ * The Awtsmoos renews each byte beneath an undivided light;
+ * Awtsmoos.com must prove every compressed vessel faithfully right.
  */
 
 const assert = require('node:assert/strict');
@@ -17,7 +17,6 @@ const path = require('node:path');
 const test = require('node:test');
 const { cinemaSources, json, text, verifyRepresentations } = require('./ProductionBuildProof.cjs');
 
-const RELEASE_VERSION = '20260928-playable-meadow-01';
 const GAME_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(GAME_ROOT, '../../..');
 const ESSENTIAL_ASSETS = Object.freeze([
@@ -35,23 +34,30 @@ const chunks = Object.freeze([
 	['optional', 'hydrateMinimalMeadowPlayer']
 ]);
 const firstControlForbidden = Object.freeze([
-	'CanonicalVillagePlan', 'MitzvahWorldCreativeModeLoaders', 'MovieReproduction', 'MovieStudio',
-	'VillageRiverHydrology', 'Wellspring', 'WorldEcologyOccupancy', 'WorldSpatialRealismApi'
+	'CanonicalVillagePlan', 'MitzvahWorldCreativeModeLoaders', 'MovieReproduction',
+	'MovieStudio', 'VillageRiverHydrology', 'Wellspring',
+	'WorldEcologyOccupancy', 'WorldSpatialRealismApi'
 ]);
 
-test('production page selects compact game and only three content-hashed critical preloads', () => {
+test('production page uses hashed CSS, compact entry and only three critical preloads', () => {
 	const html = text('index.html');
 	const stylesheets = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)].map(match => match[1]);
 	const modules = [...html.matchAll(/<script[\s\S]*?type="module"[\s\S]*?src="([^"]+)"[\s\S]*?<\/script>/g)].map(match => match[1]);
-	assert.deepEqual(stylesheets, ['./styles/generated/mitzvah-world.production.css', '../styles/player-shell/index.css?compact=true']);
-	assert.deepEqual(modules, [`./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_VERSION}`, '../scripts/player-shell/index.js?compact=true']);
+	assert.equal(stylesheets.length, 4);
+	assert.match(stylesheets[0], /^\.\/styles\/generated\/mitzvah-world\.production\.css\?v=[a-f0-9]{10}$/);
+	assert.equal(stylesheets[1], './experiments/Awtsmoos/src/courses/courseHud.css?v=1');
+	assert.match(stylesheets[2], /^\/games\/css\/awtsmoos-webgl-check\.css\?v=[a-f0-9]{10}$/);
+	assert.match(stylesheets[3], /^\/games\/css\/awtsmoos-game-base\.css\?v=[a-f0-9]{9}$/);
+	assert.equal(modules.length, 2);
+	assert.match(modules[0], /^\.\/experiments\/Awtsmoos\/src\/mitzvah-world\.compact\.js\?v=[a-f0-9]{10}$/);
+	assert.equal(modules[1], '../scripts/player-shell/index.js?compact=true');
 	for (const name of ['foundation', 'player', 'core']) {
 		assert.ok(html.includes(`rel="modulepreload" href="${runtimeChunkHref(name)}"`));
 	}
 	assert.doesNotMatch(html, /modulepreload[^>]+mitzvah-world-post-control\.compact\.js/);
 });
 
-test('production CSS is complete and every representation is verified', () => {
+test('production CSS includes its complete validated compiled graph', () => {
 	const manifest = json('styles/generated/mitzvah-world.manifest.json');
 	assert.equal(manifest.blocking.length, 0);
 	assert.equal(manifest.stateCoverage.ready, true);
@@ -59,24 +65,23 @@ test('production CSS is complete and every representation is verified', () => {
 	verifyRepresentations('styles/generated/mitzvah-world.production.css', manifest.representations);
 });
 
-test('release-owned first-play assets exist and are Git tracked', () => {
+test('first-play assets have local custody and travel in Git', () => {
 	for (const relative of ESSENTIAL_ASSETS) {
 		const absolute = path.join(GAME_ROOT, relative);
 		assert.ok(fs.statSync(absolute).size > 0, `${relative} must exist`);
 		const repoRelative = path.relative(REPO_ROOT, absolute).replaceAll('\\', '/');
-		assert.doesNotThrow(
-			() => childProcess.execFileSync('git', ['-C', REPO_ROOT, 'ls-files', '--error-unmatch', repoRelative], { stdio: 'ignore' }),
-			`${relative} must travel in Git releases`
-		);
+		assert.doesNotThrow(() => childProcess.execFileSync('git', [
+			'-C', REPO_ROOT, 'ls-files', '--error-unmatch', repoRelative
+		], { stdio: 'ignore' }), `${relative} must travel in Git releases`);
 	}
 });
 
-test('first-control stays under eight kilobytes and contains no deferred world systems', () => {
+test('first-control entry obeys size and contains no deferred world code', () => {
 	const manifest = json('build/generated/mitzvah-world-js.json');
 	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
 	assert.equal(manifest.deterministic, true);
 	assert.deepEqual(manifest.optionalModulesBundled, []);
-	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 8192);
+	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 8192, 'entry exceeds 8 KiB first-control budget');
 	for (const marker of ['PAGE_BOOT_URL', 'MinimalSharedMeadowRuntimePage.js', 'bootMinimalSharedMeadowPage']) {
 		assert.match(compact, new RegExp(marker));
 	}
@@ -85,7 +90,7 @@ test('first-control stays under eight kilobytes and contains no deferred world s
 });
 
 for (const [name, exportedName] of chunks) {
-	test(`${name} chunk is deterministic and complete`, () => {
+	test(`${name} bundle has deterministic byte-identical representations`, () => {
 		const relative = `experiments/Awtsmoos/src/mitzvah-world-${name}.compact.js`;
 		const manifest = json(`build/generated/mitzvah-world-${name}.json`);
 		assert.equal(manifest.deterministic, true);
@@ -95,7 +100,7 @@ for (const [name, exportedName] of chunks) {
 	});
 }
 
-test('deferred creative mode preserves the complete served cinema graph', () => {
+test('deferred creative mode contains the served cinema graph', () => {
 	const loader = text('experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js');
 	const api = text('experiments/Awtsmoos/src/movie/MovieStudioApi.js');
 	const cinema = cinemaSources();
@@ -106,9 +111,9 @@ test('deferred creative mode preserves the complete served cinema graph', () => 
 	}
 });
 
+/** Reads an essential preload identity from the canonical final-byte SHA-256. */
 function runtimeChunkHref(name) {
 	const relative = `experiments/Awtsmoos/src/mitzvah-world-${name}.compact.js`;
-	const bytes = fs.readFileSync(path.join(GAME_ROOT, relative));
-	const sha256 = crypto.createHash('sha256').update(bytes).digest('hex');
+	const sha256 = crypto.createHash('sha256').update(fs.readFileSync(path.join(GAME_ROOT, relative))).digest('hex');
 	return `./${relative}?v=${sha256}`;
 }

@@ -1,8 +1,8 @@
-/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
-:root {
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no forced-priority overrides). */
+#mitzvah-world-root {
 	--fragments-mitzvah-world-inventory-001-t1: #fff;
 }
-[data-theme="light"] {
+#mitzvah-world-root[data-theme="light"], [data-theme="light"] #mitzvah-world-root {
 	--fragments-mitzvah-world-inventory-001-t1: #1a1a1a;
 }
 

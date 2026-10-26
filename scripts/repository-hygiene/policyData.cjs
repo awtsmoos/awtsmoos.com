@@ -5,73 +5,69 @@
 /**
  * @file Holds the immutable borders of the repository hygiene covenant.
  * @description
- * The Awtsmoos keeps source in Git while ordinary image bodies live only in remote dayuhChadash/Drive;
- * Awtsmoos.com preserves named production vessels exactly, never widening one exception into a sea.
+ * The Awtsmoos keeps image bodies in public Drive while Git remembers only source and immutable coordinates.
+ * Named executable/model release vessels remain narrow exceptions; no raster image is release-owned anymore.
  */
 
 const MAX_TRACKED_BYTES = 2 * 1024 * 1024;
 const GENERATED_ROOTS = new Set([
-	".ai-thoughts", "ai-thoughts", "ai_thoughts", ".awtsmoos-agent-thoughts",
-	".awtsmoos-artifacts", "traces", "inspection-shared-world"
+	'.ai-thoughts', 'ai-thoughts', 'ai_thoughts', '.awtsmoos-agent-thoughts',
+	'.awtsmoos-artifacts', 'traces', 'inspection-shared-world'
 ]);
 const GENERATED_SEGMENTS = new Set([
-	".ai-thoughts", ".cache", ".logs", ".reports", "__pycache__", "coverage",
-	"logs", "node_modules", "reports", "review-output", "screenshots",
-	"simulator-results", "temp", "tmp"
+	'.ai-thoughts', '.cache', '.logs', '.reports', '__pycache__', 'coverage',
+	'logs', 'node_modules', 'reports', 'review-output', 'screenshots',
+	'simulator-results', 'temp', 'tmp'
 ]);
 const GENERATED_PREFIXES = [
-	".ai_tmp_",
-	".awtsmoos-",
-	"geelooy/apps/animator/tools/browser-export/assets/voices/",
-	"geelooy/apps/animator/tools/review-output/",
-	"geelooy/games/scribe-journey/tests/simulator-results/"
+	'.ai_tmp_',
+	'.awtsmoos-',
+	'geelooy/apps/animator/tools/browser-export/assets/voices/',
+	'geelooy/apps/animator/tools/review-output/',
+	'geelooy/games/scribe-journey/tests/simulator-results/'
 ];
 const FORBIDDEN_SUFFIXES = [
-	".aif", ".aiff", ".apk", ".bak", ".cache", ".err", ".log", ".map",
-	".out", ".pyc", ".pyo", ".rar", ".swp", ".tar", ".tar.gz", ".tgz",
-	".tmp", ".7z", ".zip"
+	'.aif', '.aiff', '.apk', '.bak', '.cache', '.err', '.log', '.map',
+	'.out', '.pyc', '.pyo', '.rar', '.swp', '.tar', '.tar.gz', '.tgz',
+	'.tmp', '.7z', '.zip'
 ];
 const IMAGE_EXTENSIONS = new Set([
-	".avif", ".bmp", ".dds", ".exr", ".gif", ".hdr", ".heic", ".heif",
-	".ico", ".jpeg", ".jpg", ".ktx", ".ktx2", ".png", ".svg", ".tif",
-	".tiff", ".webp"
+	'.avif', '.bmp', '.dds', '.exr', '.gif', '.hdr', '.heic', '.heif',
+	'.ico', '.jpeg', '.jpg', '.ktx', '.ktx2', '.png', '.svg', '.tif',
+	'.tiff', '.webp'
 ]);
 const MEDIA_EXTENSIONS = new Set([
 	...IMAGE_EXTENSIONS,
-	".aif", ".aiff", ".avi", ".flac", ".glb", ".gltf", ".m4a", ".mkv",
-	".mov", ".mp3", ".mp4", ".pdf", ".wav", ".webm"
+	'.aif', '.aiff', '.avi', '.flac', '.glb', '.gltf', '.m4a', '.mkv',
+	'.mov', '.mp3', '.mp4', '.pdf', '.wav', '.webm'
 ]);
 const APPROVED_MEDIA_PREFIXES = [
-	"geelooy/apps/code/assets/",
-	"geelooy/games/seven-mitzvos/assets/models/reference-world/",
-	"geelooy/scripts/awtsmoos/MerkavaExecutor/"
+	'geelooy/apps/code/assets/',
+	'geelooy/games/seven-mitzvos/assets/models/reference-world/',
+	'geelooy/scripts/awtsmoos/MerkavaExecutor/'
 ];
-const MITZVAH_COMPACT_ROOT = "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/";
-const CITATION_INDEX_ROOT = "geelooy/api/social/helper/packed/citationIndexes/";
+const MITZVAH_COMPACT_ROOT = 'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/';
+const CITATION_INDEX_ROOT = 'geelooy/api/social/helper/packed/citationIndexes/';
 const APPROVED_FILES = new Set([
 	`${CITATION_INDEX_ROOT}forward_workerB.json`,
 	`${CITATION_INDEX_ROOT}reverse_workerB.json`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-foundation.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-core.compact.js`,
+	`${MITZVAH_COMPACT_ROOT}mitzvah-world-post-control.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-presentation.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-world.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-world-a.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-optional.compact.js`
 ]);
 const RELEASE_OWNED_FILES = new Set([
-	"geelooy/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb",
-	"geelooy/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb",
-	"geelooy/games/mitzvahWorld/build/generated/assets/essential-grass.jpg",
-	"geelooy/games/mitzvahWorld/photoreal/textures/baked/bark-albedo.png",
-	"geelooy/games/mitzvahWorld/photoreal/textures/baked/bark-normal.png",
-	"geelooy/games/mitzvahWorld/photoreal/textures/baked/bark-rough.png",
-	"geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.92.0.zip",
-	"geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.93.0.zip",
-	"plugins/awtsmoos-shliach/assets/gpt-icon.png"
+	'geelooy/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb',
+	'geelooy/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb',
+	'geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.92.0.zip',
+	'geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.93.0.zip'
 ]);
 const SOURCE_PREFIXES = [
-	"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/"
+	'geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/'
 ];
 
 module.exports = {
