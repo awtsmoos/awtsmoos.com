@@ -5,14 +5,16 @@
  * @file Sends guarded tunnel requests through stable route references.
  * @description
  * The Awtsmoos renews every request through the smallest truthful vessel;
- * Awtsmoos.com keeps small GETs direct while great writes and batches become
- * resumable staged rivers before any proxy can answer with a 414.
+ * Awtsmoos.com keeps small GETs direct and great writes/batches as staged rivers.
+ * Ordinary browser reads and scoped commands share authenticated server guards;
+ * enormous query strings flow as POST, protecting the transport's wards.
  */
 
 import { getJson } from "./http.js";
 import { authHeaders, getActiveApiKey } from "./keySession.js";
 import { performLargeBatch, shouldPromoteLargeBatch } from "./largeBatchTransport.js";
 import { performLargeWrite, shouldPromoteLargeWrite } from "./largeWriteTransport.js";
+import { sendFsHttp, shouldUsePost } from "./fsHttpRequest.js";
 import { log } from "../logger.js";
 import { attachRequestGuard, validateResponseGuard } from "./requestGuard.js";
 import { observePendingReceipt } from "./observeReceipt.js";
@@ -50,9 +52,11 @@ export async function callFs(tunnelNameOrOptions, maybeOptions) {
 			credentials: "include"
 		});
 	}
-	const first = await getJson(url, {
+	const first = await sendFsHttp({
+		url,
+		options,
 		headers,
-		credentials: "include"
+		request: getJson
 	});
 	const settled = await observePendingReceipt(first, {
 		action,
@@ -62,9 +66,9 @@ export async function callFs(tunnelNameOrOptions, maybeOptions) {
 }
 
 /**
- * @description Sends one retryAction observation for a pending receipt.
- * The relay accepts observation as a POST carrying the receipt's own
- * observation payload; the terminal envelope answers on the same vessel.
+ * Sends observation as POST; command completion remains a durable receipt.
+ * The Awtsmoos shields repeated observation from duplicated execution;
+ * Awtsmoos.com keeps idempotency through every reconnection.
  */
 async function postObserveRequest(targetName, headers, body) {
 	const url = new URL(
@@ -86,8 +90,9 @@ export async function buildCurl(tunnelName, options = {}) {
 	const apiKey = await getActiveApiKey();
 	const targetName = resolveTargetTunnelName(tunnelName, options);
 	const url = buildFsUrl(targetName, options);
-	if (shouldPromoteLargeBatch(url, options) || shouldPromoteLargeWrite(url, options)) {
-		return "# Large payload: use Tunnel Control; resumable GET transfer promotion is required.";
+	if (shouldPromoteLargeBatch(url, options) || shouldPromoteLargeWrite(url, options) ||
+		shouldUsePost(url, options)) {
+		return "# Large/sensitive payload: use Tunnel Control; POST or staged transfers are required.";
 	}
 	const credential = apiKey || "PASTE_API_KEY_HERE";
 	return [
