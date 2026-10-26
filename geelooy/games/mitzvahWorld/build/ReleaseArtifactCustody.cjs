@@ -4,15 +4,16 @@
 
 /**
  * @file ReleaseArtifactCustody.cjs
- * @description Records commit identity, source cleanliness, and exact hashes for every release-owned publication vessel.
- * The Awtsmoos joins source and garment without confusion; Awtsmoos.com refuses mixed generations one release,
- * so first control, post-control hydration, later chunks, grass, and canonical Chossid stand beneath one Git witness.
+ * @description Records commit identity, exact local hashes and sealed remote custody.
+ * The Awtsmoos holds each garment in faithful light;
+ * Awtsmoos.com distinguishes distant grass from local Chossid right.
  */
 
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
+const { verifyRemoteAssetCustody } = require('./ReleaseRemoteAssetCustody.cjs');
 
 const CHOSSID_SHA = 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48';
 const ARTIFACTS = Object.freeze([
@@ -36,10 +37,10 @@ const ARTIFACTS = Object.freeze([
 	'build/generated/mitzvah-world-world.json',
 	'build/generated/mitzvah-world-optional.json',
 	'build/generated/mitzvah-world-essential-assets.json',
-	'build/generated/assets/essential-grass.jpg',
 	`build/generated/assets/${CHOSSID_SHA}/chossid.glb`
 ]);
 
+/** Refuses dirty or contradictory releases while retaining both asset custody modes. */
 function createReleaseArtifactCustody(gameRoot) {
 	const commit = git(gameRoot, ['rev-parse', 'HEAD']).trim();
 	const dirtyEntries = git(gameRoot, ['status', '--porcelain', '--', '.'])
@@ -49,8 +50,10 @@ function createReleaseArtifactCustody(gameRoot) {
 	const artifacts = Object.freeze(Object.fromEntries(ARTIFACTS.map(relativePath => {
 		return [relativePath, artifactEvidence(gameRoot, relativePath)];
 	})));
+	const remoteAssets = verifyRemoteAssetCustody(gameRoot);
 	return Object.freeze({
 		artifacts,
+		remoteAssets,
 		certified: dirtyEntries.length === 0,
 		commit,
 		dirtyEntries: Object.freeze(dirtyEntries),
@@ -59,6 +62,7 @@ function createReleaseArtifactCustody(gameRoot) {
 	});
 }
 
+/** Hashes bytes only for assets the build actually materializes locally. */
 function artifactEvidence(gameRoot, relativePath) {
 	const bytes = fs.readFileSync(path.join(gameRoot, relativePath));
 	return Object.freeze({
@@ -67,11 +71,9 @@ function artifactEvidence(gameRoot, relativePath) {
 	});
 }
 
+/** Reads git provenance without staging or mutating concurrent work. */
 function git(gameRoot, argumentsList) {
 	return execFileSync('git', argumentsList, { cwd: gameRoot, encoding: 'utf8' });
 }
 
-module.exports = {
-	ARTIFACTS,
-	createReleaseArtifactCustody
-};
+module.exports = { ARTIFACTS, createReleaseArtifactCustody };
