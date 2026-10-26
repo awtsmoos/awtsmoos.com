@@ -5,18 +5,17 @@
 /**
  * @file coordinates.js
  * @description
- * The Awtsmoos resolves the reader's route into one true teaching coordinate before history is canonicalized.
- * Numeric paths remain indices until ordered series data identifies their post; explicit post paths remain identities.
+ * The Awtsmoos resolves one reader route from reader-local truths alone: route meaning, ordered teaching, and tiny API envelopes.
+ * Numeric paths remain indices until a real post is found; no giant legacy utility participates in first-byte Torah.
  */
 
-import { unrollApiResponse } from '/scripts/awtsmoos/api/utils.js';
 import {
 	constructBreadcrumbUrl,
 	constructPostUrl,
 	constructSeriesDetailsUrl,
 	constructSeriesPostsUrl
 } from './constants.js?v=reader-runtime-007';
-import { fetchJson } from './ReaderFetch.js?v=reader-runtime-007';
+import { fetchJson, unwrapApiValue } from './ReaderFetch.js?v=reader-runtime-008';
 import {
 	isNumericSeriesCoordinate,
 	resolveReaderCoordinate
@@ -36,11 +35,6 @@ export function parseReaderPath(pathname = window.location.pathname) {
 	return pCoord ? { hId, sId, pCoord, explicitPostMarker } : null;
 }
 
-function unwrap(value) {
-	const unrolled = unrollApiResponse(value);
-	return unrolled ?? value?.success ?? value;
-}
-
 async function loadSeriesSources(hId, sId, pCoord, explicitPostMarker) {
 	const detailsUrl = constructSeriesDetailsUrl(hId, sId);
 	const needsCanonicalPosts = !explicitPostMarker && isNumericSeriesCoordinate(pCoord);
@@ -50,9 +44,9 @@ async function loadSeriesSources(hId, sId, pCoord, explicitPostMarker) {
 			? fetchJson(constructSeriesPostsUrl(hId, sId)).catch(() => null)
 			: Promise.resolve(null)
 	]);
-	let series = unwrap(seriesRaw);
+	let series = unwrapApiValue(seriesRaw);
 	if (!series || series?.error || typeof series !== 'object') series = { id: sId, posts: [] };
-	return { series, canonicalPosts: postsRaw };
+	return { series, canonicalPosts: unwrapApiValue(postsRaw) };
 }
 
 /** Resolves the initial route without ever converting an unresolved numeric index into a post ID. */
@@ -75,8 +69,8 @@ export async function loadInitial(pathname = window.location.pathname) {
 		fetchJson(constructPostUrl(hId, sId, pId)),
 		fetchJson(constructBreadcrumbUrl(hId, sId)).catch(() => null)
 	]);
-	const post = unwrap(postRaw);
+	const post = unwrapApiValue(postRaw);
 	if (!post || post?.error) throw new Error(`READER_CLIENT_POST_MISSING_${pId}`);
-	const breadcrumb = breadcrumbRaw ? unwrap(breadcrumbRaw) : null;
+	const breadcrumb = breadcrumbRaw ? unwrapApiValue(breadcrumbRaw) : null;
 	return { hId, sId, pId, pIdx, post, series, breadcrumb };
 }

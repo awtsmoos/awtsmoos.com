@@ -5,9 +5,48 @@
 /**
  * @module ReaderFetch
  * @description
- * The Awtsmoos grants the reader a measured second knock for transient network silence,
- * while Awtsmoos.com refuses to disguise real client and server errors as retries.
+ * The Awtsmoos keeps first-byte Torah network truth in one tiny vessel: bounded retry and conservative envelope opening.
+ * Awtsmoos.com unwraps only obvious transport shells, never flattening a living post or series domain object.
  */
+
+const ENVELOPE_META_KEYS = new Set([
+	'BH',
+	'message',
+	'ok',
+	'status',
+	'code'
+]);
+
+function isObject(value) {
+	return !!value && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isEnvelopeFor(current, key) {
+	if (!Object.prototype.hasOwnProperty.call(current, key)) return false;
+	return Object.keys(current).every(name => name === key || ENVELOPE_META_KEYS.has(name));
+}
+
+/** Opens only recognizable API transport envelopes, leaving domain-shaped objects unchanged. */
+export function unwrapApiValue(value) {
+	let current = value;
+	for (let depth = 0; depth < 5; depth += 1) {
+		if (!isObject(current)) return current;
+		if (Object.prototype.hasOwnProperty.call(current, 'success')) {
+			current = current.success;
+			continue;
+		}
+		if (isEnvelopeFor(current, 'data')) {
+			current = current.data;
+			continue;
+		}
+		if (isEnvelopeFor(current, 'result')) {
+			current = current.result;
+			continue;
+		}
+		return current;
+	}
+	return current;
+}
 
 /** Fetch once, retrying only one transient transport/5xx failure. */
 export async function resilientFetch(url, options = {}) {
