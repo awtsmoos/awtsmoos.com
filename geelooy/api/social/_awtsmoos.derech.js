@@ -5,54 +5,77 @@
 /**
  * @module SocialApiDerech
  * @description
- * The Awtsmoos gathers every proven Social road without stealing ownership from its domain;
- * Awtsmoos.com mounts identity, discovery, content, reactions, comments, community, and
- * unified destinations as one public covenant while request support remains bounded.
+ * The Awtsmoos gathers every public Social road into one explicit ordered covenant.
+ * Awtsmoos.com keeps leaf modules small, while this registry proves that written roads are actually mounted.
  */
-const aliases = require('./_awtsmoos.alias.js');
-const agent = require('./_awtsmoos.agent.js');const assets = require('./_awtsmoos.assets.js');
-const books = require('./_awtsmoos.books.js');
-const civilization = require('./_awtsmoos.civilization.js');
-const comments = require('./_awtsmoos.comments.js');
-const communications = require('./_awtsmoos.communications.js');
-const community = require('./_awtsmoos.community.js');
-const content = require('./_awtsmoos.content.js');
-const counters = require('./_awtsmoos.counter.js');
-const destinations = require('./_awtsmoos.destinations.js');
-const drive = require('./_awtsmoos.drive.js');
-const editor = require('./_awtsmoos.editor.js');
-const entities = require('./_awtsmoos.entities.js');
+
 const fileSystem = require('./_awtsmoos.fileSystem.js');
-const governance = require('./_awtsmoos.governance.js');
-const graph = require('./_awtsmoos.graph.js');
-const heichelos = require('./_awtsmoos.heichel.js');
-const identityBootstrap = require('./_awtsmoos.identityBootstrap.js');
-const keys = require('./_awtsmoos.keys.js');
-const living = require('./_awtsmoos.living.js');
-const mail = require('./_awtsmoos.mail.js');
-const migrations = require('./_awtsmoos.migrations.js');
-const notifications = require('./_awtsmoos.notifications.js');
-const objects = require('./_awtsmoos.objects.js');
-const packed = require('./_awtsmoos.packed.js');
-const platform = require('./_awtsmoos.platform.js');
-const posts = require('./_awtsmoos.posts.js');
-const profile = require('./_awtsmoos.profile.js');
-const publicDiscovery = require('./_awtsmoos.publicDiscovery.js');
-const reactions = require('./_awtsmoos.reactions.js');
-const reading = require('./_awtsmoos.reading.js');
-const views = require('./_awtsmoos.views.js');
-const search = require('./_awtsmoos.search.js');
-const series = require('./_awtsmoos.series.js');
-const health = require('./_awtsmoos.health.js');
-const socialKernel = require('./_awtsmoos.socialKernel.js');
-const socialSummary = require('./_awtsmoos.socialSummary.js');
-const thoughts = require('./_awtsmoos.thoughts.js');
 const { captureSearchRequest } = require('./helper/search/routes/requestSnapshot.js');
 const {
 	fetchProxy,
 	optionalNodeOs,
 	resolveUser
 } = require('./helper/socialRouterSupport.js');
+
+const PUBLIC_ROUTE_FACTORIES = [
+	require('./_awtsmoos.socialKernel.js'),
+	require('./_awtsmoos.profile.js'),
+	require('./_awtsmoos.profileHub.js'),
+	require('./_awtsmoos.publicDiscovery.js'),
+	require('./_awtsmoos.socialSummary.js'),
+	require('./_awtsmoos.identityBootstrap.js'),
+	require('./_awtsmoos.activityLedger.js'),
+	require('./_awtsmoos.communications.js'),
+	require('./_awtsmoos.civilization.js'),
+	require('./_awtsmoos.objects.js'),
+	require('./_awtsmoos.alias.js'),
+	require('./_awtsmoos.agent.js'),
+	require('./_awtsmoos.keys.js'),
+	require('./_awtsmoos.graph.js'),
+	require('./_awtsmoos.search.js'),
+	require('./_awtsmoos.content.js'),
+	require('./_awtsmoos.community.js'),
+	require('./_awtsmoos.interactionFlow.js'),
+	require('./_awtsmoos.entities.js'),
+	require('./_awtsmoos.living.js'),
+	require('./_awtsmoos.thoughts.js'),
+	require('./_awtsmoos.assets.js'),
+	require('./_awtsmoos.drive.js'),
+	require('./_awtsmoos.editor.js'),
+	require('./_awtsmoos.governance.js'),
+	require('./_awtsmoos.memberGovernance.js'),
+	require('./_awtsmoos.reviewCenter.js'),
+	require('./_awtsmoos.notifications.js'),
+	require('./_awtsmoos.packed.js'),
+	require('./_awtsmoos.platform.js'),
+	require('./_awtsmoos.migrations.js'),
+	require('./_awtsmoos.destinations.js'),
+	require('./_awtsmoos.publishFlow.js'),
+	require('./_awtsmoos.richSocial.js'),
+	require('./_awtsmoos.heichel.js'),
+	require('./_awtsmoos.posts.js'),
+	require('./_awtsmoos.counter.js'),
+	require('./_awtsmoos.mail.js'),
+	require('./_awtsmoos.reactions.js'),
+	require('./_awtsmoos.radiance.js'),
+	require('./_awtsmoos.reading.js'),
+	require('./_awtsmoos.views.js'),
+	require('./_awtsmoos.comments.js'),
+	require('./_awtsmoos.series.js'),
+	require('./_awtsmoos.books.js'),
+	require('./_awtsmoos.health.js')
+];
+
+/** Build all public route families while preserving deterministic override order. */
+function publicRoutes(vessel) {
+	const routes = {};
+	for (const factory of PUBLIC_ROUTE_FACTORIES) {
+		Object.assign(routes, factory(vessel));
+	}
+	Object.assign(routes, fileSystem({ $i: vessel.$i }));
+	Object.assign(routes, optionalNodeOs(vessel));
+	return routes;
+}
 
 /** Mounts the complete native Awtsmoos Social API route family. */
 module.exports = async $i => {
@@ -62,45 +85,9 @@ module.exports = async $i => {
 	await $i.use({
 		'/': async () => ({ BH: 'yes', session: $i.request.user }),
 		'/fetch/:url': async variables => fetchProxy($i, variables),
-		...socialKernel(vessel),
-		...profile(vessel),
-		...publicDiscovery(vessel),
-		...socialSummary(vessel),
-		...identityBootstrap(vessel),
-		...communications(vessel),
-		...civilization(vessel),
-		...objects(vessel),
-		...aliases(vessel),
-		...agent(vessel),
-		...keys(vessel),
-		...graph(vessel),
-		...search(vessel),
-		...content(vessel),
-		...community(vessel),
-		...entities(vessel),
-		...living(vessel),
-		...thoughts(vessel),
-		...assets(vessel),
-		...drive(vessel),
-		...editor(vessel),
-		...governance(vessel),
-		...notifications(vessel),
-		...packed(vessel),
-		...platform(vessel),
-		...migrations(vessel),
-		...destinations(vessel),
-		...heichelos(vessel),
-		...posts(vessel),
-		...counters(vessel),
-		...mail(vessel),
-		...fileSystem({ $i }),
-		...optionalNodeOs(vessel),
-		...reactions(vessel),
-		...reading(vessel),
-		...views(vessel),
-		...comments(vessel),
-		...series(vessel),
-		...books(vessel),
-		...health(vessel)
+		...publicRoutes(vessel)
 	});
 };
+
+module.exports.PUBLIC_ROUTE_FACTORIES = PUBLIC_ROUTE_FACTORIES;
+module.exports.publicRoutes = publicRoutes;

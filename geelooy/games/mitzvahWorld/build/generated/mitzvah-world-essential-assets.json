@@ -9,7 +9,7 @@
 		},
 		"essentialGrass": {
 			"bytes": 322486,
-			"custody": "local",
+			"custody": "remote",
 			"publicUrl": "/games/mitzvahWorld/build/generated/assets/essential-grass.jpg",
 			"sha256": "632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942",
 			"sourceUrl": "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/essential-grass.jpg"

@@ -1687,6 +1687,7 @@ const __awtsmoosModule_2878 = __awtsmoosSharedModules[2878];
 const __awtsmoosModule_2879 = __awtsmoosSharedModules[2879];
 const __awtsmoosModule_2880 = __awtsmoosSharedModules[2880];
 const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
+const __awtsmoosModule_2882 = __awtsmoosSharedModules[2882];
 // ---- libs/awtsmoos-procedural-core/src/core/animalMesh/creature/skin/SemanticSkinQuality.js ----
 {
 	const __exports = __awtsmoosModule_1714;
@@ -91761,6 +91762,50 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahDriveImageAssets.js ----
+{
+	const __exports = __awtsmoosModule_2796;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahDriveImageAssets.js
+	 * @description
+	 * The Awtsmoos keeps photographic bodies in public Drive while source carries only immutable coordinates.
+	 * Every URL below is content-addressed by the SHA-256 of the verified image it reveals.
+	 */
+
+	const DRIVE_ROOT = 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-assets/sha256';
+
+	/** Build one immutable public Drive URL from a verified digest and filename. */
+	function driveImageUrl(sha256, filename) {
+		return `${DRIVE_ROOT}/${sha256}/${filename}`;
+	}
+
+	const HOUSE_PHOTO_URL_BY_ROLE = Object.freeze({
+		brick: driveImageUrl('8b2492a0483446093038c5620dce1fa7c9f66c4824985030b3c95dba77ac0269', 'brick_4.jpg'),
+		brickLight: driveImageUrl('82e43c68bddebb55a18577ae3cb0d01c02c23f086d342a854ff8a174d9f4fd73', 'clay_plaster.jpg'),
+		floor: driveImageUrl('aab330227974aadbc477b2022351112f5696fa7048d99dc776c2e6f23f4e0d2a', 'cobblestone_01.jpg'),
+		mezuzah: driveImageUrl('f715ed3e4346e94f971ef8dd61221ff6cc774886c20f65381e01e1dc0bb0a634', 'oak_wood_planks.jpg'),
+		roof: driveImageUrl('aac0f4e742a2cce21afb5dfb523b47c720c6a8e2782a312b823608fe3f80eae6', 'clay_roof_tiles.jpg'),
+		wood: driveImageUrl('f715ed3e4346e94f971ef8dd61221ff6cc774886c20f65381e01e1dc0bb0a634', 'oak_wood_planks.jpg')
+	});
+
+
+	__exports.HOUSE_PHOTO_URL_BY_ROLE = HOUSE_PHOTO_URL_BY_ROLE;
+	const MITZVAH_REMOTE_IMAGE_ASSETS = Object.freeze({
+
+	essentialGrass: driveImageUrl('632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942', 'essential-grass.jpg'),
+		barkAlbedo: driveImageUrl('986f2f186b102cd43062bb8452011e435c3fb277f22c3b6024a7159d3d224aa1', 'bark-albedo.png'),
+		barkNormal: driveImageUrl('1ba9fdf124455921377c51d8f602b62477cbe1ae3e6607c1d0b06c04b947f95b', 'bark-normal.png'),
+		barkRough: driveImageUrl('861e5ee6830647e5ff3bbf18cdcbfbdb1b32a209bf2d62299515636cce2e99b6', 'bark-rough.png')
+	});
+
+	__exports.MITZVAH_REMOTE_IMAGE_ASSETS = MITZVAH_REMOTE_IMAGE_ASSETS;
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js ----
 {
 	const __exports = __awtsmoosModule_2794;
@@ -91770,23 +91815,15 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 	/**
 	 * @file MinimalMeadowHouseMaterials.js
-	 * @description Clothes measured houses with licensed photographic brick, stone, oak and clay pixels.
-	 * The Awtsmoos grants the roof its clay, the threshold its grained oak;
-	 * these textures are real public images, never a promise beneath the smoke.
+	 * @description
+	 * The Awtsmoos clothes measured homes with verified photographs whose bodies live in public Drive;
+	 * Awtsmoos.com keeps only immutable coordinates in source, so Git stays light while visible texture truth survives.
 	 */
 
 	const cachedTextureImage = __awtsmoosModule_133.cachedTextureImage;
 	const loadPublicMaterialUrl = __awtsmoosModule_133.loadPublicMaterialUrl;
 	const getProceduralTexture = __awtsmoosModule_2795.getProceduralTexture;
-
-	const IMAGE_FILES = Object.freeze({
-		brick: 'brick_4.jpg',
-		brickLight: 'clay_plaster.jpg',
-		floor: 'cobblestone_01.jpg',
-		mezuzah: 'oak_wood_planks.jpg',
-		roof: 'clay_roof_tiles.jpg',
-		wood: 'oak_wood_planks.jpg'
-	});
+	const HOUSE_PHOTO_URL_BY_ROLE = __awtsmoosModule_2796.HOUSE_PHOTO_URL_BY_ROLE;
 
 	const COLORS = Object.freeze({
 		brick: '#9b4b38',
@@ -91806,12 +91843,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 		wood: 'wood'
 	});
 
-	/** Resolve the same-origin, versioned CC0 photograph for both local testing and HTTPS production. */
-	function housePhotoUrl(role, environment = globalThis) {
-		const file = IMAGE_FILES[role];
-		if (!file) return null;
-		const origin = environment.location?.origin || 'https://awtsmoos.com';
-		return new URL(`/games/mitzvahWorld/photoreal/textures/cc0/${file}`, origin).href;
+	/** Resolve the immutable public Drive photograph for one material role. */
+	function housePhotoUrl(role) {
+		return HOUSE_PHOTO_URL_BY_ROLE[role] || null;
 	}
 
 
@@ -91824,11 +91858,11 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 
 	__exports.proceduralFallbackImageForRole = proceduralFallbackImageForRole;
-	/** Load each unique actual image once; shared wood is reused for mezuzah and doors. */
-	async function loadMinimalMeadowHouseMaterials(environment = globalThis) {
-		const sources = Object.fromEntries(Object.keys(IMAGE_FILES).map(role => [
+	/** Load each unique public Drive image once; shared wood is reused for mezuzah and doors. */
+	async function loadMinimalMeadowHouseMaterials() {
+		const sources = Object.fromEntries(Object.keys(HOUSE_PHOTO_URL_BY_ROLE).map(role => [
 			role,
-			housePhotoUrl(role, environment)
+			housePhotoUrl(role)
 		]));
 		const urls = [...new Set(Object.values(sources))];
 		const records = await Promise.all(urls.map(url => loadPublicMaterialUrl(url, 24000)));
@@ -91863,7 +91897,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationLifecycle.js ----
 {
-	const __exports = __awtsmoosModule_2796;
+	const __exports = __awtsmoosModule_2797;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -91907,7 +91941,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_2797;
+	const __exports = __awtsmoosModule_2798;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -91941,7 +91975,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js ----
 {
-	const __exports = __awtsmoosModule_2798;
+	const __exports = __awtsmoosModule_2799;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -91969,7 +92003,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzHouseArchetypeCatalog.js ----
 {
-	const __exports = __awtsmoosModule_2800;
+	const __exports = __awtsmoosModule_2801;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -92062,7 +92096,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js ----
 {
-	const __exports = __awtsmoosModule_2799;
+	const __exports = __awtsmoosModule_2800;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -92074,7 +92108,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * the awtsmoos recreates home and coordinate before either can claim permanence, and Awtsmoos.com lets old world identity enter the unified Eretz without duplicate might.
 	 */
 
-	const eretzHouseArchetype = __awtsmoosModule_2800.eretzHouseArchetype;
+	const eretzHouseArchetype = __awtsmoosModule_2801.eretzHouseArchetype;
 	const createExpandedHouseProfile = __awtsmoosModule_2787.createExpandedHouseProfile;
 
 	const MINIMAL_MEADOW_HOUSE_PROFILES = Object.freeze([
@@ -92134,7 +92168,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js ----
 {
-	const __exports = __awtsmoosModule_2801;
+	const __exports = __awtsmoosModule_2802;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92178,7 +92212,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseSupportResolver.js ----
 {
-	const __exports = __awtsmoosModule_2802;
+	const __exports = __awtsmoosModule_2803;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92252,15 +92286,15 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	const minimalMeadowHouseMaintenanceDiagnostics = __awtsmoosModule_2793.minimalMeadowHouseMaintenanceDiagnostics;
 	const updateMinimalMeadowHouseMaintenance = __awtsmoosModule_2793.updateMinimalMeadowHouseMaintenance;
 	const loadMinimalMeadowHouseMaterials = __awtsmoosModule_2794.loadMinimalMeadowHouseMaterials;
-	const destroyMinimalMeadowHousePopulation = __awtsmoosModule_2796.destroyMinimalMeadowHousePopulation;
-	const markMinimalMeadowHouseMount = __awtsmoosModule_2796.markMinimalMeadowHouseMount;
-	const touchMinimalMeadowHouseMezuzah = __awtsmoosModule_2796.touchMinimalMeadowHouseMezuzah;
-	const minimalMeadowHousePopulationDiagnostics = __awtsmoosModule_2797.minimalMeadowHousePopulationDiagnostics;
-	const minimalMeadowHouseDefinitions = __awtsmoosModule_2798.minimalMeadowHouseDefinitions;
-	const MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_2799.MINIMAL_MEADOW_HOUSE_PROFILES;
-	const nearestMinimalMeadowHouseCandidate = __awtsmoosModule_2801.nearestMinimalMeadowHouseCandidate;
-	const minimalMeadowHouseSupportHeight = __awtsmoosModule_2802.minimalMeadowHouseSupportHeight;
-	const minimalMeadowHouseSupportReceipt = __awtsmoosModule_2802.minimalMeadowHouseSupportReceipt;
+	const destroyMinimalMeadowHousePopulation = __awtsmoosModule_2797.destroyMinimalMeadowHousePopulation;
+	const markMinimalMeadowHouseMount = __awtsmoosModule_2797.markMinimalMeadowHouseMount;
+	const touchMinimalMeadowHouseMezuzah = __awtsmoosModule_2797.touchMinimalMeadowHouseMezuzah;
+	const minimalMeadowHousePopulationDiagnostics = __awtsmoosModule_2798.minimalMeadowHousePopulationDiagnostics;
+	const minimalMeadowHouseDefinitions = __awtsmoosModule_2799.minimalMeadowHouseDefinitions;
+	const MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_2800.MINIMAL_MEADOW_HOUSE_PROFILES;
+	const nearestMinimalMeadowHouseCandidate = __awtsmoosModule_2802.nearestMinimalMeadowHouseCandidate;
+	const minimalMeadowHouseSupportHeight = __awtsmoosModule_2803.minimalMeadowHouseSupportHeight;
+	const minimalMeadowHouseSupportReceipt = __awtsmoosModule_2803.minimalMeadowHouseSupportReceipt;
 
 	class MinimalMeadowHousePopulation {
 		static async create(runtime) {
@@ -92337,7 +92371,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialStackBinding.js ----
 {
-	const __exports = __awtsmoosModule_2805;
+	const __exports = __awtsmoosModule_2806;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92372,7 +92406,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialStackRecipe.js ----
 {
-	const __exports = __awtsmoosModule_2808;
+	const __exports = __awtsmoosModule_2809;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92393,7 +92427,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialStackLayer.js ----
 {
-	const __exports = __awtsmoosModule_2810;
+	const __exports = __awtsmoosModule_2811;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92419,7 +92453,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MaterialPresetLayer.js ----
 {
-	const __exports = __awtsmoosModule_2809;
+	const __exports = __awtsmoosModule_2810;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92431,7 +92465,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * rotation, repeat, ecology, slope, height, strength, priority, and wetness authored together.
 	 */
 
-	const materialStackLayer = __awtsmoosModule_2810.materialStackLayer;
+	const materialStackLayer = __awtsmoosModule_2811.materialStackLayer;
 
 	function presetLayer(role, url, options = {}) {
 		return materialStackLayer(role, url, {
@@ -92460,7 +92494,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/HighestResolutionSurfaceCatalog.js ----
 {
-	const __exports = __awtsmoosModule_2813;
+	const __exports = __awtsmoosModule_2814;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92523,7 +92557,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MountainVillageTerrainSources.js ----
 {
-	const __exports = __awtsmoosModule_2812;
+	const __exports = __awtsmoosModule_2813;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92535,7 +92569,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * from turning granite into nothing or moving bluestone, cobble, soil, and strata into false roles.
 	 */
 
-	const highestResolutionSurface = __awtsmoosModule_2813.highestResolutionSurface;
+	const highestResolutionSurface = __awtsmoosModule_2814.highestResolutionSurface;
 	const runtimeMaterialByRole = __awtsmoosModule_150.runtimeMaterialByRole;
 	const F = __awtsmoosModule_2480.SURFACE_TEXTURE_FAMILIES;
 
@@ -92598,7 +92632,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MountainVillageMaterialSources.js ----
 {
-	const __exports = __awtsmoosModule_2811;
+	const __exports = __awtsmoosModule_2812;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92612,10 +92646,10 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 	const assertProductionMaterialUrl = __awtsmoosModule_156.assertProductionMaterialUrl;
 	const F = __awtsmoosModule_2480.SURFACE_TEXTURE_FAMILIES;
-	const S = __awtsmoosModule_2812.MOUNTAIN_VILLAGE_SOURCES;
-	const T = __awtsmoosModule_2812.MOUNTAIN_VILLAGE_TERRAIN_VARIANTS;
+	const S = __awtsmoosModule_2813.MOUNTAIN_VILLAGE_SOURCES;
+	const T = __awtsmoosModule_2813.MOUNTAIN_VILLAGE_TERRAIN_VARIANTS;
 
-	__exports.MOUNTAIN_VILLAGE_SOURCES = __awtsmoosModule_2812.MOUNTAIN_VILLAGE_SOURCES;
+	__exports.MOUNTAIN_VILLAGE_SOURCES = __awtsmoosModule_2813.MOUNTAIN_VILLAGE_SOURCES;
 
 	const MOUNTAIN_VILLAGE_FAMILIES = Object.freeze({
 		bricks: family('bricks', Object.values(F.bricks)),
@@ -92663,7 +92697,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/RoadMaterialStackPreset.js ----
 {
-	const __exports = __awtsmoosModule_2807;
+	const __exports = __awtsmoosModule_2808;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92675,10 +92709,10 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com turns six sources so every edge returns gently into the living meadow.
 	 */
 
-	const materialStackRecipe = __awtsmoosModule_2808.materialStackRecipe;
-	const layer = __awtsmoosModule_2809.presetLayer;
-	const F = __awtsmoosModule_2811.MOUNTAIN_VILLAGE_FAMILIES;
-	const S = __awtsmoosModule_2811.MOUNTAIN_VILLAGE_SOURCES;
+	const materialStackRecipe = __awtsmoosModule_2809.materialStackRecipe;
+	const layer = __awtsmoosModule_2810.presetLayer;
+	const F = __awtsmoosModule_2812.MOUNTAIN_VILLAGE_FAMILIES;
+	const S = __awtsmoosModule_2812.MOUNTAIN_VILLAGE_SOURCES;
 
 	/**
 	 * Builds six phone-readable road garments ordered from center toward meadow transition.
@@ -92753,7 +92787,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/TerrainMaterialStackLayers.js ----
 {
-	const __exports = __awtsmoosModule_2815;
+	const __exports = __awtsmoosModule_2816;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92765,9 +92799,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com lets six trusted roots lead eighteen newer garments, so richer earth can blossom while every contract continues to flow.
 	 */
 
-	const presetLayer = __awtsmoosModule_2809.presetLayer;
-	const S = __awtsmoosModule_2812.MOUNTAIN_VILLAGE_SOURCES;
-	const T = __awtsmoosModule_2812.MOUNTAIN_VILLAGE_TERRAIN_VARIANTS;
+	const presetLayer = __awtsmoosModule_2810.presetLayer;
+	const S = __awtsmoosModule_2813.MOUNTAIN_VILLAGE_SOURCES;
+	const T = __awtsmoosModule_2813.MOUNTAIN_VILLAGE_TERRAIN_VARIANTS;
 
 	const LAYERS = Object.freeze([
 		spec('meadow-base-grass', T.grassOne, 124, 'grass'),
@@ -92833,7 +92867,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/TerrainMaterialStackPreset.js ----
 {
-	const __exports = __awtsmoosModule_2814;
+	const __exports = __awtsmoosModule_2815;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92845,8 +92879,8 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com lets children author broad terrain libraries while six GPU vessels sustain the mobile frame.
 	 */
 
-	const materialStackRecipe = __awtsmoosModule_2808.materialStackRecipe;
-	const mountainTerrainLayers = __awtsmoosModule_2815.mountainTerrainLayers;
+	const materialStackRecipe = __awtsmoosModule_2809.materialStackRecipe;
+	const mountainTerrainLayers = __awtsmoosModule_2816.mountainTerrainLayers;
 
 	/** Returns the canonical mountain/meadow terrain stack with real 20+ logical texture capacity. */
 	function mountainTerrainStack() {
@@ -92863,7 +92897,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/StructureMaterialStackPreset.js ----
 {
-	const __exports = __awtsmoosModule_2816;
+	const __exports = __awtsmoosModule_2817;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92875,10 +92909,10 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com lets each layer answer terrain evidence instead of painting every slope alike.
 	 */
 
-	const materialStackRecipe = __awtsmoosModule_2808.materialStackRecipe;
-	const layer = __awtsmoosModule_2809.presetLayer;
-	const F = __awtsmoosModule_2811.MOUNTAIN_VILLAGE_FAMILIES;
-	const S = __awtsmoosModule_2811.MOUNTAIN_VILLAGE_SOURCES;
+	const materialStackRecipe = __awtsmoosModule_2809.materialStackRecipe;
+	const layer = __awtsmoosModule_2810.presetLayer;
+	const F = __awtsmoosModule_2812.MOUNTAIN_VILLAGE_FAMILIES;
+	const S = __awtsmoosModule_2812.MOUNTAIN_VILLAGE_SOURCES;
 
 	const HARD_ROCK = Object.freeze([0.04, 0, 0, 1]);
 	const SCREE = Object.freeze([0.28, 0.02, 0.02, 0.78]);
@@ -92944,7 +92978,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/MountainVillageMaterialPresets.js ----
 {
-	const __exports = __awtsmoosModule_2806;
+	const __exports = __awtsmoosModule_2807;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -92956,16 +92990,16 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * keeps historic imports stable as richer full-source texture mixing grows in focused modules.
 	 */
 
-	__exports.villageRoadStack = __awtsmoosModule_2807.villageRoadStack;
-	__exports.mountainTerrainStack = __awtsmoosModule_2814.mountainTerrainStack;
-	__exports.cottageSurfaceStack = __awtsmoosModule_2816.cottageSurfaceStack;
-	__exports.mountainRockStack = __awtsmoosModule_2816.mountainRockStack;
+	__exports.villageRoadStack = __awtsmoosModule_2808.villageRoadStack;
+	__exports.mountainTerrainStack = __awtsmoosModule_2815.mountainTerrainStack;
+	__exports.cottageSurfaceStack = __awtsmoosModule_2817.cottageSurfaceStack;
+	__exports.mountainRockStack = __awtsmoosModule_2817.mountainRockStack;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/AtmosphericMountainRidgeAtlas.js ----
 {
-	const __exports = __awtsmoosModule_2818;
+	const __exports = __awtsmoosModule_2819;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93074,7 +93108,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/AtmosphericMountainZones.js ----
 {
-	const __exports = __awtsmoosModule_2819;
+	const __exports = __awtsmoosModule_2820;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93107,7 +93141,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/AtmosphericMountainGeometry.js ----
 {
-	const __exports = __awtsmoosModule_2817;
+	const __exports = __awtsmoosModule_2818;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93119,9 +93153,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com duplicates one silent boundary row so stone, scree, moss, and snow flow naturally.
 	 */
 
-	const sampleMountainRidge = __awtsmoosModule_2818.sampleMountainRidge;
-	const MOUNTAIN_ROCK_ROW_ZONES = __awtsmoosModule_2819.MOUNTAIN_ROCK_ROW_ZONES;
-	const MOUNTAIN_SNOW_ROW_ZONES = __awtsmoosModule_2819.MOUNTAIN_SNOW_ROW_ZONES;
+	const sampleMountainRidge = __awtsmoosModule_2819.sampleMountainRidge;
+	const MOUNTAIN_ROCK_ROW_ZONES = __awtsmoosModule_2820.MOUNTAIN_ROCK_ROW_ZONES;
+	const MOUNTAIN_SNOW_ROW_ZONES = __awtsmoosModule_2820.MOUNTAIN_SNOW_ROW_ZONES;
 
 	const MOUNTAIN_WORLD_UNITS_PER_REPEAT = 260;
 
@@ -93232,7 +93266,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/AtmosphericMountainSystem.js ----
 {
-	const __exports = __awtsmoosModule_2804;
+	const __exports = __awtsmoosModule_2805;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93247,10 +93281,10 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 	const cachedTextureImage = __awtsmoosModule_133.cachedTextureImage;
 	const referenceLightingBudget = __awtsmoosModule_2726.referenceLightingBudget;
-	const bindMaterialStack = __awtsmoosModule_2805.bindMaterialStack;
-	const mountainRockStack = __awtsmoosModule_2806.mountainRockStack;
-	const mountainGeometry = __awtsmoosModule_2817.mountainGeometry;
-	const snowGeometry = __awtsmoosModule_2817.snowGeometry;
+	const bindMaterialStack = __awtsmoosModule_2806.bindMaterialStack;
+	const mountainRockStack = __awtsmoosModule_2807.mountainRockStack;
+	const mountainGeometry = __awtsmoosModule_2818.mountainGeometry;
+	const snowGeometry = __awtsmoosModule_2818.snowGeometry;
 
 	const MOUNTAIN_STACK = mountainRockStack();
 	const PLACEMENT_MODEL = 'authored-source-walls-outlet-pass';
@@ -93354,7 +93388,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowMountainSystem.js ----
 {
-	const __exports = __awtsmoosModule_2803;
+	const __exports = __awtsmoosModule_2804;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93368,7 +93402,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 	const Group = __awtsmoosModule_4.Group;
 	const createPrimitiveMesh = __awtsmoosModule_2351.createPrimitiveMesh;
-	const createAtmosphericMountainDefinitions = __awtsmoosModule_2804.createAtmosphericMountainDefinitions;
+	const createAtmosphericMountainDefinitions = __awtsmoosModule_2805.createAtmosphericMountainDefinitions;
 
 	class MinimalMeadowMountainSystem {
 		static async create(runtime) {
@@ -93414,7 +93448,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/trees/ForestLeafTexture.js ----
 {
-	const __exports = __awtsmoosModule_2822;
+	const __exports = __awtsmoosModule_2823;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93480,7 +93514,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeMaterialSources.js ----
 {
-	const __exports = __awtsmoosModule_2821;
+	const __exports = __awtsmoosModule_2822;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93495,7 +93529,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	const cachedTextureImage = __awtsmoosModule_133.cachedTextureImage;
 	const isRealMaterialImage = __awtsmoosModule_114.isRealMaterialImage;
 	const TEXTURE_PURPOSES = __awtsmoosModule_2477.TEXTURE_PURPOSES;
-	const createForestLeafPublicTexture = __awtsmoosModule_2822.createForestLeafPublicTexture;
+	const createForestLeafPublicTexture = __awtsmoosModule_2823.createForestLeafPublicTexture;
 
 	/** Resolves cache-resident tree materials without generating fallback pixels. */
 	function createMinimalMeadowTreeMaterials(records = [], _documentValue = globalThis.document) {
@@ -93557,7 +93591,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js ----
 {
-	const __exports = __awtsmoosModule_2824;
+	const __exports = __awtsmoosModule_2825;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93598,7 +93632,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainNoise.js ----
 {
-	const __exports = __awtsmoosModule_2829;
+	const __exports = __awtsmoosModule_2830;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93698,7 +93732,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendFields.js ----
 {
-	const __exports = __awtsmoosModule_2828;
+	const __exports = __awtsmoosModule_2829;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93710,7 +93744,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com keeps every field bounded, reusable, and independent of renderer implementation.
 	 */
 
-	const minimalMeadowFractalNoise = __awtsmoosModule_2829.minimalMeadowFractalNoise;
+	const minimalMeadowFractalNoise = __awtsmoosModule_2830.minimalMeadowFractalNoise;
 
 	function minimalMeadowTerrainFields(x, z) {
 		const macro = noise(x, z, 0.0075, 13);
@@ -93773,7 +93807,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainBlendModel.js ----
 {
-	const __exports = __awtsmoosModule_2827;
+	const __exports = __awtsmoosModule_2828;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93786,9 +93820,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 */
 
 	const minimalMeadowRoadWeights = __awtsmoosModule_2639.minimalMeadowRoadWeights;
-	const minimalMeadowInferredMoisture = __awtsmoosModule_2828.minimalMeadowInferredMoisture;
-	const minimalMeadowNormalizedWeights = __awtsmoosModule_2828.minimalMeadowNormalizedWeights;
-	const minimalMeadowTerrainFields = __awtsmoosModule_2828.minimalMeadowTerrainFields;
+	const minimalMeadowInferredMoisture = __awtsmoosModule_2829.minimalMeadowInferredMoisture;
+	const minimalMeadowNormalizedWeights = __awtsmoosModule_2829.minimalMeadowNormalizedWeights;
+	const minimalMeadowTerrainFields = __awtsmoosModule_2829.minimalMeadowTerrainFields;
 
 	const DISPLAY_COLORS = Object.freeze({
 		dry: Object.freeze([0.5, 0.45, 0.22]),
@@ -93895,7 +93929,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEcologyField.js ----
 {
-	const __exports = __awtsmoosModule_2826;
+	const __exports = __awtsmoosModule_2827;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -93907,7 +93941,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com keeps roads clear, wet ground fertile, slopes sparse, and all variation deterministic.
 	 */
 
-	const sampleMinimalMeadowTerrainBlend = __awtsmoosModule_2827.sampleMinimalMeadowTerrainBlend;
+	const sampleMinimalMeadowTerrainBlend = __awtsmoosModule_2828.sampleMinimalMeadowTerrainBlend;
 
 	function sampleMinimalMeadowEcology(terrain, x, z, options = {}) {
 		const height = finite(options.height, terrain?.heightAt?.(x, z));
@@ -93981,7 +94015,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSpeciesProfiles.js ----
 {
-	const __exports = __awtsmoosModule_2830;
+	const __exports = __awtsmoosModule_2831;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -94042,7 +94076,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSilhouette.js ----
 {
-	const __exports = __awtsmoosModule_2831;
+	const __exports = __awtsmoosModule_2832;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -94122,7 +94156,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationConfig.js ----
 {
-	const __exports = __awtsmoosModule_2832;
+	const __exports = __awtsmoosModule_2833;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -94185,7 +94219,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationMath.js ----
 {
-	const __exports = __awtsmoosModule_2833;
+	const __exports = __awtsmoosModule_2834;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -94258,7 +94292,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacementFactory.js ----
 {
-	const __exports = __awtsmoosModule_2825;
+	const __exports = __awtsmoosModule_2826;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -94270,11 +94304,11 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com keeps climate, age, density, motion, and first-play weight within one deterministic covenant.
 	 */
 
-	const sampleMinimalMeadowEcology = __awtsmoosModule_2826.sampleMinimalMeadowEcology;
-	const selectMinimalMeadowTreeProfile = __awtsmoosModule_2830.selectMinimalMeadowTreeProfile;
-	const minimalMeadowTreeSilhouette = __awtsmoosModule_2831.minimalMeadowTreeSilhouette;
-	const MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_2832.MINIMAL_MEADOW_POPULATION_SEED;
-	const minimalMeadowSeededUnit = __awtsmoosModule_2833.minimalMeadowSeededUnit;
+	const sampleMinimalMeadowEcology = __awtsmoosModule_2827.sampleMinimalMeadowEcology;
+	const selectMinimalMeadowTreeProfile = __awtsmoosModule_2831.selectMinimalMeadowTreeProfile;
+	const minimalMeadowTreeSilhouette = __awtsmoosModule_2832.minimalMeadowTreeSilhouette;
+	const MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_2833.MINIMAL_MEADOW_POPULATION_SEED;
+	const minimalMeadowSeededUnit = __awtsmoosModule_2834.minimalMeadowSeededUnit;
 
 	const GROVE_SPECIES = Object.freeze([
 		['pine', 'Pine Small'],
@@ -94342,7 +94376,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverPath.js ----
 {
-	const __exports = __awtsmoosModule_2835;
+	const __exports = __awtsmoosModule_2836;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -94469,7 +94503,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationExclusions.js ----
 {
-	const __exports = __awtsmoosModule_2834;
+	const __exports = __awtsmoosModule_2835;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -94482,12 +94516,12 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 */
 
 	const minimalMeadowRoadDistance = __awtsmoosModule_2639.minimalMeadowRoadDistance;
-	const MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_2799.MINIMAL_MEADOW_HOUSE_PROFILES;
-	const MINIMAL_MEADOW_COMBAT_CLEARINGS = __awtsmoosModule_2832.MINIMAL_MEADOW_COMBAT_CLEARINGS;
-	const MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_2832.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-	const MINIMAL_MEADOW_QUEST_ACCESS = __awtsmoosModule_2832.MINIMAL_MEADOW_QUEST_ACCESS;
-	const minimalMeadowLakeDistance = __awtsmoosModule_2835.minimalMeadowLakeDistance;
-	const minimalMeadowRiverNearest = __awtsmoosModule_2835.minimalMeadowRiverNearest;
+	const MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_2800.MINIMAL_MEADOW_HOUSE_PROFILES;
+	const MINIMAL_MEADOW_COMBAT_CLEARINGS = __awtsmoosModule_2833.MINIMAL_MEADOW_COMBAT_CLEARINGS;
+	const MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_2833.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+	const MINIMAL_MEADOW_QUEST_ACCESS = __awtsmoosModule_2833.MINIMAL_MEADOW_QUEST_ACCESS;
+	const minimalMeadowLakeDistance = __awtsmoosModule_2836.minimalMeadowLakeDistance;
+	const minimalMeadowRiverNearest = __awtsmoosModule_2836.minimalMeadowRiverNearest;
 
 	const POLICIES = Object.freeze({
 		'bank-vegetation': Object.freeze({ house: 2.5, lake: 1.04, quest: 7, road: 6.2 }),
@@ -94578,7 +94612,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreePlacements.js ----
 {
-	const __exports = __awtsmoosModule_2823;
+	const __exports = __awtsmoosModule_2824;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -94590,14 +94624,14 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com keeps procedural shelter finite while remote canonical trees arrive after play begins.
 	 */
 
-	const listTreePresets = __awtsmoosModule_2824.listTreePresets;
-	const createMinimalMeadowTreeSpecification = __awtsmoosModule_2825.createMinimalMeadowTreeSpecification;
-	const MINIMAL_MEADOW_GROVES = __awtsmoosModule_2832.MINIMAL_MEADOW_GROVES;
-	const MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_2832.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-	const MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_2832.MINIMAL_MEADOW_POPULATION_SEED;
-	const minimalMeadowPopulationAllows = __awtsmoosModule_2834.minimalMeadowPopulationAllows;
-	const minimalMeadowHasSpacing = __awtsmoosModule_2833.minimalMeadowHasSpacing;
-	const minimalMeadowSeededUnit = __awtsmoosModule_2833.minimalMeadowSeededUnit;
+	const listTreePresets = __awtsmoosModule_2825.listTreePresets;
+	const createMinimalMeadowTreeSpecification = __awtsmoosModule_2826.createMinimalMeadowTreeSpecification;
+	const MINIMAL_MEADOW_GROVES = __awtsmoosModule_2833.MINIMAL_MEADOW_GROVES;
+	const MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_2833.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+	const MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_2833.MINIMAL_MEADOW_POPULATION_SEED;
+	const minimalMeadowPopulationAllows = __awtsmoosModule_2835.minimalMeadowPopulationAllows;
+	const minimalMeadowHasSpacing = __awtsmoosModule_2834.minimalMeadowHasSpacing;
+	const minimalMeadowSeededUnit = __awtsmoosModule_2834.minimalMeadowSeededUnit;
 
 	const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 	const MOBILE_TREE_LIMIT = 22;
@@ -94673,7 +94707,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometrySupport.js ----
 {
-	const __exports = __awtsmoosModule_2839;
+	const __exports = __awtsmoosModule_2840;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -94788,7 +94822,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeGeometry.js ----
 {
-	const __exports = __awtsmoosModule_2838;
+	const __exports = __awtsmoosModule_2839;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -94801,10 +94835,10 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 */
 
 	const createNativeMeshFromGeometry = __awtsmoosModule_17.createNativeMeshFromGeometry;
-	const generateTreeProceduralData = __awtsmoosModule_2824.generateTreeProceduralData;
-	const minimalMeadowBarkDefinition = __awtsmoosModule_2839.minimalMeadowBarkDefinition;
-	const minimalMeadowLeafDefinition = __awtsmoosModule_2839.minimalMeadowLeafDefinition;
-	const minimalMeadowTreePart = __awtsmoosModule_2839.minimalMeadowTreePart;
+	const generateTreeProceduralData = __awtsmoosModule_2825.generateTreeProceduralData;
+	const minimalMeadowBarkDefinition = __awtsmoosModule_2840.minimalMeadowBarkDefinition;
+	const minimalMeadowLeafDefinition = __awtsmoosModule_2840.minimalMeadowLeafDefinition;
+	const minimalMeadowTreePart = __awtsmoosModule_2840.minimalMeadowTreePart;
 
 	const templates = new Map();
 	const VARIANT_COUNT = 6;
@@ -94892,7 +94926,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeFactory.js ----
 {
-	const __exports = __awtsmoosModule_2837;
+	const __exports = __awtsmoosModule_2838;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -94905,9 +94939,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 */
 
 	const Group = __awtsmoosModule_4.Group;
-	const createTreePart = __awtsmoosModule_2838.createTreePart;
-	const minimalMeadowTreeTemplate = __awtsmoosModule_2838.minimalMeadowTreeTemplate;
-	const applyMinimalMeadowTreeSilhouette = __awtsmoosModule_2831.applyMinimalMeadowTreeSilhouette;
+	const createTreePart = __awtsmoosModule_2839.createTreePart;
+	const minimalMeadowTreeTemplate = __awtsmoosModule_2839.minimalMeadowTreeTemplate;
+	const applyMinimalMeadowTreeSilhouette = __awtsmoosModule_2832.applyMinimalMeadowTreeSilhouette;
 
 	function createMinimalMeadowTree(placement, materials) {
 		const template = minimalMeadowTreeTemplate(
@@ -94954,7 +94988,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeUpdatePolicy.js ----
 {
-	const __exports = __awtsmoosModule_2840;
+	const __exports = __awtsmoosModule_2841;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -95071,7 +95105,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeRecordFactory.js ----
 {
-	const __exports = __awtsmoosModule_2836;
+	const __exports = __awtsmoosModule_2837;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -95083,8 +95117,8 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com lets ecology remain clear in every branch that enters the game.
 	 */
 
-	const createMinimalMeadowTree = __awtsmoosModule_2837.createMinimalMeadowTree;
-	const createMinimalMeadowTreeUpdateReceipt = __awtsmoosModule_2840.createMinimalMeadowTreeUpdateReceipt;
+	const createMinimalMeadowTree = __awtsmoosModule_2838.createMinimalMeadowTree;
+	const createMinimalMeadowTreeUpdateReceipt = __awtsmoosModule_2841.createMinimalMeadowTreeUpdateReceipt;
 
 	/**
 	 * @description Creates one tree while preserving deterministic ecology metadata and non-fatal error capture.
@@ -95118,7 +95152,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEnvironmentalWind.js ----
 {
-	const __exports = __awtsmoosModule_2842;
+	const __exports = __awtsmoosModule_2843;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95136,7 +95170,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeWind.js ----
 {
-	const __exports = __awtsmoosModule_2841;
+	const __exports = __awtsmoosModule_2842;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -95148,7 +95182,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com lets nearby trees share weather without marching in mechanical synchrony.
 	 */
 
-	const sampleMinimalMeadowEnvironmentalWind = __awtsmoosModule_2842.sampleMinimalMeadowEnvironmentalWind;
+	const sampleMinimalMeadowEnvironmentalWind = __awtsmoosModule_2843.sampleMinimalMeadowEnvironmentalWind;
 
 	const BARK_COMPLIANCE = 0.22;
 	const CANOPY_COMPLIANCE = 1.45;
@@ -95216,7 +95250,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_2843;
+	const __exports = __awtsmoosModule_2844;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95228,8 +95262,8 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * records actual materials, geometry, bounds, triangles, quadrants, and zones after real mounting.
 	 */
 
-	const minimalMeadowPopulationBounds = __awtsmoosModule_2833.minimalMeadowPopulationBounds;
-	const minimalMeadowQuadrantCounts = __awtsmoosModule_2833.minimalMeadowQuadrantCounts;
+	const minimalMeadowPopulationBounds = __awtsmoosModule_2834.minimalMeadowPopulationBounds;
+	const minimalMeadowQuadrantCounts = __awtsmoosModule_2834.minimalMeadowQuadrantCounts;
 
 	function minimalMeadowTreeDiagnostics(system) {
 		const meshes = system.trees.flatMap(tree => tree.children);
@@ -95299,7 +95333,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldPopulationHydration.js ----
 {
-	const __exports = __awtsmoosModule_2844;
+	const __exports = __awtsmoosModule_2845;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95340,7 +95374,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeSystem.js ----
 {
-	const __exports = __awtsmoosModule_2820;
+	const __exports = __awtsmoosModule_2821;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -95353,14 +95387,14 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 */
 
 	const createNativeWorldGroup = __awtsmoosModule_17.createNativeWorldGroup;
-	const createMinimalMeadowTreeMaterials = __awtsmoosModule_2821.createMinimalMeadowTreeMaterials;
-	const createMinimalMeadowTreePlacements = __awtsmoosModule_2823.createMinimalMeadowTreePlacements;
-	const createMinimalMeadowTreeRecord = __awtsmoosModule_2836.createMinimalMeadowTreeRecord;
-	const minimalMeadowTreeUpdateDecision = __awtsmoosModule_2840.minimalMeadowTreeUpdateDecision;
-	const minimalMeadowTreeUpdatePolicy = __awtsmoosModule_2840.minimalMeadowTreeUpdatePolicy;
-	const animateMinimalMeadowTree = __awtsmoosModule_2841.animateMinimalMeadowTree;
-	const minimalMeadowTreeDiagnostics = __awtsmoosModule_2843.minimalMeadowTreeDiagnostics;
-	const beginMinimalMeadowTreeHydration = __awtsmoosModule_2844.beginMinimalMeadowTreeHydration;
+	const createMinimalMeadowTreeMaterials = __awtsmoosModule_2822.createMinimalMeadowTreeMaterials;
+	const createMinimalMeadowTreePlacements = __awtsmoosModule_2824.createMinimalMeadowTreePlacements;
+	const createMinimalMeadowTreeRecord = __awtsmoosModule_2837.createMinimalMeadowTreeRecord;
+	const minimalMeadowTreeUpdateDecision = __awtsmoosModule_2841.minimalMeadowTreeUpdateDecision;
+	const minimalMeadowTreeUpdatePolicy = __awtsmoosModule_2841.minimalMeadowTreeUpdatePolicy;
+	const animateMinimalMeadowTree = __awtsmoosModule_2842.animateMinimalMeadowTree;
+	const minimalMeadowTreeDiagnostics = __awtsmoosModule_2844.minimalMeadowTreeDiagnostics;
+	const beginMinimalMeadowTreeHydration = __awtsmoosModule_2845.beginMinimalMeadowTreeHydration;
 	const minimalMeadowWorldQualityBudget = __awtsmoosModule_118.minimalMeadowWorldQualityBudget;
 
 	const FOREST_AUTHORITY = 'Awtsmoos_canonical_procedural_ecology_forest';
@@ -95465,7 +95499,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerSpecies.js ----
 {
-	const __exports = __awtsmoosModule_2849;
+	const __exports = __awtsmoosModule_2850;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95537,7 +95571,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCellProfile.js ----
 {
-	const __exports = __awtsmoosModule_2848;
+	const __exports = __awtsmoosModule_2849;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95549,10 +95583,10 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com preserves wet fertility, dry restraint, road clearance, and explicit maximums.
 	 */
 
-	const sampleMinimalMeadowEcology = __awtsmoosModule_2826.sampleMinimalMeadowEcology;
-	const selectMinimalMeadowFlowerCommunity = __awtsmoosModule_2849.selectMinimalMeadowFlowerCommunity;
-	const selectMinimalMeadowFlowerSpecies = __awtsmoosModule_2849.selectMinimalMeadowFlowerSpecies;
-	const minimalMeadowSeededUnit = __awtsmoosModule_2833.minimalMeadowSeededUnit;
+	const sampleMinimalMeadowEcology = __awtsmoosModule_2827.sampleMinimalMeadowEcology;
+	const selectMinimalMeadowFlowerCommunity = __awtsmoosModule_2850.selectMinimalMeadowFlowerCommunity;
+	const selectMinimalMeadowFlowerSpecies = __awtsmoosModule_2850.selectMinimalMeadowFlowerSpecies;
+	const minimalMeadowSeededUnit = __awtsmoosModule_2834.minimalMeadowSeededUnit;
 
 	const GRASS_COLORS = Object.freeze({
 		'dry-upland': '#849746',
@@ -95602,7 +95636,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationQualityBudget.js ----
 {
-	const __exports = __awtsmoosModule_2850;
+	const __exports = __awtsmoosModule_2851;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95660,7 +95694,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistribution.js ----
 {
-	const __exports = __awtsmoosModule_2847;
+	const __exports = __awtsmoosModule_2848;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95672,15 +95706,15 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com preserves paths, spacing, quadrants, playable bounds, and explicit density budgets.
 	 */
 
-	const MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_2832.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
-	const MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_2832.MINIMAL_MEADOW_POPULATION_SEED;
-	const MINIMAL_MEADOW_VEGETATION_ANCHORS = __awtsmoosModule_2832.MINIMAL_MEADOW_VEGETATION_ANCHORS;
-	const minimalMeadowPopulationAllows = __awtsmoosModule_2834.minimalMeadowPopulationAllows;
-	const minimalMeadowHasSpacing = __awtsmoosModule_2833.minimalMeadowHasSpacing;
-	const minimalMeadowSeededUnit = __awtsmoosModule_2833.minimalMeadowSeededUnit;
-	const minimalMeadowRiverSample = __awtsmoosModule_2835.minimalMeadowRiverSample;
-	const createMinimalMeadowVegetationCellProfile = __awtsmoosModule_2848.createMinimalMeadowVegetationCellProfile;
-	const minimalMeadowVegetationBudget = __awtsmoosModule_2850.minimalMeadowVegetationBudget;
+	const MINIMAL_MEADOW_PLAYABLE_HALF_SIZE = __awtsmoosModule_2833.MINIMAL_MEADOW_PLAYABLE_HALF_SIZE;
+	const MINIMAL_MEADOW_POPULATION_SEED = __awtsmoosModule_2833.MINIMAL_MEADOW_POPULATION_SEED;
+	const MINIMAL_MEADOW_VEGETATION_ANCHORS = __awtsmoosModule_2833.MINIMAL_MEADOW_VEGETATION_ANCHORS;
+	const minimalMeadowPopulationAllows = __awtsmoosModule_2835.minimalMeadowPopulationAllows;
+	const minimalMeadowHasSpacing = __awtsmoosModule_2834.minimalMeadowHasSpacing;
+	const minimalMeadowSeededUnit = __awtsmoosModule_2834.minimalMeadowSeededUnit;
+	const minimalMeadowRiverSample = __awtsmoosModule_2836.minimalMeadowRiverSample;
+	const createMinimalMeadowVegetationCellProfile = __awtsmoosModule_2849.createMinimalMeadowVegetationCellProfile;
+	const minimalMeadowVegetationBudget = __awtsmoosModule_2851.minimalMeadowVegetationBudget;
 
 	const CELL_EXTENT = 4.5;
 
@@ -95773,7 +95807,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationCells.js ----
 {
-	const __exports = __awtsmoosModule_2846;
+	const __exports = __awtsmoosModule_2847;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95785,7 +95819,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * narrow so distribution law may evolve without entangling geometry, wind, or player reaction.
 	 */
 
-	const createMinimalMeadowVegetationDistribution = __awtsmoosModule_2847.createMinimalMeadowVegetationDistribution;
+	const createMinimalMeadowVegetationDistribution = __awtsmoosModule_2848.createMinimalMeadowVegetationDistribution;
 
 	function createMinimalMeadowVegetationCells(terrain, options = {}) {
 		return createMinimalMeadowVegetationDistribution(terrain, options);
@@ -95797,7 +95831,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalGeometry.js ----
 {
-	const __exports = __awtsmoosModule_2854;
+	const __exports = __awtsmoosModule_2855;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95907,7 +95941,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBotanicalColor.js ----
 {
-	const __exports = __awtsmoosModule_2855;
+	const __exports = __awtsmoosModule_2856;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95947,7 +95981,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerClumpPopulation.js ----
 {
-	const __exports = __awtsmoosModule_2853;
+	const __exports = __awtsmoosModule_2854;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -95959,13 +95993,13 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com preserves species palette, quality limits, and two-mesh batching in every joint.
 	 */
 
-	const appendMinimalMeadowBlade = __awtsmoosModule_2854.appendMinimalMeadowBlade;
-	const appendMinimalMeadowFlower = __awtsmoosModule_2854.appendMinimalMeadowFlower;
-	const appendMinimalMeadowLeafPair = __awtsmoosModule_2854.appendMinimalMeadowLeafPair;
-	const appendMinimalMeadowSeedHead = __awtsmoosModule_2854.appendMinimalMeadowSeedHead;
-	const minimalMeadowBotanicalColor = __awtsmoosModule_2855.minimalMeadowBotanicalColor;
-	const minimalMeadowBotanicalTint = __awtsmoosModule_2855.minimalMeadowBotanicalTint;
-	const minimalMeadowSeededUnit = __awtsmoosModule_2833.minimalMeadowSeededUnit;
+	const appendMinimalMeadowBlade = __awtsmoosModule_2855.appendMinimalMeadowBlade;
+	const appendMinimalMeadowFlower = __awtsmoosModule_2855.appendMinimalMeadowFlower;
+	const appendMinimalMeadowLeafPair = __awtsmoosModule_2855.appendMinimalMeadowLeafPair;
+	const appendMinimalMeadowSeedHead = __awtsmoosModule_2855.appendMinimalMeadowSeedHead;
+	const minimalMeadowBotanicalColor = __awtsmoosModule_2856.minimalMeadowBotanicalColor;
+	const minimalMeadowBotanicalTint = __awtsmoosModule_2856.minimalMeadowBotanicalTint;
+	const minimalMeadowSeededUnit = __awtsmoosModule_2834.minimalMeadowSeededUnit;
 
 	function appendMinimalMeadowFlowerClump(options) {
 		const bladeLimit = Math.max(7, options.budget.bladesPerClump || 12);
@@ -96037,7 +96071,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFlowerClumpGeometry.js ----
 {
-	const __exports = __awtsmoosModule_2852;
+	const __exports = __awtsmoosModule_2853;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -96049,8 +96083,8 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com preserves terrain contact, deterministic color, quality budgets, and draw-call economy.
 	 */
 
-	const appendMinimalMeadowFlowerClump = __awtsmoosModule_2853.appendMinimalMeadowFlowerClump;
-	const minimalMeadowSeededUnit = __awtsmoosModule_2833.minimalMeadowSeededUnit;
+	const appendMinimalMeadowFlowerClump = __awtsmoosModule_2854.appendMinimalMeadowFlowerClump;
+	const minimalMeadowSeededUnit = __awtsmoosModule_2834.minimalMeadowSeededUnit;
 
 	function createMinimalMeadowFlowerCellGeometry(options = {}) {
 		const clumps = Math.max(1, Number(options.clumps) || 8);
@@ -96112,7 +96146,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionMaterials.js ----
 {
-	const __exports = __awtsmoosModule_2856;
+	const __exports = __awtsmoosModule_2857;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -96168,7 +96202,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDistributionCellFactory.js ----
 {
-	const __exports = __awtsmoosModule_2851;
+	const __exports = __awtsmoosModule_2852;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -96182,8 +96216,8 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 	const Group = __awtsmoosModule_4.Group;
 	const createPrimitiveMesh = __awtsmoosModule_2351.createPrimitiveMesh;
-	const createMinimalMeadowFlowerCellGeometry = __awtsmoosModule_2852.createMinimalMeadowFlowerCellGeometry;
-	const minimalMeadowVegetationMaterial = __awtsmoosModule_2856.minimalMeadowVegetationMaterial;
+	const createMinimalMeadowFlowerCellGeometry = __awtsmoosModule_2853.createMinimalMeadowFlowerCellGeometry;
+	const minimalMeadowVegetationMaterial = __awtsmoosModule_2857.minimalMeadowVegetationMaterial;
 
 	function createMinimalMeadowVegetationCell(specification, terrain) {
 		const geometry = createMinimalMeadowFlowerCellGeometry({
@@ -96256,7 +96290,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationDynamics.js ----
 {
-	const __exports = __awtsmoosModule_2857;
+	const __exports = __awtsmoosModule_2858;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -96268,7 +96302,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com carries one coherent breath through compact cell metadata so abundance remains rich and bounded.
 	 */
 
-	const sampleMinimalMeadowEnvironmentalWind = __awtsmoosModule_2842.sampleMinimalMeadowEnvironmentalWind;
+	const sampleMinimalMeadowEnvironmentalWind = __awtsmoosModule_2843.sampleMinimalMeadowEnvironmentalWind;
 
 	const REACTION_RADIUS = 7.5;
 	const REACTION_RADIUS_SQUARED = REACTION_RADIUS * REACTION_RADIUS;
@@ -96346,7 +96380,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationMotionState.js ----
 {
-	const __exports = __awtsmoosModule_2858;
+	const __exports = __awtsmoosModule_2859;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -96416,7 +96450,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationVisibility.js ----
 {
-	const __exports = __awtsmoosModule_2859;
+	const __exports = __awtsmoosModule_2860;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -96477,7 +96511,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVegetationSystem.js ----
 {
-	const __exports = __awtsmoosModule_2845;
+	const __exports = __awtsmoosModule_2846;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -96490,17 +96524,17 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 */
 
 	const createNativeWorldGroup = __awtsmoosModule_17.createNativeWorldGroup;
-	const createMinimalMeadowVegetationCells = __awtsmoosModule_2846.createMinimalMeadowVegetationCells;
-	const createMinimalMeadowVegetationCell = __awtsmoosModule_2851.createMinimalMeadowVegetationCell;
-	const prepareMinimalMeadowVegetationDynamics = __awtsmoosModule_2857.prepareMinimalMeadowVegetationDynamics;
-	const updateMinimalMeadowVegetationDynamics = __awtsmoosModule_2857.updateMinimalMeadowVegetationDynamics;
-	const countMinimalMeadowVegetationActivity = __awtsmoosModule_2858.countMinimalMeadowVegetationActivity;
-	const createMinimalMeadowVegetationMotionState = __awtsmoosModule_2858.createMinimalMeadowVegetationMotionState;
-	const minimalMeadowVegetationUsesMobileProfile = __awtsmoosModule_2858.minimalMeadowVegetationUsesMobileProfile;
-	const updateMinimalMeadowVegetationMotionState = __awtsmoosModule_2858.updateMinimalMeadowVegetationMotionState;
-	const minimalMeadowVegetationDiagnostics = __awtsmoosModule_2843.minimalMeadowVegetationDiagnostics;
-	const minimalMeadowVegetationBudget = __awtsmoosModule_2850.minimalMeadowVegetationBudget;
-	const updateMinimalMeadowVegetationVisibility = __awtsmoosModule_2859.updateMinimalMeadowVegetationVisibility;
+	const createMinimalMeadowVegetationCells = __awtsmoosModule_2847.createMinimalMeadowVegetationCells;
+	const createMinimalMeadowVegetationCell = __awtsmoosModule_2852.createMinimalMeadowVegetationCell;
+	const prepareMinimalMeadowVegetationDynamics = __awtsmoosModule_2858.prepareMinimalMeadowVegetationDynamics;
+	const updateMinimalMeadowVegetationDynamics = __awtsmoosModule_2858.updateMinimalMeadowVegetationDynamics;
+	const countMinimalMeadowVegetationActivity = __awtsmoosModule_2859.countMinimalMeadowVegetationActivity;
+	const createMinimalMeadowVegetationMotionState = __awtsmoosModule_2859.createMinimalMeadowVegetationMotionState;
+	const minimalMeadowVegetationUsesMobileProfile = __awtsmoosModule_2859.minimalMeadowVegetationUsesMobileProfile;
+	const updateMinimalMeadowVegetationMotionState = __awtsmoosModule_2859.updateMinimalMeadowVegetationMotionState;
+	const minimalMeadowVegetationDiagnostics = __awtsmoosModule_2844.minimalMeadowVegetationDiagnostics;
+	const minimalMeadowVegetationBudget = __awtsmoosModule_2851.minimalMeadowVegetationBudget;
+	const updateMinimalMeadowVegetationVisibility = __awtsmoosModule_2860.updateMinimalMeadowVegetationVisibility;
 	const minimalMeadowWorldQualityBudget = __awtsmoosModule_118.minimalMeadowWorldQualityBudget;
 
 	class MinimalMeadowVegetationSystem {
@@ -96596,7 +96630,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterFlowProfiles.js ----
 {
-	const __exports = __awtsmoosModule_2862;
+	const __exports = __awtsmoosModule_2863;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -96654,7 +96688,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterAnimation.js ----
 {
-	const __exports = __awtsmoosModule_2861;
+	const __exports = __awtsmoosModule_2862;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -96666,8 +96700,8 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * while finite frame-time pressure quiets decoration before it ever silences responsive play.
 	 */
 
-	const MINIMAL_MEADOW_WATER_FLOW = __awtsmoosModule_2862.MINIMAL_MEADOW_WATER_FLOW;
-	const MINIMAL_MEADOW_WATER_SURFACE = __awtsmoosModule_2862.MINIMAL_MEADOW_WATER_SURFACE;
+	const MINIMAL_MEADOW_WATER_FLOW = __awtsmoosModule_2863.MINIMAL_MEADOW_WATER_FLOW;
+	const MINIMAL_MEADOW_WATER_SURFACE = __awtsmoosModule_2863.MINIMAL_MEADOW_WATER_SURFACE;
 
 	/**
 	 * @description Allocates the four offset buffers once, before frame updates begin.
@@ -96782,7 +96816,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTerrainShape.js ----
 {
-	const __exports = __awtsmoosModule_2865;
+	const __exports = __awtsmoosModule_2866;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -96795,9 +96829,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 */
 
 	const minimalMeadowRoadMask = __awtsmoosModule_2639.minimalMeadowRoadMask;
-	const MINIMAL_MEADOW_LAKE = __awtsmoosModule_2835.MINIMAL_MEADOW_LAKE;
-	const minimalMeadowLakeDistance = __awtsmoosModule_2835.minimalMeadowLakeDistance;
-	const minimalMeadowRiverNearest = __awtsmoosModule_2835.minimalMeadowRiverNearest;
+	const MINIMAL_MEADOW_LAKE = __awtsmoosModule_2836.MINIMAL_MEADOW_LAKE;
+	const minimalMeadowLakeDistance = __awtsmoosModule_2836.minimalMeadowLakeDistance;
+	const minimalMeadowRiverNearest = __awtsmoosModule_2836.minimalMeadowRiverNearest;
 
 	const HILLS = Object.freeze([
 		[-56, 48, 28, 7.2],
@@ -96882,7 +96916,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_2864;
+	const __exports = __awtsmoosModule_2865;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -96894,9 +96928,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * below water, each bank rises above it, and source reaches destination without a severed segment.
 	 */
 
-	const minimalMeadowHeightAt = __awtsmoosModule_2865.minimalMeadowHeightAt;
-	const minimalMeadowRiverContinuity = __awtsmoosModule_2835.minimalMeadowRiverContinuity;
-	const minimalMeadowRiverSample = __awtsmoosModule_2835.minimalMeadowRiverSample;
+	const minimalMeadowHeightAt = __awtsmoosModule_2866.minimalMeadowHeightAt;
+	const minimalMeadowRiverContinuity = __awtsmoosModule_2836.minimalMeadowRiverContinuity;
+	const minimalMeadowRiverSample = __awtsmoosModule_2836.minimalMeadowRiverSample;
 
 	function minimalMeadowWaterElevationEvidence(samples = 25) {
 		let minimumDepth = Infinity;
@@ -96934,7 +96968,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_2863;
+	const __exports = __awtsmoosModule_2864;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -96946,9 +96980,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * so richer current may remain a blessing to play rather than a hidden tax that never ends.
 	 */
 
-	const minimalMeadowWaterElevationEvidence = __awtsmoosModule_2864.minimalMeadowWaterElevationEvidence;
-	const MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_2835.MINIMAL_MEADOW_RIVER_SEGMENTS;
-	const minimalMeadowMeshMetrics = __awtsmoosModule_2843.minimalMeadowMeshMetrics;
+	const minimalMeadowWaterElevationEvidence = __awtsmoosModule_2865.minimalMeadowWaterElevationEvidence;
+	const MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_2836.MINIMAL_MEADOW_RIVER_SEGMENTS;
+	const minimalMeadowMeshMetrics = __awtsmoosModule_2844.minimalMeadowMeshMetrics;
 
 	/**
 	 * @description Builds an on-demand diagnostic receipt for the mounted water system.
@@ -97008,7 +97042,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/proceduralApi/WaterShaderRecipe.js ----
 {
-	const __exports = __awtsmoosModule_2867;
+	const __exports = __awtsmoosModule_2868;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -97025,7 +97059,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverBanksGeometry.js ----
 {
-	const __exports = __awtsmoosModule_2868;
+	const __exports = __awtsmoosModule_2869;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97037,10 +97071,10 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * inner lips, follows real terrain outside, and gives mobile eyes a continuous shore-depth cue.
 	 */
 
-	const minimalMeadowHeightAt = __awtsmoosModule_2865.minimalMeadowHeightAt;
-	const MINIMAL_MEADOW_LAKE = __awtsmoosModule_2835.MINIMAL_MEADOW_LAKE;
-	const MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_2835.MINIMAL_MEADOW_RIVER_SEGMENTS;
-	const minimalMeadowRiverSample = __awtsmoosModule_2835.minimalMeadowRiverSample;
+	const minimalMeadowHeightAt = __awtsmoosModule_2866.minimalMeadowHeightAt;
+	const MINIMAL_MEADOW_LAKE = __awtsmoosModule_2836.MINIMAL_MEADOW_LAKE;
+	const MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_2836.MINIMAL_MEADOW_RIVER_SEGMENTS;
+	const minimalMeadowRiverSample = __awtsmoosModule_2836.minimalMeadowRiverSample;
 
 	function createMinimalMeadowRiverBanksGeometry(sections = MINIMAL_MEADOW_RIVER_SEGMENTS) {
 		const vertices = [];
@@ -97113,7 +97147,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/SurfaceNormalField.js ----
 {
-	const __exports = __awtsmoosModule_2871;
+	const __exports = __awtsmoosModule_2872;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97229,7 +97263,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowLakeGeometry.js ----
 {
-	const __exports = __awtsmoosModule_2870;
+	const __exports = __awtsmoosModule_2871;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97241,9 +97275,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com keeps the remote detail normals resting upon a truthful macro-normal base.
 	 */
 
-	const faceSurfaceNormals = __awtsmoosModule_2871.faceSurfaceNormals;
-	const minimalMeadowHeightAt = __awtsmoosModule_2865.minimalMeadowHeightAt;
-	const MINIMAL_MEADOW_LAKE = __awtsmoosModule_2835.MINIMAL_MEADOW_LAKE;
+	const faceSurfaceNormals = __awtsmoosModule_2872.faceSurfaceNormals;
+	const minimalMeadowHeightAt = __awtsmoosModule_2866.minimalMeadowHeightAt;
+	const MINIMAL_MEADOW_LAKE = __awtsmoosModule_2836.MINIMAL_MEADOW_LAKE;
 
 	function createMeadowLakeSurface(segments = 72, rings = 5, bed = false) {
 		const centerY = bed
@@ -97318,7 +97352,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRiverGeometry.js ----
 {
-	const __exports = __awtsmoosModule_2872;
+	const __exports = __awtsmoosModule_2873;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97330,10 +97364,10 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com keeps the visible skin truthful while the carved bed remains its separate part.
 	 */
 
-	const gridSurfaceNormals = __awtsmoosModule_2871.gridSurfaceNormals;
-	const minimalMeadowHeightAt = __awtsmoosModule_2865.minimalMeadowHeightAt;
-	const MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_2835.MINIMAL_MEADOW_RIVER_SEGMENTS;
-	const minimalMeadowRiverSample = __awtsmoosModule_2835.minimalMeadowRiverSample;
+	const gridSurfaceNormals = __awtsmoosModule_2872.gridSurfaceNormals;
+	const minimalMeadowHeightAt = __awtsmoosModule_2866.minimalMeadowHeightAt;
+	const MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_2836.MINIMAL_MEADOW_RIVER_SEGMENTS;
+	const minimalMeadowRiverSample = __awtsmoosModule_2836.minimalMeadowRiverSample;
 
 	const LANES = Object.freeze([-1, -0.68, -0.32, 0, 0.32, 0.68, 1]);
 
@@ -97402,7 +97436,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterGeometry.js ----
 {
-	const __exports = __awtsmoosModule_2869;
+	const __exports = __awtsmoosModule_2870;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97414,9 +97448,9 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com keeps callers stable while smaller modules reveal each measured thread.
 	 */
 
-	const createMeadowLakeSurface = __awtsmoosModule_2870.createMeadowLakeSurface;
-	const createMeadowRiverSurface = __awtsmoosModule_2872.createMeadowRiverSurface;
-	const MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_2835.MINIMAL_MEADOW_RIVER_SEGMENTS;
+	const createMeadowLakeSurface = __awtsmoosModule_2871.createMeadowLakeSurface;
+	const createMeadowRiverSurface = __awtsmoosModule_2873.createMeadowRiverSurface;
+	const MINIMAL_MEADOW_RIVER_SEGMENTS = __awtsmoosModule_2836.MINIMAL_MEADOW_RIVER_SEGMENTS;
 
 	function createMinimalMeadowRiverGeometry(
 		sections = MINIMAL_MEADOW_RIVER_SEGMENTS
@@ -97450,7 +97484,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialDefinition.js ----
 {
-	const __exports = __awtsmoosModule_2873;
+	const __exports = __awtsmoosModule_2874;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97555,7 +97589,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterDefinitions.js ----
 {
-	const __exports = __awtsmoosModule_2866;
+	const __exports = __awtsmoosModule_2867;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97567,14 +97601,14 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Awtsmoos.com lets water, bank, bed, ripple, depth, and reflected sky meet in measured yards.
 	 */
 
-	const waterShaderRecipe = __awtsmoosModule_2867.waterShaderRecipe;
-	const createMinimalMeadowLakeShoreGeometry = __awtsmoosModule_2868.createMinimalMeadowLakeShoreGeometry;
-	const createMinimalMeadowRiverBanksGeometry = __awtsmoosModule_2868.createMinimalMeadowRiverBanksGeometry;
-	const createMinimalMeadowLakeBedGeometry = __awtsmoosModule_2869.createMinimalMeadowLakeBedGeometry;
-	const createMinimalMeadowLakeGeometry = __awtsmoosModule_2869.createMinimalMeadowLakeGeometry;
-	const createMinimalMeadowRiverBedGeometry = __awtsmoosModule_2869.createMinimalMeadowRiverBedGeometry;
-	const createMinimalMeadowRiverGeometry = __awtsmoosModule_2869.createMinimalMeadowRiverGeometry;
-	const createMinimalMeadowWaterMaterialDefinition = __awtsmoosModule_2873.createMinimalMeadowWaterMaterialDefinition;
+	const waterShaderRecipe = __awtsmoosModule_2868.waterShaderRecipe;
+	const createMinimalMeadowLakeShoreGeometry = __awtsmoosModule_2869.createMinimalMeadowLakeShoreGeometry;
+	const createMinimalMeadowRiverBanksGeometry = __awtsmoosModule_2869.createMinimalMeadowRiverBanksGeometry;
+	const createMinimalMeadowLakeBedGeometry = __awtsmoosModule_2870.createMinimalMeadowLakeBedGeometry;
+	const createMinimalMeadowLakeGeometry = __awtsmoosModule_2870.createMinimalMeadowLakeGeometry;
+	const createMinimalMeadowRiverBedGeometry = __awtsmoosModule_2870.createMinimalMeadowRiverBedGeometry;
+	const createMinimalMeadowRiverGeometry = __awtsmoosModule_2870.createMinimalMeadowRiverGeometry;
+	const createMinimalMeadowWaterMaterialDefinition = __awtsmoosModule_2874.createMinimalMeadowWaterMaterialDefinition;
 
 	/**
 	 * Creates river/lake bed, bank, and water definitions from one hydrated source set.
@@ -97658,7 +97692,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterMaterialHydration.js ----
 {
-	const __exports = __awtsmoosModule_2874;
+	const __exports = __awtsmoosModule_2875;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97755,7 +97789,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterQualityPolicy.js ----
 {
-	const __exports = __awtsmoosModule_2875;
+	const __exports = __awtsmoosModule_2876;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97818,7 +97852,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralWaterNormals.js ----
 {
-	const __exports = __awtsmoosModule_2878;
+	const __exports = __awtsmoosModule_2879;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97920,7 +97954,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterFallbackSources.js ----
 {
-	const __exports = __awtsmoosModule_2877;
+	const __exports = __awtsmoosModule_2878;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97932,7 +97966,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * while published water, stone, and earth images may enrich the same mounted materials later without delaying play.
 	 */
 
-	const createMinimalMeadowProceduralWaterNormals = __awtsmoosModule_2878.createMinimalMeadowProceduralWaterNormals;
+	const createMinimalMeadowProceduralWaterNormals = __awtsmoosModule_2879.createMinimalMeadowProceduralWaterNormals;
 
 	/** Returns remote-pending visible sources plus two deterministic local normal fields. */
 	function createMinimalMeadowWaterFallbackSources(
@@ -97972,7 +98006,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterSources.js ----
 {
-	const __exports = __awtsmoosModule_2876;
+	const __exports = __awtsmoosModule_2877;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -97986,7 +98020,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 	const remoteFullResolutionTextureUrl = __awtsmoosModule_164.remoteFullResolutionTextureUrl;
 	const loadPublicMaterialUrl = __awtsmoosModule_133.loadPublicMaterialUrl;
-	const createMinimalMeadowWaterFallbackSources = __awtsmoosModule_2877.createMinimalMeadowWaterFallbackSources;
+	const createMinimalMeadowWaterFallbackSources = __awtsmoosModule_2878.createMinimalMeadowWaterFallbackSources;
 
 	const REMOTE_WATER_TIMEOUT_MS = 45000;
 
@@ -98065,7 +98099,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWaterSystem.js ----
 {
-	const __exports = __awtsmoosModule_2860;
+	const __exports = __awtsmoosModule_2861;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -98079,14 +98113,14 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 	const createNativeWorldGroup = __awtsmoosModule_17.createNativeWorldGroup;
 	const createPrimitiveMesh = __awtsmoosModule_2351.createPrimitiveMesh;
-	const animateMinimalMeadowWaterMaterials = __awtsmoosModule_2861.animateMinimalMeadowWaterMaterials;
-	const prepareMinimalMeadowWaterAnimation = __awtsmoosModule_2861.prepareMinimalMeadowWaterAnimation;
-	const minimalMeadowWaterDiagnostics = __awtsmoosModule_2863.minimalMeadowWaterDiagnostics;
-	const createMinimalMeadowWaterDefinitions = __awtsmoosModule_2866.createMinimalMeadowWaterDefinitions;
-	const hydrateMinimalMeadowWaterMaterials = __awtsmoosModule_2874.hydrateMinimalMeadowWaterMaterials;
-	const minimalMeadowWaterQualityFor = __awtsmoosModule_2875.minimalMeadowWaterQualityFor;
-	const createMinimalMeadowWaterFallbackSources = __awtsmoosModule_2876.createMinimalMeadowWaterFallbackSources;
-	const loadMinimalMeadowWaterSources = __awtsmoosModule_2876.loadMinimalMeadowWaterSources;
+	const animateMinimalMeadowWaterMaterials = __awtsmoosModule_2862.animateMinimalMeadowWaterMaterials;
+	const prepareMinimalMeadowWaterAnimation = __awtsmoosModule_2862.prepareMinimalMeadowWaterAnimation;
+	const minimalMeadowWaterDiagnostics = __awtsmoosModule_2864.minimalMeadowWaterDiagnostics;
+	const createMinimalMeadowWaterDefinitions = __awtsmoosModule_2867.createMinimalMeadowWaterDefinitions;
+	const hydrateMinimalMeadowWaterMaterials = __awtsmoosModule_2875.hydrateMinimalMeadowWaterMaterials;
+	const minimalMeadowWaterQualityFor = __awtsmoosModule_2876.minimalMeadowWaterQualityFor;
+	const createMinimalMeadowWaterFallbackSources = __awtsmoosModule_2877.createMinimalMeadowWaterFallbackSources;
+	const loadMinimalMeadowWaterSources = __awtsmoosModule_2877.loadMinimalMeadowWaterSources;
 
 	class MinimalMeadowWaterSystem {
 		/**
@@ -98188,7 +98222,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldTargeting.js ----
 {
-	const __exports = __awtsmoosModule_2879;
+	const __exports = __awtsmoosModule_2880;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -98239,14 +98273,14 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 	const runMinimalMeadowConcurrentMountPlan = __awtsmoosModule_2746.runMinimalMeadowConcurrentMountPlan;
 	const MinimalMeadowHousePopulation = __awtsmoosModule_2747.MinimalMeadowHousePopulation;
-	const MinimalMeadowMountainSystem = __awtsmoosModule_2803.MinimalMeadowMountainSystem;
+	const MinimalMeadowMountainSystem = __awtsmoosModule_2804.MinimalMeadowMountainSystem;
 	const mountMinimalMeadowQuest = __awtsmoosModule_2649.mountMinimalMeadowQuest;
-	const MinimalMeadowTreeSystem = __awtsmoosModule_2820.MinimalMeadowTreeSystem;
-	const MinimalMeadowVegetationSystem = __awtsmoosModule_2845.MinimalMeadowVegetationSystem;
-	const MinimalMeadowWaterSystem = __awtsmoosModule_2860.MinimalMeadowWaterSystem;
+	const MinimalMeadowTreeSystem = __awtsmoosModule_2821.MinimalMeadowTreeSystem;
+	const MinimalMeadowVegetationSystem = __awtsmoosModule_2846.MinimalMeadowVegetationSystem;
+	const MinimalMeadowWaterSystem = __awtsmoosModule_2861.MinimalMeadowWaterSystem;
 	const mountMinimalMeadowCharacter = __awtsmoosModule_2690.mountMinimalMeadowCharacter;
 	const mountMinimalMeadowSubsystem = __awtsmoosModule_2690.mountMinimalMeadowSubsystem;
-	const replaceMinimalMeadowWorldTargeting = __awtsmoosModule_2879.replaceMinimalMeadowWorldTargeting;
+	const replaceMinimalMeadowWorldTargeting = __awtsmoosModule_2880.replaceMinimalMeadowWorldTargeting;
 
 	async function mountMinimalMeadowRichWorld(runtime) {
 		const mounted = await runMinimalMeadowConcurrentMountPlan({
@@ -98374,7 +98408,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPresentationCadence.js ----
 {
-	const __exports = __awtsmoosModule_2881;
+	const __exports = __awtsmoosModule_2882;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -98451,7 +98485,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldSystemLifecycle.js ----
 {
-	const __exports = __awtsmoosModule_2880;
+	const __exports = __awtsmoosModule_2881;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -98462,7 +98496,7 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	 * Netzach keeps combat and traveler truth immediate while Hod lets water and motes breathe gently; the Awtsmoos sustains every vessel each instant, and Awtsmoos.com spends each finite update exactly once for a smoother living stream.
 	 */
 
-	const MinimalMeadowPresentationCadence = __awtsmoosModule_2881.MinimalMeadowPresentationCadence;
+	const MinimalMeadowPresentationCadence = __awtsmoosModule_2882.MinimalMeadowPresentationCadence;
 
 	/** Advances enriched world systems while hit-stop scales only combat cadence. */
 	function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
@@ -98577,8 +98611,8 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 	const minimalMeadowWorldDiagnostics = __awtsmoosModule_2727.minimalMeadowWorldDiagnostics;
 	const installMinimalMeadowLocalExpansion = __awtsmoosModule_2728.installMinimalMeadowLocalExpansion;
 	const scheduleMinimalMeadowRichWorld = __awtsmoosModule_2743.scheduleMinimalMeadowRichWorld;
-	const destroyMinimalMeadowWorldSystems = __awtsmoosModule_2880.destroyMinimalMeadowWorldSystems;
-	const updateMinimalMeadowWorldSystems = __awtsmoosModule_2880.updateMinimalMeadowWorldSystems;
+	const destroyMinimalMeadowWorldSystems = __awtsmoosModule_2881.destroyMinimalMeadowWorldSystems;
+	const updateMinimalMeadowWorldSystems = __awtsmoosModule_2881.updateMinimalMeadowWorldSystems;
 
 	/** Installs playable world systems and schedules rich detail behind the quiet window. */
 	async function installMinimalMeadowWorldSystems(runtime, environment = globalThis) {
@@ -98625,8 +98659,8 @@ const __awtsmoosModule_2881 = __awtsmoosSharedModules[2881];
 		};
 	}
 
-	__exports.destroyMinimalMeadowWorldSystems = __awtsmoosModule_2880.destroyMinimalMeadowWorldSystems;
-	__exports.updateMinimalMeadowWorldSystems = __awtsmoosModule_2880.updateMinimalMeadowWorldSystems;
+	__exports.destroyMinimalMeadowWorldSystems = __awtsmoosModule_2881.destroyMinimalMeadowWorldSystems;
+	__exports.updateMinimalMeadowWorldSystems = __awtsmoosModule_2881.updateMinimalMeadowWorldSystems;
 
 }
 

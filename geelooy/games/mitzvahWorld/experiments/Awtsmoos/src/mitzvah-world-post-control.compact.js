@@ -1352,23 +1352,25 @@ const __awtsmoosModule_662 = Object.create(null);
 
 const __awtsmoosModule_665 = Object.create(null);
 
-const __awtsmoosModule_666 = Object.create(null);
-
 const __awtsmoosModule_667 = Object.create(null);
+
+const __awtsmoosModule_666 = Object.create(null);
 
 const __awtsmoosModule_668 = Object.create(null);
 
 const __awtsmoosModule_669 = Object.create(null);
 
-const __awtsmoosModule_671 = Object.create(null);
-
 const __awtsmoosModule_670 = Object.create(null);
-
-const __awtsmoosModule_673 = Object.create(null);
 
 const __awtsmoosModule_672 = Object.create(null);
 
+const __awtsmoosModule_671 = Object.create(null);
+
 const __awtsmoosModule_674 = Object.create(null);
+
+const __awtsmoosModule_673 = Object.create(null);
+
+const __awtsmoosModule_675 = Object.create(null);
 
 const __awtsmoosModule_588 = Object.create(null);
 
@@ -61834,6 +61836,50 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahDriveImageAssets.js ----
+{
+	const __exports = __awtsmoosModule_667;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahDriveImageAssets.js
+	 * @description
+	 * The Awtsmoos keeps photographic bodies in public Drive while source carries only immutable coordinates.
+	 * Every URL below is content-addressed by the SHA-256 of the verified image it reveals.
+	 */
+
+	const DRIVE_ROOT = 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-assets/sha256';
+
+	/** Build one immutable public Drive URL from a verified digest and filename. */
+	function driveImageUrl(sha256, filename) {
+		return `${DRIVE_ROOT}/${sha256}/${filename}`;
+	}
+
+	const HOUSE_PHOTO_URL_BY_ROLE = Object.freeze({
+		brick: driveImageUrl('8b2492a0483446093038c5620dce1fa7c9f66c4824985030b3c95dba77ac0269', 'brick_4.jpg'),
+		brickLight: driveImageUrl('82e43c68bddebb55a18577ae3cb0d01c02c23f086d342a854ff8a174d9f4fd73', 'clay_plaster.jpg'),
+		floor: driveImageUrl('aab330227974aadbc477b2022351112f5696fa7048d99dc776c2e6f23f4e0d2a', 'cobblestone_01.jpg'),
+		mezuzah: driveImageUrl('f715ed3e4346e94f971ef8dd61221ff6cc774886c20f65381e01e1dc0bb0a634', 'oak_wood_planks.jpg'),
+		roof: driveImageUrl('aac0f4e742a2cce21afb5dfb523b47c720c6a8e2782a312b823608fe3f80eae6', 'clay_roof_tiles.jpg'),
+		wood: driveImageUrl('f715ed3e4346e94f971ef8dd61221ff6cc774886c20f65381e01e1dc0bb0a634', 'oak_wood_planks.jpg')
+	});
+
+
+	__exports.HOUSE_PHOTO_URL_BY_ROLE = HOUSE_PHOTO_URL_BY_ROLE;
+	const MITZVAH_REMOTE_IMAGE_ASSETS = Object.freeze({
+
+	essentialGrass: driveImageUrl('632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942', 'essential-grass.jpg'),
+		barkAlbedo: driveImageUrl('986f2f186b102cd43062bb8452011e435c3fb277f22c3b6024a7159d3d224aa1', 'bark-albedo.png'),
+		barkNormal: driveImageUrl('1ba9fdf124455921377c51d8f602b62477cbe1ae3e6607c1d0b06c04b947f95b', 'bark-normal.png'),
+		barkRough: driveImageUrl('861e5ee6830647e5ff3bbf18cdcbfbdb1b32a209bf2d62299515636cce2e99b6', 'bark-rough.png')
+	});
+
+	__exports.MITZVAH_REMOTE_IMAGE_ASSETS = MITZVAH_REMOTE_IMAGE_ASSETS;
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js ----
 {
 	const __exports = __awtsmoosModule_666;
@@ -61843,23 +61889,15 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MinimalMeadowHouseMaterials.js
-	 * @description Clothes measured houses with licensed photographic brick, stone, oak and clay pixels.
-	 * The Awtsmoos grants the roof its clay, the threshold its grained oak;
-	 * these textures are real public images, never a promise beneath the smoke.
+	 * @description
+	 * The Awtsmoos clothes measured homes with verified photographs whose bodies live in public Drive;
+	 * Awtsmoos.com keeps only immutable coordinates in source, so Git stays light while visible texture truth survives.
 	 */
 
 	const cachedTextureImage = __awtsmoosModule_376.cachedTextureImage;
 	const loadPublicMaterialUrl = __awtsmoosModule_376.loadPublicMaterialUrl;
 	const getProceduralTexture = __awtsmoosModule_587.getProceduralTexture;
-
-	const IMAGE_FILES = Object.freeze({
-		brick: 'brick_4.jpg',
-		brickLight: 'clay_plaster.jpg',
-		floor: 'cobblestone_01.jpg',
-		mezuzah: 'oak_wood_planks.jpg',
-		roof: 'clay_roof_tiles.jpg',
-		wood: 'oak_wood_planks.jpg'
-	});
+	const HOUSE_PHOTO_URL_BY_ROLE = __awtsmoosModule_667.HOUSE_PHOTO_URL_BY_ROLE;
 
 	const COLORS = Object.freeze({
 		brick: '#9b4b38',
@@ -61879,12 +61917,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		wood: 'wood'
 	});
 
-	/** Resolve the same-origin, versioned CC0 photograph for both local testing and HTTPS production. */
-	function housePhotoUrl(role, environment = globalThis) {
-		const file = IMAGE_FILES[role];
-		if (!file) return null;
-		const origin = environment.location?.origin || 'https://awtsmoos.com';
-		return new URL(`/games/mitzvahWorld/photoreal/textures/cc0/${file}`, origin).href;
+	/** Resolve the immutable public Drive photograph for one material role. */
+	function housePhotoUrl(role) {
+		return HOUSE_PHOTO_URL_BY_ROLE[role] || null;
 	}
 
 
@@ -61897,11 +61932,11 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.proceduralFallbackImageForRole = proceduralFallbackImageForRole;
-	/** Load each unique actual image once; shared wood is reused for mezuzah and doors. */
-	async function loadMinimalMeadowHouseMaterials(environment = globalThis) {
-		const sources = Object.fromEntries(Object.keys(IMAGE_FILES).map(role => [
+	/** Load each unique public Drive image once; shared wood is reused for mezuzah and doors. */
+	async function loadMinimalMeadowHouseMaterials() {
+		const sources = Object.fromEntries(Object.keys(HOUSE_PHOTO_URL_BY_ROLE).map(role => [
 			role,
-			housePhotoUrl(role, environment)
+			housePhotoUrl(role)
 		]));
 		const urls = [...new Set(Object.values(sources))];
 		const records = await Promise.all(urls.map(url => loadPublicMaterialUrl(url, 24000)));
@@ -61936,7 +61971,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationLifecycle.js ----
 {
-	const __exports = __awtsmoosModule_667;
+	const __exports = __awtsmoosModule_668;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -61980,7 +62015,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_668;
+	const __exports = __awtsmoosModule_669;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -62014,7 +62049,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js ----
 {
-	const __exports = __awtsmoosModule_669;
+	const __exports = __awtsmoosModule_670;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -62042,7 +62077,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzHouseArchetypeCatalog.js ----
 {
-	const __exports = __awtsmoosModule_671;
+	const __exports = __awtsmoosModule_672;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -62135,7 +62170,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js ----
 {
-	const __exports = __awtsmoosModule_670;
+	const __exports = __awtsmoosModule_671;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -62147,7 +62182,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the awtsmoos recreates home and coordinate before either can claim permanence, and Awtsmoos.com lets old world identity enter the unified Eretz without duplicate might.
 	 */
 
-	const eretzHouseArchetype = __awtsmoosModule_671.eretzHouseArchetype;
+	const eretzHouseArchetype = __awtsmoosModule_672.eretzHouseArchetype;
 	const createExpandedHouseProfile = __awtsmoosModule_659.createExpandedHouseProfile;
 
 	const MINIMAL_MEADOW_HOUSE_PROFILES = Object.freeze([
@@ -62207,7 +62242,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcPointerRay.js ----
 {
-	const __exports = __awtsmoosModule_673;
+	const __exports = __awtsmoosModule_674;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -62289,7 +62324,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js ----
 {
-	const __exports = __awtsmoosModule_672;
+	const __exports = __awtsmoosModule_673;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -62301,7 +62336,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * separate from the bounds and visibility vessels that make the threshold visible.
 	 */
 
-	const npcPointerHits = __awtsmoosModule_673.npcPointerHits;
+	const npcPointerHits = __awtsmoosModule_674.npcPointerHits;
 
 	function nearestMinimalMeadowHouseCandidate(population, event) {
 		const candidates = [];
@@ -62333,7 +62368,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseSupportResolver.js ----
 {
-	const __exports = __awtsmoosModule_674;
+	const __exports = __awtsmoosModule_675;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -62407,15 +62442,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	const minimalMeadowHouseMaintenanceDiagnostics = __awtsmoosModule_665.minimalMeadowHouseMaintenanceDiagnostics;
 	const updateMinimalMeadowHouseMaintenance = __awtsmoosModule_665.updateMinimalMeadowHouseMaintenance;
 	const loadMinimalMeadowHouseMaterials = __awtsmoosModule_666.loadMinimalMeadowHouseMaterials;
-	const destroyMinimalMeadowHousePopulation = __awtsmoosModule_667.destroyMinimalMeadowHousePopulation;
-	const markMinimalMeadowHouseMount = __awtsmoosModule_667.markMinimalMeadowHouseMount;
-	const touchMinimalMeadowHouseMezuzah = __awtsmoosModule_667.touchMinimalMeadowHouseMezuzah;
-	const minimalMeadowHousePopulationDiagnostics = __awtsmoosModule_668.minimalMeadowHousePopulationDiagnostics;
-	const minimalMeadowHouseDefinitions = __awtsmoosModule_669.minimalMeadowHouseDefinitions;
-	const MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_670.MINIMAL_MEADOW_HOUSE_PROFILES;
-	const nearestMinimalMeadowHouseCandidate = __awtsmoosModule_672.nearestMinimalMeadowHouseCandidate;
-	const minimalMeadowHouseSupportHeight = __awtsmoosModule_674.minimalMeadowHouseSupportHeight;
-	const minimalMeadowHouseSupportReceipt = __awtsmoosModule_674.minimalMeadowHouseSupportReceipt;
+	const destroyMinimalMeadowHousePopulation = __awtsmoosModule_668.destroyMinimalMeadowHousePopulation;
+	const markMinimalMeadowHouseMount = __awtsmoosModule_668.markMinimalMeadowHouseMount;
+	const touchMinimalMeadowHouseMezuzah = __awtsmoosModule_668.touchMinimalMeadowHouseMezuzah;
+	const minimalMeadowHousePopulationDiagnostics = __awtsmoosModule_669.minimalMeadowHousePopulationDiagnostics;
+	const minimalMeadowHouseDefinitions = __awtsmoosModule_670.minimalMeadowHouseDefinitions;
+	const MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_671.MINIMAL_MEADOW_HOUSE_PROFILES;
+	const nearestMinimalMeadowHouseCandidate = __awtsmoosModule_673.nearestMinimalMeadowHouseCandidate;
+	const minimalMeadowHouseSupportHeight = __awtsmoosModule_675.minimalMeadowHouseSupportHeight;
+	const minimalMeadowHouseSupportReceipt = __awtsmoosModule_675.minimalMeadowHouseSupportReceipt;
 
 	class MinimalMeadowHousePopulation {
 		static async create(runtime) {

@@ -74,8 +74,8 @@
 		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 162888,
-	"outputBytes": 115447,
+	"inputBytes": 162669,
+	"outputBytes": 115240,
 	"sourcePolicy": {
 		"errors": [],
 		"files": [
@@ -140,8 +140,8 @@
 				"path": "styles/source/fragments/mitzvah-world-game-rail-001.css"
 			},
 			{
-				"bytes": 2250,
-				"lines": 96,
+				"bytes": 2256,
+				"lines": 100,
 				"path": "styles/source/fragments/mitzvah-world-game-rail-001-segment-002.css"
 			},
 			{
@@ -255,8 +255,8 @@
 				"path": "styles/source/fragments/mitzvah-world-runtime-states-001.css"
 			},
 			{
-				"bytes": 1893,
-				"lines": 86,
+				"bytes": 1665,
+				"lines": 78,
 				"path": "styles/source/fragments/mitzvah-world-runtime-states-001-segment-002.css"
 			},
 			{
@@ -290,8 +290,8 @@
 				"path": "styles/source/fragments/mitzvah-world-cinematic-mobile-001.css"
 			},
 			{
-				"bytes": 2697,
-				"lines": 90,
+				"bytes": 2700,
+				"lines": 92,
 				"path": "styles/source/fragments/mitzvah-world-cinematic-mobile-001-segment-002.css"
 			},
 			{
@@ -412,19 +412,19 @@
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 14528,
+			"bytes": 14519,
 			"encoding": "br",
-			"sha256": "ac9b2a1ce2ed8bc92157f9808308c992e68641fa68523c00e5ba8a18acb40966"
+			"sha256": "423d3d1df1a38d87e87a5c0d29ea6bde90d5ecb40a45f11dc98688c63d605f81"
 		},
 		"gzip": {
-			"bytes": 17466,
+			"bytes": 17460,
 			"encoding": "gzip",
-			"sha256": "0b76c78bba1b18aed67d78e16f2dbf319b67568b9ac6c5bd2c1bef6f450c65e0"
+			"sha256": "7f11b1e25e56e2869039d42ed7c19604f5d846889f83fbf3919507942a055f2e"
 		},
 		"identity": {
-			"bytes": 115448,
+			"bytes": 115241,
 			"encoding": "identity",
-			"sha256": "af840303334b28dbcd18b7b6f7cc77be999f8b3f026502eed95abe064b83a23c"
+			"sha256": "f51bd8bbdc72f1c3c8ac5bf9f31a9ab23ad856ba2dcf77e4a97d46b23132c529"
 		}
 	}
 }
