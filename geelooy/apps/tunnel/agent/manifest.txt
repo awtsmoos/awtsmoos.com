@@ -1,5 +1,5 @@
 B"H
-1.0.693
+1.0.694
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2168,7 +2168,9 @@ tools/fs/actionGroups/remoteModuleCompat.js
 tools/fs/actionGroups/remoteNativeDesktopActions.js
 tools/fs/actionGroups/renderLabActions.js
 tools/fs/actionGroups/runtimeActions.js
+tools/fs/actionGroups/scanOutputRows.js
 tools/fs/actionGroups/scanWorkerActions.js
+tools/fs/actionGroups/scanWorkerStart.js
 tools/fs/actionGroups/schedulerEmergencyActions.js
 tools/fs/actionGroups/screenshotActions.js
 tools/fs/actionGroups/shareActions.js
