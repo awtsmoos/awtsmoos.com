@@ -4,30 +4,30 @@
 
 /**
  * @file CompactJsBuildWriter.cjs
- * @description Validates, writes, compresses, and manifests one CompactJS build for repeat-build verification.
- * The Awtsmoos joins readable chambers into identity, Brotli, and gzip without hiding their source;
- * Awtsmoos.com records one canonical hash here, while the release gate repeats the whole build as stronger proof.
+ * @description Validates, writes, compresses, and manifests the tiny first-control entry.
+ * The Awtsmoos joins only the essential chambers into a truthful ray;
+ * Awtsmoos.com keeps all authored comments and moves dead compiler vessels away.
  */
 
 const fs = require('node:fs');
 const path = require('node:path');
 const { compactResult } = require('./CompactJsAdapter.cjs');
 const { compactJsManifest, sha256 } = require('./CompactJsManifest.cjs');
-const {
-	compressGeneratedAsset
-} = require('../GeneratedAssetCompression.cjs');
+const { omitUnusedCompactRuntimeHelpers } = require('./UnusedCompactRuntimeHelpers.cjs');
+const { compressGeneratedAsset } = require('../GeneratedAssetCompression.cjs');
 
+/** Seals a final entry against optional imports and records its exact byte identity. */
 function writeCompactJsBuild(options) {
 	const result = normalizedResult(compactResult(options.value));
 	const outputHash = sha256(result.code);
 	const optionalModulesBundled = findOptionalModules(result.code);
 	if (optionalModulesBundled.length) {
-		throw new Error(
-			`COMPACT_JS_OPTIONAL_BUNDLED:${optionalModulesBundled.join(',')}`
-		);
+		throw new Error(`COMPACT_JS_OPTIONAL_BUNDLED:${optionalModulesBundled.join(',')}`);
 	}
 	fs.writeFileSync(options.outputFile, result.code);
-	if (result.map) fs.writeFileSync(`${options.outputFile}.map`, result.map);
+	if (result.map) {
+		fs.writeFileSync(`${options.outputFile}.map`, result.map);
+	}
 	const representations = compressGeneratedAsset(options.outputFile);
 	const manifest = compactJsManifest({
 		code: result.code,
@@ -39,23 +39,22 @@ function writeCompactJsBuild(options) {
 		outputHash,
 		representations
 	});
-	fs.writeFileSync(
-		options.manifestFile,
-		`${JSON.stringify(manifest, null, '\t')}\n`
-	);
+	fs.writeFileSync(options.manifestFile, `${JSON.stringify(manifest, null, '\t')}\n`);
 	return manifest;
 }
 
+/** Normalizes whitespace and omits only compiler helpers proven unreferenced. */
 function normalizedResult(result) {
 	return {
 		...result,
-		code: normalizeText(result.code),
+		code: omitUnusedCompactRuntimeHelpers(normalizeText(result.code)),
 		map: result.map
 			? normalizeText(typeof result.map === 'string' ? result.map : JSON.stringify(result.map))
 			: null
 	};
 }
 
+/** Preserves indentation and full comments while trimming trailing whitespace. */
 function normalizeText(value) {
 	return `${String(value)
 		.split('\n')
@@ -64,6 +63,7 @@ function normalizeText(value) {
 		.trim()}\n`;
 }
 
+/** Rejects accidentally included heavyweight first-control optional modules. */
 function findOptionalModules(code) {
 	return [
 		'MinimalMeadowRichWorld.js',
@@ -72,7 +72,4 @@ function findOptionalModules(code) {
 	].filter(fileName => code.includes(`@file ${fileName}`));
 }
 
-module.exports = {
-	normalizeText,
-	writeCompactJsBuild
-};
+module.exports = { normalizeText, writeCompactJsBuild };

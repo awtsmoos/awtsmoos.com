@@ -1,31 +1,5 @@
 //B"H
 
-const __awtsmoosLiveImport = (resolve, name) => {
-	const callable = function(...args) {
-		const value = resolve()[name];
-		if (new.target) return Reflect.construct(value, args, new.target);
-		return Reflect.apply(value, this, args);
-	};
-	return new Proxy(callable, {
-		apply(_target, thisArg, args) { return Reflect.apply(resolve()[name], thisArg, args); },
-		construct(_target, args, newTarget) { return Reflect.construct(resolve()[name], args, newTarget); },
-		get(_target, property) { const value = resolve()[name]; return value?.[property]; },
-		set(_target, property, value) { const current = resolve()[name]; current[property] = value; return true; },
-		has(_target, property) { const current = resolve()[name]; return property in current; },
-		ownKeys() { return Reflect.ownKeys(resolve()[name]); }
-	});
-};
-const __awtsmoosLiveNamespace = (resolve) => new Proxy(Object.create(null), {
-	get(_target, property) { return resolve()[property]; },
-	set(_target, property, value) { resolve()[property] = value; return true; },
-	has(_target, property) { return property in resolve(); },
-	ownKeys() { return Reflect.ownKeys(resolve()); },
-	getOwnPropertyDescriptor(_target, property) {
-		const descriptor = Object.getOwnPropertyDescriptor(resolve(), property);
-		return descriptor ? { ...descriptor, configurable: true } : undefined;
-	}
-});
-
 const __awtsmoosModule_1 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);

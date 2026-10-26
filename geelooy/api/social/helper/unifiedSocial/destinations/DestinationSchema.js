@@ -5,9 +5,8 @@
 /**
  * @module DestinationSchema
  * @description
- * A destination is one exact chamber: Heichel, series, placement intention, and
- * policy context. The Awtsmoos is indivisible, yet Awtsmoos.com names each gate
- * precisely so canonical light is never confused with a reflected placement.
+ * A destination is one exact chamber: Heichel, series, placement intention, and policy context.
+ * The Awtsmoos keeps optional time truly optional, so immediate light is never mistaken for a scheduled gate.
  */
 
 const PLACEMENT_KINDS = Object.freeze([
@@ -26,6 +25,13 @@ function clean(value, maximum = 240) {
 		.slice(0, maximum);
 }
 
+/** Normalize one optional scheduling value without turning absence into numeric zero. */
+function normalizeOptionalTime(value) {
+	if (value === null || value === undefined || value === '') return null;
+	const numeric = Number(value);
+	return Number.isFinite(numeric) ? numeric : null;
+}
+
 function normalizeDestination(value = {}, fallbackKind = 'canonical') {
 	const kind = PLACEMENT_KINDS.includes(value.kind) ? value.kind : fallbackKind;
 	return {
@@ -34,8 +40,8 @@ function normalizeDestination(value = {}, fallbackKind = 'canonical') {
 		kind,
 		note: clean(value.note, 1200),
 		excerpt: clean(value.excerpt, 1800),
-		startTime: Number.isFinite(Number(value.startTime)) ? Number(value.startTime) : null,
-		endTime: Number.isFinite(Number(value.endTime)) ? Number(value.endTime) : null
+		startTime: normalizeOptionalTime(value.startTime),
+		endTime: normalizeOptionalTime(value.endTime)
 	};
 }
 
@@ -80,8 +86,9 @@ function uniqueDestinations(values = []) {
 module.exports = {
 	PLACEMENT_KINDS,
 	clean,
-	normalizeDestination,
-	validateDestination,
 	destinationKey,
-	uniqueDestinations
+	normalizeDestination,
+	normalizeOptionalTime,
+	uniqueDestinations,
+	validateDestination
 };

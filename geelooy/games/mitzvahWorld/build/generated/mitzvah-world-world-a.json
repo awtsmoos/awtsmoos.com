@@ -1,0 +1,29 @@
+{
+	"determinismVerification": "repeat-canonical-build",
+	"deterministic": true,
+	"entry": "experiments/Awtsmoos/src/app/MinimalMeadowWorldBundle.js",
+	"moduleCount": 1,
+	"modules": [],
+	"name": "world-a",
+	"outputBytes": 4798250,
+	"outputHash": "cfe1cffe7d538951a91b3a51970db6f214c1b92af1b1cb8e5c06fded5f9d227b",
+	"preserveDynamicImports": true,
+	"representations": {
+		"brotli": {
+			"bytes": 794267,
+			"encoding": "br",
+			"sha256": "cad4d1056ac7b52639eeeebb439720d8326aa08b68bf67f78e2f23e11f5b05a1"
+		},
+		"gzip": {
+			"bytes": 1044479,
+			"encoding": "gzip",
+			"sha256": "700ccd2702bfe655e52e41364842fd497d18bcb151dd05567880b840fd812b5c"
+		},
+		"identity": {
+			"bytes": 4798250,
+			"encoding": "identity",
+			"sha256": "cfe1cffe7d538951a91b3a51970db6f214c1b92af1b1cb8e5c06fded5f9d227b"
+		}
+	},
+	"splitFrom": "world"
+}
