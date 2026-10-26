@@ -1,5 +1,5 @@
 B"H
-1.0.695
+1.0.696
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1996,6 +1996,7 @@ tools/fs.js
 tools/fs/actionBatch.js
 tools/fs/actionBatch/actionExecution.js
 tools/fs/actionBatch/actionInvocation.js
+tools/fs/actionBatch/boundedParallel.js
 tools/fs/actionBatch/conditions.js
 tools/fs/actionBatch/context.js
 tools/fs/actionBatch/controls.js
