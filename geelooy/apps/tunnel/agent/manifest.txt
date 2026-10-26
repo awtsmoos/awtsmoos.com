@@ -1,5 +1,5 @@
 B"H
-1.0.691
+1.0.692
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2299,6 +2299,9 @@ tools/fs/actionReplayPolicy.js
 tools/fs/actionReplayRecord.js
 tools/fs/actionReplayResponses.js
 tools/fs/actionReplayStore.js
+tools/fs/actionResultChildren.js
+tools/fs/actionResultIdentity.js
+tools/fs/actionResultProof.js
 tools/fs/actionResultView.js
 tools/fs/actionRuntime.js
 tools/fs/actions.js
