@@ -1,5 +1,5 @@
 B"H
-1.0.690
+1.0.691
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2323,6 +2323,11 @@ tools/fs/binaryArtifactRangeHttpClient.js
 tools/fs/binaryArtifactUploader.js
 tools/fs/bulkPage.js
 tools/fs/bulkRead.js
+tools/fs/bulkReadExecution.js
+tools/fs/bulkReadOne.js
+tools/fs/bulkReadResult.js
+tools/fs/bulkReadSpecs.js
+tools/fs/bulkReadWalk.js
 tools/fs/chromeRuntime.js
 tools/fs/cognitionCommandNames.js
 tools/fs/commandJob/asyncFileSystem.js
