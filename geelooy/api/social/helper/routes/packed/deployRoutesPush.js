@@ -1,26 +1,39 @@
 //B"H
-//Blessed is He
-//Boruch Hashem
+// Boruch Hashem
+// Blessed is He
 
 /**
- * PackedDeployRoutes signed file push endpoint (split from deployRoutes.js).
+ * @module PackedDeployPush
+ * @description
+ * Signed bytes cross one guarded bridge, their hashes true and their garments bright;
+ * the Awtsmoos renews each instant, and Awtsmoos.com must deploy readable light.
+ * Every accepted path stays bounded, every written file is verified, staged, and logged.
  */
 
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { execFileSync } = require('child_process');
-const { requireMethod, requestValue } = require('./requestValues.js');
-const { MAX_FILE_BYTES, appendDeployLog, repoRoot } = require('./deployRoutesConfig.js');
+const { requireMethod } = require('./requestValues.js');
+const {
+	MAX_FILE_BYTES,
+	MAX_FILES_PER_PUSH,
+	appendDeployLog,
+	repoRoot
+} = require('./deployRoutesConfig.js');
+const { writeDeployFile } = require('./deployFileMode.js');
+
+/** Returns an exact SHA-256 hex digest for deploy verification. */
+function sha256(buffer) {
+	return crypto.createHash('sha256').update(buffer).digest('hex');
+}
 
 module.exports = {
 	async push() {
-		const bad = requireMethod(this.$i, 'POST');
-		if (bad) return bad;
-		const auth = this.checkAuth();
-		if (auth) return auth;
-		// B"H 2026-10-13: no import lock — deploys write to the repo tree,
-		// imports write to the DB dir. Disjoint; never block each other.
+		const methodError = requireMethod(this.$i, 'POST');
+		if (methodError) return methodError;
+		const authError = this.checkAuth();
+		if (authError) return authError;
 
 		const body = this.$i?.body || {};
 		const files = body.files || this.$i?.$_POST?.files || [];
@@ -37,43 +50,37 @@ module.exports = {
 		const written = [];
 		const errors = [];
 
-		for (let n = 0; n < files.length; n++) {
-			const f = files[n] || {};
-			const v = this.validatePath(f.path, root);
-			if (!v.ok) {
-				errors.push({ path: f.path, error: v.error });
+		for (const file of files) {
+			const candidate = file || {};
+			const validated = this.validatePath(candidate.path, root);
+			if (!validated.ok) {
+				errors.push({ path: candidate.path, error: validated.error });
 				continue;
 			}
-			let buf;
+
+			const buffer = Buffer.from(String(candidate.content || ''), 'base64');
+			if (buffer.length > MAX_FILE_BYTES) {
+				errors.push({ path: candidate.path, error: `File exceeds ${MAX_FILE_BYTES} bytes.` });
+				continue;
+			}
+
 			try {
-				buf = Buffer.from(String(f.content || ''), 'base64');
-			} catch (e) {
-				errors.push({ path: f.path, error: 'Invalid base64 content.' });
-				continue;
-			}
-			if (buf.length > MAX_FILE_BYTES) {
-				errors.push({ path: f.path, error: `File exceeds ${MAX_FILE_BYTES} bytes.` });
-				continue;
-			}
-			try {
-				fs.mkdirSync(path.dirname(v.absPath), { recursive: true });
-				fs.writeFileSync(v.absPath, buf);
-				// B"H — Yaakov 2026-10-14: verify the written bytes match the expected SHA-256.
-				// If the client sent a sha256, read back the file and compare. Fail on mismatch.
-				// This ensures the deploy actually wrote the correct bytes.
-				if (f.sha256) {
-					const writtenBuf = fs.readFileSync(v.absPath);
-					const actualSha = crypto.createHash('sha256').update(writtenBuf).digest('hex');
-					if (actualSha !== f.sha256) {
-						// Delete the corrupted file and report error.
-						try { fs.unlinkSync(v.absPath); } catch {}
-						errors.push({ path: f.path, error: `SHA-256 mismatch after write. Expected ${f.sha256}, got ${actualSha}.` });
+				fs.mkdirSync(path.dirname(validated.absPath), { recursive: true });
+				writeDeployFile(validated.absPath, buffer);
+				if (candidate.sha256) {
+					const actualSha = sha256(fs.readFileSync(validated.absPath));
+					if (actualSha !== candidate.sha256) {
+						try { fs.unlinkSync(validated.absPath); } catch (_error) {}
+						errors.push({
+							path: candidate.path,
+							error: `SHA-256 mismatch after write. Expected ${candidate.sha256}, got ${actualSha}.`
+						});
 						continue;
 					}
 				}
-				written.push(v.normalized);
-			} catch (e) {
-				errors.push({ path: f.path, error: e.message });
+				written.push(validated.normalized);
+			} catch (error) {
+				errors.push({ path: candidate.path, error: error.message });
 			}
 		}
 
@@ -83,17 +90,14 @@ module.exports = {
 			written: written.length,
 			errorCount: errors.length,
 			paths: written,
-			errors: errors.map(e => ({ path: e.path, error: e.error })),
+			errors: errors.map(error => ({ path: error.path, error: error.error }))
 		});
 
-		// B"H: keep the git index truthful — the release bundle builder reads
-		// membership from the index, so deployed files must be staged. A signed
-		// deploy is the deliberate gathering; never fail the deploy on git.
 		if (written.length) {
 			try {
 				execFileSync('git', ['-C', root, 'add', '--', ...written], { timeout: 60000 });
-			} catch (e) {
-				try { console.error('B"H deploy git-add failed:', e.message); } catch {}
+			} catch (error) {
+				try { console.error('B"H deploy git-add failed:', error.message); } catch (_error) {}
 			}
 		}
 
@@ -105,7 +109,7 @@ module.exports = {
 			written: written.length,
 			paths: written,
 			errors,
-			message: `B"H deployed ${written.length} file(s).${errors.length ? ` ${errors.length} failed.` : ''}`,
+			message: `B"H deployed ${written.length} file(s).${errors.length ? ` ${errors.length} failed.` : ''}`
 		};
 	}
 };

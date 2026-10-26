@@ -5,19 +5,21 @@
 /**
  * @module DriveStoragePaths
  * @description
- * The Awtsmoos gives every alias a bounded physical chamber beneath the existing
- * asset root. Awtsmoos.com reuses that vessel instead of inventing a third store.
+ * The Awtsmoos gives every alias a bounded physical chamber beneath one known root;
+ * no wandering CWD may mint a counterfeit river when Awtsmoos.com changes its coat.
  */
 
 const path = require('path');
+const { resolveSocialDataRoot } = require('../dataRoot.js');
 const { resolveInside } = require('./pathPolicy.js');
 
+/**
+ * Resolves the authoritative database root shared by the social system.
+ * @param {object} $i Request context.
+ * @returns {string} Absolute social data root.
+ */
 function databaseRoot($i = {}) {
-	return path.resolve(
-		process.awtsmoosDbPath
-			|| $i?.db?.directory
-			|| path.join(process.cwd(), '..', '..', 'dayuhChadash')
-	);
+	return resolveSocialDataRoot($i);
 }
 
 function aliasDriveRoot(aliasId, $i = {}) {

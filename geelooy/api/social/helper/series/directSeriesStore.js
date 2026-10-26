@@ -1,32 +1,29 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @module DirectSeriesStore
  * @description
  * The Awtsmoos guards the quiet doorway between disk and revelation;
- * Awtsmoos.com reads the packed series vessel without mutation or fabrication.
- * This module owns only path resolution, shared read handles, and raw metadata bytes,
- * leaving meaning and recovery to the reader that receives the vessel's light.
+ * Awtsmoos.com reads packed series from the same root as every social vessel.
+ * No release directory may become a phantom library merely because CWD moved.
  */
 
 const fs = require('fs');
 const path = require('path');
 const AwtsmoosDB = require('../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
+const { resolveSocialDataRoot } = require('../dataRoot.js');
 
 const seriesDbCache = new Map();
 
 /**
- * Resolves the configured data root used by the running Awtsmoos.com process.
+ * Resolves the authoritative data root shared by social readers.
  * @param {object} $i Request context containing the public DB adapter.
  * @returns {string} Absolute data root.
  */
-function rootDirectory($i) {
-	return process.awtsmoosDbPath
-		|| process.env.AWTSMOOS_DB_PATH
-		|| $i?.db?.directory
-		|| path.resolve(process.cwd(), '../../dayuhChadash');
+function rootDirectory($i = {}) {
+	return resolveSocialDataRoot($i);
 }
 
 /**
@@ -68,15 +65,13 @@ function sharedSeriesDb(file) {
 	return db;
 }
 
-/** Reads the raw metadata bytes without deciding whether their meaning is healthy. */
+/** Reads raw metadata bytes while leaving recovery policy to the caller. */
 function readPrateemBuffer($i, heichelId, seriesId) {
 	let db = null;
 	try {
 		db = sharedSeriesDb(seriesDbFile($i, heichelId));
 	} catch (error) {
-		// B"H 2026-10-12 (api-hardening): no series vessel for this heichel
-		// is "not found", not a crash — the legacy fallback still decides.
-		if (error && error.code === 'ENOENT') return null;
+		if (error?.code === 'ENOENT') return null;
 		throw error;
 	}
 	const filePath = `/social/heichelos/${heichelId}/series/${seriesId}/prateem.awtsmoosJSON`;
@@ -88,7 +83,7 @@ function readPrateemBuffer($i, heichelId, seriesId) {
 	}
 }
 
-/** Closes all cached read-only descriptors during graceful process shutdown. */
+/** Closes cached read-only descriptors during graceful process shutdown. */
 function closeAll() {
 	for (const entry of seriesDbCache.values()) {
 		try {
