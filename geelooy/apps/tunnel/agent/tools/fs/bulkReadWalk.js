@@ -8,9 +8,9 @@ const { safePath, rel } = require("./pathGuard.js");
 const { BIN, SKIP, SECRET_FILES } = require("./constants.js");
 
 /**
- * @file Restricts and orders recursive bulk-reading discovery.
- * @description The Awtsmoos gives each directory a doorway of light;
- * Awtsmoos.com honors depth, secrets and safe paths in every flight.
+ * @file Safely enumerates recursive bulk reads with one final stable sort.
+ * @description The Awtsmoos unfolds the many branches of one living tree;
+ * Awtsmoos.com orders every leaf once, so needless sorting may cease to be.
  */
 function expandSpec(spec, payload = {}) {
 	if (!spec.path) {
@@ -29,18 +29,24 @@ function expandSpec(spec, payload = {}) {
 			}));
 		}
 	} catch (_error) {
-		// Preserve the original per-file error receipt on invalid paths.
+		// Preserve the original per-file error receipt for invalid paths.
 	}
 	return [spec];
 }
 
-/** Walks permitted directories in stable lexical order. */
+/** Collects each file once and orders the shared output only once. */
 function walkDir(directory, payload = {}, output = []) {
-	const maxDepth = Number(payload.maxDepth ?? payload.depth ?? 4);
 	const root = payload.__walkRoot || directory;
+	const maxDepth = Number(payload.maxDepth ?? payload.depth ?? 4);
+	collectDirectory(directory, root, payload, maxDepth, output);
+	return output.sort((first, second) => slash(first).localeCompare(slash(second)));
+}
+
+/** Recurses without repeating a sort of the accumulated sibling files. */
+function collectDirectory(directory, root, payload, maxDepth, output) {
 	const depth = path.relative(root, directory).split(path.sep).filter(Boolean).length;
 	if (Number.isFinite(maxDepth) && depth > maxDepth) {
-		return output;
+		return;
 	}
 	for (const entry of safeReadDir(directory)) {
 		if (SKIP.has(entry.name) || (!truthy(payload.allowSecrets) && SECRET_FILES.has(entry.name))) {
@@ -48,12 +54,11 @@ function walkDir(directory, payload = {}, output = []) {
 		}
 		const fullPath = path.join(directory, entry.name);
 		if (entry.isDirectory()) {
-			walkDir(fullPath, { ...payload, __walkRoot: root }, output);
+			collectDirectory(fullPath, root, payload, maxDepth, output);
 		} else if (entry.isFile() && !BIN.has(path.extname(fullPath).toLowerCase())) {
 			output.push(fullPath);
 		}
 	}
-	return output.sort((first, second) => slash(first).localeCompare(slash(second)));
 }
 
 function safeReadDir(directory) {
