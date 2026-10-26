@@ -69,8 +69,32 @@ recovery_lane_state_root() {
 	printf '%s/state/recovery-lanes\n' "$RECOVERY_ROOT"
 }
 
+# Healthy same-release installs can retain their already-running detached
+# recovery workers instead of trying unavailable launchd labels and restarting
+# four processes. Check EVERY PID against its exact executable path first.
+reuse_verified_portable_recovery_lanes() {
+	[ "${AWTSMOOS_REUSE_VERIFIED_RECOVERY_LANES:-0}" = "1" ] || return 1
+	local pair="" lane="" relative="" pid=""
+	while IFS= read -r pair; do
+		[ -n "$pair" ] || continue
+		lane="${pair%%:*}"
+		relative="${pair#*:}"
+		pid="$(cat "$(portable_recovery_lane_pid_file "$lane")" 2>/dev/null || true)"
+		portable_recovery_lane_process_matches "$pid" "$ROOT/$relative" || return 1
+	done <<EOF_REUSE
+$(recovery_lane_pairs)
+EOF_REUSE
+	return 0
+}
+
 install_recovery_lane_services() {
 	mkdir -p "$(recovery_lane_state_root)" "$RECOVERY_ROOT/logs"
+	if reuse_verified_portable_recovery_lanes; then
+		if declare -F prg_ok >/dev/null 2>&1; then
+			prg_ok "Four verified recovery workers reused without restart."
+		fi
+		return 0
+	fi
 	if launchd_available; then
 		if install_launchd_recovery_lanes; then
 			stop_portable_recovery_lanes

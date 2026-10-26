@@ -34,11 +34,11 @@ test('verified installation leaves a durable status command after temporary runt
   const command=path.join(recovery,'bin','awtsmoos-installer-control.cjs');
   assert.ok(fs.existsSync(command),'persistent control file survives runtime deletion');
   assert.equal(fs.existsSync(runtime),false,'temporary runtime removed on success');
-  const status=spawnSync(process.execPath,[command,'status',recovery],{encoding:'utf8',timeout:3000});
+  const status=spawnSync(process.execPath,[command,'status'],{encoding:'utf8',timeout:3000});
   assert.equal(status.status,0,status.stderr);
   assert.match(status.stdout,/State:\s+completed/);
   assert.match(status.stdout,/Running:\s+no/);
-  const cancel=spawnSync(process.execPath,[command,'cancel',recovery],{encoding:'utf8',timeout:3000});
+  const cancel=spawnSync(process.execPath,[command,'cancel'],{encoding:'utf8',timeout:3000});
   assert.equal(cancel.status,0,cancel.stderr);
   assert.match(cancel.stdout,/No matching active installer/);
  } finally {fs.rmSync(root,{recursive:true,force:true});}
@@ -67,10 +67,10 @@ test('cancel interrupts a slow installer subprocess without waiting for its slee
    }
   }
   assert.ok(ready,'fixture installer starts');
-  const state=spawnSync(process.execPath,[control,'status',recovery],{encoding:'utf8',timeout:3000});
+  const state=spawnSync(process.execPath,[control,'status'],{encoding:'utf8',timeout:3000});
   assert.match(state.stdout,/Running:\s+yes/);
   assert.match(state.stdout,/Installer processes \(PID \/ parent \/ executable\)/);
-  const cancel=spawnSync(process.execPath,[control,'cancel',recovery],{encoding:'utf8',timeout:3000});
+  const cancel=spawnSync(process.execPath,[control,'cancel'],{encoding:'utf8',timeout:3000});
   assert.equal(cancel.status,0,cancel.stderr);
   assert.match(cancel.stdout,/Cancellation requested/);
   const code=await Promise.race([

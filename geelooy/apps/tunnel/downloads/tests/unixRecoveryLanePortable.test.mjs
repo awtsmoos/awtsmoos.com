@@ -38,6 +38,10 @@ try {
 	// workers instead of killing and recreating four independent recovery doors.
 	run("AWTSMOOS_REUSE_VERIFIED_RECOVERY_LANES=1 install_portable_recovery_lanes");
 	assert.deepEqual(snapshot(), finalPids, "healthy recovery workers were unnecessarily restarted");
+	// The higher-level installer route must also reuse them without entering
+	// a fruitless macOS launchd restart attempt.
+	run("AWTSMOOS_REUSE_VERIFIED_RECOVERY_LANES=1 install_recovery_lane_services");
+	assert.deepEqual(snapshot(), finalPids, "verified installer path unnecessarily restarted recovery workers");
 	console.log(JSON.stringify({ ok: true, suite: "unix-recovery-lane-portable", tempRuntimeDeleted: true, lanes: lanes.length }));
 } finally {
 	try { run("stop_portable_recovery_lanes"); } catch {}

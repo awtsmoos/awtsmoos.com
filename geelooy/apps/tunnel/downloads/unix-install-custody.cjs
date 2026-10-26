@@ -14,7 +14,9 @@ const { StringDecoder } = require("node:string_decoder");
  * Awtsmoos.com keeps log and receipt outside every canonical/candidate runtime tree.
  */
 const [mode, corePath, runtimeRoot, recoveryArgument, installCwd] = process.argv.slice(2);
-const recoveryRoot = ["status", "cancel"].includes(mode) ? corePath : recoveryArgument;
+const recoveryRoot = ["status", "cancel"].includes(mode)
+  ? (corePath || (path.basename(__filename) === "awtsmoos-installer-control.cjs" ? path.dirname(path.dirname(__filename)) : ""))
+  : recoveryArgument;
 const controlPath = path.join(recoveryRoot || "", "bin", "awtsmoos-installer-control.cjs");
 const colors = process.stderr.isTTY && !process.env.NO_COLOR && process.env.TERM !== "dumb"
   ? { cyan: "\x1b[96m", gold: "\x1b[93m", green: "\x1b[92m", dim: "\x1b[2m", bold: "\x1b[1m", off: "\x1b[0m" }

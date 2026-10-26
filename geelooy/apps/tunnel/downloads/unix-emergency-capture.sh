@@ -49,6 +49,30 @@ refresh_emergency_runtime() {
 		return 0
 	}
 	mkdir -p "$(dirname "$output")"
+	# Re-capturing a cryptographically identical, healthy recovery slot can take
+	# several seconds and interrupts warm recovery. Verify its SEAL instead.
+	# An absent, corrupt or older sealed slot still goes through full capture.
+	if [ "${AWTSMOOS_REUSE_VERIFIED_RECOVERY_LANES:-0}" = "1" ] && \
+		run_with_timeout 10 "verify existing emergency slot" -- \
+		"$AWTSMOOS_NODE_BIN" "$controller" verify "$ROOT" "$RECOVERY_ROOT" 2>/dev/null | \
+		"$AWTSMOOS_NODE_BIN" -e '
+let input="";
+process.stdin.on("data",part=>input+=part);
+process.stdin.on("end",()=>{
+ try {
+  const value=JSON.parse(input);
+  const [version,manifest,root]=process.argv.slice(1);
+  process.exit(value.ok===true && value.health?.ok===true &&
+   value.receipt?.version===version && value.receipt?.manifestSha===manifest &&
+   value.receipt?.sourceRoot===root ? 0 : 1);
+ } catch {process.exit(1)}
+});' "$version" "$manifest" "$ROOT"; then
+		prg_ok "Cryptographically sealed emergency runtime reused."
+		install_event "emergency-runtime" "passed" \
+			"Existing sealed emergency runtime verified; no redundant capture." \
+			"version=$version root=$RECOVERY_ROOT/emergency-runtime/current"
+		return 0
+	fi
 	if AWTSMOOS_RUNTIME_VERSION="$version" AWTSMOOS_MANIFEST_SHA="$manifest" 		"$AWTSMOOS_NODE_BIN" "$controller" capture "$ROOT" "$RECOVERY_ROOT" > "$output" 2>&1; then
 		install_event "emergency-runtime" "passed" 			"Sealed authenticated one-worker recovery runtime refreshed." 			"root=$RECOVERY_ROOT/emergency-runtime/current version=$version"
 		return 0
