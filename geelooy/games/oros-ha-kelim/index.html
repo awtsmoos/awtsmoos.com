@@ -1,94 +1,70 @@
 <!-- B"H -->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The Awtsmoos renews rider, territory, touch, and advanced depth before one finite panel enters sight; Awtsmoos.com lets Oros stay isolated and futuristic while the shared player shell gives every game one public return-light. -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="theme-color" content="#02060b">
-	<title>Oros HaKelim · Awtsmoos.com</title>
-	<link rel="stylesheet" href="./styles/index.css?v=312dfef3d9">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+	<meta name="theme-color" content="#070912">
+	<title>Oros HaKelim</title>
+	<link rel="stylesheet" href="./styles/index.css?v=764ca3ce68">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
 	<link rel="stylesheet" href="/games/css/awtsmoos-webgl-check.css?v=b21e0bf110">
 	<link rel="stylesheet" href="/games/css/awtsmoos-loading.css?v=ed43c300af">
 	<link rel="stylesheet" href="/games/css/awtsmoos-game-base.css?v=128b430115">
+	<link rel="stylesheet" href="./styles/visibility.css?v=game-visibility-002">
 </head>
-<body class="oros-host">
+<body>
 	<script src="/games/shared/awt-loading-screen.js?v=c26d57a33e"
-		data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-oros-hakelim.webp?v=0fab131d10"
+		data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-oros-ha-kelim.webp?v=2617784646"
 		data-title="Oros HaKelim"
 		data-kicker="B&quot;H · Awtsmoos Games"
-		data-tips="Ride the light-trail — never cross your own path.|A/D or arrows turn. Boost spends Ohr.|Claim territory to seal the circuit."
-		data-accent="#ffd700"></script>
-	<div id="oros-app" class="oros-app" data-ui-version="4">
-		<div id="game-canvas" role="img" aria-label="Oros HaKelim massive three-Olam native procedural arena"></div>
-		<header id="hud-core" aria-live="polite">
-			<div class="hud-world"><span class="eyebrow">OROS HAKELIM</span><strong id="hud-plane">Asiyah · Keli</strong></div>
-			<div class="hud-time" id="hud-time">6:00</div>
-		</header>
-		<section id="hud-meters" aria-label="Round status">
-			<div class="hud-meter"><span>Tikkun <b id="hud-territory">0%</b></span><i><em id="hud-territory-fill"></em></i></div>
-			<div class="hud-meter ohr"><span>Ohr <b id="hud-energy">100%</b></span><i><em id="hud-energy-fill"></em></i></div>
+		data-tips="Let the light move through you.|WASD or arrows move. Space releases an or.|Collect sparks before the vessel overfills."
+		data-accent="#8fd8ff"></script>
+	<main class="oros-app">
+		<canvas id="game-canvas" aria-label="Oros HaKelim game world"></canvas>
+		<section class="hud" aria-label="Round status">
+			<div class="hud__metric"><span>Sparks</span><strong id="spark-count">0 / 12</strong></div>
+			<div class="hud__metric"><span>Vessel</span><strong id="vessel-count">0 / 8</strong></div>
+			<div class="hud__metric"><span>Round</span><strong id="round-count">1</strong></div>
+			<button id="pause-button" type="button" aria-label="Pause game">Pause</button>
 		</section>
-		<p id="hud-toast" data-visible="false" aria-live="polite"></p>
-		<p id="hud-guide" data-visible="false" aria-live="polite"></p>
-		<button id="advanced-toggle" type="button" aria-controls="advanced-panel" aria-expanded="false" aria-label="Open advanced controls">◇</button>
-		<aside id="advanced-panel" data-open="false" aria-hidden="true" aria-label="Advanced controls and diagnostics">
-			<header>
-				<div><span class="eyebrow">ADVANCED</span><strong>Deeper vessels</strong></div>
-				<button id="advanced-close" type="button" aria-label="Close advanced controls">×</button>
-			</header>
-			<section class="panel-section"><h2>Riders</h2><div id="hud-leaderboard" aria-label="Territory leaderboard"></div></section>
-			<section class="panel-section settings-grid">
-				<h2>Experience</h2>
-				<label>Visual quality<select id="setting-quality"><option value="auto">Auto</option><option value="low">Low</option><option value="high">High</option></select></label>
-				<label>Touch side<select id="setting-handedness"><option value="right">Right</option><option value="left">Left</option></select></label>
-				<label class="switch-row"><span>Audio cues</span><input id="setting-audio" type="checkbox" checked></label>
-				<label class="switch-row"><span>Haptics</span><input id="setting-haptics" type="checkbox" checked></label>
-			</section>
-			<section class="panel-section diagnostics">
-				<h2>Diagnostics</h2>
-				<p id="diag-render">Native renderer</p>
-				<p id="diag-input">Input ready</p>
-				<p id="diag-replay">Replay ready</p>
-			</section>
-		</aside>
-		<p id="boot-error" class="boot-error" hidden></p>
-		<section id="start-overlay" class="overlay">
-			<div class="glass-card intro-card">
-				<p class="eyebrow">NATIVE AWTSMOOS LIGHT-RIDER</p>
+		<section id="intro-overlay" class="overlay overlay--intro">
+			<div class="overlay__card">
+				<p class="eyebrow">B"H · Let light enter a vessel</p>
 				<h1>Oros HaKelim</h1>
-				<p class="intro-copy">Three half-kilometer Olamot. Ten rival Sefiros ride the same deterministic law you do.</p>
-				<div class="intro-stats"><span>151×151 cells</span><span>3 Olamot</span><span>10 rivals</span><span>6 minute Tikkun</span></div>
-				<div class="mission-steps">
-					<div class="mission-step"><b>1 · Cut the line</b><span>Leave settled Kelim. Exposed Ohr becomes both your weapon and your danger.</span></div>
-					<div class="mission-step"><b>2 · Close the circuit</b><span>Return safely to settled territory. The enclosed region becomes your Kelim.</span></div>
-					<div class="mission-step"><b>3 · Climb Yesod</b><span>Follow gate beacons between Olamot. Every world changes how Ohr is spent and restored.</span></div>
-				</div>
-				<button id="start-button" class="primary-button">Enter Asiyah</button>
-				<details class="ride-details">
-					<summary>Controls + Olam energy laws</summary>
-					<div class="instruction-columns">
-						<div><h3>Ride</h3><p><b>Desktop:</b> A/D or ←/→ turn. W, ↑, Shift or Space spends Ohr to boost.</p><p><b>Touch:</b> left/right thumb buttons steer; hold OHR to boost.</p><p>Turns commit on the deterministic grid while camera and Keli interpolate smoothly.</p></div>
-						<div><h3>Three Olamot</h3><p><b>Asiyah · Keli:</b> shelter restores Ohr fastest.</p><p><b>Yetzirah · Ruach:</b> exposed movement restores more Ohr.</p><p><b>Beriah · Mochin:</b> decisive boosts cost less Ohr.</p></div>
-					</div>
-				</details>
+				<p>Gather sparks, release light, and keep the vessel from overflowing.</p>
+				<button id="start-button" type="button">Enter Asiyah</button>
 			</div>
 		</section>
-		<section id="end-overlay" class="overlay hidden">
-			<div class="glass-card compact-card"><p class="eyebrow">ROUND COMPLETE</p><h2 id="end-title">The Tikkun is measured</h2><button class="primary-button restart-button">Ride Again</button></div>
+		<section id="pause-overlay" class="overlay hidden" aria-hidden="true">
+			<div class="overlay__card">
+				<p class="eyebrow">The vessel is still</p>
+				<h2>Paused</h2>
+				<button id="resume-button" type="button">Resume</button>
+			</div>
 		</section>
-		<nav id="touch-controls" aria-label="Mobile rider controls">
-			<div class="touch-steer"><button id="touch-left" class="touch-button" aria-label="Turn left">↶</button><button id="touch-right" class="touch-button" aria-label="Turn right">↷</button></div>
-			<button id="touch-boost" class="touch-button boost-button" aria-label="Spend Ohr to boost"><span>OHR</span></button>
-		</nav>
-	</div>
-	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+		<section id="end-overlay" class="overlay hidden" aria-hidden="true">
+			<div class="overlay__card">
+				<p class="eyebrow">The vessel received its measure</p>
+				<h2>Round Complete</h2>
+				<p id="end-summary"></p>
+				<button id="next-round-button" type="button">Next Round</button>
+			</div>
+		</section>
+		<section id="mobile-controls" class="mobile-controls" aria-label="Touch controls">
+			<div class="mobile-controls__movement">
+				<button type="button" data-key="ArrowLeft" aria-label="Move left">←</button>
+				<button type="button" data-key="ArrowUp" aria-label="Move up">↑</button>
+				<button type="button" data-key="ArrowDown" aria-label="Move down">↓</button>
+				<button type="button" data-key="ArrowRight" aria-label="Move right">→</button>
+			</div>
+			<button class="mobile-controls__action" type="button" data-key="Space">Or</button>
+		</section>
+	</main>
 	<script src="/games/js/awtsmoos-webgl-check.js?v=6498bdf075"></script>
-		<script src="/games/js/awtsmoos-loading.js?v=181e43c368"></script>
-<script type="module" src="./src/main.js?v=6081863092"></script>
+	<script type="module" src="./src/main.js?v=9d99542b14"></script>
 	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>

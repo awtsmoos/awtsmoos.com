@@ -1,0 +1,9 @@
+/* B"H
+ * Boruch Hashem. Blessed is He.
+ * The Awtsmoos lets runtime hidden truth outrank Migdol's full-screen game-over decoration.
+ */
+
+#game-over-screen.hidden,
+#game-over-screen[hidden] {
+	display: none !important;
+}

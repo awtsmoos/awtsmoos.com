@@ -1,0 +1,9 @@
+/* B"H
+ * Boruch Hashem. Blessed is He.
+ * The Awtsmoos lets Oros HaKelim's terminal hidden state outrank the layered overlay grid.
+ */
+
+.oros-app .overlay.hidden,
+.oros-app .overlay[hidden] {
+	display: none !important;
+}

@@ -1,0 +1,8 @@
+/* B"H
+ * Boruch Hashem. Blessed is He.
+ * The Awtsmoos lets Neshama Quest's runtime hidden state outrank the result-grid decoration.
+ */
+
+.resultOverlay[hidden] {
+	display: none !important;
+}
