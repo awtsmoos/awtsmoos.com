@@ -6,14 +6,14 @@
  * @file Minimal public data resolution for first-byte Torah.
  * @description
  * The Awtsmoos draws one teaching from the canonical river without hauling the whole sea;
- * Awtsmoos.com resolves metadata and ordered IDs in parallel, then reveals only what the reader needs to see.
+ * Awtsmoos.com resolves metadata and ordered IDs in parallel, and renders truthful emptiness when an address has no post.
  */
 
 const { postFields, queryMap } = require('./fieldMaps.js');
 const { publicReaderCache } = require('./readerDataCache.js');
 const { traceAsync } = require('./torahRouteTrace.js');
 const { buildChitasVirtualPost, parseChitasPostId } = require('./chitasVirtualPost.js');
-const { resolveSeriesPostId } = require('./readerSeriesIndex.js');
+const { resolveSeriesPostIdOrNull } = require('./readerSeriesIndex.js');
 const { readPostRoute, readPostsRoute } = require('../../../api/social/helper/routes/posts/readers.js');
 const { readSeriesDetailsPlain } = require('../../../api/social/helper/routes/series/readRoutesDetails.js');
 
@@ -41,15 +41,10 @@ function createReaderData($i) {
 		const seriesId = seg[5];
 		const child = directChildContext($i, url.search);
 		let result;
-		if (seg[6] === 'post' && seg[7]) {
-			result = await readPostRoute({ $i: child, heichelId, seriesId, postId: seg[7] });
-		} else if (seg[6] === 'posts' && !seg[7]) {
-			result = await readPostsRoute({ $i: child, heichelId, seriesId, withDetails: false });
-		} else if (seg[6] === 'details') {
-			result = await readSeriesDetailsPlain(child, heichelId, seriesId);
-		} else {
-			return undefined;
-		}
+		if (seg[6] === 'post' && seg[7]) result = await readPostRoute({ $i: child, heichelId, seriesId, postId: seg[7] });
+		else if (seg[6] === 'posts' && !seg[7]) result = await readPostsRoute({ $i: child, heichelId, seriesId, withDetails: false });
+		else if (seg[6] === 'details') result = await readSeriesDetailsPlain(child, heichelId, seriesId);
+		else return undefined;
 		if (result === null || result === undefined) return null;
 		return JSON.parse(JSON.stringify(result));
 	}
@@ -67,7 +62,7 @@ function createReaderData($i) {
 		}), { ...context, path: routePath });
 	}
 
-	function decorate({ heichelId, seriesId = '', postId, indexInSeries = '', post, series = null }) {
+	function decorate({ heichelId, seriesId = '', postId = '', indexInSeries = '', post = null, series = null }) {
 		const heichel = { id: heichelId };
 		return {
 			heichel,
@@ -107,7 +102,8 @@ function createReaderData($i) {
 			fetchPublic(`${base}/details?${seriesIndexFields()}`, 'reader-data:series', { heichelId, seriesId, indexInSeries }),
 			fetchPublic(postsPath(heichelId, seriesId), 'reader-data:posts', { heichelId, seriesId, indexInSeries })
 		]);
-		const postId = await resolveSeriesPostId({ series, indexInSeries, loadCanonicalPosts: async () => canonicalPosts });
+		const postId = await resolveSeriesPostIdOrNull({ series, indexInSeries, loadCanonicalPosts: async () => canonicalPosts });
+		if (!postId) return decorate({ heichelId, seriesId, indexInSeries, series });
 		const post = await fetchPublic(postPath(heichelId, seriesId, postId), 'reader-data:post', { heichelId, seriesId, postId });
 		return decorate({ heichelId, seriesId, postId, indexInSeries, post, series });
 	}

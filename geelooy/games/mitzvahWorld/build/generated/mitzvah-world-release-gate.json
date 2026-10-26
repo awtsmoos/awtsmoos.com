@@ -3,23 +3,23 @@
 	"failureCode": "RELEASE_STAGE_FAILED",
 	"stageFailure": {
 		"detail": "exit 1",
-		"elapsedMilliseconds": 1792,
+		"elapsedMilliseconds": 2455,
 		"exitCode": 1,
 		"label": "release-unit-gates",
 		"status": "fail"
 	},
 	"stages": [
 		{
-			"elapsedMilliseconds": 735,
+			"elapsedMilliseconds": 914,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 124540,
+			"elapsedMilliseconds": 113304,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-10-26T20:49:57.953Z"
+	"generatedAt": "2026-10-26T21:09:15.477Z"
 }

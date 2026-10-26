@@ -5,8 +5,8 @@
 /**
  * @file readerSeriesIndex.test.cjs
  * @description
- * The Awtsmoos preserves one teaching order through legacy maps and canonical lists;
- * Awtsmoos.com proves every index before the public reader asks a single body to rise.
+ * The Awtsmoos preserves strict series resolution while granting the reader one truthful null for expected absence.
+ * Awtsmoos.com therefore distinguishes an empty address from a malformed request without hiding either truth.
  */
 
 'use strict';
@@ -14,7 +14,8 @@
 const assert = require('node:assert/strict');
 const {
 	orderedEntries,
-	resolveSeriesPostId
+	resolveSeriesPostId,
+	resolveSeriesPostIdOrNull
 } = require('./readerSeriesIndex.js');
 
 async function run() {
@@ -30,7 +31,7 @@ async function run() {
 	assert.equal(embedded, 'second');
 	assert.equal(fallbackCalls, 0);
 
-	const canonical = await resolveSeriesPostId({
+	const canonical = await resolveSeriesPostIdOrNull({
 		series: { posts: {} },
 		indexInSeries: 2,
 		loadCanonicalPosts: async () => ['alpha', 'beta', 'gamma']
@@ -46,14 +47,20 @@ async function run() {
 		['BH_POST_1000000000000_early', 'BH_POST_2000000000000_late']
 	);
 
-	await assert.rejects(
-		resolveSeriesPostId({ series: { posts: {} }, indexInSeries: 0, loadCanonicalPosts: async () => [] }),
-		error => error?.code === 'READER_SERIES_HAS_NO_POSTS'
-	);
-	await assert.rejects(
-		resolveSeriesPostId({ series: {}, indexInSeries: 9, loadCanonicalPosts: async () => ['only'] }),
-		error => error?.code === 'READER_SERIES_INDEX_MISSING'
-	);
+	const emptyInput = { series: { posts: {} }, indexInSeries: 0, loadCanonicalPosts: async () => [] };
+	await assert.rejects(resolveSeriesPostId(emptyInput), error => error?.code === 'READER_SERIES_HAS_NO_POSTS');
+	assert.equal(await resolveSeriesPostIdOrNull(emptyInput), null);
+
+	const missingInput = { series: {}, indexInSeries: 9, loadCanonicalPosts: async () => ['only'] };
+	await assert.rejects(resolveSeriesPostId(missingInput), error => error?.code === 'READER_SERIES_INDEX_MISSING');
+	assert.equal(await resolveSeriesPostIdOrNull(missingInput), null);
+
+	for (const invalid of [-1, 'not-a-number']) {
+		await assert.rejects(
+			resolveSeriesPostIdOrNull({ series: {}, indexInSeries: invalid, loadCanonicalPosts: async () => [] }),
+			error => error?.code === 'READER_SERIES_INDEX_INVALID'
+		);
+	}
 	console.log('readerSeriesIndex.test passed');
 }
 

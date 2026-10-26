@@ -5,9 +5,14 @@
 /**
  * @module ReaderSeriesIndex
  * @description
- * The Awtsmoos preserves the teaching order even when one projection arrives empty;
- * Awtsmoos.com first honors embedded series posts, then asks the canonical light list gently.
+ * The Awtsmoos preserves teaching order and distinguishes an empty address from a broken request;
+ * Awtsmoos.com may render a truthful empty reader while malformed indices still speak loudly.
  */
+
+const EXPECTED_ABSENCE_CODES = new Set([
+	'READER_SERIES_HAS_NO_POSTS',
+	'READER_SERIES_INDEX_MISSING'
+]);
 
 /** Returns the creation sequence embedded in legacy post IDs when present. */
 function sequenceMillis(entry, fallbackKey = '') {
@@ -40,11 +45,7 @@ function entryPostId(entry) {
 	return entry?.id || entry?.postId || null;
 }
 
-/**
- * Resolves a numeric series index, falling back to the canonical lightweight post list.
- * @param {object} input Resolution inputs.
- * @returns {Promise<string>} Canonical post ID.
- */
+/** Strictly resolves one numeric series index into a canonical post ID. */
 async function resolveSeriesPostId({ series, indexInSeries, loadCanonicalPosts }) {
 	const numericIndex = Number.parseInt(String(indexInSeries), 10);
 	if (!Number.isInteger(numericIndex) || numericIndex < 0) {
@@ -68,9 +69,21 @@ async function resolveSeriesPostId({ series, indexInSeries, loadCanonicalPosts }
 	return postId;
 }
 
+/** Returns null only for expected empty/out-of-range addresses; all real failures still throw. */
+async function resolveSeriesPostIdOrNull(input) {
+	try {
+		return await resolveSeriesPostId(input);
+	} catch (error) {
+		if (EXPECTED_ABSENCE_CODES.has(error?.code)) return null;
+		throw error;
+	}
+}
+
 module.exports = {
+	EXPECTED_ABSENCE_CODES,
 	entryPostId,
 	orderedEntries,
 	resolveSeriesPostId,
+	resolveSeriesPostIdOrNull,
 	sequenceMillis
 };
