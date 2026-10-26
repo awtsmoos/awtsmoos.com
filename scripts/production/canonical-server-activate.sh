@@ -67,6 +67,7 @@ done
 [ -d "$repo/users" ] || fail canonical_users_missing
 [ -d "$repo/geelooy/.data" ] || fail canonical_data_missing
 
+AWTSMOOS_RELEASE_SOURCE_SHA="$expected" \
 AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR="${AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR:-/var/cache/awtsmoos-tunnel-bundle}" \
   node "$tunnel_preflight" "$repo" >/dev/null || fail tunnel_bundle_preflight_failed
 node "$extension_builder"

@@ -20,6 +20,7 @@ const preflightIndex = activation.indexOf('node "$tunnel_preflight" "$repo"');
 const armedIndex = activation.indexOf("\narmed=1\n");
 const deployRestartIndex = activation.indexOf('systemctl restart "$service"', armedIndex);
 assert.ok(preflightIndex > 0, "canonical activation must invoke bundle preflight");
+assert.match(activation, /AWTSMOOS_RELEASE_SOURCE_SHA="\$expected"/, "preflight must stamp canonical deployed source identity");
 assert.ok(armedIndex > preflightIndex, "rollback must arm only after bundle proof");
 assert.ok(deployRestartIndex > armedIndex, "deployment restart must follow armed mutation section");
 assert.ok(preflightIndex < deployRestartIndex, "bundle proof must precede deployment restart");

@@ -43,13 +43,13 @@ if [ "$head_sha" = "$remote_sha" ]; then
 	if bash "$release_match" "$remote_sha" "$service"; then
 		# Repair missing release artifacts without restarting a healthy live server.
 		bundle_cache="${AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR:-/var/cache/awtsmoos-tunnel-bundle}"
-		if ! AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR="$bundle_cache" node -e '
+		if ! AWTSMOOS_RELEASE_SOURCE_SHA="$remote_sha" AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR="$bundle_cache" node -e '
 			const path = require("node:path");
 			const root = process.argv[1];
 			const bundle = require(path.join(root, "geelooy/api/tunnel/install/tools/zipBundle.js"));
 			process.exit(bundle.readVerifiedCache() ? 0 : 1);
 		' "$repo"; then
-			AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR="$bundle_cache" \
+			AWTSMOOS_RELEASE_SOURCE_SHA="$remote_sha" AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR="$bundle_cache" \
 				node "$repo/scripts/production/tunnel-bundle-preflight.cjs" "$repo" >/dev/null \
 				|| fail tunnel_bundle_preflight_failed
 		fi

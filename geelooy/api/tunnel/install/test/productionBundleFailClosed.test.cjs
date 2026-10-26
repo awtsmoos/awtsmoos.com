@@ -14,7 +14,7 @@ const modulePath = require.resolve("../tools/zipBundle.js");
 const sha = bytes => crypto.createHash("sha256").update(bytes).digest("hex");
 
 /** Exercise the actual public helper inside an independent production process. */
-function runProduction(directory) {
+function runProduction(directory, releaseSourceSha = undefined) {
 	return spawnSync(process.execPath, ["-e", [
 		"const Bundle = require(" + JSON.stringify(modulePath) + ");",
 		"try { const result = Bundle.buildAgentBundle();",
@@ -26,7 +26,8 @@ function runProduction(directory) {
 		env: {
 			...process.env,
 			NODE_ENV: "production",
-			AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR: directory
+			AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR: directory,
+			...(releaseSourceSha ? { AWTSMOOS_RELEASE_SOURCE_SHA: releaseSourceSha } : {})
 		},
 		encoding: "utf8",
 		timeout: 3000
@@ -74,4 +75,20 @@ test("production reads verified cached bytes without a synchronous rebuild", () 
 	} finally {
 		fs.rmSync(directory, { recursive: true, force: true });
 	}
+});
+
+
+test("published source identity rejects a stale but hash-valid cache", () => {
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),"awts-cache-source-"));
+ try {
+  const SourcePaths=require("../../../../apps/tunnel/agent/release/sourcePaths.js");
+  const bytes=Buffer.from("PK\x03\x04source-guard-test");
+  Bundle.writeVerifiedCache({buffer:bytes,bytes:bytes.length,sha256:sha(bytes),manifestSha256:sha(fs.readFileSync(path.join(SourcePaths.resolveRoots().agentRoot,"manifest.txt"))),releaseSourceSha:"a".repeat(40),version:"1.0.690",files:3088},dir);
+  const stale=runProduction(dir,"b".repeat(40));
+  assert.equal(stale.status,0,stale.stderr);
+  assert.equal(JSON.parse(stale.stdout.trim()).code,"tunnel_prebuilt_bundle_missing_or_invalid");
+  const matching=runProduction(dir,"a".repeat(40));
+  assert.equal(matching.status,0,matching.stderr);
+  assert.equal(JSON.parse(matching.stdout.trim()).ok,true);
+ }finally{fs.rmSync(dir,{recursive:true,force:true})}
 });

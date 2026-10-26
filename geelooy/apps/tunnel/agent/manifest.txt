@@ -1,5 +1,5 @@
 B"H
-1.0.689
+1.0.690
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -592,15 +592,19 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/constants.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/allocationLeases.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/bitmap.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/chesed.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/complementTrust.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/cursorState.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/defaultReuseOptions.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/degradedAdoption.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeListPersistence.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeListVersion.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeRangeCoalescing.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeRangeSelection.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeRangeValidation.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/freeSpaceOps.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/index.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/modes.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/pendingFreeList.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/reachableComplement.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/retiredRangeUnion.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/allocator/retirementQueue.js
@@ -713,6 +717,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/vacuum/vectorRebuilder.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/vacuum/virtualFsManifest.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/verifier/anchorDictionaryVisitors.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/verifier/customPointerVisitor.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/verifier/exclusions.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/verifier/index.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/verifier/mapVisitor.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/verifier/rangeLedger.js

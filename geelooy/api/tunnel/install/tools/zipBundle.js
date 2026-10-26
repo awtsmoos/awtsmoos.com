@@ -79,6 +79,9 @@ function readVerifiedCache(directory = cacheDir()) {
 			return null;
 		}
 		if (!HEX40.test(String(meta.releaseSourceSha || ""))) return null;
+		// A verified ZIP from a previous canonical commit is not this release.
+		const expectedSource = String(process.env.AWTSMOOS_RELEASE_SOURCE_SHA || "").trim().toLowerCase();
+		if (expectedSource && (!HEX40.test(expectedSource) || meta.releaseSourceSha !== expectedSource)) return null;
 		const buffer = fs.readFileSync(path.join(directory, "agent.zip"));
 		if (buffer.length !== meta.bytes || sha(buffer) !== meta.sha256) return null;
 		if (!Number.isInteger(meta.files) || meta.files < 1000) return null;
