@@ -4,7 +4,7 @@
 # Blessed is He
 
 # B"H — Yaakov 2026-10-14: Beautiful stack trace on probe errors.
-if ! trap -p ERR 2>/dev/null | grep -q "STACK TRACE"; then
+if [ "${AWTSMOOS_INSTALL_DEBUG:-0}" = "1" ] && ! trap -p ERR 2>/dev/null | grep -q "STACK TRACE"; then
   trap '{
     trap - ERR  # Prevent infinite recursion
     echo "" >&2

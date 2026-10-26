@@ -28,21 +28,25 @@ load_release_metadata() {
 	# resources. Fetch them concurrently; hash and compare both before trusting
 	# either. Wait for both children even when one fails, leaving no curl orphan.
 	local descriptor_pid manifest_pid descriptor_status=0 manifest_status=0
-	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 120 --speed-time 30 --speed-limit 1024 \
+	curl -fsSL --retry 1 --retry-delay 1 --connect-timeout 4 --max-time 18 --speed-time 10 --speed-limit 1024 \
 		"$origin/api/tunnel/install/bundle-manifest" -o "$RELEASE_DESCRIPTOR_PATH" &
 	descriptor_pid=$!
-	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 120 --speed-time 30 --speed-limit 1024 \
+	curl -fsSL --retry 1 --retry-delay 1 --connect-timeout 4 --max-time 18 --speed-time 10 --speed-limit 1024 \
 		"$origin/api/tunnel/install/manifest.txt" -o "$RELEASE_MANIFEST_PATH" &
 	manifest_pid=$!
 	wait "$descriptor_pid" || descriptor_status=$?
 	if [ "$descriptor_status" -ne 0 ]; then
-		wait "$manifest_pid" || true
+		# Never wait on a speculative download after the descriptor has failed.
+		kill "$manifest_pid" 2>/dev/null || true
+		wait "$manifest_pid" 2>/dev/null || true
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi
 	if ! IFS="$tab" read -r CANDIDATE_VERSION BUNDLE_URL BUNDLE_SHA BUNDLE_BYTES \
 		MANIFEST_SHA RELEASE_SOURCE_SHA < <(read_release_descriptor "$RELEASE_DESCRIPTOR_PATH"); then
-		wait "$manifest_pid" || true
+		# Never wait on a speculative download after the descriptor has failed.
+		kill "$manifest_pid" 2>/dev/null || true
+		wait "$manifest_pid" 2>/dev/null || true
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi

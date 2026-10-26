@@ -41,7 +41,19 @@ if [ "$head_sha" != "$remote_sha" ] && [ -f "$static_policy" ] && \
 fi
 if [ "$head_sha" = "$remote_sha" ]; then
 	if bash "$release_match" "$remote_sha" "$service"; then
-		printf 'B"H CANONICAL_DEPLOY_NOOP sha=%s repo=%s\n' "$remote_sha" "$repo"
+		# Repair missing release artifacts without restarting a healthy live server.
+		bundle_cache="${AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR:-/var/cache/awtsmoos-tunnel-bundle}"
+		if ! AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR="$bundle_cache" node -e '
+			const path = require("node:path");
+			const root = process.argv[1];
+			const bundle = require(path.join(root, "geelooy/api/tunnel/install/tools/zipBundle.js"));
+			process.exit(bundle.readVerifiedCache() ? 0 : 1);
+		' "$repo"; then
+			AWTSMOOS_TUNNEL_BUNDLE_CACHE_DIR="$bundle_cache" \
+				node "$repo/scripts/production/tunnel-bundle-preflight.cjs" "$repo" >/dev/null \
+				|| fail tunnel_bundle_preflight_failed
+		fi
+		printf 'B"H CANONICAL_DEPLOY_NOOP sha=%s repo=%s tunnelBundle=verified\n' "$remote_sha" "$repo"
 		exit 0
 	fi
 	printf 'B"H CANONICAL_DEPLOY_REACTIVATE sha=%s reason=service_release_mismatch\n' "$remote_sha"
