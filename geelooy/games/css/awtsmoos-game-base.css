@@ -1,8 +1,14 @@
-/* B"H — Awtsmoos game base: global touch rules for ALL games.
- * Prevents text selection / callout / tap-highlight on game UI while keeping
- * real inputs (text fields, textareas) selectable. Include in every game's
- * index.html <head>: <link rel="stylesheet" href="/games/css/awtsmoos-game-base.css">
+/* B"H — Awtsmoos game base: global touch and state laws for ALL games.
+ * Boruch Hashem. Blessed is He.
+ * The Awtsmoos lets each game paint its own world while shared semantic states remain absolute.
+ * Include in every game's index.html: /games/css/awtsmoos-game-base.css
  */
+
+/* Runtime truth outranks decorative display rules. */
+[hidden],
+.hidden {
+	display: none !important;
+}
 
 /* Game UI is touch-first: no selection, no callout, no tap flash, no double-tap zoom delay. */
 .awt-game,
@@ -18,12 +24,11 @@
 	-webkit-touch-callout: none;
 	-webkit-tap-highlight-color: transparent;
 	touch-action: manipulation;
-	/* B"H CSS gate: text elements need an explicit color. inherit preserves
-	   each game's own theme color exactly (no game defines base tokens). */
+	/* B"H CSS gate: inherit preserves each game's own theme color exactly. */
 	color: inherit;
 }
 
-/* Canvases handle their own gestures (drag/swipe); never let the browser take over. */
+/* Canvases handle their own gestures; never let the browser take over. */
 .awt-game canvas {
 	touch-action: none;
 	display: block;
@@ -39,7 +44,6 @@
 	-webkit-user-select: text;
 	-webkit-touch-callout: default;
 	touch-action: auto;
-	/* B"H CSS gate: explicit color via inherit — keeps each game's theme color. */
 	color: inherit;
 }
 
