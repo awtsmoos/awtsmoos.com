@@ -47,18 +47,27 @@ const APPROVED_MEDIA_PREFIXES = [
 	"geelooy/scripts/awtsmoos/MerkavaExecutor/"
 ];
 const MITZVAH_COMPACT_ROOT = "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/";
+const CITATION_INDEX_ROOT = "geelooy/api/social/helper/packed/citationIndexes/";
 const APPROVED_FILES = new Set([
+	`${CITATION_INDEX_ROOT}forward_workerB.json`,
+	`${CITATION_INDEX_ROOT}reverse_workerB.json`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-foundation.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-core.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-presentation.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-world.compact.js`,
+	`${MITZVAH_COMPACT_ROOT}mitzvah-world-world-a.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-optional.compact.js`
 ]);
 const RELEASE_OWNED_FILES = new Set([
 	"geelooy/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb",
 	"geelooy/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb",
 	"geelooy/games/mitzvahWorld/build/generated/assets/essential-grass.jpg",
+	"geelooy/games/mitzvahWorld/photoreal/textures/baked/bark-albedo.png",
+	"geelooy/games/mitzvahWorld/photoreal/textures/baked/bark-normal.png",
+	"geelooy/games/mitzvahWorld/photoreal/textures/baked/bark-rough.png",
+	"geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.92.0.zip",
+	"geelooy/shliach-plugin/downloads/awtsmoos-shliach-0.93.0.zip",
 	"plugins/awtsmoos-shliach/assets/gpt-icon.png"
 ]);
 const SOURCE_PREFIXES = [
