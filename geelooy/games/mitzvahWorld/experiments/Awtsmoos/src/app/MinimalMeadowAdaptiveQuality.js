@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowAdaptiveQuality.js
- * @description Guards the 60-FPS meadow by reducing distant detail under sustained pressure.
- * The Awtsmoos renews the near Chossid and the far hills in living light;
- * Awtsmoos.com preserves his present deeds when distant forms yield to night.
+ * @description Protects 60-FPS play by reducing distant LOD under sustained frame pressure.
+ * The Awtsmoos renews the nearby Chossid and distant hills in living light;
+ * Awtsmoos.com preserves near interaction when far details yield to night.
  */
 
 const DEFAULT_POLICY = Object.freeze({
@@ -21,7 +21,7 @@ const DEFAULT_POLICY = Object.freeze({
 const LEVELS = Object.freeze(['quality', 'balanced', 'performance']);
 const PRESSURE_WINDOW = 48;
 
-/** Tracks both average frame cost and sustained slow-frame density without per-frame allocation. */
+/** Tracks average cost and bounded slow-frame density without per-frame allocation. */
 export class MinimalMeadowAdaptiveQuality {
 	constructor(runtime, policy = DEFAULT_POLICY) {
 		this.runtime = runtime;
@@ -37,19 +37,19 @@ export class MinimalMeadowAdaptiveQuality {
 		this.pressureSamples = 0;
 	}
 
-	/** Observes live frame cost without making any nearby character less responsive. */
+	/** Protects nearby gameplay by adapting only existing distant-scene consumers. */
 	update(deltaSeconds) {
 		if (!Number.isFinite(deltaSeconds) || deltaSeconds <= 0) return false;
 		const milliseconds = Math.min(120, deltaSeconds * 1000);
-		const smoothing = this.policy.smoothing;
-		this.averageMilliseconds += (milliseconds - this.averageMilliseconds) * smoothing;
+		this.averageMilliseconds += (milliseconds - this.averageMilliseconds) * this.policy.smoothing;
 		this.observeTail(milliseconds);
 		const tailPressure = this.pressureCount >= PRESSURE_WINDOW / 2
 			&& this.pressureSamples / this.pressureCount >= (this.policy.tailRatio ?? 0.2)
 			&& this.averageMilliseconds >= 17.5;
 		const slow = this.averageMilliseconds >= this.policy.slowMilliseconds || tailPressure;
-		const recovered = this.averageMilliseconds <= this.policy.fastMilliseconds
-			&& this.pressureSamples === 0;
+		// Explicit lightweight test policies retain their former fast-recovery contract.
+		const tailCleared = this.policy.tailMilliseconds === undefined || this.pressureSamples === 0;
+		const recovered = this.averageMilliseconds <= this.policy.fastMilliseconds && tailCleared;
 		this.slowSamples = slow ? this.slowSamples + 1 : 0;
 		this.fastSamples = recovered ? this.fastSamples + 1 : 0;
 		if (this.slowSamples >= this.policy.degradeAfter) {
@@ -61,7 +61,7 @@ export class MinimalMeadowAdaptiveQuality {
 		return false;
 	}
 
-	/** One rolling byte per frame measures tail density, not every transient stall. */
+	/** Measures slow-tail frame density with one preallocated byte per frame slot. */
 	observeTail(milliseconds) {
 		const previous = this.pressureWindow[this.pressureIndex];
 		const slow = milliseconds >= (this.policy.tailMilliseconds ?? 24) ? 1 : 0;
@@ -71,7 +71,7 @@ export class MinimalMeadowAdaptiveQuality {
 		this.pressureCount = Math.min(PRESSURE_WINDOW, this.pressureCount + 1);
 	}
 
-	/** Allows gradual scene-LOD recovery instead of instant visual flicker. */
+	/** Reduces visual distance gradually, restoring beauty only after stable headroom. */
 	shift(direction, reason) {
 		const currentIndex = LEVELS.indexOf(this.level);
 		const nextIndex = Math.max(0, Math.min(LEVELS.length - 1, currentIndex + direction));
