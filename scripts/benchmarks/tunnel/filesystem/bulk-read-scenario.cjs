@@ -3,7 +3,7 @@
 // Blessed is He
 
 const { performance } = require("node:perf_hooks");
-const { readBulk } = require("../../tools/fs/bulkRead.js");
+const { readBulk } = require("../../../../geelooy/apps/tunnel/agent/tools/fs/bulkRead.js");
 const Metrics = require("./metrics.cjs");
 
 /**
