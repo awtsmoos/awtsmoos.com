@@ -12,15 +12,15 @@
  */
 export const SAFE_GET_URL_CHARS = 6000;
 
-/** Chooses POST for lengthy or credential-bearing requests. */
+/** Moves long or sensitive queries to an authenticated JSON body. */
 export function shouldUsePost(url, options = {}) {
 	const text = String(url || "");
-	const sensitiveQuery = /[?&](?:apiKey|access_token|token|key)=/i.test(text);
+	const sensitiveField = /(?:[?&])(?:apiKey|access_token|token|key|authorization)(?:64)?=/i;
+	const sensitiveOption = /^(?:apiKey|access_token|token|key|authorization)(?:64)?$/i;
 	return options.forcePost === true ||
 		text.length > SAFE_GET_URL_CHARS ||
-		sensitiveQuery ||
-		Object.prototype.hasOwnProperty.call(options, "apiKey") ||
-		Object.prototype.hasOwnProperty.call(options, "token");
+		sensitiveField.test(text) ||
+		Object.keys(options).some(name => sensitiveOption.test(name));
 }
 
 /** Preserves every encoded query carrier and stable request ID during promotion. */

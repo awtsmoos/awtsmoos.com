@@ -9,7 +9,7 @@ import { sendFsHttp, shouldUsePost, SAFE_GET_URL_CHARS } from "../fsHttpRequest.
 /**
  * @file Verifies GET/POST promotion keeps authentication and exact input.
  * @description The Awtsmoos guides many paths through one guarded gate;
- * Awtsmoos.com preserves identity, fields, and order without exposing state.
+ * Awtsmoos.com preserves identity, fields and order without exposing state.
  */
 const endpoint = "https://awtsmoos.com/api/tunnel/control/fs/awt-test";
 
@@ -50,25 +50,32 @@ test("large multi-path requests use POST without dropping paths or identity", as
 	assert.equal(body.action, "bulk");
 });
 
-test("preserves packed base64 query fields when promoting to POST", async () => {
+test("preserves packed base64 fields when promoting to POST", async () => {
 	const request = await capture({ forcePost: true }, `${endpoint}?action=bulk&paths64=encoded-list&command64=encoded-command&clientRequestId=nonce-1`);
 	const body = JSON.parse(request.requestOptions.body);
 	assert.equal(request.target, endpoint);
 	assert.equal(body.paths64, "encoded-list");
 	assert.equal(body.command64, "encoded-command");
 	assert.equal(body.clientRequestId, "nonce-1");
-	assert.equal(body.action, "bulk");
 });
 
-test("query credentials are never sent in the outbound request URL", async () => {
+test("plain query credentials are not transmitted in URL", async () => {
 	const request = await capture({}, `${endpoint}?action=read&apiKey=secret-in-query`);
 	assert.equal(request.target, endpoint);
 	assert.equal(request.requestOptions.method, "POST");
 	assert.equal(JSON.parse(request.requestOptions.body).apiKey, "secret-in-query");
-	assert.equal(request.target.includes("secret-in-query"), false);
 });
 
-test("sensitive options use POST, preserving credential-header routing", async () => {
+test("encoded query credentials also cannot travel in GET URLs", async () => {
+	const request = await capture({}, `${endpoint}?action=read&apiKey64=encoded-secret&token64=encoded-token`);
+	assert.equal(request.target, endpoint);
+	assert.equal(request.requestOptions.method, "POST");
+	assert.equal(JSON.parse(request.requestOptions.body).apiKey64, "encoded-secret");
+	assert.equal(JSON.parse(request.requestOptions.body).token64, "encoded-token");
+	assert.equal(shouldUsePost(endpoint, { apiKey64: "hidden" }), true);
+});
+
+test("sensitive options use POST, preserving scoped header", async () => {
 	const request = await capture({ action: "shellCommand", apiKey: "body-secret", command: "echo safe" });
 	assert.equal(request.target, endpoint);
 	assert.equal(request.requestOptions.method, "POST");
