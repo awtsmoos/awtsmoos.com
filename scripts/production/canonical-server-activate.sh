@@ -9,7 +9,7 @@ expected="${1:-}"
 repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
 service="${AWTSMOOS_PRODUCTION_SERVICE:-awtsmoos.service}"
 socket_unit="${AWTSMOOS_PRODUCTION_SOCKET:-awtsmoos.socket}"
-override="${AWTSMOOS_SYSTEMD_OVERRIDE_PATH:-/etc/systemd/system/${service}.d/10-immutable-release.conf}"
+override="${AWTSMOOS_SYSTEMD_OVERRIDE_PATH:-/etc/systemd/system/${service}.d/99-zz-canonical-release.conf}"
 source_override="$repo/ops/systemd/awtsmoos-immutable.conf"
 source_socket="$repo/ops/systemd/awtsmoos.socket"
 health_url="${AWTSMOOS_PRODUCTION_HEALTH_URL:-http://127.0.0.1:8080/}"
@@ -84,6 +84,8 @@ bash "$watchdog_installer"
 bash "$nginx_preparer"
 
 systemctl daemon-reload
+# Older dated drop-ins must never silently override the canonical release.
+[ "$(systemctl show "$service" -p WorkingDirectory --value)" = "$repo" ] || fail canonical_override_shadowed
 if [ "$socket_preexisting" -eq 0 ]; then
 	systemctl stop "$service" || true
 	systemctl enable --now "$socket_unit"

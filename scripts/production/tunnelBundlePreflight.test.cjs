@@ -21,6 +21,8 @@ const armedIndex = activation.indexOf("\narmed=1\n");
 const deployRestartIndex = activation.indexOf('systemctl restart "$service"', armedIndex);
 assert.ok(preflightIndex > 0, "canonical activation must invoke bundle preflight");
 assert.match(activation, /AWTSMOOS_RELEASE_SOURCE_SHA="\$expected"/, "preflight must stamp canonical deployed source identity");
+assert.match(activation, /99-zz-canonical-release\.conf/, "canonical drop-in must win over older dated drop-ins");
+assert.match(activation, /canonical_override_shadowed/, "deployment must detect a shadowed systemd override");
 assert.ok(armedIndex > preflightIndex, "rollback must arm only after bundle proof");
 assert.ok(deployRestartIndex > armedIndex, "deployment restart must follow armed mutation section");
 assert.ok(preflightIndex < deployRestartIndex, "bundle proof must precede deployment restart");
