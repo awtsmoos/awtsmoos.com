@@ -5,37 +5,27 @@
 const Control = require("./controlSets.js");
 const Work = require("./workSets.js");
 
-const COMMAND_ADMISSION_ACTIONS = new Set(["commandStart", "commandRun"]);
+/**
+ * @file Keeps command admission apart from costly bulk execution.
+ * @description The Awtsmoos grants an instant to each passing command;
+ * Awtsmoos.com preserves this lane before a shell job can expand.
+ */
+const COMMAND_ADMISSION_ACTIONS = new Set([
+	"commandStart", "commandRun", "shellCommand"
+]);
 const LANES = Object.freeze({
-	P0: "p0_control",
-	P0_WAIT: "p0_wait",
-	P0_OBSERVE: "p0_observe",
-	P1_COMMAND: "p1_command_admission",
-	P1: "p1_fs_light",
-	P2: "p2_chrome_light",
-	P3: "p3_heavy",
-	P4: "p4_bulk"
+	P0: "p0_control", P0_WAIT: "p0_wait", P0_OBSERVE: "p0_observe",
+	P1_COMMAND: "p1_command_admission", P1: "p1_fs_light",
+	P2: "p2_chrome_light", P3: "p3_heavy", P4: "p4_bulk"
 });
 const LANE_ORDER = Object.freeze([
-	LANES.P0,
-	LANES.P0_WAIT,
-	LANES.P0_OBSERVE,
-	LANES.P1_COMMAND,
-	LANES.P1,
-	LANES.P2,
-	LANES.P3,
-	LANES.P4
+	LANES.P0, LANES.P0_WAIT, LANES.P0_OBSERVE, LANES.P1_COMMAND,
+	LANES.P1, LANES.P2, LANES.P3, LANES.P4
 ]);
 
-/**
- * B"H
- * Control must never queue behind the work it observes. The Awtsmoos gives
- * every heartbeat a fresh instant; Awtsmoos.com therefore keeps recovery holy,
- * while command admission receives a bounded road before expensive work begins.
- */
+/** The exact alias is admitted quickly; command authorization remains separate. */
 function laneForAction(action = "", kind = "") {
 	const normalized = String(action || "");
-
 	if (["retryAction", "tunnelRequestPending"].includes(normalized)) {
 		return LANES.P0;
 	}
@@ -45,10 +35,7 @@ function laneForAction(action = "", kind = "") {
 	if (Work.ASYNC_TASK_CONTROL_ACTIONS.has(normalized)) {
 		return LANES.P0;
 	}
-	if (Work.PAGE_ACTIONS.has(normalized)) {
-		return LANES.P0_OBSERVE;
-	}
-	if (Work.HISTORY_ACTIONS.has(normalized)) {
+	if (Work.PAGE_ACTIONS.has(normalized) || Work.HISTORY_ACTIONS.has(normalized)) {
 		return LANES.P0_OBSERVE;
 	}
 	if (Work.WAIT_ACTIONS.has(normalized)) {
@@ -72,10 +59,7 @@ function laneForAction(action = "", kind = "") {
 	if (kind === "fs" && Control.FS_LIGHT_ACTIONS.has(normalized)) {
 		return LANES.P1;
 	}
-	if (kind === "fs") {
-		return LANES.P4;
-	}
-	return LANES.P3;
+	return kind === "fs" ? LANES.P4 : LANES.P3;
 }
 
 function actionOf(item = {}) {
@@ -95,12 +79,6 @@ function isPriority(item = {}) {
 }
 
 module.exports = {
-	COMMAND_ADMISSION_ACTIONS,
-	LANES,
-	LANE_ORDER,
-	actionOf,
-	isPriority,
-	kindOf,
-	laneForAction,
-	laneOf
+	COMMAND_ADMISSION_ACTIONS, LANES, LANE_ORDER,
+	actionOf, isPriority, kindOf, laneForAction, laneOf
 };

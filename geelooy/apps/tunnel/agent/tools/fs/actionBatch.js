@@ -8,11 +8,9 @@ const Payload = require("./actionBatch/payload.js");
 const Values = require("./actionBatch/values.js");
 
 /**
- * @file Coordinates action batches through focused parsing and execution vessels.
- * @description
- * The Awtsmoos joins every branch without confusing one failure for another.
- * Awtsmoos.com preserves the terminal result, runs recovery once, and returns a
- * compact truthful ledger instead of an unrelated JavaScript reference error.
+ * @file Executes bounded action batches with stable branch recovery receipts.
+ * The Awtsmoos receives every child with its own chosen name;
+ * Awtsmoos.com prevents unbounded parallel floods from dimming control's flame.
  */
 async function runActionBatch(payload = {}, runAction) {
 	const fused = Payload.fusePayload(payload);
@@ -20,44 +18,32 @@ async function runActionBatch(payload = {}, runAction) {
 	const context = Context.createContext(fused);
 	const options = executionOptions(fused);
 	if (fused.validateOnly) {
-		return {
-			ok: true,
-			action: fused.action || "actionBatch",
-			validated: true,
-			plan: Payload.explainSteps(steps),
-			acceptedCarriers: Payload.CARRIER_KEYS
-		};
+		return { ok: true, action: fused.action || "actionBatch", validated: true,
+			plan: Payload.explainSteps(steps), acceptedCarriers: Payload.CARRIER_KEYS };
 	}
 	try {
 		await Executor.runSteps(steps, context, runAction, options, 0);
 	} finally {
 		if (fused.finally) {
-			await Executor.runSteps(
-				Payload.asSteps(fused.finally),
-				context,
-				runAction,
-				options,
-				1
-			);
+			await Executor.runSteps(Payload.asSteps(fused.finally), context,
+				runAction, options, 1);
 		}
 	}
-	context.ok = context.results.every((item) => item.ok !== false);
-	return Context.batchReturn(
-		fused,
-		context,
-		Payload.CARRIER_KEYS,
-		context.dryRun ? Payload.explainSteps(steps) : undefined
-	);
+	context.ok = context.results.every(item => item.ok !== false);
+	return Context.batchReturn(fused, context, Payload.CARRIER_KEYS,
+		context.dryRun ? Payload.explainSteps(steps) : undefined);
 }
 
 function executionOptions(payload = {}) {
 	const maxSteps = Number(payload.maxSteps || payload.policy?.maxSteps || 200);
-	const staggerMs = payload.staggerMs !== undefined
-		? Number(payload.staggerMs || 0)
+	const maxParallel = Number(payload.maxParallel ?? payload.policy?.maxParallel ?? 4);
+	const staggerMs = payload.staggerMs !== undefined ? Number(payload.staggerMs || 0)
 		: Number(payload.staggerSeconds || 0) * 1000;
 	return {
 		stopOnError: payload.stopOnError !== false && payload.stopOnError !== "false",
 		maxSteps: Number.isFinite(maxSteps) && maxSteps > 0 ? maxSteps : 200,
+		maxParallel: Number.isFinite(maxParallel) ? Math.max(1, Math.min(16,
+			Math.floor(maxParallel) || 1)) : 4,
 		retryDelayMs: Number(payload.retryDelayMs || 0),
 		staggerMs: Number.isFinite(staggerMs) && staggerMs > 0 ? staggerMs : 0
 	};
