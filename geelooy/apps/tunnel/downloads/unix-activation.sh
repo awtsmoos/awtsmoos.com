@@ -150,21 +150,33 @@ NODE
 	start_promoted_candidate "$rollback" "$failed"
 }
 
+# Reuse an incumbent only when the agent is currently verified and registered.
+# --reinstall/--clean/--keep-old-tunnels preserve their explicit fresh-pair behavior.
+# An unhealthy or revoked credential cannot bypass account approval.
+verified_identity_reuse_allowed() {
+	[ -f "$ROOT/main.js" ] || return 1
+	[ "${AWTSMOOS_REUSE_IDENTITY:-0}" = "1" ] && return 0
+	[ "${AWTSMOOS_EXPLICIT_REINSTALL:-0}" = "1" ] && return 1
+	[ "${AWTSMOOS_INSTALL_CLEAN:-0}" = "1" ] && return 1
+	[ "${AWTSMOOS_KEEP_OLD_TUNNELS:-0}" = "1" ] && return 1
+	declare -F current_runtime_is_stably_healthy >/dev/null 2>&1 || return 1
+	current_runtime_is_stably_healthy
+}
+
 activate_release_candidate() {
 	install_rescue_runtime
 	if skip_start_requested; then
 		prepare_without_activation
 		return 0
 	fi
-	# A normal reinstall means a NEW device registration, not reuse of old
-	# authorization. Old credentials may be revoked (invalid_device_credential),
-	# in which case a readonly update would wait and fail indefinitely. The new
-	# binding is obtained with user approval BEFORE the predecessor is touched.
-	# Retaining old runtime files is independent of reusing old authorization.
-	# An intentionally reused, rejected credential may fail; the caller must
-	# explicitly opt in to --reuse-identity, never merely --keep-old-tunnels.
-	if [ -f "$ROOT/main.js" ] && [ "${AWTSMOOS_REUSE_IDENTITY:-0}" = "1" ]; then
-		install_event "identity" "preserved" "Reusing existing authorization by explicit --reuse-identity request."
+	# Healthy incumbents use their already-approved device binding. Explicit
+	# fresh reinstall and unhealthy/revoked incumbents still require user approval.
+	# The staged candidate is fully proved before the predecessor is touched.
+	if verified_identity_reuse_allowed; then
+		install_event "identity" "preserved" \
+			"A healthy, registered existing device keeps its authorization without another approval delay." \
+			"root=$ROOT mode=${AWTSMOOS_INSTALL_MODE:-full}"
+		prg_ok "Verified existing authorization: skipping unnecessary re-pairing."
 		activate_update
 	else
 		if [ -f "$ROOT/main.js" ]; then

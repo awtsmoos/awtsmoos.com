@@ -23,8 +23,15 @@ root_belongs_to_runtime_family() {
 
 wait_for_label_unload() {
 	local domain="$1" label="$2" sample=0
-	while [ "$sample" -lt 40 ]; do
+	# Bound the common path to 2 seconds instead of five seconds PER legacy plist.
+	# Report a stubborn service rather than hiding a long chain of silent waits.
+	local samples="${AWTSMOOS_LAUNCHD_UNLOAD_WAIT_SAMPLES:-16}"
+	case "$samples" in ''|*[!0-9]*) samples=16 ;; esac
+	[ "$samples" -lt 4 ] && samples=4
+	[ "$samples" -gt 40 ] && samples=40
+	while [ "$sample" -lt "$samples" ]; do
 		launchctl print "$domain/$label" >/dev/null 2>&1 || return 0
+		[ "$sample" -eq 0 ] && prg_info "Waiting for launchd unload: $label (installer PID $$)"
 		sleep 0.125
 		sample=$((sample + 1))
 	done
@@ -36,6 +43,7 @@ stop_owned_launchd_plist() {
 	local label="$(plist_value "$plist" Label)"
 	local install_root="$(plist_value "$plist" EnvironmentVariables.AWTSMOOS_INSTALL_ROOT)"
 	[ -n "$label" ] && root_belongs_to_runtime_family "$install_root" || return 0
+	prg_info "Releasing previous service $label (installer PID $$)"
 	launchctl bootout "$domain/$label" >/dev/null 2>&1 ||
 		launchctl bootout "$domain" "$plist" >/dev/null 2>&1 ||
 		launchctl unload -w "$plist" >/dev/null 2>&1 || true

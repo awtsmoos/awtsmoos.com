@@ -22,6 +22,8 @@ CANDIDATE_VERSION='1.0.999'
 mkdir -p "$ROOT" "$CANDIDATE_ROOT" "$RECOVERY_ROOT"
 printf 'old-runtime\\n' > "$ROOT/main.js"
 printf 'new-runtime\\n' > "$CANDIDATE_ROOT/main.js"
+printf '{"tunnelName":"fixture-tunnel"}\\n' > "$CANDIDATE_ROOT/config.json"
+AWTSMOOS_NODE_BIN="$(command -v node)"
 install_event(){ :; }
 install_progress(){ :; }
 install_fail(){ echo "FAIL:$2" >&2; return 71; }
@@ -42,8 +44,14 @@ source "$2"
 AWTSMOOS_KEEP_OLD_TUNNELS="$3"
 PAIR_FAILURE="$4"
 AWTSMOOS_REUSE_IDENTITY="$5"
+HEALTHY_EXISTING="$6"
+AWTSMOOS_EXPLICIT_REINSTALL="$7"
+current_runtime_is_stably_healthy(){ [ "$HEALTHY_EXISTING" = 1 ]; }
+# Override only the update's deep credential and lifecycle probes: selection
+# under test remains the real activate_release_candidate implementation.
+activate_update(){ printf 'probe\\npromote\\nrun\\n' >> "$TRACE"; }
 activate_release_candidate
-`,`--`,tmp,source,script.includes('__KEEP__')?'1':'0',script.includes('__PAIR_FAILURE__')?'1':'0',script.includes('__REUSE__')?'1':'0'],{encoding:'utf8',timeout:6500});
+`,`--`,tmp,source,script.includes('__KEEP__')?'1':'0',script.includes('__PAIR_FAILURE__')?'1':'0',script.includes('__REUSE__')?'1':'0',script.includes('__HEALTHY__')?'1':'0',script.includes('__FORCE__')?'1':'0'],{encoding:'utf8',timeout:6500});
   const trace=fs.existsSync(path.join(tmp,'trace'))?fs.readFileSync(path.join(tmp,'trace'),'utf8'):'';
   const incumbent=fs.readFileSync(path.join(tmp,'live','main.js'),'utf8');
   return {status:result.status,trace,incumbent,stderr:result.stderr};
@@ -60,4 +68,14 @@ test('separate --reuse-identity option deliberately chooses the legacy no-pair u
 });
 test('a failed pairing never promotes a candidate or alters predecessor',()=>{
  const r=run('__PAIR_FAILURE__');assert.notEqual(r.status,0);assert.equal(r.trace,'pair\n');assert.match(r.stderr,/New device approval did not produce/);assert.equal(r.incumbent,'old-runtime\n');
+});
+
+test('healthy existing registered tunnel upgrades without unnecessary account pairing',()=>{
+ const r=run('__HEALTHY__');assert.equal(r.status,0,r.stderr);assert.equal(r.trace,'probe\npromote\nrun\n');
+});
+test('explicit --reinstall requires approval even when the old tunnel is healthy',()=>{
+ const r=run('__HEALTHY__ __FORCE__');assert.equal(r.status,0,r.stderr);assert.equal(r.trace,'pair\nprobe\npromote\nrun\n');
+});
+test('--keep-old-tunnels preserves the fresh authorization intent even when healthy',()=>{
+ const r=run('__HEALTHY__ __KEEP__');assert.equal(r.status,0,r.stderr);assert.equal(r.trace,'pair\nprobe\npromote\nrun\n');
 });
