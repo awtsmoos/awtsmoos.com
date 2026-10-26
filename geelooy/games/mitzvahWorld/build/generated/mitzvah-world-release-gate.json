@@ -1,5 +1,5 @@
 {
-	"certified": true,
+	"certified": false,
 	"custody": {
 		"artifacts": {
 			"index.html": {
@@ -95,30 +95,33 @@
 				"sha256": "632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942"
 			}
 		},
-		"certified": true,
-		"commit": "9920f5f793d9d444645dfd571b20d8c1e36ad008",
-		"dirtyEntries": [],
-		"failureCode": null,
+		"certified": false,
+		"commit": "a3e87e01dd6080e181beb350457f2ce3bd2d81e3",
+		"dirtyEntries": [
+			"M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-world-a.json",
+			"M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world-a.compact.js"
+		],
+		"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
 		"version": 1
 	},
-	"failureCode": null,
+	"failureCode": "RELEASE_SOURCE_TREE_DIRTY",
 	"stages": [
 		{
-			"elapsedMilliseconds": 5939,
+			"elapsedMilliseconds": 738,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 151503,
+			"elapsedMilliseconds": 116301,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 2896,
+			"elapsedMilliseconds": 2290,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-10-26T22:36:25.610Z"
+	"generatedAt": "2026-10-26T23:16:43.332Z"
 }
