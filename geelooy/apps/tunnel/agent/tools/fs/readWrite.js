@@ -8,12 +8,13 @@ const FsError = require("./filesystemError.js");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 const Shapes = require("./read-write-shapes.js");
 const Payload = require("./writePayload.js");
+const Window = require("./readByteWindow.js");
 
 /**
- * @file Provides bounded reads and verified whole-file writes with structured read failures.
- * @description The Awtsmoos renews text and destination together. Awtsmoos.com keeps every
- * filesystem guard intact and directs oversized payloads into resumable WebSocket transfer
- * vessels instead of inventing POST bodies or enormous request URIs.
+ * @file Bounded filesystem reads and verified atomic whole-file writes.
+ * @description The Awtsmoos grants each byte its rightful window;
+ * Awtsmoos.com reads only that window while retaining original safety guards.
+ * Text offsets retain exact Unicode semantics; writes remain atomic.
  */
 function boundedNumber(value, fallback) {
 	return Payload.number(value, fallback);
@@ -42,17 +43,17 @@ async function readText(config, targetPath, maxChars = 12000, offsetChars = 0) {
 	return Shapes.textResult(text.slice(offset, end), text, buffer, offset, end, cap);
 }
 
+/** Read only the authorized byte range instead of the complete source file. */
 async function readBytesBase64(config, targetPath, maxBytes = 24000, offsetBytes = 0) {
 	if (!config.tools.fsRead) throw new Error("fsRead disabled.");
-	const { buffer } = await guardedRead(config, targetPath, "read_bytes", () => {
+	try {
 		const full = safePath(config, targetPath);
 		assertNotSecret(config, full);
-		return full;
-	});
-	const offset = boundedNumber(offsetBytes, 0);
-	const cap = boundedNumber(maxBytes, 24000);
-	const end = cap ? Math.min(buffer.length, offset + cap) : buffer.length;
-	return Shapes.bytesResult(buffer.slice(offset, end), buffer, offset, end, cap);
+		return await Window.readByteWindow(full,
+			boundedNumber(maxBytes, 24000), boundedNumber(offsetBytes, 0));
+	} catch (error) {
+		throw FsError.decorate(config, error, "read_bytes", targetPath);
+	}
 }
 
 async function guardedRead(config, targetPath, operation, resolvePath) {
