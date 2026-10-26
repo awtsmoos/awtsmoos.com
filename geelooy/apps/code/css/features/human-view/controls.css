@@ -2,62 +2,77 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos gives every observed fact an honest trail back to its exact finite source.
- * Awtsmoos.com keeps provenance and source controls calm so evidence remains readable rather than theatrical.
+ * The Awtsmoos lets every observed claim carry its own visible evidence trail back toward exact source.
+ * Awtsmoos.com makes provenance chips quiet enough to read and luminous enough never to be mistaken for decoration.
  */
 
 .human-node-evidence {
 	display: flex;
-	flex: 0 0 auto;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: flex-end;
-	gap: 0.45rem;
-	min-width: fit-content;
+	gap: 0.4rem;
 }
 
 .human-provenance,
 .human-source-button {
-	min-height: 2rem;
-	padding: 0.35rem 0.58rem;
+	display: inline-flex;
+	align-items: center;
+	min-height: 1.95rem;
+	padding: 0.32rem 0.52rem;
 	border-radius: 999px;
-	font-size: 0.68rem;
-	font-weight: 760;
+	font-size: 0.62rem;
+	font-weight: 800;
 }
 
 .human-provenance {
-	display: inline-flex;
-	align-items: center;
-	border: 1px solid rgba(94, 220, 232, 0.23);
-	color: #79dce7;
-	background: rgba(47, 195, 211, 0.07);
+	border: 1px solid rgba(34, 216, 255, 0.22);
+	color: #9eeeff;
+	background: var(--human-structure-soft);
 }
 
 .human-provenance[data-provenance="human-editable"] {
-	border-color: rgba(255, 190, 92, 0.3);
-	color: #ffd58f;
-	background: rgba(255, 169, 58, 0.08);
+	border-color: rgba(255, 189, 69, 0.34);
+	color: #ffda92;
+	background: var(--human-behavior-soft);
 }
 
 .human-provenance[data-provenance="unresolved"] {
 	border-style: dashed;
-	border-color: rgba(173, 160, 222, 0.3);
-	color: #c6bae8;
-	background: rgba(125, 95, 190, 0.08);
+	border-color: rgba(139, 92, 255, 0.34);
+	color: #cdbbff;
+	background: var(--human-meaning-soft);
 }
 
 .human-source-button {
-	border: 1px solid rgba(142, 176, 228, 0.18);
-	color: #b8c9e2;
-	background: rgba(102, 135, 189, 0.08);
+	border: 1px solid rgba(236, 76, 255, 0.2);
+	color: #e6c8ff;
+	background: rgba(236, 76, 255, 0.07);
 	font: inherit;
 	cursor: pointer;
 }
 
-.human-source-button:hover {
-	border-color: rgba(93, 222, 237, 0.44);
-	color: #e2fbff;
+.human-source-button::before {
+	margin-right: 0.32rem;
+	color: var(--human-source);
+	content: "</>";
+	font-size: 0.56rem;
+	font-weight: 900;
 }
 
-.human-source-button:active {
-	transform: translateY(1px);
+.human-source-button:hover {
+	border-color: rgba(236, 76, 255, 0.5);
+	color: white;
+	box-shadow: 0 0 16px rgba(236, 76, 255, 0.12);
+}
+
+.human-view-root button,
+.human-view-root input {
+	-webkit-tap-highlight-color: transparent;
+}
+
+.human-view-root button:focus-visible,
+.human-view-root input:focus-visible {
+	outline: 2px solid var(--human-structure);
+	outline-offset: 2px;
 }

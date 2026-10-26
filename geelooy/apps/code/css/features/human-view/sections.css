@@ -2,89 +2,88 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos gives many observed facts one readable procession without flattening their differences.
- * Awtsmoos.com keeps sections, nodes, warnings, and provenance trails distinct while the human reads one document.
+ * The Awtsmoos gives each semantic layer its own color while preserving one continuous path back to evidence.
+ * Awtsmoos.com makes sections illuminated chapters and facts selectable vessels, never hidden guesses.
  */
-
 .human-section {
-	margin-top: 1rem;
-	padding: clamp(1.2rem, 3vw, 2rem);
+	--section-tone: var(--human-structure);
+	--section-soft: var(--human-structure-soft);
+	position: relative;
+	padding: 1rem;
+	border: 1px solid rgba(34, 216, 255, 0.22);
+	border-radius: var(--human-radius-lg);
+	background: linear-gradient(145deg, var(--section-soft), rgba(5, 15, 34, 0.9));
+	box-shadow: var(--human-shadow);
 }
-
+.human-section[data-tone="meaning"] { --section-tone: var(--human-meaning); --section-soft: var(--human-meaning-soft); border-color: rgba(139, 92, 255, 0.34); }
+.human-section[data-tone="behavior"] { --section-tone: var(--human-behavior); --section-soft: var(--human-behavior-soft); border-color: rgba(255, 189, 69, 0.34); }
+.human-section[data-tone="source"] { --section-tone: var(--human-source); --section-soft: var(--human-source-soft); border-color: rgba(236, 76, 255, 0.34); }
 .human-section::before {
 	position: absolute;
-	top: 1.3rem;
-	bottom: 1.3rem;
+	top: 1rem;
+	bottom: 1rem;
 	left: 0;
 	width: 2px;
-	border-radius: 2px;
-	background: linear-gradient(#4adbe5, #7b61ff 55%, transparent);
+	border-radius: 4px;
+	background: linear-gradient(var(--section-tone), transparent);
+	box-shadow: 0 0 16px var(--section-tone);
 	content: "";
+	opacity: 0.78;
 }
-
-.human-node-list {
+.human-section-header {
 	display: grid;
-	gap: 0.7rem;
-	margin-top: 1.25rem;
+	grid-template-columns: auto 1fr auto;
+	gap: 0.75rem;
+	align-items: start;
 }
-
+.human-section-header h2,
+.human-section-header p { margin: 0; }
+.human-section-header h2 { margin-top: 0.08rem; font-size: clamp(1.25rem, 2.7vw, 1.75rem); letter-spacing: -0.03em; }
+.human-section-header > div > p:last-child { max-width: 46rem; margin-top: 0.35rem; color: var(--human-muted); font-size: 0.76rem; line-height: 1.5; }
+.human-section-index {
+	display: grid;
+	place-items: center;
+	width: 2.4rem;
+	height: 2.4rem;
+	border: 1px solid var(--section-tone);
+	border-radius: 0.78rem;
+	color: var(--section-tone);
+	background: rgba(3, 12, 28, 0.74);
+	box-shadow: 0 0 18px rgba(34, 216, 255, 0.08);
+	font-size: 0.7rem;
+	font-weight: 900;
+}
+.human-section-count { padding: 0.38rem 0.52rem; border: 1px solid rgba(139, 173, 226, 0.13); border-radius: 999px; color: var(--human-dim); background: rgba(5, 15, 34, 0.6); font-size: 0.62rem; }
+.human-node-list { display: grid; gap: 0.58rem; margin-top: 0.95rem; }
 .human-node {
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-	gap: 1rem;
-	padding: 0.95rem 1rem;
-	border: 1px solid rgba(139, 177, 233, 0.1);
-	border-radius: 0.9rem;
-	background: rgba(3, 12, 26, 0.48);
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 0.65rem;
+	align-items: center;
+	padding: 0.58rem;
+	border: 1px solid rgba(125, 162, 220, 0.1);
+	border-radius: var(--human-radius-sm);
+	background: rgba(2, 10, 24, 0.54);
 }
-
-.human-node h3 {
-	margin: 0.12rem 0 0.28rem;
-	font-size: 0.98rem;
+.human-node-select {
+	display: grid;
+	grid-template-columns: auto auto minmax(0, 1fr) auto;
+	grid-template-rows: auto auto;
+	column-gap: 0.55rem;
+	align-items: center;
+	min-width: 0;
+	padding: 0.25rem;
+	border: 0;
+	color: var(--human-text);
+	background: transparent;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
 }
-
-.human-node p,
-.human-omitted,
-.human-document-footer {
-	margin: 0;
-	color: #8fa4c2;
-	font-size: 0.78rem;
-}
-
-.human-node-kind {
-	color: #5cdae6;
-	font-size: 0.65rem;
-	font-weight: 800;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
-}
-
-.human-omitted {
-	margin-top: 0.9rem;
-	padding-left: 0.2rem;
-}
-
-.human-warnings {
-	margin-top: 1rem;
-	padding: 1.2rem 1.4rem;
-	border-color: rgba(255, 121, 128, 0.22);
-	background: rgba(81, 23, 37, 0.15);
-}
-
-.human-warnings p {
-	color: #d8aeb8;
-	font-size: 0.78rem;
-	line-height: 1.55;
-}
-
-.human-warnings p:last-child {
-	margin-bottom: 0;
-}
-
-.human-document-footer {
-	display: flex;
-	justify-content: space-between;
-	gap: 1rem;
-	padding: 1.5rem 0 0;
-}
+.human-node-select:hover strong { color: var(--section-tone); }
+.human-node-pulse { grid-row: 1 / 3; width: 0.52rem; height: 0.52rem; border-radius: 50%; background: var(--section-tone); box-shadow: 0 0 12px var(--section-tone); }
+.human-node-kind { color: var(--section-tone); font-size: 0.6rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
+.human-node-select strong { min-width: 0; overflow: hidden; font-size: 0.84rem; text-overflow: ellipsis; white-space: nowrap; }
+.human-node-select small { grid-column: 2 / 4; color: var(--human-dim); font-size: 0.66rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.human-node-select b { grid-row: 1 / 3; color: var(--section-tone); font-size: 1.1rem; }
+.human-omitted { margin: 0.7rem 0 0; color: var(--human-dim); font-size: 0.67rem; }

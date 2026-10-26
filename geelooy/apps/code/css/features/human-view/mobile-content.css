@@ -1,0 +1,78 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets dense semantic content become spacious and reachable on a phone without losing hierarchy.
+ * Awtsmoos.com stacks the vivid surfaces into truthful mobile sheets while preserving every exact interaction contract.
+ */
+
+@media (max-width: 760px) {
+	.human-takeover-document,
+	.human-map-surface,
+	.human-behavior-studio,
+	.human-source-surface {
+		padding: 0.8rem 0.65rem 2rem;
+	}
+
+	.human-document-hero,
+	.human-semantic-preview,
+	.human-source-detail-head,
+	.human-behavior-observation {
+		flex-direction: column;
+	}
+
+	.human-semantic-preview {
+		align-items: flex-start;
+	}
+
+	.human-preview-pills {
+		justify-content: flex-start;
+	}
+
+	.human-metrics {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.human-map-grid,
+	.human-decision,
+	.human-source-meta {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.human-decision-form,
+	.human-node {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.human-node-evidence {
+		justify-content: flex-start;
+	}
+
+	.human-source-detail,
+	.human-source-index {
+		border-radius: 1.25rem 1.25rem 0.95rem 0.95rem;
+	}
+
+	.human-document-footer {
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 430px) {
+	.human-section-header {
+		grid-template-columns: auto 1fr;
+	}
+
+	.human-section-count {
+		grid-column: 2;
+		justify-self: start;
+	}
+
+	.human-device-context {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+
+	.human-device-context > span {
+		grid-column: 1 / -1;
+	}
+}

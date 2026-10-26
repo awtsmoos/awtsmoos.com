@@ -3,14 +3,15 @@
 //Blessed is He
 
 /**
- * @fileoverview Lazily awakens the full Human Takeover surface with release-versioned styles first.
- * The Awtsmoos contains every semantic depth before the browser asks for any finite garment;
- * Awtsmoos.com therefore loads no takeover UI at startup and reveals it only after its CSSOM is ready.
+ * @fileoverview Lazily awakens the complete neon Human Takeover surface with release-versioned CSSOM first.
+ * The Awtsmoos contains every color and semantic depth before the browser requests any finite garment;
+ * Awtsmoos.com therefore keeps Code startup free of takeover cost and loads the vivid surface only on invocation.
  */
 
 import { beginAssetSpan, endAssetSpan, versionCodeAssetUrl } from "../../assets/runtime.js";
 
 const STYLE_FILES = Object.freeze([
+	["human-takeover-tokens-style", "/apps/code/css/features/human-view/tokens.css"],
 	["human-takeover-shell-style", "/apps/code/css/features/human-view/shell.css"],
 	["human-takeover-document-style", "/apps/code/css/features/human-view/document.css"],
 	["human-takeover-sections-style", "/apps/code/css/features/human-view/sections.css"],
@@ -18,7 +19,13 @@ const STYLE_FILES = Object.freeze([
 	["human-takeover-controls-style", "/apps/code/css/features/human-view/controls.css"],
 	["human-takeover-decisions-style", "/apps/code/css/features/human-view/decisions.css"],
 	["human-takeover-states-style", "/apps/code/css/features/human-view/states.css"],
-	["human-takeover-mobile-style", "/apps/code/css/features/human-view/mobile.css"]
+	["human-takeover-modes-style", "/apps/code/css/features/human-view/modes.css"],
+	["human-takeover-map-style", "/apps/code/css/features/human-view/map.css"],
+	["human-takeover-map-nodes-style", "/apps/code/css/features/human-view/map-nodes.css"],
+	["human-takeover-behavior-style", "/apps/code/css/features/human-view/behavior.css"],
+	["human-takeover-source-style", "/apps/code/css/features/human-view/source.css"],
+	["human-takeover-mobile-style", "/apps/code/css/features/human-view/mobile.css"],
+	["human-takeover-mobile-content-style", "/apps/code/css/features/human-view/mobile-content.css"]
 ]);
 
 let featurePromise = null;

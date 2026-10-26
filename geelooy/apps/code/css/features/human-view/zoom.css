@@ -2,79 +2,97 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos is one while human sight moves through meaning, structure, behavior, and source.
- * Awtsmoos.com changes semantic depth instantly without rerunning analysis or hiding the evidence chain.
+ * The Awtsmoos is one while human sight descends through Meaning, Structure, Behavior, and Source.
+ * Awtsmoos.com makes semantic zoom a luminous path, not a hidden filter, and preserves instant local switching.
  */
 
 .human-zoom {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	gap: 0.55rem;
-	padding: 1rem 0.85rem;
-	border-right: 1px solid rgba(155, 193, 249, 0.1);
-	background: rgba(5, 13, 28, 0.58);
+	gap: 0.52rem;
+	padding: 1rem 0.8rem;
+	border-right: 1px solid var(--human-border);
+	background: rgba(3, 10, 24, 0.7);
 	overflow: auto;
 }
 
 .human-zoom::before {
 	position: absolute;
-	top: 1.5rem;
-	bottom: 1.5rem;
-	left: 1.08rem;
-	width: 1px;
-	background: linear-gradient(rgba(76, 219, 229, 0.65), rgba(126, 92, 255, 0.45), transparent);
+	top: 1.8rem;
+	bottom: 1.8rem;
+	left: 1.55rem;
+	width: 2px;
+	background: linear-gradient(var(--human-meaning), var(--human-structure), var(--human-behavior), var(--human-source));
+	box-shadow: 0 0 14px rgba(34, 216, 255, 0.22);
 	content: "";
+	opacity: 0.7;
 }
 
 .human-zoom button {
+	--level-tone: var(--human-structure);
 	position: relative;
 	display: grid;
-	gap: 0.2rem;
-	min-height: 4.3rem;
-	padding: 0.75rem 0.8rem 0.75rem 1.5rem;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto auto;
+	gap: 0.12rem 0.55rem;
+	min-height: 4.6rem;
+	padding: 0.65rem 0.65rem 0.65rem 2.55rem;
 	border: 1px solid transparent;
-	border-radius: 0.9rem;
-	color: #859ab9;
+	border-radius: var(--human-radius-md);
+	color: var(--human-muted);
 	background: transparent;
 	font: inherit;
 	text-align: left;
 	cursor: pointer;
 }
 
-.human-zoom button::before {
+.human-zoom button:nth-child(1) { --level-tone: var(--human-meaning); }
+.human-zoom button:nth-child(2) { --level-tone: var(--human-structure); }
+.human-zoom button:nth-child(3) { --level-tone: var(--human-behavior); }
+.human-zoom button:nth-child(4) { --level-tone: var(--human-source); }
+
+.human-level-number {
 	position: absolute;
-	top: 1.05rem;
-	left: 0.42rem;
-	width: 0.52rem;
-	height: 0.52rem;
-	border: 1px solid rgba(117, 210, 229, 0.56);
+	top: 0.8rem;
+	left: 0.37rem;
+	display: grid;
+	place-items: center;
+	width: 1.35rem;
+	height: 1.35rem;
+	border: 1px solid var(--level-tone);
 	border-radius: 50%;
-	background: #071326;
-	content: "";
+	color: var(--level-tone);
+	background: var(--human-bg-1);
+	font-size: 0.58rem;
+	font-weight: 900;
+	box-shadow: 0 0 14px rgba(34, 216, 255, 0.12);
 }
 
-.human-zoom button strong {
-	color: inherit;
-	font-size: 0.85rem;
+.human-level-glyph {
+	grid-row: 1 / 3;
+	display: grid;
+	place-items: center;
+	width: 1.8rem;
+	height: 1.8rem;
+	border-radius: 0.58rem;
+	color: var(--level-tone);
+	background: rgba(255, 255, 255, 0.035);
+	font-size: 0.82rem;
+	font-weight: 900;
 }
 
-.human-zoom button span {
-	font-size: 0.67rem;
-	line-height: 1.4;
-}
+.human-zoom button strong { color: inherit; font-size: 0.78rem; }
+.human-zoom button small { color: var(--human-dim); font-size: 0.61rem; line-height: 1.35; }
 
 .human-zoom button[aria-pressed="true"] {
-	border-color: rgba(95, 223, 237, 0.24);
-	color: #dffbff;
-	background: linear-gradient(135deg, rgba(56, 199, 215, 0.12), rgba(122, 88, 255, 0.08));
+	border-color: var(--level-tone);
+	color: var(--human-text);
+	background: linear-gradient(135deg, rgba(18, 37, 72, 0.84), rgba(9, 19, 42, 0.76));
+	box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02), 0 0 20px rgba(34, 216, 255, 0.08);
 }
 
-.human-zoom button[aria-pressed="true"]::before {
-	border-color: #6ee8ef;
-	background: #6ee8ef;
-	box-shadow: 0 0 16px rgba(110, 232, 239, 0.58);
-}
+.human-zoom button[aria-pressed="true"] .human-level-number { background: var(--level-tone); color: #071020; box-shadow: 0 0 18px var(--level-tone); }
 
 .human-view-root[data-human-level="meaning"] [data-human-depth="structure"],
 .human-view-root[data-human-level="meaning"] [data-human-depth="behavior"],

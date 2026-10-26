@@ -2,113 +2,103 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos surrounds meaning and source with one living chamber.
- * Awtsmoos.com lets the human stand above the code without losing the path back into exact letters.
+ * The Awtsmoos surrounds semantic depth with one midnight chamber of light, glass, and measured human control.
+ * Awtsmoos.com makes the shell cinematic without hiding the exact source beneath any luminous surface.
  */
-
 .human-view-root {
 	position: fixed;
 	inset: 0;
 	z-index: 2400;
-	color: #edf6ff;
+	color: var(--human-text);
 	background:
-		radial-gradient(circle at 12% 0%, rgba(38, 198, 218, 0.16), transparent 32rem),
-		radial-gradient(circle at 88% 8%, rgba(137, 92, 246, 0.16), transparent 34rem),
-		linear-gradient(145deg, #06101f 0%, #081226 45%, #0a1020 100%);
+		radial-gradient(circle at 8% 4%, rgba(34, 216, 255, 0.15), transparent 28rem),
+		radial-gradient(circle at 92% 7%, rgba(139, 92, 255, 0.2), transparent 32rem),
+		radial-gradient(circle at 70% 92%, rgba(236, 76, 255, 0.1), transparent 30rem),
+		linear-gradient(150deg, var(--human-bg-0), var(--human-bg-1) 52%, #07091d);
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
-
+.human-view-root::before {
+	position: fixed;
+	inset: 0;
+	background-image: radial-gradient(rgba(155, 196, 255, 0.2) 0.7px, transparent 0.7px);
+	background-size: 24px 24px;
+	content: "";
+	opacity: 0.08;
+	pointer-events: none;
+}
 .human-takeover-shell {
+	position: relative;
 	display: grid;
-	grid-template-rows: auto minmax(0, 1fr);
+	grid-template-rows: auto auto minmax(0, 1fr);
 	width: 100%;
 	height: 100%;
 	min-height: 0;
 	overflow: hidden;
 }
-
 .human-takeover-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 1.25rem;
-	padding: 1rem clamp(1rem, 3vw, 2.5rem);
-	border-bottom: 1px solid rgba(157, 196, 255, 0.13);
-	background: rgba(6, 14, 30, 0.72);
-	backdrop-filter: blur(24px);
-	box-shadow: 0 14px 40px rgba(0, 0, 0, 0.24);
+	gap: 1rem;
+	padding: 0.85rem clamp(1rem, 3vw, 2.4rem);
+	border-bottom: 1px solid var(--human-border);
+	background: rgba(3, 10, 24, 0.86);
+	backdrop-filter: blur(18px);
 }
-
+.human-brand-lockup { display: flex; align-items: center; min-width: 0; gap: 0.8rem; }
+.human-brand-mark {
+	display: grid;
+	flex: 0 0 auto;
+	place-items: center;
+	width: 2.65rem;
+	height: 2.65rem;
+	border: 1px solid rgba(34, 216, 255, 0.55);
+	border-radius: 0.85rem;
+	color: white;
+	background: linear-gradient(145deg, #0dd8ff, #6d5cff 55%, #e24cff);
+	box-shadow: 0 0 24px rgba(34, 216, 255, 0.18);
+	font-size: 1.15rem;
+	font-weight: 950;
+}
+.human-brand-lockup h1,
+.human-brand-lockup p { margin: 0; }
+.human-brand-lockup h1 {
+	max-width: min(48vw, 620px);
+	overflow: hidden;
+	font-size: clamp(1rem, 2.2vw, 1.35rem);
+	letter-spacing: -0.025em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.human-brand-lockup > div > p:last-child { margin-top: 0.15rem; color: var(--human-dim); font-size: 0.67rem; }
 .human-brand,
-.human-eyebrow {
-	margin: 0 0 0.3rem;
-	color: #73dceb;
-	font-size: 0.72rem;
-	font-weight: 800;
-	letter-spacing: 0.16em;
-	text-transform: uppercase;
+.human-eyebrow { color: var(--human-structure); font-size: 0.62rem; font-weight: 850; letter-spacing: 0.14em; text-transform: uppercase; }
+.human-brand span {
+	margin-left: 0.35rem;
+	padding: 0.15rem 0.35rem;
+	border: 1px solid rgba(57, 230, 164, 0.34);
+	border-radius: 999px;
+	color: var(--human-success);
+	background: var(--human-success-soft);
+	letter-spacing: 0.08em;
 }
-
-.human-takeover-header h1 {
-	margin: 0;
-	font-size: clamp(1.2rem, 2.2vw, 1.7rem);
-	font-weight: 740;
-	letter-spacing: -0.03em;
-}
-
-.human-header-actions {
-	display: flex;
-	align-items: center;
-	gap: 0.55rem;
-}
-
+.human-header-actions { display: flex; gap: 0.4rem; }
 .human-header-actions button {
-	min-height: 2.65rem;
-	padding: 0.55rem 0.9rem;
-	border: 1px solid rgba(154, 194, 255, 0.18);
-	border-radius: 0.8rem;
+	min-height: 2.55rem;
+	padding: 0.45rem 0.78rem;
+	border: 1px solid rgba(128, 169, 230, 0.2);
+	border-radius: 0.75rem;
 	color: #dcecff;
-	background: rgba(104, 137, 196, 0.08);
+	background: rgba(13, 28, 58, 0.66);
 	font: inherit;
-	font-size: 0.82rem;
-	font-weight: 700;
+	font-size: 0.72rem;
+	font-weight: 780;
 	cursor: pointer;
 }
-
-.human-header-actions button:hover {
-	border-color: rgba(116, 222, 238, 0.54);
-	background: rgba(56, 197, 220, 0.1);
-}
-
-.human-takeover-layout {
-	display: grid;
-	grid-template-columns: minmax(160px, 196px) minmax(0, 1fr);
-	min-height: 0;
-}
-
-.human-canvas {
-	position: relative;
-	min-width: 0;
-	overflow: auto;
-	overscroll-behavior: contain;
-	scrollbar-gutter: stable;
-}
-
-.human-global-feedback {
-	position: sticky;
-	top: 0.75rem;
-	z-index: 4;
-	width: min(92%, 760px);
-	min-height: 0;
-	margin: 0 auto;
-	border-radius: 0.75rem;
-	font-size: 0.84rem;
-	text-align: center;
-}
-
-.human-global-feedback:not(:empty) {
-	padding: 0.7rem 1rem;
-	border: 1px solid rgba(114, 219, 237, 0.3);
-	background: rgba(8, 24, 42, 0.94);
-	box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
-}
+.human-header-actions button:hover { border-color: rgba(34, 216, 255, 0.48); background: rgba(34, 216, 255, 0.08); }
+.human-takeover-layout { display: grid; grid-template-columns: minmax(170px, 210px) minmax(0, 1fr); min-height: 0; }
+.human-canvas { position: relative; min-width: 0; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.human-global-feedback { position: sticky; top: 0.6rem; z-index: 8; width: min(92%, 760px); margin: 0 auto; border-radius: 0.8rem; font-size: 0.76rem; text-align: center; }
+.human-global-feedback:not(:empty) { padding: 0.65rem 0.9rem; border: 1px solid rgba(34, 216, 255, 0.3); background: rgba(6, 19, 42, 0.96); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
+.human-global-feedback[data-tone="success"] { border-color: rgba(57, 230, 164, 0.35); color: #adf5d8; }
+.human-global-feedback[data-tone="error"] { border-color: rgba(255, 114, 141, 0.35); color: #ffc1cd; }

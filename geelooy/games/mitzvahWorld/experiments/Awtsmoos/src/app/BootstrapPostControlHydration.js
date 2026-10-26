@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapPostControlHydration.js
- * @description Upgrades control systems, then starts optional Village Bridge quests independently of cinematic visuals.
- * The Awtsmoos gives the Chossid a first real footstep and a working world;
- * only once the controls awaken may the earned bridge path be unfurled.
+ * @description Installs real gameplay and optional authored village detail after essential movement.
+ * The Awtsmoos grants every tree its living grain and every roof its earth;
+ * Awtsmoos.com leaves the player's first step unhindered by creation's birth.
  */
 
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
@@ -19,10 +19,11 @@ import { MinimalMeadowBootstrapCombat } from './MinimalMeadowBootstrapCombat.js'
 import { createMinimalMeadowBootstrapMinimap } from './MinimalMeadowBootstrapMinimap.js';
 import { eretzWorldFeatureEnabled } from './EretzWorldFeaturePolicy.js';
 import { startEretzBridgeFeature } from './EretzBridgeFeatureBoot.js';
+import { startEretzLivingVillageVisualMount } from './EretzLivingVillageVisualMount.js';
 
 const BLANK_MEADOW_ID = 'blank-meadow';
 
-/** Upgrade the existing moving player without creating an extra world or blocking its first frame. */
+/** Upgrade real controls, then schedule village textures and built homes without blocking input. */
 export function hydrateBootstrapPostControl(core, options, qualityProfile, boot) {
 	const { runtime, movement } = core;
 	const environment = options.environment || globalThis;
@@ -51,10 +52,15 @@ export function hydrateBootstrapPostControl(core, options, qualityProfile, boot)
 		environment,
 		core.diagnostics
 	);
+	core.diagnostics.livingVillageVisuals = startEretzLivingVillageVisualMount(
+		runtime,
+		runtime.worldExperience || options.worldExperience || {},
+		core.diagnostics
+	);
 	return core;
 }
 
-/** Dress the existing canonical Chossid in animated movement after its body is certified. */
+/** Dress the existing canonical Chossid in animation after its mesh is certified. */
 function hydrateAnimation(runtime) {
 	if (runtime.canonicalAnimationPlayer) return;
 	const gltf = runtime.playerGltf;

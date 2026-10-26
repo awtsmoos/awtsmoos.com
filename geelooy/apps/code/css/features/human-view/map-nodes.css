@@ -1,0 +1,51 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets each observed semantic fact glow inside its truthful section without inventing new graph edges.
+ * Awtsmoos.com keeps constellation details small, selectable, and exact enough to descend into source.
+ */
+.human-map-section-head {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: 0.65rem;
+	align-items: center;
+}
+.human-map-section-head p,
+.human-map-section-head h3 { margin: 0; }
+.human-map-section-head p {
+	color: var(--map-tone);
+	font-size: 0.63rem;
+	font-weight: 850;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+.human-map-section-head h3 { margin-top: 0.12rem; font-size: 1rem; }
+.human-map-node-dot {
+	width: 0.72rem;
+	height: 0.72rem;
+	border-radius: 50%;
+	background: var(--map-tone);
+	box-shadow: 0 0 18px var(--map-tone);
+}
+.human-map-count,
+.human-map-more { color: var(--human-dim); font-size: 0.66rem; }
+.human-map-facts { display: grid; gap: 0.45rem; margin-top: 0.85rem; }
+.human-map-fact {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: 0.55rem;
+	align-items: center;
+	padding: 0.65rem;
+	border: 1px solid rgba(142, 178, 231, 0.12);
+	border-radius: 0.75rem;
+	color: var(--human-text);
+	background: rgba(3, 12, 28, 0.62);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+.human-map-fact:hover { border-color: var(--map-tone); background: rgba(13, 29, 58, 0.84); }
+.human-map-fact span,
+.human-map-fact small { color: var(--human-dim); font-size: 0.64rem; }
+.human-map-more { display: block; margin-top: 0.65rem; }

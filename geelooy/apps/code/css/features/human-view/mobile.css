@@ -2,95 +2,108 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos gives the smallest screen the same semantic dignity as the widest workstation.
- * Awtsmoos.com keeps zoom, decisions, source descent, and close controls reachable under one thumb.
+ * The Awtsmoos gives the smallest screen the same semantic sovereignty as the widest workstation.
+ * Awtsmoos.com makes depth and presentation modes thumb-reachable without shrinking desktop chrome into a phone.
  */
-
 @media (max-width: 760px) {
+	.human-takeover-shell {
+		grid-template-rows: auto minmax(0, 1fr) auto;
+	}
+	.human-mode-tabs {
+		display: none;
+	}
+	.human-takeover-header {
+		align-items: flex-start;
+		padding: max(0.7rem, env(safe-area-inset-top)) 0.72rem 0.65rem;
+	}
+	.human-brand-lockup {
+		gap: 0.55rem;
+	}
+	.human-brand-mark {
+		width: 2.3rem;
+		height: 2.3rem;
+		border-radius: 0.72rem;
+	}
+	.human-brand-lockup > div > p:last-child {
+		display: none;
+	}
+	.human-brand-lockup h1 {
+		max-width: 42vw;
+		font-size: 0.94rem;
+	}
+	.human-header-actions {
+		gap: 0.25rem;
+	}
+	.human-header-actions button {
+		min-height: 42px;
+		padding: 0.42rem 0.52rem;
+		font-size: 0.66rem;
+	}
 	.human-takeover-layout {
 		grid-template-columns: minmax(0, 1fr);
 		grid-template-rows: auto minmax(0, 1fr);
 	}
-
 	.human-zoom {
 		position: sticky;
 		top: 0;
-		z-index: 6;
+		z-index: 10;
 		flex-direction: row;
-		gap: 0.4rem;
-		padding: 0.55rem 0.65rem;
+		gap: 0.35rem;
+		padding: 0.52rem 0.58rem;
 		border-right: 0;
-		border-bottom: 1px solid rgba(155, 193, 249, 0.1);
+		border-bottom: 1px solid var(--human-border);
 		overflow-x: auto;
-		background: rgba(5, 13, 28, 0.94);
-		backdrop-filter: blur(18px);
+		background: rgba(3, 10, 24, 0.94);
+		backdrop-filter: blur(16px);
 	}
-
 	.human-zoom::before {
 		display: none;
 	}
-
 	.human-zoom button {
 		flex: 0 0 auto;
 		min-height: 2.7rem;
-		padding: 0.55rem 0.8rem;
+		padding: 0.48rem 0.72rem;
+		grid-template-columns: auto auto;
+		grid-template-rows: auto;
+	}
+	.human-level-number,
+	.human-zoom button small {
+		display: none;
+	}
+	.human-level-glyph {
+		grid-row: auto;
+		width: 1.55rem;
+		height: 1.55rem;
+	}
+	.human-canvas {
+		padding-bottom: calc(5.2rem + env(safe-area-inset-bottom));
+	}
+	.human-mobile-dock {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 0.25rem;
+		padding: 0.45rem 0.52rem calc(0.45rem + env(safe-area-inset-bottom));
+		border-top: 1px solid rgba(96, 153, 225, 0.22);
+		background: rgba(2, 8, 21, 0.96);
+		backdrop-filter: blur(18px);
+		box-shadow: 0 -14px 36px rgba(0, 0, 0, 0.28);
+	}
+	.human-mobile-dock .human-mode-button {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.2rem;
+		min-height: 3.8rem;
+		padding: 0.45rem 0.25rem;
 		text-align: center;
 	}
-
-	.human-zoom button::before,
-	.human-zoom button span {
+	.human-mobile-dock .human-mode-glyph {
+		width: 1.8rem;
+		height: 1.8rem;
+	}
+}
+@media (max-width: 430px) {
+	.human-header-actions button[data-human-action="source-first"] {
 		display: none;
-	}
-
-	.human-takeover-header {
-		align-items: flex-start;
-		padding: max(0.7rem, env(safe-area-inset-top)) 0.75rem 0.7rem;
-	}
-
-	.human-brand {
-		display: none;
-	}
-
-	.human-header-actions {
-		gap: 0.3rem;
-	}
-
-	.human-header-actions button {
-		min-height: 2.45rem;
-		padding: 0.45rem 0.58rem;
-		font-size: 0.72rem;
-	}
-
-	.human-takeover-document {
-		padding: 1rem 0.72rem calc(3rem + env(safe-area-inset-bottom));
-	}
-
-	.human-document-hero {
-		align-items: stretch;
-		flex-direction: column;
-	}
-
-	.human-metrics {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	.human-node {
-		display: grid;
-	}
-
-	.human-node-evidence {
-		justify-content: flex-start;
-	}
-
-	.human-decision {
-		grid-template-columns: minmax(0, 1fr);
-	}
-
-	.human-decision-form {
-		grid-template-columns: minmax(0, 1fr);
-	}
-
-	.human-document-footer {
-		flex-direction: column;
 	}
 }

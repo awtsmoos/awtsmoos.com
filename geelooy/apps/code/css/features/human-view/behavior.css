@@ -1,0 +1,104 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives deterministic human choice an amber chamber while observed behavior remains visibly distinct.
+ * Awtsmoos.com makes editable power bright enough to feel sovereign and bounded enough to remain honest.
+ */
+.human-behavior-studio {
+	width: min(100%, 1040px);
+	margin: 0 auto;
+	padding: clamp(1rem, 3vw, 2.25rem) clamp(0.8rem, 3vw, 2.25rem) 5rem;
+}
+.human-mode-hero[data-tone="behavior"] {
+	border-color: rgba(255, 189, 69, 0.32);
+	background: linear-gradient(145deg, rgba(67, 43, 13, 0.36), rgba(8, 18, 40, 0.9));
+	box-shadow: 0 20px 64px rgba(255, 164, 56, 0.08);
+}
+.human-device-context {
+	display: grid;
+	grid-template-columns: auto repeat(3, minmax(0, 1fr));
+	gap: 0.45rem;
+	align-items: center;
+	margin: 1rem 0;
+	padding: 0.65rem;
+	border: 1px solid rgba(34, 216, 255, 0.18);
+	border-radius: var(--human-radius-md);
+	background: rgba(5, 15, 34, 0.72);
+}
+.human-device-context span {
+	padding: 0 0.4rem;
+	color: var(--human-dim);
+	font-size: 0.66rem;
+	font-weight: 850;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+.human-device-context strong {
+	padding: 0.62rem 0.7rem;
+	border: 1px solid rgba(122, 169, 232, 0.13);
+	border-radius: 0.7rem;
+	color: var(--human-muted);
+	background: rgba(13, 29, 59, 0.58);
+	font-size: 0.74rem;
+	text-align: center;
+}
+.human-device-context strong:last-child {
+	border-color: rgba(34, 216, 255, 0.42);
+	color: #dffbff;
+	background: rgba(34, 216, 255, 0.12);
+	box-shadow: inset 0 0 20px rgba(34, 216, 255, 0.05);
+}
+.human-behavior-group {
+	margin-top: 1rem;
+	padding: 1rem;
+	border: 1px solid var(--human-border);
+	border-radius: var(--human-radius-lg);
+	background: linear-gradient(145deg, rgba(10, 23, 50, 0.82), rgba(5, 13, 30, 0.88));
+	box-shadow: var(--human-shadow);
+}
+.human-group-heading {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 0.9rem;
+}
+.human-group-heading > span {
+	display: grid;
+	place-items: center;
+	min-width: 2.4rem;
+	height: 2.4rem;
+	border: 1px solid rgba(255, 189, 69, 0.4);
+	border-radius: 0.8rem;
+	color: var(--human-behavior);
+	background: var(--human-behavior-soft);
+	font-size: 0.72rem;
+	font-weight: 900;
+}
+.human-group-heading p,
+.human-group-heading h3 { margin: 0; }
+.human-group-heading p {
+	color: var(--human-behavior);
+	font-size: 0.64rem;
+	font-weight: 850;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+.human-group-heading h3 { margin-top: 0.12rem; font-size: 1rem; }
+.human-decision-list,
+.human-behavior-observations { display: grid; gap: 0.75rem; }
+.human-behavior-observation {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.85rem;
+	border: 1px solid rgba(124, 166, 228, 0.12);
+	border-radius: var(--human-radius-sm);
+	background: rgba(3, 12, 28, 0.58);
+}
+.human-behavior-observation span { color: var(--human-structure); font-size: 0.64rem; font-weight: 850; text-transform: uppercase; }
+.human-behavior-observation h3 { margin: 0.15rem 0 0.28rem; font-size: 0.94rem; }
+.human-behavior-observation p,
+.human-behavior-empty { margin: 0; color: var(--human-muted); font-size: 0.76rem; line-height: 1.55; }
+.human-behavior-empty { padding: 1rem; border: 1px dashed rgba(255, 189, 69, 0.22); border-radius: var(--human-radius-md); }
+.human-behavior-empty strong { display: block; margin-bottom: 0.3rem; color: var(--human-text); }

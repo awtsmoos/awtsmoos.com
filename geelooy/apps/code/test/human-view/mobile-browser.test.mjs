@@ -18,38 +18,41 @@ try {
 	await setSyntheticTab(browser, "human-mobile-test", "mobile.css", "@media (max-width: 768px) { .panel { display: block; } }");
 	assert.deepEqual(await openHumanTakeover(browser, "takeover=mobile"), { ok: true, state: "document" });
 	const mobile = await browser.evaluate(`(()=>{
-		const root=document.querySelector('.human-takeover-root');
+		let root=document.querySelector('.human-takeover-root');
 		const links=[...document.querySelectorAll('link[data-human-view-style="true"]')];
-		const zoom=root.querySelector('.human-zoom');
-		const actions=[...root.querySelectorAll('.human-header-actions button')];
-		const levels=[...root.querySelectorAll('[data-human-level-choice]')];
+		let zoom=root.querySelector('.human-zoom');
+		let dock=root.querySelector('.human-mobile-dock');
+		const zoomDirection=getComputedStyle(zoom).flexDirection;
+		const dockDisplay=getComputedStyle(dock).display;
+		const visibleActions=[...root.querySelectorAll('.human-header-actions button')].filter(button=>button.getBoundingClientRect().height>0);
+		const minActionHeight=Math.min(...visibleActions.map(button=>button.getBoundingClientRect().height));
+		const levelCount=root.querySelectorAll('[data-human-level-choice]').length;
+		const dockModeCount=dock.querySelectorAll('[data-human-mode-choice]').length;
 		root.querySelector('[data-human-level-choice="behavior"]').click();
+		root=document.querySelector('.human-takeover-root');
 		const behavior=root.dataset.humanLevel;
 		root.querySelector('[data-human-level-choice="source"]').click();
-		return {
-			linkCount:links.length,
-			ready:links.every(link=>Boolean(link.sheet)&&link.dataset.humanViewLoaded==='true'),
-			versions:links.map(link=>new URL(link.href).searchParams.get('v')),
-			zoomDirection:getComputedStyle(zoom).flexDirection,
-			minActionHeight:Math.min(...actions.map(button=>button.getBoundingClientRect().height)),
-			levelCount:levels.length,
-			behavior,
-			source:root.dataset.humanLevel,
-			scrollWidth:root.scrollWidth,
-			clientWidth:root.clientWidth
-		};
+		root=document.querySelector('.human-takeover-root');
+		const source=root.dataset.humanLevel;
+		dock=root.querySelector('.human-mobile-dock');
+		dock.querySelector('[data-human-mode-choice="map"]').click();
+		root=document.querySelector('.human-takeover-root');
+		return{linkCount:links.length,ready:links.every(link=>Boolean(link.sheet)&&link.dataset.humanViewLoaded==='true'),versions:links.map(link=>new URL(link.href).searchParams.get('v')),zoomDirection,dockDisplay,minActionHeight,levelCount,dockModeCount,behavior,source,mapMode:root.dataset.humanMode,scrollWidth:root.scrollWidth,clientWidth:root.clientWidth};
 	})()`);
-	assert.equal(mobile.linkCount, 8);
+	assert.equal(mobile.linkCount, 15);
 	assert.equal(mobile.ready, true);
 	assert.ok(mobile.versions.every(version => version === pre.version));
 	assert.equal(mobile.zoomDirection, "row");
+	assert.equal(mobile.dockDisplay, "grid");
 	assert.ok(mobile.minActionHeight >= 38);
 	assert.equal(mobile.levelCount, 4);
+	assert.equal(mobile.dockModeCount, 4);
 	assert.equal(mobile.behavior, "behavior");
 	assert.equal(mobile.source, "source");
+	assert.equal(mobile.mapMode, "map");
 	assert.ok(mobile.scrollWidth <= mobile.clientWidth + 2);
 	assert.deepEqual(browser.exceptions, []);
-	console.log("__LOCAL_HUMAN_TAKEOVER_MOBILE_PASS__");
+	console.log("__LOCAL_NEON_HUMAN_TAKEOVER_MOBILE_PASS__");
 } finally {
 	browser.close();
 }

@@ -4,19 +4,19 @@
 
 /**
  * @file EretzFoundationRenderer.js
- * @description Builds required WebGL with a deep authored sky, warm haze, and real shader-ready golden-hour environment.
- * The Awtsmoos renews cool heaven, amber distance, black garment, and living grass in one ray;
- * Awtsmoos.com carries that truthful atmosphere from first control into the hydrated renderer without a painted display.
+ * @description Builds a minimal golden-hour WebGL survival renderer without startup shadows.
+ * The Awtsmoos renews the player and sun in one instant of light;
+ * Awtsmoos.com gives movement first, then richer scenery in sight.
  */
 
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
 import { ShadowBudgetController } from '../render/ShadowBudgetController.js';
-import { shadowTierForWorldQuality } from '../performance/WorldQualityProfile.js';
 import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js';
 
 const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 const shadowBudgets = new ShadowBudgetController();
 
+/** Creates essential atmosphere while disabling shadow-map generation at first control. */
 export function createEretzFoundationRenderer(canvas, qualityProfile) {
 	const renderer = createMinimalMeadowRenderer(canvas);
 	const renderDistance = qualityProfile.renderDistance;
@@ -29,23 +29,14 @@ export function createEretzFoundationRenderer(canvas, qualityProfile) {
 		fogFar: renderDistance,
 		fogNear: renderDistance * 0.30
 	});
-	// B"H: the world quality profile drives the real shadow-map budget through
-	// the shadow budget controller, so low keeps a small honest map and
-	// high/cinematic keep the full near-field map.
-	shadowBudgets.applyTier(shadowTierForWorldQuality(qualityProfile.quality), renderer);
+	shadowBudgets.applyTier('off', renderer);
 	return renderer;
 }
 
-/**
- * Freezes the authored cinematic palette consumed by both bootstrap and hydrated rendering.
- * @param {object} reference Shared golden-hour source of truth.
- * @returns {Readonly<object>} Renderer environment with immutable color vectors.
- */
+/** Freezes the cinematic reference colors shared by bootstrap and hydrated rendering. */
 export function referenceEnvironment(reference) {
 	const cinematic = reference.cinematic;
-	const exposure = (
-		cinematic.exposureMobile + cinematic.exposureDesktop
-	) * 0.5;
+	const exposure = (cinematic.exposureMobile + cinematic.exposureDesktop) * 0.5;
 	return Object.freeze({
 		ambient: frozenColor(cinematic.ambient),
 		exposure,
@@ -56,12 +47,12 @@ export function referenceEnvironment(reference) {
 	});
 }
 
-/** Copies one authored RGB vector so renderer state cannot mutate the shared preset. */
+/** Copies one RGB vector so renderer state cannot mutate the shared preset. */
 function frozenColor(color) {
 	return Object.freeze([color[0], color[1], color[2]]);
 }
 
-/** Returns a unit direction while preserving a safe zero-vector fallback. */
+/** Normalizes a sun direction with a stable fallback for a zero vector. */
 function normalized(vector) {
 	const length = Math.hypot(vector[0], vector[1], vector[2]) || 1;
 	return [vector[0] / length, vector[1] / length, vector[2] / length];

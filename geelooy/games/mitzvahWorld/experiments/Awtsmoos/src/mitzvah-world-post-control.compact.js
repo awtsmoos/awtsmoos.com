@@ -1194,6 +1194,186 @@ const __awtsmoosModule_209 = Object.create(null);
 
 const __awtsmoosModule_78 = Object.create(null);
 
+const __awtsmoosModule_587 = Object.create(null);
+
+const __awtsmoosModule_586 = Object.create(null);
+
+const __awtsmoosModule_593 = Object.create(null);
+
+const __awtsmoosModule_595 = Object.create(null);
+
+const __awtsmoosModule_596 = Object.create(null);
+
+const __awtsmoosModule_594 = Object.create(null);
+
+const __awtsmoosModule_599 = Object.create(null);
+
+const __awtsmoosModule_600 = Object.create(null);
+
+const __awtsmoosModule_601 = Object.create(null);
+
+const __awtsmoosModule_598 = Object.create(null);
+
+const __awtsmoosModule_602 = Object.create(null);
+
+const __awtsmoosModule_597 = Object.create(null);
+
+const __awtsmoosModule_605 = Object.create(null);
+
+const __awtsmoosModule_604 = Object.create(null);
+
+const __awtsmoosModule_603 = Object.create(null);
+
+const __awtsmoosModule_606 = Object.create(null);
+
+const __awtsmoosModule_609 = Object.create(null);
+
+const __awtsmoosModule_608 = Object.create(null);
+
+const __awtsmoosModule_611 = Object.create(null);
+
+const __awtsmoosModule_610 = Object.create(null);
+
+const __awtsmoosModule_607 = Object.create(null);
+
+const __awtsmoosModule_613 = Object.create(null);
+
+const __awtsmoosModule_614 = Object.create(null);
+
+const __awtsmoosModule_615 = Object.create(null);
+
+const __awtsmoosModule_616 = Object.create(null);
+
+const __awtsmoosModule_617 = Object.create(null);
+
+const __awtsmoosModule_618 = Object.create(null);
+
+const __awtsmoosModule_612 = Object.create(null);
+
+const __awtsmoosModule_620 = Object.create(null);
+
+const __awtsmoosModule_619 = Object.create(null);
+
+const __awtsmoosModule_592 = Object.create(null);
+
+const __awtsmoosModule_591 = Object.create(null);
+
+const __awtsmoosModule_590 = Object.create(null);
+
+const __awtsmoosModule_623 = Object.create(null);
+
+const __awtsmoosModule_626 = Object.create(null);
+
+const __awtsmoosModule_627 = Object.create(null);
+
+const __awtsmoosModule_628 = Object.create(null);
+
+const __awtsmoosModule_630 = Object.create(null);
+
+const __awtsmoosModule_629 = Object.create(null);
+
+const __awtsmoosModule_625 = Object.create(null);
+
+const __awtsmoosModule_624 = Object.create(null);
+
+const __awtsmoosModule_632 = Object.create(null);
+
+const __awtsmoosModule_634 = Object.create(null);
+
+const __awtsmoosModule_636 = Object.create(null);
+
+const __awtsmoosModule_637 = Object.create(null);
+
+const __awtsmoosModule_638 = Object.create(null);
+
+const __awtsmoosModule_639 = Object.create(null);
+
+const __awtsmoosModule_640 = Object.create(null);
+
+const __awtsmoosModule_635 = Object.create(null);
+
+const __awtsmoosModule_641 = Object.create(null);
+
+const __awtsmoosModule_633 = Object.create(null);
+
+const __awtsmoosModule_645 = Object.create(null);
+
+const __awtsmoosModule_646 = Object.create(null);
+
+const __awtsmoosModule_647 = Object.create(null);
+
+const __awtsmoosModule_649 = Object.create(null);
+
+const __awtsmoosModule_648 = Object.create(null);
+
+const __awtsmoosModule_644 = Object.create(null);
+
+const __awtsmoosModule_643 = Object.create(null);
+
+const __awtsmoosModule_650 = Object.create(null);
+
+const __awtsmoosModule_642 = Object.create(null);
+
+const __awtsmoosModule_653 = Object.create(null);
+
+const __awtsmoosModule_654 = Object.create(null);
+
+const __awtsmoosModule_652 = Object.create(null);
+
+const __awtsmoosModule_655 = Object.create(null);
+
+const __awtsmoosModule_651 = Object.create(null);
+
+const __awtsmoosModule_656 = Object.create(null);
+
+const __awtsmoosModule_631 = Object.create(null);
+
+const __awtsmoosModule_622 = Object.create(null);
+
+const __awtsmoosModule_658 = Object.create(null);
+
+const __awtsmoosModule_657 = Object.create(null);
+
+const __awtsmoosModule_621 = Object.create(null);
+
+const __awtsmoosModule_659 = Object.create(null);
+
+const __awtsmoosModule_660 = Object.create(null);
+
+const __awtsmoosModule_589 = Object.create(null);
+
+const __awtsmoosModule_661 = Object.create(null);
+
+const __awtsmoosModule_663 = Object.create(null);
+
+const __awtsmoosModule_664 = Object.create(null);
+
+const __awtsmoosModule_662 = Object.create(null);
+
+const __awtsmoosModule_665 = Object.create(null);
+
+const __awtsmoosModule_666 = Object.create(null);
+
+const __awtsmoosModule_667 = Object.create(null);
+
+const __awtsmoosModule_668 = Object.create(null);
+
+const __awtsmoosModule_669 = Object.create(null);
+
+const __awtsmoosModule_671 = Object.create(null);
+
+const __awtsmoosModule_670 = Object.create(null);
+
+const __awtsmoosModule_673 = Object.create(null);
+
+const __awtsmoosModule_672 = Object.create(null);
+
+const __awtsmoosModule_674 = Object.create(null);
+
+const __awtsmoosModule_588 = Object.create(null);
+
+const __awtsmoosModule_585 = Object.create(null);
+
 const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js ----
@@ -54861,6 +55041,7519 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapProceduralTerrainTextures.js ----
+{
+	const __exports = __awtsmoosModule_587;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BootstrapProceduralTerrainTextures.js
+	 * @description Grows honest tileable ground and building textures from a fixed seed, with no
+	 * network, no AI imagery, and no Math.random. Blade-level grass mottling, clumpy dirt with
+	 * pebbles, cracked lichen stone, wood grain, plaster, brick courses, roof tile, and glass are
+	 * all painted into 256px RGBA fields by deterministic multi-octave value noise whose lattice
+	 * wraps at every octave, so every texture tiles seamlessly. Generation runs once at boot and
+	 * the set is cached; the bootstrap meadow binds grass/stone into its ground materials while
+	 * house and player-building descriptors reference the same kinds by name.
+	 * The Awtsmoos clothes the earth before any distant image can delay the road; Awtsmoos.com
+	 * keeps every pixel reproducible from one small seed.
+	 */
+
+	const PROCEDURAL_TEXTURE_SEED = 613;
+
+	__exports.PROCEDURAL_TEXTURE_SEED = PROCEDURAL_TEXTURE_SEED;
+	const PROCEDURAL_TEXTURE_SIZE = 256;
+
+
+	__exports.PROCEDURAL_TEXTURE_SIZE = PROCEDURAL_TEXTURE_SIZE;
+	const PROCEDURAL_TEXTURE_KINDS = Object.freeze([
+		'grass',
+		'dirt',
+		'stone',
+		'wood',
+		'plaster',
+		'brick',
+		'roofTile',
+		'glass'
+	]);
+
+
+	__exports.PROCEDURAL_TEXTURE_KINDS = PROCEDURAL_TEXTURE_KINDS;
+	/** Deterministic PRNG: mulberry32. No Math.random anywhere in this module. */
+	function mulberry32(seed) {
+		let state = seed >>> 0;
+		return function next() {
+			state |= 0;
+			state = (state + 0x6d2b79f5) | 0;
+			let t = Math.imul(state ^ (state >>> 15), 1 | state);
+			t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+			return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+		};
+	}
+
+	/**
+	 * Builds a tileable multi-octave value-noise field over [0, size) x [0, size).
+	 * Every octave's lattice wraps modulo its cell count, so field(0, y) === field(size, y)
+	 * and field(x, 0) === field(x, size): the painted texture tiles seamlessly.
+	 * Octaves stop once the lattice outresolves the texels, so high-frequency fields
+	 * never pay for detail finer than one pixel.
+	 * @param {number} seed Deterministic seed.
+	 * @param {number} size Field extent in texels (square).
+	 * @param {number} baseCells Lattice cells at the first octave.
+	 * @param {number} [maxOctaves=3] Octave budget.
+	 * @returns {(x:number, y:number) => number} Field value in [0, 1].
+	 */
+	function createTileableNoiseField(seed, size, baseCells, maxOctaves = 3) {
+		const layers = [];
+		const rand = mulberry32((seed ^ 0x9e3779b9) >>> 0);
+		let cells = Math.max(1, Math.floor(baseCells));
+		let amplitude = 1;
+		let total = 0;
+		for (let o = 0; o < maxOctaves && cells <= size; o += 1) {
+			const lattice = new Float32Array(cells * cells);
+			for (let i = 0; i < lattice.length; i += 1) lattice[i] = rand();
+			layers.push({ cells, lattice, amplitude });
+			total += amplitude;
+			amplitude *= 0.5;
+			cells *= 2;
+		}
+		return function field(x, y) {
+			let sum = 0;
+			for (const layer of layers) {
+				sum += octaveValue(layer, x, y, size) * layer.amplitude;
+			}
+			return sum / total;
+		};
+	}
+
+
+	__exports.createTileableNoiseField = createTileableNoiseField;
+	function octaveValue(layer, x, y, size) {
+		const { cells, lattice } = layer;
+		const gx = (x / size) * cells;
+		const gy = (y / size) * cells;
+		const ix = Math.floor(gx);
+		const iy = Math.floor(gy);
+		const x0 = ((ix % cells) + cells) % cells;
+		const y0 = ((iy % cells) + cells) % cells;
+		const x1 = (x0 + 1) % cells;
+		const y1 = (y0 + 1) % cells;
+		let fx = gx - ix;
+		let fy = gy - iy;
+		fx = fx * fx * (3 - 2 * fx);
+		fy = fy * fy * (3 - 2 * fy);
+		const v00 = lattice[y0 * cells + x0];
+		const v10 = lattice[y0 * cells + x1];
+		const v01 = lattice[y1 * cells + x0];
+		const v11 = lattice[y1 * cells + x1];
+		return (v00 * (1 - fx) + v10 * fx) * (1 - fy)
+			+ (v01 * (1 - fx) + v11 * fx) * fy;
+	}
+
+	function clampByte(value) {
+		return value < 0 ? 0 : value > 255 ? 255 : Math.round(value);
+	}
+
+	function paint(size, painter) {
+		const data = new Uint8ClampedArray(size * size * 4);
+		painter(data, size);
+		return data;
+	}
+
+	function setPixel(data, size, x, y, r, g, b, a = 255) {
+		const i = (y * size + x) * 4;
+		data[i] = clampByte(r);
+		data[i + 1] = clampByte(g);
+		data[i + 2] = clampByte(b);
+		data[i + 3] = clampByte(a);
+	}
+
+	function mix3(a, b, t) {
+		return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+	}
+
+	const PAINTERS = {
+		/** Meadow grass: blade-level mottling, hue drift, bare-earth flecks. */
+		grass(data, size, seed) {
+			const patches = createTileableNoiseField(seed + 11, size, 4);
+			const mottle = createTileableNoiseField(seed + 23, size, 16);
+			const blades = createTileableNoiseField(seed + 37, size, 64);
+			const base = [36, 112, 46];
+			const yellowGreen = [86, 138, 52];
+			const blueGreen = [30, 100, 78];
+			const bladeDark = [22, 72, 30];
+			const bladeLight = [128, 176, 92];
+			const bareDirt = [122, 94, 64];
+			for (let y = 0; y < size; y += 1) {
+				for (let x = 0; x < size; x += 1) {
+					const patch = patches(x, y);
+					let rgb = mix3(base, patch > 0.55 ? yellowGreen : blueGreen, Math.abs(patch - 0.5) * 1.4);
+					const mot = mottle(x, y);
+					const shade = 0.86 + mot * 0.28;
+					rgb = [rgb[0] * shade, rgb[1] * shade, rgb[2] * shade];
+					const blade = blades(x, y);
+					if (blade > 0.78) rgb = mix3(rgb, bladeLight, 0.55);
+					else if (blade < 0.22) rgb = mix3(rgb, bladeDark, 0.6);
+					if (mot > 0.93 && blade < 0.4) rgb = mix3(rgb, bareDirt, 0.5);
+					setPixel(data, size, x, y, rgb[0], rgb[1], rgb[2]);
+				}
+			}
+		},
+		/** Dirt: clumpy brown earth with scattered pebbles. */
+		dirt(data, size, seed) {
+			const clumps = createTileableNoiseField(seed + 41, size, 8);
+			const fine = createTileableNoiseField(seed + 53, size, 32);
+			const base = [122, 90, 62];
+			const dark = [88, 62, 42];
+			const light = [154, 122, 92];
+			for (let y = 0; y < size; y += 1) {
+				for (let x = 0; x < size; x += 1) {
+					const clump = clumps(x, y);
+					let rgb = mix3(base, clump > 0.5 ? light : dark, Math.abs(clump - 0.5) * 1.1);
+					const shade = 0.9 + fine(x, y) * 0.2;
+					rgb = [rgb[0] * shade, rgb[1] * shade, rgb[2] * shade];
+					setPixel(data, size, x, y, rgb[0], rgb[1], rgb[2]);
+				}
+			}
+			scatterPebbles(data, size, mulberry32((seed + 67) >>> 0), 150);
+		},
+		/** Stone: grey rock with dark cracks and pale lichen colonies. */
+		stone(data, size, seed) {
+			const tone = createTileableNoiseField(seed + 71, size, 4);
+			const grain = createTileableNoiseField(seed + 83, size, 16);
+			const lichenMask = createTileableNoiseField(seed + 103, size, 5);
+			const base = [140, 136, 130];
+			const dark = [104, 100, 95];
+			const light = [168, 164, 156];
+			const crackColor = [58, 56, 53];
+			const lichen = [168, 178, 140];
+			const lichenRust = [188, 128, 80];
+			for (let y = 0; y < size; y += 1) {
+				for (let x = 0; x < size; x += 1) {
+					const t = tone(x, y);
+					let rgb = mix3(base, t > 0.5 ? light : dark, Math.abs(t - 0.5) * 1.2);
+					const g = grain(x, y);
+					const shade = 0.92 + g * 0.16;
+					rgb = [rgb[0] * shade, rgb[1] * shade, rgb[2] * shade];
+					if (1 - Math.abs(2 * g - 1) > 0.93) rgb = mix3(rgb, crackColor, 0.85);
+					const lm = lichenMask(x, y);
+					if (lm > 0.72) rgb = mix3(rgb, lichen, (lm - 0.72) * 2.4);
+					else if (lm < 0.2) rgb = mix3(rgb, lichenRust, (0.2 - lm) * 2.0);
+					setPixel(data, size, x, y, rgb[0], rgb[1], rgb[2]);
+				}
+			}
+		},
+		/** Wood: vertical grain with warped growth lines and knots. */
+		wood(data, size, seed) {
+			const warp = createTileableNoiseField(seed + 109, size, 6);
+			const fine = createTileableNoiseField(seed + 127, size, 48, 2);
+			const base = [138, 90, 51];
+			const streak = [96, 58, 32];
+			const light = [168, 118, 74];
+			const rand = mulberry32((seed + 131) >>> 0);
+			const knots = [];
+			for (let i = 0; i < 5; i += 1) {
+				knots.push({ x: rand() * size, y: rand() * size, r: 5 + rand() * 7 });
+			}
+			const knotMask = new Float32Array(size * size);
+			for (const knot of knots) {
+				const r = Math.ceil(knot.r);
+				for (let oy = -r; oy <= r; oy += 1) {
+					for (let ox = -r; ox <= r; ox += 1) {
+						const d = Math.sqrt(ox * ox + oy * oy);
+						if (d >= knot.r) continue;
+						const x = (((Math.round(knot.x + ox)) % size) + size) % size;
+						const y = (((Math.round(knot.y + oy)) % size) + size) % size;
+						const t = 1 - d / knot.r;
+						const idx = y * size + x;
+						if (t > knotMask[idx]) knotMask[idx] = t;
+					}
+				}
+			}
+			for (let y = 0; y < size; y += 1) {
+				for (let x = 0; x < size; x += 1) {
+					const w = warp(x, y);
+					const line = 0.5 + 0.5 * Math.sin(x * 0.55 + w * 14 + Math.sin(y * 0.05) * 2);
+					let rgb = mix3(base, line > 0.62 ? streak : light, Math.abs(line - 0.5) * 1.15);
+					const shade = 0.92 + fine(x, y) * 0.16;
+					rgb = [rgb[0] * shade, rgb[1] * shade, rgb[2] * shade];
+					const knot = knotMask[y * size + x];
+					if (knot > 0) rgb = mix3(rgb, [74, 46, 26], knot * 0.8);
+					if (x % 32 === 0) rgb = mix3(rgb, streak, 0.35);
+					setPixel(data, size, x, y, rgb[0], rgb[1], rgb[2]);
+				}
+			}
+		},
+		/** Plaster: warm lime plaster with soft mottling and faint stains. */
+		plaster(data, size, seed) {
+			const mottle = createTileableNoiseField(seed + 137, size, 8);
+			const fine = createTileableNoiseField(seed + 149, size, 40);
+			const stain = createTileableNoiseField(seed + 151, size, 3);
+			const base = [213, 183, 151];
+			for (let y = 0; y < size; y += 1) {
+				for (let x = 0; x < size; x += 1) {
+					const shade = 0.94 + mottle(x, y) * 0.1 + (fine(x, y) - 0.5) * 0.08;
+					let rgb = [base[0] * shade, base[1] * shade, base[2] * shade];
+					if (stain(x, y) > 0.8) rgb = mix3(rgb, [188, 158, 128], 0.35);
+					setPixel(data, size, x, y, rgb[0], rgb[1], rgb[2]);
+				}
+			}
+		},
+		/** Brick: offset courses with per-brick color jitter and mortar joints. */
+		brick(data, size, seed) {
+			const jitter = createTileableNoiseField(seed + 157, size, 12);
+			const fine = createTileableNoiseField(seed + 163, size, 48);
+			const mortar = [196, 186, 172];
+			const brickBase = [154, 74, 56];
+			const brickDark = [122, 56, 44];
+			const courseH = 32;
+			const brickW = 64;
+			const joint = 4;
+			for (let y = 0; y < size; y += 1) {
+				for (let x = 0; x < size; x += 1) {
+					const row = Math.floor(y / courseH);
+					const offset = (row % 2) * (brickW / 2);
+					const bx = (((x + offset) % size) + size) % size;
+					const inJointY = (y % courseH) < joint;
+					const inJointX = (bx % brickW) < joint;
+					let rgb;
+					if (inJointY || inJointX) {
+						rgb = [...mortar];
+					} else {
+						const j = jitter(bx, y);
+						rgb = mix3(brickBase, brickDark, Math.abs(j - 0.5) * 1.3);
+					}
+					const shade = 0.93 + fine(x, y) * 0.14;
+					setPixel(data, size, x, y, rgb[0] * shade, rgb[1] * shade, rgb[2] * shade);
+				}
+			}
+		},
+		/** RoofTile: rows of curved clay tiles with per-tile shading. */
+		roofTile(data, size, seed) {
+			const jitter = createTileableNoiseField(seed + 167, size, 16);
+			const base = [116, 58, 50];
+			const dark = [84, 40, 36];
+			const light = [150, 84, 70];
+			const tileW = 32;
+			const rowH = 42;
+			for (let y = 0; y < size; y += 1) {
+				for (let x = 0; x < size; x += 1) {
+					const tx = (x % tileW) / tileW;
+					const arc = Math.sin(tx * Math.PI);
+					const row = Math.floor(y / rowH);
+					const rowShade = (row % 2 === 0) ? 1.0 : 0.94;
+					let rgb = mix3(dark, light, arc);
+					const shade = (0.9 + jitter(x, y) * 0.2) * rowShade;
+					const lap = (y % rowH) < 5 ? 0.82 : 1.0;
+					setPixel(data, size, x, y, rgb[0] * shade * lap, rgb[1] * shade * lap, rgb[2] * shade * lap);
+				}
+			}
+		},
+		/** Glass: pale blue with a diagonal sheen band. */
+		glass(data, size, seed) {
+			const fine = createTileableNoiseField(seed + 173, size, 24);
+			const base = [190, 227, 234];
+			for (let y = 0; y < size; y += 1) {
+				for (let x = 0; x < size; x += 1) {
+					const band = Math.exp(-Math.pow(((x + y) / size - 0.55) * 4.2, 2));
+					let rgb = mix3(base, [235, 248, 250], band * 0.7);
+					const shade = 0.96 + fine(x, y) * 0.08;
+					setPixel(data, size, x, y, rgb[0] * shade, rgb[1] * shade, rgb[2] * shade, 255);
+				}
+			}
+		}
+	};
+
+	/** Scatters pebbles with wrap-around so the dirt tiles seamlessly. */
+	function scatterPebbles(data, size, rand, count) {
+		const pebbleLight = [172, 152, 132];
+		const pebbleDark = [70, 52, 40];
+		for (let i = 0; i < count; i += 1) {
+			const cx = rand() * size;
+			const cy = rand() * size;
+			const r = 1 + rand() * 2.4;
+			const shade = 0.85 + rand() * 0.3;
+			for (let oy = -Math.ceil(r); oy <= Math.ceil(r); oy += 1) {
+				for (let ox = -Math.ceil(r); ox <= Math.ceil(r); ox += 1) {
+					const d = Math.sqrt(ox * ox + oy * oy);
+					if (d > r) continue;
+					const x = (((Math.round(cx + ox)) % size) + size) % size;
+					const y = (((Math.round(cy + oy)) % size) + size) % size;
+					const edge = d / r;
+					const rgb = edge > 0.7
+						? mix3(pebbleLight, pebbleDark, 0.55)
+						: pebbleLight.map(v => v * shade);
+					setPixel(data, size, x, y, rgb[0], rgb[1], rgb[2]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Generates one deterministic procedural texture.
+	 * @param {string} kind One of PROCEDURAL_TEXTURE_KINDS.
+	 * @param {number} [seed=PROCEDURAL_TEXTURE_SEED] Fixed seed; same seed always yields identical bytes.
+	 * @returns {{kind:string,width:number,height:number,data:Uint8ClampedArray}} RGBA texture field.
+	 */
+	function generateProceduralTexture(kind, seed = PROCEDURAL_TEXTURE_SEED) {
+		const painter = PAINTERS[kind];
+		if (!painter) throw new Error(`B"H | Unknown procedural texture kind: ${kind}`);
+		const size = PROCEDURAL_TEXTURE_SIZE;
+		return {
+			data: paint(size, (data, s) => painter(data, s, seed >>> 0)),
+			height: size,
+			kind,
+			width: size
+		};
+	}
+
+
+	__exports.generateProceduralTexture = generateProceduralTexture;
+	let cachedSet = null;
+	let cachedSeed = null;
+	const cachedKinds = new Map();
+
+	/**
+	 * Generates (once per kind) and caches a single texture. Boot paths that need only
+	 * grass and stone call this instead of the full set to stay inside the frame budget.
+	 * @param {string} kind One of PROCEDURAL_TEXTURE_KINDS.
+	 * @param {number} [seed=PROCEDURAL_TEXTURE_SEED] Fixed seed.
+	 */
+	function getProceduralTexture(kind, seed = PROCEDURAL_TEXTURE_SEED) {
+		const key = `${kind}:${seed >>> 0}`;
+		let texture = cachedKinds.get(key);
+		if (!texture) {
+			texture = generateProceduralTexture(kind, seed);
+			cachedKinds.set(key, texture);
+		}
+		return texture;
+	}
+
+
+	__exports.getProceduralTexture = getProceduralTexture;
+	/**
+	 * Generates (once) and caches the full texture set for a seed.
+	 * @param {number} [seed=PROCEDURAL_TEXTURE_SEED] Fixed seed.
+	 * @returns {Readonly<Record<string,{kind:string,width:number,height:number,data:Uint8ClampedArray}>>}
+	 */
+	function getProceduralTextureSet(seed = PROCEDURAL_TEXTURE_SEED) {
+		if (cachedSet && cachedSeed === (seed >>> 0)) return cachedSet;
+		const set = {};
+		for (const kind of PROCEDURAL_TEXTURE_KINDS) {
+			set[kind] = getProceduralTexture(kind, seed);
+		}
+		cachedSet = Object.freeze(set);
+		cachedSeed = seed >>> 0;
+		return cachedSet;
+	}
+
+
+	__exports.getProceduralTextureSet = getProceduralTextureSet;
+	/** Drops the cached set (tests and seed changes). */
+	function clearProceduralTextureCache() {
+		cachedSet = null;
+		cachedSeed = null;
+		cachedKinds.clear();
+	}
+
+
+	__exports.clearProceduralTextureCache = clearProceduralTextureCache;
+	/**
+	 * Paints a generated texture into a canvas for GL upload. Browser only; returns null in node.
+	 * @param {{width:number,height:number,data:Uint8ClampedArray}} texture Generated texture.
+	 * @returns {HTMLCanvasElement|null}
+	 */
+	function proceduralTextureToCanvas(texture) {
+		if (typeof document === 'undefined' || !texture) return null;
+		const canvas = document.createElement('canvas');
+		canvas.width = texture.width;
+		canvas.height = texture.height;
+		const context = canvas.getContext('2d');
+		if (!context) return null;
+		const imageData = context.createImageData(texture.width, texture.height);
+		imageData.data.set(texture.data);
+		context.putImageData(imageData, 0, 0);
+		return canvas;
+	}
+
+	__exports.proceduralTextureToCanvas = proceduralTextureToCanvas;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzLivingVillageTreeMaterials.js ----
+{
+	const __exports = __awtsmoosModule_586;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file EretzLivingVillageTreeMaterials.js
+	 * @description Gives the actual bootstrap trees real reproducible bark and foliage pixel textures.
+	 * The Awtsmoos dresses the growing tree with color and living grain;
+	 * its branches still stand in the scene, not in a painted promise or refrain.
+	 */
+
+	const getProceduralTexture = __awtsmoosModule_587.getProceduralTexture;
+
+	/** Maps genuine 256px generated texture pixels onto existing physical tree materials. */
+	function hydrateEretzLivingVillageTreeMaterials(runtime) {
+		if (runtime.treeMaterialHydration?.status === 'ready') return runtime.treeMaterialHydration;
+		if (!runtime.scene?.traverse) {
+			return Object.freeze({ status: 'disabled', reason: 'scene-unavailable' });
+		}
+		const barkPixels = getProceduralTexture('wood');
+		const foliagePixels = getProceduralTexture('grass');
+		let bark = 0;
+		let foliage = 0;
+		runtime.scene.traverse(object => {
+			const name = String(object?.name || '');
+			const isBark = name === 'MeadowTreeBark';
+			const isFoliage = name === 'MeadowTreeLeaves';
+			if (!isBark && !isFoliage) return;
+			const materials = Array.isArray(object.material) ? object.material : [object.material];
+			for (const material of materials) {
+				if (!material) continue;
+				if (!material.mapImage) {
+					material.mapImage = isBark ? barkPixels : foliagePixels;
+					material.mapRepeat = isBark ? [2, 3] : [3, 3];
+					material.needsUpdate = true;
+				}
+				if (isBark) bark++;
+				else foliage++;
+			}
+		});
+		const receipt = Object.freeze({ status: 'ready', bark, foliage,
+			barkPixels: barkPixels.width, foliagePixels: foliagePixels.width });
+		runtime.treeMaterialHydration = receipt;
+		return receipt;
+	}
+
+	__exports.hydrateEretzLivingVillageTreeMaterials = hydrateEretzLivingVillageTreeMaterials;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingDoors.js ----
+{
+	const __exports = __awtsmoosModule_593;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingDoors.js
+	 * @description Defines renderer-neutral exterior doorway identity while leaving dynamic door meshes and gameplay to consuming worlds.
+	 * The Awtsmoos, Atzmus beyond outside and inside, renews both sides before a doorway joins their finite names;
+	 * Awtsmoos.com lets Yesod carry a semantic passage record without importing hinges, quests, physics, or renderer frames.
+	 */
+
+	/**
+	 * Creates the canonical centered front-door specification for a building.
+	 * @param {object} profile Normalized building profile.
+	 * @param {number} groundY Raised foundation datum.
+	 * @returns {Readonly<object>} Semantic exterior door record compatible with room-door records.
+	 */
+	function createBuildingExteriorDoor(profile, groundY) {
+		return Object.freeze({
+			id: `${profile.id}-front-door`,
+			level: 0,
+			localX: 0,
+			localZ: profile.depth / 2,
+			sourceRoomId: 'outside',
+			targetRoomId: `${profile.id}-story-1-hall`,
+			y: groundY + profile.floorThickness,
+			yaw: profile.yaw
+		});
+	}
+
+	__exports.createBuildingExteriorDoor = createBuildingExteriorDoor;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingMath.js ----
+{
+	const __exports = __awtsmoosModule_595;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingMath.js
+	 * @description Converts local architecture coordinates into world-space primitive definitions without renderer ownership.
+	 * The Awtsmoos, Atzmus beyond local and global place, renews every measured chamber within one indivisible world;
+	 * Awtsmoos.com lets Domem describe walls and floors as neutral data so renderers and games may clothe the same plan unfurled.
+	 */
+
+	/** Converts one local building point into world X/Z. */
+	function buildingPoint(profile, localX, localZ) {
+		const cosine = Math.cos(profile.yaw);
+		const sine = Math.sin(profile.yaw);
+		return {
+			x: profile.x + localX * cosine - localZ * sine,
+			z: profile.z + localX * sine + localZ * cosine
+		};
+	}
+
+
+	__exports.buildingPoint = buildingPoint;
+	/** Converts a world X/Z point back into local building coordinates. */
+	function buildingLocalPoint(profile, x, z) {
+		const dx = Number(x) - profile.x;
+		const dz = Number(z) - profile.z;
+		const cosine = Math.cos(profile.yaw);
+		const sine = Math.sin(profile.yaw);
+		return Object.freeze({
+			x: dx * cosine + dz * sine,
+			z: -dx * sine + dz * cosine
+		});
+	}
+
+
+	__exports.buildingLocalPoint = buildingLocalPoint;
+	/** Creates one renderer-neutral box definition with caller-preserving metadata. */
+	function buildingBox(
+		profile,
+		material,
+		id,
+		localX,
+		y,
+		localZ,
+		size,
+		options = {}
+	) {
+		const point = buildingPoint(profile, localX, localZ);
+		const metadataIdKey = profile.metadataIdKey || 'buildingId';
+		return {
+			...material,
+			id: `${profile.id}-${id}`,
+			position: { x: point.x, y, z: point.z },
+			rotation: { y: profile.yaw + (options.yaw || 0) },
+			shape: 'box',
+			size,
+			solid: options.solid !== false,
+			userData: {
+				family: profile.family || 'building',
+				[metadataIdKey]: profile.id,
+				role: options.role || id
+			},
+			walkable: options.walkable === true
+		};
+	}
+
+	__exports.buildingBox = buildingBox;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingStairAperture.js ----
+{
+	const __exports = __awtsmoosModule_596;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingStairAperture.js
+	 * @description Defines the measured story-floor opening reserved for interior stair and landing support.
+	 * The Awtsmoos, Atzmus beyond floor and opening, renews solid and absence as one architectural covenant;
+	 * Awtsmoos.com lets Domem reserve ascent through the floor without inventing renderer holes or collision magic in this servant.
+	 */
+
+	const buildingLocalPoint = __awtsmoosModule_595.buildingLocalPoint;
+
+	const STAIR_HALF_WIDTH_FACTOR = 0.54;
+	const STAIR_START_MARGIN = 0.28;
+	const LANDING_END_MARGIN = 0.25;
+
+	/** Returns whether a world point lies inside the reserved stair aperture. */
+	function buildingStairAperture(profile, x, z) {
+		if (!profile || profile.floors < 2) return false;
+		const local = buildingLocalPoint(profile, x, z);
+		const bounds = stairApertureBounds(profile);
+		return Math.abs(local.x) <= bounds.width / 2
+			&& local.z <= bounds.startZ + STAIR_START_MARGIN
+			&& local.z >= bounds.landingEndZ - LANDING_END_MARGIN;
+	}
+
+
+	__exports.buildingStairAperture = buildingStairAperture;
+	/** Returns immutable stair-aperture dimensions for diagnostics and render planning. */
+	function buildingStairApertureEvidence(profile) {
+		const bounds = stairApertureBounds(profile);
+		return Object.freeze({
+			...bounds,
+			policy: 'story-floor-yields-to-discrete-stair-support'
+		});
+	}
+
+
+	__exports.buildingStairApertureEvidence = buildingStairApertureEvidence;
+	function stairApertureBounds(profile) {
+		const layout = profile.layout;
+		const startZ = layout.innerDepth / 2 - 3;
+		const endZ = startZ - layout.stairRun;
+		return {
+			endZ,
+			landingEndZ: endZ - layout.stairLandingDepth,
+			startZ,
+			width: layout.stairWidth * STAIR_HALF_WIDTH_FACTOR * 2
+		};
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingFloorSupport.js ----
+{
+	const __exports = __awtsmoosModule_594;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingFloorSupport.js
+	 * @description Supplies story-floor height evidence while yielding the stairwell to discrete interior treads and landings.
+	 * The Awtsmoos, Atzmus beyond support and passage, renews the floor while opening one measured path between its worlds;
+	 * Awtsmoos.com lets Domem describe walkable levels without laying an invisible sheet across ascent, descent, or return unfurled.
+	 */
+
+	const buildingLocalPoint = __awtsmoosModule_595.buildingLocalPoint;
+	const buildingStairAperture = __awtsmoosModule_596.buildingStairAperture;
+	const buildingStairApertureEvidence = __awtsmoosModule_596.buildingStairApertureEvidence;
+
+	const MAXIMUM_UPWARD_SNAP = 0.24;
+	const UNDERGROUND_RECOVERY_DEPTH = 4.5;
+
+	/**
+	 * Creates a renderer-neutral story-floor height support adapter.
+	 * @param {object} profile Normalized building profile.
+	 * @param {number} groundY Raised foundation datum.
+	 * @returns {Readonly<object>} Floor levels, stair aperture, and height sampler.
+	 */
+	function createBuildingFloorSupport(profile, groundY) {
+		const levels = Object.freeze(
+			Array.from({ length: profile.floors }, (_, level) => {
+				return groundY + profile.floorThickness + level * profile.storyHeight;
+			})
+		);
+		return Object.freeze({
+			aperture: profile.floors > 1
+				? buildingStairApertureEvidence(profile)
+				: null,
+			heightAt(x, z, currentY, previousY = currentY) {
+				if (!insideBuilding(profile, x, z)) return null;
+				if (buildingStairAperture(profile, x, z)) return null;
+				return supportedLevel(levels, currentY, previousY);
+			},
+			kind: 'story-floor',
+			levels,
+			profileId: profile.id,
+			recoveryDepth: UNDERGROUND_RECOVERY_DEPTH
+		});
+	}
+
+
+	__exports.createBuildingFloorSupport = createBuildingFloorSupport;
+	function supportedLevel(levels, currentValue, previousValue) {
+		const current = finite(currentValue, levels[0]);
+		const previous = finite(previousValue, current);
+		const reachable = levels.filter(level => level <= current + MAXIMUM_UPWARD_SNAP);
+		const crossed = levels.filter(level => previous >= level && current <= level);
+		const candidates = [...reachable, ...crossed];
+		if (candidates.length) return Math.max(...candidates);
+		const lower = levels[0];
+		if (current >= lower - UNDERGROUND_RECOVERY_DEPTH && current < lower) {
+			return lower;
+		}
+		return null;
+	}
+
+	function insideBuilding(profile, x, z) {
+		const local = buildingLocalPoint(profile, x, z);
+		const halfWidth = profile.layout.interiorWidth / 2 + 0.12;
+		const halfDepth = profile.layout.innerDepth / 2 + 0.12;
+		return Math.abs(local.x) <= halfWidth
+			&& Math.abs(local.z) <= halfDepth;
+	}
+
+	function finite(value, fallback) {
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingEntryHeightSupport.js ----
+{
+	const __exports = __awtsmoosModule_599;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingEntryHeightSupport.js
+	 * @description Exposes visible terrain-fitted exterior stair tops to gameplay-neutral ground resolution.
+	 * The Awtsmoos, Atzmus beyond visible tread and collision height, renews both as one measured covenant;
+	 * Awtsmoos.com lets Domem reveal support truth while each game chooses how a body consumes that truth in movement.
+	 */
+
+	const buildingLocalPoint = __awtsmoosModule_595.buildingLocalPoint;
+
+	/**
+	 * Creates a height sampler matching one visible building entry plan.
+	 * @param {object} profile Normalized building profile.
+	 * @param {number} threshold Raised doorway threshold.
+	 * @param {ReadonlyArray<object>} treads Terrain-fitted tread records.
+	 * @param {object} resolved Entry run metadata.
+	 * @param {number} treadLength Physical tread depth.
+	 * @returns {Readonly<object>} Ground-height support adapter.
+	 */
+	function createBuildingEntryHeightSupport(
+		profile,
+		threshold,
+		treads,
+		resolved,
+		treadLength
+	) {
+		const outerZ = profile.depth / 2 + resolved.run;
+		return Object.freeze({
+			heightAt(x, z, currentY) {
+				const local = buildingLocalPoint(profile, x, z);
+				if (Math.abs(local.x) > (profile.doorWidth + 1.8) / 2) return null;
+				if (local.z <= profile.depth / 2 + 0.18) return threshold;
+				if (local.z > outerZ + 0.18) return null;
+				const offset = (outerZ - local.z) / treadLength;
+				const index = Math.min(
+					treads.length - 1,
+					Math.max(0, Math.floor(offset))
+				);
+				const height = treads[index]?.top ?? threshold;
+				if (Number.isFinite(currentY) && currentY > height + 1.1) return null;
+				return height;
+			},
+			kind: 'entry',
+			outerZ,
+			profileId: profile.id,
+			run: resolved.run,
+			steps: resolved.steps,
+			threshold,
+			tread: treadLength
+		});
+	}
+
+	__exports.createBuildingEntryHeightSupport = createBuildingEntryHeightSupport;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingEntryTerrainPlan.js ----
+{
+	const __exports = __awtsmoosModule_600;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingEntryTerrainPlan.js
+	 * @description Plans monotonic terrain-clearing exterior entry treads from sampled ground to a raised threshold.
+	 * The Awtsmoos, Atzmus beyond ascent and earth, renews each rise before stone approaches soil and sky;
+	 * Awtsmoos.com lets architecture answer the actual hill instead of forcing a guessed staircase where terrain may lie.
+	 */
+
+	const buildingPoint = __awtsmoosModule_595.buildingPoint;
+
+	/**
+	 * Creates a terrain-fitted entry plan.
+	 * @param {object} profile Normalized building profile.
+	 * @param {Function} heightAt Terrain-height sampler.
+	 * @param {number} threshold Raised doorway threshold.
+	 * @param {object} [options={}] Tread, rise, clearance, and probe controls.
+	 * @returns {Readonly<object>} Frozen tread records and resolved run metadata.
+	 */
+	function createBuildingEntryTerrainPlan(profile, heightAt, threshold, options = {}) {
+		const treadLength = positive(options.treadLength, 0.42);
+		const maximumRise = positive(options.maximumRise, 0.2);
+		const resolved = resolveEntryRun(
+			profile,
+			heightAt,
+			threshold,
+			treadLength,
+			maximumRise,
+			options
+		);
+		return Object.freeze({
+			resolved,
+			treadLength,
+			treads: createTreadRecords(
+				profile,
+				heightAt,
+				threshold,
+				resolved,
+				treadLength,
+				options
+			)
+		});
+	}
+
+
+	__exports.createBuildingEntryTerrainPlan = createBuildingEntryTerrainPlan;
+	function resolveEntryRun(profile, heightAt, threshold, treadLength, maximumRise, options) {
+		let steps = 1;
+		let outsideY = probeTerrain(profile, heightAt, profile.depth / 2 + treadLength, options);
+		for (let pass = 0; pass < 3; pass += 1) {
+			const run = Math.max(treadLength, steps * treadLength);
+			outsideY = probeTerrain(profile, heightAt, profile.depth / 2 + run, options);
+			steps = Math.max(1, Math.ceil(Math.max(0, threshold - outsideY) / maximumRise));
+		}
+		return Object.freeze({ outsideY, run: steps * treadLength, steps });
+	}
+
+	function createTreadRecords(profile, heightAt, threshold, resolved, treadLength, options) {
+		const rise = Math.max(0, threshold - resolved.outsideY);
+		const outerZ = profile.depth / 2 + resolved.run;
+		const clearance = positive(options.treadClearance, 0.1);
+		const records = [];
+		let previousTop = resolved.outsideY;
+		for (let index = 0; index < resolved.steps; index += 1) {
+			const localZ = outerZ - (index + 0.5) * treadLength;
+			const terrainY = probeTerrain(profile, heightAt, localZ, options);
+			const nominalTop = resolved.outsideY + rise * (index + 1) / resolved.steps;
+			const top = Math.min(
+				threshold,
+				Math.max(nominalTop, terrainY + clearance, previousTop)
+			);
+			records.push(Object.freeze({ localZ, terrainY, top }));
+			previousTop = top;
+		}
+		return Object.freeze(records);
+	}
+
+	function probeTerrain(profile, heightAt, localZ, options) {
+		const offset = positive(options.probeOffset, 0.42);
+		const halfWidth = profile.doorWidth / 2 + offset;
+		const samples = [-halfWidth, 0, halfWidth]
+			.map(localX => {
+				const point = buildingPoint(profile, localX, localZ);
+				return Number(heightAt(point.x, point.z));
+			})
+			.filter(Number.isFinite);
+		if (!samples.length) {
+			throw new Error(`B"H | Building ${profile.id} entry has no finite terrain samples.`);
+		}
+		return Math.max(...samples);
+	}
+
+	function positive(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingEntryTreads.js ----
+{
+	const __exports = __awtsmoosModule_601;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingEntryTreads.js
+	 * @description Converts terrain-fitted entry records into renderer-neutral primitive definitions anchored into local ground.
+	 * The Awtsmoos, Atzmus beyond soil and step, renews each measured rise before stone receives a visible face;
+	 * Awtsmoos.com lets Domem manifest surveyed intention as neutral geometry while renderers remain outside this place.
+	 */
+
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+
+	/**
+	 * Creates visible entry-tread box definitions from one terrain plan.
+	 * @param {object} profile Normalized building profile.
+	 * @param {object} material Opaque material descriptor copied into every box definition.
+	 * @param {ReadonlyArray<object>} treads Terrain-fitted tread records.
+	 * @param {number} treadLength Physical tread depth.
+	 * @returns {Array<object>} Renderer-neutral stair definitions.
+	 */
+	function createBuildingEntryTreads(
+		profile,
+		material,
+		treads,
+		treadLength
+	) {
+		return treads.map((tread, index) => {
+			const bottom = tread.terrainY - 0.16;
+			const height = Math.max(0.26, tread.top - bottom);
+			return buildingBox(
+				profile,
+				material,
+				`entry-step-${index + 1}`,
+				0,
+				(tread.top + bottom) / 2,
+				tread.localZ,
+				{
+					x: profile.doorWidth + 1.6,
+					y: height,
+					z: treadLength + 0.02
+				},
+				{
+					role: 'terrain-fitted-entry-step',
+					solid: false,
+					walkable: false
+				}
+			);
+		});
+	}
+
+	__exports.createBuildingEntryTreads = createBuildingEntryTreads;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingEntrySupport.js ----
+{
+	const __exports = __awtsmoosModule_598;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingEntrySupport.js
+	 * @description Coordinates terrain survey intent, visible entry geometry, diagnostics, and matching height support.
+	 * The Awtsmoos, Atzmus beyond planner and manifestation, renews survey, stone, and support as one measured doorway;
+	 * Awtsmoos.com lets Tiferes bind focused vessels without confusing terrain physics, renderer meshes, or gameplay pathways.
+	 */
+
+	const createBuildingEntryHeightSupport = __awtsmoosModule_599.createBuildingEntryHeightSupport;
+	const createBuildingEntryTerrainPlan = __awtsmoosModule_600.createBuildingEntryTerrainPlan;
+	const createBuildingEntryTreads = __awtsmoosModule_601.createBuildingEntryTreads;
+
+	/**
+	 * Creates a complete terrain-adaptive entry assembly as neutral data and height evidence.
+	 * @param {object} profile Normalized building profile.
+	 * @param {object} material Foundation/floor material descriptor.
+	 * @param {number} groundY Raised foundation datum.
+	 * @param {Function} heightAt Terrain-height sampler.
+	 * @param {object} [options={}] Entry terrain-planning controls.
+	 * @returns {object} Definitions, evidence, and support adapter.
+	 */
+	function createBuildingEntrySupport(
+		profile,
+		material,
+		groundY,
+		heightAt,
+		options = {}
+	) {
+		const threshold = groundY + profile.floorThickness;
+		const plan = createBuildingEntryTerrainPlan(
+			profile,
+			heightAt,
+			threshold,
+			options
+		);
+		return {
+			definitions: createBuildingEntryTreads(
+				profile,
+				material,
+				plan.treads,
+				plan.treadLength
+			),
+			evidence: createEntryEvidence(plan.treads, threshold, plan.resolved),
+			support: createBuildingEntryHeightSupport(
+				profile,
+				threshold,
+				plan.treads,
+				plan.resolved,
+				plan.treadLength
+			)
+		};
+	}
+
+
+	__exports.createBuildingEntrySupport = createBuildingEntrySupport;
+	function createEntryEvidence(treads, threshold, resolved) {
+		const tops = treads.map(record => record.top);
+		const rises = tops.map((top, index) => {
+			const previous = tops[index - 1] ?? resolved.outsideY;
+			return top - previous;
+		});
+		const clearances = treads.map(record => record.top - record.terrainY);
+		return Object.freeze({
+			maximumRise: Math.max(0, ...rises),
+			minimumTerrainClearance: Math.min(...clearances),
+			rise: Math.max(0, threshold - resolved.outsideY),
+			run: resolved.run,
+			steps: resolved.steps
+		});
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingGroundSurvey.js ----
+{
+	const __exports = __awtsmoosModule_602;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingGroundSurvey.js
+	 * @description Measures rotated building footprints and derives an above-terrain platform datum without owning terrain generation.
+	 * The Awtsmoos, Atzmus beyond hill and foundation, renews the earth beneath every measured stone;
+	 * Awtsmoos.com lets Domem survey the ground as a Gevurah boundary while terrain remains an injected world of its own.
+	 */
+
+	const buildingPoint = __awtsmoosModule_595.buildingPoint;
+
+	const DEFAULT_GRID_STEPS = 10;
+
+	/**
+	 * Surveys terrain below and around a planned building.
+	 * @param {object} profile Normalized building profile.
+	 * @param {Function} heightAt Canonical terrain height sampler.
+	 * @param {object} [options={}] Sampling and clearance controls.
+	 * @returns {Readonly<object>} Ground extrema, apron, clearance, and platform datum.
+	 */
+	function surveyBuildingGround(profile, heightAt, options = {}) {
+		if (typeof heightAt !== 'function') {
+			throw new TypeError('B"H | Building ground survey requires heightAt.');
+		}
+		const apron = Math.max(
+			positive(options.minimumApron, 1.6),
+			profile.wallThickness * positive(options.wallApronFactor, 2.5)
+		);
+		const width = profile.width + apron * 2;
+		const depth = profile.depth + apron * 2;
+		const heights = sampleGrid(
+			profile,
+			heightAt,
+			width,
+			depth,
+			integer(options.gridSteps, DEFAULT_GRID_STEPS)
+		);
+		const minimum = Math.min(...heights);
+		const maximum = Math.max(...heights);
+		const variance = maximum - minimum;
+		const clearance = Math.min(
+			positive(options.maximumClearance, 1.2),
+			positive(options.baseClearance, 0.34)
+				+ variance * positive(options.varianceClearanceFactor, 0.06)
+		);
+		return Object.freeze({
+			apron,
+			clearance,
+			maximum,
+			minimum,
+			platformY: maximum + clearance,
+			sampleCount: heights.length,
+			variance
+		});
+	}
+
+
+	__exports.surveyBuildingGround = surveyBuildingGround;
+	function sampleGrid(profile, heightAt, width, depth, steps) {
+		const heights = [];
+		for (let row = 0; row <= steps; row += 1) {
+			for (let column = 0; column <= steps; column += 1) {
+				const point = buildingPoint(
+					profile,
+					(column / steps - 0.5) * width,
+					(row / steps - 0.5) * depth
+				);
+				const height = Number(heightAt(point.x, point.z));
+				if (Number.isFinite(height)) heights.push(height);
+			}
+		}
+		if (!heights.length) {
+			throw new Error(`B"H | Building ${profile.id} has no finite terrain samples.`);
+		}
+		return heights;
+	}
+
+	function integer(value, fallback) {
+		const number = Math.round(Number(value));
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+	function positive(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingFoundation.js ----
+{
+	const __exports = __awtsmoosModule_597;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingFoundation.js
+	 * @description Raises a building above surveyed terrain with a visible plinth, skirts, and terrain-fitted exterior entry.
+	 * The Awtsmoos, Atzmus beyond hill and home, renews ground and dwelling without burying either beneath the other;
+	 * Awtsmoos.com lets Domem reconcile slope and architecture while terrain remains injected and renderer manifestation remains another brother.
+	 */
+
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+	const createBuildingEntrySupport = __awtsmoosModule_598.createBuildingEntrySupport;
+	const surveyBuildingGround = __awtsmoosModule_602.surveyBuildingGround;
+
+	/**
+	 * Creates foundation geometry, terrain evidence, and entry support for one building.
+	 * @param {object} profile Normalized building profile.
+	 * @param {object} materials Material descriptors containing `floor`.
+	 * @param {Function} heightAt Terrain-height sampler.
+	 * @param {object} [options={}] Ground-survey and entry options.
+	 * @returns {object} Foundation definitions, evidence, ground datum, and support adapter.
+	 */
+	function createBuildingFoundation(profile, materials, heightAt, options = {}) {
+		const survey = surveyBuildingGround(profile, heightAt, options.survey);
+		const groundY = survey.platformY;
+		const entry = createBuildingEntrySupport(
+			profile,
+			materials.floor,
+			groundY,
+			heightAt,
+			options.entry
+		);
+		return {
+			definitions: [
+				createPlatform(profile, materials.floor, groundY, survey.apron),
+				...createSkirts(profile, materials.floor, groundY, survey),
+				...entry.definitions
+			],
+			evidence: foundationEvidence(survey, entry.evidence, groundY),
+			groundY,
+			support: entry.support
+		};
+	}
+
+
+	__exports.createBuildingFoundation = createBuildingFoundation;
+	function foundationEvidence(survey, entry, groundY) {
+		return Object.freeze({
+			apron: survey.apron,
+			entryRise: entry.rise,
+			entryRun: entry.run,
+			entrySteps: entry.steps,
+			maximumStepRise: entry.maximumRise,
+			minimumStepTerrainClearance: entry.minimumTerrainClearance,
+			platformClearance: survey.clearance,
+			platformY: groundY,
+			sampleCount: survey.sampleCount,
+			terrainMaximum: survey.maximum,
+			terrainMinimum: survey.minimum,
+			terrainVariance: survey.variance
+		});
+	}
+
+	function createPlatform(profile, material, groundY, apron) {
+		return buildingBox(
+			profile,
+			material,
+			'foundation-platform',
+			0,
+			groundY - profile.foundationThickness / 2,
+			0,
+			{
+				x: profile.width + apron * 2,
+				y: profile.foundationThickness,
+				z: profile.depth + apron * 2
+			},
+			{ role: 'raised-foundation-platform', walkable: true }
+		);
+	}
+
+	function createSkirts(profile, material, top, survey) {
+		const bottom = survey.minimum - 0.55;
+		const height = Math.max(0.5, top - bottom);
+		const y = bottom + height / 2;
+		const thickness = Math.max(profile.wallThickness, 0.45);
+		const width = profile.width + survey.apron * 2;
+		const depth = profile.depth + survey.apron * 2;
+		return [
+			buildingBox(profile, material, 'foundation-front-skirt', 0, y, depth / 2, { x: width, y: height, z: thickness }),
+			buildingBox(profile, material, 'foundation-back-skirt', 0, y, -depth / 2, { x: width, y: height, z: thickness }),
+			buildingBox(profile, material, 'foundation-left-skirt', -width / 2, y, 0, { x: thickness, y: height, z: depth }),
+			buildingBox(profile, material, 'foundation-right-skirt', width / 2, y, 0, { x: thickness, y: height, z: depth })
+		];
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingRoomTopology.js ----
+{
+	const __exports = __awtsmoosModule_605;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingRoomTopology.js
+	 * @description Normalizes side-wing room bays, boundaries, and semantic room-use intent before walls or doors are materialized.
+	 * The Awtsmoos is beyond chamber and corridor; Awtsmoos.com lets Binah measure repeatable room bays while preserving one dwelling beneath every division,
+	 * so the historic three-bay house remains the default yet schools, halls, homes, shops, and future grammars may choose different bounded arrangements.
+	 */
+
+	/**
+	 * Creates immutable room-bay topology from one interior depth and caller policy.
+	 * @param {number} keterInnerDepth - Usable interior depth.
+	 * @param {object} [chochmahValues={}] Building values containing bay count and optional room uses.
+	 * @returns {Readonly<object>} Bay centers, divider offsets, count, depth, and use policy.
+	 */
+	function createBuildingRoomTopology(keterInnerDepth, chochmahValues = {}) {
+		const binahCount = boundedInteger(
+			chochmahValues.roomBayCount ?? chochmahValues.roomTopology?.bayCount,
+			3,
+			1,
+			8
+		);
+		const gevurahDepth = keterInnerDepth / binahCount;
+		const tiferesCenters = Object.freeze(Array.from({ length: binahCount }, (_, index) => {
+			return (index - (binahCount - 1) / 2) * gevurahDepth;
+		}));
+		const netzachBoundaries = Object.freeze(Array.from({ length: Math.max(0, binahCount - 1) }, (_, index) => {
+			const hodToken = index - (binahCount - 2) / 2;
+			return Object.freeze({ localZ: hodToken * gevurahDepth, token: hodToken });
+		}));
+		return Object.freeze({
+			bayCenters: tiferesCenters,
+			bayCount: binahCount,
+			bayDepth: gevurahDepth,
+			boundaries: netzachBoundaries,
+			roomUses: freezeRoomUses(chochmahValues.roomUses ?? chochmahValues.roomTopology?.roomUses)
+		});
+	}
+
+
+	__exports.createBuildingRoomTopology = createBuildingRoomTopology;
+	/** Resolves an optional semantic room use without affecting geometry when absent. */
+	function buildingRoomUse(keterTopology, chochmahLevel, binahSide, gevurahBay) {
+		const tiferesKeys = [
+			`${chochmahLevel + 1}:${binahSide}:${gevurahBay + 1}`,
+			`${binahSide}:${gevurahBay + 1}`,
+			String(gevurahBay + 1)
+		];
+		for (const netzachKey of tiferesKeys) {
+			if (keterTopology.roomUses[netzachKey]) return keterTopology.roomUses[netzachKey];
+		}
+		return 'room';
+	}
+
+
+	__exports.buildingRoomUse = buildingRoomUse;
+	/** Freezes caller use mappings so semantic intent cannot mutate after profile normalization. */
+	function freezeRoomUses(keterUses) {
+		if (!keterUses || typeof keterUses !== 'object') return Object.freeze({});
+		return Object.freeze(Object.fromEntries(Object.entries(keterUses).map(([key, value]) => {
+			return [String(key), String(value)];
+		})));
+	}
+
+	/** Coerces a bounded integer for finite architecture generation. */
+	function boundedInteger(keterValue, chochmahFallback, binahMinimum, gevurahMaximum) {
+		const tiferesValue = Math.round(Number(keterValue));
+		const netzachSafe = Number.isFinite(tiferesValue) ? tiferesValue : chochmahFallback;
+		return Math.max(binahMinimum, Math.min(gevurahMaximum, netzachSafe));
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingLayout.js ----
+{
+	const __exports = __awtsmoosModule_604;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingLayout.js
+	 * @description Derives circulation dimensions and normalized room topology from one building envelope without materializing walls.
+	 * The Awtsmoos is beyond corridor and chamber; Awtsmoos.com lets Binah gather dimensions while a separate topology covenant names finite bays,
+	 * so the historic three-bay arrangement remains effortless while richer homes and public buildings can vary room counts without rewriting geometry planners.
+	 */
+	const createBuildingRoomTopology = __awtsmoosModule_605.createBuildingRoomTopology;
+
+	/** Creates immutable interior room, hall, stair, and topology policy. */
+	function createBuildingLayout(keterInput) {
+		const chochmahStairRise = positive(keterInput.values.stairMaximumRise, 0.21);
+		const binahStairTread = positive(keterInput.values.stairTread, 0.36);
+		const gevurahStairSteps = Math.ceil(keterInput.storyHeight / chochmahStairRise);
+		const tiferesTopology = createBuildingRoomTopology(
+			keterInput.innerDepth,
+			keterInput.values
+		);
+		return Object.freeze({
+			hallWidth: keterInput.hallWidth,
+			innerDepth: keterInput.innerDepth,
+			interiorWidth: keterInput.interiorWidth,
+			partitionX: keterInput.hallWidth / 2 + keterInput.wallThickness / 2,
+			roomBayDepth: tiferesTopology.bayDepth,
+			stairLandingDepth: positive(keterInput.values.stairLandingDepth, 2.4),
+			stairMaximumRise: chochmahStairRise,
+			stairRun: gevurahStairSteps * binahStairTread,
+			stairSteps: gevurahStairSteps,
+			stairTread: binahStairTread,
+			stairWidth: positive(keterInput.values.stairWidth, 3.8),
+			topology: tiferesTopology,
+			wingWidth: keterInput.wingWidth
+		});
+	}
+
+
+	__exports.createBuildingLayout = createBuildingLayout;
+	/** Returns a positive finite architectural dimension or fallback. */
+	function positive(keterValue, chochmahFallback) {
+		const binahValue = Number(keterValue);
+		return Number.isFinite(binahValue) && binahValue > 0 ? binahValue : chochmahFallback;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingProfile.js ----
+{
+	const __exports = __awtsmoosModule_603;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingProfile.js
+	 * @description Normalizes human-scale building envelope, stories, identity, and expansion policy before geometry is planned.
+	 * The Awtsmoos, Atzmus beyond wall and measure, renews the dwelling before width, story, or threshold receives a finite name;
+	 * Awtsmoos.com lets one architectural keli hold stable dimensions while BuildingLayout reveals circulation through another flame.
+	 * This file owns envelope normalization only; it deliberately does not create geometry, layout walls, or sample terrain.
+	 */
+
+	const createBuildingLayout = __awtsmoosModule_604.createBuildingLayout;
+
+	const HUMAN_SCALE_BUILDING_DOOR = Object.freeze({
+		height: 3.1,
+		width: 2.1
+	});
+
+
+	__exports.HUMAN_SCALE_BUILDING_DOOR = HUMAN_SCALE_BUILDING_DOOR;
+	/**
+	 * Creates one immutable normalized building profile.
+	 * @param {object} values Building dimensions, placement, identity, and policy.
+	 * @returns {Readonly<object>} Canonical architectural profile consumed by building planners.
+	 * @throws {Error} When footprint expansion violates the caller's declared minimum.
+	 */
+	function createBuildingProfile(values = {}) {
+		const depth = positive(values.depth);
+		const width = positive(values.width);
+		const legacy = Object.freeze({
+			depth: positive(values.legacyDepth, depth),
+			width: positive(values.legacyWidth, width)
+		});
+		const wallThickness = positive(values.wallThickness, 0.68);
+		const storyHeight = positive(values.storyHeight, 5.2);
+		const floors = positiveInteger(values.floors, 1);
+		const expansion = width * depth / (legacy.width * legacy.depth);
+		const minimumExpansion = positive(values.minimumFootprintExpansion, 1);
+		if (expansion < minimumExpansion) {
+			throw new Error(
+				`B"H | ${values.id || 'building'} footprint expansion ${expansion.toFixed(2)} is below ${minimumExpansion}`
+			);
+		}
+		const interiorWidth = width - wallThickness * 2;
+		const innerDepth = depth - wallThickness * 2;
+		const hallWidth = positive(values.hallWidth, 7.2);
+		const wingWidth = (interiorWidth - hallWidth - wallThickness * 2) / 2;
+		const layout = createBuildingLayout({
+			hallWidth,
+			innerDepth,
+			interiorWidth,
+			storyHeight,
+			values,
+			wallThickness,
+			wingWidth
+		});
+		return Object.freeze({
+			...values,
+			depth,
+			doorHeight: positive(values.doorHeight, HUMAN_SCALE_BUILDING_DOOR.height),
+			doorWidth: positive(values.doorWidth, HUMAN_SCALE_BUILDING_DOOR.width),
+			family: String(values.family || 'building'),
+			floorThickness: positive(values.floorThickness, 0.3),
+			floors,
+			footprintExpansion: expansion,
+			foundationThickness: positive(values.foundationThickness, 0.7),
+			id: String(values.id || 'building'),
+			layout,
+			legacy,
+			metadataIdKey: String(values.metadataIdKey || 'buildingId'),
+			roofHeight: positive(values.roofHeight, 1.15),
+			storyHeight,
+			wallThickness,
+			width,
+			x: finite(values.x, 0),
+			yaw: finite(values.yaw, 0),
+			z: finite(values.z, 0)
+		});
+	}
+
+
+	__exports.createBuildingProfile = createBuildingProfile;
+	/**
+	 * Returns immutable dimensional evidence for diagnostics, tests, and AI-readable receipts.
+	 * @param {object} profile Canonical building profile.
+	 * @returns {Readonly<object>} Stable footprint, door, floor, and world-size evidence.
+	 */
+	function buildingDimensionEvidence(profile) {
+		return Object.freeze({
+			door: Object.freeze({
+				height: profile.doorHeight,
+				width: profile.doorWidth
+			}),
+			expandedArea: profile.width * profile.depth,
+			expansion: Number(profile.footprintExpansion.toFixed(3)),
+			floors: profile.floors,
+			legacyArea: profile.legacy.width * profile.legacy.depth,
+			parentScale: 'identity',
+			worldDepth: profile.depth,
+			worldWidth: profile.width
+		});
+	}
+
+
+	__exports.buildingDimensionEvidence = buildingDimensionEvidence;
+	function positiveInteger(value, fallback) {
+		return Math.max(1, Math.round(finite(value, fallback)));
+	}
+
+	function positive(value, fallback = 1) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+	function finite(value, fallback) {
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingRoofIntent.js ----
+{
+	const __exports = __awtsmoosModule_606;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingRoofIntent.js
+	 * @description Describes the physically intended roof profile separately from today's compatible layered-box massing definitions.
+	 * The Awtsmoos renews shelter before ridge, pitch, runoff, and eave can divide its covering light; Awtsmoos.com lets Daas state the true intended form,
+	 * so future mesh adapters can build honest gable, hip, shed, or flat geometry without mistaking the present renderer-neutral approximation for final architecture.
+	 */
+
+	/** Creates immutable semantic and geometric roof intent for one normalized building profile. */
+	function createBuildingRoofIntent(keterProfile, chochmahGroundY) {
+		const binahStyle = String(keterProfile.roofStyle || 'gable').toLowerCase();
+		const gevurahOverhang = positive(keterProfile.roofOverhang, 0.8);
+		const tiferesHeight = binahStyle === 'flat' ? 0 : positive(keterProfile.roofHeight, 1.15);
+		const netzachWallTop = chochmahGroundY
+			+ keterProfile.floorThickness
+			+ keterProfile.storyHeight * keterProfile.floors;
+		const hodRun = roofRun(keterProfile, binahStyle, gevurahOverhang);
+		return Object.freeze({
+			approximation: 'layered-box-massing',
+			drainage: Object.freeze(drainageDirections(binahStyle)),
+			eaves: Object.freeze({ overhang: gevurahOverhang, wallTop: netzachWallTop }),
+			footprint: Object.freeze({
+				depth: keterProfile.depth + gevurahOverhang * 2,
+				width: keterProfile.width + gevurahOverhang * 2
+			}),
+			geometryReady: false,
+			height: tiferesHeight,
+			pitchRadians: hodRun > 0 ? Math.atan2(tiferesHeight, hodRun) : 0,
+			ridgeAxis: ridgeAxis(binahStyle),
+			style: binahStyle,
+			wallTop: netzachWallTop
+		});
+	}
+
+
+	__exports.createBuildingRoofIntent = createBuildingRoofIntent;
+	/** Resolves the horizontal roof run used to derive pitch intent. */
+	function roofRun(keterProfile, chochmahStyle, binahOverhang) {
+		if (chochmahStyle === 'flat') return 0;
+		if (chochmahStyle === 'shed') return keterProfile.depth + binahOverhang * 2;
+		return (keterProfile.depth + binahOverhang * 2) / 2;
+	}
+
+	/** Returns the dominant ridge direction for compatible semantic roof styles. */
+	function ridgeAxis(keterStyle) {
+		if (keterStyle === 'flat') return null;
+		if (keterStyle === 'shed') return 'local-x-edge';
+		return 'local-x';
+	}
+
+	/** Returns local horizontal drainage directions for future gutter/terrain integration. */
+	function drainageDirections(keterStyle) {
+		if (keterStyle === 'flat') return ['perimeter'];
+		if (keterStyle === 'shed') return ['local-z-positive'];
+		if (keterStyle === 'hip') {
+			return ['local-x-positive', 'local-x-negative', 'local-z-positive', 'local-z-negative'];
+		}
+		return ['local-z-positive', 'local-z-negative'];
+	}
+
+	/** Returns a positive finite scalar or fallback. */
+	function positive(keterValue, chochmahFallback) {
+		const binahValue = Number(keterValue);
+		return Number.isFinite(binahValue) && binahValue > 0 ? binahValue : chochmahFallback;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingCirculationGraph.js ----
+{
+	const __exports = __awtsmoosModule_609;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingCirculationGraph.js
+	 * @description Builds immutable room and circulation semantics from normalized layout before partitions are converted into geometry.
+	 * The Awtsmoos renews hall, threshold, room, and stair before adjacency can divide them; Awtsmoos.com lets Daas record who connects to whom,
+	 * so quests, navigation, interiors, accessibility checks, and future graph grammars can reason about a building without reverse-engineering relationships from boxes.
+	 */
+	const buildingRoomUse = __awtsmoosModule_605.buildingRoomUse;
+
+	/**
+	 * Creates the room/circulation graph for every story of one normalized profile.
+	 * @param {object} keterProfile - Canonical building profile.
+	 * @param {number} chochmahGroundY - Raised foundation datum.
+	 * @returns {Readonly<object>} Frozen nodes and edges preserving historic room/door identity.
+	 */
+	function createBuildingCirculationGraph(keterProfile, chochmahGroundY) {
+		const binahNodes = [];
+		const gevurahEdges = [];
+		for (let tiferesLevel = 0; tiferesLevel < keterProfile.floors; tiferesLevel += 1) {
+			const netzachFloorY = chochmahGroundY
+				+ keterProfile.floorThickness
+				+ tiferesLevel * keterProfile.storyHeight;
+			const hodHallId = `${keterProfile.id}-story-${tiferesLevel + 1}-hall`;
+			binahNodes.push(freezeNode(hodHallId, tiferesLevel, 'hall', 0, 0, netzachFloorY));
+			for (const yesodSide of [-1, 1]) {
+				appendWing(binahNodes, gevurahEdges, keterProfile, tiferesLevel, netzachFloorY, hodHallId, yesodSide);
+			}
+			if (tiferesLevel > 0) {
+				gevurahEdges.push(Object.freeze({
+					from: `${keterProfile.id}-story-${tiferesLevel}-hall`,
+					kind: 'stairs',
+					to: hodHallId
+				}));
+			}
+		}
+		return Object.freeze({ edges: Object.freeze(gevurahEdges), nodes: Object.freeze(binahNodes) });
+	}
+
+
+	__exports.createBuildingCirculationGraph = createBuildingCirculationGraph;
+	/** Adds one side wing of rooms and hall-door adjacency edges. */
+	function appendWing(nodes, edges, profile, level, floorY, hallId, side) {
+		const sideName = side < 0 ? 'west' : 'east';
+		profile.layout.topology.bayCenters.forEach((localZ, bay) => {
+			const roomId = `${profile.id}-story-${level + 1}-${sideName}-${bay + 1}`;
+			const doorId = `${roomId}-door`;
+			nodes.push(freezeNode(
+				roomId,
+				level,
+				buildingRoomUse(profile.layout.topology, level, sideName, bay),
+				side * (profile.layout.partitionX + profile.wallThickness / 2 + profile.layout.wingWidth / 2),
+				localZ,
+				floorY
+			));
+			edges.push(Object.freeze({
+				doorId,
+				from: hallId,
+				kind: 'door',
+				localX: side * profile.layout.partitionX,
+				localZ,
+				to: roomId,
+				yaw: profile.yaw + side * Math.PI / 2
+			}));
+		});
+	}
+
+	/** Freezes one semantic room node with local planning coordinates. */
+	function freezeNode(id, level, use, localX, localZ, floorY) {
+		return Object.freeze({ floorY, id, level, localX, localZ, use });
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingFloorPlan.js ----
+{
+	const __exports = __awtsmoosModule_608;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingFloorPlan.js
+	 * @description Converts normalized room topology and circulation edges into partitions, doors, and stable semantic room identities.
+	 * The Awtsmoos renews passage and partition before any floor divides into chambers; Awtsmoos.com lets Tiferes translate a graph into measured walls,
+	 * preserving the familiar three-bay house by default while arbitrary bounded bay counts and room uses now flow through one professional planning covenant.
+	 */
+	const createBuildingCirculationGraph = __awtsmoosModule_609.createBuildingCirculationGraph;
+
+	/** Creates deterministic partitions and doors from the canonical circulation graph. */
+	function createBuildingFloorPlan(keterProfile, chochmahGroundY) {
+		const binahGraph = createBuildingCirculationGraph(keterProfile, chochmahGroundY);
+		const gevurahLongitudinal = [];
+		const tiferesTransverse = [];
+		for (let netzachLevel = 0; netzachLevel < keterProfile.floors; netzachLevel += 1) {
+			const hodFloorY = chochmahGroundY
+				+ keterProfile.floorThickness
+				+ netzachLevel * keterProfile.storyHeight;
+			for (const yesodSide of [-1, 1]) {
+				appendWingPartitions(
+					gevurahLongitudinal,
+					tiferesTransverse,
+					keterProfile,
+					netzachLevel,
+					hodFloorY,
+					yesodSide
+				);
+			}
+		}
+		const malchusDoors = binahGraph.edges
+			.filter((edge) => edge.kind === 'door')
+			.map((edge) => Object.freeze({
+				id: edge.doorId,
+				level: roomLevel(binahGraph, edge.to),
+				localX: edge.localX,
+				localZ: edge.localZ,
+				sourceRoomId: edge.from,
+				targetRoomId: edge.to,
+				y: roomFloorY(binahGraph, edge.to),
+				yaw: edge.yaw
+			}));
+		return Object.freeze({
+			doors: Object.freeze(malchusDoors),
+			graph: binahGraph,
+			longitudinal: Object.freeze(gevurahLongitudinal),
+			roomIds: Object.freeze(binahGraph.nodes.map((node) => node.id)),
+			transverse: Object.freeze(tiferesTransverse)
+		});
+	}
+
+
+	__exports.createBuildingFloorPlan = createBuildingFloorPlan;
+	/** Adds the hall wall and room dividers for one side wing. */
+	function appendWingPartitions(longitudinal, transverse, profile, level, floorY, side) {
+		const sideName = side < 0 ? 'west' : 'east';
+		longitudinal.push(Object.freeze({
+			bayCenters: profile.layout.topology.bayCenters,
+			floorY,
+			id: `${profile.id}-${level}-${sideName}-hall-wall`,
+			level,
+			localX: side * profile.layout.partitionX,
+			side
+		}));
+		for (const boundary of profile.layout.topology.boundaries) {
+			transverse.push(Object.freeze({
+				floorY,
+				id: `${profile.id}-${level}-${sideName}-divider-${boundary.token}`,
+				level,
+				localX: side * (profile.layout.partitionX + profile.wallThickness / 2 + profile.layout.wingWidth / 2),
+				localZ: boundary.localZ,
+				side
+			}));
+		}
+	}
+
+	/** Looks up one room node's level from the immutable graph. */
+	function roomLevel(keterGraph, chochmahId) {
+		return keterGraph.nodes.find((node) => node.id === chochmahId)?.level ?? 0;
+	}
+
+	/** Looks up one room node's floor datum from the immutable graph. */
+	function roomFloorY(keterGraph, chochmahId) {
+		return keterGraph.nodes.find((node) => node.id === chochmahId)?.floorY ?? 0;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingRoomWallParts.js ----
+{
+	const __exports = __awtsmoosModule_611;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingRoomWallParts.js
+	 * @description Builds measured longitudinal wall segments and door headers while leaving partition orchestration to BuildingRoomWalls.
+	 * The Awtsmoos renews wall and opening before Gevurah may divide a room from its hall; Awtsmoos.com lets Chesed preserve the passage in measured light,
+	 * so each architectural part remains small, named, and reusable while the higher planner reads like a covenant of openings rather than a workshop of box arithmetic.
+	 */
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+
+	/**
+	 * Appends one longitudinal wall span when it is large enough to remain meaningful geometry.
+	 * @param {object[]} keterTarget Mutable definition accumulator owned by the caller.
+	 * @param {object} chochmahProfile Canonical building profile.
+	 * @param {object} binahMaterial Wall material descriptor.
+	 * @param {object} gevurahPartition Floor-plan partition record.
+	 * @param {number} tiferesStart Local longitudinal start coordinate.
+	 * @param {number} netzachEnd Local longitudinal end coordinate.
+	 * @param {number|string} hodIndex Stable segment identity token.
+	 */
+	function appendBuildingLongitudinalSegment(
+		keterTarget,
+		chochmahProfile,
+		binahMaterial,
+		gevurahPartition,
+		tiferesStart,
+		netzachEnd,
+		hodIndex
+	) {
+		const yesodLength = netzachEnd - tiferesStart;
+		if (yesodLength <= 0.08) return;
+		keterTarget.push(buildingBox(
+			chochmahProfile,
+			binahMaterial,
+			`${gevurahPartition.id}-segment-${hodIndex}`,
+			gevurahPartition.localX,
+			gevurahPartition.floorY + chochmahProfile.storyHeight / 2,
+			(tiferesStart + netzachEnd) / 2,
+			{
+				x: yesodLength,
+				y: chochmahProfile.storyHeight,
+				z: chochmahProfile.wallThickness
+			},
+			{
+				role: 'longitudinal-room-wall',
+				yaw: Math.PI / 2
+			}
+		));
+	}
+
+
+	__exports.appendBuildingLongitudinalSegment = appendBuildingLongitudinalSegment;
+	/**
+	 * Creates the structural header above one human-scale room doorway.
+	 * @returns {object} Neutral box definition preserving the historic header identity and role.
+	 */
+	function createBuildingRoomDoorHeader(
+		keterProfile,
+		chochmahMaterial,
+		binahPartition,
+		gevurahCenter,
+		tiferesIndex
+	) {
+		const netzachHeight = keterProfile.storyHeight - keterProfile.doorHeight;
+		return buildingBox(
+			keterProfile,
+			chochmahMaterial,
+			`${binahPartition.id}-header-${tiferesIndex}`,
+			binahPartition.localX,
+			binahPartition.floorY + keterProfile.doorHeight + netzachHeight / 2,
+			gevurahCenter,
+			{
+				x: keterProfile.doorWidth + 0.18,
+				y: netzachHeight,
+				z: keterProfile.wallThickness
+			},
+			{
+				role: 'room-door-header',
+				yaw: Math.PI / 2
+			}
+		);
+	}
+
+	__exports.createBuildingRoomDoorHeader = createBuildingRoomDoorHeader;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingRoomWalls.js ----
+{
+	const __exports = __awtsmoosModule_610;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingRoomWalls.js
+	 * @description Orchestrates topology-planned room partitions into wall spans, door openings, and transverse dividers without owning low-level aperture geometry.
+	 * The Awtsmoos, Atzmus beyond division and passage, renews chamber and corridor within one dwelling; Awtsmoos.com lets Tiferes order the measured parts,
+	 * so this file speaks the architectural sequence clearly while the finite arithmetic of spans and headers rests in its own smaller Gevurah vessel.
+	 */
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+	const appendBuildingLongitudinalSegment = __awtsmoosModule_611.appendBuildingLongitudinalSegment;
+	const createBuildingRoomDoorHeader = __awtsmoosModule_611.createBuildingRoomDoorHeader;
+
+	/**
+	 * Creates one longitudinal partition wall broken around every planned room doorway.
+	 * @param {object} keterProfile Normalized building profile.
+	 * @param {object} chochmahMaterial Opaque wall material descriptor.
+	 * @param {object} binahPartition Floor-plan longitudinal partition record.
+	 * @returns {Array<object>} Wall spans and structural door headers.
+	 */
+	function createBuildingLongitudinalWall(
+		keterProfile,
+		chochmahMaterial,
+		binahPartition
+	) {
+		const gevurahDefinitions = [];
+		const tiferesHalfDepth = keterProfile.layout.innerDepth / 2;
+		const netzachOpeningWidth = keterProfile.doorWidth + 0.18;
+		let hodCursor = -tiferesHalfDepth;
+		binahPartition.bayCenters.forEach((yesodCenter, malchusIndex) => {
+			const keterOpeningStart = yesodCenter - netzachOpeningWidth / 2;
+			appendBuildingLongitudinalSegment(
+				gevurahDefinitions,
+				keterProfile,
+				chochmahMaterial,
+				binahPartition,
+				hodCursor,
+				keterOpeningStart,
+				malchusIndex
+			);
+			gevurahDefinitions.push(createBuildingRoomDoorHeader(
+				keterProfile,
+				chochmahMaterial,
+				binahPartition,
+				yesodCenter,
+				malchusIndex
+			));
+			hodCursor = yesodCenter + netzachOpeningWidth / 2;
+		});
+		appendBuildingLongitudinalSegment(
+			gevurahDefinitions,
+			keterProfile,
+			chochmahMaterial,
+			binahPartition,
+			hodCursor,
+			tiferesHalfDepth,
+			9
+		);
+		return gevurahDefinitions;
+	}
+
+
+	__exports.createBuildingLongitudinalWall = createBuildingLongitudinalWall;
+	/** Creates one full-height transverse divider between neighboring room bays. */
+	function createBuildingTransverseWall(keterProfile, chochmahMaterial, binahPartition) {
+		return buildingBox(
+			keterProfile,
+			chochmahMaterial,
+			binahPartition.id,
+			binahPartition.localX,
+			binahPartition.floorY + keterProfile.storyHeight / 2,
+			binahPartition.localZ,
+			{
+				x: keterProfile.layout.wingWidth,
+				y: keterProfile.storyHeight,
+				z: keterProfile.wallThickness
+			},
+			{ role: 'transverse-room-wall' }
+		);
+	}
+
+	__exports.createBuildingTransverseWall = createBuildingTransverseWall;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingRooms.js ----
+{
+	const __exports = __awtsmoosModule_607;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingRooms.js
+	 * @description Materializes topology-driven room partitions while preserving immutable room, door, use, and circulation evidence for downstream systems.
+	 * The Awtsmoos renews hall and chamber before walls make them appear separate; Awtsmoos.com lets Gevurah materialize partitions while Daas preserves their graph,
+	 * so renderers receive simple neutral definitions and gameplay, navigation, accessibility, and future grammars receive semantic relationships without reverse engineering.
+	 */
+	const createBuildingFloorPlan = __awtsmoosModule_608.createBuildingFloorPlan;
+	const createBuildingLongitudinalWall = __awtsmoosModule_610.createBuildingLongitudinalWall;
+	const createBuildingTransverseWall = __awtsmoosModule_610.createBuildingTransverseWall;
+
+	/** Creates room partitions plus semantic circulation evidence for one building. */
+	function createBuildingRooms(keterProfile, chochmahMaterials, binahGroundY) {
+		const gevurahPlan = createBuildingFloorPlan(keterProfile, binahGroundY);
+		const tiferesDefinitions = [];
+		for (const netzachPartition of gevurahPlan.longitudinal) {
+			tiferesDefinitions.push(...createBuildingLongitudinalWall(
+				keterProfile,
+				chochmahMaterials.brickLight,
+				netzachPartition
+			));
+		}
+		for (const hodPartition of gevurahPlan.transverse) {
+			tiferesDefinitions.push(createBuildingTransverseWall(
+				keterProfile,
+				chochmahMaterials.brickLight,
+				hodPartition
+			));
+		}
+		return Object.freeze({
+			definitions: Object.freeze(tiferesDefinitions),
+			doors: gevurahPlan.doors,
+			roomCount: gevurahPlan.roomIds.length,
+			roomIds: gevurahPlan.roomIds,
+			topology: gevurahPlan.graph
+		});
+	}
+
+	__exports.createBuildingRooms = createBuildingRooms;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingChimney.js ----
+{
+	const __exports = __awtsmoosModule_613;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingChimney.js
+	 * @description Adds an optional masonry chimney and rain cap as stable architectural definitions above the roof datum.
+	 * The Awtsmoos renews warmth before smoke can rise from hearth to sky;
+	 * Awtsmoos.com lets chimney mass and cap remain semantic so weather, particles, and interior systems may later answer why.
+	 */
+
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+
+	/** Creates one bounded chimney near the rear roof quarter when enabled. */
+	function createBuildingChimney(profile, materials, groundY) {
+		if (profile.chimney === false) {
+			return [];
+		}
+		const width = positive(profile.chimneyWidth, 0.72);
+		const depth = positive(profile.chimneyDepth, 0.62);
+		const wallTop = groundY
+			+ profile.floorThickness
+			+ profile.storyHeight * profile.floors;
+		const roofHeight = positive(profile.roofHeight, 1.15);
+		const chimneyHeight = positive(profile.chimneyHeight, roofHeight + 1.25);
+		const x = finite(profile.chimneyX, profile.width * 0.27);
+		const z = finite(profile.chimneyZ, -profile.depth * 0.22);
+		return [
+			buildingBox(
+				profile,
+				materials.chimney,
+				'chimney-stack',
+				x,
+				wallTop + chimneyHeight / 2,
+				z,
+				{ x: width, y: chimneyHeight, z: depth },
+				{ role: 'chimney-stack' }
+			),
+			buildingBox(
+				profile,
+				materials.trim,
+				'chimney-cap',
+				x,
+				wallTop + chimneyHeight + 0.09,
+				z,
+				{ x: width + 0.2, y: 0.18, z: depth + 0.2 },
+				{ role: 'chimney-cap' }
+			)
+		];
+	}
+
+
+	__exports.createBuildingChimney = createBuildingChimney;
+	function positive(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+	function finite(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) ? number : fallback;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingPorch.js ----
+{
+	const __exports = __awtsmoosModule_614;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingPorch.js
+	 * @description Creates optional porch deck, canopy, steps, and support posts as renderer-neutral structural definitions.
+	 * The Awtsmoos renews approach before threshold and dwelling can seem apart;
+	 * Awtsmoos.com gives porch, post, canopy, and step their own stable roles so gameplay and renderers share one architectural heart.
+	 */
+
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+
+	/** Creates an optional front porch with bounded human-scale proportions. */
+	function createBuildingPorch(profile, materials, groundY) {
+		if (profile.porch === false || profile.porchDepth === 0) {
+			return [];
+		}
+		const depth = positive(profile.porchDepth, 2.2);
+		const width = Math.min(profile.width * 0.92, positive(profile.porchWidth, profile.width * 0.56));
+		const deckThickness = positive(profile.porchThickness, 0.18);
+		const canopyHeight = positive(profile.porchCanopyHeight, 2.65);
+		const canopyThickness = Math.max(0.1, deckThickness * 0.75);
+		const centerZ = profile.depth / 2 + depth / 2;
+		const deckY = groundY + deckThickness / 2;
+		const postHeight = canopyHeight - deckThickness;
+		const postOffset = Math.max(0.3, width / 2 - 0.22);
+		return [
+			buildingBox(profile, materials.porch, 'porch-deck', 0, deckY, centerZ, { x: width, y: deckThickness, z: depth }, { role: 'porch-deck', walkable: true }),
+			buildingBox(profile, materials.porch, 'porch-canopy', 0, groundY + canopyHeight, centerZ, { x: width + 0.4, y: canopyThickness, z: depth + 0.4 }, { role: 'porch-canopy' }),
+			buildingBox(profile, materials.trim, 'porch-post-left', -postOffset, groundY + deckThickness + postHeight / 2, profile.depth / 2 + depth * 0.78, { x: 0.22, y: postHeight, z: 0.22 }, { role: 'porch-support' }),
+			buildingBox(profile, materials.trim, 'porch-post-right', postOffset, groundY + deckThickness + postHeight / 2, profile.depth / 2 + depth * 0.78, { x: 0.22, y: postHeight, z: 0.22 }, { role: 'porch-support' }),
+			...porchSteps(profile, materials, groundY, width, depth)
+		];
+	}
+
+
+	__exports.createBuildingPorch = createBuildingPorch;
+	/** Creates two broad approach steps in front of the porch deck. */
+	function porchSteps(profile, materials, groundY, width, depth) {
+		const stepDepth = 0.46;
+		const stepHeight = 0.16;
+		const frontEdge = profile.depth / 2 + depth;
+		return [0, 1].map(index => buildingBox(
+			profile,
+			materials.porch,
+			`porch-step-${index + 1}`,
+			0,
+			groundY + stepHeight * (index + 0.5),
+			frontEdge + stepDepth * (index + 0.5),
+			{
+				x: width * (0.62 + index * 0.14),
+				y: stepHeight,
+				z: stepDepth
+			},
+			{
+				role: 'porch-step',
+				walkable: true
+			}
+		));
+	}
+
+	function positive(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingRoof.js ----
+{
+	const __exports = __awtsmoosModule_615;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingRoof.js
+	 * @description Builds layered roof and eave volumes with stable semantic style evidence for richer renderer adapters.
+	 * The Awtsmoos renews shelter before pitch, ridge, eave, or rain can divide its covering light;
+	 * Awtsmoos.com lets bounded boxes describe honest massing today while future pitched meshes inherit the same roof identity bright.
+	 */
+
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+
+	/** Creates layered roof massing whose semantic style survives renderer upgrades. */
+	function createBuildingRoof(profile, materials, groundY) {
+		const wallTop = groundY
+			+ profile.floorThickness
+			+ profile.storyHeight * profile.floors;
+		const styleHod = roofStyle(profile);
+		const steps = roofStepCount(profile, styleHod);
+		const overhang = positive(profile.roofOverhang, 0.8);
+		const totalHeight = positive(profile.roofHeight, 1.15);
+		const definitions = [];
+		for (let stepIndex = 0; stepIndex < steps; stepIndex += 1) {
+			const progress = steps === 1 ? 0 : stepIndex / (steps - 1);
+			const inset = roofInset(styleHod, progress, profile);
+			const stepHeight = totalHeight / steps;
+			definitions.push(buildingBox(
+				profile,
+				materials.roof,
+				`roof-layer-${stepIndex + 1}`,
+				0,
+				wallTop + stepHeight * (stepIndex + 0.5),
+				0,
+				{
+					x: Math.max(profile.wallThickness, profile.width + overhang * 2 - inset * 2),
+					y: stepHeight,
+					z: Math.max(profile.wallThickness, profile.depth + overhang * 2 - inset * 2)
+				},
+				{
+					role: `weather-roof:${styleHod}`
+				}
+			));
+		}
+		definitions.push(...createEaves(profile, materials, wallTop, overhang, styleHod));
+		return definitions;
+	}
+
+
+	__exports.createBuildingRoof = createBuildingRoof;
+	/** Creates thin perimeter eaves so roof overhang reads independently from roof mass. */
+	function createEaves(profile, materials, wallTop, overhang, styleHod) {
+		const thickness = Math.min(0.18, Math.max(0.08, profile.floorThickness * 0.45));
+		return [
+			buildingBox(profile, materials.roof, 'roof-eave-front', 0, wallTop + thickness / 2, profile.depth / 2 + overhang / 2, { x: profile.width + overhang * 2, y: thickness, z: overhang }, { role: `roof-eave:${styleHod}` }),
+			buildingBox(profile, materials.roof, 'roof-eave-back', 0, wallTop + thickness / 2, -profile.depth / 2 - overhang / 2, { x: profile.width + overhang * 2, y: thickness, z: overhang }, { role: `roof-eave:${styleHod}` })
+		];
+	}
+
+	/** Chooses a supported semantic style while keeping custom names observable. */
+	function roofStyle(profile) {
+		return String(profile.roofStyle || 'gable').toLowerCase();
+	}
+
+	/** Keeps roof mass bounded while allowing deliberate one-layer flat roofs. */
+	function roofStepCount(profile, styleHod) {
+		if (styleHod === 'flat') {
+			return 1;
+		}
+		return Math.max(2, Math.min(8, Math.round(positive(profile.roofSteps, 5))));
+	}
+
+	/** Approximates gable/hip/shed massing without pretending boxes support pitch rotation. */
+	function roofInset(styleHod, progress, profile) {
+		if (styleHod === 'shed') {
+			return progress * Math.min(profile.depth, profile.width) * 0.16;
+		}
+		if (styleHod === 'flat') {
+			return 0;
+		}
+		const strength = styleHod === 'hip' ? 0.38 : 0.28;
+		return progress * Math.min(profile.depth, profile.width) * strength;
+	}
+
+	/** Returns a positive finite value or fallback. */
+	function positive(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingShellFloors.js ----
+{
+	const __exports = __awtsmoosModule_616;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingShellFloors.js
+	 * @description Builds upper walkable floor panels around the canonical stair opening without mixing wall, roof, or facade concerns.
+	 * The Awtsmoos renews ascent before one floor can imagine itself above another;
+	 * Awtsmoos.com keeps stair void and walkable panels truthful so every level remains a usable dwelling vessel together.
+	 */
+
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+
+	/** Creates upper-floor panels around the stair circulation aperture. */
+	function createBuildingUpperFloors(profile, material, groundY) {
+		if (profile.floors < 2) {
+			return [];
+		}
+		const floorY = groundY + profile.floorThickness;
+		const y = floorY + profile.storyHeight - profile.floorThickness / 2;
+		const layout = profile.layout;
+		const openingWidth = layout.stairWidth + 1;
+		const openingDepth = layout.stairRun + layout.stairLandingDepth + 1;
+		const openingCenterZ = layout.innerDepth / 2 - 3 - layout.stairRun / 2;
+		const sideWidth = (layout.interiorWidth - openingWidth) / 2;
+		const definitions = [
+			panel(profile, material, 'left', -(openingWidth + sideWidth) / 2, y, 0, sideWidth, layout.innerDepth),
+			panel(profile, material, 'right', (openingWidth + sideWidth) / 2, y, 0, sideWidth, layout.innerDepth)
+		];
+		appendCenterPanel(
+			definitions,
+			profile,
+			material,
+			y,
+			layout.innerDepth / 2,
+			openingCenterZ + openingDepth / 2,
+			openingWidth,
+			'front'
+		);
+		appendCenterPanel(
+			definitions,
+			profile,
+			material,
+			y,
+			openingCenterZ - openingDepth / 2,
+			-layout.innerDepth / 2,
+			openingWidth,
+			'back'
+		);
+		return definitions;
+	}
+
+
+	__exports.createBuildingUpperFloors = createBuildingUpperFloors;
+	/** Creates one walkable upper-floor panel. */
+	function panel(profile, material, id, x, y, z, width, depth) {
+		return buildingBox(profile, material, `upper-floor-${id}`, x, y, z, {
+			x: width,
+			y: profile.floorThickness,
+			z: depth
+		}, {
+			role: 'upper-floor-panel',
+			walkable: true
+		});
+	}
+
+	/** Adds one front/back bridge panel only when useful depth remains around the stair void. */
+	function appendCenterPanel(target, profile, material, y, first, second, width, id) {
+		const depth = Math.abs(first - second);
+		if (depth <= 0.1) {
+			return;
+		}
+		target.push(panel(
+			profile,
+			material,
+			id,
+			0,
+			y,
+			(first + second) / 2,
+			width,
+			depth
+		));
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingShellWalls.js ----
+{
+	const __exports = __awtsmoosModule_617;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingShellWalls.js
+	 * @description Owns exterior wall and ground-floor solids while richer facade details remain separate semantic layers.
+	 * The Awtsmoos renews threshold, wall, and floor before enclosure can call itself a home;
+	 * Awtsmoos.com lets each boundary stay structural while window, porch, and ornament receive their own room to roam.
+	 */
+
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+
+	/** Creates the ground floor plus structural exterior walls around the canonical door aperture. */
+	function createBuildingShellWalls(profile, materials, groundY) {
+		const floorY = groundY + profile.floorThickness;
+		const wallHeight = profile.storyHeight * profile.floors;
+		return [
+			groundFloor(profile, materials.floor, groundY),
+			...frontWall(profile, materials.brick, floorY, wallHeight),
+			buildingBox(
+				profile,
+				materials.brick,
+				'back-wall',
+				0,
+				floorY + wallHeight / 2,
+				-profile.depth / 2,
+				{ x: profile.width, y: wallHeight, z: profile.wallThickness },
+				{ role: 'exterior-back-wall' }
+			),
+			...sideWalls(profile, materials.brickLight, floorY, wallHeight)
+		];
+	}
+
+
+	__exports.createBuildingShellWalls = createBuildingShellWalls;
+	/** Creates one walkable interior ground slab. */
+	function groundFloor(profile, material, groundY) {
+		return buildingBox(profile, material, 'ground-floor', 0, groundY + profile.floorThickness / 2, 0, {
+			x: profile.width - profile.wallThickness * 2,
+			y: profile.floorThickness,
+			z: profile.depth - profile.wallThickness * 2
+		}, { role: 'level-interior-floor', walkable: true });
+	}
+
+	/** Creates front wall solids around the real door opening. */
+	function frontWall(profile, material, floorY, wallHeight) {
+		const sideWidth = (profile.width - profile.doorWidth) / 2;
+		const sideOffset = profile.doorWidth / 2 + sideWidth / 2;
+		const headerHeight = wallHeight - profile.doorHeight;
+		return [
+			buildingBox(profile, material, 'front-left', -sideOffset, floorY + wallHeight / 2, profile.depth / 2, { x: sideWidth, y: wallHeight, z: profile.wallThickness }, { role: 'exterior-front-wall' }),
+			buildingBox(profile, material, 'front-right', sideOffset, floorY + wallHeight / 2, profile.depth / 2, { x: sideWidth, y: wallHeight, z: profile.wallThickness }, { role: 'exterior-front-wall' }),
+			buildingBox(profile, material, 'front-header', 0, floorY + profile.doorHeight + headerHeight / 2, profile.depth / 2, { x: profile.doorWidth, y: headerHeight, z: profile.wallThickness }, { role: 'exterior-front-header' })
+		];
+	}
+
+	/** Creates full-depth structural side walls. */
+	function sideWalls(profile, material, floorY, wallHeight) {
+		return [-1, 1].map(side => buildingBox(
+			profile,
+			material,
+			`${side < 0 ? 'left' : 'right'}-wall`,
+			side * profile.width / 2,
+			floorY + wallHeight / 2,
+			0,
+			{ x: profile.wallThickness, y: wallHeight, z: profile.depth },
+			{ role: 'exterior-side-wall' }
+		));
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingWindows.js ----
+{
+	const __exports = __awtsmoosModule_618;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingWindows.js
+	 * @description Adds semantic non-solid panes and solid trim frames to exterior facades without coupling architecture to a glass renderer.
+	 * The Awtsmoos renews light before a window divides outside from room within;
+	 * Awtsmoos.com gives every pane and frame a stable role so future glass, reflection, and interior systems may bloom.
+	 */
+
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+
+	/** Creates front/back window assemblies for every occupied story. */
+	function createBuildingWindows(profile, materials, groundY) {
+		if (profile.windows === false) {
+			return [];
+		}
+		const columns = boundedInteger(profile.windowColumns, 2, 1, 5);
+		const windowWidth = positive(profile.windowWidth, 1.35);
+		const windowHeight = positive(profile.windowHeight, 1.45);
+		const sillHeight = positive(profile.windowSillHeight, 0.9);
+		const definitions = [];
+		for (let floorIndex = 0; floorIndex < profile.floors; floorIndex += 1) {
+			for (const zSide of [-1, 1]) {
+				for (let columnIndex = 0; columnIndex < columns; columnIndex += 1) {
+					const x = columnOffset(profile.width, columns, columnIndex);
+					definitions.push(...windowAssembly(
+						profile,
+						materials,
+						groundY,
+						floorIndex,
+						x,
+						zSide,
+						windowWidth,
+						windowHeight,
+						sillHeight,
+						columnIndex
+					));
+				}
+			}
+		}
+		return definitions;
+	}
+
+
+	__exports.createBuildingWindows = createBuildingWindows;
+	/** Builds one pane and four trim members as independent semantic definitions. */
+	function windowAssembly(profile, materials, groundY, floorIndex, x, zSide, width, height, sill, columnIndex) {
+		const frame = positive(profile.windowFrameWidth, 0.11);
+		const wallZ = zSide * (profile.depth / 2 + profile.wallThickness * 0.52);
+		const centerY = groundY
+			+ profile.floorThickness
+			+ floorIndex * profile.storyHeight
+			+ sill
+			+ height / 2;
+		const id = `${zSide > 0 ? 'front' : 'back'}-${floorIndex + 1}-${columnIndex + 1}`;
+		const paneDepth = Math.max(0.025, profile.wallThickness * 0.08);
+		return [
+			buildingBox(profile, materials.window, `window-pane-${id}`, x, centerY, wallZ, { x: width, y: height, z: paneDepth }, { role: 'window-pane', solid: false }),
+			buildingBox(profile, materials.trim, `window-frame-top-${id}`, x, centerY + height / 2 + frame / 2, wallZ, { x: width + frame * 2, y: frame, z: paneDepth * 1.8 }, { role: 'window-frame' }),
+			buildingBox(profile, materials.trim, `window-frame-bottom-${id}`, x, centerY - height / 2 - frame / 2, wallZ, { x: width + frame * 2, y: frame, z: paneDepth * 1.8 }, { role: 'window-frame' }),
+			buildingBox(profile, materials.trim, `window-frame-left-${id}`, x - width / 2 - frame / 2, centerY, wallZ, { x: frame, y: height, z: paneDepth * 1.8 }, { role: 'window-frame' }),
+			buildingBox(profile, materials.trim, `window-frame-right-${id}`, x + width / 2 + frame / 2, centerY, wallZ, { x: frame, y: height, z: paneDepth * 1.8 }, { role: 'window-frame' })
+		];
+	}
+
+	/** Places columns away from corners while keeping spacing deterministic across widths. */
+	function columnOffset(width, columns, index) {
+		const usable = width * 0.68;
+		if (columns === 1) {
+			return 0;
+		}
+		return -usable / 2 + usable * index / (columns - 1);
+	}
+
+	function positive(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+	function boundedInteger(value, fallback, minimum, maximum) {
+		const number = Math.round(Number(value));
+		return Math.max(minimum, Math.min(maximum, Number.isFinite(number) ? number : fallback));
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingShell.js ----
+{
+	const __exports = __awtsmoosModule_612;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingShell.js
+	 * @description Coordinates focused structural and facade planners into one renderer-neutral exterior shell.
+	 * The Awtsmoos renews floor, wall, window, porch, chimney, and roof as distinct vessels of one dwelling;
+	 * Awtsmoos.com lets each module deepen independently while this Tiferes coordinator gathers their evidence without meddling.
+	 */
+
+	const createBuildingChimney = __awtsmoosModule_613.createBuildingChimney;
+	const createBuildingPorch = __awtsmoosModule_614.createBuildingPorch;
+	const createBuildingRoof = __awtsmoosModule_615.createBuildingRoof;
+	const createBuildingUpperFloors = __awtsmoosModule_616.createBuildingUpperFloors;
+	const createBuildingShellWalls = __awtsmoosModule_617.createBuildingShellWalls;
+	const createBuildingWindows = __awtsmoosModule_618.createBuildingWindows;
+
+	/** Creates the complete exterior/inter-floor shell from focused architectural planners. */
+	function createBuildingShell(profile, materials, groundY) {
+		const resolvedMaterials = shellMaterials(materials);
+		return [
+			...createBuildingShellWalls(profile, resolvedMaterials, groundY),
+			...createBuildingUpperFloors(profile, resolvedMaterials.floor, groundY),
+			...createBuildingWindows(profile, resolvedMaterials, groundY),
+			...createBuildingPorch(profile, resolvedMaterials, groundY),
+			...createBuildingChimney(profile, resolvedMaterials, groundY),
+			...createBuildingRoof(profile, resolvedMaterials, groundY)
+		];
+	}
+
+
+	__exports.createBuildingShell = createBuildingShell;
+	/** Preserves historic four-slot callers while supplying sensible detail material fallbacks. */
+	function shellMaterials(materials = {}) {
+		return Object.freeze({
+			brick: materials.brick || {},
+			brickLight: materials.brickLight || materials.brick || {},
+			chimney: materials.chimney || materials.brick || {},
+			floor: materials.floor || {},
+			porch: materials.porch || materials.floor || {},
+			roof: materials.roof || {},
+			trim: materials.trim || materials.brickLight || materials.brick || {},
+			window: materials.window || { role: 'window-glass', transparent: true }
+		});
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingStairSupport.js ----
+{
+	const __exports = __awtsmoosModule_620;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingStairSupport.js
+	 * @description Computes exact discrete interior tread and landing heights without introducing a hidden collision ramp.
+	 * The Awtsmoos, Atzmus beyond level and ascent, renews many rises as one path while every tread remains truly horizontal;
+	 * Awtsmoos.com lets Domem reveal walkable evidence separately from visible geometry so no renderer-specific wedge becomes foundational.
+	 */
+
+	const buildingLocalPoint = __awtsmoosModule_595.buildingLocalPoint;
+
+	/**
+	 * Creates a discrete interior stair-height sampler for a multi-story building.
+	 * @param {object} profile Normalized building profile.
+	 * @param {number} groundY Raised foundation datum.
+	 * @returns {Readonly<object>|null} Stair support evidence, or null for one-story buildings.
+	 */
+	function createBuildingStairSupport(profile, groundY) {
+		if (profile.floors < 2) return null;
+		const policy = profile.layout;
+		const lowerY = groundY + profile.floorThickness;
+		const rise = profile.storyHeight / policy.stairSteps;
+		const startZ = policy.innerDepth / 2 - 3;
+		const endZ = startZ - policy.stairRun;
+		const landingEndZ = endZ - policy.stairLandingDepth;
+		return Object.freeze({
+			endZ,
+			groundY,
+			heightAt(x, z, currentY) {
+				const local = buildingLocalPoint(profile, x, z);
+				if (Math.abs(local.x) > policy.stairWidth * 0.54) return null;
+				if (local.z <= endZ && local.z >= landingEndZ - 0.25) {
+					return allowedHeight(
+						lowerY + profile.storyHeight,
+						currentY,
+						lowerY
+					);
+				}
+				if (local.z > startZ + 0.28 || local.z < endZ) return null;
+				const progress = Math.max(0, startZ - local.z);
+				const index = Math.min(
+					policy.stairSteps - 1,
+					Math.floor(progress / policy.stairTread)
+				);
+				return allowedHeight(
+					lowerY + rise * (index + 1),
+					currentY,
+					lowerY
+				);
+			},
+			kind: 'interior-stair',
+			landingEndZ,
+			lowerY,
+			maximumRise: rise,
+			profileId: profile.id,
+			rise,
+			startZ,
+			steps: policy.stairSteps,
+			tread: policy.stairTread,
+			width: policy.stairWidth
+		});
+	}
+
+
+	__exports.createBuildingStairSupport = createBuildingStairSupport;
+	/** Returns the greatest finite support height among many stair support adapters. */
+	function buildingStairHeightAt(supports, x, z, currentY) {
+		let result = null;
+		for (const support of supports || []) {
+			const height = support?.heightAt?.(x, z, currentY);
+			if (!Number.isFinite(height)) continue;
+			result = result === null ? height : Math.max(result, height);
+		}
+		return result;
+	}
+
+
+	__exports.buildingStairHeightAt = buildingStairHeightAt;
+	function allowedHeight(height, currentY, lowerY) {
+		if (!Number.isFinite(currentY)) return height;
+		if (currentY < lowerY - 1.1) return null;
+		if (currentY > height + 2.2) return null;
+		return height;
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingStairs.js ----
+{
+	const __exports = __awtsmoosModule_619;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingStairs.js
+	 * @description Builds visible discrete stair treads, a solid upper landing, and matching renderer-neutral support evidence.
+	 * The Awtsmoos, Atzmus beyond step and destination, renews each horizontal rise while one ascent joins them all;
+	 * Awtsmoos.com lets geometry show the staircase and support logic carry its truth without trapping players beneath a hidden wall.
+	 */
+
+	const buildingBox = __awtsmoosModule_595.buildingBox;
+	const createBuildingStairSupport = __awtsmoosModule_620.createBuildingStairSupport;
+
+	/**
+	 * Creates interior stair primitive definitions and support evidence.
+	 * @param {object} profile Normalized building profile.
+	 * @param {object} materials Material descriptors containing `floor`.
+	 * @param {number} groundY Raised foundation datum.
+	 * @returns {object} Definitions, statistics, and support adapter.
+	 */
+	function createBuildingStairs(profile, materials, groundY) {
+		if (profile.floors < 2) {
+			return { definitions: [], stats: null, support: null };
+		}
+		const policy = profile.layout;
+		const rise = profile.storyHeight / policy.stairSteps;
+		const lowerY = groundY + profile.floorThickness;
+		const startZ = policy.innerDepth / 2 - 3;
+		const definitions = createTreads(
+			profile,
+			materials.floor,
+			lowerY,
+			startZ,
+			rise
+		);
+		definitions.push(createLanding(profile, materials.floor, lowerY, startZ));
+		return {
+			definitions,
+			stats: Object.freeze({
+				collision: 'discrete-tread-height-sampler',
+				headroom: profile.storyHeight - profile.floorThickness,
+				landingDepth: policy.stairLandingDepth,
+				maximumRise: rise,
+				openingDepth: policy.stairRun + policy.stairLandingDepth + 1,
+				run: policy.stairRun,
+				steps: policy.stairSteps,
+				tread: policy.stairTread,
+				width: policy.stairWidth
+			}),
+			support: createBuildingStairSupport(profile, groundY)
+		};
+	}
+
+
+	__exports.createBuildingStairs = createBuildingStairs;
+	function createTreads(profile, material, lowerY, startZ, rise) {
+		const policy = profile.layout;
+		return Array.from({ length: policy.stairSteps }, (_, index) => {
+			const height = rise * (index + 1);
+			return buildingBox(
+				profile,
+				material,
+				`stair-${index + 1}`,
+				0,
+				lowerY + height / 2,
+				startZ - (index + 0.5) * policy.stairTread,
+				{
+					x: policy.stairWidth,
+					y: height,
+					z: policy.stairTread + 0.025
+				},
+				{
+					role: 'visual-discrete-interior-stair',
+					solid: false,
+					walkable: false
+				}
+			);
+		});
+	}
+
+	function createLanding(profile, material, lowerY, startZ) {
+		const policy = profile.layout;
+		const landingZ = startZ
+			- policy.stairRun
+			- policy.stairLandingDepth / 2;
+		return buildingBox(
+			profile,
+			material,
+			'upper-stair-landing',
+			0,
+			lowerY + profile.storyHeight - profile.floorThickness / 2,
+			landingZ,
+			{
+				x: policy.stairWidth,
+				y: profile.floorThickness,
+				z: policy.stairLandingDepth
+			},
+			{ role: 'upper-stair-landing', walkable: true }
+		);
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingPlan.js ----
+{
+	const __exports = __awtsmoosModule_592;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingPlan.js
+	 * @description Composes terrain, shell, topology-driven rooms, circulation, stairs, roof intent, and support evidence into one neutral building plan.
+	 * The Awtsmoos is beyond foundation and roof while every specialist vessel is renewed within one intention; Awtsmoos.com lets Tiferes gather geometry and semantics,
+	 * so rooms, adjacency, shelter intent, support, and dimensions remain explicit while today's compatible box massing never pretends to be the final pitched mesh.
+	 */
+	const createBuildingExteriorDoor = __awtsmoosModule_593.createBuildingExteriorDoor;
+	const createBuildingFloorSupport = __awtsmoosModule_594.createBuildingFloorSupport;
+	const createBuildingFoundation = __awtsmoosModule_597.createBuildingFoundation;
+	const buildingDimensionEvidence = __awtsmoosModule_603.buildingDimensionEvidence;
+	const createBuildingRoofIntent = __awtsmoosModule_606.createBuildingRoofIntent;
+	const createBuildingRooms = __awtsmoosModule_607.createBuildingRooms;
+	const createBuildingShell = __awtsmoosModule_612.createBuildingShell;
+	const createBuildingStairs = __awtsmoosModule_619.createBuildingStairs;
+
+	/** Creates one complete neutral architecture plan from a normalized profile. */
+	function createBuildingPlan(keterProfile, chochmahMaterials, binahHeightAt, gevurahOptions = {}) {
+		const tiferesFoundation = createBuildingFoundation(
+			keterProfile,
+			chochmahMaterials,
+			binahHeightAt,
+			gevurahOptions.foundation
+		);
+		const netzachGroundY = tiferesFoundation.groundY;
+		const hodShell = createBuildingShell(keterProfile, chochmahMaterials, netzachGroundY);
+		const yesodRooms = createBuildingRooms(keterProfile, chochmahMaterials, netzachGroundY);
+		const malchusStairs = createBuildingStairs(keterProfile, chochmahMaterials, netzachGroundY);
+		const keterFloorSupport = createBuildingFloorSupport(keterProfile, netzachGroundY);
+		const chochmahRoof = createBuildingRoofIntent(keterProfile, netzachGroundY);
+		const binahDoors = Object.freeze([
+			createBuildingExteriorDoor(keterProfile, netzachGroundY),
+			...yesodRooms.doors
+		]);
+		const gevurahDefinitions = Object.freeze([
+			...tiferesFoundation.definitions,
+			...hodShell,
+			...yesodRooms.definitions,
+			...malchusStairs.definitions
+		]);
+		const tiferesSupports = Object.freeze([
+			tiferesFoundation.support,
+			keterFloorSupport,
+			...(malchusStairs.support ? [malchusStairs.support] : [])
+		]);
+		return Object.freeze({
+			definitions: gevurahDefinitions,
+			dimensions: buildingDimensionEvidence(keterProfile),
+			doors: binahDoors,
+			floorSupport: keterFloorSupport,
+			foundation: tiferesFoundation.evidence,
+			groundSupports: tiferesSupports,
+			groundY: netzachGroundY,
+			profile: keterProfile,
+			roof: chochmahRoof,
+			roomCount: yesodRooms.roomCount,
+			roomIds: yesodRooms.roomIds,
+			stairs: malchusStairs.stats,
+			stairSupport: malchusStairs.support,
+			topology: yesodRooms.topology
+		});
+	}
+
+	__exports.createBuildingPlan = createBuildingPlan;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/BuildingAuthority.js ----
+{
+	const __exports = __awtsmoosModule_591;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BuildingAuthority.js
+	 * @description Provides the discoverable high-level Domem architecture authority over normalized renderer-neutral building plans.
+	 * The Awtsmoos, Atzmus beyond blueprint and house, renews the possibility of dwelling before any world gives it visible dress;
+	 * Awtsmoos.com lets Keser-like intention enter one stable API while focused Binah-like modules structure every measurable address.
+	 */
+
+	const createBuildingPlan = __awtsmoosModule_592.createBuildingPlan;
+	const createBuildingProfile = __awtsmoosModule_603.createBuildingProfile;
+
+	/** High-level reusable authority for terrain-aware procedural buildings. */
+	class BuildingAuthority {
+		/**
+		 * Creates one immutable renderer-neutral building plan.
+		 * @param {object} profileValues Building dimensions, placement, stories, identity, and policy.
+		 * @param {object} materials Opaque architectural material descriptors.
+		 * @param {Function} heightAt Terrain height sampler supplied by the consuming world.
+		 * @param {object} [options={}] Foundation and terrain-fitting controls.
+		 * @returns {Readonly<object>} Complete neutral building plan and support evidence.
+		 */
+		create(profileValues, materials, heightAt, options = {}) {
+			if (typeof heightAt !== 'function') {
+				throw new TypeError('B"H | BuildingAuthority requires a terrain heightAt sampler.');
+			}
+			const profile = createBuildingProfile(profileValues);
+			return createBuildingPlan(
+				profile,
+				materials,
+				heightAt,
+				options
+			);
+		}
+
+		/**
+		 * Normalizes architecture policy without sampling terrain or producing geometry.
+		 * @param {object} profileValues Raw building dimensions and policy.
+		 * @returns {Readonly<object>} Canonical building profile.
+		 */
+		profile(profileValues) {
+			return createBuildingProfile(profileValues);
+		}
+	}
+
+
+	__exports.BuildingAuthority = BuildingAuthority;
+	/** Creates a reusable Domem architecture authority. */
+	function createBuildingAuthority() {
+		return new BuildingAuthority();
+	}
+
+	__exports.createBuildingAuthority = createBuildingAuthority;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/domem/architecture/index.js ----
+{
+	const __exports = __awtsmoosModule_590;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file index.js
+	 * @description Public Domem architecture surface for terrain-aware plans, room topology, circulation, roof intent, support, and focused wall-building evidence.
+	 * The Awtsmoos is beyond blueprint and stone while Awtsmoos.com gathers small architectural vessels beneath one discoverable gate,
+	 * so simple callers enter through BuildingAuthority and experts inspect topology, circulation, roof truth, terrain support, rooms, and measured apertures without monolithic fate.
+	 */
+	__exports.BuildingAuthority = __awtsmoosModule_591.BuildingAuthority;
+	__exports.createBuildingAuthority = __awtsmoosModule_591.createBuildingAuthority;
+	__exports.createBuildingPlan = __awtsmoosModule_592.createBuildingPlan;
+	__exports.HUMAN_SCALE_BUILDING_DOOR = __awtsmoosModule_603.HUMAN_SCALE_BUILDING_DOOR;
+	__exports.buildingDimensionEvidence = __awtsmoosModule_603.buildingDimensionEvidence;
+	__exports.createBuildingProfile = __awtsmoosModule_603.createBuildingProfile;
+	__exports.createBuildingLayout = __awtsmoosModule_604.createBuildingLayout;
+	__exports.buildingRoomUse = __awtsmoosModule_605.buildingRoomUse;
+	__exports.createBuildingRoomTopology = __awtsmoosModule_605.createBuildingRoomTopology;
+	__exports.createBuildingCirculationGraph = __awtsmoosModule_609.createBuildingCirculationGraph;
+	__exports.createBuildingRoofIntent = __awtsmoosModule_606.createBuildingRoofIntent;
+	__exports.buildingPoint = __awtsmoosModule_595.buildingPoint;
+	__exports.buildingLocalPoint = __awtsmoosModule_595.buildingLocalPoint;
+	__exports.buildingBox = __awtsmoosModule_595.buildingBox;
+	__exports.createBuildingFloorPlan = __awtsmoosModule_608.createBuildingFloorPlan;
+	__exports.surveyBuildingGround = __awtsmoosModule_602.surveyBuildingGround;
+	__exports.createBuildingFoundation = __awtsmoosModule_597.createBuildingFoundation;
+	__exports.createBuildingEntryTerrainPlan = __awtsmoosModule_600.createBuildingEntryTerrainPlan;
+	__exports.createBuildingEntrySupport = __awtsmoosModule_598.createBuildingEntrySupport;
+	__exports.createBuildingEntryHeightSupport = __awtsmoosModule_599.createBuildingEntryHeightSupport;
+	__exports.createBuildingShell = __awtsmoosModule_612.createBuildingShell;
+	__exports.createBuildingRooms = __awtsmoosModule_607.createBuildingRooms;
+	__exports.appendBuildingLongitudinalSegment = __awtsmoosModule_611.appendBuildingLongitudinalSegment;
+	__exports.createBuildingRoomDoorHeader = __awtsmoosModule_611.createBuildingRoomDoorHeader;
+	__exports.buildingStairAperture = __awtsmoosModule_596.buildingStairAperture;
+	__exports.buildingStairApertureEvidence = __awtsmoosModule_596.buildingStairApertureEvidence;
+	__exports.createBuildingFloorSupport = __awtsmoosModule_594.createBuildingFloorSupport;
+	__exports.buildingStairHeightAt = __awtsmoosModule_620.buildingStairHeightAt;
+	__exports.createBuildingStairSupport = __awtsmoosModule_620.createBuildingStairSupport;
+	__exports.createBuildingStairs = __awtsmoosModule_619.createBuildingStairs;
+	__exports.createBuildingExteriorDoor = __awtsmoosModule_593.createBuildingExteriorDoor;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzHouseDoorOctreeBridge.js ----
+{
+	const __exports = __awtsmoosModule_623;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file EretzHouseDoorOctreeBridge.js
+	 * @description Synchronizes canonical DynamicDoor3D collider records into the historical house octree without owning visual motion or interaction.
+	 * Gevurah removes stale resistance, Yesod inserts the current measured pose, and neither vessel pretends to be the living hinge itself;
+	 * the awtsmoos recreates collider and doorway each instant, and Awtsmoos.com keeps old collision infrastructure serving one new door truth with stealth.
+	 */
+
+	class EretzHouseDoorOctreeBridge {
+		/**
+		 * @param {object} octree Historical house collision octree.
+		 * @param {DynamicDoor3D} door Canonical dynamic door.
+		 */
+		constructor(octree, door) {
+			this.octree = octree;
+			this.door = door;
+			this.colliders = [];
+			this.synchronize();
+		}
+
+		/** Replaces only collider records while preserving the canonical visible door object. */
+		synchronize() {
+			this.clear();
+			this.colliders = [
+				...this.door.activeColliders()
+			];
+			for (const collider of this.colliders) {
+				this.octree.insert(collider);
+			}
+		}
+
+		/** Removes all currently owned door collider records from the octree. */
+		clear() {
+			for (const collider of this.colliders) {
+				this.octree.remove(collider);
+			}
+			this.colliders = [];
+		}
+
+		/** @returns {Readonly<object>} Small collision-bridge diagnostics receipt. */
+		diagnostics() {
+			return Object.freeze({
+				colliders: this.colliders.length,
+				doorId: this.door.def.id,
+				state: this.door.state
+			});
+		}
+	}
+
+	__exports.EretzHouseDoorOctreeBridge = EretzHouseDoorOctreeBridge;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorFrameUtilities.js ----
+{
+	const __exports = __awtsmoosModule_626;
+	// B"H
+	/** Chooses the swing whose far panel edge remains inside the doorway wall plane. */
+	function chooseDoorSwing(hingeLocalX, requestedAngle, panelWidth) {
+		const magnitude = Math.abs(finiteNumber(requestedAngle, Math.PI * 0.56));
+		const candidates = [-1, 1].map((sign) => inspectCandidate(
+			hingeLocalX,
+			panelWidth,
+			sign * magnitude
+		));
+		const selected = candidates.sort((left, right) => (
+			right.minimumSweptInwardClearance - left.minimumSweptInwardClearance
+		))[0];
+		return Object.freeze({
+			sign: Math.sign(selected.openAngle),
+			openAngle: selected.openAngle,
+			minimumSweptInwardClearance: selected.minimumSweptInwardClearance,
+			clearanceScope: 'door-wall-plane',
+			blockingObjectIds: Object.freeze([]),
+			verifiedBy: 'sampled-far-edge-wall-plane-sweep'
+		});
+	}
+
+
+	__exports.chooseDoorSwing = chooseDoorSwing;
+	function freezePoint(x, y, z) {
+		return Object.freeze({
+			x: finiteNumber(x, 0),
+			y: finiteNumber(y, 0),
+			z: finiteNumber(z, 0)
+		});
+	}
+
+
+	__exports.freezePoint = freezePoint;
+	function finiteNumber(value, fallback) {
+		return Number.isFinite(value) ? value : fallback;
+	}
+
+
+	__exports.finiteNumber = finiteNumber;
+	function inspectCandidate(hingeLocalX, panelWidth, openAngle) {
+		const halfWidth = panelWidth / 2;
+		const farEdgeLocalX = hingeLocalX < 0 ? halfWidth : -halfWidth;
+		const relativeX = farEdgeLocalX - hingeLocalX;
+		let minimum = Infinity;
+		for (let sample = 1; sample <= 24; sample += 1) {
+			const angle = openAngle * sample / 24;
+			minimum = Math.min(minimum, -Math.sin(angle) * relativeX);
+		}
+		return {
+			openAngle,
+			minimumSweptInwardClearance: minimum
+		};
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorWorldMatrix.js ----
+{
+	const __exports = __awtsmoosModule_627;
+	// B"H
+	/**
+	 * A doorway matrix is a covenant between sight and collision: one basis, one
+	 * center, one measured truth. No hidden yaw may contradict what the wall says.
+	 */
+	function worldMatrixFromYaw(center, yaw) {
+		const cosine = Math.cos(yaw);
+		const sine = Math.sin(yaw);
+		return [
+			cosine, 0, sine, 0,
+			0, 1, 0, 0,
+			-sine, 0, cosine, 0,
+			center.x, center.y, center.z, 1
+		];
+	}
+
+
+	__exports.worldMatrixFromYaw = worldMatrixFromYaw;
+	function matrixBasis(matrix) {
+		return {
+			tangent: normalize({ x: matrix[0], y: matrix[1], z: matrix[2] }),
+			up: normalize({ x: matrix[4], y: matrix[5], z: matrix[6] }),
+			normal: normalize({ x: matrix[8], y: matrix[9], z: matrix[10] }),
+			center: { x: matrix[12], y: matrix[13], z: matrix[14] }
+		};
+	}
+
+
+	__exports.matrixBasis = matrixBasis;
+	function matrixMaximumDelta(left, right) {
+		let maximum = 0;
+		for (let index = 0; index < 16; index += 1) {
+			maximum = Math.max(maximum, Math.abs((left?.[index] || 0) - (right?.[index] || 0)));
+		}
+		return maximum;
+	}
+
+
+	__exports.matrixMaximumDelta = matrixMaximumDelta;
+	function vectorAngle(left, right) {
+		const a = normalize(left);
+		const b = normalize(right);
+		const value = Math.max(-1, Math.min(1, dot(a, b)));
+		return Math.acos(value);
+	}
+
+
+	__exports.vectorAngle = vectorAngle;
+	function dot(left, right) {
+		return left.x * right.x + left.y * right.y + left.z * right.z;
+	}
+
+
+	__exports.dot = dot;
+	function normalize(vector) {
+		const length = Math.hypot(vector.x, vector.y, vector.z) || 1;
+		return {
+			x: vector.x / length,
+			y: vector.y / length,
+			z: vector.z / length
+		};
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/HouseDoorLegacyAliases.js ----
+{
+	const __exports = __awtsmoosModule_628;
+	// B"H
+	/** Preserves old flat fields while the nested frame remains authoritative. */
+	function withDoorFrameAliases(frame) {
+		return {
+			...frame,
+			x: frame.center.x,
+			z: frame.center.z,
+			floorY: frame.center.y,
+			openingBottomY: frame.opening.bottomY,
+			wallW: frame.wall.width,
+			wallH: frame.wall.height,
+			wallT: frame.wall.thickness,
+			doorW: frame.opening.width,
+			doorH: frame.opening.height,
+			doorThickness: frame.panel.thickness,
+			panelGap: frame.opening.width - frame.panel.width,
+			doorDepth: frame.panel.closedDepth,
+			hingeSide: frame.hinge.side,
+			rightJambLocalX: frame.entry.rightJambLocalX
+		};
+	}
+
+	__exports.withDoorFrameAliases = withDoorFrameAliases;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/house/HouseGroundMeasurement.js ----
+{
+	const __exports = __awtsmoosModule_630;
+	// B"H
+	/** Measures all footprint corners without making HouseSpec own terrain policy. */
+	function measureHouseGround(specification, sampler) {
+		const fallback = specification.floorY ?? 0;
+		if (!sampler) {
+			return { floorY: fallback, groundMin: fallback, groundEvidence: [] };
+		}
+		const corners = [
+			[-specification.width / 2, -specification.depth / 2],
+			[specification.width / 2, -specification.depth / 2],
+			[-specification.width / 2, specification.depth / 2],
+			[specification.width / 2, specification.depth / 2]
+		];
+		const samples = corners.map(([localX, localZ]) => {
+			const point = localToWorld(specification, localX, localZ);
+			return sampler.heightAt(point.x, point.z);
+		});
+		return {
+			floorY: Math.max(...samples.map((sample) => sample.y)),
+			groundMin: Math.min(...samples.map((sample) => sample.y)),
+			groundEvidence: samples.map((sample) => sample.source)
+		};
+	}
+
+
+	__exports.measureHouseGround = measureHouseGround;
+	function localToWorld(specification, localX, localZ) {
+		const cosine = Math.cos(specification.yaw);
+		const sine = Math.sin(specification.yaw);
+		return {
+			x: specification.x + localX * cosine - localZ * sine,
+			z: specification.z + localX * sine + localZ * cosine
+		};
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/house/HouseSpec.js ----
+{
+	const __exports = __awtsmoosModule_629;
+	// B"H
+	const measureHouseGround = __awtsmoosModule_630.measureHouseGround;
+
+	const PLAYER_CAPSULE = Object.freeze({ radius: 0.38, height: 1.72 });
+
+
+	__exports.PLAYER_CAPSULE = PLAYER_CAPSULE;
+	const HOUSE_ARCHITECTURE = Object.freeze({
+		floorThickness: 0.2,
+		storyHeight: 9.2,
+		doorWidth: 3.1,
+		doorHeight: 3.8,
+		wallThickness: 0.9,
+		roofClearance: 0.8
+	});
+
+
+	__exports.HOUSE_ARCHITECTURE = HOUSE_ARCHITECTURE;
+	const DEFAULT_HOUSE_SPEC = Object.freeze({
+		id: 'Awtsmoos-main-house',
+		x: 58,
+		z: -64,
+		yaw: 0,
+		width: 60,
+		depth: 46,
+		wallH: 19.2,
+		wallT: HOUSE_ARCHITECTURE.wallThickness,
+		doorW: HOUSE_ARCHITECTURE.doorWidth,
+		doorH: HOUSE_ARCHITECTURE.doorHeight,
+		roofRise: 8,
+		roofOver: 3.4,
+		floors: 2,
+		fence: true,
+		storyHeight: HOUSE_ARCHITECTURE.storyHeight,
+		floorThickness: HOUSE_ARCHITECTURE.floorThickness
+	});
+
+
+	__exports.DEFAULT_HOUSE_SPEC = DEFAULT_HOUSE_SPEC;
+	/** Measures terrain and enforces enough vertical room for every story. */
+	function resolveHouseSpec(specification = {}, sampler) {
+		const merged = { ...DEFAULT_HOUSE_SPEC, ...specification };
+		const floors = Math.max(1, Math.round(merged.floors || 1));
+		const storyHeight = Math.max(8.8, merged.storyHeight || HOUSE_ARCHITECTURE.storyHeight);
+		const floorThickness = merged.floorThickness || HOUSE_ARCHITECTURE.floorThickness;
+		const minimumWallHeight = floors * storyHeight + HOUSE_ARCHITECTURE.roofClearance;
+		const measured = measureHouseGround(merged, sampler);
+		return Object.freeze({
+			...merged,
+			...measured,
+			floors,
+			storyHeight,
+			floorThickness,
+			wallH: Math.max(merged.wallH || 0, minimumWallHeight),
+			doorW: Math.max(merged.doorW || 0, HOUSE_ARCHITECTURE.doorWidth),
+			doorH: Math.max(merged.doorH || 0, HOUSE_ARCHITECTURE.doorHeight)
+		});
+	}
+
+
+	__exports.resolveHouseSpec = resolveHouseSpec;
+	function floorBottomY(specification, level) {
+		return specification.floorY + level * specification.storyHeight;
+	}
+
+
+	__exports.floorBottomY = floorBottomY;
+	function floorTopY(specification, level) {
+		return floorBottomY(specification, level) + specification.floorThickness;
+	}
+
+
+	__exports.floorTopY = floorTopY;
+	function storyCeilingY(specification, level) {
+		if (level + 1 < specification.floors) {
+			return floorBottomY(specification, level + 1);
+		}
+		return specification.floorY + specification.wallH;
+	}
+
+
+	__exports.storyCeilingY = storyCeilingY;
+	function localToWorld(specification, localX, localZ) {
+		const cosine = Math.cos(specification.yaw);
+		const sine = Math.sin(specification.yaw);
+		return {
+			x: specification.x + localX * cosine - localZ * sine,
+			z: specification.z + localX * sine + localZ * cosine
+		};
+	}
+
+
+	__exports.localToWorld = localToWorld;
+	function worldToLocal(specification, x, z) {
+		const dx = x - specification.x;
+		const dz = z - specification.z;
+		const cosine = Math.cos(specification.yaw);
+		const sine = Math.sin(specification.yaw);
+		return {
+			x: dx * cosine + dz * sine,
+			z: -dx * sine + dz * cosine
+		};
+	}
+
+
+	__exports.worldToLocal = worldToLocal;
+	/** Facing local -Z into the house, inward × up yields local +X: entry-right. */
+	function houseBasis(yaw) {
+		const cosine = Math.cos(yaw);
+		const sine = Math.sin(yaw);
+		const right = Object.freeze({ x: cosine, y: 0, z: sine });
+		return Object.freeze({
+			right,
+			entryRight: right,
+			outward: Object.freeze({ x: -sine, y: 0, z: cosine }),
+			inward: Object.freeze({ x: sine, y: 0, z: -cosine }),
+			up: Object.freeze({ x: 0, y: 1, z: 0 })
+		});
+	}
+
+	__exports.houseBasis = houseBasis;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/HouseDoorGeometry.js ----
+{
+	const __exports = __awtsmoosModule_625;
+	// B"H
+	const chooseDoorSwing = __awtsmoosModule_626.chooseDoorSwing;
+	const finiteNumber = __awtsmoosModule_626.finiteNumber;
+	const freezePoint = __awtsmoosModule_626.freezePoint;
+	const worldMatrixFromYaw = __awtsmoosModule_627.worldMatrixFromYaw;
+	const withDoorFrameAliases = __awtsmoosModule_628.withDoorFrameAliases;
+	const houseBasis = __awtsmoosModule_629.houseBasis;
+
+	/** Creates the immutable doorway truth shared by wall, panel, collider, and mezuzah. */
+	function normalizeDoorFrame(specification = {}) {
+		if (specification.closedWorldMatrix && specification.panel && specification.opening) {
+			return specification;
+		}
+		const yaw = snapAngle(finiteNumber(specification.yaw, 0));
+		const basis = houseBasis(yaw);
+		const openingWidth = finiteNumber(specification.doorW, finiteNumber(specification.width, 2.4));
+		const openingHeight = finiteNumber(specification.doorH, finiteNumber(specification.height, 2.7));
+		const panelGap = finiteNumber(specification.panelGap, 0.1);
+		const panelWidth = openingWidth - panelGap;
+		const panelHeight = openingHeight - panelGap;
+		const floorY = finiteNumber(specification.floorY, 0);
+		const openingBottomY = finiteNumber(specification.openingBottomY, floorY);
+		const closedDepth = finiteNumber(specification.doorDepth, finiteNumber(specification.depth, 0));
+		const center = freezePoint(specification.x ?? specification.position?.x, floorY, specification.z ?? specification.position?.z);
+		const hingeSide = specification.hingeSide || 'entry-right';
+		const hingeLocalX = hingeSide === 'entry-right' ? panelWidth / 2 : -panelWidth / 2;
+		const hingePoint = framePoint({ center, basis }, hingeLocalX, closedDepth);
+		const closedPoint = framePoint({ center, basis }, 0, closedDepth);
+		const closedCenter = freezePoint(closedPoint.x, openingBottomY + panelHeight / 2, closedPoint.z);
+		const swing = chooseDoorSwing(hingeLocalX, specification.openAngle, panelWidth);
+		const frame = {
+			id: specification.id || specification.doorId || 'Awtsmoos-door-frame',
+			houseId: specification.houseId || null,
+			wallId: specification.wallId || `${specification.id || 'Awtsmoos'}-doorway-wall`,
+			doorId: specification.doorId || specification.id || 'Awtsmoos-hinged-door',
+			center,
+			yaw,
+			basis,
+			wall: Object.freeze({
+				width: finiteNumber(specification.wallW, 8),
+				height: finiteNumber(specification.wallH, 3.5),
+				thickness: finiteNumber(specification.wallT, 0.55)
+			}),
+			opening: Object.freeze({
+				width: openingWidth,
+				height: openingHeight,
+				bottomY: openingBottomY,
+				topY: openingBottomY + openingHeight
+			}),
+			panel: Object.freeze({
+				width: panelWidth,
+				height: panelHeight,
+				thickness: finiteNumber(specification.doorThickness, finiteNumber(specification.thickness, 0.22)),
+				closedDepth,
+				closedYaw: yaw,
+				closedCenter
+			}),
+			hinge: Object.freeze({
+				side: hingeSide,
+				localX: hingeLocalX,
+				worldPosition: freezePoint(hingePoint.x, openingBottomY, hingePoint.z)
+			}),
+			entry: Object.freeze({
+				outsideDirection: basis.outward,
+				insideDirection: basis.inward,
+				right: basis.entryRight,
+				rightJambLocalX: openingWidth / 2,
+				acrossYaw: yaw - Math.PI / 2
+			}),
+			swing,
+			openAngle: swing.openAngle,
+			closedWorldMatrix: Object.freeze(worldMatrixFromYaw(closedCenter, yaw)),
+			noEdge: !!specification.noEdge,
+			wallColor: specification.wallColor || '#ddd3c6',
+			doorColor: specification.doorColor || specification.color || '#8a5228'
+		};
+		return Object.freeze(withDoorFrameAliases(frame));
+	}
+
+
+	__exports.normalizeDoorFrame = normalizeDoorFrame;
+	function framePoint(frame, localX, inwardDepth) {
+		return {
+			x: frame.center.x + frame.basis.right.x * localX + frame.basis.inward.x * inwardDepth,
+			z: frame.center.z + frame.basis.right.z * localX + frame.basis.inward.z * inwardDepth
+		};
+	}
+
+
+	__exports.framePoint = framePoint;
+	function doorPanelDepth(specification) {
+		return normalizeDoorFrame(specification).panel.closedDepth;
+	}
+
+
+	__exports.doorPanelDepth = doorPanelDepth;
+	function doorHingeWorld(specification) {
+		return normalizeDoorFrame(specification).hinge.worldPosition;
+	}
+
+
+	__exports.doorHingeWorld = doorHingeWorld;
+	function entryRightRevealWorld(specification, jambInset = 0.055, revealDepth = 0.04) {
+		const frame = normalizeDoorFrame(specification);
+		return framePoint(frame, frame.entry.rightJambLocalX - jambInset, revealDepth);
+	}
+
+
+	__exports.entryRightRevealWorld = entryRightRevealWorld;
+	function normalizeAngle(value) {
+		return Math.atan2(Math.sin(value), Math.cos(value));
+	}
+
+
+	__exports.normalizeAngle = normalizeAngle;
+	function snapAngle(value) {
+		const quarterTurn = Math.PI / 2;
+		const nearest = Math.round(value / quarterTurn) * quarterTurn;
+		return Math.abs(value - nearest) < 0.00000001 ? nearest : value;
+	}
+
+	__exports.snapAngle = snapAngle;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorWallSystem.js ----
+{
+	const __exports = __awtsmoosModule_624;
+	// B"H
+	const normalizeDoorFrame = __awtsmoosModule_625.normalizeDoorFrame;
+
+	/** Builds one boolean wall and one dynamic panel from one canonical frame. */
+	function createDoorWallSet(specification, material = {}) {
+		const frame = normalizeDoorFrame(specification);
+		return {
+			wall: createDoorWallDefinition(frame, material),
+			door: createDoorDefinition(frame, material.doorMaterial || {}),
+			spec: frame
+		};
+	}
+
+
+	__exports.createDoorWallSet = createDoorWallSet;
+	function doorWallDef(specification, material = {}) {
+		return createDoorWallDefinition(normalizeDoorFrame(specification), material);
+	}
+
+
+	__exports.doorWallDef = doorWallDef;
+	function doorDefFromWall(specification, material = {}) {
+		return createDoorDefinition(normalizeDoorFrame(specification), material);
+	}
+
+
+	__exports.doorDefFromWall = doorDefFromWall;
+	function createDoorWallDefinition(frame, material) {
+		return {
+			id: frame.wallId,
+			shape: 'doorway',
+			solid: true,
+			walkable: false,
+			noEdge: frame.noEdge,
+			...texture(material, frame.wallColor),
+			position: {
+				x: frame.center.x,
+				y: frame.opening.bottomY + frame.wall.height / 2,
+				z: frame.center.z
+			},
+			size: {
+				x: frame.wall.width,
+				y: frame.wall.height,
+				z: frame.wall.thickness
+			},
+			door: {
+				x: frame.opening.width,
+				y: frame.opening.height
+			},
+			yaw: frame.yaw,
+			rotation: { y: frame.yaw },
+			userData: {
+				AwtsmoosDoorFrame: frame,
+				booleanOperation: 'difference',
+				booleanSource: 'awtsmoos-procedural-core-csg'
+			}
+		};
+	}
+
+	function createDoorDefinition(frame, material) {
+		return {
+			id: frame.doorId,
+			frame,
+			position: { ...frame.center, y: 0 },
+			yaw: frame.panel.closedYaw,
+			closedYaw: frame.panel.closedYaw,
+			wallYaw: frame.yaw,
+			width: frame.panel.width,
+			height: frame.panel.height,
+			thickness: frame.panel.thickness,
+			centerY: frame.opening.bottomY + frame.panel.height / 2,
+			depth: frame.panel.closedDepth,
+			openAngle: frame.openAngle,
+			hingeSide: frame.hinge.side,
+			hinge: frame.hinge,
+			entry: frame.entry,
+			opening: {
+				width: frame.opening.width,
+				height: frame.opening.height,
+				wall: frame.wallId
+			},
+			...texture(material, frame.doorColor),
+			userData: {
+				AwtsmoosDoorFrame: frame,
+				closedYawSource: 'owning-wall-frame'
+			}
+		};
+	}
+
+	function texture(material, fallbackColor) {
+		return {
+			color: material.color || fallbackColor,
+			mapImage: material.mapImage || null,
+			textureUrl: material.textureUrl || material.mapImage?.dataset?.url || material.mapImage?.src || null,
+			mapRepeat: material.mapRepeat || [1, 1],
+			anisotropy: material.anisotropy ?? 2,
+			backfaceCull: material.backfaceCull,
+			texturePolicy: material.texturePolicy || null
+		};
+	}
+
+	const normalize = normalizeDoorFrame;
+
+	__exports.normalize = normalize;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorDebugEvidence.js ----
+{
+	const __exports = __awtsmoosModule_632;
+	// B"H
+	const matrixBasis = __awtsmoosModule_627.matrixBasis;
+	const matrixMaximumDelta = __awtsmoosModule_627.matrixMaximumDelta;
+	const vectorAngle = __awtsmoosModule_627.vectorAngle;
+
+	/** Reads the rendered matrix after parent composition and compares it to collision. */
+	function createDoorDebugEvidence(door) {
+		const actualMatrix = Array.from(door.refreshWorldMatrix());
+		const expectedMatrix = door.pose.matrix;
+		const actualBasis = matrixBasis(actualMatrix);
+		const wall = door.def.frame.basis;
+		return {
+			id: door.def.id,
+			state: door.state,
+			progress: door.t,
+			currentAngle: door.pose.angle,
+			worldMatrix: actualMatrix,
+			colliderWorldMatrix: expectedMatrix,
+			matrixDelta: matrixMaximumDelta(actualMatrix, expectedMatrix),
+			panelTangentAngleToWall: vectorAngle(actualBasis.tangent, wall.right),
+			panelNormalAngleToWall: vectorAngle(actualBasis.normal, wall.outward),
+			frame: door.def.frame,
+			obb: door.obb(),
+			interaction: door.interaction.debug()
+		};
+	}
+
+	__exports.createDoorDebugEvidence = createDoorDebugEvidence;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorInteractionFeedback.js ----
+{
+	const __exports = __awtsmoosModule_634;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorInteractionFeedback.js
+	 * @description Owns doorway hover, cursor, and prompt evidence so pointer mechanics never invent visual language or accessibility meaning.
+	 * Hod translates physical possibility into a truthful sign while Tiferes keeps locked, blocked, open, and closed feedback in one harmonious line;
+	 * the Awtsmoos recreates cursor, label, and traveler each instant, and Awtsmoos.com lets futuristic UI consume one stable semantic light.
+	 */
+
+	class DoorInteractionFeedback {
+		/**
+		 * @description Creates one semantic feedback coordinator for a canonical door without owning listeners, hit testing, or global styles.
+		 * @param {object} door Canonical dynamic door exposing hover presentation and prompt semantics.
+		 */
+		constructor(door) {
+			this.door = door;
+		}
+
+		/**
+		 * @description Synchronizes local hover presentation, cursor intent, and complete prompt metadata after one hit-test decision.
+		 * @param {boolean} found Whether the pointer currently targets the door within interaction range.
+		 * @param {string} pointerType Browser pointer type such as mouse, touch, or pen.
+		 * @param {HTMLCanvasElement|null} canvas Installed render canvas whose cursor should reflect action semantics.
+		 * @param {object} context Runtime interaction context containing the optional event bus.
+		 * @returns {Readonly<object>} Immutable prompt payload emitted to UI consumers.
+		 */
+		update(found, pointerType, canvas, context = {}) {
+			const prompt = this.door.prompt();
+			const visible = Boolean(found);
+			this.door.setHover(visible && pointerType === 'mouse');
+			this.updateCursor(canvas, visible, prompt);
+			const payload = Object.freeze({
+				...prompt,
+				visible
+			});
+			context.bus?.emit?.('door:prompt', payload);
+			return payload;
+		}
+
+		/**
+		 * @description Removes transient hover/cursor state and publishes a deliberate hidden prompt when interaction is uninstalled or invalidated.
+		 * @param {HTMLCanvasElement|null} canvas Canvas whose cursor should return to world-default behavior.
+		 * @param {object} context Runtime interaction context containing the optional event bus.
+		 * @returns {Readonly<object>} Hidden prompt payload describing the current canonical state.
+		 */
+		clear(canvas, context = {}) {
+			this.door.setHover(false);
+			if (canvas) {
+				canvas.style.cursor = '';
+			}
+			const payload = Object.freeze({
+				...this.door.prompt(),
+				visible: false
+			});
+			context.bus?.emit?.('door:prompt', payload);
+			return payload;
+		}
+
+		/**
+		 * @description Maps semantic prompt actionability to a localized canvas cursor without injecting selectors or conflicting stylesheet rules.
+		 * @param {HTMLCanvasElement|null} canvas Installed interactive canvas.
+		 * @param {boolean} visible Whether the current doorway is a valid pointer target.
+		 * @param {Readonly<object>} prompt Canonical prompt descriptor containing enabled/action state.
+		 * @returns {void}
+		 */
+		updateCursor(canvas, visible, prompt) {
+			if (!canvas) {
+				return;
+			}
+			if (!visible) {
+				canvas.style.cursor = '';
+				return;
+			}
+			canvas.style.cursor = prompt.enabled
+				? 'pointer'
+				: 'not-allowed';
+		}
+	}
+
+	__exports.DoorInteractionFeedback = DoorInteractionFeedback;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorCollisionGeometry.js ----
+{
+	const __exports = __awtsmoosModule_636;
+	// B"H
+	const dot = __awtsmoosModule_97.dot;
+	const normalize = __awtsmoosModule_97.normalize;
+	const sub = __awtsmoosModule_97.sub;
+
+	function rayObb(ray, box) {
+		const direction = normalize(ray.dir);
+		let minimum = 0.05;
+		let maximum = 80;
+		for (const [axis, half] of axes(box)) {
+			const offset = dot(axis, sub(box.center, ray.origin));
+			const projected = dot(direction, axis);
+			if (Math.abs(projected) < 0.00001) {
+				if (-offset - half > 0 || -offset + half < 0) {
+					return null;
+				}
+				continue;
+			}
+			let near = (offset - half) / projected;
+			let far = (offset + half) / projected;
+			if (near > far) {
+				[near, far] = [far, near];
+			}
+			minimum = Math.max(minimum, near);
+			maximum = Math.min(maximum, far);
+			if (minimum > maximum) {
+				return null;
+			}
+		}
+		return { t: minimum };
+	}
+
+
+	__exports.rayObb = rayObb;
+	function colorArray(hex = '#6b3d1e') {
+		const value = parseInt(String(hex).replace('#', ''), 16);
+		return [
+			((value >> 16) & 255) / 255,
+			((value >> 8) & 255) / 255,
+			(value & 255) / 255,
+			1
+		];
+	}
+
+
+	__exports.colorArray = colorArray;
+	function axes(box) {
+		return [
+			[box.right, box.half.x],
+			[box.up, box.half.y],
+			[box.forward, box.half.z]
+		];
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorHitEvidence.js ----
+{
+	const __exports = __awtsmoosModule_637;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorHitEvidence.js
+	 * @description Owns mutable doorway-hit bookkeeping and exposes only immutable diagnostic receipts so geometry code can remain purely concerned with targeting truth.
+	 * Hod remembers the ray or projected sign while Gevurah erases stale witness before every new question; the Awtsmoos recreates evidence and observer in one stream,
+	 * and Awtsmoos.com keeps diagnostics explicit without burdening the hit-test vessel with another hidden theme.
+	 */
+
+	class DoorHitEvidence {
+		/**
+		 * @description Creates an empty evidence ledger ready to record one exact or projected targeting decision at a time.
+		 */
+		constructor() {
+			this.reset();
+		}
+
+		/**
+		 * @description Clears all prior targeting evidence so diagnostics can never report a stale hit after a later miss.
+		 * @returns {void}
+		 */
+		reset() {
+			this.hitMode = 'none';
+			this.rayHit = null;
+			this.screenBox = null;
+		}
+
+		/**
+		 * @description Records one exact ray/OBB hit in a minimal immutable shape that is safe for diagnostics and public inspection.
+		 * @param {object} rayHit Exact ray-intersection result containing the distance parameter t.
+		 * @param {string} state Canonical door state observed at the moment the hit was accepted.
+		 * @returns {void}
+		 */
+		recordRay(rayHit, state) {
+			this.hitMode = 'ray-current-pose';
+			this.rayHit = Object.freeze({
+				distance: rayHit.t,
+				state
+			});
+		}
+
+		/**
+		 * @description Records delegated projected-screen evidence and returns the contained decision without exposing projection internals to the caller.
+		 * @param {Readonly<object>} projection Immutable projection result containing box evidence and inside boolean.
+		 * @returns {boolean} True when the projected fallback contained the pointer point.
+		 */
+		recordProjection(projection) {
+			this.screenBox = projection.box;
+			if (projection.inside) {
+				this.hitMode = 'screen-current-pose';
+			}
+			return projection.inside;
+		}
+
+		/**
+		 * @description Returns one immutable targeting receipt joining exact-ray and projected-screen evidence without leaking mutable local bookkeeping.
+		 * @returns {Readonly<object>} Diagnostic hit mode, exact ray record, and projected screen bounds.
+		 */
+		snapshot() {
+			return Object.freeze({
+				hitMode: this.hitMode,
+				lastHit: this.rayHit,
+				screenBox: this.screenBox
+			});
+		}
+	}
+
+	__exports.DoorHitEvidence = DoorHitEvidence;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorInteractionRange.js ----
+{
+	const __exports = __awtsmoosModule_638;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorInteractionRange.js
+	 * @description Owns the player-to-threshold proximity law so geometric hit testing never carries world-distance policy inside its own vessel.
+	 * Gevurah limits distant intention while Chesed permits contexts without player coordinates to remain inspectable; the Awtsmoos recreates traveler and distance in one beam,
+	 * and Awtsmoos.com keeps interaction range explicit, reusable, and separate from ray or projection schemes.
+	 */
+
+	const DEFAULT_INTERACTION_DISTANCE = 4.5;
+
+	/**
+	 * @description Determines whether the player lies close enough to a canonical doorway for pointer or touch interaction to be considered meaningful.
+	 * @param {object} door Canonical dynamic door exposing the current oriented bounding box used to locate the threshold center.
+	 * @param {object} context Runtime interaction context containing optional player-position and maximum-distance providers.
+	 * @returns {boolean} True when no player position exists or the player lies within the configured positive interaction radius.
+	 */
+	function doorWithinInteractionRange(door, context = {}) {
+		const player = context.getPlayerPosition?.();
+		if (!player) {
+			return true;
+		}
+		const center = door.obb().center;
+		const maximum = finiteInteractionDistance(
+			context.maxInteractionDistance,
+			DEFAULT_INTERACTION_DISTANCE
+		);
+		return Math.hypot(
+			center.x - player.x,
+			center.y - player.y,
+			center.z - player.z
+		) <= maximum;
+	}
+
+
+	__exports.doorWithinInteractionRange = doorWithinInteractionRange;
+	/**
+	 * @description Normalizes an optional distance into one positive finite interaction radius so invalid external configuration cannot widen or collapse the doorway covenant.
+	 * @param {*} value Candidate configured interaction distance supplied by runtime integration.
+	 * @param {number} fallback Trusted positive fallback distance used when the candidate is absent, non-finite, zero, or negative.
+	 * @returns {number} Positive finite interaction distance in world units.
+	 */
+	function finiteInteractionDistance(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0
+			? number
+			: fallback;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorProjectionGeometry.js ----
+{
+	const __exports = __awtsmoosModule_639;
+	// B"H
+	const add = __awtsmoosModule_97.add;
+	const cross = __awtsmoosModule_97.cross;
+	const dot = __awtsmoosModule_97.dot;
+	const normalize = __awtsmoosModule_97.normalize;
+	const scale = __awtsmoosModule_97.scale;
+	const sub = __awtsmoosModule_97.sub;
+	const v = __awtsmoosModule_97.v;
+
+	function pointerRay(event, camera, canvas, targetHint) {
+		const rectangle = canvas.getBoundingClientRect();
+		const x = ((event.clientX - rectangle.left) / rectangle.width) * 2 - 1;
+		const y = 1 - ((event.clientY - rectangle.top) / rectangle.height) * 2;
+		const basis = cameraBasis(camera, targetHint);
+		const tangent = Math.tan((camera.fov || 45) * Math.PI / 360);
+		const direction = add(
+			add(basis.forward, scale(basis.right, x * tangent * (camera.aspect || 1))),
+			scale(basis.up, y * tangent)
+		);
+		return { origin: basis.origin, dir: normalize(direction) };
+	}
+
+
+	__exports.pointerRay = pointerRay;
+	function screenBox(box, camera, canvas, targetHint, padding) {
+		const points = boxCorners(box)
+			.map((point) => project(point, camera, canvas, targetHint))
+			.filter(Boolean);
+		if (points.length < 2) {
+			return null;
+		}
+		return {
+			x0: Math.min(...points.map((point) => point.x)) - padding,
+			x1: Math.max(...points.map((point) => point.x)) + padding,
+			y0: Math.min(...points.map((point) => point.y)) - padding,
+			y1: Math.max(...points.map((point) => point.y)) + padding
+		};
+	}
+
+
+	__exports.screenBox = screenBox;
+	function boxCorners(box) {
+		const points = [];
+		for (const sideX of [-1, 1]) {
+			for (const sideY of [-1, 1]) {
+				for (const sideZ of [-1, 1]) {
+					const horizontal = add(box.center, scale(box.right, sideX * box.half.x));
+					const vertical = add(horizontal, scale(box.up, sideY * box.half.y));
+					points.push(add(vertical, scale(box.forward, sideZ * box.half.z)));
+				}
+			}
+		}
+		return points;
+	}
+
+	function project(point, camera, canvas, targetHint) {
+		const basis = cameraBasis(camera, targetHint);
+		const delta = sub(point, basis.origin);
+		const depth = dot(delta, basis.forward);
+		if (depth <= 0.05) {
+			return null;
+		}
+		const tangent = Math.tan((camera.fov || 45) * Math.PI / 360);
+		const x = dot(delta, basis.right) / (depth * tangent * (camera.aspect || 1));
+		const y = dot(delta, basis.up) / (depth * tangent);
+		return {
+			x: (x + 1) * 0.5 * canvas.clientWidth,
+			y: (1 - y) * 0.5 * canvas.clientHeight
+		};
+	}
+
+	function cameraBasis(camera, targetHint) {
+		const origin = v(camera.position.x, camera.position.y, camera.position.z);
+		const forward = normalize(sub(targetOf(targetHint || camera.target), origin));
+		const right = normalize(cross(forward, v(0, 1, 0)));
+		return { origin, forward, right, up: normalize(cross(right, forward)) };
+	}
+
+	function targetOf(target) {
+		if (Array.isArray(target)) {
+			return v(target[0] || 0, target[1] || 0, target[2] || 0);
+		}
+		return v(target?.x || 0, target?.y || 0, target?.z || 0);
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorProjectedHitTest.js ----
+{
+	const __exports = __awtsmoosModule_640;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorProjectedHitTest.js
+	 * @description Owns the forgiving screen-space doorway fallback used only after exact ray/OBB intersection has failed.
+	 * Chesed grants a small projected margin without weakening Gevurah's proximity law; the Awtsmoos recreates point, projection, and doorway in one tide,
+	 * and Awtsmoos.com keeps forgiving UX isolated from exact collision truth so neither geometry nor usability must hide.
+	 */
+
+	const screenBox = __awtsmoosModule_639.screenBox;
+
+	/**
+	 * @description Projects the current posed doorway into client space and tests one pointer point against a state-aware padded box.
+	 * @param {PointerEvent} event Pointer event containing clientX/clientY coordinates.
+	 * @param {object} camera Active world camera used for projection.
+	 * @param {HTMLCanvasElement} canvas Render surface defining client-space projection dimensions.
+	 * @param {object} door Canonical dynamic door exposing current oriented bounds and state.
+	 * @param {object} context Runtime interaction context containing an optional camera-target provider.
+	 * @returns {Readonly<object>} Immutable result containing inside boolean and projected box evidence.
+	 */
+	function projectedDoorHit(
+		event,
+		camera,
+		canvas,
+		door,
+		context = {}
+	) {
+		const padding = door.state === 'open'
+			? 20
+			: 8;
+		const box = screenBox(
+			door.obb(),
+			camera,
+			canvas,
+			context.getCameraTarget?.(),
+			padding
+		);
+		return Object.freeze({
+			box,
+			inside: pointInsideBox(
+				event.clientX,
+				event.clientY,
+				box
+			)
+		});
+	}
+
+
+	__exports.projectedDoorHit = projectedDoorHit;
+	/**
+	 * @description Tests a client-space point against optional projected bounds without treating a failed projection as an exception.
+	 * @param {number} x Client-space horizontal coordinate in CSS pixels.
+	 * @param {number} y Client-space vertical coordinate in CSS pixels.
+	 * @param {object|null} box Optional projected doorway bounds containing x0/x1/y0/y1.
+	 * @returns {boolean} True only when a valid projected box contains the supplied point.
+	 */
+	function pointInsideBox(x, y, box) {
+		return Boolean(box)
+			&& x >= box.x0
+			&& x <= box.x1
+			&& y >= box.y0
+			&& y <= box.y1;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorInteractionHitTest.js ----
+{
+	const __exports = __awtsmoosModule_635;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorInteractionHitTest.js
+	 * @description Resolves exact and forgiving doorway targeting while independent collaborators own range policy, projection fallback, and diagnostic evidence.
+	 * Binah asks the geometric question, Gevurah receives proven proximity, and Hod records the witness elsewhere; the Awtsmoos recreates ray and threshold before either can meet,
+	 * while Awtsmoos.com keeps this vessel devoted only to deciding whether the traveler truly points toward the gate complete.
+	 */
+
+	const rayObb = __awtsmoosModule_636.rayObb;
+	const DoorHitEvidence = __awtsmoosModule_637.DoorHitEvidence;
+	const doorWithinInteractionRange = __awtsmoosModule_638.doorWithinInteractionRange;
+	const pointerRay = __awtsmoosModule_639.pointerRay;
+	const projectedDoorHit = __awtsmoosModule_640.projectedDoorHit;
+
+	class DoorInteractionHitTest {
+		/**
+		 * @description Creates one geometric targeting vessel around a canonical door and a dedicated immutable-receipt evidence ledger.
+		 * @param {object} door Canonical dynamic door exposing clickability and the current oriented bounds of its visible threshold.
+		 */
+		constructor(door) {
+			this.door = door;
+			this.evidence = new DoorHitEvidence();
+		}
+
+		/**
+		 * @description Tests clickability and delegated range before exact ray intersection, then delegates a forgiving projected-screen fallback when exact geometry misses.
+		 * @param {PointerEvent} event Pointer event containing client coordinates and current target information.
+		 * @param {object} camera Active world camera used to derive the pointer ray and fallback projection.
+		 * @param {HTMLCanvasElement|null} canvas Installed canvas fallback when the event has no current target.
+		 * @param {object} context Runtime interaction context containing player, camera-target, canvas, and distance providers.
+		 * @returns {boolean} True when this nearby doorway is the valid geometric target for the pointer sample.
+		 */
+		hit(event, camera, canvas, context = {}) {
+			this.evidence.reset();
+			if (!this.door.clickable()) {
+				return false;
+			}
+			if (!doorWithinInteractionRange(this.door, context)) {
+				return false;
+			}
+			const surface = event.currentTarget || canvas || context.canvas;
+			if (!surface || !camera) {
+				return false;
+			}
+			const rayHit = rayObb(
+				pointerRay(
+					event,
+					camera,
+					surface,
+					context.getCameraTarget?.()
+				),
+				this.door.obb()
+			);
+			if (rayHit) {
+				this.evidence.recordRay(
+					rayHit,
+					this.door.state
+				);
+				return true;
+			}
+			return this.evidence.recordProjection(
+				projectedDoorHit(
+					event,
+					camera,
+					surface,
+					this.door,
+					context
+				)
+			);
+		}
+
+		/**
+		 * @description Returns immutable geometric targeting evidence while range, pointer scheduling, and feedback implementation state remain encapsulated elsewhere.
+		 * @returns {Readonly<object>} Last exact/fallback hit mode, ray evidence, and projected doorway bounds.
+		 */
+		debug() {
+			return this.evidence.snapshot();
+		}
+	}
+
+	__exports.DoorInteractionHitTest = DoorInteractionHitTest;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorPointerSurface.js ----
+{
+	const __exports = __awtsmoosModule_641;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorPointerSurface.js
+	 * @description Owns canvas listener lifetime and visual-frame hover coalescing while remaining ignorant of door geometry, state, prompts, and commands.
+	 * Yesod carries raw pointer pulses through one bounded vessel while Gevurah prevents high-frequency motion from multiplying expensive world questions;
+	 * the Awtsmoos recreates event and frame before either can race, and Awtsmoos.com keeps scheduling local so interaction APIs remain calm in every place.
+	 */
+
+	class DoorPointerSurface {
+		/**
+		 * @description Creates a reusable listener surface around semantic hover and pointer-down callbacks supplied by the interaction coordinator.
+		 * @param {(event:PointerEvent)=>void} onHover Callback receiving one coalesced mouse hover sample per visual frame.
+		 * @param {(event:PointerEvent)=>void} onPointerDown Callback receiving pointer-down samples immediately for low-latency actions.
+		 */
+		constructor(onHover, onPointerDown) {
+			this.onHover = onHover;
+			this.onPointerDownAction = onPointerDown;
+			this.canvas = null;
+			this.camera = null;
+			this.environment = globalThis;
+			this.hoverFrame = null;
+			this.pendingPointerEvent = null;
+			this.onPointerMove = event => this.queueHover(event);
+			this.onPointerDown = event => this.onPointerDownAction(event);
+		}
+
+		/**
+		 * @description Claims one canvas/camera pair after fully releasing any previous listener and scheduling ownership.
+		 * @param {HTMLCanvasElement} canvas Interactive render surface that receives pointer events.
+		 * @param {object} camera Active world camera retained for interaction coordinator reads.
+		 * @param {object} environment Browser-like scheduling environment containing requestAnimationFrame or timeout fallbacks.
+		 * @returns {DoorPointerSurface} This listener surface for fluent installation.
+		 */
+		install(canvas, camera, environment = globalThis) {
+			this.uninstall();
+			this.canvas = canvas;
+			this.camera = camera;
+			this.environment = environment || globalThis;
+			canvas.addEventListener('pointermove', this.onPointerMove, {
+				passive: true
+			});
+			canvas.addEventListener('pointerdown', this.onPointerDown);
+			return this;
+		}
+
+		/**
+		 * @description Releases listeners and pending visual-frame work so remounting or destruction cannot leave hidden pointer ownership behind.
+		 * @returns {void}
+		 */
+		uninstall() {
+			if (this.canvas) {
+				this.canvas.removeEventListener('pointermove', this.onPointerMove);
+				this.canvas.removeEventListener('pointerdown', this.onPointerDown);
+			}
+			this.cancelHoverFrame();
+			this.pendingPointerEvent = null;
+			this.canvas = null;
+			this.camera = null;
+		}
+
+		/**
+		 * @description Retains only the newest mouse move and schedules one hover callback for the next display frame, ignoring touch/pen hover noise.
+		 * @param {PointerEvent} event Raw pointer-move event from the installed surface.
+		 * @returns {void}
+		 */
+		queueHover(event) {
+			if (event.pointerType !== 'mouse') {
+				return;
+			}
+			this.pendingPointerEvent = event;
+			if (this.hoverFrame !== null) {
+				return;
+			}
+			this.hoverFrame = this.requestFrame(() => {
+				this.hoverFrame = null;
+				const pointerEvent = this.pendingPointerEvent;
+				this.pendingPointerEvent = null;
+				if (pointerEvent) {
+					this.onHover(pointerEvent);
+				}
+			});
+		}
+
+		/**
+		 * @description Schedules one visual-frame callback with a bounded timer fallback when animation frames are unavailable.
+		 * @param {FrameRequestCallback|Function} callback Callback invoked by the browser-like environment.
+		 * @returns {*} Environment-specific scheduling handle.
+		 */
+		requestFrame(callback) {
+			return this.environment.requestAnimationFrame?.(callback)
+				?? this.environment.setTimeout?.(callback, 16)
+				?? globalThis.setTimeout(callback, 16);
+		}
+
+		/**
+		 * @description Cancels the currently retained hover-frame handle through both supported scheduling channels, then clears local ownership.
+		 * @returns {void}
+		 */
+		cancelHoverFrame() {
+			if (this.hoverFrame === null) {
+				return;
+			}
+			this.environment.cancelAnimationFrame?.(this.hoverFrame);
+			this.environment.clearTimeout?.(this.hoverFrame);
+			this.hoverFrame = null;
+		}
+	}
+
+	__exports.DoorPointerSurface = DoorPointerSurface;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorInteractionController.js ----
+{
+	const __exports = __awtsmoosModule_633;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorInteractionController.js
+	 * @description Coordinates doorway context, geometric hit truth, semantic feedback, and command dispatch while pointer lifetime lives in its own surface vessel.
+	 * Yesod joins intention to action after Binah has measured the hit and Hod has revealed the prompt; the Awtsmoos recreates traveler and threshold in one stream,
+	 * while Awtsmoos.com keeps this coordinator narrow, documented, and free from listener machinery that belongs in a separate dream.
+	 */
+
+	const DoorInteractionFeedback = __awtsmoosModule_634.DoorInteractionFeedback;
+	const DoorInteractionHitTest = __awtsmoosModule_635.DoorInteractionHitTest;
+	const DoorPointerSurface = __awtsmoosModule_641.DoorPointerSurface;
+
+	class DoorInteractionController {
+		/**
+		 * @description Creates one focused interaction coordinator around independent hit-test, feedback, and pointer-surface collaborators.
+		 * @param {object} door Canonical dynamic door exposing prompt, command, hover, and oriented-bound APIs.
+		 */
+		constructor(door) {
+			this.door = door;
+			this.context = {};
+			this.hitTest = new DoorInteractionHitTest(door);
+			this.feedback = new DoorInteractionFeedback(door);
+			this.surface = new DoorPointerSurface(
+				event => this.handle(event, false),
+				event => this.handle(event, true)
+			);
+		}
+
+		/**
+		 * @description Replaces runtime interaction providers without coupling canonical door state to one bootstrap, renderer, or player implementation.
+		 * @param {object} context Runtime providers for player position, camera target, event bus, environment, canvas, and interaction-distance policy.
+		 * @returns {DoorInteractionController} This coordinator for fluent runtime assembly.
+		 */
+		setContext(context = {}) {
+			this.context = context;
+			return this;
+		}
+
+		/**
+		 * @description Installs one localized pointer surface after clearing prior feedback and listener ownership from any previous canvas/camera pair.
+		 * @param {HTMLCanvasElement} canvas Interactive render surface receiving doorway pointer events.
+		 * @param {object} camera Active world camera used only by the delegated geometric hit-test collaborator.
+		 * @returns {DoorInteractionController} This coordinator for fluent world installation.
+		 */
+		install(canvas, camera) {
+			this.uninstall();
+			this.surface.install(
+				canvas,
+				camera,
+				this.context.environment || globalThis
+			);
+			return this;
+		}
+
+		/**
+		 * @description Releases transient hover/prompt/cursor feedback before relinquishing pointer listeners and pending visual-frame scheduling.
+		 * @returns {void}
+		 */
+		uninstall() {
+			if (this.surface.canvas) {
+				this.feedback.clear(
+					this.surface.canvas,
+					this.context
+				);
+			}
+			this.surface.uninstall();
+		}
+
+		/**
+		 * @description Resolves one pointer sample through exact/fallback hit truth, publishes canonical prompt semantics, and dispatches one contained toggle action on click.
+		 * @param {PointerEvent} event Pointer event carrying screen coordinates, pointer type, and propagation controls.
+		 * @param {boolean} click Whether this sample may issue a door command instead of hover feedback only.
+		 * @returns {boolean} True when this doorway was the valid local target, regardless of whether command policy later accepts the requested action.
+		 */
+		handle(event, click) {
+			const found = this.hitTest.hit(
+				event,
+				this.surface.camera,
+				this.surface.canvas,
+				this.context
+			);
+			this.feedback.update(
+				found,
+				event.pointerType,
+				this.surface.canvas,
+				this.context
+			);
+			if (!click || !found) {
+				return found;
+			}
+			this.consumePointerEvent(event);
+			this.door.toggle('pointer');
+			return true;
+		}
+
+		/**
+		 * @description Stops a claimed doorway gesture from leaking into world-camera or unrelated gameplay pointer handlers after a confirmed local hit.
+		 * @param {PointerEvent} event Claimed pointer event whose browser/default and propagation behavior should be contained.
+		 * @returns {void}
+		 */
+		consumePointerEvent(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			event.stopImmediatePropagation?.();
+		}
+
+		/**
+		 * @description Returns immutable geometric evidence from the delegated hit-test vessel without exposing listener or feedback implementation state.
+		 * @returns {Readonly<object>} Last exact/fallback hit mode, ray evidence, and projected bounds.
+		 */
+		debug() {
+			return this.hitTest.debug();
+		}
+	}
+
+	__exports.DoorInteractionController = DoorInteractionController;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorActionReceipt.js ----
+{
+	const __exports = __awtsmoosModule_645;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorActionReceipt.js
+	 * @description Creates and publishes immutable command evidence so UI, API, diagnostics, and gameplay observers receive the same accepted/refused doorway truth.
+	 * Hod remembers the command while Gevurah bounds blocked retry, yet neither witness invents state beyond the living threshold in sight;
+	 * the Awtsmoos recreates action, reason, and observer each instant, and Awtsmoos.com lets every surface read one luminous receipt without hidden blight.
+	 */
+
+	const DEFAULT_BLOCKED_RETRY_SECONDS = 0.75;
+
+	/**
+	 * @description Builds one normalized immutable command receipt, stores it on the door for diagnostics, and publishes canonical action/blockage events through the installed bus.
+	 * @param {object} door Canonical dynamic door containing immutable definition identity, current state, interaction context, and last-receipt storage.
+	 * @param {object} detail Command evidence containing accepted, action, fromState, reason, safety, and source fields.
+	 * @returns {Readonly<object>} Immutable canonical command receipt shared by gameplay, public API, UI feedback, and diagnostics.
+	 */
+	function publishDoorActionReceipt(door, detail = {}) {
+		const receipt = Object.freeze({
+			accepted: Boolean(detail.accepted),
+			action: String(detail.action || 'unknown'),
+			doorId: door.def.id,
+			fromState: String(detail.fromState || door.state),
+			reason: String(detail.reason || ''),
+			safety: detail.safety || null,
+			source: String(detail.source || 'unknown'),
+			state: door.state
+		});
+		door.lastActionReceipt = receipt;
+		door.interaction.context.bus?.emit?.('door:action', receipt);
+		if (door.state === 'blocked') {
+			door.interaction.context.bus?.emit?.('door:blocked', receipt);
+		}
+		return receipt;
+	}
+
+
+	__exports.publishDoorActionReceipt = publishDoorActionReceipt;
+	/**
+	 * @description Normalizes authored blocked-close retry metadata into one positive finite duration so safe-close retries never become zero, negative, infinite, or NaN timers.
+	 * @param {object} definition Canonical door definition containing optional blockedRetrySeconds metadata.
+	 * @returns {number} Positive finite retry duration in seconds, falling back to the shared default when authored data is invalid.
+	 */
+	function blockedDoorRetrySeconds(definition = {}) {
+		const seconds = Number(definition.blockedRetrySeconds);
+		return Number.isFinite(seconds) && seconds > 0
+			? seconds
+			: DEFAULT_BLOCKED_RETRY_SECONDS;
+	}
+
+	__exports.blockedDoorRetrySeconds = blockedDoorRetrySeconds;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorStateContract.js ----
+{
+	const __exports = __awtsmoosModule_646;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorStateContract.js
+	 * @description Defines the canonical door-state vocabulary and pure transition eligibility law without carrying UI wording, collision safety, or event publication.
+	 * Binah names every threshold state while Gevurah decides which directions remain lawful; the Awtsmoos recreates state and possibility before either can divide,
+	 * and Awtsmoos.com keeps this vocabulary pure enough that physics, API, UI, and diagnostics may all drink from the same tide.
+	 */
+
+	const DOOR_STATES = Object.freeze({
+		BLOCKED: 'blocked',
+		CLOSED: 'closed',
+		CLOSING: 'closing',
+		LOCKED: 'locked',
+		OPEN: 'open',
+		OPENING: 'opening'
+	});
+
+
+	__exports.DOOR_STATES = DOOR_STATES;
+	/**
+	 * @description Chooses the first canonical state from immutable definition metadata so lock truth exists before any interaction surface is installed.
+	 * @param {object} definition Door definition containing optional locked and initialProgress metadata.
+	 * @returns {string} Canonical initial door state from DOOR_STATES.
+	 */
+	function initialDoorState(definition = {}) {
+		return definition.locked === true
+			? DOOR_STATES.LOCKED
+			: DOOR_STATES.CLOSED;
+	}
+
+
+	__exports.initialDoorState = initialDoorState;
+	/**
+	 * @description Reveals whether a doorway should remain pointer/touch explainable, including locked and blocked states that must communicate refusal deliberately.
+	 * @param {string} state Canonical state to evaluate.
+	 * @returns {boolean} True when UI interaction feedback should remain available.
+	 */
+	function doorStateIsInteractive(state) {
+		return [
+			DOOR_STATES.BLOCKED,
+			DOOR_STATES.CLOSED,
+			DOOR_STATES.LOCKED,
+			DOOR_STATES.OPEN
+		].includes(state);
+	}
+
+
+	__exports.doorStateIsInteractive = doorStateIsInteractive;
+	/**
+	 * @description Determines whether an open command may begin opening or reverse an in-progress close without bypassing the separate locked-state policy.
+	 * @param {string} state Canonical state to evaluate.
+	 * @returns {boolean} True when an open command may change motion state.
+	 */
+	function doorStateCanOpen(state) {
+		return state === DOOR_STATES.CLOSED
+			|| state === DOOR_STATES.CLOSING;
+	}
+
+
+	__exports.doorStateCanOpen = doorStateCanOpen;
+	/**
+	 * @description Determines whether a close command may begin closing, retry a blocked close, or reverse an in-progress opening motion.
+	 * @param {string} state Canonical state to evaluate.
+	 * @returns {boolean} True when a close command may enter safety evaluation or change motion state.
+	 */
+	function doorStateCanClose(state) {
+		return state === DOOR_STATES.OPEN
+			|| state === DOOR_STATES.OPENING
+			|| state === DOOR_STATES.BLOCKED;
+	}
+
+
+	__exports.doorStateCanClose = doorStateCanClose;
+	/**
+	 * @description Resolves the natural command behind a user-facing toggle while preserving explicit open/close APIs for deterministic automation.
+	 * @param {string} state Canonical state whose natural toggle direction should be chosen.
+	 * @returns {'open'|'close'|null} Natural command, or null when no canonical direction exists.
+	 */
+	function doorToggleAction(state) {
+		if ([
+			DOOR_STATES.OPEN,
+			DOOR_STATES.OPENING,
+			DOOR_STATES.BLOCKED
+		].includes(state)) {
+			return 'close';
+		}
+		if ([
+			DOOR_STATES.CLOSED,
+			DOOR_STATES.CLOSING,
+			DOOR_STATES.LOCKED
+		].includes(state)) {
+			return 'open';
+		}
+		return null;
+	}
+
+	__exports.doorToggleAction = doorToggleAction;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorStateTransition.js ----
+{
+	const __exports = __awtsmoosModule_647;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorStateTransition.js
+	 * @description Publishes canonical door-state changes through one explicit event seam so command, motion, UI, and API observers never invent competing transition records.
+	 * Hod witnesses each change while Tiferes keeps old and new states joined in one truthful sign; the Awtsmoos recreates transition and observer before memory can begin,
+	 * and Awtsmoos.com lets every doorway reveal its state history without forcing policy, rendering, or interaction to share the same skin.
+	 */
+
+	/**
+	 * @description Applies one canonical state change only when the target differs, then publishes a normalized event receipt through the installed interaction bus.
+	 * @param {object} door Canonical dynamic door containing current state, immutable definition identity, and interaction context.
+	 * @param {string} nextState Canonical target state from DoorStateContract.
+	 * @param {string} source Human, API, automation, motion, or runtime origin explaining why the transition occurred.
+	 * @returns {boolean} True only when the door state actually changed and a transition event was published.
+	 */
+	function setDoorState(door, nextState, source = 'unknown') {
+		if (nextState === door.state) {
+			return false;
+		}
+		const previousState = door.state;
+		door.state = nextState;
+		door.interaction.context.bus?.emit?.('door:state', Object.freeze({
+			doorId: door.def.id,
+			previousState,
+			source,
+			state: nextState
+		}));
+		return true;
+	}
+
+	__exports.setDoorState = setDoorState;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorRuntimePose.js ----
+{
+	const __exports = __awtsmoosModule_649;
+	// B"H
+	const v = __awtsmoosModule_97.v;
+	const doorHingeWorld = __awtsmoosModule_625.doorHingeWorld;
+	const worldMatrixFromYaw = __awtsmoosModule_627.worldMatrixFromYaw;
+
+	function closedYaw(definition) {
+		return definition.frame?.yaw ?? definition.closedYaw ?? definition.wallYaw ?? definition.yaw ?? 0;
+	}
+
+
+	__exports.closedYaw = closedYaw;
+	function hingeWorld(definition) {
+		return definition.hinge?.worldPosition || doorHingeWorld(definition.frame || definition);
+	}
+
+
+	__exports.hingeWorld = hingeWorld;
+	function currentAngle(definition, progress) {
+		if (progress <= 0) {
+			return 0;
+		}
+		const openAngle = definition.frame?.swing?.openAngle ?? definition.openAngle ?? -Math.PI * 0.58;
+		if (progress >= 1) {
+			return openAngle;
+		}
+		const eased = progress * progress * (3 - 2 * progress);
+		return openAngle * eased;
+	}
+
+
+	__exports.currentAngle = currentAngle;
+	/** Derives the complete visible and collider pose from one immutable frame. */
+	function doorPose(definition, progress = 0) {
+		const clamped = Math.max(0, Math.min(1, progress));
+		const angle = currentAngle(definition, clamped);
+		const yaw = closedYaw(definition) + angle;
+		if (clamped === 0 && definition.frame?.closedWorldMatrix) {
+			return {
+				progress: 0,
+				angle: 0,
+				yaw: closedYaw(definition),
+				center: { ...definition.frame.panel.closedCenter },
+				matrix: [...definition.frame.closedWorldMatrix]
+			};
+		}
+		const hinge = hingeWorld(definition);
+		const hingeSign = Math.sign(definition.frame?.hinge?.localX || -1);
+		const centerOffset = -hingeSign * definition.width / 2;
+		const center = {
+			x: hinge.x + Math.cos(yaw) * centerOffset,
+			y: definition.centerY,
+			z: hinge.z + Math.sin(yaw) * centerOffset
+		};
+		return {
+			progress: clamped,
+			angle,
+			yaw,
+			center,
+			matrix: worldMatrixFromYaw(center, yaw)
+		};
+	}
+
+
+	__exports.doorPose = doorPose;
+	function centerFor(definition, yaw) {
+		const hinge = hingeWorld(definition);
+		const hingeSign = Math.sign(definition.frame?.hinge?.localX || -1);
+		const centerOffset = -hingeSign * definition.width / 2;
+		return {
+			x: hinge.x + Math.cos(yaw) * centerOffset,
+			y: definition.centerY,
+			z: hinge.z + Math.sin(yaw) * centerOffset
+		};
+	}
+
+
+	__exports.centerFor = centerFor;
+	function orientedBox(definition, progress) {
+		const pose = doorPose(definition, progress);
+		return {
+			center: pose.center,
+			right: v(Math.cos(pose.yaw), 0, Math.sin(pose.yaw)),
+			up: v(0, 1, 0),
+			forward: v(-Math.sin(pose.yaw), 0, Math.cos(pose.yaw)),
+			half: {
+				x: definition.width / 2,
+				y: definition.height / 2,
+				z: Math.max(definition.thickness / 2, 0.12)
+			}
+		};
+	}
+
+
+	__exports.orientedBox = orientedBox;
+	function colliderDefinition(definition, progress = 0) {
+		const pose = doorPose(definition, progress);
+		return {
+			id: `${definition.id}-door`,
+			shape: 'box',
+			solid: true,
+			walkable: false,
+			position: pose.center,
+			size: {
+				x: definition.width,
+				y: definition.height,
+				z: definition.thickness
+			},
+			rotation: { y: pose.yaw },
+			userData: {
+				AwtsmoosDoorPose: {
+					progress: pose.progress,
+					angle: pose.angle,
+					worldMatrix: pose.matrix
+				}
+			}
+		};
+	}
+
+	__exports.colliderDefinition = colliderDefinition;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorThresholdSafety.js ----
+{
+	const __exports = __awtsmoosModule_648;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file DoorThresholdSafety.js
+	 * @description Tests a player's body against the complete sampled hinge-closing sweep.
+	 * The Awtsmoos opens passage without crushing the traveler between frame and finite leaf;
+	 * Awtsmoos.com measures every sampled pose so a blocked threshold returns honest relief.
+	 */
+
+	const orientedBox = __awtsmoosModule_649.orientedBox;
+
+	const DEFAULT_PLAYER_HEIGHT = 1.8;
+	const DEFAULT_PLAYER_RADIUS = 0.42;
+	const DEFAULT_SWEEP_SAMPLES = 11;
+
+	function doorClosingSweepEvidence(definition, context = {}) {
+		const player = context.getPlayerPosition?.();
+		if (!finitePoint(player)) {
+			return Object.freeze({
+				blocked: false,
+				reason: 'player-position-unavailable',
+				sampleProgress: null
+			});
+		}
+		const playerHeight = finitePositive(
+			context.playerHeight,
+			DEFAULT_PLAYER_HEIGHT
+		);
+		const playerRadius = finitePositive(
+			context.playerRadius,
+			DEFAULT_PLAYER_RADIUS
+		);
+		const sampleCount = Math.max(
+			3,
+			Math.trunc(finitePositive(
+				context.doorSweepSamples,
+				DEFAULT_SWEEP_SAMPLES
+			))
+		);
+		for (let index = 0; index < sampleCount; index += 1) {
+			const progress = index / (sampleCount - 1);
+			const box = orientedBox(definition, progress);
+			if (playerIntersectsExpandedBox(
+				player,
+				playerHeight,
+				playerRadius,
+				box
+			)) {
+				return Object.freeze({
+					blocked: true,
+					player: Object.freeze({ ...player }),
+					reason: 'player-in-closing-sweep',
+					sampleProgress: progress
+				});
+			}
+		}
+		return Object.freeze({
+			blocked: false,
+			player: Object.freeze({ ...player }),
+			reason: 'closing-sweep-clear',
+			sampleProgress: null
+		});
+	}
+
+
+	__exports.doorClosingSweepEvidence = doorClosingSweepEvidence;
+	function playerIntersectsExpandedBox(
+		player,
+		playerHeight,
+		playerRadius,
+		box
+	) {
+		const offset = {
+			x: player.x - box.center.x,
+			y: player.y - box.center.y,
+			z: player.z - box.center.z
+		};
+		const localX = dot(offset, box.right);
+		const localY = dot(offset, box.up);
+		const localZ = dot(offset, box.forward);
+		return Math.abs(localX) <= box.half.x + playerRadius
+			&& Math.abs(localY) <= box.half.y + playerHeight / 2
+			&& Math.abs(localZ) <= box.half.z + playerRadius;
+	}
+
+	function dot(first, second) {
+		return first.x * second.x
+			+ first.y * second.y
+			+ first.z * second.z;
+	}
+
+	function finitePoint(value) {
+		return Number.isFinite(value?.x)
+			&& Number.isFinite(value?.y)
+			&& Number.isFinite(value?.z);
+	}
+
+	function finitePositive(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorClosePolicy.js ----
+{
+	const __exports = __awtsmoosModule_644;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorClosePolicy.js
+	 * @description Owns collision-safe close admission and blocked-retry semantics so generic command policy never carries sweep geometry or safety timing.
+	 * Gevurah protects the traveler before the panel may return, while Chesed leaves a retry path when the threshold clears in turn;
+	 * the Awtsmoos recreates body, sweep, and doorway each instant, and Awtsmoos.com keeps safety evidence explicit before motion may burn.
+	 */
+
+	const blockedDoorRetrySeconds = __awtsmoosModule_645.blockedDoorRetrySeconds;
+	const publishDoorActionReceipt = __awtsmoosModule_645.publishDoorActionReceipt;
+	const DOOR_STATES = __awtsmoosModule_646.DOOR_STATES;
+	const doorStateCanClose = __awtsmoosModule_646.doorStateCanClose;
+	const setDoorState = __awtsmoosModule_647.setDoorState;
+	const doorClosingSweepEvidence = __awtsmoosModule_648.doorClosingSweepEvidence;
+
+	/**
+	 * @description Requests closing, validates the complete sampled doorway sweep, records blockage explicitly, and begins motion only when physical passage is safe.
+	 * @param {object} door Canonical dynamic door containing definition, current state, interaction context, and auto-close timing state.
+	 * @param {string} source Human, API, automation, or runtime origin used for state events and immutable action receipts.
+	 * @returns {Readonly<object>} Canonical close receipt including safety evidence and the resulting state.
+	 */
+	function requestDoorClose(door, source = 'unknown') {
+		const fromState = door.state;
+		if (!doorStateCanClose(fromState)) {
+			return closeReceipt(
+				door,
+				false,
+				fromState,
+				`door-cannot-close-from-${fromState}`,
+				source
+			);
+		}
+		const safety = doorClosingSweepEvidence(
+			door.def,
+			door.interaction.context
+		);
+		if (safety.blocked) {
+			setDoorState(door, DOOR_STATES.BLOCKED, source);
+			door.autoCloseRemaining = blockedDoorRetrySeconds(door.def);
+			return closeReceipt(
+				door,
+				false,
+				fromState,
+				safety.reason,
+				source,
+				safety
+			);
+		}
+		setDoorState(door, DOOR_STATES.CLOSING, source);
+		return closeReceipt(
+			door,
+			true,
+			fromState,
+			'closing-accepted',
+			source,
+			safety
+		);
+	}
+
+
+	__exports.requestDoorClose = requestDoorClose;
+	/**
+	 * @description Normalizes close-specific evidence into the shared immutable action-receipt format without duplicating publication rules.
+	 * @param {object} door Canonical dynamic door receiving the action receipt.
+	 * @param {boolean} accepted Whether safety/state law accepted the close command.
+	 * @param {string} fromState Canonical state observed before the request.
+	 * @param {string} reason Stable machine-readable or human-readable decision reason.
+	 * @param {string} source Origin of the request for diagnostics.
+	 * @param {object|null} safety Optional sampled sweep evidence.
+	 * @returns {Readonly<object>} Shared canonical action receipt.
+	 */
+	function closeReceipt(
+		door,
+		accepted,
+		fromState,
+		reason,
+		source,
+		safety = null
+	) {
+		return publishDoorActionReceipt(door, {
+			accepted,
+			action: 'close',
+			fromState,
+			reason,
+			safety,
+			source
+		});
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorAutoCloseClock.js ----
+{
+	const __exports = __awtsmoosModule_643;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorAutoCloseClock.js
+	 * @description Owns bounded automatic-close countdown and blocked retry timing without carrying pose integration, collision geometry, or command admission logic.
+	 * Netzach measures the passing interval while Gevurah refuses negative debt; the Awtsmoos recreates time and threshold before either can claim duration,
+	 * and Awtsmoos.com lets one small clock awaken the safe-close policy only when its appointed moment returns with intention.
+	 */
+
+	const requestDoorClose = __awtsmoosModule_644.requestDoorClose;
+	const DOOR_STATES = __awtsmoosModule_646.DOOR_STATES;
+
+	/**
+	 * @description Advances automatic-close or blocked-retry debt for one frame and reissues the canonical safe-close command only when the countdown reaches zero.
+	 * @param {object} door Canonical dynamic door containing state, autoCloseRemaining, definition, and interaction context.
+	 * @param {number} elapsed Non-negative elapsed frame duration in seconds.
+	 * @returns {boolean} True when the countdown triggered a close attempt during this update.
+	 */
+	function advanceDoorAutoCloseClock(door, elapsed) {
+		if (!doorUsesAutoCloseClock(door)) {
+			return false;
+		}
+		if (door.autoCloseRemaining <= 0) {
+			return false;
+		}
+		door.autoCloseRemaining = Math.max(
+			0,
+			door.autoCloseRemaining - Math.max(0, Number(elapsed) || 0)
+		);
+		if (door.autoCloseRemaining > 0) {
+			return false;
+		}
+		requestDoorClose(door, 'auto-close');
+		return true;
+	}
+
+
+	__exports.advanceDoorAutoCloseClock = advanceDoorAutoCloseClock;
+	/**
+	 * @description Determines whether the current canonical state participates in delayed closing or safe blocked-retry timing.
+	 * @param {object} door Canonical door-like object exposing its current state.
+	 * @returns {boolean} True for fully open or blocked states whose countdown may lawfully advance.
+	 */
+	function doorUsesAutoCloseClock(door) {
+		return door.state === DOOR_STATES.OPEN
+			|| door.state === DOOR_STATES.BLOCKED;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorMotionMath.js ----
+{
+	const __exports = __awtsmoosModule_650;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorMotionMath.js
+	 * @description Holds pure bounded doorway-motion arithmetic so the frame integrator can describe orchestration without hiding numeric law between state branches.
+	 * Gevurah clamps every fraction, Netzach gives motion its lawful direction, and the Awtsmoos recreates measure before number can claim a throne;
+	 * Awtsmoos.com keeps these tiny calculations pure so tests, future animation policy, and every threshold can drink from one known stone.
+	 */
+
+	const DOOR_STATES = __awtsmoosModule_646.DOOR_STATES;
+
+	/**
+	 * @description Maps canonical opening and closing states into a signed motion direction while every settled or informational state remains still.
+	 * @param {string} state Canonical door state from DoorStateContract.
+	 * @returns {-1|0|1} Positive for opening, negative for closing, and zero when no pose integration should occur.
+	 */
+	function doorMotionDirection(state) {
+		if (state === DOOR_STATES.OPENING) {
+			return 1;
+		}
+		if (state === DOOR_STATES.CLOSING) {
+			return -1;
+		}
+		return 0;
+	}
+
+
+	__exports.doorMotionDirection = doorMotionDirection;
+	/**
+	 * @description Clamps arbitrary progress-like input into the canonical closed-to-open interval without allowing NaN or infinity to enter presentation state.
+	 * @param {*} value Candidate numeric progress.
+	 * @returns {number} Finite progress bounded from zero through one.
+	 */
+	function clampedDoorProgress(value) {
+		return Math.max(
+			0,
+			Math.min(1, Number(value) || 0)
+		);
+	}
+
+
+	__exports.clampedDoorProgress = clampedDoorProgress;
+	/**
+	 * @description Resolves authored positive numeric policy while preserving a trusted fallback when configuration is absent, zero, negative, or non-finite.
+	 * @param {*} value Candidate authored numeric value.
+	 * @param {number} fallback Trusted positive-or-zero fallback used when the candidate is invalid.
+	 * @returns {number} Finite authored value when positive, otherwise the supplied fallback.
+	 */
+	function positiveDoorNumber(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0
+			? number
+			: fallback;
+	}
+
+	__exports.positiveDoorNumber = positiveDoorNumber;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorMotionIntegrator.js ----
+{
+	const __exports = __awtsmoosModule_642;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorMotionIntegrator.js
+	 * @description Advances one canonical doorway frame by composing the auto-close clock, pure motion arithmetic, state transition seam, and presentation pose refresh.
+	 * Netzach carries the hinge through time while Tiferes keeps motion and visible form aligned; the Awtsmoos recreates delta and doorway before either can move,
+	 * and Awtsmoos.com lets this integrator remain a narrow conductor because every deeper law already sings from its own groove.
+	 */
+
+	const advanceDoorAutoCloseClock = __awtsmoosModule_643.advanceDoorAutoCloseClock;
+	const clampedDoorProgress = __awtsmoosModule_650.clampedDoorProgress;
+	const doorMotionDirection = __awtsmoosModule_650.doorMotionDirection;
+	const positiveDoorNumber = __awtsmoosModule_650.positiveDoorNumber;
+	const DOOR_STATES = __awtsmoosModule_646.DOOR_STATES;
+	const setDoorState = __awtsmoosModule_647.setDoorState;
+
+	const DEFAULT_SPEED = 2.15;
+
+	/**
+	 * @description Advances automatic closing and reversible door progress for one frame, settling state at exact endpoints and refreshing pose only after movement.
+	 * @param {object} door Canonical dynamic door containing state, progress, definition, timing debt, interaction context, and setPose presentation API.
+	 * @param {number} deltaTime Elapsed frame duration in seconds; negative or invalid values are treated as zero.
+	 * @returns {boolean} True when door progress changed and presentation pose was refreshed during this frame.
+	 */
+	function updateDoorMotion(door, deltaTime) {
+		const elapsed = Math.max(0, Number(deltaTime) || 0);
+		advanceDoorAutoCloseClock(door, elapsed);
+		const direction = doorMotionDirection(door.state);
+		if (direction === 0) {
+			return false;
+		}
+		const previousProgress = door.t;
+		const speed = positiveDoorNumber(
+			door.def.openSpeed,
+			DEFAULT_SPEED
+		);
+		door.t = clampedDoorProgress(
+			previousProgress + direction * elapsed * speed
+		);
+		settleDoorEndpoint(door);
+		if (door.t === previousProgress) {
+			return false;
+		}
+		door.setPose();
+		return true;
+	}
+
+
+	__exports.updateDoorMotion = updateDoorMotion;
+	/**
+	 * @description Seals exact open or closed endpoints into canonical state while initializing the next authored auto-close countdown only after fully opening.
+	 * @param {object} door Canonical dynamic door containing progress, state, definition, timing debt, and interaction context.
+	 * @returns {boolean} True when an endpoint caused or attempted a canonical settled-state transition.
+	 */
+	function settleDoorEndpoint(door) {
+		if (door.t >= 1) {
+			door.t = 1;
+			setDoorState(
+				door,
+				DOOR_STATES.OPEN,
+				'motion-complete'
+			);
+			door.autoCloseRemaining = positiveDoorNumber(
+				door.def.autoCloseSeconds,
+				0
+			);
+			return true;
+		}
+		if (door.t <= 0) {
+			door.t = 0;
+			setDoorState(
+				door,
+				DOOR_STATES.CLOSED,
+				'motion-complete'
+			);
+			return true;
+		}
+		return false;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorCommandPolicy.js ----
+{
+	const __exports = __awtsmoosModule_653;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorCommandPolicy.js
+	 * @description Owns canonical open, lock, and unlock admission while safe closing and state-event publication remain in dedicated doorway vessels.
+	 * Gevurah rejects impossible motion, Chesed permits lawful reversal, and Hod records every answer without hiding the reason from sight;
+	 * the Awtsmoos recreates command and threshold before either can contend, while Awtsmoos.com keeps each doorway law small enough to reveal its end.
+	 */
+
+	const publishDoorActionReceipt = __awtsmoosModule_645.publishDoorActionReceipt;
+	const DOOR_STATES = __awtsmoosModule_646.DOOR_STATES;
+	const doorStateCanOpen = __awtsmoosModule_646.doorStateCanOpen;
+	const setDoorState = __awtsmoosModule_647.setDoorState;
+
+	/**
+	 * @description Requests opening or a legal reversal from closing while preserving locked-state refusal as an explicit immutable receipt.
+	 * @param {object} door Canonical dynamic door containing current state, immutable definition identity, and interaction context.
+	 * @param {string} source Human, API, automation, or runtime origin used for state events and diagnostics.
+	 * @returns {Readonly<object>} Canonical action receipt describing acceptance, reason, origin state, and resulting state.
+	 */
+	function requestDoorOpen(door, source = 'unknown') {
+		const fromState = door.state;
+		if (fromState === DOOR_STATES.LOCKED) {
+			return commandReceipt(
+				door,
+				false,
+				'open',
+				fromState,
+				'door-locked',
+				source
+			);
+		}
+		if (!doorStateCanOpen(fromState)) {
+			return commandReceipt(
+				door,
+				false,
+				'open',
+				fromState,
+				`door-cannot-open-from-${fromState}`,
+				source
+			);
+		}
+		setDoorState(door, DOOR_STATES.OPENING, source);
+		return commandReceipt(
+			door,
+			true,
+			'open',
+			fromState,
+			'opening-accepted',
+			source
+		);
+	}
+
+
+	__exports.requestDoorOpen = requestDoorOpen;
+	/**
+	 * @description Locks only a fully settled closed doorway so visible pose, collider truth, and public lock state can never contradict one another.
+	 * @param {object} door Canonical dynamic door containing current state and immutable identity.
+	 * @param {string} source Origin of the lock request for audit evidence.
+	 * @returns {Readonly<object>} Canonical lock receipt describing acceptance or the exact rejection reason.
+	 */
+	function requestDoorLock(door, source = 'unknown') {
+		const fromState = door.state;
+		if (fromState === DOOR_STATES.LOCKED) {
+			return commandReceipt(
+				door,
+				false,
+				'lock',
+				fromState,
+				'door-already-locked',
+				source
+			);
+		}
+		if (fromState !== DOOR_STATES.CLOSED) {
+			return commandReceipt(
+				door,
+				false,
+				'lock',
+				fromState,
+				'door-must-be-closed-to-lock',
+				source
+			);
+		}
+		setDoorState(door, DOOR_STATES.LOCKED, source);
+		return commandReceipt(
+			door,
+			true,
+			'lock',
+			fromState,
+			'lock-accepted',
+			source
+		);
+	}
+
+
+	__exports.requestDoorLock = requestDoorLock;
+	/**
+	 * @description Unlocks only a locked doorway into the ordinary closed state through the same observable transition and receipt seams used everywhere else.
+	 * @param {object} door Canonical dynamic door containing current state and immutable identity.
+	 * @param {string} source Origin of the unlock request for audit evidence.
+	 * @returns {Readonly<object>} Canonical unlock receipt describing acceptance or rejection.
+	 */
+	function requestDoorUnlock(door, source = 'unknown') {
+		const fromState = door.state;
+		if (fromState !== DOOR_STATES.LOCKED) {
+			return commandReceipt(
+				door,
+				false,
+				'unlock',
+				fromState,
+				'door-not-locked',
+				source
+			);
+		}
+		setDoorState(door, DOOR_STATES.CLOSED, source);
+		return commandReceipt(
+			door,
+			true,
+			'unlock',
+			fromState,
+			'unlock-accepted',
+			source
+		);
+	}
+
+
+	__exports.requestDoorUnlock = requestDoorUnlock;
+	/**
+	 * @description Projects command-policy evidence into the single shared immutable action-receipt contract.
+	 * @param {object} door Canonical dynamic door receiving receipt storage and event publication.
+	 * @param {boolean} accepted Whether policy accepted the command.
+	 * @param {string} action Canonical action name such as open, lock, or unlock.
+	 * @param {string} fromState Canonical state observed before the request.
+	 * @param {string} reason Stable decision reason for UI, API, diagnostics, and logs.
+	 * @param {string} source Origin of the request.
+	 * @returns {Readonly<object>} Shared canonical action receipt.
+	 */
+	function commandReceipt(
+		door,
+		accepted,
+		action,
+		fromState,
+		reason,
+		source
+	) {
+		return publishDoorActionReceipt(door, {
+			accepted,
+			action,
+			fromState,
+			reason,
+			source
+		});
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorPromptDescriptor.js ----
+{
+	const __exports = __awtsmoosModule_654;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorPromptDescriptor.js
+	 * @description Translates canonical door state into one immutable UI/API prompt record so labels, actions, reasons, and disabled states can never diverge by surface.
+	 * Hod gives state a readable voice while Tiferes keeps lock, blockage, opening, and closing in one compassionate choice;
+	 * the Awtsmoos recreates threshold and message before either can appear, while Awtsmoos.com lets every interface reveal the same luminous meaning clear.
+	 */
+
+	const DOOR_STATES = __awtsmoosModule_646.DOOR_STATES;
+
+	/**
+	 * @description Produces the canonical action, label, enabled flag, and explanatory reason consumed by hover UI, public APIs, and diagnostics.
+	 * @param {object} door Canonical door-like object containing current state and an immutable definition with identity and optional lock reason.
+	 * @returns {Readonly<object>} Immutable prompt record containing action, enabled, label, reason, doorId, and canonical state.
+	 */
+	function doorPromptDescriptor(door) {
+		const state = door?.state || DOOR_STATES.CLOSED;
+		const descriptor = promptForState(state, door);
+		return Object.freeze({
+			...descriptor,
+			doorId: door?.def?.id || null,
+			state
+		});
+	}
+
+
+	__exports.doorPromptDescriptor = doorPromptDescriptor;
+	/**
+	 * @description Maps one canonical state to deliberately styled interaction meaning without exposing motion or collision implementation details.
+	 * @param {string} state Canonical door state from DOOR_STATES.
+	 * @param {object} door Door-like object used only to reveal an authored lock reason when present.
+	 * @returns {Readonly<object>} Immutable action/label/reason descriptor for the supplied state.
+	 */
+	function promptForState(state, door) {
+		const descriptors = {
+			[DOOR_STATES.BLOCKED]: prompt('close', 'Doorway blocked', 'Move clear of the doorway to close it.'),
+			[DOOR_STATES.CLOSED]: prompt('open', 'Open door', 'Open this doorway.'),
+			[DOOR_STATES.CLOSING]: prompt(null, 'Closing door', 'The door is closing.'),
+			[DOOR_STATES.LOCKED]: prompt(null, 'Door locked', lockReason(door)),
+			[DOOR_STATES.OPEN]: prompt('close', 'Close door', 'Close this doorway.'),
+			[DOOR_STATES.OPENING]: prompt(null, 'Opening door', 'The door is opening.')
+		};
+		return descriptors[state] || descriptors[DOOR_STATES.CLOSED];
+	}
+
+	/**
+	 * @description Creates one immutable semantic prompt fragment whose enabled state follows the presence of an actionable command.
+	 * @param {string|null} action Canonical action name or null when the state is informational only.
+	 * @param {string} label Concise primary UI label shown to the traveler.
+	 * @param {string} reason Human-readable explanation suitable for prompts, accessibility text, and API clients.
+	 * @returns {Readonly<object>} Immutable prompt fragment.
+	 */
+	function prompt(action, label, reason) {
+		return Object.freeze({
+			action,
+			enabled: Boolean(action),
+			label,
+			reason
+		});
+	}
+
+	/**
+	 * @description Resolves an authored locked-door explanation while preserving a clear professional fallback instead of a silent rejected click.
+	 * @param {object} door Door-like object whose definition may provide lockedReason or legacy lockReason metadata.
+	 * @returns {string} Stable human-readable explanation for the locked state.
+	 */
+	function lockReason(door) {
+		return String(
+			door?.def?.lockedReason
+			|| door?.def?.lockReason
+			|| 'This door is locked.'
+		);
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorCommandFacade.js ----
+{
+	const __exports = __awtsmoosModule_652;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorCommandFacade.js
+	 * @description Defines the renderer-neutral command and semantic-feedback surface shared by every Eretz doorway while safety, prompts, and state publication live in dedicated vessels.
+	 * Keter names one threshold language, Gevurah judges each command, and Hod gives every refusal a readable sign instead of silent night;
+	 * the Awtsmoos recreates command and doorway before either can divide, while Awtsmoos.com lets API, UI, and world interaction share one luminous tide.
+	 */
+
+	const requestDoorClose = __awtsmoosModule_644.requestDoorClose;
+	const requestDoorLock = __awtsmoosModule_653.requestDoorLock;
+	const requestDoorOpen = __awtsmoosModule_653.requestDoorOpen;
+	const requestDoorUnlock = __awtsmoosModule_653.requestDoorUnlock;
+	const doorPromptDescriptor = __awtsmoosModule_654.doorPromptDescriptor;
+	const doorStateIsInteractive = __awtsmoosModule_646.doorStateIsInteractive;
+	const doorToggleAction = __awtsmoosModule_646.doorToggleAction;
+	const initialDoorState = __awtsmoosModule_646.initialDoorState;
+	const setDoorState = __awtsmoosModule_647.setDoorState;
+
+	class DoorCommandFacade {
+		/**
+		 * @description Creates the renderer-neutral state vessel from one immutable doorway definition without constructing any mesh or pointer listener.
+		 * @param {object} definition Canonical doorway definition containing identity, motion, locking, and frame data.
+		 */
+		constructor(definition) {
+			this.def = definition;
+			this.t = definition.initialProgress === 1 ? 1 : 0;
+			this.state = initialDoorState(definition);
+			this.autoCloseRemaining = 0;
+			this.lastActionReceipt = null;
+		}
+
+		/**
+		 * @description Reveals whether pointer or touch interaction should remain available, including deliberate explanatory feedback for locked and blocked states.
+		 * @returns {boolean} True when the doorway should remain interactable or explainable to the traveler.
+		 */
+		clickable() {
+			return doorStateIsInteractive(this.state);
+		}
+
+		/**
+		 * @description Returns the same immutable prompt semantics consumed by UI, diagnostics, and public API clients so no layer invents conflicting labels or reasons.
+		 * @returns {Readonly<object>} Canonical action, label, reason, enabled, doorId, and state descriptor.
+		 */
+		prompt() {
+			return doorPromptDescriptor(this);
+		}
+
+		/**
+		 * @description Chooses the natural open-or-close command for the current canonical state and returns a complete immutable action receipt.
+		 * @param {string} source Human, API, automation, or runtime origin used for diagnostics and event evidence.
+		 * @returns {Readonly<object>} Canonical door action receipt describing acceptance, resulting state, and reason.
+		 */
+		toggle(source = 'unknown') {
+			const action = doorToggleAction(this.state);
+			if (action === 'close') {
+				return this.close(source);
+			}
+			return this.open(source);
+		}
+
+		/**
+		 * @description Requests opening or a lawful reversal from closing through the canonical non-collision command policy.
+		 * @param {string} source Origin of the request for audit evidence.
+		 * @returns {Readonly<object>} Canonical open receipt.
+		 */
+		open(source = 'unknown') {
+			return requestDoorOpen(this, source);
+		}
+
+		/**
+		 * @description Requests a collision-safe close or blocked retry through the dedicated close policy that samples the full threshold sweep.
+		 * @param {string} source Origin of the request for audit evidence.
+		 * @returns {Readonly<object>} Canonical close receipt including safety evidence when relevant.
+		 */
+		close(source = 'unknown') {
+			return requestDoorClose(this, source);
+		}
+
+		/**
+		 * @description Locks a fully closed doorway without allowing visible pose, collider truth, and public state to disagree.
+		 * @param {string} source Origin of the lock request for audit evidence.
+		 * @returns {Readonly<object>} Canonical lock receipt.
+		 */
+		lock(source = 'unknown') {
+			return requestDoorLock(this, source);
+		}
+
+		/**
+		 * @description Unlocks a locked doorway back into its ordinary closed state through one auditable command path.
+		 * @param {string} source Origin of the unlock request for audit evidence.
+		 * @returns {Readonly<object>} Canonical unlock receipt.
+		 */
+		unlock(source = 'unknown') {
+			return requestDoorUnlock(this, source);
+		}
+
+		/**
+		 * @description Applies an internal canonical state transition through the dedicated event-publication seam observed by UI, diagnostics, and APIs.
+		 * @param {string} nextState Canonical target state from DoorStateContract.
+		 * @param {string} source Origin of the transition for audit evidence.
+		 * @returns {boolean} True only when the state actually changed.
+		 */
+		setState(nextState, source = 'internal') {
+			return setDoorState(this, nextState, source);
+		}
+	}
+
+	__exports.DoorCommandFacade = DoorCommandFacade;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DynamicDoorPresentation.js ----
+{
+	const __exports = __awtsmoosModule_655;
+	//B"H
+	//Boruch Hashem
+	//Blessed be He
+
+	/**
+	 * @file DynamicDoorPresentation.js
+	 * @description Owns the visible hierarchy and renderer synchronization for one canonical dynamic door.
+	 * The panel remains one stable local-authored mesh while its parent hinge frame carries the changing
+	 * world pose; collision and visual motion therefore share one definition without per-frame mesh churn.
+	 */
+
+	const createNativeWorldGroup = __awtsmoosModule_232.createNativeWorldGroup;
+	const createPrimitiveMesh = __awtsmoosModule_231.createPrimitiveMesh;
+	const primitiveColliders = __awtsmoosModule_231.primitiveColliders;
+	const colorArray = __awtsmoosModule_636.colorArray;
+	const colliderDefinition = __awtsmoosModule_649.colliderDefinition;
+	const doorPose = __awtsmoosModule_649.doorPose;
+
+	/**
+	 * Creates the stable frame and panel vessels for one renderer-neutral doorway definition.
+	 * @param {object} definition Canonical doorway definition shared by visuals, collision, and interaction.
+	 * @returns {{mesh: object, panel: object}} Stable hierarchy retained throughout the door lifetime.
+	 */
+	function createDoorPresentation(definition) {
+		const mesh = createNativeWorldGroup();
+		mesh.name = `${definition.id}-panel-frame`;
+		const panel = createPrimitiveMesh(panelDefinition(definition));
+		panel.name = `${definition.id}-dynamic-door`;
+		panel.userData ||= {};
+		panel.userData.coordinateSpace = 'local-authored-dynamic-door';
+		panel.userData.AwtsmoosWorldModel = Object.freeze({ definition });
+		mesh.add(panel);
+		return { mesh, panel };
+	}
+
+	__exports.createDoorPresentation = createDoorPresentation;
+	/**
+	 * Applies current eased progress to the stable frame and regenerates matching collider records.
+	 * @param {object} door Canonical dynamic-door state containing definition and normalized progress.
+	 * @returns {void}
+	 */
+	function applyDoorPresentation(door) {
+		const progress = easedDoorProgress(door.t);
+		door.pose = doorPose(door.def, progress);
+		door.mesh.matrix = new Float32Array(door.pose.matrix);
+		door.mesh.position.set(0, 0, 0);
+		door.mesh.quaternion.set(0, 0, 0, 1);
+		door.currentColliders = primitiveColliders(
+			colliderDefinition(door.def, progress)
+		);
+		refreshDoorWorldMatrix(door);
+	}
+
+
+	__exports.applyDoorPresentation = applyDoorPresentation;
+	/**
+	 * Refreshes the canonical door hierarchy against its current parent world transform.
+	 * @param {object} door Door state containing the stable presentation frame.
+	 * @returns {Float32Array} Current world matrix used by interaction and diagnostics.
+	 */
+	function refreshDoorWorldMatrix(door) {
+		const parentMatrix = door.mesh.parent?.matrixWorld;
+		door.mesh.updateWorldMatrix(parentMatrix);
+		return door.mesh.matrixWorld;
+	}
+
+
+	__exports.refreshDoorWorldMatrix = refreshDoorWorldMatrix;
+	/**
+	 * Updates hover emphasis without replacing the stable panel or mutating command state.
+	 * @param {object} door Door presentation state containing current hover and panel material.
+	 * @param {boolean} enabled Whether interaction emphasis should be shown.
+	 * @returns {void}
+	 */
+	function setDoorHoverPresentation(door, enabled) {
+		const next = Boolean(enabled);
+		if (next === door.hovered) {
+			return;
+		}
+		door.hovered = next;
+		door.panel.material.color = next
+			? [1, 0.78, 0.26, 1]
+			: colorArray(door.def.color);
+	}
+
+
+	__exports.setDoorHoverPresentation = setDoorHoverPresentation;
+	/**
+	 * Converts normalized command progress into smooth-step visual progress with bounded endpoints.
+	 * @param {number} value Raw normalized door progress.
+	 * @returns {number} Eased progress in the inclusive range zero through one.
+	 */
+	function easedDoorProgress(value) {
+		const progress = Math.max(0, Math.min(1, Number(value) || 0));
+		return progress * progress * (3 - 2 * progress);
+	}
+
+
+	__exports.easedDoorProgress = easedDoorProgress;
+	/**
+	 * Derives one primitive panel recipe from the canonical doorway definition without renderer ownership.
+	 * @param {object} definition Canonical doorway geometry and material semantics.
+	 * @returns {object} Portable primitive recipe consumed by the shared Core-backed box adapter.
+	 */
+	function panelDefinition(definition) {
+		return {
+			color: definition.color || '#6b3d1e',
+			id: `${definition.id}-panel`,
+			mapImage: definition.mapImage || null,
+			mapRepeat: definition.mapRepeat || [1, 1],
+			position: { x: 0, y: 0, z: 0 },
+			rotation: { y: 0 },
+			shape: 'box',
+			size: {
+				x: definition.width,
+				y: definition.height,
+				z: definition.thickness
+			},
+			textureUrl: definition.textureUrl || null
+		};
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorPresentationFacade.js ----
+{
+	const __exports = __awtsmoosModule_651;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DoorPresentationFacade.js
+	 * @description Extends canonical door command law with mesh presentation, collider pose, hover response, world-matrix refresh, and oriented bounds.
+	 * Tiferes clothes the command in visible form while Yesod keeps collider and panel moving as one measured sign;
+	 * the Awtsmoos recreates shape and boundary before either can claim a world, and Awtsmoos.com keeps presentation separate from interaction by design.
+	 */
+
+	const DoorCommandFacade = __awtsmoosModule_652.DoorCommandFacade;
+	const applyDoorPresentation = __awtsmoosModule_655.applyDoorPresentation;
+	const createDoorPresentation = __awtsmoosModule_655.createDoorPresentation;
+	const easedDoorProgress = __awtsmoosModule_655.easedDoorProgress;
+	const refreshDoorWorldMatrix = __awtsmoosModule_655.refreshDoorWorldMatrix;
+	const setDoorHoverPresentation = __awtsmoosModule_655.setDoorHoverPresentation;
+	const orientedBox = __awtsmoosModule_649.orientedBox;
+
+	class DoorPresentationFacade extends DoorCommandFacade {
+		/**
+		 * @description Creates canonical mesh/presentation state around one renderer-neutral definition while inheriting all command semantics.
+		 * @param {object} definition Door definition containing frame geometry, material, motion, locking, and interaction metadata.
+		 */
+		constructor(definition) {
+			super(definition);
+			this.hovered = false;
+			Object.assign(this, createDoorPresentation(definition));
+			this.setPose();
+			this.closedColliders = [...this.currentColliders];
+		}
+
+		/**
+		 * @description Returns collision records derived from the same eased pose used by the visible door panel so physics and appearance cannot drift.
+		 * @returns {ReadonlyArray<object>} Current canonical collider records.
+		 */
+		activeColliders() {
+			return this.currentColliders;
+		}
+
+		/**
+		 * @description Applies or removes the shared hover-emphasis presentation without changing command state, pose, or collision ownership.
+		 * @param {boolean} enabled Whether interactive hover emphasis should be visible.
+		 * @returns {void}
+		 */
+		setHover(enabled) {
+			setDoorHoverPresentation(this, enabled);
+		}
+
+		/**
+		 * @description Recomputes mesh transform, collider pose, and cached runtime pose from the current eased movement progress.
+		 * @returns {Readonly<object>} Current canonical renderer-neutral door pose.
+		 */
+		setPose() {
+			applyDoorPresentation(this);
+			return this.pose;
+		}
+
+		/**
+		 * @description Refreshes the door world matrix before ray, collision, or diagnostics consumers inspect the current threshold.
+		 * @returns {object} Refreshed world-matrix evidence from the presentation layer.
+		 */
+		refreshWorldMatrix() {
+			return refreshDoorWorldMatrix(this);
+		}
+
+		/**
+		 * @description Derives one oriented bounding box from immutable door geometry and the exact eased progress used by presentation.
+		 * @returns {object} Renderer-neutral oriented bounding-box record.
+		 */
+		obb() {
+			return orientedBox(
+				this.def,
+				easedDoorProgress(this.t)
+			);
+		}
+	}
+
+	__exports.DoorPresentationFacade = DoorPresentationFacade;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DoorwaySpecs.js ----
+{
+	const __exports = __awtsmoosModule_656;
+	// B"H
+	const createDoorWallSet = __awtsmoosModule_624.createDoorWallSet;
+
+	const TALL_DOORWAY_SPEC = Object.freeze({
+		id: 'tall-doorway',
+		wallId: 'tall-dynamic-doorway-wall',
+		doorId: 'tall-hinged-door',
+		x: -5.5,
+		z: -20.6,
+		floorY: 0,
+		yaw: 0.04,
+		wallW: 8.7,
+		wallH: 4.2,
+		wallT: 0.72,
+		doorW: 2.75,
+		doorH: 3.08,
+		doorThickness: 0.24,
+		panelGap: 0.08,
+		openAngle: -Math.PI * 0.56
+	});
+
+
+	__exports.TALL_DOORWAY_SPEC = TALL_DOORWAY_SPEC;
+	function tallDoorwayWallDef() {
+		return doorwaySet().wall;
+	}
+
+
+	__exports.tallDoorwayWallDef = tallDoorwayWallDef;
+	function tallDoorDef() {
+		return doorwaySet().door;
+	}
+
+
+	__exports.tallDoorDef = tallDoorDef;
+	function doorwaySet() {
+		return createDoorWallSet(TALL_DOORWAY_SPEC, {
+			color: '#654538',
+			doorMaterial: { color: '#7d4827' }
+		});
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/DynamicDoor3D.js ----
+{
+	const __exports = __awtsmoosModule_631;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file DynamicDoor3D.js
+	 * @description Completes the canonical doorway inheritance chain by adding runtime interaction, frame integration, diagnostics, and teardown to the presentation facade.
+	 * Malchus receives the living threshold after command and presentation laws have already been purified above; the Awtsmoos recreates user, hinge, and frame in one tide,
+	 * while Awtsmoos.com keeps this final runtime vessel narrow enough that every public method may remain richly documented and every lower concern stays outside.
+	 */
+
+	const createDoorDebugEvidence = __awtsmoosModule_632.createDoorDebugEvidence;
+	const DoorInteractionController = __awtsmoosModule_633.DoorInteractionController;
+	const updateDoorMotion = __awtsmoosModule_642.updateDoorMotion;
+	const DoorPresentationFacade = __awtsmoosModule_651.DoorPresentationFacade;
+	const tallDoorDef = __awtsmoosModule_656.tallDoorDef;
+
+	class DynamicDoor3D extends DoorPresentationFacade {
+		/**
+		 * @description Creates one canonical dynamic doorway, then installs a focused interaction controller around inherited command and presentation state.
+		 * @param {object} definition Renderer-neutral doorway definition containing identity, geometry, material, motion, locking, and interaction policy.
+		 */
+		constructor(definition = tallDoorDef()) {
+			super(definition);
+			this.interaction = new DoorInteractionController(this);
+		}
+
+		/**
+		 * @description Installs player, body, and event-bus context used by pointer feedback and collision-safe closing without mutating the door definition.
+		 * @param {object} context Runtime interaction context with player position, camera target, bus, radius, and height providers.
+		 * @returns {DynamicDoor3D} This doorway for fluent world assembly.
+		 */
+		setInteractionContext(context = {}) {
+			this.interaction.setContext(context);
+			return this;
+		}
+
+		/**
+		 * @description Installs pointer interaction against one canvas/camera pair while inherited command and presentation contracts remain renderer-neutral.
+		 * @param {HTMLCanvasElement} canvas Interactive render surface receiving pointer events.
+		 * @param {object} camera Active world camera used for doorway hit testing.
+		 * @returns {DynamicDoor3D} This doorway for fluent installation.
+		 */
+		install(canvas, camera) {
+			this.interaction.install(canvas, camera);
+			return this;
+		}
+
+		/**
+		 * @description Advances the separated door motion integrator for one frame, preserving command receipts and presentation synchronization.
+		 * @param {number} deltaTime Elapsed frame time in seconds.
+		 * @returns {void}
+		 */
+		update(deltaTime) {
+			updateDoorMotion(this, deltaTime);
+		}
+
+		/**
+		 * @description Returns one clone-safe diagnostic record joining command receipt, prompt semantics, pose evidence, and pointer visibility for professional tooling.
+		 * @returns {Readonly<object>} Canonical door diagnostics for API, UI, and developer inspection.
+		 */
+		debug() {
+			return {
+				...createDoorDebugEvidence(this),
+				autoCloseRemaining: this.autoCloseRemaining,
+				hovered: this.hovered,
+				lastActionReceipt: this.lastActionReceipt,
+				prompt: this.prompt()
+			};
+		}
+
+		/**
+		 * @description Releases pointer ownership and removes the visible mesh from its parent so no hidden interaction or rendering vessel survives destruction.
+		 * @returns {void}
+		 */
+		destroy() {
+			this.interaction.uninstall();
+			this.mesh.parent?.remove(this.mesh);
+		}
+	}
+
+
+	__exports.DynamicDoor3D = DynamicDoor3D;
+	const highDoorDef = tallDoorDef;
+
+	__exports.highDoorDef = highDoorDef;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzHouseDynamicDoor.js ----
+{
+	const __exports = __awtsmoosModule_622;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file EretzHouseDynamicDoor.js
+	 * @description Adapts canonical DynamicDoor3D behavior into the historical house-facing interface while octree ownership remains elsewhere.
+	 * Yesod joins old-house callers to one Eretz hinge while Tiferes keeps interaction, motion, and safety under the same measured door law;
+	 * the awtsmoos recreates doorway and traveler each instant, and Awtsmoos.com lets one canonical threshold replace duplicated worlds with ordered light.
+	 */
+
+	const PLAYER_HEIGHT = __awtsmoosModule_31.PLAYER_HEIGHT;
+	const PLAYER_RADIUS = __awtsmoosModule_31.PLAYER_RADIUS;
+	const EretzHouseDoorOctreeBridge = __awtsmoosModule_623.EretzHouseDoorOctreeBridge;
+	const doorDefFromWall = __awtsmoosModule_624.doorDefFromWall;
+	const DynamicDoor3D = __awtsmoosModule_631.DynamicDoor3D;
+
+	class EretzHouseDynamicDoor {
+		/**
+		 * @param {object} profile Historical house identity/profile.
+		 * @param {object} material Door material descriptor.
+		 * @param {object} specification Core-generated doorway specification.
+		 * @param {object} runtime Active MitzvahWorld runtime.
+		 */
+		constructor(profile, material, specification, runtime) {
+			this.profile = profile;
+			this.spec = specification;
+			this.runtime = runtime;
+			this.door = new DynamicDoor3D(
+				doorDefFromWall(
+					withHouseIdentity(profile, specification),
+					material
+				)
+			);
+			this.group = this.door.mesh;
+			this.installInteraction();
+			this.octreeBridge = new EretzHouseDoorOctreeBridge(
+				runtime.mainOctree,
+				this.door
+			);
+		}
+
+		/** Toggles the canonical door and returns its action result. */
+		toggle(source = 'house-interaction') {
+			return this.door.toggle(source);
+		}
+
+		/** Advances canonical motion and updates house-octree collision only when pose changes. */
+		update(deltaSeconds) {
+			const previousProgress = this.door.t;
+			this.door.update(deltaSeconds);
+			if (this.door.t === previousProgress) {
+				return false;
+			}
+			this.octreeBridge.synchronize();
+			return true;
+		}
+
+		/** @returns {object} Current dynamic-door evidence for house diagnostics. */
+		definition() {
+			return {
+				...this.door.def,
+				progress: this.door.t,
+				state: this.door.state
+			};
+		}
+
+		/** @returns {{x:number,y:number,z:number}} Stable world-space interaction hint. */
+		hint() {
+			const frame = this.door.def.frame;
+			return {
+				x: frame.center.x,
+				y: frame.opening.bottomY + frame.opening.height * 0.5,
+				z: frame.center.z
+			};
+		}
+
+		/** Releases octree and canonical presentation/interaction ownership. */
+		destroy() {
+			this.octreeBridge.clear();
+			this.door.destroy();
+		}
+
+		installInteraction() {
+			const state = this.runtime.state;
+			this.door.setInteractionContext({
+				bus: this.runtime.bus,
+				canvas: this.runtime.canvas,
+				getCameraTarget: () => playerPoint(state, state.faceHeight),
+				getPlayerPosition: () => playerPoint(state, PLAYER_HEIGHT * 0.5),
+				playerHeight: PLAYER_HEIGHT,
+				playerRadius: PLAYER_RADIUS
+			});
+		}
+	}
+
+
+	__exports.EretzHouseDynamicDoor = EretzHouseDynamicDoor;
+	function withHouseIdentity(profile, specification) {
+		return {
+			...specification,
+			doorId: specification.doorId || specification.id,
+			houseId: profile.id
+		};
+	}
+
+	function playerPoint(state, lift) {
+		return {
+			x: state.x,
+			y: state.renderY + lift,
+			z: state.z
+		};
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMath.js ----
+{
+	const __exports = __awtsmoosModule_658;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseMath.js
+	 * @description Preserves historic house coordinate/box names while Domem architecture now owns their reusable mathematics.
+	 * The Awtsmoos, Atzmus beyond old import and new source, renews one transformation beneath many callers that still know its name;
+	 * Awtsmoos.com lets doors and mezuzahs continue through this Yesod bridge while the canonical building math burns in the core flame.
+	 */
+
+	const buildingBox = __awtsmoosModule_590.buildingBox;
+	const buildingPoint = __awtsmoosModule_590.buildingPoint;
+
+	/** Converts local house coordinates to world coordinates through canonical Domem architecture math. */
+	function housePoint(profile, localX, localZ) {
+		return buildingPoint(profile, localX, localZ);
+	}
+
+
+	__exports.housePoint = housePoint;
+	/** Creates a legacy-compatible house primitive through the canonical Domem building-box contract. */
+	function houseBox(
+		profile,
+		material,
+		id,
+		localX,
+		y,
+		localZ,
+		size,
+		options = {}
+	) {
+		return buildingBox(
+			profile,
+			material,
+			id,
+			localX,
+			y,
+			localZ,
+			size,
+			options
+		);
+	}
+
+	__exports.houseBox = houseBox;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMezuzah.js ----
+{
+	const __exports = __awtsmoosModule_657;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseMezuzah.js
+	 * @description Creates visible upper-third mezuzahs on the entering-right source jamb.
+	 * The Awtsmoos sanctifies each finite threshold without confusion of sides; Awtsmoos.com keeps
+	 * house, door, source room, target room, position, slant, and interaction evidence inspectable.
+	 */
+
+	const createPrimitiveMesh = __awtsmoosModule_231.createPrimitiveMesh;
+	const housePoint = __awtsmoosModule_658.housePoint;
+
+	function createMinimalMeadowMezuzah(profile, materials, door) {
+		const sideOffset = profile.doorWidth / 2 + 0.17;
+		const local = rotateOffset(door.yaw - profile.yaw, sideOffset, 0.22);
+		const point = housePoint(profile, door.localX + local.x, door.localZ + local.z);
+		const definition = {
+			...materials.mezuzah,
+			id: `${door.id}-mezuzah`,
+			position: { x: point.x, y: door.y + profile.doorHeight * 0.72, z: point.z },
+			rotation: { y: door.yaw, z: 0.13 },
+			shape: 'box',
+			size: { x: 0.09, y: 0.58, z: 0.12 },
+			solid: false,
+			userData: {
+				AwtsmoosMezuza: {
+					doorId: door.id,
+					houseId: profile.id,
+					placement: 'entering-right-upper-third-source-jamb',
+					sourceRoomId: door.sourceRoomId,
+					targetRoomId: door.targetRoomId
+				}
+			}
+		};
+		const mesh = createPrimitiveMesh(definition);
+		return {
+			definition,
+			hint: { x: point.x, y: definition.position.y, z: point.z },
+			mesh
+		};
+	}
+
+
+	__exports.createMinimalMeadowMezuzah = createMinimalMeadowMezuzah;
+	function rotateOffset(yaw, x, z) {
+		return {
+			x: x * Math.cos(yaw) - z * Math.sin(yaw),
+			z: x * Math.sin(yaw) + z * Math.cos(yaw)
+		};
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssemblyInstallers.js ----
+{
+	const __exports = __awtsmoosModule_621;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseAssemblyInstallers.js
+	 * @description Installs static house truth while every moving threshold now delegates to the canonical Eretz dynamic-door law.
+	 * Malchus receives walls and mezuzahs, Yesod carries one living hinge, and no old meadow door may rebuild a second visible world in disguise;
+	 * the awtsmoos recreates geometry and resistance before either can divide, and Awtsmoos.com keeps old-house identity inside one professional Eretz stride.
+	 */
+
+	const createPrimitiveMesh = __awtsmoosModule_231.createPrimitiveMesh;
+	const primitiveColliders = __awtsmoosModule_231.primitiveColliders;
+	const EretzHouseDynamicDoor = __awtsmoosModule_622.EretzHouseDynamicDoor;
+	const createMinimalMeadowMezuzah = __awtsmoosModule_657.createMinimalMeadowMezuzah;
+
+	/**
+	 * Installs immutable static definitions into both scene group and canonical collision octree.
+	 * @returns {object[]} Installed collider records owned by the house assembly.
+	 */
+	function installMinimalMeadowHouseDefinitions(
+		group,
+		definitions,
+		octree
+	) {
+		const colliders = [];
+		for (const definition of definitions) {
+			group.add(createPrimitiveMesh(definition));
+			for (const collider of primitiveColliders(definition)) {
+				octree.insert(collider);
+				colliders.push(collider);
+			}
+		}
+		return colliders;
+	}
+
+
+	__exports.installMinimalMeadowHouseDefinitions = installMinimalMeadowHouseDefinitions;
+	/**
+	 * Installs canonical dynamic Eretz doors while preserving historical house-array ownership.
+	 * @returns {EretzHouseDynamicDoor[]} House-facing canonical door adapters.
+	 */
+	function installMinimalMeadowHouseDoors(
+		group,
+		specifications,
+		profile,
+		materials,
+		runtime
+	) {
+		return specifications.map(specification => {
+			const door = new EretzHouseDynamicDoor(
+				profile,
+				materials.wood,
+				specification,
+				runtime
+			);
+			group.add(door.group);
+			return door;
+		});
+	}
+
+
+	__exports.installMinimalMeadowHouseDoors = installMinimalMeadowHouseDoors;
+	/** @returns {object[]} Installed mezuzah records. */
+	function installMinimalMeadowHouseMezuzahs(
+		group,
+		specifications,
+		profile,
+		materials
+	) {
+		return specifications.map(specification => {
+			const mezuzah = createMinimalMeadowMezuzah(
+				profile,
+				materials,
+				specification
+			);
+			group.add(mezuzah.mesh);
+			return mezuzah;
+		});
+	}
+
+	__exports.installMinimalMeadowHouseMezuzahs = installMinimalMeadowHouseMezuzahs;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js ----
+{
+	const __exports = __awtsmoosModule_659;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseDimensionPolicy.js
+	 * @description Preserves Mitzvah World's fortyfold house covenant while delegating architectural normalization to procedural core.
+	 * The Awtsmoos, Atzmus beyond meadow and library, renews one measured dwelling while the game's historical promise remains clear;
+	 * Awtsmoos.com now lets this compatibility gate carry only Mitzvah policy, while Domem architecture owns the reusable dimensions here.
+	 */
+
+	const HUMAN_SCALE_BUILDING_DOOR = __awtsmoosModule_590.HUMAN_SCALE_BUILDING_DOOR;
+	const buildingDimensionEvidence = __awtsmoosModule_590.buildingDimensionEvidence;
+	const createBuildingProfile = __awtsmoosModule_590.createBuildingProfile;
+
+	const HUMAN_SCALE_HOUSE_DOOR = HUMAN_SCALE_BUILDING_DOOR;
+
+	__exports.HUMAN_SCALE_HOUSE_DOOR = HUMAN_SCALE_HOUSE_DOOR;
+	const MINIMUM_HOUSE_FOOTPRINT_EXPANSION = 40;
+
+
+	__exports.MINIMUM_HOUSE_FOOTPRINT_EXPANSION = MINIMUM_HOUSE_FOOTPRINT_EXPANSION;
+	/**
+	 * Normalizes one historical meadow-house profile through the canonical Domem building profile.
+	 * @param {object} values Historical Mitzvah house dimensions and placement.
+	 * @returns {Readonly<object>} Canonical building profile carrying Mitzvah semantic metadata.
+	 */
+	function createExpandedHouseProfile(values) {
+		return createBuildingProfile({
+			...values,
+			family: 'minimal-meadow-house',
+			metadataIdKey: 'houseId',
+			minimumFootprintExpansion: MINIMUM_HOUSE_FOOTPRINT_EXPANSION
+		});
+	}
+
+
+	__exports.createExpandedHouseProfile = createExpandedHouseProfile;
+	/**
+	 * Preserves the historical Mitzvah dimensional-evidence envelope while reading canonical core evidence.
+	 * @param {object} profile Canonical house/building profile.
+	 * @returns {Readonly<object>} Legacy-compatible six-field house evidence.
+	 */
+	function houseDimensionEvidence(profile) {
+		const evidence = buildingDimensionEvidence(profile);
+		return Object.freeze({
+			door: evidence.door,
+			expandedArea: evidence.expandedArea,
+			expansion: evidence.expansion,
+			legacyArea: evidence.legacyArea,
+			parentScale: evidence.parentScale,
+			worldDepth: evidence.worldDepth,
+			worldWidth: evidence.worldWidth
+		});
+	}
+
+	__exports.houseDimensionEvidence = houseDimensionEvidence;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePitchedRoof.js ----
+{
+	const __exports = __awtsmoosModule_660;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHousePitchedRoof.js
+	 * @description Replaces the Domem architecture's stepped roof massing (stacked inset boxes)
+	 * with true pitched roof geometry while keeping every collision and material contract intact.
+	 * Gable roofs become triangular prisms, hip roofs become hand-wound sloped quads, and shed
+	 * roofs become single sloped slabs — all renderer-neutral definitions in the same shape
+	 * family the installers already consume ('triPrism', 'manual', 'box'), so collision
+	 * triangles follow the pitched surface exactly and walkability never changes.
+	 * The Awtsmoos sets a pitched covering over every dwelling before rain can find the seams;
+	 * Awtsmoos.com keeps the roof honest: what you see is what the octree resists.
+	 */
+
+	const buildingPoint = __awtsmoosModule_590.buildingPoint;
+
+	function positive(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) && number > 0 ? number : fallback;
+	}
+
+	function roofStyleOf(profile) {
+		return String(profile.roofStyle || 'gable').toLowerCase();
+	}
+
+	function isRoofDefinition(definition) {
+		if (definition?.userData?.pitchedRoof === true) return false;
+		const role = definition?.userData?.role || '';
+		if (role.startsWith('weather-roof') || role.startsWith('roof-eave')) return true;
+		const id = String(definition?.id || '');
+		return id.includes('roof-layer') || id.includes('roof-eave');
+	}
+
+	function baseDefinition(profile, materials, id, role) {
+		const metadataIdKey = profile.metadataIdKey || 'houseId';
+		return {
+			...(materials.roof || {}),
+			id: `${profile.id}-${id}`,
+			position: { x: 0, y: 0, z: 0 },
+			rotation: { y: profile.yaw || 0 },
+			shape: 'box',
+			size: { x: 1, y: 1, z: 1 },
+			solid: true,
+			userData: {
+				family: profile.family || 'minimal-meadow-house',
+				[metadataIdKey]: profile.id,
+				pitchedRoof: true,
+				role
+			},
+			visible: true,
+			walkable: false
+		};
+	}
+
+	/** Gable roof: one triangular prism, ridge along the long axis. */
+	function gableRoof(profile, materials, center, wallTop, width, depth, overhang, totalHeight, style) {
+		const definition = baseDefinition(profile, materials, 'roof-pitched-gable', `weather-roof:${style}`);
+		const ridgeAlongX = width >= depth;
+		definition.shape = 'triPrism';
+		definition.size = ridgeAlongX
+			? { x: depth + overhang * 2, y: totalHeight, z: width + overhang * 2 }
+			: { x: width + overhang * 2, y: totalHeight, z: depth + overhang * 2 };
+		definition.rotation = { y: (profile.yaw || 0) + (ridgeAlongX ? Math.PI / 2 : 0) };
+		definition.position = { x: center.x, y: wallTop + totalHeight / 2, z: center.z };
+		return definition;
+	}
+
+	/** Hip roof: hand-wound sloped quads and triangles meeting at a ridge. */
+	function hipRoof(profile, materials, center, wallTop, width, depth, overhang, totalHeight, style) {
+		const definition = baseDefinition(profile, materials, 'roof-pitched-hip', `weather-roof:${style}`);
+		const hw = width / 2 + overhang;
+		const hd = depth / 2 + overhang;
+		const ridgeAlongX = width >= depth;
+		// Local frame: ridge along X when the house is wider than deep.
+		const ex = ridgeAlongX ? hw : hd;
+		const ez = ridgeAlongX ? hd : hw;
+		const ridgeHalf = Math.max(0.25, ex - ez);
+		const vertices = [
+			[-ex, 0, -ez], // 0 eave north-west
+			[ex, 0, -ez], // 1 eave north-east
+			[ex, 0, ez], // 2 eave south-east
+			[-ex, 0, ez], // 3 eave south-west
+			[-ridgeHalf, totalHeight, 0], // 4 ridge west
+			[ridgeHalf, totalHeight, 0] // 5 ridge east
+		];
+		definition.shape = 'manual';
+		definition.vertices = vertices;
+		// Winding verified against the pipeline's triangle-normal law: every slope
+		// normal points up and outward (north (0,.87,-.5), south (0,.87,+.5),
+		// west (-.5,.87,0), east (+.5,.87,0)).
+		definition.faces = [
+			[1, 0, 4, 5], // north slope
+			[5, 4, 3, 2], // south slope
+			[0, 3, 4], // west hip triangle
+			[2, 1, 5] // east hip triangle
+		];
+		definition.position = { x: center.x, y: wallTop, z: center.z };
+		definition.rotation = { y: profile.yaw || 0 };
+		delete definition.size;
+		return definition;
+	}
+
+	/** Shed roof: one slab sloped along the depth axis, high edge at the back. */
+	function shedRoof(profile, materials, center, wallTop, width, depth, overhang, totalHeight, style) {
+		const definition = baseDefinition(profile, materials, 'roof-pitched-shed', `weather-roof:${style}`);
+		const run = depth + overhang * 2;
+		const angle = Math.atan2(totalHeight, run);
+		const length = Math.sqrt(run * run + totalHeight * totalHeight);
+		definition.shape = 'box';
+		definition.size = { x: width + overhang * 2, y: 0.16, z: length };
+		definition.rotation = { x: angle, y: profile.yaw || 0 };
+		definition.position = { x: center.x, y: wallTop + totalHeight / 2, z: center.z };
+		return definition;
+	}
+
+	/** Thin fascia plate at the wall top so the eave reads as a deliberate line. */
+	function eavePlate(profile, materials, center, wallTop, width, depth, overhang, style) {
+		const definition = baseDefinition(profile, materials, 'roof-eave-plate', `roof-eave:${style}`);
+		definition.shape = 'box';
+		definition.size = { x: width + overhang * 2, y: 0.14, z: depth + overhang * 2 };
+		definition.position = { x: center.x, y: wallTop + 0.07, z: center.z };
+		definition.rotation = { y: profile.yaw || 0 };
+		return definition;
+	}
+
+	/**
+	 * Replaces stepped roof-layer/eave boxes with true pitched roof definitions.
+	 * Non-roof definitions pass through untouched; collision stays consistent because
+	 * the replacement shapes feed the same triangle-collider pipeline.
+	 * @param {object[]} definitions Plan definitions from createBuildingPlan.
+	 * @param {object} profile Canonical building profile.
+	 * @param {object} materials House material descriptors (uses materials.roof).
+	 * @param {number} groundY Raised foundation datum.
+	 * @returns {object[]} Definitions with pitched roofs.
+	 */
+	function withPitchedRoofDefinitions(definitions, profile, materials, groundY) {
+		const list = Array.isArray(definitions) ? definitions : [];
+		const kept = list.filter(definition => !isRoofDefinition(definition));
+		const style = roofStyleOf(profile);
+		if (style === 'flat' || !materials || !materials.roof) {
+			return list;
+		}
+		const wallTop = groundY
+			+ positive(profile.floorThickness, 0.4)
+			+ positive(profile.storyHeight, 3) * positive(profile.floors, 1);
+		const overhang = positive(profile.roofOverhang, 0.8);
+		const totalHeight = positive(profile.roofHeight, 1.15);
+		const width = positive(profile.width, 8);
+		const depth = positive(profile.depth, 8);
+		const center = buildingPoint(profile, 0, 0);
+		const pitched = style === 'hip'
+			? hipRoof(profile, materials, center, wallTop, width, depth, overhang, totalHeight, style)
+			: style === 'shed'
+				? shedRoof(profile, materials, center, wallTop, width, depth, overhang, totalHeight, style)
+				: gableRoof(profile, materials, center, wallTop, width, depth, overhang, totalHeight, style);
+		return [...kept, pitched, eavePlate(profile, materials, center, wallTop, width, depth, overhang, style)];
+	}
+
+
+	__exports.withPitchedRoofDefinitions = withPitchedRoofDefinitions;
+	/** Counts how many stepped roof boxes a definition list carries (for diagnostics/tests). */
+	function countSteppedRoofBoxes(definitions) {
+		return (Array.isArray(definitions) ? definitions : []).filter(isRoofDefinition).length;
+	}
+
+	__exports.countSteppedRoofBoxes = countSteppedRoofBoxes;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js ----
+{
+	const __exports = __awtsmoosModule_589;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseAssembly.js
+	 * @description Manifests one canonical Domem BuildingPlan inside Mitzvah World's tiny runtime, octree, doors, and mezuzah lifecycle.
+	 * The Awtsmoos, Atzmus beyond reusable plan and particular world, renews one dwelling while each layer keeps its rightful shore;
+	 * Awtsmoos.com now lets Mitzvah World receive architecture instead of secretly owning it, while Malchus-like manifestation remains here evermore.
+	 * This file deliberately does not calculate foundations, walls, rooms, stairs, or support geometry; procedural core owns those laws.
+	 */
+
+	const createBuildingPlan = __awtsmoosModule_590.createBuildingPlan;
+	const Group = __awtsmoosModule_40.Group;
+	const installMinimalMeadowHouseDefinitions = __awtsmoosModule_621.installMinimalMeadowHouseDefinitions;
+	const installMinimalMeadowHouseDoors = __awtsmoosModule_621.installMinimalMeadowHouseDoors;
+	const installMinimalMeadowHouseMezuzahs = __awtsmoosModule_621.installMinimalMeadowHouseMezuzahs;
+	const houseDimensionEvidence = __awtsmoosModule_659.houseDimensionEvidence;
+	const withPitchedRoofDefinitions = __awtsmoosModule_660.withPitchedRoofDefinitions;
+
+	/**
+	 * Creates one live Mitzvah house from a renderer-neutral Domem architecture plan.
+	 * @param {object} profile Canonical Mitzvah-compatible building profile.
+	 * @param {object} materials Game-owned material descriptors including dynamic door and mezuzah materials.
+	 * @param {object} runtime Mitzvah runtime exposing terrain, main octree, and event bus.
+	 * @returns {object} Historical house runtime envelope with group, colliders, doors, supports, rooms, and diagnostics.
+	 */
+	function createMinimalMeadowHouseAssembly(
+		profile,
+		materials,
+		runtime
+	) {
+		const plan = createBuildingPlan(
+			profile,
+			materials,
+			runtime.terrain.heightAt
+		);
+		const group = createHouseGroup(profile);
+		// Stepped roof massing becomes true pitched geometry; collision follows the
+		// pitched triangles through the same installer pipeline, so walkability is unchanged.
+		const definitions = withPitchedRoofDefinitions(plan.definitions, profile, materials, plan.groundY);
+		const staticColliders = installMinimalMeadowHouseDefinitions(
+			group,
+			definitions,
+			runtime.mainOctree
+		);
+		const doors = installMinimalMeadowHouseDoors(
+			group,
+			plan.doors,
+			profile,
+			materials,
+			runtime
+		);
+		const mezuzahs = installMinimalMeadowHouseMezuzahs(
+			group,
+			plan.doors,
+			profile,
+			materials
+		);
+		const dimensions = houseDimensionEvidence(profile);
+		group.userData.AwtsmoosHouseDimensions = dimensions;
+		return {
+			definitions,
+			dimensions,
+			doors,
+			floorSupport: plan.floorSupport,
+			foundation: plan.foundation,
+			groundSupports: plan.groundSupports,
+			groundY: plan.groundY,
+			group,
+			mezuzahs,
+			profile,
+			roomCount: plan.roomCount,
+			roomIds: plan.roomIds,
+			stairs: plan.stairs,
+			stairSupport: plan.stairSupport,
+			staticColliders
+		};
+	}
+
+
+	__exports.createMinimalMeadowHouseAssembly = createMinimalMeadowHouseAssembly;
+	function createHouseGroup(profile) {
+		const group = new Group();
+		group.name = `Awtsmoos_house_${profile.id}`;
+		return group;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseCollisionVisibility.js ----
+{
+	const __exports = __awtsmoosModule_661;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseCollisionVisibility.js
+	 * @description Enforces collision-only house definitions as permanently invisible scene meshes.
+	 * The Awtsmoos sustains resistance without visible matter; Awtsmoos.com keeps stair ramps
+	 * active in the octree while preventing assembly, batching, or room visibility from revealing them.
+	 */
+
+	function enforceMinimalMeadowCollisionOnlyVisibility(root) {
+		let hidden = 0;
+		root?.traverse?.(object => {
+			const definition = object.userData?.AwtsmoosWorldModel?.definition;
+			if (definition?.visible !== false) return;
+			object.visible = false;
+			object.userData ||= {};
+			object.userData.AwtsmoosCollisionOnly = Object.freeze({
+				definitionId: definition.id,
+				hidden: true,
+				role: definition.userData?.role || object.userData?.role || 'collision-only'
+			});
+			hidden += 1;
+		});
+		return hidden;
+	}
+
+	__exports.enforceMinimalMeadowCollisionOnlyVisibility = enforceMinimalMeadowCollisionOnlyVisibility;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryBounds.js ----
+{
+	const __exports = __awtsmoosModule_663;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseGeometryBounds.js
+	 * @description Supplies explicit finite boxes and spheres for house geometry.
+	 * The Awtsmoos encloses every measured brick in truthful limits; Awtsmoos.com
+	 * gives the renderer one stable vessel instead of a camera-timed lazy guess.
+	 */
+
+	const TINY_BOUNDS_KEY = 'AwtsmoosTinyBounds';
+
+	/** Computes and installs bounds from the finished position attribute. */
+	function installMinimalMeadowHouseBounds(geometry) {
+		const positions = geometry?.attributes?.position?.array;
+		if (!positions || positions.length < 3) {
+			throw new Error('House geometry requires finite position data before bounds.');
+		}
+		const box = positionBounds(positions);
+		const sphere = boundingSphere(positions, box);
+		geometry.boundingBox = box;
+		geometry.boundingSphere = sphere;
+		geometry.userData ||= {};
+		geometry.userData[TINY_BOUNDS_KEY] = sphere;
+		return Object.freeze({ box, sphere });
+	}
+
+
+	__exports.installMinimalMeadowHouseBounds = installMinimalMeadowHouseBounds;
+	function positionBounds(positions) {
+		const minimum = [Infinity, Infinity, Infinity];
+		const maximum = [-Infinity, -Infinity, -Infinity];
+		for (let index = 0; index < positions.length; index += 3) {
+			for (let axis = 0; axis < 3; axis += 1) {
+				const value = Number(positions[index + axis]);
+				if (!Number.isFinite(value)) throw new Error('House bounds found a non-finite vertex.');
+				minimum[axis] = Math.min(minimum[axis], value);
+				maximum[axis] = Math.max(maximum[axis], value);
+			}
+		}
+		return Object.freeze({
+			max: Object.freeze(maximum),
+			min: Object.freeze(minimum)
+		});
+	}
+
+	function boundingSphere(positions, box) {
+		const center = box.min.map((value, axis) => (value + box.max[axis]) / 2);
+		let radiusSquared = 0;
+		for (let index = 0; index < positions.length; index += 3) {
+			const dx = positions[index] - center[0];
+			const dy = positions[index + 1] - center[1];
+			const dz = positions[index + 2] - center[2];
+			radiusSquared = Math.max(radiusSquared, dx * dx + dy * dy + dz * dz);
+		}
+		return Object.freeze({
+			center: Object.freeze(center),
+			radius: Math.sqrt(radiusSquared)
+		});
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseSurfacePolicy.js ----
+{
+	const __exports = __awtsmoosModule_664;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseSurfacePolicy.js
+	 * @description Reverses only thin exterior walls while preserving bounded front-facing solids.
+	 * The Awtsmoos lets a mobile camera cross one narrow wall without making every floor and roof
+	 * pay the same draw cost; Awtsmoos.com names each role so visibility remains deliberate.
+	 */
+
+	function installMinimalMeadowHouseSurfacePolicy(mesh) {
+		const role = String(mesh?.userData?.role || mesh?.name || 'house-surface');
+		const cameraSafeWall = isCameraSafeExteriorWall(role);
+		for (const material of materialList(mesh?.material)) {
+			material.doubleSided = cameraSafeWall;
+			material.backfaceCull = !cameraSafeWall;
+		}
+		mesh.frustumCulled = !cameraSafeWall;
+		mesh.userData ||= {};
+		mesh.userData.AwtsmoosHouseSurface = Object.freeze({
+			cameraSafeWall,
+			closedVolume: true,
+			domain: surfaceDomain(role),
+			role,
+			sidedness: cameraSafeWall ? 'double-mobile-stable' : 'front',
+			visibilityPolicy: cameraSafeWall
+				? 'unculled-camera-safe-wall'
+				: 'bounded-front-surface'
+		});
+		return mesh.userData.AwtsmoosHouseSurface;
+	}
+
+
+	__exports.installMinimalMeadowHouseSurfacePolicy = installMinimalMeadowHouseSurfacePolicy;
+	function isCameraSafeExteriorWall(role) {
+		return /^exterior-(?:front-(?:wall|header)|back-wall|side-wall)$/i
+			.test(String(role || ''));
+	}
+
+
+	__exports.isCameraSafeExteriorWall = isCameraSafeExteriorWall;
+	function surfaceDomain(role) {
+		const value = String(role).toLowerCase();
+		if (/room|interior|stair|upper-floor|ground-floor/.test(value)) {
+			return 'interior';
+		}
+		if (/foundation|entry-step/.test(value)) return 'support';
+		if (/roof/.test(value)) return 'roof';
+		if (/door|mezuz|mezuza/.test(value)) return 'threshold';
+		return 'exterior';
+	}
+
+
+	__exports.surfaceDomain = surfaceDomain;
+	function materialList(material) {
+		if (!material) return [];
+		return Array.isArray(material) ? material : [material];
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseGeometryContract.js ----
+{
+	const __exports = __awtsmoosModule_662;
+	//B"H
+	//Boruch Hashem
+	//Blessed be He
+
+	/**
+	 * @file MinimalMeadowHouseGeometryContract.js
+	 * @description Validates bounds, surfaces, semantic definitions, and coordinate-space transform laws.
+	 * Static house meshes are authored directly in world space and therefore must retain an identity
+	 * world matrix. Dynamic doorway panels are intentionally authored in local space beneath a moving
+	 * hinge frame, so they instead prove finite, non-singular transforms without losing animation.
+	 */
+
+	const installMinimalMeadowHouseBounds = __awtsmoosModule_663.installMinimalMeadowHouseBounds;
+	const installMinimalMeadowHouseSurfacePolicy = __awtsmoosModule_664.installMinimalMeadowHouseSurfacePolicy;
+
+	const MATRIX_EPSILON = 1e-7;
+	const WORLD_AUTHORED_SPACE = 'world-authored-identity-mesh';
+
+	/**
+	 * Applies the complete geometry contract to every renderable house mesh.
+	 * @param {object} root House population root whose descendants are validated in place.
+	 * @param {object[]} definitions Renderer-neutral world definitions keyed by stable identity.
+	 * @returns {Readonly<object>} Frozen diagnostic counters for production and regression evidence.
+	 */
+	function installMinimalMeadowHouseGeometryContract(root, definitions = []) {
+		const definitionsById = new Map(definitions.map(definition => [definition.id, definition]));
+		sceneRoot(root).updateWorldMatrix();
+		const stats = createStats();
+		root.traverse(object => {
+			if (!object.isMesh || !object.geometry) {
+				return;
+			}
+			const bounds = installMinimalMeadowHouseBounds(object.geometry);
+			const surface = installMinimalMeadowHouseSurfacePolicy(object);
+			const coordinateSpace = declaredCoordinateSpace(object);
+			const definition = definitionsById.get(object.name)
+				|| object.userData?.AwtsmoosWorldModel?.definition
+				|| null;
+			object.userData ||= {};
+			object.userData.AwtsmoosWorldModel = Object.freeze({
+				bounds,
+				coordinateSpace,
+				definition,
+				surface
+			});
+			stats.meshCount += 1;
+			stats.boundedMeshes += 1;
+			stats.sidedMeshes += 1;
+			if (definition) {
+				stats.retainedDefinitions += 1;
+			}
+			if (!matrixMatchesCoordinateSpace(object.matrixWorld, coordinateSpace)) {
+				stats.invalidMatrices += 1;
+			}
+		});
+		return Object.freeze(stats);
+	}
+
+
+	__exports.installMinimalMeadowHouseGeometryContract = installMinimalMeadowHouseGeometryContract;
+	/** Confirms that world-authored vertices have not received a second transform. */
+	function isIdentityWorldMatrix(matrix) {
+		const identity = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+		return identity.every((value, index) => {
+			return Math.abs(matrix[index] - value) <= MATRIX_EPSILON;
+		});
+	}
+
+
+	__exports.isIdentityWorldMatrix = isIdentityWorldMatrix;
+	/** Returns the signed determinant of the world transform's linear portion. */
+	function matrixDeterminant(matrix) {
+		return matrix[0] * (matrix[5] * matrix[10] - matrix[6] * matrix[9])
+			- matrix[4] * (matrix[1] * matrix[10] - matrix[2] * matrix[9])
+			+ matrix[8] * (matrix[1] * matrix[6] - matrix[2] * matrix[5]);
+	}
+
+
+	__exports.matrixDeterminant = matrixDeterminant;
+	/**
+	 * Accepts dynamic local-authored transforms only when every component is finite and invertible.
+	 * @param {ArrayLike<number>} matrix Native world matrix produced by the scene hierarchy.
+	 * @returns {boolean} True when the matrix is numerically safe for animation and collision mapping.
+	 */
+	function isFiniteNonSingularWorldMatrix(matrix) {
+		for (let index = 0; index < 16; index += 1) {
+			if (!Number.isFinite(matrix[index])) {
+				return false;
+			}
+		}
+		return Math.abs(matrixDeterminant(matrix)) > MATRIX_EPSILON;
+	}
+
+
+	__exports.isFiniteNonSingularWorldMatrix = isFiniteNonSingularWorldMatrix;
+	function matrixMatchesCoordinateSpace(matrix, coordinateSpace) {
+		return coordinateSpace === WORLD_AUTHORED_SPACE
+			? isIdentityWorldMatrix(matrix)
+			: isFiniteNonSingularWorldMatrix(matrix);
+	}
+	function declaredCoordinateSpace(object) {
+		return object.userData?.coordinateSpace
+			|| object.userData?.AwtsmoosWorldModel?.coordinateSpace
+			|| WORLD_AUTHORED_SPACE;
+	}
+
+	function createStats() {
+		return {
+			boundedMeshes: 0,
+			invalidMatrices: 0,
+			meshCount: 0,
+			retainedDefinitions: 0,
+			sidedMeshes: 0
+		};
+	}
+
+	function sceneRoot(object) {
+		let root = object;
+		while (root.parent) {
+			root = root.parent;
+		}
+		return root;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaintenance.js ----
+{
+	const __exports = __awtsmoosModule_665;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseMaintenance.js
+	 * @description Updates every door each frame but revalidates full house geometry only after real change.
+	 * The Awtsmoos renews wall and threshold without demanding needless witnesses;
+	 * Awtsmoos.com preserves exact colliders, surfaces, bounds, and visibility while idle houses stay quiet.
+	 */
+
+	const enforceMinimalMeadowCollisionOnlyVisibility = __awtsmoosModule_661.enforceMinimalMeadowCollisionOnlyVisibility;
+	const installMinimalMeadowHouseGeometryContract = __awtsmoosModule_662.installMinimalMeadowHouseGeometryContract;
+	const installMinimalMeadowHouseSurfacePolicy = __awtsmoosModule_664.installMinimalMeadowHouseSurfacePolicy;
+
+	const MAINTENANCE_INTERVAL = 0.125;
+
+	function createMinimalMeadowHouseMaintenanceState() {
+		return {
+			dirty: true,
+			elapsed: MAINTENANCE_INTERVAL,
+			refreshes: 0
+		};
+	}
+
+
+	__exports.createMinimalMeadowHouseMaintenanceState = createMinimalMeadowHouseMaintenanceState;
+	function updateMinimalMeadowHouseMaintenance(owner, deltaSeconds) {
+		let changed = false;
+		for (const house of owner.houses) {
+			for (const door of house.doors) {
+				changed = door.update(deltaSeconds) || changed;
+			}
+		}
+		owner.maintenance.dirty ||= changed || owner.pendingPostMountRefresh;
+		if (!owner.maintenance.dirty) return false;
+		owner.maintenance.elapsed += Math.max(0, Number(deltaSeconds) || 0);
+		if (owner.maintenance.elapsed < MAINTENANCE_INTERVAL) return false;
+		owner.maintenance.elapsed = 0;
+		owner.maintenance.dirty = false;
+		owner.pendingPostMountRefresh = false;
+		for (const house of owner.houses) {
+			for (const door of house.doors) {
+				installMinimalMeadowHouseGeometryContract(
+					door.group,
+					[door.definition()]
+				);
+			}
+		}
+		restoreMinimalMeadowHouseSurfacePolicy(owner.group);
+		enforceMinimalMeadowCollisionOnlyVisibility(owner.group);
+		owner.maintenance.refreshes += 1;
+		return true;
+	}
+
+
+	__exports.updateMinimalMeadowHouseMaintenance = updateMinimalMeadowHouseMaintenance;
+	function minimalMeadowHouseMaintenanceDiagnostics(owner) {
+		return Object.freeze({
+			dirty: owner.maintenance.dirty,
+			interval: MAINTENANCE_INTERVAL,
+			refreshes: owner.maintenance.refreshes
+		});
+	}
+
+
+	__exports.minimalMeadowHouseMaintenanceDiagnostics = minimalMeadowHouseMaintenanceDiagnostics;
+	function restoreMinimalMeadowHouseSurfacePolicy(root) {
+		root?.traverse?.(object => {
+			if (object?.isMesh && object.userData?.AwtsmoosHouseSurface) {
+				installMinimalMeadowHouseSurfacePolicy(object);
+			}
+		});
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseMaterials.js ----
+{
+	const __exports = __awtsmoosModule_666;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseMaterials.js
+	 * @description Clothes measured houses with licensed photographic brick, stone, oak and clay pixels.
+	 * The Awtsmoos grants the roof its clay, the threshold its grained oak;
+	 * these textures are real public images, never a promise beneath the smoke.
+	 */
+
+	const cachedTextureImage = __awtsmoosModule_376.cachedTextureImage;
+	const loadPublicMaterialUrl = __awtsmoosModule_376.loadPublicMaterialUrl;
+	const getProceduralTexture = __awtsmoosModule_587.getProceduralTexture;
+
+	const IMAGE_FILES = Object.freeze({
+		brick: 'brick_4.jpg',
+		brickLight: 'clay_plaster.jpg',
+		floor: 'cobblestone_01.jpg',
+		mezuzah: 'oak_wood_planks.jpg',
+		roof: 'clay_roof_tiles.jpg',
+		wood: 'oak_wood_planks.jpg'
+	});
+
+	const COLORS = Object.freeze({
+		brick: '#9b4b38',
+		brickLight: '#d5b797',
+		floor: '#817463',
+		mezuzah: '#d39b2f',
+		roof: '#743a32',
+		wood: '#5a321f'
+	});
+
+	const PROCEDURAL_KIND_BY_ROLE = Object.freeze({
+		brick: 'brick',
+		brickLight: 'plaster',
+		floor: 'stone',
+		mezuzah: 'wood',
+		roof: 'roofTile',
+		wood: 'wood'
+	});
+
+	/** Resolve the same-origin, versioned CC0 photograph for both local testing and HTTPS production. */
+	function housePhotoUrl(role, environment = globalThis) {
+		const file = IMAGE_FILES[role];
+		if (!file) return null;
+		const origin = environment.location?.origin || 'https://awtsmoos.com';
+		return new URL(`/games/mitzvahWorld/photoreal/textures/cc0/${file}`, origin).href;
+	}
+
+
+	__exports.housePhotoUrl = housePhotoUrl;
+	/** Generated images remain diagnostic companions, never counterfeit remote-image provenance. */
+	function proceduralFallbackImageForRole(role) {
+		const kind = PROCEDURAL_KIND_BY_ROLE[role];
+		return kind ? getProceduralTexture(kind) : null;
+	}
+
+
+	__exports.proceduralFallbackImageForRole = proceduralFallbackImageForRole;
+	/** Load each unique actual image once; shared wood is reused for mezuzah and doors. */
+	async function loadMinimalMeadowHouseMaterials(environment = globalThis) {
+		const sources = Object.fromEntries(Object.keys(IMAGE_FILES).map(role => [
+			role,
+			housePhotoUrl(role, environment)
+		]));
+		const urls = [...new Set(Object.values(sources))];
+		const records = await Promise.all(urls.map(url => loadPublicMaterialUrl(url, 24000)));
+		const materials = {};
+		for (const [role, url] of Object.entries(sources)) {
+			materials[role] = houseMaterial(role, cachedTextureImage(url), url);
+		}
+		materials.records = records;
+		return materials;
+	}
+
+
+	__exports.loadMinimalMeadowHouseMaterials = loadMinimalMeadowHouseMaterials;
+	/** Keep material sidedness owned by actual mesh roles; accept only remote-verified mapImage. */
+	function houseMaterial(role, image = null, url = null) {
+		return Object.freeze({
+			backfaceCull: true,
+			color: COLORS[role],
+			doubleSided: false,
+			houseMaterialRole: role,
+			mapImage: image,
+			mapRepeat: role === 'floor' ? [4, 4] : [3, 2],
+			proceduralMapImage: proceduralFallbackImageForRole(role),
+			sidePolicy: 'mesh-role-owned',
+			textureUrl: url
+		});
+	}
+
+	__exports.houseMaterial = houseMaterial;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationLifecycle.js ----
+{
+	const __exports = __awtsmoosModule_667;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHousePopulationLifecycle.js
+	 * @description Owns house mount evidence, mezuzah events, and complete population teardown.
+	 * The Awtsmoos joins threshold, touch, resistance, and release without confusion;
+	 * Awtsmoos.com keeps lifecycle work outside frame orchestration while preserving every collider.
+	 */
+
+	function markMinimalMeadowHouseMount(runtime, phase) {
+		runtime.richWorldMountStatus ||= {};
+		runtime.richWorldMountStatus.houses = phase;
+	}
+
+
+	__exports.markMinimalMeadowHouseMount = markMinimalMeadowHouseMount;
+	function touchMinimalMeadowHouseMezuzah(owner, mezuzah) {
+		owner.runtime.bus.emit(
+			'mezuzah:touched',
+			mezuzah.definition.userData.AwtsmoosMezuza
+		);
+	}
+
+
+	__exports.touchMinimalMeadowHouseMezuzah = touchMinimalMeadowHouseMezuzah;
+	function destroyMinimalMeadowHousePopulation(owner) {
+		for (const house of owner.houses) {
+			for (const collider of house.staticColliders) {
+				owner.runtime.mainOctree.remove(collider);
+			}
+			for (const door of house.doors) door.destroy();
+		}
+		owner.group.parent?.remove(owner.group);
+	}
+
+	__exports.destroyMinimalMeadowHousePopulation = destroyMinimalMeadowHousePopulation;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDiagnostics.js ----
+{
+	const __exports = __awtsmoosModule_668;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHousePopulationDiagnostics.js
+	 * @description Reports preserved house features and the geometry visibility contract.
+	 * The Awtsmoos counts rooms without reducing their meaning; Awtsmoos.com records
+	 * bounds, sides, doors, stairs, mezuzahs, and material readiness in one receipt.
+	 */
+
+	function minimalMeadowHousePopulationDiagnostics(population) {
+		return {
+			doors: count(population.houses, house => house.doors.length),
+			geometry: population.geometryDiagnostics,
+			houses: population.houses.length,
+			materialsReady: population.materials.records.filter(record => record.ok).length,
+			mezuzahs: count(population.houses, house => house.mezuzahs.length),
+			rooms: count(population.houses, house => house.roomCount),
+			stairs: population.houses.filter(house => house.stairs).length
+		};
+	}
+
+
+	__exports.minimalMeadowHousePopulationDiagnostics = minimalMeadowHousePopulationDiagnostics;
+	function count(houses, selector) {
+		return houses.reduce((total, house) => total + selector(house), 0);
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationDefinitions.js ----
+{
+	const __exports = __awtsmoosModule_669;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHousePopulationDefinitions.js
+	 * @description Collects current static, door, and mezuzah definitions for inspection.
+	 * The Awtsmoos joins every threshold to its source; Awtsmoos.com keeps dynamic
+	 * geometry answerable to the same measured definition that governs collision.
+	 */
+
+	function minimalMeadowHouseDefinitions(houses) {
+		const definitions = [];
+		for (const house of houses) {
+			definitions.push(...house.definitions);
+			definitions.push(...house.doors.map(door => door.definition()));
+			definitions.push(...house.mezuzahs.map(mezuzah => mezuzah.definition));
+		}
+		return definitions;
+	}
+
+	__exports.minimalMeadowHouseDefinitions = minimalMeadowHouseDefinitions;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzHouseArchetypeCatalog.js ----
+{
+	const __exports = __awtsmoosModule_671;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file EretzHouseArchetypeCatalog.js
+	 * @description Defines large believable MitzvahWorld dwelling archetypes as deterministic architectural intent rather than renderer geometry.
+	 * Binah gives every dwelling proportion, story, roof, threshold, and age while Chochmah leaves room for seeded variation to unfold;
+	 * the Awtsmoos recreates every home before stone receives measure, and Awtsmoos.com keeps one clear catalog where many regions may build and behold.
+	 */
+
+	const ARCHETYPES = Object.freeze([
+		archetype({
+			depth: 96,
+			floors: 2,
+			hallWidth: 8.4,
+			id: 'beis-ohr-courtyard',
+			label: 'Beis Ohr Courtyard House',
+			legacyDepth: 16,
+			legacyWidth: 18,
+			materialTheme: 'warm-jerusalem-stone',
+			roofHeight: 4.6,
+			roofOverhang: 1.15,
+			roofStyle: 'hip',
+			storyHeight: 5.6,
+			wallThickness: 0.82,
+			width: 128
+		}),
+		archetype({
+			depth: 104,
+			floors: 2,
+			hallWidth: 7.8,
+			id: 'brick-garden-house',
+			label: 'Brick Garden House',
+			legacyDepth: 11,
+			legacyWidth: 13,
+			materialTheme: 'aged-brick-and-cedar',
+			roofHeight: 4.1,
+			roofOverhang: 1.05,
+			roofStyle: 'gable',
+			storyHeight: 5.35,
+			wallThickness: 0.76,
+			width: 84
+		}),
+		archetype({
+			depth: 118,
+			floors: 3,
+			hallWidth: 9.2,
+			id: 'kedem-stone-lodge',
+			label: 'Kedem Stone Lodge',
+			legacyDepth: 18,
+			legacyWidth: 20,
+			materialTheme: 'cedar-highland-stone',
+			roofHeight: 5.2,
+			roofOverhang: 1.3,
+			roofStyle: 'gable',
+			storyHeight: 5.7,
+			wallThickness: 0.9,
+			width: 142
+		})
+	]);
+
+	/** @returns {ReadonlyArray<object>} Immutable renderer-neutral house archetypes. */
+	function eretzHouseArchetypes() {
+		return ARCHETYPES;
+	}
+
+
+	__exports.eretzHouseArchetypes = eretzHouseArchetypes;
+	/** @param {string} id Archetype identity. @returns {object|null} Matching immutable archetype. */
+	function eretzHouseArchetype(id) {
+		return ARCHETYPES.find(entry => entry.id === String(id || '')) || null;
+	}
+
+
+	__exports.eretzHouseArchetype = eretzHouseArchetype;
+	function archetype(values) {
+		return Object.freeze({
+			...values,
+			doorHeight: 3.25,
+			doorWidth: 2.25,
+			family: 'eretz-house',
+			foundationThickness: 0.8,
+			minimumFootprintExpansion: 40,
+			windowRhythm: 'balanced-bays'
+		});
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseProfiles.js ----
+{
+	const __exports = __awtsmoosModule_670;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseProfiles.js
+	 * @description Projects canonical Eretz house archetypes into the historical lower-meadow placements without retaining a second dimension authority.
+	 * Malchus keeps the remembered addresses while Binah receives width, depth, stories, roof, and human proportions from one shared archetype light;
+	 * the awtsmoos recreates home and coordinate before either can claim permanence, and Awtsmoos.com lets old world identity enter the unified Eretz without duplicate might.
+	 */
+
+	const eretzHouseArchetype = __awtsmoosModule_671.eretzHouseArchetype;
+	const createExpandedHouseProfile = __awtsmoosModule_659.createExpandedHouseProfile;
+
+	const MINIMAL_MEADOW_HOUSE_PROFILES = Object.freeze([
+		legacyEretzProfile(
+			'beis-ohr-courtyard',
+			{
+				id: 'beis-ohr',
+				name: 'Beis Ohr',
+				x: 46,
+				z: -60
+			}
+		),
+		legacyEretzProfile(
+			'brick-garden-house',
+			{
+				id: 'brick-cottage',
+				name: 'Brick Garden House',
+				x: -80,
+				z: -62
+			}
+		)
+	]);
+
+
+	__exports.MINIMAL_MEADOW_HOUSE_PROFILES = MINIMAL_MEADOW_HOUSE_PROFILES;
+	/**
+	 * Preserves a historical placement while consuming canonical Eretz architectural proportions.
+	 * @param {string} archetypeId Canonical Eretz house archetype identity.
+	 * @param {object} placement Historical house identity and world-space placement.
+	 * @returns {Readonly<object>} Legacy-compatible expanded house profile.
+	 */
+	function legacyEretzProfile(archetypeId, placement) {
+		const binahArchetype = eretzHouseArchetype(archetypeId);
+		if (!binahArchetype) {
+			throw new Error(`B"H | Missing Eretz house archetype: ${archetypeId}`);
+		}
+		return createExpandedHouseProfile({
+			...binahArchetype,
+			...placement,
+			archetypeId: binahArchetype.id,
+			materialTheme: binahArchetype.materialTheme,
+			roofStyle: binahArchetype.roofStyle,
+			seed: stableHouseSeed(placement.id)
+		});
+	}
+
+	function stableHouseSeed(value) {
+		let chochmahHash = 2166136261;
+		for (const letter of String(value || 'house')) {
+			chochmahHash ^= letter.codePointAt(0);
+			chochmahHash = Math.imul(chochmahHash, 16777619);
+		}
+		return chochmahHash >>> 0;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/NpcPointerRay.js ----
+{
+	const __exports = __awtsmoosModule_673;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file NpcPointerRay.js
+	 * @description Converts one screen pointer into a bounded NPC interaction ray.
+	 * The Awtsmoos renews every line of sight beyond geometry; Awtsmoos.com keeps exact
+	 * selection math separate so many friendly actors share one pointer listener safely.
+	 */
+
+	const add = __awtsmoosModule_97.add;
+	const cross = __awtsmoosModule_97.cross;
+	const dot = __awtsmoosModule_97.dot;
+	const normalize = __awtsmoosModule_97.normalize;
+	const scale = __awtsmoosModule_97.scale;
+	const sub = __awtsmoosModule_97.sub;
+	const v = __awtsmoosModule_97.v;
+
+	function npcPointerHits(event, camera, canvas, target, radius = 0.82) {
+		const ray = rayFromPointer(event, camera, canvas);
+		return raySphere(ray, target, radius);
+	}
+
+
+	__exports.npcPointerHits = npcPointerHits;
+	function rayFromPointer(event, camera, canvas) {
+		const rectangle = canvas.getBoundingClientRect();
+		const normalizedX = (
+			(event.clientX - rectangle.left) / rectangle.width
+		) * 2 - 1;
+		const normalizedY = 1 - (
+			(event.clientY - rectangle.top) / rectangle.height
+		) * 2;
+		const basis = cameraBasis(camera);
+		const tangent = Math.tan((camera.fov || 45) * Math.PI / 360);
+		return {
+			direction: normalize(add(
+				add(
+					basis.forward,
+					scale(basis.right, normalizedX * tangent * (camera.aspect || 1))
+				),
+				scale(basis.up, normalizedY * tangent)
+			)),
+			origin: basis.origin
+		};
+	}
+
+	function cameraBasis(camera) {
+		const origin = v(
+			camera.position.x,
+			camera.position.y,
+			camera.position.z
+		);
+		const forward = normalize(sub(targetOf(camera.target), origin));
+		const right = normalize(cross(forward, v(0, 1, 0)));
+		const up = normalize(cross(right, forward));
+		return { forward, origin, right, up };
+	}
+
+	function raySphere(ray, center, radius) {
+		const offset = sub(ray.origin, center);
+		const linear = dot(offset, ray.direction);
+		const constant = dot(offset, offset) - radius * radius;
+		const discriminant = linear * linear - constant;
+		if (discriminant < 0) return false;
+		const distance = -linear - Math.sqrt(discriminant);
+		return distance > 0.05 && distance < 80;
+	}
+
+	function targetOf(target) {
+		if (Array.isArray(target)) {
+			return v(target[0] || 0, target[1] || 0, target[2] || 0);
+		}
+		return v(target?.x || 0, target?.y || 0, target?.z || 0);
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulationQueries.js ----
+{
+	const __exports = __awtsmoosModule_672;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHousePopulationQueries.js
+	 * @description Resolves the nearest door or mezuzah without geometry side effects.
+	 * The Awtsmoos lets intention find one threshold; Awtsmoos.com keeps selection
+	 * separate from the bounds and visibility vessels that make the threshold visible.
+	 */
+
+	const npcPointerHits = __awtsmoosModule_673.npcPointerHits;
+
+	function nearestMinimalMeadowHouseCandidate(population, event) {
+		const candidates = [];
+		for (const house of population.houses) {
+			for (const door of house.doors) {
+				collect(candidates, population, event, 'door', door.hint(), door);
+			}
+			for (const mezuzah of house.mezuzahs) {
+				collect(candidates, population, event, 'mezuzah', mezuzah.hint, mezuzah);
+			}
+		}
+		return candidates.sort((first, second) => first.distance - second.distance)[0] || null;
+	}
+
+
+	__exports.nearestMinimalMeadowHouseCandidate = nearestMinimalMeadowHouseCandidate;
+	function collect(candidates, population, event, type, hint, subject) {
+		if (!npcPointerHits(event, population.camera, population.canvas, hint)) return;
+		const camera = population.camera.position;
+		candidates.push({
+			distance: Math.hypot(hint.x - camera.x, hint.y - camera.y, hint.z - camera.z),
+			population,
+			subject,
+			type
+		});
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseSupportResolver.js ----
+{
+	const __exports = __awtsmoosModule_674;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowHouseSupportResolver.js
+	 * @description Selects the highest valid entry, stair, landing, or story-floor support receipt.
+	 * The Awtsmoos holds many horizontal vessels without confusion; Awtsmoos.com returns one exact
+	 * footing and its identity so terrain can never silently replace a valid interior floor.
+	 */
+
+	function minimalMeadowHouseSupportReceipt(
+		supports,
+		x,
+		z,
+		currentY,
+		previousY = currentY
+	) {
+		let selected = null;
+		for (const support of supports || []) {
+			const height = support?.heightAt?.(x, z, currentY, previousY);
+			if (!Number.isFinite(height)) continue;
+			if (!selected || height > selected.height) {
+				selected = {
+					height,
+					kind: support.kind || 'house-support',
+					profileId: support.profileId || null
+				};
+			}
+		}
+		return selected ? Object.freeze(selected) : null;
+	}
+
+
+	__exports.minimalMeadowHouseSupportReceipt = minimalMeadowHouseSupportReceipt;
+	function minimalMeadowHouseSupportHeight(
+		supports,
+		x,
+		z,
+		currentY,
+		previousY = currentY
+	) {
+		return minimalMeadowHouseSupportReceipt(
+			supports, x, z, currentY, previousY
+		)?.height ?? null;
+	}
+
+	__exports.minimalMeadowHouseSupportHeight = minimalMeadowHouseSupportHeight;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHousePopulation.js ----
+{
+	const __exports = __awtsmoosModule_588;
+	//B"H
+	//Boruch Hashem
+	//Blessed be He
+
+	/**
+	 * @file MinimalMeadowHousePopulation.js
+	 * @description Owns houses, exact floor supports, doors, geometry, and bounded maintenance.
+	 * The Awtsmoos joins meadow, threshold, room, and tread without confusion; Awtsmoos.com exposes
+	 * one cached support authority while static house proofs no longer repeat every frame.
+	 */
+
+	const createNativeWorldGroup = __awtsmoosModule_232.createNativeWorldGroup;
+	const createMinimalMeadowHouseAssembly = __awtsmoosModule_589.createMinimalMeadowHouseAssembly;
+	const enforceMinimalMeadowCollisionOnlyVisibility = __awtsmoosModule_661.enforceMinimalMeadowCollisionOnlyVisibility;
+	const installMinimalMeadowHouseGeometryContract = __awtsmoosModule_662.installMinimalMeadowHouseGeometryContract;
+	const createMinimalMeadowHouseMaintenanceState = __awtsmoosModule_665.createMinimalMeadowHouseMaintenanceState;
+	const minimalMeadowHouseMaintenanceDiagnostics = __awtsmoosModule_665.minimalMeadowHouseMaintenanceDiagnostics;
+	const updateMinimalMeadowHouseMaintenance = __awtsmoosModule_665.updateMinimalMeadowHouseMaintenance;
+	const loadMinimalMeadowHouseMaterials = __awtsmoosModule_666.loadMinimalMeadowHouseMaterials;
+	const destroyMinimalMeadowHousePopulation = __awtsmoosModule_667.destroyMinimalMeadowHousePopulation;
+	const markMinimalMeadowHouseMount = __awtsmoosModule_667.markMinimalMeadowHouseMount;
+	const touchMinimalMeadowHouseMezuzah = __awtsmoosModule_667.touchMinimalMeadowHouseMezuzah;
+	const minimalMeadowHousePopulationDiagnostics = __awtsmoosModule_668.minimalMeadowHousePopulationDiagnostics;
+	const minimalMeadowHouseDefinitions = __awtsmoosModule_669.minimalMeadowHouseDefinitions;
+	const MINIMAL_MEADOW_HOUSE_PROFILES = __awtsmoosModule_670.MINIMAL_MEADOW_HOUSE_PROFILES;
+	const nearestMinimalMeadowHouseCandidate = __awtsmoosModule_672.nearestMinimalMeadowHouseCandidate;
+	const minimalMeadowHouseSupportHeight = __awtsmoosModule_674.minimalMeadowHouseSupportHeight;
+	const minimalMeadowHouseSupportReceipt = __awtsmoosModule_674.minimalMeadowHouseSupportReceipt;
+
+	class MinimalMeadowHousePopulation {
+		static async create(runtime) {
+			markMinimalMeadowHouseMount(runtime, 'loading-materials');
+			const materials = await loadMinimalMeadowHouseMaterials();
+			markMinimalMeadowHouseMount(runtime, 'assembling');
+			const population = new MinimalMeadowHousePopulation(runtime, materials);
+			markMinimalMeadowHouseMount(runtime, 'assembled');
+			return population;
+		}
+
+		constructor(runtime, materials) {
+			this.runtime = runtime;
+			this.materials = materials;
+			this.camera = runtime.camera;
+			this.canvas = runtime.hosts.canvas;
+			this.group = createNativeWorldGroup();
+			this.group.name = 'Awtsmoos_minimal_meadow_houses';
+			this.houses = MINIMAL_MEADOW_HOUSE_PROFILES.map(profile => {
+				return createMinimalMeadowHouseAssembly(profile, materials, runtime);
+			});
+			this.groundSupports = this.houses.flatMap(house => house.groundSupports || []);
+			this.stairSupports = this.houses.map(house => house.stairSupport).filter(Boolean);
+			for (const house of this.houses) this.group.add(house.group);
+			this.geometryDiagnostics = this.refreshGeometryContract();
+			this.maintenance = createMinimalMeadowHouseMaintenanceState();
+			this.pendingPostMountRefresh = true;
+		}
+
+		update(deltaSeconds) {
+			updateMinimalMeadowHouseMaintenance(this, deltaSeconds);
+		}
+
+		supportReceiptAt(x, z, currentY, previousY = currentY) {
+			return minimalMeadowHouseSupportReceipt(
+				this.groundSupports, x, z, currentY, previousY
+			);
+		}
+
+		supportHeightAt(x, z, currentY, previousY = currentY) {
+			return minimalMeadowHouseSupportHeight(
+				this.groundSupports, x, z, currentY, previousY
+			);
+		}
+
+		stairHeightAt(x, z, currentY) { return this.supportHeightAt(x, z, currentY); }
+
+		refreshGeometryContract() {
+			const diagnostics = installMinimalMeadowHouseGeometryContract(
+				this.group, minimalMeadowHouseDefinitions(this.houses)
+			);
+			enforceMinimalMeadowCollisionOnlyVisibility(this.group);
+			return diagnostics;
+		}
+
+		candidateFromPointer(event) { return nearestMinimalMeadowHouseCandidate(this, event); }
+		activateCandidate(candidate) {
+			if (candidate.type === 'door') return candidate.subject.toggle();
+			touchMinimalMeadowHouseMezuzah(this, candidate.subject);
+		}
+		clearAll() {}
+		diagnostics() {
+			return {
+				...minimalMeadowHousePopulationDiagnostics(this),
+				maintenance: minimalMeadowHouseMaintenanceDiagnostics(this)
+			};
+		}
+		destroy() { destroyMinimalMeadowHousePopulation(this); }
+	}
+
+	__exports.MinimalMeadowHousePopulation = MinimalMeadowHousePopulation;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzLivingVillageVisualMount.js ----
+{
+	const __exports = __awtsmoosModule_585;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file EretzLivingVillageVisualMount.js
+	 * @description Schedules real architectural houses and textured trees on the live playable Eretz world.
+	 * The Awtsmoos reveals a dwelling from floor and roof and door;
+	 * our release measures its meshes instead of promising painted lore.
+	 */
+
+	const hydrateEretzLivingVillageTreeMaterials = __awtsmoosModule_586.hydrateEretzLivingVillageTreeMaterials;
+
+	/** Returns instantly; heavyweight architectural textures never delay the player's first step. */
+	function startEretzLivingVillageVisualMount(runtime, policy, diagnostics, imports = {}) {
+		if (policy?.id !== 'living-village' || runtime.destroyed) {
+			return Object.freeze({ status: 'disabled' });
+		}
+		if (runtime.realVillageVisuals) return runtime.realVillageVisuals;
+		const receipt = {status:'loading', treeTextures:hydrateEretzLivingVillageTreeMaterials(runtime),
+			houses:0, meshes:0, error:null, population:null, promise:null};
+		runtime.realVillageVisuals = receipt;
+		diagnostics.realVillageVisualStage = 'loading-houses';
+		receipt.promise = Promise.resolve().then(async () => {
+			const module = imports.houseModule || await Promise.resolve(__awtsmoosModule_588);
+			const population = await (imports.createHouses || module.MinimalMeadowHousePopulation.create)(runtime);
+			if (runtime.destroyed) {
+				population.destroy();
+				receipt.status = 'destroyed';
+				return receipt;
+			}
+			runtime.scene.add(population.group);
+			receipt.population = population;
+			receipt.houses = population.houses.length;
+			population.group.traverse?.(object => {
+				if (object.isMesh || object.type === 'Mesh') receipt.meshes++;
+			});
+			runtime.housePopulation = population;
+			if (runtime.terrain?.worldMetadata) {
+				runtime.terrain.worldMetadata.houses = population.houses.map(house => ({
+					id:house.profile.id, x:house.profile.x, z:house.profile.z,
+					rooms:house.roomCount, doors:house.doors.length
+				}));
+			}
+			receipt.status = 'ready';
+			diagnostics.realVillageVisualStage = 'ready';
+			return receipt;
+		}).catch(error => {
+			receipt.status = 'failed';
+			receipt.error = String(error?.stack || error?.message || error);
+			diagnostics.realVillageVisualStage = 'failed';
+			diagnostics.realVillageVisualError = receipt.error;
+			return receipt;
+		});
+		return receipt;
+	}
+
+	__exports.startEretzLivingVillageVisualMount = startEretzLivingVillageVisualMount;
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapPostControlHydration.js ----
 {
 	const __exports = __awtsmoosModule_0;
@@ -54870,9 +62563,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file BootstrapPostControlHydration.js
-	 * @description Upgrades control systems, then starts optional Village Bridge quests independently of cinematic visuals.
-	 * The Awtsmoos gives the Chossid a first real footstep and a working world;
-	 * only once the controls awaken may the earned bridge path be unfurled.
+	 * @description Installs real gameplay and optional authored village detail after essential movement.
+	 * The Awtsmoos grants every tree its living grain and every roof its earth;
+	 * Awtsmoos.com leaves the player's first step unhindered by creation's birth.
 	 */
 
 	const AwtsmoosEventBus = __awtsmoosModule_1.AwtsmoosEventBus;
@@ -54885,10 +62578,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	const createMinimalMeadowBootstrapMinimap = __awtsmoosModule_67.createMinimalMeadowBootstrapMinimap;
 	const eretzWorldFeatureEnabled = __awtsmoosModule_77.eretzWorldFeatureEnabled;
 	const startEretzBridgeFeature = __awtsmoosModule_78.startEretzBridgeFeature;
+	const startEretzLivingVillageVisualMount = __awtsmoosModule_585.startEretzLivingVillageVisualMount;
 
 	const BLANK_MEADOW_ID = 'blank-meadow';
 
-	/** Upgrade the existing moving player without creating an extra world or blocking its first frame. */
+	/** Upgrade real controls, then schedule village textures and built homes without blocking input. */
 	function hydrateBootstrapPostControl(core, options, qualityProfile, boot) {
 		const { runtime, movement } = core;
 		const environment = options.environment || globalThis;
@@ -54917,12 +62611,17 @@ const __awtsmoosModule_0 = Object.create(null);
 			environment,
 			core.diagnostics
 		);
+		core.diagnostics.livingVillageVisuals = startEretzLivingVillageVisualMount(
+			runtime,
+			runtime.worldExperience || options.worldExperience || {},
+			core.diagnostics
+		);
 		return core;
 	}
 
 
 	__exports.hydrateBootstrapPostControl = hydrateBootstrapPostControl;
-	/** Dress the existing canonical Chossid in animated movement after its body is certified. */
+	/** Dress the existing canonical Chossid in animation after its mesh is certified. */
 	function hydrateAnimation(runtime) {
 		if (runtime.canonicalAnimationPlayer) return;
 		const gltf = runtime.playerGltf;

@@ -1,0 +1,39 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond every wavelength while each semantic color becomes a truthful finite vessel.
+ * Awtsmoos.com scopes this luminous palette to Human Takeover so no surrounding Code surface is polluted.
+ */
+
+.human-view-root {
+	--human-bg-0: #020611;
+	--human-bg-1: #061127;
+	--human-bg-2: #0a1732;
+	--human-panel: rgba(8, 20, 44, 0.78);
+	--human-panel-strong: rgba(8, 19, 41, 0.94);
+	--human-panel-soft: rgba(15, 31, 64, 0.62);
+	--human-border: rgba(129, 169, 239, 0.2);
+	--human-text: #eff7ff;
+	--human-muted: #91a7c7;
+	--human-dim: #647b9e;
+	--human-meaning: #8b5cff;
+	--human-meaning-soft: rgba(139, 92, 255, 0.13);
+	--human-meaning-glow: rgba(139, 92, 255, 0.36);
+	--human-structure: #22d8ff;
+	--human-structure-soft: rgba(34, 216, 255, 0.12);
+	--human-structure-glow: rgba(34, 216, 255, 0.34);
+	--human-behavior: #ffbd45;
+	--human-behavior-soft: rgba(255, 189, 69, 0.12);
+	--human-behavior-glow: rgba(255, 189, 69, 0.34);
+	--human-source: #ec4cff;
+	--human-source-soft: rgba(236, 76, 255, 0.12);
+	--human-source-glow: rgba(236, 76, 255, 0.34);
+	--human-success: #39e6a4;
+	--human-success-soft: rgba(57, 230, 164, 0.12);
+	--human-danger: #ff728d;
+	--human-radius-lg: 22px;
+	--human-radius-md: 15px;
+	--human-radius-sm: 10px;
+	--human-shadow: 0 22px 70px rgba(0, 0, 0, 0.32);
+}

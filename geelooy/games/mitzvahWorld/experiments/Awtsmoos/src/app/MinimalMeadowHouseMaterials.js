@@ -4,25 +4,24 @@
 
 /**
  * @file MinimalMeadowHouseMaterials.js
- * @description Loads house pixels while leaving architectural sidedness to each measured mesh role.
- * The Awtsmoos clothes wall, roof, threshold, and floor without confusing their geometry;
- * Awtsmoos.com keeps shared materials neutral so the surface policy may protect only thin walls.
+ * @description Clothes measured houses with licensed photographic brick, stone, oak and clay pixels.
+ * The Awtsmoos grants the roof its clay, the threshold its grained oak;
+ * these textures are real public images, never a promise beneath the smoke.
  */
 
 import {
 	cachedTextureImage,
 	loadPublicMaterialUrl
 } from '../assets/PublicMaterialCache.js';
-import { TEXTURE_PURPOSES, TEXTURE_URLS } from '../assets/TextureCatalog.js';
 import { getProceduralTexture } from './BootstrapProceduralTerrainTextures.js';
 
-const SOURCES = Object.freeze({
-	brick: TEXTURE_URLS.bricks.red1,
-	brickLight: TEXTURE_PURPOSES.houseWall,
-	floor: TEXTURE_PURPOSES.houseFloor,
-	mezuzah: TEXTURE_PURPOSES.mezuzaCase,
-	roof: TEXTURE_URLS.bricks.red2,
-	wood: TEXTURE_PURPOSES.houseDoor
+const IMAGE_FILES = Object.freeze({
+	brick: 'brick_4.jpg',
+	brickLight: 'clay_plaster.jpg',
+	floor: 'cobblestone_01.jpg',
+	mezuzah: 'oak_wood_planks.jpg',
+	roof: 'clay_roof_tiles.jpg',
+	wood: 'oak_wood_planks.jpg'
 });
 
 const COLORS = Object.freeze({
@@ -34,12 +33,6 @@ const COLORS = Object.freeze({
 	wood: '#5a321f'
 });
 
-/**
- * Maps each house material role to a procedural texture kind. The remote image
- * stays the primary mapImage (the remote-only provenance gate keeps policing that
- * slot); the procedural field rides alongside as proceduralMapImage so an offline
- * renderer has a reliable, honest fallback without tripping the gate.
- */
 const PROCEDURAL_KIND_BY_ROLE = Object.freeze({
 	brick: 'brick',
 	brickLight: 'plaster',
@@ -49,23 +42,37 @@ const PROCEDURAL_KIND_BY_ROLE = Object.freeze({
 	wood: 'wood'
 });
 
+/** Resolve the same-origin, versioned CC0 photograph for both local testing and HTTPS production. */
+export function housePhotoUrl(role, environment = globalThis) {
+	const file = IMAGE_FILES[role];
+	if (!file) return null;
+	const origin = environment.location?.origin || 'https://awtsmoos.com';
+	return new URL(`/games/mitzvahWorld/photoreal/textures/cc0/${file}`, origin).href;
+}
+
+/** Generated images remain diagnostic companions, never counterfeit remote-image provenance. */
 export function proceduralFallbackImageForRole(role) {
 	const kind = PROCEDURAL_KIND_BY_ROLE[role];
 	return kind ? getProceduralTexture(kind) : null;
 }
 
-export async function loadMinimalMeadowHouseMaterials() {
-	const records = await Promise.all(Object.values(SOURCES).map((url) => {
-		return loadPublicMaterialUrl(url, 24000);
-	}));
+/** Load each unique actual image once; shared wood is reused for mezuzah and doors. */
+export async function loadMinimalMeadowHouseMaterials(environment = globalThis) {
+	const sources = Object.fromEntries(Object.keys(IMAGE_FILES).map(role => [
+		role,
+		housePhotoUrl(role, environment)
+	]));
+	const urls = [...new Set(Object.values(sources))];
+	const records = await Promise.all(urls.map(url => loadPublicMaterialUrl(url, 24000)));
 	const materials = {};
-	for (const [role, url] of Object.entries(SOURCES)) {
+	for (const [role, url] of Object.entries(sources)) {
 		materials[role] = houseMaterial(role, cachedTextureImage(url), url);
 	}
 	materials.records = records;
 	return materials;
 }
 
+/** Keep material sidedness owned by actual mesh roles; accept only remote-verified mapImage. */
 export function houseMaterial(role, image = null, url = null) {
 	return Object.freeze({
 		backfaceCull: true,

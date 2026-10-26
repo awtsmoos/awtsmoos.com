@@ -2,109 +2,97 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos lets a generated sea become one readable human document without severing source truth.
- * Awtsmoos.com gives identity, purpose, and evidence status generous space before deeper structure unfolds.
+ * The Awtsmoos lets a generated sea become one radiant human document while every claim stays chained to evidence.
+ * Awtsmoos.com gives identity, unresolved meaning, metrics, and semantic preview enough space to be understood at a glance.
  */
-
 .human-takeover-document {
-	width: min(100%, 1040px);
+	width: min(100%, 1080px);
 	margin: 0 auto;
-	padding: clamp(1.35rem, 4vw, 3.5rem) clamp(1rem, 4vw, 3.25rem) 5rem;
+	padding: clamp(1rem, 3vw, 2.5rem) clamp(0.8rem, 3vw, 2.4rem) 5rem;
 }
-
 .human-document-hero,
 .human-purpose,
-.human-section,
+.human-semantic-preview,
 .human-warnings {
-	position: relative;
-	border: 1px solid rgba(156, 194, 255, 0.12);
-	border-radius: 1.2rem;
-	background: linear-gradient(145deg, rgba(18, 31, 57, 0.76), rgba(8, 18, 36, 0.74));
-	box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+	border: 1px solid var(--human-border);
+	border-radius: var(--human-radius-lg);
+	background: linear-gradient(145deg, rgba(14, 30, 63, 0.83), rgba(5, 15, 35, 0.88));
+	box-shadow: var(--human-shadow);
 }
-
 .human-document-hero {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
 	gap: 1rem;
-	padding: clamp(1.4rem, 4vw, 2.6rem);
+	padding: clamp(1.35rem, 4vw, 2.4rem);
+	border-color: rgba(34, 216, 255, 0.28);
+	background: linear-gradient(145deg, rgba(18, 43, 88, 0.84), rgba(21, 14, 57, 0.84));
 }
-
-.human-document-hero h1 {
-	margin: 0;
-	font-size: clamp(2rem, 6vw, 4.4rem);
-	line-height: 0.94;
-	letter-spacing: -0.055em;
-	word-break: break-word;
-}
-
-.human-path {
-	max-width: 46rem;
-	margin: 0.8rem 0 0;
-	color: #8ea5c5;
-	font-size: 0.84rem;
-	word-break: break-all;
-}
-
+.human-document-hero h1 { margin: 0; font-size: clamp(2rem, 6vw, 4.5rem); line-height: 0.95; letter-spacing: -0.055em; word-break: break-word; }
+.human-path { max-width: 48rem; margin: 0.75rem 0 0; color: var(--human-muted); font-size: 0.76rem; word-break: break-all; }
 .human-observed-seal {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.42rem;
 	flex: 0 0 auto;
-	padding: 0.48rem 0.68rem;
-	border: 1px solid rgba(93, 222, 237, 0.34);
+	padding: 0.45rem 0.65rem;
+	border: 1px solid rgba(57, 230, 164, 0.3);
 	border-radius: 999px;
-	color: #8cf0f3;
-	background: rgba(48, 199, 215, 0.08);
-	font-size: 0.72rem;
-	font-weight: 800;
+	color: #b3f6d9;
+	background: var(--human-success-soft);
+	font-size: 0.65rem;
+	font-weight: 850;
 }
-
+.human-observed-seal i { width: 0.46rem; height: 0.46rem; border-radius: 50%; background: var(--human-success); box-shadow: 0 0 12px var(--human-success); }
 .human-purpose {
-	margin-top: 1rem;
-	padding: 1.35rem 1.5rem;
-	border-style: dashed;
-}
-
-.human-purpose h2,
-.human-section h2,
-.human-warnings h2 {
-	margin: 0.15rem 0 0.55rem;
-	font-size: clamp(1.35rem, 3vw, 2rem);
-	letter-spacing: -0.025em;
-}
-
-.human-purpose p:last-child,
-.human-section-header > p:last-child {
-	max-width: 48rem;
-	margin: 0;
-	color: #9db0ca;
-	line-height: 1.7;
-}
-
-.human-metrics {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 0.7rem;
-	margin: 1rem 0 2rem;
+	grid-template-columns: auto 1fr;
+	gap: 1rem;
+	margin-top: 1rem;
+	padding: 1.2rem 1.35rem;
+	border-color: rgba(139, 92, 255, 0.36);
+	background: linear-gradient(135deg, var(--human-meaning-soft), rgba(7, 16, 37, 0.88));
 }
-
-.human-metric {
-	padding: 1rem;
-	border: 1px solid rgba(145, 183, 238, 0.11);
+.human-purpose-mark {
+	display: grid;
+	place-items: center;
+	width: 3rem;
+	height: 3rem;
+	border: 1px solid rgba(139, 92, 255, 0.45);
 	border-radius: 1rem;
-	background: rgba(8, 18, 35, 0.68);
+	color: #cbb8ff;
+	background: rgba(139, 92, 255, 0.12);
+	box-shadow: 0 0 24px var(--human-meaning-glow);
+	font-size: 1.35rem;
 }
-
+.human-purpose h2,
+.human-semantic-preview h2,
+.human-warnings h2 { margin: 0.12rem 0 0.45rem; letter-spacing: -0.03em; }
+.human-purpose p:last-child { margin: 0; color: var(--human-muted); line-height: 1.6; }
+.human-semantic-preview {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	align-items: center;
+	margin-top: 1rem;
+	padding: 1rem 1.15rem;
+	border-color: rgba(34, 216, 255, 0.22);
+}
+.human-preview-pills { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.45rem; }
+.human-preview-pills span { padding: 0.45rem 0.6rem; border: 1px solid rgba(34, 216, 255, 0.17); border-radius: 999px; color: var(--human-muted); background: rgba(34, 216, 255, 0.06); font-size: 0.65rem; }
+.human-preview-pills b { color: var(--human-structure); }
+.human-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.65rem; margin: 1rem 0 1.5rem; }
+.human-metric { padding: 0.9rem; border: 1px solid var(--human-border); border-radius: var(--human-radius-md); background: rgba(5, 15, 34, 0.7); }
 .human-metric strong,
-.human-metric span {
-	display: block;
-}
-
-.human-metric strong {
-	font-size: 1.45rem;
-}
-
-.human-metric span {
-	margin-top: 0.2rem;
-	color: #8fa7c8;
-	font-size: 0.75rem;
-}
+.human-metric span { display: block; }
+.human-metric strong { margin-top: 0.3rem; font-size: 1.45rem; }
+.human-metric > span:last-child { color: var(--human-muted); font-size: 0.65rem; }
+.human-metric-glyph { font-size: 1.1rem; }
+.human-metric[data-tone="meaning"] .human-metric-glyph { color: var(--human-meaning); }
+.human-metric[data-tone="structure"] .human-metric-glyph { color: var(--human-structure); }
+.human-metric[data-tone="behavior"] .human-metric-glyph { color: var(--human-behavior); }
+.human-metric[data-tone="source"] .human-metric-glyph { color: var(--human-source); }
+.human-section-stack { display: grid; gap: 1rem; }
+.human-warnings { margin-top: 1rem; padding: 1rem 1.2rem; border-color: rgba(255, 114, 141, 0.28); background: rgba(75, 18, 38, 0.2); }
+.human-warnings p { color: #d8aab7; font-size: 0.74rem; }
+.human-document-footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.25rem 0 0; color: var(--human-dim); font-size: 0.68rem; }

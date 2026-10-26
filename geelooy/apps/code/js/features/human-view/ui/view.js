@@ -3,93 +3,86 @@
 //Blessed is He
 
 /**
- * @fileoverview Owns the Human Takeover workspace, semantic zoom, source descent, and guarded decisions.
- * The Awtsmoos is one while the human moves from meaning toward exact letters and back again;
- * Awtsmoos.com keeps that movement instant, source-linked, keyboard-reachable, and refreshable in place.
+ * @fileoverview Coordinates the Human Takeover root while presentation-only state lives in its own vessel.
+ * The Awtsmoos is one while the human moves among document, constellation, behavior, and exact letters;
+ * Awtsmoos.com keeps this controller small so only explicit materializers may cross from view into source.
  */
 
 import { materializeDecision } from "../editing/materializers.js";
-import { HUMAN_LEVELS, normalizeHumanLevel } from "../model/levels.js";
 import { revealSourceRange } from "../navigation.js";
 import { humanClickAction, humanDecisionSubmission } from "./actions.js";
-import { renderHumanDocument } from "./render/document.js";
-import { errorTemplate, escapeHuman, loadingTemplate, unsupportedTemplate } from "./templates.js";
+import { renderHumanShell } from "./render/shell.js";
+import { renderHumanSurface } from "./render/surface.js";
+import {
+	allNodes, chooseLevel, chooseMode, chooseNode, firstSource,
+	resetState, setDocument, setFeedback, setLoading, snapshot
+} from "./state.js";
+import { errorTemplate, loadingTemplate, unsupportedTemplate } from "./templates.js";
 
 let root = null;
-let currentDocument = null;
-let refreshHandler = null;
-let currentLevel = "meaning";
-
-function levelButtons() {
-	return HUMAN_LEVELS.map(level => `<button type="button" data-human-level-choice="${level.id}" aria-pressed="${level.id === currentLevel}"><strong>${level.label}</strong><span>${escapeHuman(level.description)}</span></button>`).join("");
-}
 
 function ensureRoot() {
 	if (root?.isConnected) return root;
 	root = document.createElement("section");
 	root.className = "human-view-root human-takeover-root";
 	root.id = "human-view-root";
-	root.innerHTML = `
-		<div class="human-takeover-shell" role="dialog" aria-modal="true" aria-labelledby="human-takeover-title">
-			<header class="human-takeover-header">
-				<div><p class="human-brand">Awtsmoos Code</p><h1 id="human-takeover-title">Human Takeover</h1></div>
-				<div class="human-header-actions"><button type="button" data-human-action="source-first">Source</button><button type="button" data-human-action="refresh">Refresh</button><button type="button" data-human-action="close" aria-label="Close Human Takeover">Close</button></div>
-			</header>
-			<div class="human-takeover-layout"><nav class="human-zoom" aria-label="Semantic zoom">${levelButtons()}</nav><main class="human-canvas"><div id="human-takeover-feedback" class="human-global-feedback" aria-live="polite"></div><div id="human-view-body"></div></main></div>
-		</div>`;
+	root.setAttribute("role", "dialog");
+	root.setAttribute("aria-modal", "true");
 	root.addEventListener("click", onClick);
 	root.addEventListener("submit", onSubmit);
 	document.body.appendChild(root);
-	applyLevel(currentLevel);
 	return root;
 }
 
-function body() {
-	return ensureRoot().querySelector("#human-view-body");
+function renderBody(body, overrideDocument = null) {
+	const state = snapshot();
+	const documentModel = overrideDocument || state.documentModel;
+	const element = ensureRoot();
+	element.innerHTML = renderHumanShell({ documentModel, mode: state.mode, level: state.level, body, feedback: state.feedback });
+	element.dataset.humanLevel = state.level;
+	element.dataset.humanMode = state.mode;
 }
 
-function feedback(message, tone = "info") {
-	const element = ensureRoot().querySelector("#human-takeover-feedback");
-	element.textContent = message || "";
-	element.dataset.tone = tone;
+function renderCurrent() {
+	const state = snapshot();
+	if (!state.documentModel) return;
+	renderBody(renderHumanSurface(state.documentModel, state.mode, state.selectedNode));
 }
 
-function applyLevel(level) {
-	currentLevel = normalizeHumanLevel(level);
-	if (!root) return;
-	root.dataset.humanLevel = currentLevel;
-	root.querySelectorAll("[data-human-level-choice]").forEach(button => button.setAttribute("aria-pressed", String(button.getAttribute("data-human-level-choice") === currentLevel)));
-}
-
-function firstSource() {
-	return currentDocument?.sections?.flatMap(section => section.nodes || []).find(node => node.source)?.source || null;
-}
-
-function nodeById(id) {
-	return currentDocument?.sections?.flatMap(section => section.nodes || []).find(node => node.id === id) || null;
+function descend(source) {
+	if (!source) return;
+	HumanView.close();
+	revealSourceRange(source.start, source.end);
 }
 
 async function onClick(event) {
 	const action = humanClickAction(event.target);
 	if (!action) return;
 	if (action.type === "close") return HumanView.close();
-	if (action.type === "level") return applyLevel(action.level);
-	if (action.type === "refresh") return refreshHandler?.();
-	const source = action.type === "source-first" ? firstSource() : action.type === "source" ? action : null;
-	if (source) {
-		HumanView.close();
-		revealSourceRange(source.start, source.end);
-	}
+	if (action.type === "refresh") return snapshot().refreshHandler?.();
+	if (action.type === "source-first") return descend(firstSource());
+	if (action.type === "source") return descend(action);
+	if (action.type === "level") chooseLevel(action.level);
+	if (action.type === "mode") chooseMode(action.mode);
+	if (action.type === "node") chooseNode(action.nodeId);
+	renderCurrent();
 }
 
 async function onSubmit(event) {
 	const submission = humanDecisionSubmission(event.target);
 	if (!submission) return;
 	event.preventDefault();
-	const result = materializeDecision(nodeById(submission.nodeId), currentDocument, submission.value);
-	if (!result.ok) return feedback(result.message, "error");
-	await refreshHandler?.();
-	feedback("Source updated. Human Takeover re-read the live buffer.", "success");
+	const state = snapshot();
+	const node = allNodes().find(item => item.id === submission.nodeId);
+	const result = materializeDecision(node, state.documentModel, submission.value);
+	if (!result.ok) {
+		setFeedback(result.message, "error");
+		renderCurrent();
+		return;
+	}
+	await state.refreshHandler?.();
+	setFeedback("Source updated. Human Takeover re-read the live buffer.", "success");
+	renderCurrent();
 }
 
 function onKeydown(event) {
@@ -100,20 +93,18 @@ document.addEventListener("keydown", onKeydown);
 
 export const HumanView = {
 	openLoading(file, onRefresh) {
-		refreshHandler = onRefresh;
-		ensureRoot();
-		body().innerHTML = loadingTemplate(file);
-		feedback("");
+		setLoading(onRefresh);
+		renderBody(loadingTemplate(file), { identity: file || {}, language: "Semantic analysis" });
 	},
 	showDocument(documentModel, onRefresh) {
-		currentDocument = documentModel;
-		refreshHandler = onRefresh;
-		ensureRoot();
-		body().innerHTML = renderHumanDocument(documentModel);
-		applyLevel(currentLevel);
-		feedback("");
+		setDocument(documentModel, onRefresh);
+		renderCurrent();
 	},
-	showUnsupported(message) { ensureRoot(); body().innerHTML = unsupportedTemplate(message); },
-	showError(error) { ensureRoot(); body().innerHTML = errorTemplate(error?.message || error); },
-	close() { root?.remove(); root = null; currentDocument = null; refreshHandler = null; }
+	showUnsupported(message) { renderBody(unsupportedTemplate(message)); },
+	showError(error) { renderBody(errorTemplate(error?.message || error)); },
+	close() {
+		root?.remove();
+		root = null;
+		resetState();
+	}
 };
