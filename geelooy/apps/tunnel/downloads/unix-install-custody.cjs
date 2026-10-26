@@ -19,6 +19,7 @@ const receiptPath = path.join(transactionsRoot, "installer-custody-current.json"
 
 if (mode === "run") runDetached().catch(fail);
 else if (mode === "delegate") delegate().catch(fail);
+else if (mode === "status") showStatus();
 else fail(new Error("installer_custody_mode_required"));
 
 async function delegate() {
@@ -37,7 +38,13 @@ async function delegate() {
 	});
 	fs.closeSync(logFd);
 	runner.unref();
+	// Cancellation must reach the actual installer, not just the display relay.
+	const cancel = () => { try { process.kill(runner.pid, "SIGTERM"); } catch {} };
+	process.once("SIGINT", cancel);
+	process.once("SIGTERM", cancel);
 	let offset = 0;
+	let lastHeartbeat = Date.now();
+	process.stderr.write(`\nAWTSMOOS INSTALL CONTROL\n  runner PID: ${runner.pid}\n  status: node ${__filename} status ${recoveryRoot}\n  cancel: kill -TERM ${runner.pid}\n  log: ${logPath}\n\n`);
 	for (;;) {
 		await delay(200);
 		offset = mirrorLog(logPath, offset);
@@ -48,6 +55,11 @@ async function delegate() {
 			return;
 		}
 		if (!alive(runner.pid)) throw new Error("installer_custody_runner_lost");
+		if (Date.now()-lastHeartbeat >= 5000) {
+			const receipt = readReceipt();
+			process.stderr.write(`  ◉ ACTIVE | core PID ${receipt?.corePid || runner.pid} | ${latestProgress(logPath)}\n`);
+			lastHeartbeat=Date.now();
+		}
 	}
 }
 
@@ -61,6 +73,9 @@ async function runDetached() {
 		stdio: "inherit"
 	});
 	writeReceipt({ state: "running", terminal: false, runnerPid: process.pid, corePid: core.pid, logPath });
+	const cancelCore = () => { try { core.kill("SIGTERM"); } catch {} };
+	process.once("SIGINT", cancelCore);
+	process.once("SIGTERM", cancelCore);
 	const outcome = await new Promise(resolve => {
 		core.once("close", (code, signal) => resolve({ code, signal }));
 		core.once("error", error => resolve({ code: 1, signal: null, error: error.message }));
@@ -103,6 +118,24 @@ function mirrorLog(logPath, offset) {
 	return content.length;
 }
 
+function latestProgress(file) {
+ try {
+  const fd=fs.openSync(file,"r");
+  try {
+   const size=fs.fstatSync(fd).size, len=Math.min(size,8192), b=Buffer.alloc(len);
+   fs.readSync(fd,b,0,len,size-len);
+   const lines=b.toString("utf8").replace(/\x1b\[[0-9;]*[A-Za-z]/g,"").split(/[\r\n]+/).map(s=>s.trim());
+   return lines.reverse().find(s=>/\d+%|Managing service|Probing|Waking up|Installing|Setting up|Starting|Verifying|pairing|waiting/i.test(s))?.slice(0,120) || "Checking runtime";
+  } finally { fs.closeSync(fd); }
+ } catch { return "Preparing"; }
+}
+function showStatus() {
+ const r=readReceipt();
+ if (!r) { process.stdout.write("No installation receipt\n"); return; }
+ const running=!r.terminal && alive(r.corePid||r.runnerPid);
+ process.stdout.write(`Status: ${r.state} | running: ${running}\nRunner PID: ${r.runnerPid || "-"} | Core PID: ${r.corePid || "-"}\nPhase: ${latestProgress(r.logPath)}\nLog: ${r.logPath}\n`);
+ if(running) process.stdout.write(`Cancel: kill -TERM ${r.runnerPid}\n`);
+}
 function alive(pid) {
 	try { process.kill(pid, 0); return true; } catch { return false; }
 }

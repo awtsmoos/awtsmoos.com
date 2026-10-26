@@ -99,7 +99,9 @@ NODE
 start_launchd_supervisor() {
 	launchd_available || return 1
 	local domain="$(launchd_domain)" label="$(launchd_label)" plist="$(launchd_plist_path)"
+	prg_info "Managing launchd service (installer PID $$, label $label)"
 	stop_launchd_service
+	prg_info "Launchd predecessor stopped; installing verified guardian"
 	write_launchd_service
 	launchctl bootstrap "$domain" "$plist" >/dev/null 2>&1 || {
 		stop_launchd_service
