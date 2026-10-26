@@ -1,17 +1,20 @@
 //B"H
-//Boruch Hashem
-//Blessed be He
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file Minimal public data resolution for first-byte Torah.
- * @description The Awtsmoos asks only for the teaching needed to reveal the page;
- * identity decoration and rich reader metadata awaken later in the browser.
+ * @description
+ * The Awtsmoos draws one teaching from the canonical river without hauling the whole sea;
+ * Awtsmoos.com resolves metadata and ordered IDs in parallel, then reveals only what the reader needs to see.
  */
+
 const { postFields, queryMap } = require('./fieldMaps.js');
 const { publicReaderCache } = require('./readerDataCache.js');
 const { traceAsync } = require('./torahRouteTrace.js');
 const { buildChitasVirtualPost, parseChitasPostId } = require('./chitasVirtualPost.js');
-const { readPostRoute } = require('../../../api/social/helper/routes/posts/readers.js');
+const { resolveSeriesPostId } = require('./readerSeriesIndex.js');
+const { readPostRoute, readPostsRoute } = require('../../../api/social/helper/routes/posts/readers.js');
 const { readSeriesDetailsPlain } = require('../../../api/social/helper/routes/series/readRoutesDetails.js');
 
 function encodeSegment(value) {
@@ -19,66 +22,9 @@ function encodeSegment(value) {
 }
 
 function seriesIndexFields() {
-	return queryMap('propertyMap', {
-		id: true,
-		name: true,
-		title: true,
-		posts: true
-	});
+	return queryMap('propertyMap', { id: true, name: true, title: true });
 }
 
-/**
- * The embedded creation millisecond in a post id (BH_POST_<ms>_...),
- * the publish/import sequence. Packed series carry the canonical
- * sequence in that order (bereishis: perakim 1-50); NaN when absent.
- */
-function postSequenceMillis(entry, fallbackKey) {
-	const id = typeof entry === 'string' ? entry : entry?.id || entry?.postId || fallbackKey || '';
-	const match = /_(\d{10,})_/.exec(String(id));
-	return match ? Number(match[1]) : Number.NaN;
-}
-
-/**
- * Series posts in canonical order. Legacy arrays already arrive in
- * publish sequence and pass through untouched. Packed series arrive as
- * a MAP keyed by postId; the wire insertion order (currently chapter
- * 50->1 for bereishis) is a writer artifact and must NOT define
- * user-visible indexing, so the map is ordered explicitly by
- * ascending creation millisecond (documented decision, 2026-10-22:
- * matches the legacy /posts id-list order, entry 0 = first teaching).
- */
-function postsInCanonicalOrder(posts) {
-	if (Array.isArray(posts)) return posts;
-	if (posts && typeof posts === 'object') {
-		const ranked = Object.entries(posts).map(([key, entry]) => ({
-			key,
-			entry,
-			ms: postSequenceMillis(entry, key)
-		}));
-		ranked.sort((a, b) => {
-			if (Number.isNaN(a.ms) && Number.isNaN(b.ms)) return 0;
-			if (Number.isNaN(a.ms)) return 1;
-			if (Number.isNaN(b.ms)) return -1;
-			return a.ms - b.ms || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0);
-		});
-		return ranked.map(item => item.entry);
-	}
-	return [];
-}
-
-function pickSeriesPostId(series, index) {
-	const posts = postsInCanonicalOrder(series?.posts);
-	const numericIndex = Number.parseInt(String(index), 10);
-	if (!Number.isInteger(numericIndex) || numericIndex < 0 || numericIndex >= posts.length) return null;
-	const entry = posts[numericIndex];
-	return typeof entry === 'string' ? entry : entry?.id || entry?.postId || null;
-}
-
-/**
- * Builds a child request context for a direct in-process read: same
- * prototype and own properties as the live $i (db, user, dependencies),
- * with only $_GET shadowed by the target path's query string.
- */
 function directChildContext($i, search) {
 	const child = Object.create(Object.getPrototypeOf($i) || Object.prototype);
 	Object.assign(child, $i);
@@ -87,19 +33,9 @@ function directChildContext($i, search) {
 }
 
 function createReaderData($i) {
-	/**
-	 * F1 cure (perf crew, 2026-10-22): resolve public reads DIRECTLY through
-	 * the social API's own route readers instead of re-entering the whole
-	 * request pipeline via $i.fetchAwtsmoos (mock request -> onRequest ->
-	 * routing/session/middleware -> route -> JSON stringify -> JSON parse).
-	 * The direct result passes through one JSON round-trip so the reader
-	 * cache keeps an owned, wire-identical snapshot. Any failure falls back
-	 * to the legacy dispatch, unchanged.
-	 * Returns undefined only for path shapes this resolver does not own.
-	 */
-	async function fetchDirect(path) {
-		const url = new URL(path, 'http://reader.invalid');
-		const seg = url.pathname.split('/').filter(Boolean).map(s => decodeURIComponent(s));
+	async function fetchDirect(routePath) {
+		const url = new URL(routePath, 'http://reader.invalid');
+		const seg = url.pathname.split('/').filter(Boolean).map(decodeURIComponent);
 		if (seg[0] !== 'api' || seg[1] !== 'social' || seg[2] !== 'heichelos' || seg[4] !== 'series') return undefined;
 		const heichelId = seg[3];
 		const seriesId = seg[5];
@@ -107,6 +43,8 @@ function createReaderData($i) {
 		let result;
 		if (seg[6] === 'post' && seg[7]) {
 			result = await readPostRoute({ $i: child, heichelId, seriesId, postId: seg[7] });
+		} else if (seg[6] === 'posts' && !seg[7]) {
+			result = await readPostsRoute({ $i: child, heichelId, seriesId, withDetails: false });
 		} else if (seg[6] === 'details') {
 			result = await readSeriesDetailsPlain(child, heichelId, seriesId);
 		} else {
@@ -116,29 +54,25 @@ function createReaderData($i) {
 		return JSON.parse(JSON.stringify(result));
 	}
 
-	async function fetchPublic(path, stage, context = {}) {
-		return traceAsync(stage, () => publicReaderCache.read(path, async () => {
+	async function fetchPublic(routePath, stage, context = {}) {
+		return traceAsync(stage, () => publicReaderCache.read(routePath, async () => {
 			let response;
 			try {
-				response = await fetchDirect(path);
+				response = await fetchDirect(routePath);
 			} catch (error) {
-				console.error('B"H reader-data direct read failed, falling back to dispatch:', (error && error.message) || error);
-				response = undefined;
+				console.error('B"H reader direct read failed; using route dispatch:', error?.message || error);
 			}
-			if (response === undefined) {
-				response = await $i.fetchAwtsmoos(path);
-			}
+			if (response === undefined) response = await $i.fetchAwtsmoos(routePath);
 			return response && !response.error ? response : null;
-		}), { ...context, path });
+		}), { ...context, path: routePath });
 	}
 
 	function decorate({ heichelId, seriesId = '', postId, indexInSeries = '', post, series = null }) {
 		const heichel = { id: heichelId };
-		const decoratedPost = post ? { ...post, id: postId || post.id, heichel } : null;
 		return {
 			heichel,
 			heichelId,
-			post: decoratedPost,
+			post: post ? { ...post, id: postId || post.id, heichel } : null,
 			alias: null,
 			series,
 			parentSeries: seriesId,
@@ -151,39 +85,34 @@ function createReaderData($i) {
 		return `/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/post/${encodeSegment(postId)}?${postFields()}`;
 	}
 
-	async function loadDirect(heichelId, postId) {
-		const seriesId = 'root';
-		const post = await fetchPublic(postPath(heichelId, seriesId, postId), 'reader-data:post', {
-			heichelId, seriesId, postId
-		});
-		return decorate({ heichelId, seriesId, postId, post });
+	function postsPath(heichelId, seriesId) {
+		return `/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/posts`;
 	}
 
 	async function loadSeriesPost(heichelId, seriesId, postId, opts = {}) {
-		let post = await fetchPublic(postPath(heichelId, seriesId, postId), 'reader-data:post', {
-			heichelId, seriesId, postId
-		});
+		let post = await fetchPublic(postPath(heichelId, seriesId, postId), 'reader-data:post', { heichelId, seriesId, postId });
 		if (!post && seriesId === 'daily-chitas' && parseChitasPostId(postId)) {
-			post = await traceAsync(
-				'reader-data:chitas-virtual-post',
-				() => buildChitasVirtualPost(postId, { israel: !!opts.israel }),
-				{ heichelId, seriesId, postId }
-			).catch(() => null);
+			post = await traceAsync('reader-data:chitas-virtual-post', () => buildChitasVirtualPost(postId, { israel: !!opts.israel }), { heichelId, seriesId, postId }).catch(() => null);
 		}
 		return decorate({ heichelId, seriesId, postId, post });
 	}
 
+	async function loadDirect(heichelId, postId) {
+		return loadSeriesPost(heichelId, 'root', postId);
+	}
+
 	async function loadSeriesIndex(heichelId, seriesId, indexInSeries) {
-		const seriesPath = `/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/details?${seriesIndexFields()}`;
-		const series = await fetchPublic(seriesPath, 'reader-data:series', { heichelId, seriesId, indexInSeries });
-		const postId = pickSeriesPostId(series, indexInSeries);
-		const post = postId ? await fetchPublic(postPath(heichelId, seriesId, postId), 'reader-data:post', {
-			heichelId, seriesId, postId
-		}) : null;
+		const base = `/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}`;
+		const [series, canonicalPosts] = await Promise.all([
+			fetchPublic(`${base}/details?${seriesIndexFields()}`, 'reader-data:series', { heichelId, seriesId, indexInSeries }),
+			fetchPublic(postsPath(heichelId, seriesId), 'reader-data:posts', { heichelId, seriesId, indexInSeries })
+		]);
+		const postId = await resolveSeriesPostId({ series, indexInSeries, loadCanonicalPosts: async () => canonicalPosts });
+		const post = await fetchPublic(postPath(heichelId, seriesId, postId), 'reader-data:post', { heichelId, seriesId, postId });
 		return decorate({ heichelId, seriesId, postId, indexInSeries, post, series });
 	}
 
 	return { loadDirect, loadSeriesPost, loadSeriesIndex };
 }
 
-module.exports = { createReaderData, pickSeriesPostId, seriesIndexFields };
+module.exports = { createReaderData, seriesIndexFields };
