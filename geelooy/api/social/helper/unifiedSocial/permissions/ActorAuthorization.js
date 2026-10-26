@@ -1,31 +1,37 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @module ActorAuthorization
  * @description
- * Capability evidence is accepted only after the live user session proves ownership
- * of the acting alias. The Awtsmoos knows identity without credentials; Awtsmoos.com
- * invokes its native verifier and denies every unknown signature or ambiguous result.
+ * The Awtsmoos knows the living identity beneath every spelling of a session key;
+ * Awtsmoos.com accepts the canonical userId while preserving older vessels safely.
+ * Alias ownership still requires the native verifier before any public deed may flow.
  */
 
 const aliasHelpers = require('../../alias.js');
 
+/**
+ * Resolves the authenticated user ID from canonical and legacy session shapes.
+ * @param {object} $i Request context.
+ * @returns {string} Authenticated user ID or an empty string.
+ */
 function useridFrom($i) {
 	return String(
-		$i?.request?.user?.info?.userid
+		$i?.request?.user?.info?.userId
+		|| $i?.request?.user?.info?.userid
+		|| $i?.request?.user?.userId
 		|| $i?.request?.user?.userid
 		|| ''
-	);
+	).trim();
 }
 
 function verifierArguments(verifier, values) {
 	const source = verifier.toString();
 	const signature = source.match(/^[^(]*\(([^)]*)\)/)?.[1] || '';
 	if (signature.trim().startsWith('{')) return [values];
-	const names = signature
-		.split(',')
+	const names = signature.split(',')
 		.map(name => name.trim().replace(/=.*$/, ''))
 		.filter(Boolean);
 	if (!names.length || names.length > 4) return null;
@@ -46,16 +52,10 @@ function ownershipAccepted(result) {
 
 async function verifyActingAlias({ $i, aliasId, optional = false }) {
 	const cleanAliasId = String(aliasId || '').trim();
-	if (!cleanAliasId && optional) {
-		return { success: { aliasId: '', userid: '', guest: true } };
-	}
+	if (!cleanAliasId && optional) return { success: { aliasId: '', userid: '', guest: true } };
 	const userid = useridFrom($i);
-	if (!userid) {
-		return { error: { code: 'NO_LOGIN', message: 'A live Awtsmoos login is required.' } };
-	}
-	if (!cleanAliasId) {
-		return { error: { code: 'ALIAS_REQUIRED', message: 'Choose an acting alias.' } };
-	}
+	if (!userid) return { error: { code: 'NO_LOGIN', message: 'A live Awtsmoos login is required.' } };
+	if (!cleanAliasId) return { error: { code: 'ALIAS_REQUIRED', message: 'Choose an acting alias.' } };
 	const verifier = aliasHelpers.verifyAliasOwnership;
 	if (typeof verifier !== 'function') {
 		return { error: { code: 'OWNERSHIP_VERIFIER_MISSING', message: 'Alias ownership cannot be verified.' } };
@@ -71,7 +71,7 @@ async function verifyActingAlias({ $i, aliasId, optional = false }) {
 			return { error: { code: 'ALIAS_NOT_OWNED', message: 'The active user does not own this alias.' } };
 		}
 		return { success: { aliasId: cleanAliasId, userid, guest: false } };
-	} catch {
+	} catch (_error) {
 		return { error: { code: 'ALIAS_OWNERSHIP_FAILED', message: 'Alias ownership verification failed.' } };
 	}
 }

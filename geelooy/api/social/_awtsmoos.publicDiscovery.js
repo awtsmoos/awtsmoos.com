@@ -1,11 +1,15 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module PublicDiscoveryRoutes
- * @description The Awtsmoos lets one public response carry content, measured consequence, capabilities, actions, and deep links;
- * Awtsmoos.com enriches only visible latest rows, bounds trending measurement, and keeps old response fields for migration light.
+ * @description
+ * The Awtsmoos lets one river answer both its canonical name and an older doorway;
+ * Awtsmoos.com keeps `/feed` authoritative while `/feed/posts` returns the same shore.
+ * Public discovery remains read-only, measured, paginated, and compatible.
  */
+
 const { profileFeed, trending } = require('./helper/profile/discovery.js');
 const { publicFeedAliasIds, publicPeople } = require('./helper/profile/publicAliases.js');
 const { csv, getQuery, ok, paginate } = require('./helper/profile/apiTools.js');
@@ -66,14 +70,19 @@ async function trendingResponse($i, userid) {
 	return trendingPage({ $i, items: await trending({ $i, query: scopedQuery }), query, viewerAliasId });
 }
 
-module.exports = ({ $i, userid } = {}) => ({
-	'/people': async () => $i.request.method === 'GET'
-		? ok(await publicPeople({ $i, query: getQuery($i) }), { query: getQuery($i), extra: { discovery: 'public-alias-handles' } })
-		: badMethod(),
-	'/feed': async () => $i.request.method === 'GET' ? feedResponse($i, userid) : badMethod(),
-	'/trending': async () => $i.request.method === 'GET' ? trendingResponse($i, userid) : badMethod()
-});
+module.exports = ({ $i, userid } = {}) => {
+	const feed = async () => $i.request.method === 'GET' ? feedResponse($i, userid) : badMethod();
+	return {
+		'/people': async () => $i.request.method === 'GET'
+			? ok(await publicPeople({ $i, query: getQuery($i) }), { query: getQuery($i), extra: { discovery: 'public-alias-handles' } })
+			: badMethod(),
+		'/feed': feed,
+		'/feed/posts': feed,
+		'/trending': async () => $i.request.method === 'GET' ? trendingResponse($i, userid) : badMethod()
+	};
+};
 
 module.exports.discoveryAliases = discoveryAliases;
+module.exports.feedResponse = feedResponse;
 module.exports.latestPage = latestPage;
 module.exports.trendingPage = trendingPage;
