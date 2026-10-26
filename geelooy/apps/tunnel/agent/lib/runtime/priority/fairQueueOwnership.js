@@ -7,20 +7,24 @@ const Requesters = require("./fairQueueRequesters.js");
 
 /**
  * @file Moves exact request ownership between queued and inflight scheduler custody.
- * @description
- * The Awtsmoos knows the deed itself, not merely the crowd that carried it.
- * Awtsmoos.com keys every inflight vessel by immutable request identity so one agent
- * can never release, decrement, or inherit a neighboring request by accident.
+ * @description The Awtsmoos knows every deed before its place is changed;
+ * Awtsmoos.com validates duplicate identity before touching any living queue.
+ * One authoritative owner map is reconciled once per verified transition.
  */
 function take(laneState, lane, limits) {
 	const selected = Requesters.eligible(laneState, lane, limits);
-	if (!selected) return null;
+	if (!selected) {
+		return null;
+	}
 	const queue = laneState.requesterQueues.get(selected.key);
+	const candidate = queue[0];
+	if (laneState.inflightRequests.has(candidate.requestKey)) {
+		throw integrityError("duplicate_inflight_request", candidate.requestKey);
+	}
 	const item = queue.shift();
 	Requesters.advance(laneState, selected.index, queue.length === 0);
-	if (queue.length === 0) laneState.requesterQueues.delete(selected.key);
-	if (laneState.inflightRequests.has(item.requestKey)) {
-		throw integrityError("duplicate_inflight_request", item.requestKey);
+	if (queue.length === 0) {
+		laneState.requesterQueues.delete(selected.key);
 	}
 	laneState.inflightRequests.set(item.requestKey, {
 		requestKey: item.requestKey,
@@ -28,7 +32,6 @@ function take(laneState, lane, limits) {
 		generation: item.requestIdentity.generation,
 		startedAt: Date.now()
 	});
-	QueueTruth.rebuildRequesterInflight(laneState);
 	QueueTruth.reconcileTelemetry(laneState);
 	return item;
 }
@@ -42,7 +45,6 @@ function release(laneState, requesterKey, requestKey) {
 		return false;
 	}
 	laneState.inflightRequests.delete(stableRequestKey);
-	QueueTruth.rebuildRequesterInflight(laneState);
 	QueueTruth.reconcileTelemetry(laneState);
 	return true;
 }
