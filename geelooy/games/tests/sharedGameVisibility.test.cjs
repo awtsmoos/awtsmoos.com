@@ -5,8 +5,8 @@
 /**
  * @file sharedGameVisibility.test.cjs
  * @description
- * The Awtsmoos proves that every critical game using semantic hidden state receives one authoritative shared CSS law.
- * This guards the runtime truth from decorative display rules without duplicating simulation logic in each title.
+ * The Awtsmoos proves each critical game loads a last-mile visibility vessel after decorative CSS,
+ * while runtime code continues to own semantic hidden state instead of simulation-specific workarounds.
  */
 
 'use strict';
@@ -17,43 +17,56 @@ const path = require('node:path');
 const test = require('node:test');
 
 const gamesRoot = path.resolve(__dirname, '..');
-const sharedCss = fs.readFileSync(path.join(gamesRoot, 'css/awtsmoos-game-base.css'), 'utf8');
 const cases = Object.freeze([
 	{
-		name: 'Oros HaKelim',
-		index: 'oros-ha-kelim/index.html',
-		runtime: 'oros-ha-kelim/src/ui/RoundOverlayView.js',
-		signal: /classList\.add\(["']hidden["']\)/
+		name: 'Migdol',
+		index: 'migdol/index.html',
+		visibility: 'migdol/styles/visibility.css',
+		runtime: 'migdol/js/ui-runtime/view.js',
+		selector: /#game-over-screen\.hidden[\s\S]*display:\s*none\s*!important/,
+		signal: /gameOver\.classList\.add\(["']hidden["']\)/
 	},
 	{
 		name: 'Neshama Quest',
 		index: 'neshama-quest/index.html',
+		visibility: 'neshama-quest/visibility.css',
 		runtime: 'neshama-quest/game/coordinator.js',
+		selector: /\.resultOverlay\[hidden\][\s\S]*display:\s*none\s*!important/,
 		signal: /resultOverlay\.hidden\s*=\s*true/
-	},
-	{
-		name: 'Migdol',
-		index: 'migdol/index.html',
-		runtime: 'migdol/js/ui-runtime/view.js',
-		signal: /gameOver\.classList\.add\(["']hidden["']\)/
 	},
 	{
 		name: 'Shema Strike',
 		index: 'shema-strike/index.html',
+		visibility: 'shema-strike/css/visibility.css',
 		runtime: 'shema-strike/js/ss/game.js',
-		signal: /ss-overlay['"]?\)\.hidden\s*=\s*!?/
+		selector: /#ss-overlay\[hidden\][\s\S]*display:\s*none\s*!important/,
+		signal: /overlay\.hidden\s*=\s*!paused|ss-overlay/
+	},
+	{
+		name: 'Oros HaKelim',
+		index: 'oros-ha-kelim/index.html',
+		visibility: 'oros-ha-kelim/styles/visibility.css',
+		runtime: 'oros-ha-kelim/src/ui/RoundOverlayView.js',
+		selector: /\.oros-app \.overlay\.hidden[\s\S]*display:\s*none\s*!important/,
+		signal: /classList\.add\(["']hidden["']\)/
 	}
 ]);
 
-test('shared game CSS makes semantic hidden state authoritative', () => {
-	assert.match(sharedCss, /\[hidden\]\s*,\s*\.hidden\s*\{[^}]*display:\s*none\s*!important;/s);
+function text(relative) {
+	return fs.readFileSync(path.join(gamesRoot, relative), 'utf8');
+}
+
+test('each critical game owns an authoritative terminal visibility rule', () => {
+	for (const game of cases) {
+		assert.match(text(game.visibility), game.selector, `${game.name} visibility selector`);
+	}
 });
 
-test('affected critical games load the shared base and already emit hidden state', () => {
+test('each visibility vessel loads last and runtime still emits hidden state', () => {
 	for (const game of cases) {
-		const html = fs.readFileSync(path.join(gamesRoot, game.index), 'utf8');
-		const runtime = fs.readFileSync(path.join(gamesRoot, game.runtime), 'utf8');
-		assert.match(html, /\/games\/css\/awtsmoos-game-base\.css/, `${game.name} shared base`);
-		assert.match(runtime, game.signal, `${game.name} runtime hidden signal`);
+		const html = text(game.index);
+		const href = game.visibility.split('/').slice(1).join('/');
+		assert(html.indexOf(href) > html.indexOf('awtsmoos-game-base.css'), `${game.name} visibility order`);
+		assert.match(text(game.runtime), game.signal, `${game.name} runtime hidden signal`);
 	}
 });
