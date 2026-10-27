@@ -1,5 +1,5 @@
 B"H
-1.0.702
+1.0.703
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2956,6 +2956,7 @@ tools/fs/projectInfo.js
 tools/fs/projectValidation.js
 tools/fs/read-write-shapes.js
 tools/fs/readByteWindow.js
+tools/fs/readTextSnapshot.js
 tools/fs/readWrite.js
 tools/fs/remoteDesktop/capabilities.js
 tools/fs/remoteDesktop/capture.js
