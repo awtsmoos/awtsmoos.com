@@ -6841,16 +6841,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file VisualQualitySceneDiagnostics.js
-	 * @description Measures camera, WebGL renderer, procedural sky, terrain, and last-frame health on demand.
-	 * The Awtsmoos reveals sky above and earth below while the camera binds them in one line;
-	 * Awtsmoos.com keeps these receipts observational, so the world is measured without disturbing time.
+	 * @description Captures camera, sky, renderer and terrain diagnostics without disturbing gameplay.
+	 * The Awtsmoos reveals the living world through an unbroken line;
+	 * Awtsmoos.com measures what is real, not a wish imprisoned in time.
 	 */
 
-	/**
-	 * Captures scene-side visual evidence without mutating renderer, camera, sky, or terrain state.
-	 * @param {object} runtime Active Mitzvah World runtime.
-	 * @returns {Readonly<object>} Scene visual-quality receipt.
-	 */
+	/** Captures the complete scene-side visual witness. */
 	function captureSceneVisualDiagnostics(runtime) {
 		return Object.freeze({
 			camera: cameraReceipt(runtime),
@@ -6863,48 +6859,46 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.captureSceneVisualDiagnostics = captureSceneVisualDiagnostics;
-	/** Captures the current camera framing and orbit/rig policy receipt. */
+	/** Captures camera framing and rig policy without changing either one. */
 	function cameraReceipt(runtime) {
-		const cameraYesod = runtime?.camera;
-		if (!cameraYesod) return null;
+		const camera = runtime?.camera;
+		if (!camera) return null;
 		return {
-			aspect: numberOrNull(cameraYesod.aspect),
-			fov: numberOrNull(cameraYesod.fov),
-			position: vectorReceipt(cameraYesod.position),
+			aspect: numberOrNull(camera.aspect),
+			fov: numberOrNull(camera.fov),
+			position: vectorReceipt(camera.position),
 			rig: runtime.cameraRig?.diagnostics?.()
 				|| runtime.orbit?.diagnostics?.()
 				|| null
 		};
 	}
 
-	/** Captures stable renderer capability and accumulated draw evidence. */
-	function rendererReceipt(rendererMalchus) {
-		if (!rendererMalchus) return null;
-		const statsHod = rendererMalchus.stats || {};
+	/** Reads renderer counters without invoking expensive GPU queries. */
+	function rendererReceipt(renderer) {
+		if (!renderer) return null;
+		const stats = renderer.stats || {};
 		return {
-			backend: rendererMalchus.backend
-				|| rendererMalchus.delegate?.backend
-				|| null,
-			canvas: canvasReceipt(rendererMalchus.domElement),
-			delegate: rendererMalchus.delegate?.constructor?.name || null,
-			draws: Number(statsHod.draws) || 0,
-			frames: Number(statsHod.frames) || 0,
-			hasDelegate: Boolean(rendererMalchus.delegate),
-			hydration: rendererMalchus.hydrationState || null,
-			meshes: Number(statsHod.meshes) || 0,
-			triangles: Number(statsHod.triangles) || 0
+			backend: renderer.backend || renderer.delegate?.backend || null,
+			canvas: canvasReceipt(renderer.domElement),
+			delegate: renderer.delegate?.constructor?.name || null,
+			draws: Number(stats.draws) || 0,
+			frames: Number(stats.frames) || 0,
+			hasDelegate: Boolean(renderer.delegate),
+			hydration: renderer.hydrationState || null,
+			meshes: Number(stats.meshes) || 0,
+			triangles: Number(stats.triangles) || 0
 		};
 	}
 
-	/** Captures physical canvas dimensions without depending on CSS layout. */
-	function canvasReceipt(canvasKli) {
-		return canvasKli ? {
-			height: Number(canvasKli.height) || 0,
-			width: Number(canvasKli.width) || 0
+	/** Retains physical canvas dimensions independently of CSS. */
+	function canvasReceipt(canvas) {
+		return canvas ? {
+			height: Number(canvas.height) || 0,
+			width: Number(canvas.width) || 0
 		} : null;
 	}
 
-	/** Resolves the procedural-sky evidence from runtime or scene ownership. */
+	/** Finds procedural sky evidence in its runtime or scene vessel. */
 	function skyReceipt(runtime) {
 		return runtime?.sky?.diagnostics?.()
 			|| runtime?.sky?.group?.userData?.AwtsmoosSky
@@ -6912,46 +6906,53 @@ const __awtsmoosModule_0 = Object.create(null);
 			|| sceneSkyReceipt(runtime?.scene);
 	}
 
-	/** Finds the first scene-owned sky diagnostics object without allocating scene children. */
-	function sceneSkyReceipt(sceneMalchus) {
-		let receiptHod = null;
-		sceneMalchus?.traverse?.(objectOhr => {
-			if (!receiptHod && objectOhr?.userData?.AwtsmoosSky) {
-				receiptHod = objectOhr.userData.AwtsmoosSky;
+	/** Traverses only until the first authored sky evidence is found. */
+	function sceneSkyReceipt(scene) {
+		let receipt = null;
+		scene?.traverse?.(object => {
+			if (!receipt && object?.userData?.AwtsmoosSky) {
+				receipt = object.userData.AwtsmoosSky;
 			}
 		});
-		return receiptHod;
+		return receipt;
 	}
 
-	/** Captures whichever mature terrain diagnostics surface the current world exposes. */
-	function terrainReceipt(terrainMalchus) {
-		return terrainMalchus?.materialDiagnostics?.()
-			|| terrainMalchus?.diagnostics?.()
-			|| terrainMalchus?.stats
-			|| null;
+	/** Reads terrain receipts whether exposed as functions or immutable data. */
+	function terrainReceipt(terrain) {
+		const material = terrain?.materialDiagnostics;
+		if (typeof material === 'function') {
+			return material.call(terrain) || methodReceipt(terrain) || terrain.stats || null;
+		}
+		if (material !== null && typeof material === 'object') return material;
+		return methodReceipt(terrain) || terrain?.stats || null;
 	}
 
-	/** Converts a vector-like object into finite serializable coordinates. */
-	function vectorReceipt(vectorOhr) {
-		return vectorOhr ? {
-			x: numberOrNull(vectorOhr.x),
-			y: numberOrNull(vectorOhr.y),
-			z: numberOrNull(vectorOhr.z)
-		} : null;
-	}
-
-	/** Preserves a numeric value only when it is finite. */
-	function numberOrNull(valueOhr) {
-		return Number.isFinite(Number(valueOhr))
-			? Number(valueOhr)
+	/** Avoids invoking missing or noncallable fallback diagnostics. */
+	function methodReceipt(terrain) {
+		return typeof terrain?.diagnostics === 'function'
+			? terrain.diagnostics()
 			: null;
 	}
 
-	/** Captures the last frame error as durable text rather than a mutable Error object. */
-	function errorReceipt(errorGevurah) {
-		return errorGevurah ? {
-			message: errorGevurah.message || String(errorGevurah),
-			name: errorGevurah.name || 'Error'
+	/** Clones vector coordinates without serializing scene ownership. */
+	function vectorReceipt(vector) {
+		return vector ? {
+			x: numberOrNull(vector.x),
+			y: numberOrNull(vector.y),
+			z: numberOrNull(vector.z)
+		} : null;
+	}
+
+	/** Preserves only finite numerical evidence. */
+	function numberOrNull(value) {
+		return Number.isFinite(Number(value)) ? Number(value) : null;
+	}
+
+	/** Serializes the most recent error rather than retaining its mutable identity. */
+	function errorReceipt(error) {
+		return error ? {
+			message: error.message || String(error),
+			name: error.name || 'Error'
 		} : null;
 	}
 
