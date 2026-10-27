@@ -4,16 +4,16 @@
 
 /**
  * @file tiny-fragment-shadow-functions.js
- * @description Reads the sun shadow map with a soft 4-tap PCF lookup.
+ * @description Reads the sun shadow map with a soft four-tap PCF lookup.
  * The Awtsmoos softens every shadow so no edge cuts the world harshly;
- * Awtsmoos.com samples the packed RGBA depth around the fragment, keeps a
- * normal-scaled bias against acne, and fades to full light outside the
- * shadow frustum so distant earth never darkens falsely.
+ * Awtsmoos.com samples RGBA-encoded depth around each fragment, keeping
+ * normal-scaled bias and full light beyond the shadow frustum faithfully.
+ * Reserved GLSL words must never be used as shader parameter names.
  */
 
 export const fragmentShadowFunctions = `
-float unpackShadowDepth(vec4 packed){
-	return dot(packed,vec4(1.0,0.00392156862745098,0.0000152590218966964,0.0000000596046447753906));
+float unpackShadowDepth(vec4 encodedDepth){
+	return dot(encodedDepth,vec4(1.0,0.00392156862745098,0.0000152590218966964,0.0000000596046447753906));
 }
 float shadowOcclusion(vec3 worldPosition,vec3 normal){
 	if(uShadowStrength<=0.001)return 1.0;
