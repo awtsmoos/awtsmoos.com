@@ -4,25 +4,25 @@
 
 /**
  * @file WorldQualityProfile.js
- * @description Preserves full world density while capping framebuffer density on touch and limited hardware.
- * The Awtsmoos does not remove a tree because the glass is small; Awtsmoos.com keeps the same living world,
- * while the pixel vessel is measured to the device so detail remains clear without asking a mobile GPU to carry needless weight.
+ * @description Preserves world layers while limiting pixel workload on mobile GPUs.
+ * The Awtsmoos does not remove a tree because the glass is small;
+ * Awtsmoos.com keeps the village alive while making each GPU's burden fall.
  */
 
 const LIMITED_HARDWARE_DPR = 1.0;
-const MOBILE_DPR = 1.5;
+const MOBILE_DPR = 1.25;
 const DESKTOP_DPR = 1.5;
 const PRESERVED_DISTANCE = 520;
 const PRESERVED_MODELS = 11;
 const PROFILES = Object.freeze({
-	low: profile('low', MOBILE_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'explicit-low'),
+	low: profile('low', 1.25, PRESERVED_DISTANCE, PRESERVED_MODELS, 'explicit-low'),
 	medium: profile('medium', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'explicit-medium'),
 	high: profile('high', DESKTOP_DPR, PRESERVED_DISTANCE, PRESERVED_MODELS, 'full-quality-default'),
 	cinematic: profile('cinematic', DESKTOP_DPR, 760, PRESERVED_MODELS, 'cinematic-expanded')
 });
 const VALID_QUALITIES = new Set(Object.keys(PROFILES));
 
-/** Resolves world density independently from the hardware-aware framebuffer cap. */
+/** Resolves the same authored world independently from each hardware-aware framebuffer. */
 export function resolveWorldQuality(options = {}, environment = globalThis) {
 	const explicit = explicitQuality(options, environment);
 	const selected = explicit || 'high';
@@ -37,7 +37,7 @@ export function resolveWorldQuality(options = {}, environment = globalThis) {
 	};
 }
 
-/** Returns the static tier covenant before any device framebuffer cap is applied. */
+/** Returns a static authored tier before physical display restrictions apply. */
 export function worldQualityProfile(quality) {
 	if (!VALID_QUALITIES.has(quality)) {
 		throw new Error(`Unknown world quality: ${quality}`);
@@ -45,27 +45,25 @@ export function worldQualityProfile(quality) {
 	return { ...PROFILES[quality] };
 }
 
-/** Resolves only framebuffer density; it never removes gameplay or world-definition layers. */
+/** Caps pixels alone; it never removes trees, NPCs, missions, or world layers. */
 export function resolveDeviceDprCap(environment = globalThis) {
 	const navigator = environment.navigator || {};
 	const limitedMemory = finitePositive(navigator.deviceMemory)
 		&& Number(navigator.deviceMemory) <= 4;
 	const limitedCpu = finitePositive(navigator.hardwareConcurrency)
 		&& Number(navigator.hardwareConcurrency) <= 4;
-	// 2015 MacBook Air class (dual-core, <=4GB): the framebuffer is capped at 1.0
-	// so the integrated GPU never carries needless pixels.
 	if (limitedMemory || limitedCpu) {
 		return Object.freeze({ maxDpr: LIMITED_HARDWARE_DPR, reason: 'limited-hardware' });
 	}
 	const touchDevice = Number(navigator.maxTouchPoints) > 0
 		|| environment.matchMedia?.('(pointer: coarse)')?.matches === true;
-	// Pixel 6 Pro class and modern touch hardware: full 1.5 density.
 	if (touchDevice) {
 		return Object.freeze({ maxDpr: MOBILE_DPR, reason: 'touch-device' });
 	}
 	return Object.freeze({ maxDpr: DESKTOP_DPR, reason: 'desktop-cap' });
 }
 
+/** Resolves explicit opt-in quality without overriding hardware pixel safety. */
 function explicitQuality(options, environment) {
 	if (VALID_QUALITIES.has(options.quality)) return options.quality;
 	const search = options.search ?? environment.location?.search ?? '';
@@ -73,10 +71,12 @@ function explicitQuality(options, environment) {
 	return VALID_QUALITIES.has(query) ? query : null;
 }
 
+/** Rejects invalid browser hardware hints instead of accidentally downgrading. */
 function finitePositive(value) {
 	return Number.isFinite(Number(value)) && Number(value) > 0;
 }
 
+/** Freezes each policy level to protect the authored world from accidental edits. */
 function profile(quality, maxDpr, renderDistance, modelLimit, reason) {
 	return Object.freeze({
 		maxDpr,
@@ -87,11 +87,7 @@ function profile(quality, maxDpr, renderDistance, modelLimit, reason) {
 	});
 }
 
-/**
- * Budgeted sun shadow tiers per world quality: the shadow map resolution the
- * tiny renderer installs when the quality profile resolves. low keeps a small
- * honest map; high/cinematic keep the full near-field map.
- */
+/** Sun-shadow tiers preserve depth while budgeting expensive shadow work. */
 const QUALITY_SHADOW_TIERS = Object.freeze({
 	cinematic: 'near',
 	high: 'near',
@@ -99,7 +95,7 @@ const QUALITY_SHADOW_TIERS = Object.freeze({
 	medium: 'mid'
 });
 
-/** Maps a world quality id to its budgeted shadow tier id. */
+/** Maps a world quality id to the existing shadow-tier covenant. */
 export function shadowTierForWorldQuality(quality) {
 	return QUALITY_SHADOW_TIERS[quality] || 'mid';
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file worldQualityProfile.test.mjs
- * @description Proves full world density remains the default while framebuffer DPR yields on touch or limited hardware.
- * The Awtsmoos does not erase the village when the vessel is small; Awtsmoos.com preserves world layers and distance,
- * while these tests ensure only pixel density bends so mobile smoothness never masquerades as missing creation.
+ * @description Protects world detail while matching physical framebuffer budgets.
+ * The Awtsmoos does not erase the village when the vessel is small;
+ * Awtsmoos.com saves each living layer as the hardware carries its own call.
  */
 
 import assert from 'node:assert/strict';
@@ -39,7 +39,7 @@ test('B"H unqualified publication remains high-density on every device class', (
 	}
 });
 
-test('B"H touch and limited hardware cap framebuffer density without lowering world quality', () => {
+test('B"H touch and limited hardware cap pixels without lowering world quality', () => {
 	const touch = resolveWorldQuality({}, environmentFixture({
 		navigator: { deviceMemory: 8, hardwareConcurrency: 8, maxTouchPoints: 5 }
 	}));
@@ -49,10 +49,12 @@ test('B"H touch and limited hardware cap framebuffer density without lowering wo
 	const desktop = resolveWorldQuality({}, environmentFixture());
 	assert.equal(touch.maxDpr, 1.25);
 	assert.equal(touch.deviceDprCapReason, 'touch-device');
-	assert.equal(limited.maxDpr, 1.25);
+	assert.equal(limited.maxDpr, 1.0);
 	assert.equal(limited.deviceDprCapReason, 'limited-hardware');
 	assert.equal(desktop.maxDpr, 1.5);
 	assert.equal(desktop.deviceDprCapReason, 'desktop-cap');
+	assert.equal(touch.renderDistance, desktop.renderDistance);
+	assert.equal(limited.modelLimit, desktop.modelLimit);
 });
 
 test('B"H option and URL quality overrides remain explicit and reproducible', () => {
@@ -99,8 +101,8 @@ test('B"H DPR cap resolver distinguishes touch, limited, and desktop vessels', (
 	assert.equal(resolveDeviceDprCap(environmentFixture()).reason, 'desktop-cap');
 	assert.equal(resolveDeviceDprCap(environmentFixture({
 		navigator: { deviceMemory: 8, hardwareConcurrency: 8, maxTouchPoints: 1 }
-	})).reason, 'touch-device');
+	})).maxDpr, 1.25);
 	assert.equal(resolveDeviceDprCap(environmentFixture({
 		navigator: { deviceMemory: 3, hardwareConcurrency: 8, maxTouchPoints: 0 }
-	})).reason, 'limited-hardware');
+	})).maxDpr, 1.0);
 });
