@@ -4,7 +4,7 @@
 		"artifacts": {
 			"index.html": {
 				"bytes": 5874,
-				"sha256": "0e95425466f94106483b10113582fe0b659fe4e7bcf09a1ac2949765318fd164"
+				"sha256": "a1233e79e17e769058ab874a5d2ba8cdc583646114d74d99509b228442a587a8"
 			},
 			"styles/generated/mitzvah-world.production.css": {
 				"bytes": 115241,
@@ -19,8 +19,8 @@
 				"sha256": "896a6c90a3c1a7b90ca58e5e2a61ba1e9f27658a6b525e15cb201458d6f34240"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js": {
-				"bytes": 1195356,
-				"sha256": "9aa29665d0cb12d3bff7c60d0f6cc01b20f44418afbd2e8d4d0c936d30f1e96f"
+				"bytes": 1196668,
+				"sha256": "c53b9ca1452060f396ff29e24d11d8d2009fbbeafd78f13c1d473b05a3b41ba3"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-player.compact.js": {
 				"bytes": 210069,
@@ -52,7 +52,7 @@
 			},
 			"build/generated/mitzvah-world-foundation.json": {
 				"bytes": 801,
-				"sha256": "c7dd5f0b44e82c2d6554d80311ef24fd512fcfe2c68947e100bd4c54787ab176"
+				"sha256": "740ff78d38af2b3d4c9fed970c9e0b6bfbd949e4442eec514491eba7a9a669ea"
 			},
 			"build/generated/mitzvah-world-player.json": {
 				"bytes": 798,
@@ -96,7 +96,7 @@
 			}
 		},
 		"certified": true,
-		"commit": "35bdf6b88c6fe70146038d138b799bc9d3c8f6c9",
+		"commit": "08760b507377d33867df2b29b5cbe2f1912086c5",
 		"dirtyEntries": [],
 		"failureCode": null,
 		"version": 1
@@ -104,21 +104,21 @@
 	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 727,
+			"elapsedMilliseconds": 899,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 140923,
+			"elapsedMilliseconds": 106949,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 2266,
+			"elapsedMilliseconds": 2328,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-10-26T23:20:34.884Z"
+	"generatedAt": "2026-10-27T03:58:25.968Z"
 }
