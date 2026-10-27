@@ -3,8 +3,8 @@
 	"custody": {
 		"artifacts": {
 			"index.html": {
-				"bytes": 5874,
-				"sha256": "a1233e79e17e769058ab874a5d2ba8cdc583646114d74d99509b228442a587a8"
+				"bytes": 5718,
+				"sha256": "e6969852ff265db13765bbfe560b53cdd9630ec1046d945c9e49d6be861a2a83"
 			},
 			"styles/generated/mitzvah-world.production.css": {
 				"bytes": 115241,
@@ -19,32 +19,32 @@
 				"sha256": "896a6c90a3c1a7b90ca58e5e2a61ba1e9f27658a6b525e15cb201458d6f34240"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js": {
-				"bytes": 1196668,
-				"sha256": "c53b9ca1452060f396ff29e24d11d8d2009fbbeafd78f13c1d473b05a3b41ba3"
+				"bytes": 1540366,
+				"sha256": "ec4ab83308754801634075cc5923490e4616dbaabff6949cdfb75d4582d9f8d0"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-player.compact.js": {
 				"bytes": 210069,
 				"sha256": "411e8245c4b60d121208faf57eafb269c5ecfc7b33b633e33a3b717262a0bd3e"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-core.compact.js": {
-				"bytes": 180760,
-				"sha256": "06d662cde9b2320474750942b17f7059b6ed47e6f9d882d351e607e7ed125bad"
+				"bytes": 181353,
+				"sha256": "5f62ff5b51c65d4a6e26f4de6c2cbcc43e54dfe70883b0a23976523406341b75"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-post-control.compact.js": {
-				"bytes": 2236337,
-				"sha256": "99f2c49e9e68ffe5c181c07c8d1283115e9fcb32bedfea91458986e066b5977a"
+				"bytes": 2236919,
+				"sha256": "53d7d4b4f8d9a164779d606dbe3b3dd5599b1ddf643c297ab8782e638444310c"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js": {
-				"bytes": 1682028,
-				"sha256": "f72e6e63c8d9b9cc0da77aa8e16c952284a60ccdf06bcaba843d678ac0876065"
+				"bytes": 1682610,
+				"sha256": "5454de08e18ce78b344b5c6a4f1fdfa02a4dc3a54c88bc138d831dfb855c9808"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-world.compact.js": {
-				"bytes": 3698995,
-				"sha256": "52025e56a2f0776a38c8705f33cb32365227eab73caf66865d0ad7726f01bf15"
+				"bytes": 3704428,
+				"sha256": "f86434c0ce173b9e10da9d675456ac4c767994edf763e9c633f431613daf89b8"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-optional.compact.js": {
-				"bytes": 1437418,
-				"sha256": "627d52254e6a8e339ed3fd543b89c995b03d63e43787ec5abce8ee8922e93cc6"
+				"bytes": 1438593,
+				"sha256": "3bac3423a05b89dd83333319a0e2f6081cc1e806f9a435c2b07cda42677589ca"
 			},
 			"build/generated/mitzvah-world-js.json": {
 				"bytes": 812,
@@ -52,7 +52,7 @@
 			},
 			"build/generated/mitzvah-world-foundation.json": {
 				"bytes": 801,
-				"sha256": "740ff78d38af2b3d4c9fed970c9e0b6bfbd949e4442eec514491eba7a9a669ea"
+				"sha256": "053db7b9e93863201d10c3242644d3d61be3a10f18b378f597a0a9d1ff82876c"
 			},
 			"build/generated/mitzvah-world-player.json": {
 				"bytes": 798,
@@ -60,23 +60,23 @@
 			},
 			"build/generated/mitzvah-world-core.json": {
 				"bytes": 802,
-				"sha256": "62825947c2484d92d3cc55dc21e2be7c39b3a3cb65fdf69e0dad6d82a0747fac"
+				"sha256": "26c8e69c8ed2c3011268820eb37e4be6a57c90307bf2e17832618235b045c578"
 			},
 			"build/generated/mitzvah-world-post-control.json": {
 				"bytes": 812,
-				"sha256": "b5dc4e5915a0467ba0bd41dee92ef72c66486a388b80b384e75e266fb08dc002"
+				"sha256": "5a00bc5f3f0268c2a20cd7cb62914b211ba4f774efec6612e8e03ac93f3fd57e"
 			},
 			"build/generated/mitzvah-world-presentation.json": {
 				"bytes": 814,
-				"sha256": "a303f850fd1793ca970262b1f745d1557a14bd2385e8ca08fab7ee0a4dbbb3fd"
+				"sha256": "97a538580963e630fdf6349ad0bf74bb1dffa81c05d3695d9b56861d93b6e1e9"
 			},
 			"build/generated/mitzvah-world-world.json": {
 				"bytes": 822,
-				"sha256": "3773ee1518fcd9b8626438fff557434aff7954cb357cde9a48350e44ab420b01"
+				"sha256": "fbd981720fd5ac1a4499b52657b2ed706e67e7ef67ca2fa4547407b24acaca28"
 			},
 			"build/generated/mitzvah-world-optional.json": {
 				"bytes": 806,
-				"sha256": "537cd7efa4b419915dceafd1c9dd3ae0e01955cc47ebe5869210a03690f74241"
+				"sha256": "d538cbfb23dbec0864bb2f19e19cbd7224f48077244b46241ac504c9e5df205d"
 			},
 			"build/generated/mitzvah-world-essential-assets.json": {
 				"bytes": 1055,
@@ -96,7 +96,7 @@
 			}
 		},
 		"certified": true,
-		"commit": "c381896c414426d39e01aed75127cbc4d299b989",
+		"commit": "1673a54a120858c71394c91f7e2b00eb9cf6e44b",
 		"dirtyEntries": [],
 		"failureCode": null,
 		"version": 1
@@ -104,21 +104,21 @@
 	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 2410,
+			"elapsedMilliseconds": 2506,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 281937,
+			"elapsedMilliseconds": 308940,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 3832,
+			"elapsedMilliseconds": 11871,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-10-27T04:55:28.590Z"
+	"generatedAt": "2026-10-27T07:39:21.889Z"
 }
