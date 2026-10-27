@@ -18,11 +18,10 @@ import {
 } from '../../assets/RemoteModelCatalog.js';
 import {
 	isTrustedAwtsmoosMaterialUrl,
-	REMOTE_TEXTURE_ROOT
+	trustedRemoteTextureSourcePath
 } from '../../assets/RemoteTextureTransport.js';
 
 const GAME_ROOT = fileURLToPath(new URL('../../../../../', import.meta.url));
-const REMOTE_ROOT_PATH = new URL(REMOTE_TEXTURE_ROOT).pathname;
 const NODE_BASE = 'http://localhost/';
 
 export function canonicalSourcePath(url) {
@@ -30,11 +29,9 @@ export function canonicalSourcePath(url) {
 	const parsed = new URL(url, NODE_BASE);
 	const querySource = parsed.searchParams.get('source');
 	if (querySource) return querySource;
+	const trustedSource = trustedRemoteTextureSourcePath(parsed.href);
+	if (trustedSource) return trustedSource;
 	const pathname = decodeURIComponent(parsed.pathname);
-	if (isTrustedAwtsmoosMaterialUrl(parsed.href)) {
-		const relative = pathname.slice(REMOTE_ROOT_PATH.length);
-		return relative ? `/${relative}` : null;
-	}
 	for (const marker of ['/assets/materials/local/', '/assets/materials/generated/']) {
 		const index = pathname.indexOf(marker);
 		if (index >= 0) return `/${pathname.slice(index + marker.length)}`;

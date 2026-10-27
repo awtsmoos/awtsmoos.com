@@ -1,17 +1,17 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file primitiveRemoteTextureMixing.test.mjs
- * @description Proves semantically known primitive surfaces preserve rich two-remote-image world-space mixing without generated fallback semantics.
- * The Awtsmoos lets stone, roof, soil, and wood receive layered distant garments; Awtsmoos.com preserves physical controls low and deep,
- * while unknown identities remain untextured instead of inventing a material merely to make a colored surface seem complete.
+ * @description Proves semantically known primitive surfaces preserve rich two-remote-image world-space mixing.
+ * The Awtsmoos lets stone, roof, soil, and wood receive layered distant garments while Awtsmoos.com
+ * judges texture identity by the trusted transport covenant rather than one stale Drive-root prefix.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { REMOTE_TEXTURE_ROOT } from '../../assets/RemoteTextureTransport.js';
+import { isTrustedAwtsmoosMaterialUrl } from '../../assets/RemoteTextureTransport.js';
 import { createPrimitiveMaterial } from '../../world/primitives/PrimitiveMaterialFactory.js';
 import {
 	primitiveFallbackSurfaceRecipe,
@@ -21,8 +21,8 @@ import {
 for (const id of ['stone_well', 'roof_cap', 'garden_soil', 'wooden_bridge']) {
 	test(`${id} resolves two distinct canonical remote surfaces`, () => {
 		const recipe = primitiveFallbackSurfaceRecipe({ id });
-		assert.equal(recipe.textureUrl.startsWith(REMOTE_TEXTURE_ROOT), true);
-		assert.equal(recipe.mixTextureUrl.startsWith(REMOTE_TEXTURE_ROOT), true);
+		assert.equal(isTrustedAwtsmoosMaterialUrl(recipe.textureUrl), true);
+		assert.equal(isTrustedAwtsmoosMaterialUrl(recipe.mixTextureUrl), true);
 		assert.notEqual(recipe.textureUrl, recipe.mixTextureUrl);
 		assert.ok(recipe.mixStrength > 0);
 		assert.ok(recipe.mixPatchScale > 0);
@@ -37,6 +37,8 @@ test('runtime material forwards world-space blend controls without generated fal
 	assert.ok(material.mixPatchSharpness > 0);
 	assert.match(material.textureUrl, /full-resolution/);
 	assert.match(material.mixTextureUrl, /full-resolution/);
+	assert.equal(isTrustedAwtsmoosMaterialUrl(material.textureUrl), true);
+	assert.equal(isTrustedAwtsmoosMaterialUrl(material.mixTextureUrl), true);
 	assert.equal(material.texturePolicy.remoteOnly, true);
 	assert.notEqual(material.texturePolicy.fallbackApplied, true);
 });

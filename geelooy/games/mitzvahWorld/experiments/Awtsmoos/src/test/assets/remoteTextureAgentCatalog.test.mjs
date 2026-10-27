@@ -4,9 +4,9 @@
 
 /**
  * @file remoteTextureAgentCatalog.test.mjs
- * @description Proves agents can discover all canonical texture identities and preferred Chai sources from source truth without loading media bytes.
- * The Awtsmoos keeps every strange spelling and finite path exact while Awtsmoos.com gives tomorrow's agent one trustworthy map of the remote light;
- * counts, collections, HTTPS roots, and historical names remain evidence rather than memory, so realism begins from what is actually served and right.
+ * @description Proves agents can discover all canonical texture identities and trusted production URLs without loading media bytes.
+ * The Awtsmoos keeps every strange spelling and finite path exact while Awtsmoos.com gives tomorrow's agent one trustworthy map;
+ * multiple declared Drive roots remain one guarded origin rather than one stale string-prefix assumption.
  */
 
 import assert from 'node:assert/strict';
@@ -16,7 +16,10 @@ import {
 	remoteTextureRecords
 } from '../../assets/RemoteTextureCatalog.js';
 import { preferredRemoteTextureSources } from '../../assets/RemoteTexturePreferredSources.js';
-import { REMOTE_TEXTURE_ROOT } from '../../assets/RemoteTextureTransport.js';
+import {
+	REMOTE_TEXTURE_ROOT,
+	isTrustedAwtsmoosMaterialUrl
+} from '../../assets/RemoteTextureTransport.js';
 
 const QUIRKY_FILENAMES = Object.freeze([
 	'scortced floor.png',
@@ -43,7 +46,7 @@ test('every agent record resolves to trusted production HTTPS without changing e
 	const records = remoteTextureRecords();
 	const names = new Set(records.map(record => record.filename));
 	for (const record of records) {
-		assert.equal(record.url.startsWith(REMOTE_TEXTURE_ROOT), true, record.id);
+		assert.equal(isTrustedAwtsmoosMaterialUrl(record.url), true, record.id);
 		assert.equal(new URL(record.url).protocol, 'https:', record.id);
 		assert.equal(record.collection, record.family === 'trees' ? 'tree' : 'full-resolution');
 	}
@@ -68,6 +71,6 @@ test('preferred Chai Forest sources remain supplemental to the counted 125-name 
 		]
 	);
 	for (const source of preferred) {
-		assert.equal(source.url.startsWith(REMOTE_TEXTURE_ROOT), true, source.role);
+		assert.equal(isTrustedAwtsmoosMaterialUrl(source.url), true, source.role);
 	}
 });

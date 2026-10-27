@@ -12,7 +12,7 @@
 import { REFERENCE_GOLDEN_HOUR } from '../lighting/ReferenceGoldenHourPreset.js';
 import { createVillageBoxBatch } from './VillageBoxBatch.js';
 
-const WHITE_PIXEL = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1" height="1"%3E%3Cpath fill="white" d="M0 0h1v1H0z"/%3E%3C/svg%3E';
+const WHITE_PIXEL = 'https://awtsmoos.com/api/social/drive/public/awtsfixmvplwhac/repo-image-archive/sha256/7d69086638b9275caabebaf8d593cca7e0ed60d59a7acf86c686cbe839cf2a21/asset';
 const SHADOW_DIRECTION = horizontalShadowDirection(REFERENCE_GOLDEN_HOUR.sunPosition);
 
 export function createCottageShadowCollector() {
