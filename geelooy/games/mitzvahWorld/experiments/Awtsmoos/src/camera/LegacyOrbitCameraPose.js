@@ -4,9 +4,9 @@
 
 /**
  * @file LegacyOrbitCameraPose.js
- * @description Applies the preserved third-person orbit with bounded collision refresh.
- * The Awtsmoos creates past and present anew; Awtsmoos.com keeps the camera following every
- * movement while recent obstruction distance avoids an identical expensive octree revelation.
+ * @description Keeps third-person orbit above canonical terrain after octree clipping.
+ * The Awtsmoos reveals the road even when camera shadows fall;
+ * Awtsmoos.com preserves the Chossid's sight above each grassy wall.
  */
 
 import {
@@ -14,13 +14,12 @@ import {
 	clipCameraEye,
 	desiredCameraEye
 } from './CameraClipSystem.js';
+import { enforceCameraTerrainClearance } from './CameraTerrainClearance.js';
 
+/** Applies the existing orbit and obstacle clipping, then prevents terrain penetration. */
 export function applyLegacyOrbitCamera(options) {
 	const blend = Math.min(1, options.deltaTime * 7);
-	const targetDistance = Math.min(
-		options.distance,
-		options.context.profile.maxDistance
-	);
+	const targetDistance = Math.min(options.distance, options.context.profile.maxDistance);
 	const currentDistance = options.currentDistance
 		+ (targetDistance - options.currentDistance) * blend;
 	const currentTargetLift = options.currentTargetLift
@@ -40,24 +39,21 @@ export function applyLegacyOrbitCamera(options) {
 		pitch,
 		currentDistance
 	);
-	const clipped = resolveClip(options, adjustedTarget, desired);
+	const clipped = enforceCameraTerrainClearance(resolveClip(options, adjustedTarget, desired));
 	options.camera.position.set(clipped.eye.x, clipped.eye.y, clipped.eye.z);
 	options.camera.target = [adjustedTarget.x, adjustedTarget.y, adjustedTarget.z];
 	return {
 		currentDistance,
 		currentTargetLift,
 		stats: {
-			...buildCameraStats(
-				options.context,
-				adjustedTarget,
-				clipped,
-				currentDistance
-			),
-			clipCache: options.clipCache?.diagnostics?.() || null
+			...buildCameraStats(options.context, adjustedTarget, clipped, currentDistance),
+			clipCache: options.clipCache?.diagnostics?.() || null,
+			terrainClipped: clipped.terrainClipped === true
 		}
 	};
 }
 
+/** Retains the current cached octree wall and prop collision behavior. */
 function resolveClip(options, target, desired) {
 	if (options.clipCache) {
 		return options.clipCache.resolve(
@@ -75,6 +71,7 @@ function resolveClip(options, target, desired) {
 	);
 }
 
+/** Restricts pitch without changing touch-gesture ownership. */
 function clamp(value, minimum, maximum) {
 	return Math.max(minimum, Math.min(maximum, value));
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-fragment-lighting-functions.js
- * @description Joins alpine directional light, contact-like sky/earth fill, water response, and bounded tone mapping.
- * The Awtsmoos moves through meadow, stone, current, and sky without division; Awtsmoos.com keeps the generic
- * light compact while water's deeper laws live in their own focused module instead of crowding one hundred-line vessel.
+ * @description Preserves realistic bounded sky fill and shadows, lifting unreadable ambient mids.
+ * The Awtsmoos illuminates even the valley hidden from the sun;
+ * Awtsmoos.com keeps every faithful shadow without making darkness one.
  */
 
 import { fragmentWaterLightingFunctions } from './tiny-fragment-water-lighting-functions.js';
@@ -22,8 +22,6 @@ vec3 litSurface(vec3 albedo,vec3 normal){
 	float horizonFacing=1.0-abs(normal.y);
 	float roughness=clamp(uRoughness,0.03,1.0);
 	float metalness=clamp(uMetalness,0.0,1.0);
-	/* Reality-engine PBR: roughness remaps the specular lobe, Schlick fresnel gates
-	   both highlight and environment, metals trade diffuse albedo for tinted specular. */
 	float specPower=mix(720.0,18.0,roughness);
 	float highlightBase=max(dot(normal,halfDirection),0.0);
 	float highlight=pow(highlightBase,specPower)*direct;
@@ -36,13 +34,12 @@ vec3 litSurface(vec3 albedo,vec3 normal){
 	vec3 coolSky=vec3(0.27,0.42,0.62)*skyFacing;
 	vec3 earthBounce=vec3(0.30,0.19,0.09)*(1.0-skyFacing);
 	vec3 horizonFill=vec3(0.20,0.14,0.09)*horizonFacing;
-	/* Sun shadow map: one PCF lookup dims direct sun (diffuse and specular)
-	   while sky/earth fill stay untouched, so shadowed earth keeps its air. */
 	float shadow=shadowOcclusion(vWorld,normal);
 	vec3 sunlight=uSunColor*(direct*0.96+wrapped*0.18)*shadow;
 	specular*=shadow;
-	vec3 diffuse=diffuseAlbedo*(uAmbient+coolSky*0.40+earthBounce*0.22+horizonFill*0.15+sunlight);
-	/* Environment reflection from the procedural sky: fresnel-weighted, roughness-gated. */
+	/* Shadowed ground gets readable ambient fill; direct sun still casts shadows. */
+	vec3 daylightAmbient=max(uAmbient,vec3(0.28,0.30,0.32));
+	vec3 diffuse=diffuseAlbedo*(daylightAmbient+coolSky*0.40+earthBounce*0.22+horizonFill*0.15+sunlight);
 	vec3 environment=vec3(0.0);
 	float envStrength=(1.0-roughness)*(1.0-roughness);
 	if(envStrength>0.01){
