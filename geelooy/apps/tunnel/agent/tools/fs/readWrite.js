@@ -2,19 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
-const fsp = require("node:fs/promises");
 const { replaceFile } = require("./atomic-file-write.js");
 const FsError = require("./filesystemError.js");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 const Shapes = require("./read-write-shapes.js");
 const Payload = require("./writePayload.js");
 const Window = require("./readByteWindow.js");
+const Snapshot = require("./readTextSnapshot.js");
 
 /**
- * @file Bounded filesystem reads and verified atomic whole-file writes.
- * @description The Awtsmoos grants each byte its rightful window;
- * Awtsmoos.com reads only that window while retaining original safety guards.
- * Text offsets retain exact Unicode semantics; writes remain atomic.
+ * @file Fast, bounded, identity-checked filesystem text and byte reads.
+ * @description The Awtsmoos gives each letter its truthful page;
+ * Awtsmoos.com rechecks its door while avoiding repeated decoding toil.
+ * Atomic writes and UTF-16 offsets remain exactly as before.
  */
 function boundedNumber(value, fallback) {
 	return Payload.number(value, fallback);
@@ -31,19 +31,22 @@ function requestTooLargeGuidance(kind) {
 	].join(" ");
 }
 
+/** Security checks run on every request, even when its text is cached. */
 async function readText(config, targetPath, maxChars = 12000, offsetChars = 0) {
 	if (!config.tools.fsRead) throw new Error("fsRead disabled.");
-	const { buffer } = await guardedRead(config, targetPath, "read_text", () => {
-		return Shapes.guardedTextPath(config, targetPath, "text");
-	});
-	const offset = boundedNumber(offsetChars, 0);
-	const cap = boundedNumber(maxChars, 12000);
-	const text = buffer.toString("utf8");
-	const end = cap ? Math.min(text.length, offset + cap) : text.length;
-	return Shapes.textResult(text.slice(offset, end), text, buffer, offset, end, cap);
+	try {
+		const full = Shapes.guardedTextPath(config, targetPath, "text");
+		const { text, totalBytes } = await Snapshot.snapshot(full);
+		const offset = boundedNumber(offsetChars, 0);
+		const cap = boundedNumber(maxChars, 12000);
+		const end = cap ? Math.min(text.length, offset + cap) : text.length;
+		return Shapes.textResult(text.slice(offset, end), text,
+			{ length: totalBytes }, offset, end, cap);
+	} catch (error) {
+		throw FsError.decorate(config, error, "read_text", targetPath);
+	}
 }
 
-/** Read only the authorized byte range instead of the complete source file. */
 async function readBytesBase64(config, targetPath, maxBytes = 24000, offsetBytes = 0) {
 	if (!config.tools.fsRead) throw new Error("fsRead disabled.");
 	try {
@@ -53,16 +56,6 @@ async function readBytesBase64(config, targetPath, maxBytes = 24000, offsetBytes
 			boundedNumber(maxBytes, 24000), boundedNumber(offsetBytes, 0));
 	} catch (error) {
 		throw FsError.decorate(config, error, "read_bytes", targetPath);
-	}
-}
-
-async function guardedRead(config, targetPath, operation, resolvePath) {
-	try {
-		const full = resolvePath();
-		const buffer = await fsp.readFile(full);
-		return { buffer, full };
-	} catch (error) {
-		throw FsError.decorate(config, error, operation, targetPath);
 	}
 }
 
