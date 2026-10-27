@@ -4,23 +4,45 @@
 
 /**
  * @file MitzvahWorldParticleAftercare.js
- * @description Installs optional GPU-query savings after first control exists.
- * The Awtsmoos renews each shining mote on a path of light;
- * Awtsmoos.com makes particle blending safe and its driver calls light.
+ * @description Guards the active WebGL context immediately before each particle update.
+ * The Awtsmoos makes a renderer anew, and every changing vessel is His;
+ * Awtsmoos.com keeps the motes alive while needless driver queries cease.
  */
 
 import { importOptionalMitzvahWorldModule } from './MitzvahWorldOptionalImporter.js';
 import { resolveMitzvahWorldReleaseResourceUrl } from './MitzvahWorldReleaseResourceUrl.js';
 
-/** Resolves optional visual modules through the same release as the chosen world. */
+/** Resolves optional visual modules through the chosen world's trusted release. */
 function visualUrl(relativePath) {
 	return resolveMitzvahWorldReleaseResourceUrl(relativePath, import.meta.url);
 }
 
 /**
- * Prepares a state guard before the first particle is attached. If the guard
- * is unavailable, the authored native particle renderer still remains usable.
+ * Installs the blend guard just before a particle frame, never on an obsolete
+ * bootstrap context. New or restored contexts are detected without polling.
+ * The native particle layer remains authoritative for all drawn effects.
  */
+export function guardParticleUpdateWithCurrentContext(runtime, layer, installGuard) {
+	if (typeof layer?.update !== 'function' || typeof installGuard !== 'function') {
+		return false;
+	}
+	const originalUpdate = layer.update.bind(layer);
+	let guardedContext = null;
+	layer.update = function guardedParticleUpdate(context, ...args) {
+		const gl = context?.renderer?.gl || runtime?.renderer?.gl;
+		if (gl && gl !== guardedContext) {
+			try {
+				if (installGuard(gl)) guardedContext = gl;
+			} catch {
+				// An unavailable optimization cannot interrupt the playable world.
+			}
+		}
+		return originalUpdate(context, ...args);
+	};
+	return true;
+}
+
+/** Attaches one particle system and makes each renderer promotion inexpensive. */
 export async function attachOptimizedMitzvahParticles(runtime) {
 	const particles = await importOptionalMitzvahWorldModule(
 		visualUrl('../fx/MitzvahParticleLayer.js'), 'MitzvahParticleLayer'
@@ -29,10 +51,11 @@ export async function attachOptimizedMitzvahParticles(runtime) {
 	const guard = await importOptionalMitzvahWorldModule(
 		visualUrl('../fx/MitzvahParticleBlendStateGuard.js'), 'MitzvahParticleBlendStateGuard'
 	);
-	try {
-		guard?.installMitzvahParticleBlendStateGuard?.(runtime?.renderer?.gl);
-	} catch {
-		// Graphics-state optimization is optional; never block a playable world.
-	}
-	return particles.attachMitzvahParticles({ runtime });
+	const attached = particles.attachMitzvahParticles({ runtime });
+	guardParticleUpdateWithCurrentContext(
+		runtime,
+		attached?.layer,
+		guard?.installMitzvahParticleBlendStateGuard
+	);
+	return attached;
 }
