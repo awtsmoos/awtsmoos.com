@@ -31,8 +31,8 @@
 				"sha256": "5f62ff5b51c65d4a6e26f4de6c2cbcc43e54dfe70883b0a23976523406341b75"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-post-control.compact.js": {
-				"bytes": 2236919,
-				"sha256": "53d7d4b4f8d9a164779d606dbe3b3dd5599b1ddf643c297ab8782e638444310c"
+				"bytes": 2236765,
+				"sha256": "563852b2230ddc45cf04488695a509f3a26c1922ad3f696658270f26c4ad4287"
 			},
 			"experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js": {
 				"bytes": 1682610,
@@ -64,7 +64,7 @@
 			},
 			"build/generated/mitzvah-world-post-control.json": {
 				"bytes": 812,
-				"sha256": "5a00bc5f3f0268c2a20cd7cb62914b211ba4f774efec6612e8e03ac93f3fd57e"
+				"sha256": "55f656fda7d70e9cd176d443fd29c02f13b0ee73326712219ddddf12c06a0c04"
 			},
 			"build/generated/mitzvah-world-presentation.json": {
 				"bytes": 814,
@@ -96,7 +96,7 @@
 			}
 		},
 		"certified": true,
-		"commit": "1673a54a120858c71394c91f7e2b00eb9cf6e44b",
+		"commit": "4d197d3a0285021df1122d68d4964a89c77f1ebd",
 		"dirtyEntries": [],
 		"failureCode": null,
 		"version": 1
@@ -104,21 +104,21 @@
 	"failureCode": null,
 	"stages": [
 		{
-			"elapsedMilliseconds": 2506,
+			"elapsedMilliseconds": 1743,
 			"label": "css-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 308940,
+			"elapsedMilliseconds": 261114,
 			"label": "js-and-essential-assets-build",
 			"status": "pass"
 		},
 		{
-			"elapsedMilliseconds": 11871,
+			"elapsedMilliseconds": 3883,
 			"label": "release-unit-gates",
 			"status": "pass"
 		}
 	],
 	"version": 1,
-	"generatedAt": "2026-10-27T07:39:21.889Z"
+	"generatedAt": "2026-10-27T10:13:51.664Z"
 }
